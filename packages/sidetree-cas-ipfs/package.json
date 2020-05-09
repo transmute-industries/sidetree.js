@@ -1,0 +1,46 @@
+{
+  "name": "@transmute/sidetree-cas-ipfs",
+  "author": "Orie Steele",
+  "module": "dist/sidetree-cas-ipfs.esm.js",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "lint": "tsdx lint src --fix",
+    "prepare": "tsdx build"
+  },
+  "peerDependencies": {
+    "it-concat": "^1.0.0",
+    "ipfs-http-client": "42.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "devDependencies": {
+    "husky": "^4.2.5",
+    "tsdx": "^0.13.2",
+    "tslib": "^1.11.2",
+    "typescript": "^3.8.3",
+    "it-concat": "^1.0.0",
+    "ipfs-http-client": "42.0.0"
+  }
+}

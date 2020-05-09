@@ -1,0 +1,9 @@
+
+# Ignore everything but config.... because of CORS.
+data/ipfs/blocks
+data/ipfs/datastore
+data/ipfs/keystore
+data/ipfs/api
+data/ipfs/datastore_spec
+data/ipfs/repo.lock
+data/ipfs/version
