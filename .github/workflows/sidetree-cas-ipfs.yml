@@ -10,6 +10,6 @@ jobs:
       - name: Setup Stack
         run: docker-compose up -d
       - name: Wait for IPFS
-        run: sleep 5
+        run: sleep 10
       - name: Get IPFS Node ID
         run: curl -X GET http://127.0.0.1:5001/api/v0/id
