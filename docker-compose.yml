@@ -17,8 +17,8 @@ services:
       - .env
     container_name: ipfs
     image: ipfs/go-ipfs:latest
-    volumes:
-      - ./data/ipfs:/data/ipfs
+    # volumes:
+    #   - ./data/ipfs:/data/ipfs
     ports:
       - "8080:8080"
       - "5001:5001"
