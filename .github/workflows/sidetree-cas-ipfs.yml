@@ -7,8 +7,10 @@ jobs:
     steps:
       - name: Begin CI...
         uses: actions/checkout@v2
-      - name: Setup Stack
+      - name: Start Docker
         run: docker-compose up -d
+      - name: Check Docker Status
+        run: docker ps -a
       - name: Get IPFS Node ID
         run: docker run --network container:ipfs appropriate/curl -s --retry 10 --retry-connrefused http://127.0.0.1:5001/api/v0/id | jq '.'
         # run: curl -X GET http://127.0.0.1:5001/api/v0/id
