@@ -8,6 +8,7 @@
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
+    "build",
     "src"
   ],
   "engines": {
@@ -17,8 +18,11 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test",
-    "lint": "tsdx lint src",
-    "prepare": "tsdx build"
+    "lint": "tsdx lint src --fix",
+    "prepare": "tsdx build",
+    "contracts:test": "truffle test",
+    "contracts:migrate:dev": "truffle migrate --network development --reset",
+    "contracts:migrate:ropsten": "truffle migrate --network ropsten"
   },
   "peerDependencies": {},
   "husky": {
@@ -33,13 +37,17 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
+    "@truffle/hdwallet-provider": "^1.0.35",
+    "dotenv": "^8.2.0",
     "husky": "^4.2.5",
+    "truffle": "^5.1.25",
     "tsdx": "^0.13.2",
     "tslib": "^1.11.2",
     "typescript": "^3.8.3",
     "web3": "^1.2.7"
   },
   "dependencies": {
-    "@truffle/contract": "^4.2.4"
+    "@truffle/contract": "^4.2.4",
+    "multihashes": "^0.4.19"
   }
 }

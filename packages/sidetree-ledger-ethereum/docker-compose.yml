@@ -12,3 +12,5 @@ services:
       - /app/ganache-core.docker.cli.js
       - --mnemonic
       - '$MNEMONIC'
+      - --networkId
+      - '133700'

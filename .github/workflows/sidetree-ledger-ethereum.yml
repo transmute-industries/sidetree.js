@@ -24,6 +24,12 @@ jobs:
       - name: Lint
         working-directory: ${{ env.working-directory }}
         run: npm run lint
+      - name: Test Contracts
+        working-directory: ${{ env.working-directory }}
+        run: npm run contracts:test
+      - name: Migrate Contracts
+        working-directory: ${{ env.working-directory }}
+        run: npm run contracts:migrate:dev
       - name: Test
         working-directory: ${{ env.working-directory }}
         run: npm run test
