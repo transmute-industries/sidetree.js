@@ -8,8 +8,13 @@ jobs:
         uses: actions/checkout@v2
       - name: Start Docker
         run: docker-compose up -d
+      - name: Configure IPFS
+        run: |
+          docker exec ipfs ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]'
+          docker exec ipfs ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'
+      - name: Restart Docker
+        run: docker-compose restart
       - name: Check Docker Logs
         run: docker-compose logs
       - name: Get IPFS Node ID
-        # run: docker run --network container:ipfs appropriate/curl -s --retry 10 --retry-connrefused http://127.0.0.1:5001/api/v0/id | jq '.'
         run: curl -s -X GET http://127.0.0.1:5001/api/v0/id | jq '.'

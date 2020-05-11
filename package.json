@@ -7,7 +7,7 @@
     "test": "lerna run test --stream",
     "test:ci": "lerna run test:ci --stream",
     "build": "lerna run test --stream",
-    "shove": "git add -A; git commit -m 'chore(ci): testing ci'; git push origin master"
+    "shove": "git add -A; git commit -m 'chore(ci): testing'; git push origin master"
   },
   "devDependencies": {
     "lerna": "^3.20.2"
