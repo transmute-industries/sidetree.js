@@ -17,14 +17,16 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test",
+    "test": "tsdx test ./src",
     "lint": "tsdx lint src --fix",
     "prepare": "tsdx build",
     "contracts:test": "truffle test",
     "contracts:migrate:dev": "truffle migrate --network development --reset",
     "contracts:migrate:ropsten": "truffle migrate --network ropsten"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "web3": ">=1.2.7"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint"
