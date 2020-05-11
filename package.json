@@ -6,7 +6,8 @@
     "lint": "lerna run lint --stream",
     "test": "lerna run test --stream",
     "test:ci": "lerna run test:ci --stream",
-    "build": "lerna run test --stream"
+    "build": "lerna run test --stream",
+    "shove": "git add -A; git commit -m ':rocket:'; git push origin master"
   },
   "devDependencies": {
     "lerna": "^3.20.2"
