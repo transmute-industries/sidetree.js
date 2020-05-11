@@ -1,4 +1,7 @@
 {
+  "name": "sidetree-db-typeorm",
+  "author": "Orie Steele",
+  "module": "dist/sidetree-db-typeorm.esm.js",
   "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
@@ -32,9 +35,6 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "sidetree-db-typeorm",
-  "author": "Orie Steele",
-  "module": "dist/sidetree-db-typeorm.esm.js",
   "devDependencies": {
     "husky": "^4.2.5",
     "reflect-metadata": "^0.1.10",
