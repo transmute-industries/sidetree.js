@@ -1,16 +1,15 @@
 name: CI
 on: [push]
 jobs:
-  build:
+  sidetree-cas-ipfs:
     runs-on: ubuntu-latest
-
     steps:
       - name: Begin CI...
         uses: actions/checkout@v2
       - name: Start Docker
         run: docker-compose up -d
-      - name: Check Docker Status
+      - name: Check Docker Logs
         run: docker-compose logs
       - name: Get IPFS Node ID
         # run: docker run --network container:ipfs appropriate/curl -s --retry 10 --retry-connrefused http://127.0.0.1:5001/api/v0/id | jq '.'
-        run: curl -X GET http://127.0.0.1:5001/api/v0/id | jq '.'
+        run: curl -s -X GET http://127.0.0.1:5001/api/v0/id | jq '.'
