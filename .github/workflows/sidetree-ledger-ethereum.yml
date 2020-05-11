@@ -1,0 +1,32 @@
+name: Sidetree Ledger Ethereum
+on: [push]
+jobs:
+  sidetree-ledger-ethereum:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./packages/sidetree-ledger-ethereum
+    steps:
+      - name: Begin CI...
+        uses: actions/checkout@v2
+      - name: Start Docker
+        working-directory: ${{ env.working-directory }}
+        run: docker-compose up -d
+      - name: Get Ethereum Accounts
+        working-directory: ${{ env.working-directory }}
+        run: docker run --network container:ganache appropriate/curl -s --retry 10 --retry-connrefused -X POST --data '{"jsonrpc":"2.0","method":"eth_accounts","params":[],"id":0}' http://127.0.0.1:8545 | jq '.'
+      - name: Use Node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Install
+        working-directory: ${{ env.working-directory }}
+        run: npm install
+      - name: Lint
+        working-directory: ${{ env.working-directory }}
+        run: npm run lint
+      - name: Test
+        working-directory: ${{ env.working-directory }}
+        run: npm run test
+      - name: Build
+        working-directory: ${{ env.working-directory }}
+        run: npm run build

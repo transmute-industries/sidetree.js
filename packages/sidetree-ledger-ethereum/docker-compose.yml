@@ -1,0 +1,14 @@
+version: '3'
+services:
+  ganache:
+    env_file:
+      - .env
+    container_name: ganache
+    image: trufflesuite/ganache-cli:latest
+    ports:
+      - '8545:8545'
+    entrypoint:
+      - node
+      - /app/ganache-core.docker.cli.js
+      - --mnemonic
+      - '$MNEMONIC'
