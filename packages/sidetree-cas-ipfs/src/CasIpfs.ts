@@ -1,6 +1,6 @@
 export interface ISidetreeCasMethods {
-  read: (cid: string) => Promise<Object>;
-  write: (obj: Object) => Promise<string>;
+  read: (dal: any, cid: string) => Promise<Object>;
+  write: (dal: any, obj: Object) => Promise<string>;
 }
 
 export interface ICasIpfsConfiguration {
