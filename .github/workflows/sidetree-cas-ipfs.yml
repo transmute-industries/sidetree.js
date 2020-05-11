@@ -1,0 +1,15 @@
+name: CI
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Begin CI...
+        uses: actions/checkout@v2
+      - name: Setup Stack
+        run: docker-compose up -d
+      - name: Wait for IPFS
+        run: docker run --network container:ipfs appropriate/curl -s --retry 10 --retry-connrefused -X GET http://127.0.0.1:5001/api/v0/id | jq '.'
+      - name: Get IPFS Node ID
+        run: curl -s --retry 10 --retry-connrefused -X GET http://127.0.0.1:5001/api/v0/id | jq '.'
