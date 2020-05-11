@@ -1,1 +1,1 @@
-export * from './LedgerEthereum'
+export * from './LedgerEthereum';
