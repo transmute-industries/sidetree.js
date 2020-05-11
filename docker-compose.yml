@@ -16,7 +16,7 @@ services:
     env_file:
       - .env
     container_name: ipfs
-    image: ipfs/go-ipfs:latest
+    image: ipfs/go-ipfs:release
     # volumes:
     #   - ./data/ipfs:/data/ipfs
     ports:
