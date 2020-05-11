@@ -1,24 +1,22 @@
-import {Entity, Column, PrimaryColumn} from "typeorm";
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class SidetreeTransaction {
+  @PrimaryColumn()
+  transactionNumber!: number;
 
-    @PrimaryColumn()
-    transactionNumber!: number;
+  @Column()
+  transactionHash!: string;
 
-    @Column()
-    transactionHash!: string;
+  @Column()
+  transactionTime!: number;
 
-    @Column()
-    transactionTime!: number;
+  @Column()
+  transactionTimeHash!: string;
 
-    @Column()
-    transactionTimeHash!: string;
+  @Column()
+  transactionTimestamp!: number;
 
-    @Column()
-    transactionTimestamp!: number;
-
-    @Column()
-    anchorFileHash!: string;
-    
+  @Column()
+  anchorFileHash!: string;
 }
