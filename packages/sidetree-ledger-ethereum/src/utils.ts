@@ -62,6 +62,7 @@ const retryWithLatestTransactionCount = async (
           1,
       });
     } catch (e) {
+      console.warn(e);
       errors.push(`${e}`);
       tryCount += 1;
     }

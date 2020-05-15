@@ -4,7 +4,7 @@ const contract = require('@truffle/contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
 
 export class LedgerEthereum {
-  private anchorContractAddress?: string;
+  public anchorContractAddress?: string;
   private logger: any;
   public anchorContract: any;
   public resolving: any;
