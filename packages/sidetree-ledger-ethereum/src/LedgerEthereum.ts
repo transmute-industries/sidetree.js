@@ -70,7 +70,7 @@ export class LedgerEthereum {
   public getTransactions = async (
     fromBlock: any,
     toBlock: any,
-    options: any
+    options?: any
   ) => {
     const instance = await this._getInstance();
     const logs = await instance.getPastEvents('Anchor', {
