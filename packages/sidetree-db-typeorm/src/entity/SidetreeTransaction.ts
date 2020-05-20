@@ -6,36 +6,41 @@ export class SidetreeTransaction {
   _id?: string;
 
   @PrimaryColumn()
-  transactionNumber!: number;
+  transaction_number!: number;
 
   @Column()
-  transactionHash!: string;
+  transaction_time!: number;
 
   @Column()
-  transactionTime!: number;
+  transaction_time_hash!: string;
 
   @Column()
-  transactionTimeHash!: string;
+  anchor_string!: string;
 
   @Column()
-  transactionTimestamp!: number;
+  transaction_fee_paid!: number;
 
   @Column()
-  anchorFileHash!: string;
+  normalized_transaction_fee!: string;
+
+  @Column()
+  writer!: string;
 
   constructor(
-    transactionNumber: number,
-    transactionHash: string,
-    transactionTime: number,
-    transactionTimeHash: string,
-    transactionTimestamp: number,
-    anchorFileHash: string
+    transaction_number: number,
+    transaction_time: number,
+    transaction_time_hash: string,
+    anchor_string: string,
+    transaction_fee_paid: number,
+    normalized_transaction_fee: string,
+    writer: string,
   ) {
-    this.transactionNumber = transactionNumber;
-    this.transactionHash = transactionHash;
-    this.transactionTime = transactionTime;
-    this.transactionTimeHash = transactionTimeHash;
-    this.transactionTimestamp = transactionTimestamp;
-    this.anchorFileHash = anchorFileHash;
+    this.transaction_number = transaction_number;
+    this.transaction_time = transaction_time;
+    this.transaction_time_hash = transaction_time_hash;
+    this.anchor_string = anchor_string;
+    this.transaction_fee_paid = transaction_fee_paid;
+    this.normalized_transaction_fee = normalized_transaction_fee;
+    this.writer = writer;
   }
 }
