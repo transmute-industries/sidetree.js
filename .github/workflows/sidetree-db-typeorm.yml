@@ -1,7 +1,7 @@
 name: Database TypeORM
 on: [push]
 jobs:
-  sidetree-ledger-ethereum:
+  sidetree-db-typeorm:
     runs-on: ubuntu-latest
     env:
       working-directory: ./packages/sidetree-db-typeorm

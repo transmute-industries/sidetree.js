@@ -1,3 +1,4 @@
+node_modules
 
 # Ignore everything but config.... because of CORS.
 data/ipfs/blocks
