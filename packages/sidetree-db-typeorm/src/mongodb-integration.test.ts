@@ -10,26 +10,25 @@ const txn = new SidetreeTransaction(
   7882238,
   '0xd891fd43db18806b3f8e5e1820b6006e328821bbebd2396ca6353bbe5aa53fa8',
   1589179493,
-  'QmdQHzYSnnNkhEX265RaYqZvYnApFM161nJhL5QwRRbG5f',
+  'QmdQHzYSnnNkhEX265RaYqZvYnApFM161nJhL5QwRRbG5f'
 );
 
 describe('Show MongoDB integration', () => {
   let connection: Connection;
 
   afterAll(async () => {
-    await connection.close()
+    await connection.close();
   });
 
   it('should create a connection', async () => {
     connection = await createConnection({
-      "type": "mongodb",
-      "useNewUrlParser": true,
-      "useUnifiedTopology": true,
-      "url": "mongodb+srv://transmute:y57P%23n2LJ28%21xOkp@transmute-trade-app-yo5pq.gcp.mongodb.net/test?retryWrites=true&w=majority",
-      "ssl": true,
-      "entities": [
-          "src/entity/**/*.ts"
-      ]
+      type: 'mongodb',
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      url:
+        'mongodb+srv://transmute:y57P%23n2LJ28%21xOkp@transmute-trade-app-yo5pq.gcp.mongodb.net/test?retryWrites=true&w=majority',
+      ssl: true,
+      entities: ['src/entity/**/*.ts'],
     });
     expect(connection.isConnected).toBeTruthy();
   });
@@ -40,13 +39,15 @@ describe('Show MongoDB integration', () => {
   });
 
   it('should list elements in the db', async () => {
-     const txns = await connection.manager.find(SidetreeTransaction);
-     expect(txns.length > 0).toBeTruthy();
+    const txns = await connection.manager.find(SidetreeTransaction);
+    expect(txns.length > 0).toBeTruthy();
   });
 
   it('should remove an element in the db', async () => {
     const sidetreeRepo = getMongoRepository(SidetreeTransaction);
-    const result = await sidetreeRepo.deleteOne({ transactionHash: txn.transactionHash });
+    const result = await sidetreeRepo.deleteOne({
+      transactionHash: txn.transactionHash,
+    });
     expect(result.deletedCount).toBe(1);
-  })
+  });
 });
