@@ -4,13 +4,14 @@ import { SidetreeTransaction } from './entity/SidetreeTransaction';
 
 jest.setTimeout(20 * 1000);
 
-const txn = new SidetreeTransaction();
-txn.anchorFileHash = 'QmdQHzYSnnNkhEX265RaYqZvYnApFM161nJhL5QwRRbG5f';
-txn.transactionHash = '0x0fda998e1f687cf5948c549370f2fe31ab4654d5b06c15f08e66ca5a39fc7aef';
-txn.transactionNumber = 1462;
-txn.transactionTime = 7882238;
-txn.transactionTimeHash = '0xd891fd43db18806b3f8e5e1820b6006e328821bbebd2396ca6353bbe5aa53fa8';
-txn.transactionTimestamp = 1589179493;
+const txn = new SidetreeTransaction(
+  1462,
+  '0x0fda998e1f687cf5948c549370f2fe31ab4654d5b06c15f08e66ca5a39fc7aef',
+  7882238,
+  '0xd891fd43db18806b3f8e5e1820b6006e328821bbebd2396ca6353bbe5aa53fa8',
+  1589179493,
+  'QmdQHzYSnnNkhEX265RaYqZvYnApFM161nJhL5QwRRbG5f',
+);
 
 describe('Show MongoDB integration', () => {
   let connection: Connection;
