@@ -43,5 +43,8 @@
     "tslib": "^1.11.2",
     "typeorm": "^0.2.24",
     "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "mongodb": "^3.5.7"
   }
 }
