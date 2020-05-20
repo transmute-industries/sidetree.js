@@ -1,4 +1,4 @@
-name: Sidetree CAS IPFS
+name: Storage IPFS
 on: [push]
 jobs:
   sidetree-cas-ipfs:

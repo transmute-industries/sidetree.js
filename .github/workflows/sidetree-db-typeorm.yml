@@ -1,4 +1,4 @@
-name: Sidetree DB TypeORM
+name: Database TypeORM
 on: [push]
 jobs:
   sidetree-ledger-ethereum:

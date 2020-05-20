@@ -1,4 +1,4 @@
-name: Sidetree Ledger Ethereum
+name: Ledger Ethereum
 on: [push]
 jobs:
   sidetree-ledger-ethereum:
