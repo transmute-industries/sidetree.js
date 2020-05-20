@@ -15,6 +15,10 @@ txn.transactionTimestamp = 1589179493;
 describe('Show MongoDB integration', () => {
   let connection: Connection;
 
+  afterAll(async () => {
+    await connection.close()
+  });
+
   it('should create a connection', async () => {
     connection = await createConnection({
       "type": "mongodb",
