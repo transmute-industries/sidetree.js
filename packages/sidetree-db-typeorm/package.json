@@ -20,10 +20,6 @@
     "lint": "tsdx lint src --fix ",
     "prepare": "tsdx build"
   },
-  "peerDependencies": {
-    "typeorm": "0.2.24",
-    "reflect-metadata": "^0.1.10"
-  },
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint"
