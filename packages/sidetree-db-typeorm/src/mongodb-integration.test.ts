@@ -5,12 +5,13 @@ import { SidetreeTransaction } from './entity/SidetreeTransaction';
 jest.setTimeout(20 * 1000);
 
 const txn = new SidetreeTransaction(
-  1462,
-  '0x0fda998e1f687cf5948c549370f2fe31ab4654d5b06c15f08e66ca5a39fc7aef',
-  7882238,
-  '0xd891fd43db18806b3f8e5e1820b6006e328821bbebd2396ca6353bbe5aa53fa8',
-  1589179493,
-  'QmdQHzYSnnNkhEX265RaYqZvYnApFM161nJhL5QwRRbG5f'
+  89,
+  545236,
+  "0000000000000000002352597f8ec45c56ad19994808e982f5868c5ff6cfef2e",
+  "QmWd5PH6vyRH5kMdzZRPBnf952dbR4av3Bd7B2wBqMaAcf",
+  40000,
+  100,
+  "0af7eccefa3aaa37421914923b4a2034ed5a0ad0"
 );
 
 describe('Show MongoDB integration', () => {
@@ -35,7 +36,7 @@ describe('Show MongoDB integration', () => {
 
   it('should add an element to the db', async () => {
     const savedTxn = await connection.manager.save(txn);
-    expect(savedTxn.transactionHash).toBe(txn.transactionHash);
+    expect(savedTxn.transaction_number).toBe(txn.transaction_number);
   });
 
   it('should list elements in the db', async () => {
@@ -46,7 +47,7 @@ describe('Show MongoDB integration', () => {
   it('should remove an element in the db', async () => {
     const sidetreeRepo = getMongoRepository(SidetreeTransaction);
     const result = await sidetreeRepo.deleteOne({
-      transactionHash: txn.transactionHash,
+      transaction_number: txn.transaction_number,
     });
     expect(result.deletedCount).toBe(1);
   });

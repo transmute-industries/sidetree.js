@@ -21,7 +21,7 @@ export class SidetreeTransaction {
   transaction_fee_paid!: number;
 
   @Column()
-  normalized_transaction_fee!: string;
+  normalized_transaction_fee!: number;
 
   @Column()
   writer!: string;
@@ -32,8 +32,8 @@ export class SidetreeTransaction {
     transaction_time_hash: string,
     anchor_string: string,
     transaction_fee_paid: number,
-    normalized_transaction_fee: string,
-    writer: string,
+    normalized_transaction_fee: number,
+    writer: string
   ) {
     this.transaction_number = transaction_number;
     this.transaction_time = transaction_time;
