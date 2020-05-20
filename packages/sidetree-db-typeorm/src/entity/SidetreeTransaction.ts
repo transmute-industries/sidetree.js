@@ -1,7 +1,10 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ObjectIdColumn } from 'typeorm';
 
 @Entity()
 export class SidetreeTransaction {
+  @ObjectIdColumn()
+  _id?: string;
+
   @PrimaryColumn()
   transactionNumber!: number;
 
