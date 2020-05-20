@@ -1,4 +1,4 @@
-import { createConnection, Connection } from 'typeorm';
+import { createConnection, Connection, getMongoRepository } from 'typeorm';
 import 'reflect-metadata';
 import { SidetreeTransaction } from './entity/SidetreeTransaction';
 
@@ -36,8 +36,16 @@ describe('Show MongoDB integration', () => {
   it('should add an element to the db', async () => {
     const savedTxn = await connection.manager.save(txn);
     expect(savedTxn.transactionHash).toBe(txn.transactionHash);
-    // const txns = await connection.manager.find(SidetreeTransaction);
-    // console.log({ txns });
-    // expect(txns[0].anchorFileHash).toBe(txn.anchorFileHash);
+  });
+
+  it('should list elements in the db', async () => {
+     const txns = await connection.manager.find(SidetreeTransaction);
+     expect(txns.length > 0).toBeTruthy();
+  });
+
+  it('should remove an element in the db', async () => {
+    const sidetreeRepo = getMongoRepository(SidetreeTransaction);
+    const result = await sidetreeRepo.deleteOne({ transactionHash: txn.transactionHash });
+    expect(result.deletedCount).toBe(1);
   })
 });
