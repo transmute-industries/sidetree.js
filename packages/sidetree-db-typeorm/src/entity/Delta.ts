@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryColumn, ObjectIdColumn } from 'typeorm';
 
 @Entity()
-export class Delta {
+export default class Delta {
   @PrimaryColumn()
   @ObjectIdColumn()
   _id?: string;

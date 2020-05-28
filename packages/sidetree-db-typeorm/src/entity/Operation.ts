@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryColumn, ObjectIdColumn } from 'typeorm';
 
 @Entity()
-export class Operation {
+export default class Operation {
   @PrimaryColumn()
   @ObjectIdColumn()
   _id?: string;

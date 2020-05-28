@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryColumn, ObjectIdColumn } from 'typeorm';
 
 @Entity()
-export class AnchoredData {
+export default class AnchoredData {
   @PrimaryColumn()
   @ObjectIdColumn()
   _id?: string;

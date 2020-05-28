@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryColumn, ObjectIdColumn } from 'typeorm';
 
 @Entity()
-export class MapFile {
+export default class MapFile {
   @PrimaryColumn()
   @ObjectIdColumn()
   _id?: string;

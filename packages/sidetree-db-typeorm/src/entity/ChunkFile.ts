@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryColumn, ObjectIdColumn } from 'typeorm';
 
 @Entity()
-export class ChunkFile {
+export default class ChunkFile {
   @PrimaryColumn()
   @ObjectIdColumn()
   _id?: string;
