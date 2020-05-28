@@ -3,4 +3,5 @@
 node_modules
 dist
 
-database.sqlite
+mongo-data
+!mongo-data/.keep
