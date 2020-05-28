@@ -3,6 +3,7 @@ import { AnchorFile } from '../entity/AnchorFile';
 import { AnchoredData } from '../entity/AnchoredData';
 import { ChunkFile } from '../entity/ChunkFile';
 import { Delta } from '../entity/Delta';
+import { MapFile } from '../entity/MapFile';
 
 const txn = new SidetreeTransaction(
   89,
@@ -41,6 +42,10 @@ const chunkFile = new ChunkFile(['delta1', 'delta2']);
 
 const delta = new Delta(['patch1, patch2'], 'updateCommitment');
 
+const mapFile = new MapFile([], {
+  update: []
+});
+
 export default [
   {
     name: 'SidetreeTransaction',
@@ -65,5 +70,9 @@ export default [
   {
     name: 'Delta',
     entity: delta,
+  },
+  {
+    name: 'MapFile',
+    entity: mapFile,
   },
 ];
