@@ -43,9 +43,24 @@ const chunkFile = new ChunkFile(['delta1', 'delta2']);
 
 const delta = new Delta(['patch1, patch2'], 'updateCommitment');
 
-const mapFile = new MapFile([], {
-  update: []
-});
+const mapFile = new MapFile(
+  [
+    {
+      chunk_file_uri: 'chunk_file_uri_1',
+    },
+    {
+      chunk_file_uri: 'chunk_file_uri_2',
+    },
+  ],
+  {
+    update: [
+      {
+        did_suffix: 'did_suffix',
+        signed_data: 'signed_data',
+      },
+    ],
+  }
+);
 
 const operation = new Operation('didUniqueSuffix', 'type', new Buffer("data"))
 
