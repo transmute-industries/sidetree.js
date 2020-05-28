@@ -32,7 +32,7 @@ fixtures.forEach(fixture =>
 
     it('should list elements in the db', async () => {
       const found = await connection.manager.find(fixture.entity.constructor);
-      expect(found.length > 0).toBeTruthy();
+      expect(found).toHaveLength(1);
     });
 
     it('should remove an element in the db', async () => {
