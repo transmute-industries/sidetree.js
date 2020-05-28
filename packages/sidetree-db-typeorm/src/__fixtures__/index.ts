@@ -1,6 +1,7 @@
 import { SidetreeTransaction } from '../entity/SidetreeTransaction';
 import { AnchorFile } from '../entity/AnchorFile';
 import { AnchoredData } from '../entity/AnchoredData';
+import { ChunkFile } from '../entity/ChunkFile';
 
 const txn = new SidetreeTransaction(
   89,
@@ -35,6 +36,8 @@ const anchorFileWithOperations = new AnchorFile('CAS_URI', {
 
 const anchoredData = new AnchoredData('anchorFileHash', 10);
 
+const chunkFile = new ChunkFile(['delta1', 'delta2']);
+
 export default [
   {
     name: 'SidetreeTransaction',
@@ -51,5 +54,9 @@ export default [
   {
     name: 'AnchoredData',
     entity: anchoredData,
+  },
+  {
+    name: 'ChunkFile',
+    entity: chunkFile,
   },
 ];
