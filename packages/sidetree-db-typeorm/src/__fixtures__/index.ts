@@ -11,12 +11,38 @@ const txn = new SidetreeTransaction(
   '0af7eccefa3aaa37421914923b4a2034ed5a0ad0'
 );
 
-const anchorFile = new AnchorFile('CAS_URI', {});
+const anchorFileWithoutOperation = new AnchorFile('CAS_URI', {});
 
-export default [{
-  name: 'SidetreeTransaction',
-  entity: txn
-},{
-  name: 'AnchorFile without operations',
-  entity: anchorFile
-}];
+const anchorFileWithOperations = new AnchorFile('CAS_URI', {
+  create: [
+    {
+      suffix_data: 'suffix_data_1',
+    },
+  ],
+  recover: [
+    {
+      did_suffix: 'did_suffix_1',
+      signed_data: 'signed_data_1',
+    },
+    {
+      did_suffix: 'did_suffix_2',
+      signed_data: 'signed_data_2',
+    },
+  ],
+  deactivate: [],
+});
+
+export default [
+  {
+    name: 'SidetreeTransaction',
+    entity: txn,
+  },
+  {
+    name: 'AnchorFile without operation',
+    entity: anchorFileWithoutOperation,
+  },
+  {
+    name: 'AnchorFile with operations',
+    entity: anchorFileWithOperations,
+  },
+];
