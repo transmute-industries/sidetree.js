@@ -4,6 +4,7 @@ import { AnchoredData } from '../entity/AnchoredData';
 import { ChunkFile } from '../entity/ChunkFile';
 import { Delta } from '../entity/Delta';
 import { MapFile } from '../entity/MapFile';
+import { Operation } from '../entity/Operation';
 
 const txn = new SidetreeTransaction(
   89,
@@ -46,6 +47,8 @@ const mapFile = new MapFile([], {
   update: []
 });
 
+const operation = new Operation('didUniqueSuffix', 'type', new Buffer("data"))
+
 export default [
   {
     name: 'SidetreeTransaction',
@@ -74,5 +77,9 @@ export default [
   {
     name: 'MapFile',
     entity: mapFile,
+  },
+  {
+    name: 'Operation',
+    entity: operation,
   },
 ];
