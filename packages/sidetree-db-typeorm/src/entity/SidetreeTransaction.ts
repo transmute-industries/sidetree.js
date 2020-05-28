@@ -2,10 +2,11 @@ import { Entity, Column, PrimaryColumn, ObjectIdColumn } from 'typeorm';
 
 @Entity()
 export class SidetreeTransaction {
+  @PrimaryColumn()
   @ObjectIdColumn()
   _id?: string;
 
-  @PrimaryColumn()
+  @Column()
   transaction_number!: number;
 
   @Column()
