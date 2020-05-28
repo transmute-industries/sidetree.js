@@ -62,7 +62,7 @@ const mapFile = new MapFile(
   }
 );
 
-const operation = new Operation('didUniqueSuffix', 'type', new Buffer("data"))
+const operation = new Operation('didUniqueSuffix', 'type', new Buffer('data'));
 
 export default [
   {
