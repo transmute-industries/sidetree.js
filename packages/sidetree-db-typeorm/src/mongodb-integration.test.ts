@@ -1,8 +1,7 @@
 import { createConnection, Connection, getMongoRepository } from 'typeorm';
 import 'reflect-metadata';
 import { SidetreeTransaction } from './entity/SidetreeTransaction';
-
-jest.setTimeout(20 * 1000);
+// import { AnchorFile } from './entity/AnchorFile';
 
 const txn = new SidetreeTransaction(
   89,
@@ -14,41 +13,53 @@ const txn = new SidetreeTransaction(
   "0af7eccefa3aaa37421914923b4a2034ed5a0ad0"
 );
 
-describe('Show MongoDB integration', () => {
-  let connection: Connection;
+// const anchorFile = new AnchorFile(
+//   "lol",
+//   "mdr",
+//   {},
+// );
 
-  afterAll(async () => {
-    await connection.close();
-  });
+const entities = [txn/*, anchorFile*/];
 
-  it('should create a connection', async () => {
-    connection = await createConnection({
-      type: 'mongodb',
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      url:
-        'mongodb+srv://transmute:y57P%23n2LJ28%21xOkp@transmute-trade-app-yo5pq.gcp.mongodb.net/test?retryWrites=true&w=majority',
-      ssl: true,
-      entities: ['src/entity/**/*.ts'],
+entities.forEach((entity) =>
+  describe(entity.constructor.name, () => {
+    let connection: Connection;
+    let _id: string;
+
+    afterAll(async () => {
+      await connection.close();
     });
-    expect(connection.isConnected).toBeTruthy();
-  });
 
-  it('should add an element to the db', async () => {
-    const savedTxn = await connection.manager.save(txn);
-    expect(savedTxn.transaction_number).toBe(txn.transaction_number);
-  });
-
-  it('should list elements in the db', async () => {
-    const txns = await connection.manager.find(SidetreeTransaction);
-    expect(txns.length > 0).toBeTruthy();
-  });
-
-  it('should remove an element in the db', async () => {
-    const sidetreeRepo = getMongoRepository(SidetreeTransaction);
-    const result = await sidetreeRepo.deleteOne({
-      transaction_number: txn.transaction_number,
+    it('should create a connection', async () => {
+      connection = await createConnection({
+        type: 'mongodb',
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        url: 'mongodb://localhost:27017/test',
+        entities: ['src/entity/**/*.ts'],
+      });
+      expect(connection.isConnected).toBeTruthy();
+      await connection.dropDatabase();
     });
-    expect(result.deletedCount).toBe(1);
-  });
-});
+
+    it('should add an element to the db', async () => {
+      const saved = await connection.manager.save(entity);
+      expect(saved).toBeDefined();
+      expect(saved.constructor).toBe(entity.constructor);
+      _id = saved._id!;
+    });
+
+    it('should list elements in the db', async () => {
+      const found = await connection.manager.find(entity.constructor);
+      expect(found.length > 0).toBeTruthy();
+    });
+
+    it('should remove an element in the db', async () => {
+      const repo = getMongoRepository(entity.constructor);
+      const result = await repo.deleteOne({
+        _id,
+      });
+      expect(result.deletedCount).toBe(1);
+    });
+  })
+);
