@@ -2,6 +2,7 @@ import {
   generateCreateOperation,
   ICreateOperationData,
   generateUpdateOperation,
+  generateRecoverOperation,
 } from './operations_helper';
 
 describe('Operations', () => {
@@ -22,6 +23,16 @@ describe('Operations', () => {
         createOperationData.signingPrivateKey
       );
       expect(updateOperationData).toBeDefined();
+    });
+  });
+
+  describe('recover', () => {
+    it('should generate a recover operation', async () => {
+      const recoveryOperationData = await generateRecoverOperation({
+        didUniqueSuffix: createOperationData.createOperation.didUniqueSuffix,
+        recoveryPrivateKey: createOperationData.recoveryPrivateKey,
+      });
+      expect(recoveryOperationData).toBeDefined();
     });
   });
 });

@@ -9,6 +9,7 @@ import Multihash from '../src/util/Multihash';
 import Encoder from '../src/util/Encoder';
 import CreateOperation from '../src/CreateOperation';
 import UpdateOperation from '../src/UpdateOperation';
+import RecoverOperation from '../src/RecoverOperation';
 
 export const generateCommitRevealPair = () => {
   const revealValueBuffer = crypto.randomBytes(32);
@@ -252,3 +253,112 @@ export const generateUpdateOperation = async (
     nextUpdateRevealValue,
   };
 };
+
+// Recovery
+interface RecoverOperationGenerationInput {
+  didUniqueSuffix: string;
+  recoveryPrivateKey: JwkEs256k;
+}
+
+interface GeneratedRecoverOperationData {
+  operationBuffer: Buffer;
+  recoverOperation: RecoverOperation;
+  recoveryPublicKey: JwkEs256k;
+  recoveryPrivateKey: JwkEs256k;
+  signingKeyId: string;
+  signingPublicKey: PublicKeyModel;
+  signingPrivateKey: JwkEs256k;
+  nextUpdateRevealValueEncodedString: string;
+}
+
+const createRecoverOperationRequest = async (
+  didUniqueSuffix: string,
+  recoveryPrivateKey: JwkEs256k,
+  newRecoveryPublicKey: JwkEs256k,
+  nextUpdateCommitmentHash: string,
+  document: any
+) => {
+  const patches = [
+    {
+      action: 'replace',
+      document,
+    },
+  ];
+
+  const delta = {
+    patches,
+    update_commitment: nextUpdateCommitmentHash,
+  };
+
+  const deltaBuffer = Buffer.from(JSON.stringify(delta));
+  const deltaHash = Encoder.encode(Multihash.hash(deltaBuffer));
+
+  const signedDataPayloadObject = {
+    delta_hash: deltaHash,
+    recovery_key: Jwk.getEs256kPublicKey(recoveryPrivateKey),
+    recovery_commitment: Multihash.canonicalizeThenHashThenEncode(
+      newRecoveryPublicKey
+    ),
+  };
+  const signedData = await signUsingEs256k(
+    signedDataPayloadObject,
+    recoveryPrivateKey
+  );
+
+  const deltaEncodedString = Encoder.encode(deltaBuffer);
+  const operation = {
+    type: OperationType.Recover,
+    did_suffix: didUniqueSuffix,
+    signed_data: signedData,
+    delta: deltaEncodedString,
+  };
+
+  return operation;
+};
+
+const generateRecoverOperationRequest = async (
+  didUniqueSuffix: string,
+  recoveryPrivateKey: JwkEs256k,
+  newRecoveryPublicKey: JwkEs256k,
+  newSigningPublicKey: PublicKeyModel,
+  nextUpdateCommitmentHash: string,
+  ) => {
+  const document = {
+    publicKeys: [newSigningPublicKey],
+  };
+  const recoverOperation = await createRecoverOperationRequest(
+    didUniqueSuffix, recoveryPrivateKey, newRecoveryPublicKey, nextUpdateCommitmentHash, document
+  );
+  return recoverOperation;
+}
+
+export const generateRecoverOperation = async (input: RecoverOperationGenerationInput): Promise<GeneratedRecoverOperationData> => {
+  const newSigningKeyId = 'newSigningKey';
+  const [newRecoveryPublicKey, newRecoveryPrivateKey] = await Jwk.generateEs256kKeyPair();
+  const [newSigningPublicKey, newSigningPrivateKey] = await generateKeyPair(newSigningKeyId);
+
+  // Generate the next update and recover operation commitment hash reveal value pair.
+  const [nextUpdateRevealValueEncodedString, nextUpdateCommitmentHash] = generateCommitRevealPair();
+
+  const operationJson = await generateRecoverOperationRequest(
+    input.didUniqueSuffix,
+    input.recoveryPrivateKey,
+    newRecoveryPublicKey,
+    newSigningPublicKey,
+    nextUpdateCommitmentHash,
+  );
+
+  const operationBuffer = Buffer.from(JSON.stringify(operationJson));
+  const recoverOperation = await RecoverOperation.parse(operationBuffer);
+
+  return {
+    recoverOperation,
+    operationBuffer,
+    recoveryPublicKey: newRecoveryPublicKey,
+    recoveryPrivateKey: newRecoveryPrivateKey,
+    signingKeyId: newSigningKeyId,
+    signingPublicKey: newSigningPublicKey,
+    signingPrivateKey: newSigningPrivateKey,
+    nextUpdateRevealValueEncodedString
+  };
+}
