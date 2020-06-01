@@ -37,5 +37,13 @@
     "tsdx": "^0.13.2",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "base64url": "^3.0.1",
+    "canonicalize": "^1.0.1",
+    "crypto": "^1.0.1",
+    "jose": "^1.27.0",
+    "multihashes": "^0.4.19",
+    "yieldable-json": "^2.0.0"
   }
 }
