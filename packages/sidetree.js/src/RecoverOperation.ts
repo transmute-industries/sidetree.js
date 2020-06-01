@@ -21,7 +21,6 @@ interface SignedDataModel {
  * A class that represents a recover operation.
  */
 export default class RecoverOperation implements OperationModel {
-
   /** The original request buffer sent by the requester. */
   public readonly operationBuffer: Buffer;
 
@@ -46,7 +45,7 @@ export default class RecoverOperation implements OperationModel {
   /**
    * NOTE: should only be used by `parse()` and `parseObject()` else the constructed instance could be invalid.
    */
-  private constructor (
+  private constructor(
     operationBuffer: Buffer,
     didUniqueSuffix: string,
     signedDataJws: Jws,
@@ -66,19 +65,31 @@ export default class RecoverOperation implements OperationModel {
   /**
    * Parses the given input as a recover operation entry in the anchor file.
    */
-  public static async parseOperationFromAnchorFile (input: any): Promise<RecoverOperation> {
+  public static async parseOperationFromAnchorFile(
+    input: any
+  ): Promise<RecoverOperation> {
     const operationBuffer = Buffer.from(JSON.stringify(input));
-    const operation = await RecoverOperation.parseObject(input, operationBuffer, true);
+    const operation = await RecoverOperation.parseObject(
+      input,
+      operationBuffer,
+      true
+    );
     return operation;
   }
 
   /**
    * Parses the given buffer as a `UpdateOperation`.
    */
-  public static async parse (operationBuffer: Buffer): Promise<RecoverOperation> {
+  public static async parse(
+    operationBuffer: Buffer
+  ): Promise<RecoverOperation> {
     const operationJsonString = operationBuffer.toString();
     const operationObject = await JsonAsync.parse(operationJsonString);
-    const recoverOperation = await RecoverOperation.parseObject(operationObject, operationBuffer, false);
+    const recoverOperation = await RecoverOperation.parseObject(
+      operationObject,
+      operationBuffer,
+      false
+    );
     return recoverOperation;
   }
 
@@ -89,7 +100,11 @@ export default class RecoverOperation implements OperationModel {
    * JSON parsing is not required to be performed more than once when an operation buffer of an unknown operation type is given.
    * @param anchorFileMode If set to true, then `delta` and `type` properties are expected to be absent.
    */
-  public static async parseObject (operationObject: any, operationBuffer: Buffer, anchorFileMode: boolean): Promise<RecoverOperation> {
+  public static async parseObject(
+    operationObject: any,
+    operationBuffer: Buffer,
+    anchorFileMode: boolean
+  ): Promise<RecoverOperation> {
     let expectedPropertyCount = 4;
     if (anchorFileMode) {
       expectedPropertyCount = 2;
@@ -97,16 +112,25 @@ export default class RecoverOperation implements OperationModel {
 
     const properties = Object.keys(operationObject);
     if (properties.length !== expectedPropertyCount) {
-      throw new SidetreeError(ErrorCode.RecoverOperationMissingOrUnknownProperty);
+      throw new SidetreeError(
+        ErrorCode.RecoverOperationMissingOrUnknownProperty
+      );
     }
 
     if (typeof operationObject.did_suffix !== 'string') {
-      throw new SidetreeError(ErrorCode.RecoverOperationMissingOrInvalidDidUniqueSuffix);
+      throw new SidetreeError(
+        ErrorCode.RecoverOperationMissingOrInvalidDidUniqueSuffix
+      );
     }
 
     const expectKidInHeader = false;
-    const signedDataJws = Jws.parseCompactJws(operationObject.signed_data, expectKidInHeader);
-    const signedData = await RecoverOperation.parseSignedDataPayload(signedDataJws.payload);
+    const signedDataJws = Jws.parseCompactJws(
+      operationObject.signed_data,
+      expectKidInHeader
+    );
+    const signedData = await RecoverOperation.parseSignedDataPayload(
+      signedDataJws.payload
+    );
 
     // If not in anchor file mode, we need to validate `type` and `delta` properties.
     let encodedDelta = undefined;
@@ -136,13 +160,19 @@ export default class RecoverOperation implements OperationModel {
     );
   }
 
-  private static async parseSignedDataPayload (signedDataEncodedString: string): Promise<SignedDataModel> {
-    const signedDataJsonString = Encoder.decodeAsString(signedDataEncodedString);
+  private static async parseSignedDataPayload(
+    signedDataEncodedString: string
+  ): Promise<SignedDataModel> {
+    const signedDataJsonString = Encoder.decodeAsString(
+      signedDataEncodedString
+    );
     const signedData = await JsonAsync.parse(signedDataJsonString);
 
     const properties = Object.keys(signedData);
     if (properties.length !== 3) {
-      throw new SidetreeError(ErrorCode.RecoverOperationSignedDataMissingOrUnknownProperty);
+      throw new SidetreeError(
+        ErrorCode.RecoverOperationSignedDataMissingOrUnknownProperty
+      );
     }
 
     Jwk.validateJwkEs256k(signedData.recovery_key);
@@ -150,13 +180,17 @@ export default class RecoverOperation implements OperationModel {
     const deltaHash = Encoder.decodeAsBuffer(signedData.delta_hash);
     Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(deltaHash);
 
-    const nextRecoveryCommitmentHash = Encoder.decodeAsBuffer(signedData.recovery_commitment);
-    Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(nextRecoveryCommitmentHash);
+    const nextRecoveryCommitmentHash = Encoder.decodeAsBuffer(
+      signedData.recovery_commitment
+    );
+    Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(
+      nextRecoveryCommitmentHash
+    );
 
     return {
       deltaHash: signedData.delta_hash,
       recoveryKey: signedData.recovery_key,
-      recoveryCommitment: signedData.recovery_commitment
+      recoveryCommitment: signedData.recovery_commitment,
     };
   }
 }

@@ -322,31 +322,45 @@ const generateRecoverOperationRequest = async (
   recoveryPrivateKey: JwkEs256k,
   newRecoveryPublicKey: JwkEs256k,
   newSigningPublicKey: PublicKeyModel,
-  nextUpdateCommitmentHash: string,
-  ) => {
+  nextUpdateCommitmentHash: string
+) => {
   const document = {
     publicKeys: [newSigningPublicKey],
   };
   const recoverOperation = await createRecoverOperationRequest(
-    didUniqueSuffix, recoveryPrivateKey, newRecoveryPublicKey, nextUpdateCommitmentHash, document
+    didUniqueSuffix,
+    recoveryPrivateKey,
+    newRecoveryPublicKey,
+    nextUpdateCommitmentHash,
+    document
   );
   return recoverOperation;
-}
+};
 
-export const generateRecoverOperation = async (input: RecoverOperationGenerationInput): Promise<GeneratedRecoverOperationData> => {
+export const generateRecoverOperation = async (
+  input: RecoverOperationGenerationInput
+): Promise<GeneratedRecoverOperationData> => {
   const newSigningKeyId = 'newSigningKey';
-  const [newRecoveryPublicKey, newRecoveryPrivateKey] = await Jwk.generateEs256kKeyPair();
-  const [newSigningPublicKey, newSigningPrivateKey] = await generateKeyPair(newSigningKeyId);
+  const [
+    newRecoveryPublicKey,
+    newRecoveryPrivateKey,
+  ] = await Jwk.generateEs256kKeyPair();
+  const [newSigningPublicKey, newSigningPrivateKey] = await generateKeyPair(
+    newSigningKeyId
+  );
 
   // Generate the next update and recover operation commitment hash reveal value pair.
-  const [nextUpdateRevealValueEncodedString, nextUpdateCommitmentHash] = generateCommitRevealPair();
+  const [
+    nextUpdateRevealValueEncodedString,
+    nextUpdateCommitmentHash,
+  ] = generateCommitRevealPair();
 
   const operationJson = await generateRecoverOperationRequest(
     input.didUniqueSuffix,
     input.recoveryPrivateKey,
     newRecoveryPublicKey,
     newSigningPublicKey,
-    nextUpdateCommitmentHash,
+    nextUpdateCommitmentHash
   );
 
   const operationBuffer = Buffer.from(JSON.stringify(operationJson));
@@ -360,29 +374,32 @@ export const generateRecoverOperation = async (input: RecoverOperationGeneration
     signingKeyId: newSigningKeyId,
     signingPublicKey: newSigningPublicKey,
     signingPrivateKey: newSigningPrivateKey,
-    nextUpdateRevealValueEncodedString
+    nextUpdateRevealValueEncodedString,
   };
-}
+};
 
 // Deactivate
 const createDeactivateOperationRequest = async (
   didUniqueSuffix: string,
-  recoveryPrivateKey: JwkEs256k) => {
-
+  recoveryPrivateKey: JwkEs256k
+) => {
   const signedDataPayloadObject = {
     did_suffix: didUniqueSuffix,
-    recovery_key: Jwk.getEs256kPublicKey(recoveryPrivateKey)
+    recovery_key: Jwk.getEs256kPublicKey(recoveryPrivateKey),
   };
-  const signedData = await signUsingEs256k(signedDataPayloadObject, recoveryPrivateKey);
+  const signedData = await signUsingEs256k(
+    signedDataPayloadObject,
+    recoveryPrivateKey
+  );
 
   const operation = {
     type: OperationType.Deactivate,
     did_suffix: didUniqueSuffix,
-    signed_data: signedData
+    signed_data: signedData,
   };
 
   return operation;
-}
+};
 
 export const createDeactivateOperation = async (
   didUniqueSuffix: string,
