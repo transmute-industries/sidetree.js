@@ -3,6 +3,7 @@ import {
   ICreateOperationData,
   generateUpdateOperation,
   generateRecoverOperation,
+  createDeactivateOperation,
 } from './operations_helper';
 
 describe('Operations', () => {
@@ -33,6 +34,16 @@ describe('Operations', () => {
         recoveryPrivateKey: createOperationData.recoveryPrivateKey,
       });
       expect(recoveryOperationData).toBeDefined();
+    });
+  });
+
+  describe('delete', () => {
+    it('should generate a delete operation', async () => {
+      const deleteOperationData = await createDeactivateOperation(
+        createOperationData.createOperation.didUniqueSuffix,
+        createOperationData.recoveryPrivateKey
+      );
+      expect(deleteOperationData).toBeDefined();
     });
   });
 });

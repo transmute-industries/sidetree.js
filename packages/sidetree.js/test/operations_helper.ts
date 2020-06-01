@@ -10,6 +10,7 @@ import Encoder from '../src/util/Encoder';
 import CreateOperation from '../src/CreateOperation';
 import UpdateOperation from '../src/UpdateOperation';
 import RecoverOperation from '../src/RecoverOperation';
+import DeactivateOperation from '../src/DeactivateOperation';
 
 export const generateCommitRevealPair = () => {
   const revealValueBuffer = crypto.randomBytes(32);
@@ -362,3 +363,41 @@ export const generateRecoverOperation = async (input: RecoverOperationGeneration
     nextUpdateRevealValueEncodedString
   };
 }
+
+// Deactivate
+const createDeactivateOperationRequest = async (
+  didUniqueSuffix: string,
+  recoveryPrivateKey: JwkEs256k) => {
+
+  const signedDataPayloadObject = {
+    did_suffix: didUniqueSuffix,
+    recovery_key: Jwk.getEs256kPublicKey(recoveryPrivateKey)
+  };
+  const signedData = await signUsingEs256k(signedDataPayloadObject, recoveryPrivateKey);
+
+  const operation = {
+    type: OperationType.Deactivate,
+    did_suffix: didUniqueSuffix,
+    signed_data: signedData
+  };
+
+  return operation;
+}
+
+export const createDeactivateOperation = async (
+  didUniqueSuffix: string,
+  recoveryPrivateKey: JwkEs256k
+) => {
+  const operationRequest = await createDeactivateOperationRequest(
+    didUniqueSuffix,
+    recoveryPrivateKey
+  );
+  const operationBuffer = Buffer.from(JSON.stringify(operationRequest));
+  const deactivateOperation = await DeactivateOperation.parse(operationBuffer);
+
+  return {
+    operationRequest,
+    operationBuffer,
+    deactivateOperation,
+  };
+};
