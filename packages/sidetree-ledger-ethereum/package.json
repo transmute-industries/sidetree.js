@@ -27,11 +27,6 @@
   "peerDependencies": {
     "web3": ">=1.2.7"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
-  },
   "prettier": {
     "printWidth": 80,
     "semi": true,
@@ -41,7 +36,6 @@
   "devDependencies": {
     "@truffle/hdwallet-provider": "^1.0.35",
     "dotenv": "^8.2.0",
-    "husky": "^4.2.5",
     "truffle": "^5.1.25",
     "tsdx": "^0.13.2",
     "tslib": "^1.11.2",

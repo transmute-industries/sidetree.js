@@ -9,7 +9,13 @@
     "build": "lerna run test --stream",
     "shove": "git add -A; git commit -m 'chore(ci): testing'; git push origin master"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run lint --since HEAD"
+    }
+  },
   "devDependencies": {
+    "husky": "^4.2.5",
     "lerna": "^3.20.2"
   }
 }
