@@ -16,7 +16,7 @@ export const generateCommitRevealPair = () => {
   const commitmentHash = Multihash.hash(revealValueBuffer);
   const commitmentHashEncodedString = Encoder.encode(commitmentHash);
   return [revealValueEncodedString, commitmentHashEncodedString];
-}
+};
 
 const generateCreateOperationRequest = async (
   recoveryPublicKey: JwkEs256k,
@@ -60,29 +60,32 @@ const generateCreateOperationRequest = async (
   return operation;
 };
 
-  /**
-   * Generates SECP256K1 key pair to be used in an operation. If usage not supplied, all usages will be included
-   * Mainly used for testing.
-   * @returns [publicKey, privateKey]
-   */
-const generateKeyPair = async (id: string, usage?: string[]): Promise<[PublicKeyModel, JwkEs256k]> => {
-    const [publicKey, privateKey] = await Jwk.generateEs256kKeyPair();
-    const publicKeyModel = {
-      id,
-      type: 'EcdsaSecp256k1VerificationKey2019',
-      jwk: publicKey,
-      usage: usage || Object.values(PublicKeyUsage)
-    };
+/**
+ * Generates SECP256K1 key pair to be used in an operation. If usage not supplied, all usages will be included
+ * Mainly used for testing.
+ * @returns [publicKey, privateKey]
+ */
+const generateKeyPair = async (
+  id: string,
+  usage?: string[]
+): Promise<[PublicKeyModel, JwkEs256k]> => {
+  const [publicKey, privateKey] = await Jwk.generateEs256kKeyPair();
+  const publicKeyModel = {
+    id,
+    type: 'EcdsaSecp256k1VerificationKey2019',
+    jwk: publicKey,
+    usage: usage || Object.values(PublicKeyUsage),
+  };
 
-    return [publicKeyModel, privateKey];
-  }
+  return [publicKeyModel, privateKey];
+};
 
 export interface ICreateOperationData {
   createOperation: CreateOperation;
   operationRequest: {
-      type: OperationType;
-      suffix_data: string;
-      delta: string;
+    type: OperationType;
+    suffix_data: string;
+    delta: string;
   };
   recoveryPublicKey: any;
   recoveryPrivateKey: any;
@@ -90,15 +93,25 @@ export interface ICreateOperationData {
   signingPublicKey: PublicKeyModel;
   signingPrivateKey: JwkEs256k;
   nextUpdateRevealValueEncodedString: string;
-};
+}
 
-export const generateCreateOperation: () => Promise<ICreateOperationData> = async () => {
+export const generateCreateOperation: () => Promise<
+  ICreateOperationData
+> = async () => {
   const signingKeyId = 'signingKey';
-  const [recoveryPublicKey, recoveryPrivateKey] = await Jwk.generateEs256kKeyPair();
-  const [signingPublicKey, signingPrivateKey] = await generateKeyPair(signingKeyId);
+  const [
+    recoveryPublicKey,
+    recoveryPrivateKey,
+  ] = await Jwk.generateEs256kKeyPair();
+  const [signingPublicKey, signingPrivateKey] = await generateKeyPair(
+    signingKeyId
+  );
 
   // Generate the next update and recover operation commitment hash reveal value pair.
-  const [nextUpdateRevealValueEncodedString, nextUpdateCommitmentHash] = generateCommitRevealPair();
+  const [
+    nextUpdateRevealValueEncodedString,
+    nextUpdateCommitmentHash,
+  ] = generateCommitRevealPair();
 
   const operationRequest = await generateCreateOperationRequest(
     recoveryPublicKey,
@@ -117,9 +130,9 @@ export const generateCreateOperation: () => Promise<ICreateOperationData> = asyn
     signingKeyId,
     signingPublicKey,
     signingPrivateKey,
-    nextUpdateRevealValueEncodedString
+    nextUpdateRevealValueEncodedString,
   };
-}
+};
 
 // Update
 const signUsingEs256k = async (
@@ -136,7 +149,6 @@ const signUsingEs256k = async (
   return compactJws;
 };
 
-
 const createUpdateOperationRequest = async (
   didUniqueSuffix: string,
   updateRevealValue: string,
@@ -147,27 +159,33 @@ const createUpdateOperationRequest = async (
 ) => {
   const delta = {
     patches,
-    update_commitment: nextUpdateCommitmentHash
+    update_commitment: nextUpdateCommitmentHash,
   };
   const deltaJsonString = JSON.stringify(delta);
-  const deltaHash = Encoder.encode(Multihash.hash(Buffer.from(deltaJsonString)));
+  const deltaHash = Encoder.encode(
+    Multihash.hash(Buffer.from(deltaJsonString))
+  );
   const encodedDeltaString = Encoder.encode(deltaJsonString);
 
   const signedDataPayloadObject = {
     update_reveal_value: updateRevealValue,
-    delta_hash: deltaHash
+    delta_hash: deltaHash,
   };
-  const signedData = await signUsingEs256k(signedDataPayloadObject, signingPrivateKey, signingKeyId);
+  const signedData = await signUsingEs256k(
+    signedDataPayloadObject,
+    signingPrivateKey,
+    signingKeyId
+  );
 
   const updateOperationRequest = {
     type: OperationType.Update,
     did_suffix: didUniqueSuffix,
     delta: encodedDeltaString,
-    signed_data: signedData
+    signed_data: signedData,
   };
 
   return updateOperationRequest;
-}
+};
 
 const createUpdateOperationRequestForAddingAKey = async (
   didUniqueSuffix: string,
@@ -175,15 +193,13 @@ const createUpdateOperationRequestForAddingAKey = async (
   newPublicKey: PublicKeyModel,
   nextUpdateCommitmentHash: string,
   signingKeyId: string,
-  signingPrivateKey: JwkEs256k) => {
-
+  signingPrivateKey: JwkEs256k
+) => {
   const patches = [
     {
       action: 'add-public-keys',
-      publicKeys: [
-        newPublicKey
-      ]
-    }
+      publicKeys: [newPublicKey],
+    },
   ];
 
   const updateOperationRequest = await createUpdateOperationRequest(
@@ -196,10 +212,10 @@ const createUpdateOperationRequestForAddingAKey = async (
   );
 
   return updateOperationRequest;
-}
-  /**
-   * Generates an update operation that adds a new key.
-   */
+};
+/**
+ * Generates an update operation that adds a new key.
+ */
 export const generateUpdateOperation = async (
   didUniqueSuffix: string,
   updateRevealValue: string,
@@ -207,10 +223,9 @@ export const generateUpdateOperation = async (
   updatePrivateKey: JwkEs256k
 ) => {
   const additionalKeyId = `additional-key`;
-  const [
-    additionalPublicKey,
-    additionalPrivateKey,
-  ] = await generateKeyPair(additionalKeyId);
+  const [additionalPublicKey, additionalPrivateKey] = await generateKeyPair(
+    additionalKeyId
+  );
   const [
     nextUpdateRevealValue,
     nextUpdateCommitValue,

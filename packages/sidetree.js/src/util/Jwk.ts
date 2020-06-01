@@ -12,7 +12,7 @@ export default class Jwk {
    * Mainly used for testing.
    * @returns [publicKey, privateKey]
    */
-  public static async generateEs256kKeyPair (): Promise<[JwkEs256k, JwkEs256k]> {
+  public static async generateEs256kKeyPair(): Promise<[JwkEs256k, JwkEs256k]> {
     const keyPair = await JWK.generate('EC', 'secp256k1');
     const publicKeyInternal = keyPair.toJWK();
 
@@ -21,7 +21,7 @@ export default class Jwk {
       kty: publicKeyInternal.kty,
       crv: publicKeyInternal.crv,
       x: publicKeyInternal.x,
-      y: publicKeyInternal.y
+      y: publicKeyInternal.y,
     };
 
     const privateKey = Object.assign({ d: keyPair.d }, publicKey);
@@ -32,7 +32,7 @@ export default class Jwk {
    * Validates the given key is a SECP256K1 public key in JWK format allowed by Sidetree.
    * @throws SidetreeError if given object is not a SECP256K1 public key in JWK format allowed by Sidetree.
    */
-  public static validateJwkEs256k (jwk: any) {
+  public static validateJwkEs256k(jwk: any) {
     if (jwk === undefined) {
       throw new SidetreeError(ErrorCode.JwkEs256kUndefined);
     }
@@ -65,7 +65,7 @@ export default class Jwk {
    * Gets the public key given the private ES256K key.
    * Mainly used for testing purposes.
    */
-  public static getEs256kPublicKey (privateKey: JwkEs256k): JwkEs256k {
+  public static getEs256kPublicKey(privateKey: JwkEs256k): JwkEs256k {
     const keyCopy = Object.assign({}, privateKey);
 
     // Delete the private key portion.

@@ -16,7 +16,7 @@ export default class Operation {
   /**
    * Parses the given encoded delta string into an internal `DeltaModel`.
    */
-  public static async parseDelta (deltaEncodedString: any): Promise<DeltaModel> {
+  public static async parseDelta(deltaEncodedString: any): Promise<DeltaModel> {
     if (typeof deltaEncodedString !== 'string') {
       throw new SidetreeError(ErrorCode.DeltaMissingOrNotString);
     }
@@ -36,12 +36,16 @@ export default class Operation {
     // Validate `patches` property using the DocumentComposer.
     DocumentComposer.validateDocumentPatches(delta.patches);
 
-    const nextUpdateCommitment = Encoder.decodeAsBuffer(delta.update_commitment);
-    Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(nextUpdateCommitment);
+    const nextUpdateCommitment = Encoder.decodeAsBuffer(
+      delta.update_commitment
+    );
+    Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(
+      nextUpdateCommitment
+    );
 
     return {
       patches: delta.patches,
-      updateCommitment: delta.update_commitment
+      updateCommitment: delta.update_commitment,
     };
   }
 }

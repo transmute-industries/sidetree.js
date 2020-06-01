@@ -4,7 +4,7 @@ jobs:
   sidetree-je:
     runs-on: ubuntu-latest
     env:
-      working-directory: ./packages/sidetree-js
+      working-directory: ./packages/sidetree.js
     steps:
       - name: Begin CI...
         uses: actions/checkout@v2

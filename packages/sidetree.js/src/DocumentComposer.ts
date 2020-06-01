@@ -10,12 +10,11 @@ import SidetreeError from './errors/SidetreeError';
  * Class that handles the composition of operations into final external-facing document.
  */
 export default class DocumentComposer {
-
   /**
    * Validates the schema of the given full document.
    * @throws SidetreeError if given document patch fails validation.
    */
-  public static validateDocument (document: any) {
+  public static validateDocument(document: any) {
     if (document === undefined) {
       throw new SidetreeError(ErrorCode.DocumentComposerDocumentMissing);
     }
@@ -23,7 +22,10 @@ export default class DocumentComposer {
     const allowedProperties = new Set(['publicKeys', 'serviceEndpoints']);
     for (let property in document) {
       if (!allowedProperties.has(property)) {
-        throw new SidetreeError(ErrorCode.DocumentComposerUnknownPropertyInDocument, `Unexpected property ${property} in document.`);
+        throw new SidetreeError(
+          ErrorCode.DocumentComposerUnknownPropertyInDocument,
+          `Unexpected property ${property} in document.`
+        );
       }
     }
 
@@ -43,9 +45,11 @@ export default class DocumentComposer {
    * Validates the schema of the given update document patch.
    * @throws SidetreeError if given document patch fails validation.
    */
-  public static validateDocumentPatches (patches: any) {
+  public static validateDocumentPatches(patches: any) {
     if (!Array.isArray(patches)) {
-      throw new SidetreeError(ErrorCode.DocumentComposerUpdateOperationDocumentPatchesNotArray);
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerUpdateOperationDocumentPatchesNotArray
+      );
     }
 
     for (let patch of patches) {
@@ -53,7 +57,7 @@ export default class DocumentComposer {
     }
   }
 
-  private static validatePatch (patch: any) {
+  private static validatePatch(patch: any) {
     const action = patch.action;
     switch (action) {
       case 'replace':
@@ -72,20 +76,24 @@ export default class DocumentComposer {
         DocumentComposer.validateRemoveServiceEndpointsPatch(patch);
         break;
       default:
-        throw new SidetreeError(ErrorCode.DocumentComposerPatchMissingOrUnknownAction);
+        throw new SidetreeError(
+          ErrorCode.DocumentComposerPatchMissingOrUnknownAction
+        );
     }
   }
 
-  private static validateAddPublicKeysPatch (patch: any) {
+  private static validateAddPublicKeysPatch(patch: any) {
     const patchProperties = Object.keys(patch);
     if (patchProperties.length !== 2) {
-      throw new SidetreeError(ErrorCode.DocumentComposerPatchMissingOrUnknownProperty);
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerPatchMissingOrUnknownProperty
+      );
     }
 
     DocumentComposer.validatePublicKeys(patch.publicKeys);
   }
 
-  private static validatePublicKeys (publicKeys: any) {
+  private static validatePublicKeys(publicKeys: any) {
     if (!Array.isArray(publicKeys)) {
       throw new SidetreeError(ErrorCode.DocumentComposerPublicKeysNotArray);
     }
@@ -95,40 +103,55 @@ export default class DocumentComposer {
       const publicKeyProperties = Object.keys(publicKey);
       // the expected fields are id, usage, type and jwk
       if (publicKeyProperties.length !== 4) {
-        throw new SidetreeError(ErrorCode.DocumentComposerPublicKeyMissingOrUnknownProperty);
+        throw new SidetreeError(
+          ErrorCode.DocumentComposerPublicKeyMissingOrUnknownProperty
+        );
       }
 
       DocumentComposer.validateId(publicKey.id);
 
       // 'id' must be unique
       if (publicKeyIdSet.has(publicKey.id)) {
-        throw new SidetreeError(ErrorCode.DocumentComposerPublicKeyIdDuplicated);
+        throw new SidetreeError(
+          ErrorCode.DocumentComposerPublicKeyIdDuplicated
+        );
       }
       publicKeyIdSet.add(publicKey.id);
 
       if (!Array.isArray(publicKey.usage) || publicKey.usage.length === 0) {
-        throw new SidetreeError(ErrorCode.DocumentComposerPublicKeyUsageMissingOrUnknown);
+        throw new SidetreeError(
+          ErrorCode.DocumentComposerPublicKeyUsageMissingOrUnknown
+        );
       }
 
       if (publicKey.usage.length > 3) {
-        throw new SidetreeError(ErrorCode.DocumentComposerPublicKeyUsageExceedsMaxLength);
+        throw new SidetreeError(
+          ErrorCode.DocumentComposerPublicKeyUsageExceedsMaxLength
+        );
       }
 
       const validUsages = new Set(Object.values(PublicKeyUsage));
       // usage must be one of the valid ones in PublicKeyUsage
       for (const usage of publicKey.usage) {
         if (!validUsages.has(usage)) {
-          throw new SidetreeError(ErrorCode.DocumentComposerPublicKeyInvalidUsage);
+          throw new SidetreeError(
+            ErrorCode.DocumentComposerPublicKeyInvalidUsage
+          );
         }
       }
 
       // Registered key types can be found at https://w3c-ccg.github.io/ld-cryptosuite-registry/
-      const validTypes = new Set(['EcdsaSecp256k1VerificationKey2019', 'JwsVerificationKey2020']);
+      const validTypes = new Set([
+        'EcdsaSecp256k1VerificationKey2019',
+        'JwsVerificationKey2020',
+      ]);
 
       if (publicKey.usage.includes(PublicKeyUsage.Ops)) {
         DocumentComposer.validateOperationKey(publicKey);
       } else if (!validTypes.has(publicKey.type)) {
-        throw new SidetreeError(ErrorCode.DocumentComposerPublicKeyTypeMissingOrUnknown);
+        throw new SidetreeError(
+          ErrorCode.DocumentComposerPublicKeyTypeMissingOrUnknown
+        );
       }
     }
   }
@@ -136,35 +159,45 @@ export default class DocumentComposer {
   /**
    * Ensures the given key is an operation key allowed to perform document modification.
    */
-  private static validateOperationKey (publicKey: PublicKeyModel | undefined) {
+  private static validateOperationKey(publicKey: PublicKeyModel | undefined) {
     if (!publicKey) {
       throw new SidetreeError(ErrorCode.DocumentComposerKeyNotFound);
     }
 
     if (publicKey.type !== 'EcdsaSecp256k1VerificationKey2019') {
-      throw new SidetreeError(ErrorCode.DocumentComposerOperationKeyTypeNotEs256k);
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerOperationKeyTypeNotEs256k
+      );
     }
 
     if (!publicKey.usage.includes(PublicKeyUsage.Ops)) {
-      throw new SidetreeError(ErrorCode.DocumentComposerPublicKeyNotOperationKey);
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerPublicKeyNotOperationKey
+      );
     }
 
     Jwk.validateJwkEs256k(publicKey.jwk);
   }
 
-  private static validateRemovePublicKeysPatch (patch: any) {
+  private static validateRemovePublicKeysPatch(patch: any) {
     const patchProperties = Object.keys(patch);
     if (patchProperties.length !== 2) {
-      throw new SidetreeError(ErrorCode.DocumentComposerPatchMissingOrUnknownProperty);
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerPatchMissingOrUnknownProperty
+      );
     }
 
     if (!Array.isArray(patch.publicKeys)) {
-      throw new SidetreeError(ErrorCode.DocumentComposerPatchPublicKeyIdsNotArray);
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerPatchPublicKeyIdsNotArray
+      );
     }
 
     for (let publicKeyId of patch.publicKeys) {
       if (typeof publicKeyId !== 'string') {
-        throw new SidetreeError(ErrorCode.DocumentComposerPatchPublicKeyIdNotString);
+        throw new SidetreeError(
+          ErrorCode.DocumentComposerPatchPublicKeyIdNotString
+        );
       }
     }
   }
@@ -172,14 +205,18 @@ export default class DocumentComposer {
   /**
    * validate update patch for removing service endpoints
    */
-  private static validateRemoveServiceEndpointsPatch (patch: any) {
+  private static validateRemoveServiceEndpointsPatch(patch: any) {
     const patchProperties = Object.keys(patch);
     if (patchProperties.length !== 2) {
-      throw new SidetreeError(ErrorCode.DocumentComposerPatchMissingOrUnknownProperty);
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerPatchMissingOrUnknownProperty
+      );
     }
 
     if (!Array.isArray(patch.serviceEndpointIds)) {
-      throw new SidetreeError(ErrorCode.DocumentComposerPatchServiceEndpointIdsNotArray);
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerPatchServiceEndpointIdsNotArray
+      );
     }
 
     for (const id of patch.serviceEndpointIds) {
@@ -190,43 +227,60 @@ export default class DocumentComposer {
   /**
    * Validates update patch for adding service endpoints.
    */
-  private static validateAddServiceEndpointsPatch (patch: any) {
+  private static validateAddServiceEndpointsPatch(patch: any) {
     const patchProperties = Object.keys(patch);
     if (patchProperties.length !== 2) {
-      throw new SidetreeError(ErrorCode.DocumentComposerPatchMissingOrUnknownProperty);
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerPatchMissingOrUnknownProperty
+      );
     }
 
     if (!Array.isArray(patch.serviceEndpoints)) {
-      throw new SidetreeError(ErrorCode.DocumentComposerPatchServiceEndpointsNotArray);
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerPatchServiceEndpointsNotArray
+      );
     }
 
     DocumentComposer.validateServiceEndpoints(patch.serviceEndpoints);
   }
 
-  private static validateServiceEndpoints (serviceEndpoints: any) {
+  private static validateServiceEndpoints(serviceEndpoints: any) {
     if (!Array.isArray(serviceEndpoints)) {
-      throw new SidetreeError(ErrorCode.DocumentComposerPatchServiceEndpointsNotArray);
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerPatchServiceEndpointsNotArray
+      );
     }
 
     for (let serviceEndpoint of serviceEndpoints) {
       const serviceEndpointProperties = Object.keys(serviceEndpoint);
-      if (serviceEndpointProperties.length !== 3) { // type, id, and serviceEndpoint
-        throw new SidetreeError(ErrorCode.DocumentComposerServiceEndpointMissingOrUnknownProperty);
+      if (serviceEndpointProperties.length !== 3) {
+        // type, id, and serviceEndpoint
+        throw new SidetreeError(
+          ErrorCode.DocumentComposerServiceEndpointMissingOrUnknownProperty
+        );
       }
 
       DocumentComposer.validateId(serviceEndpoint.id);
 
       if (typeof serviceEndpoint.type !== 'string') {
-        throw new SidetreeError(ErrorCode.DocumentComposerPatchServiceEndpointTypeNotString);
+        throw new SidetreeError(
+          ErrorCode.DocumentComposerPatchServiceEndpointTypeNotString
+        );
       }
       if (serviceEndpoint.type.length > 30) {
-        throw new SidetreeError(ErrorCode.DocumentComposerPatchServiceEndpointTypeTooLong);
+        throw new SidetreeError(
+          ErrorCode.DocumentComposerPatchServiceEndpointTypeTooLong
+        );
       }
       if (typeof serviceEndpoint.serviceEndpoint !== 'string') {
-        throw new SidetreeError(ErrorCode.DocumentComposerPatchServiceEndpointServiceEndpointNotString);
+        throw new SidetreeError(
+          ErrorCode.DocumentComposerPatchServiceEndpointServiceEndpointNotString
+        );
       }
       if (serviceEndpoint.serviceEndpoint.length > 100) {
-        throw new SidetreeError(ErrorCode.DocumentComposerPatchServiceEndpointServiceEndpointTooLong);
+        throw new SidetreeError(
+          ErrorCode.DocumentComposerPatchServiceEndpointServiceEndpointTooLong
+        );
       }
 
       try {
@@ -234,21 +288,28 @@ export default class DocumentComposer {
         // tslint:disable-next-line
         new URL(serviceEndpoint.serviceEndpoint);
       } catch {
-        throw new SidetreeError(ErrorCode.DocumentComposerPatchServiceEndpointServiceEndpointNotValidUrl);
+        throw new SidetreeError(
+          ErrorCode.DocumentComposerPatchServiceEndpointServiceEndpointNotValidUrl
+        );
       }
     }
   }
 
-  private static validateId (id: any) {
+  private static validateId(id: any) {
     if (typeof id !== 'string') {
-      throw new SidetreeError(ErrorCode.DocumentComposerIdNotString, `ID not string: ${JSON.stringify(id)} is of type '${typeof id}'`);
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerIdNotString,
+        `ID not string: ${JSON.stringify(id)} is of type '${typeof id}'`
+      );
     }
     if (id.length > 20) {
       throw new SidetreeError(ErrorCode.DocumentComposerIdTooLong);
     }
 
     if (!Encoder.isBase64UrlString(id)) {
-      throw new SidetreeError(ErrorCode.DocumentComposerIdNotUsingBase64UrlCharacterSet);
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerIdNotUsingBase64UrlCharacterSet
+      );
     }
   }
 
@@ -257,11 +318,14 @@ export default class DocumentComposer {
    * NOTE: Assumes no schema validation is needed, since validation should've already occurred at the time of the operation being parsed.
    * @returns The resultant document.
    */
-  public static applyPatches (document: any, patches: any[]): any {
+  public static applyPatches(document: any, patches: any[]): any {
     // Loop through and apply all patches.
     let resultantDocument = document;
     for (let patch of patches) {
-      resultantDocument = DocumentComposer.applyPatchToDidDocument(resultantDocument, patch);
+      resultantDocument = DocumentComposer.applyPatchToDidDocument(
+        resultantDocument,
+        patch
+      );
     }
 
     return resultantDocument;
@@ -270,7 +334,10 @@ export default class DocumentComposer {
   /**
    * Applies the given patch to the given DID Document.
    */
-  private static applyPatchToDidDocument (document: DocumentModel, patch: any): any {
+  private static applyPatchToDidDocument(
+    document: DocumentModel,
+    patch: any
+  ): any {
     if (patch.action === 'replace') {
       return patch.document;
     } else if (patch.action === 'add-public-keys') {
@@ -287,8 +354,13 @@ export default class DocumentComposer {
   /**
    * Adds public keys to document.
    */
-  private static addPublicKeys (document: DocumentModel, patch: any): DocumentModel {
-    const publicKeyMap = new Map(document.publicKeys.map(publicKey => [publicKey.id, publicKey]));
+  private static addPublicKeys(
+    document: DocumentModel,
+    patch: any
+  ): DocumentModel {
+    const publicKeyMap = new Map(
+      document.publicKeys.map(publicKey => [publicKey.id, publicKey])
+    );
 
     // Loop through all given public keys and add them if they don't exist already.
     for (let publicKey of patch.publicKeys) {
@@ -305,8 +377,13 @@ export default class DocumentComposer {
   /**
    * Removes public keys from document.
    */
-  private static removePublicKeys (document: DocumentModel, patch: any): DocumentModel {
-    const publicKeyMap = new Map(document.publicKeys.map(publicKey => [publicKey.id, publicKey]));
+  private static removePublicKeys(
+    document: DocumentModel,
+    patch: any
+  ): DocumentModel {
+    const publicKeyMap = new Map(
+      document.publicKeys.map(publicKey => [publicKey.id, publicKey])
+    );
 
     // Loop through all given public key IDs and delete them from the existing public key only if it is not a recovery key.
     for (let publicKey of patch.publicKeys) {
@@ -324,7 +401,10 @@ export default class DocumentComposer {
     return document;
   }
 
-  private static addServiceEndpoints (document: DocumentModel, patch: any): DocumentModel {
+  private static addServiceEndpoints(
+    document: DocumentModel,
+    patch: any
+  ): DocumentModel {
     const serviceEndpoints = patch.serviceEndpoints;
 
     if (document.serviceEndpoints === undefined) {
@@ -350,13 +430,18 @@ export default class DocumentComposer {
     return document;
   }
 
-  private static removeServiceEndpoints (document: DocumentModel, patch: any): DocumentModel {
+  private static removeServiceEndpoints(
+    document: DocumentModel,
+    patch: any
+  ): DocumentModel {
     if (document.serviceEndpoints === undefined) {
       return document;
     }
 
     const idToRemove = new Set(patch.serviceEndpointIds);
-    document.serviceEndpoints = document.serviceEndpoints.filter(serviceEndpoint => !idToRemove.has(serviceEndpoint.id));
+    document.serviceEndpoints = document.serviceEndpoints.filter(
+      serviceEndpoint => !idToRemove.has(serviceEndpoint.id)
+    );
 
     return document;
   }

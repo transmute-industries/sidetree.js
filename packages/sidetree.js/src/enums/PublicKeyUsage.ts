@@ -4,7 +4,7 @@
 enum PublicKeyUsage {
   Ops = 'ops',
   Auth = 'auth',
-  General = 'general'
+  General = 'general',
 }
 
 export default PublicKeyUsage;

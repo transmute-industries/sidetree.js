@@ -17,7 +17,6 @@ interface SuffixDataModel {
  * A class that represents a create operation.
  */
 export default class CreateOperation implements OperationModel {
-
   /** The original request buffer sent by the requester. */
   public readonly operationBuffer: Buffer;
 
@@ -42,13 +41,14 @@ export default class CreateOperation implements OperationModel {
   /**
    * NOTE: should only be used by `parse()` and `parseObject()` else the contructed instance could be invalid.
    */
-  private constructor (
+  private constructor(
     operationBuffer: Buffer,
     didUniqueSuffix: string,
     encodedSuffixData: string,
     suffixData: SuffixDataModel,
     encodedDelta: string | undefined,
-    delta: DeltaModel | undefined) {
+    delta: DeltaModel | undefined
+  ) {
     this.didUniqueSuffix = didUniqueSuffix;
     this.type = OperationType.Create;
     this.operationBuffer = operationBuffer;
@@ -61,7 +61,7 @@ export default class CreateOperation implements OperationModel {
   /**
    * Computes the DID unique suffix given the encoded suffix data string.
    */
-  private static computeDidUniqueSuffix (encodedSuffixData: string): string {
+  private static computeDidUniqueSuffix(encodedSuffixData: string): string {
     const encodedSuffixDataBuffer = Buffer.from(encodedSuffixData);
     const multihash = Multihash.hash(encodedSuffixDataBuffer);
     const encodedMultihash = Encoder.encode(multihash);
@@ -71,20 +71,30 @@ export default class CreateOperation implements OperationModel {
   /**
    * Parses the given input as a create operation entry in the anchor file.
    */
-  public static async parseOperationFromAnchorFile (input: any): Promise<CreateOperation> {
+  public static async parseOperationFromAnchorFile(
+    input: any
+  ): Promise<CreateOperation> {
     // Issue #442 - Replace `operationBuffer` in `OperationModel` and `AnchoredOperationModel` with actual operation request
     const operationBuffer = Buffer.from(JSON.stringify(input));
-    const operation = await CreateOperation.parseObject(input, operationBuffer, true);
+    const operation = await CreateOperation.parseObject(
+      input,
+      operationBuffer,
+      true
+    );
     return operation;
   }
 
   /**
    * Parses the given buffer as a `CreateOperation`.
    */
-  public static async parse (operationBuffer: Buffer): Promise<CreateOperation> {
+  public static async parse(operationBuffer: Buffer): Promise<CreateOperation> {
     const operationJsonString = operationBuffer.toString();
     const operationObject = await JsonAsync.parse(operationJsonString);
-    const createOperation = await CreateOperation.parseObject(operationObject, operationBuffer, false);
+    const createOperation = await CreateOperation.parseObject(
+      operationObject,
+      operationBuffer,
+      false
+    );
     return createOperation;
   }
 
@@ -95,7 +105,11 @@ export default class CreateOperation implements OperationModel {
    * JSON parsing is not required to be performed more than once when an operation buffer of an unknown operation type is given.
    * @param anchorFileMode If set to true, then `delta` and `type` properties are expected to be absent.
    */
-  public static async parseObject (operationObject: any, operationBuffer: Buffer, anchorFileMode: boolean): Promise<CreateOperation> {
+  public static async parseObject(
+    operationObject: any,
+    operationBuffer: Buffer,
+    anchorFileMode: boolean
+  ): Promise<CreateOperation> {
     let expectedPropertyCount = 3;
     if (anchorFileMode) {
       expectedPropertyCount = 1;
@@ -103,7 +117,9 @@ export default class CreateOperation implements OperationModel {
 
     const properties = Object.keys(operationObject);
     if (properties.length !== expectedPropertyCount) {
-      throw new SidetreeError(ErrorCode.CreateOperationMissingOrUnknownProperty);
+      throw new SidetreeError(
+        ErrorCode.CreateOperationMissingOrUnknownProperty
+      );
     }
 
     const encodedSuffixData = operationObject.suffix_data;
@@ -127,32 +143,53 @@ export default class CreateOperation implements OperationModel {
       }
     }
 
-    const didUniqueSuffix = CreateOperation.computeDidUniqueSuffix(operationObject.suffix_data);
-    return new CreateOperation(operationBuffer, didUniqueSuffix, encodedSuffixData, suffixData, encodedDelta, delta);
+    const didUniqueSuffix = CreateOperation.computeDidUniqueSuffix(
+      operationObject.suffix_data
+    );
+    return new CreateOperation(
+      operationBuffer,
+      didUniqueSuffix,
+      encodedSuffixData,
+      suffixData,
+      encodedDelta,
+      delta
+    );
   }
 
-  private static async parseSuffixData (suffixDataEncodedString: any): Promise<SuffixDataModel> {
+  private static async parseSuffixData(
+    suffixDataEncodedString: any
+  ): Promise<SuffixDataModel> {
     if (typeof suffixDataEncodedString !== 'string') {
-      throw new SidetreeError(ErrorCode.CreateOperationSuffixDataMissingOrNotString);
+      throw new SidetreeError(
+        ErrorCode.CreateOperationSuffixDataMissingOrNotString
+      );
     }
 
-    const suffixDataJsonString = Encoder.decodeAsString(suffixDataEncodedString);
+    const suffixDataJsonString = Encoder.decodeAsString(
+      suffixDataEncodedString
+    );
     const suffixData = await JsonAsync.parse(suffixDataJsonString);
 
     const properties = Object.keys(suffixData);
     if (properties.length !== 2) {
-      throw new SidetreeError(ErrorCode.CreateOperationSuffixDataMissingOrUnknownProperty);
+      throw new SidetreeError(
+        ErrorCode.CreateOperationSuffixDataMissingOrUnknownProperty
+      );
     }
 
     const deltaHash = Encoder.decodeAsBuffer(suffixData.delta_hash);
-    const nextRecoveryCommitment = Encoder.decodeAsBuffer(suffixData.recovery_commitment);
+    const nextRecoveryCommitment = Encoder.decodeAsBuffer(
+      suffixData.recovery_commitment
+    );
 
     Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(deltaHash);
-    Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(nextRecoveryCommitment);
+    Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(
+      nextRecoveryCommitment
+    );
 
     return {
       deltaHash: suffixData.delta_hash,
-      recoveryCommitment: suffixData.recovery_commitment
+      recoveryCommitment: suffixData.recovery_commitment,
     };
   }
 }
