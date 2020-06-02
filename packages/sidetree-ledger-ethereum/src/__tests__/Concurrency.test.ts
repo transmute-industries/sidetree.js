@@ -4,6 +4,8 @@ import { LedgerEthereum } from '..';
 const w31 = getWeb3();
 const w32 = getWeb3();
 
+jest.setTimeout(10 * 1000);
+
 describe('Concurrency', () => {
   let anchorContractAddress: any;
 
