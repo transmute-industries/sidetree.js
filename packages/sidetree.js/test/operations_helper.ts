@@ -192,13 +192,11 @@ const createUpdateOperationRequestForAddingAKey = async (
   signingKeyId: string,
   signingPrivateKey: JwkEs256k
 ) => {
-  // FIXME
-  const patches = [
-    {
-      action: 'add-public-keys',
-      publicKeys: [newPublicKey],
-    },
-  ];
+  const newDoc = {
+    publicKeys: [newPublicKey],
+  };
+  const updatePatch = DocumentComposer.generatePatch({}, newDoc);
+  const patches = [updatePatch];
 
   const updateOperationRequest = await createUpdateOperationRequest(
     didUniqueSuffix,
@@ -211,6 +209,7 @@ const createUpdateOperationRequestForAddingAKey = async (
 
   return updateOperationRequest;
 };
+
 /**
  * Generates an update operation that adds a new key.
  */
@@ -275,13 +274,8 @@ const createRecoverOperationRequest = async (
   nextUpdateCommitmentHash: string,
   document: any
 ) => {
-  const patches = [
-    {
-      // FIXME
-      action: 'replace',
-      document,
-    },
-  ];
+  const recoverPatch = DocumentComposer.generatePatch({}, document);
+  const patches = [recoverPatch];
 
   const delta = {
     patches,
