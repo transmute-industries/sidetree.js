@@ -21,7 +21,7 @@ export default class DocumentComposer {
     }
 
     const allowedProperties = new Set(['publicKeys', 'serviceEndpoints']);
-    for (let property in document) {
+    for (const property in document) {
       if (!allowedProperties.has(property)) {
         throw new SidetreeError(
           ErrorCode.DocumentComposerUnknownPropertyInDocument,
@@ -53,7 +53,7 @@ export default class DocumentComposer {
       );
     }
 
-    for (let patch of patches) {
+    for (const patch of patches) {
       DocumentComposer.validatePatch(patch);
     }
   }
@@ -104,7 +104,7 @@ export default class DocumentComposer {
     }
 
     const publicKeyIdSet: Set<string> = new Set();
-    for (let publicKey of publicKeys) {
+    for (const publicKey of publicKeys) {
       const publicKeyProperties = Object.keys(publicKey);
       // the expected fields are id, usage, type and jwk
       if (publicKeyProperties.length !== 4) {
@@ -198,7 +198,7 @@ export default class DocumentComposer {
       );
     }
 
-    for (let publicKeyId of patch.publicKeys) {
+    for (const publicKeyId of patch.publicKeys) {
       if (typeof publicKeyId !== 'string') {
         throw new SidetreeError(
           ErrorCode.DocumentComposerPatchPublicKeyIdNotString
@@ -256,7 +256,7 @@ export default class DocumentComposer {
       );
     }
 
-    for (let serviceEndpoint of serviceEndpoints) {
+    for (const serviceEndpoint of serviceEndpoints) {
       const serviceEndpointProperties = Object.keys(serviceEndpoint);
       if (serviceEndpointProperties.length !== 3) {
         // type, id, and serviceEndpoint
@@ -326,7 +326,7 @@ export default class DocumentComposer {
   public static applyPatches(document: any, patches: any[]): any {
     // Loop through and apply all patches.
     let resultantDocument = document;
-    for (let patch of patches) {
+    for (const patch of patches) {
       resultantDocument = DocumentComposer.applyPatchToDidDocument(
         resultantDocument,
         patch
@@ -364,11 +364,11 @@ export default class DocumentComposer {
     patch: any
   ): DocumentModel {
     const publicKeyMap = new Map(
-      document.publicKeys.map(publicKey => [publicKey.id, publicKey])
+      document.publicKeys.map((publicKey) => [publicKey.id, publicKey])
     );
 
     // Loop through all given public keys and add them if they don't exist already.
-    for (let publicKey of patch.publicKeys) {
+    for (const publicKey of patch.publicKeys) {
       // NOTE: If a key ID already exists, we will just replace the existing key.
       // Not throwing error will minimize the need (thus risk) of reusing exposed update reveal value.
       publicKeyMap.set(publicKey.id, publicKey);
@@ -387,11 +387,11 @@ export default class DocumentComposer {
     patch: any
   ): DocumentModel {
     const publicKeyMap = new Map(
-      document.publicKeys.map(publicKey => [publicKey.id, publicKey])
+      document.publicKeys.map((publicKey) => [publicKey.id, publicKey])
     );
 
     // Loop through all given public key IDs and delete them from the existing public key only if it is not a recovery key.
-    for (let publicKey of patch.publicKeys) {
+    for (const publicKey of patch.publicKeys) {
       const existingKey = publicKeyMap.get(publicKey);
 
       if (existingKey !== undefined) {
@@ -445,7 +445,7 @@ export default class DocumentComposer {
 
     const idToRemove = new Set(patch.serviceEndpointIds);
     document.serviceEndpoints = document.serviceEndpoints.filter(
-      serviceEndpoint => !idToRemove.has(serviceEndpoint.id)
+      (serviceEndpoint) => !idToRemove.has(serviceEndpoint.id)
     );
 
     return document;

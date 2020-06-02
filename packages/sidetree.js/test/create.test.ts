@@ -17,7 +17,7 @@ describe('Create operation', () => {
     expect(delta).toBeDefined();
     expect(delta.updateCommitment).toBeDefined();
     expect(delta.patches).toBeDefined();
-    delta.patches.forEach(patch => {
+    delta.patches.forEach((patch) => {
       expect(() => DidStatePatch.validatePatch(patch)).not.toThrow();
     });
   });
