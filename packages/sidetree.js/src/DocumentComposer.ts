@@ -31,12 +31,12 @@ export default class DocumentComposer {
     }
 
     // Verify 'publicKeys' property if it exists.
-    if (document.hasOwnProperty('publicKeys')) {
+    if (Object.prototype.hasOwnProperty.call(document, 'publicKeys')) {
       DocumentComposer.validatePublicKeys(document.publicKeys);
     }
 
     // Verify 'serviceEndpoints' property if it exists.
-    if (document.hasOwnProperty('serviceEndpoints')) {
+    if (Object.prototype.hasOwnProperty.call(document, 'serviceEndpoints')) {
       // Verify each serviceEndpoint entry in serviceEndpoints.
       DocumentComposer.validateServiceEndpoints(document.serviceEndpoints);
     }
