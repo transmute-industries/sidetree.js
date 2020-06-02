@@ -192,6 +192,7 @@ const createUpdateOperationRequestForAddingAKey = async (
   signingKeyId: string,
   signingPrivateKey: JwkEs256k
 ) => {
+  // FIXME
   const patches = [
     {
       action: 'add-public-keys',
@@ -276,6 +277,7 @@ const createRecoverOperationRequest = async (
 ) => {
   const patches = [
     {
+      // FIXME
       action: 'replace',
       document,
     },

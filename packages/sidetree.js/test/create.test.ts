@@ -4,10 +4,6 @@ import {
 } from './operations_helper';
 import DidStatePatch from '../src/DidStatePatch';
 
-// TODO: describe jest error
-// TODO: prettier
-// TODO: test negative test
-// TODO: test for arbitrary object
 describe('Create operation', () => {
   let createOperationData: ICreateOperationData;
 
