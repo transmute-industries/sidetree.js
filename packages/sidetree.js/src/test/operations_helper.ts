@@ -1,17 +1,17 @@
 import * as crypto from 'crypto';
-import JwkEs256k from '../src/models/JwkEs256k';
-import PublicKeyModel from '../src/models/PublicKeyModel';
-import OperationType from '../src/enums/OperationType';
-import PublicKeyUsage from '../src/enums/PublicKeyUsage';
-import Jwk from '../src/util/Jwk';
-import Jws from '../src/util/Jws';
-import Multihash from '../src/util/Multihash';
-import Encoder from '../src/util/Encoder';
-import CreateOperation from '../src/CreateOperation';
-import UpdateOperation from '../src/UpdateOperation';
-import RecoverOperation from '../src/RecoverOperation';
-import DeactivateOperation from '../src/DeactivateOperation';
-import DocumentComposer from '../src/DocumentComposer';
+import JwkEs256k from '../models/JwkEs256k';
+import PublicKeyModel from '../models/PublicKeyModel';
+import OperationType from '../enums/OperationType';
+import PublicKeyUsage from '../enums/PublicKeyUsage';
+import Jwk from '../util/Jwk';
+import Jws from '../util/Jws';
+import Multihash from '../util/Multihash';
+import Encoder from '../util/Encoder';
+import CreateOperation from '../CreateOperation';
+import UpdateOperation from '../UpdateOperation';
+import RecoverOperation from '../RecoverOperation';
+import DeactivateOperation from '../DeactivateOperation';
+import DocumentComposer from '../DocumentComposer';
 
 export const generateCommitRevealPair: () => [string, string] = () => {
   const revealValueBuffer = crypto.randomBytes(32);
