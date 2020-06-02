@@ -99,8 +99,8 @@ export default class DocumentComposer {
     document: DocumentModel,
     patch: any
   ): any {
-    if (patch.action === 'ieft-json-patch') {
-      console.error(document, 'TODO');
-    }
+    DocumentComposer.validateIetfJsonPatch(patch);
+    const res = jsonpatch.applyPatch({ ...document }, patch.patches);
+    return res.newDocument;
   }
 }
