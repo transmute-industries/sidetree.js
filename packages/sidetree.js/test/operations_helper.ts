@@ -21,14 +21,11 @@ export const generateCommitRevealPair: () => [string, string] = () => {
   return [revealValueEncodedString, commitmentHashEncodedString];
 };
 
-const generateCreateOperationRequest = async (
+export const generateCreateOperationRequest = async (
   recoveryPublicKey: JwkEs256k,
-  signingPublicKey: PublicKeyModel,
-  nextUpdateCommitment: string
+  nextUpdateCommitment: string,
+  document: any
 ) => {
-  const document = {
-    publicKeys: [signingPublicKey],
-  };
   const createPatch = DocumentComposer.generatePatch({}, document);
   const patches = [createPatch];
   const delta = {
@@ -62,7 +59,7 @@ const generateCreateOperationRequest = async (
  * Mainly used for testing.
  * @returns [publicKey, privateKey]
  */
-const generateKeyPair = async (
+export const generateKeyPair = async (
   id: string,
   usage?: string[]
 ): Promise<[PublicKeyModel, JwkEs256k]> => {
@@ -110,10 +107,13 @@ export const generateCreateOperation: () => Promise<
     nextUpdateCommitmentHash,
   ] = generateCommitRevealPair();
 
+  const document = {
+    publicKeys: [signingPublicKey],
+  };
   const operationRequest = await generateCreateOperationRequest(
     recoveryPublicKey,
-    signingPublicKey,
-    nextUpdateCommitmentHash
+    nextUpdateCommitmentHash,
+    document
   );
 
   const operationBuffer = Buffer.from(JSON.stringify(operationRequest));
