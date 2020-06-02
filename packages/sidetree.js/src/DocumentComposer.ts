@@ -5,6 +5,7 @@ import Jwk from './util/Jwk';
 import PublicKeyModel from './models/PublicKeyModel';
 import PublicKeyUsage from './enums/PublicKeyUsage';
 import SidetreeError from './errors/SidetreeError';
+import DidStatePatch from './DidStatePatch';
 
 /**
  * Class that handles the composition of operations into final external-facing document.
@@ -60,9 +61,13 @@ export default class DocumentComposer {
   private static validatePatch(patch: any) {
     const action = patch.action;
     switch (action) {
+      case 'ietf-json-patch':
+        DidStatePatch.validatePatch(patch);
+        break;
       case 'replace':
         DocumentComposer.validateDocument(patch.document);
         break;
+      // TODO
       case 'add-public-keys':
         DocumentComposer.validateAddPublicKeysPatch(patch);
         break;
