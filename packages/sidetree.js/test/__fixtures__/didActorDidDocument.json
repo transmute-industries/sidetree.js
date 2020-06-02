@@ -1,0 +1,25 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    {
+      "@base": "did:web:did.actor:carol"
+    }
+  ],
+  "id": "did:web:did.actor:carol",
+  "publicKey": [
+    {
+      "id": "#z6MkpzW2izkFjNwMBwwvKqmELaQcH8t54QL5xmBdJg9Xh1y4",
+      "type": "Ed25519VerificationKey2018",
+      "controller": "",
+      "publicKeyBase58": "BYEz8kVpPqSt5T7DeGoPVUrcTZcDeX5jGkGhUQBWmoBg"
+    }
+  ],
+  "keyAgreementKey": [
+    {
+      "id": "#zC1NNfktSJCW3tkwTbog7xhuwSR395PouREtA9Lp3evEqy",
+      "type": "X25519KeyAgreementKey2019",
+      "publicKeyBase58": "sexPhd6pkmTetV9QBYzYkG9AmL7q7HvLzs7VjFFozjm"
+    }
+  ],
+  "assertionMethod": ["#z6MkpzW2izkFjNwMBwwvKqmELaQcH8t54QL5xmBdJg9Xh1y4"]
+}

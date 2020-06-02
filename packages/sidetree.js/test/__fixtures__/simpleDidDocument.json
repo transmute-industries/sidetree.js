@@ -1,0 +1,15 @@
+{
+  "publicKeys": [
+    {
+      "id": "signingKey",
+      "type": "EcdsaSecp256k1VerificationKey2019",
+      "jwk": {
+        "kty": "EC",
+        "crv": "secp256k1",
+        "x": "Qul2gz5gOj7dUVIt0BA0WXRglK_Go0Aa75ZG94voAfE",
+        "y": "t0AzIKDyZaRcAd5IMu21ewdReyG1sdXLVkB6xlxhYNY"
+      },
+      "usage": ["ops", "auth", "general"]
+    }
+  ]
+}

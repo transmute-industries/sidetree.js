@@ -1,34 +1,28 @@
 import {
   generateCommitRevealPair,
-  generateKeyPair,
   generateCreateOperationRequest,
 } from './operations_helper';
 import DocumentComposer from '../src/DocumentComposer';
 import CreateOperation from '../src/CreateOperation';
 import Jwk from '../src/util/Jwk';
-import PublicKeyModel from 'models/PublicKeyModel';
 import JwkEs256k from 'models/JwkEs256k';
+import didActorDidDocument from './__fixtures__/didActorDidDocument.json';
+import simpleDidDocument from './__fixtures__/simpleDidDocument.json';
 
 describe('Create operation', () => {
   let recoveryPublicKey: JwkEs256k;
-  let signingPublicKey: PublicKeyModel;
   let nextUpdateCommitmentHash: string;
 
   beforeAll(async () => {
-    const signingKeyId = 'signingKey';
     [recoveryPublicKey, ,] = await Jwk.generateEs256kKeyPair();
-    [signingPublicKey] = await generateKeyPair(signingKeyId);
     [, nextUpdateCommitmentHash] = generateCommitRevealPair();
   });
 
   it('should contain a delta with valid ietf json patch', async () => {
-    const didDocument = {
-      publicKeys: [signingPublicKey],
-    };
     const operationRequest = await generateCreateOperationRequest(
       recoveryPublicKey,
       nextUpdateCommitmentHash,
-      didDocument
+      simpleDidDocument
     );
     const operationBuffer = Buffer.from(JSON.stringify(operationRequest));
     const createOperation = await CreateOperation.parse(operationBuffer);
@@ -42,23 +36,16 @@ describe('Create operation', () => {
   });
 
   it('should be able to create an arbitrary did document', async () => {
-    const arbitraryDocument = {
-      arbitrary: true,
-      nested: {
-        property: 'is possible',
-      },
-      publicKeys: [signingPublicKey],
-    };
     const operationRequest = await generateCreateOperationRequest(
       recoveryPublicKey,
       nextUpdateCommitmentHash,
-      arbitraryDocument
+      didActorDidDocument
     );
     const operationBuffer = Buffer.from(JSON.stringify(operationRequest));
     const createOperation = await CreateOperation.parse(operationBuffer);
     expect(createOperation).toBeDefined();
     const patches = createOperation.delta!.patches;
     const didDocument = DocumentComposer.applyPatches({}, patches);
-    expect(didDocument).toEqual(arbitraryDocument);
+    expect(didDocument).toEqual(didActorDidDocument);
   });
 });
