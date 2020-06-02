@@ -11,7 +11,7 @@ import CreateOperation from '../src/CreateOperation';
 import UpdateOperation from '../src/UpdateOperation';
 import RecoverOperation from '../src/RecoverOperation';
 import DeactivateOperation from '../src/DeactivateOperation';
-import DidStatePatch from '../src/DidStatePatch';
+import DocumentComposer from '../src/DocumentComposer';
 
 export const generateCommitRevealPair = () => {
   const revealValueBuffer = crypto.randomBytes(32);
@@ -29,7 +29,7 @@ const generateCreateOperationRequest = async (
   const document = {
     publicKeys: [signingPublicKey],
   };
-  const createPatch = DidStatePatch.generatePatch({}, document);
+  const createPatch = DocumentComposer.generatePatch({}, document);
   const patches = [createPatch];
   const delta = {
     update_commitment: nextUpdateCommitment,

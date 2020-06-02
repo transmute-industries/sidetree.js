@@ -2,7 +2,7 @@ import {
   generateCreateOperation,
   ICreateOperationData,
 } from './operations_helper';
-import DidStatePatch from '../src/DidStatePatch';
+import DocumentComposer from '../src/DocumentComposer';
 
 describe('Create operation', () => {
   let createOperationData: ICreateOperationData;
@@ -14,7 +14,7 @@ describe('Create operation', () => {
     expect(delta.updateCommitment).toBeDefined();
     expect(delta.patches).toBeDefined();
     delta.patches.forEach((patch) => {
-      expect(() => DidStatePatch.validatePatch(patch)).not.toThrow();
+      expect(() => DocumentComposer.validatePatch(patch)).not.toThrow();
     });
   });
 });
