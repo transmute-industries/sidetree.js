@@ -32,7 +32,7 @@ export default class Jwk {
    * Validates the given key is a SECP256K1 public key in JWK format allowed by Sidetree.
    * @throws SidetreeError if given object is not a SECP256K1 public key in JWK format allowed by Sidetree.
    */
-  public static validateJwkEs256k(jwk: any) {
+  public static validateJwkEs256k(jwk: any): void {
     if (jwk === undefined) {
       throw new SidetreeError(ErrorCode.JwkEs256kUndefined);
     }

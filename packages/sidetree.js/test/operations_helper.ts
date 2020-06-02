@@ -13,7 +13,7 @@ import RecoverOperation from '../src/RecoverOperation';
 import DeactivateOperation from '../src/DeactivateOperation';
 import DocumentComposer from '../src/DocumentComposer';
 
-export const generateCommitRevealPair = () => {
+export const generateCommitRevealPair: () => [string, string] = () => {
   const revealValueBuffer = crypto.randomBytes(32);
   const revealValueEncodedString = Encoder.encode(revealValueBuffer);
   const commitmentHash = Multihash.hash(revealValueBuffer);
