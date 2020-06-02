@@ -1,18 +1,19 @@
 import * as crypto from 'crypto';
-import JwkEs256k from '../src/models/JwkEs256k';
-import PublicKeyModel from '../src/models/PublicKeyModel';
-import OperationType from '../src/enums/OperationType';
-import PublicKeyUsage from '../src/enums/PublicKeyUsage';
-import Jwk from '../src/util/Jwk';
-import Jws from '../src/util/Jws';
-import Multihash from '../src/util/Multihash';
-import Encoder from '../src/util/Encoder';
-import CreateOperation from '../src/CreateOperation';
-import UpdateOperation from '../src/UpdateOperation';
-import RecoverOperation from '../src/RecoverOperation';
-import DeactivateOperation from '../src/DeactivateOperation';
+import JwkEs256k from '../models/JwkEs256k';
+import PublicKeyModel from '../models/PublicKeyModel';
+import OperationType from '../enums/OperationType';
+import PublicKeyUsage from '../enums/PublicKeyUsage';
+import Jwk from '../util/Jwk';
+import Jws from '../util/Jws';
+import Multihash from '../util/Multihash';
+import Encoder from '../util/Encoder';
+import CreateOperation from '../CreateOperation';
+import UpdateOperation from '../UpdateOperation';
+import RecoverOperation from '../RecoverOperation';
+import DeactivateOperation from '../DeactivateOperation';
+import DocumentComposer from '../DocumentComposer';
 
-export const generateCommitRevealPair = () => {
+export const generateCommitRevealPair: () => [string, string] = () => {
   const revealValueBuffer = crypto.randomBytes(32);
   const revealValueEncodedString = Encoder.encode(revealValueBuffer);
   const commitmentHash = Multihash.hash(revealValueBuffer);
@@ -20,22 +21,13 @@ export const generateCommitRevealPair = () => {
   return [revealValueEncodedString, commitmentHashEncodedString];
 };
 
-const generateCreateOperationRequest = async (
+export const generateCreateOperationRequest = async (
   recoveryPublicKey: JwkEs256k,
-  signingPublicKey: PublicKeyModel,
-  nextUpdateCommitment: string
+  nextUpdateCommitment: string,
+  document: any
 ) => {
-  const document = {
-    publicKeys: [signingPublicKey],
-  };
-
-  const patches = [
-    {
-      action: 'replace',
-      document,
-    },
-  ];
-
+  const createPatch = DocumentComposer.generatePatch({}, document);
+  const patches = [createPatch];
   const delta = {
     update_commitment: nextUpdateCommitment,
     patches,
@@ -67,7 +59,7 @@ const generateCreateOperationRequest = async (
  * Mainly used for testing.
  * @returns [publicKey, privateKey]
  */
-const generateKeyPair = async (
+export const generateKeyPair = async (
   id: string,
   usage?: string[]
 ): Promise<[PublicKeyModel, JwkEs256k]> => {
@@ -115,10 +107,13 @@ export const generateCreateOperation: () => Promise<
     nextUpdateCommitmentHash,
   ] = generateCommitRevealPair();
 
+  const document = {
+    publicKeys: [signingPublicKey],
+  };
   const operationRequest = await generateCreateOperationRequest(
     recoveryPublicKey,
-    signingPublicKey,
-    nextUpdateCommitmentHash
+    nextUpdateCommitmentHash,
+    document
   );
 
   const operationBuffer = Buffer.from(JSON.stringify(operationRequest));
@@ -197,12 +192,11 @@ const createUpdateOperationRequestForAddingAKey = async (
   signingKeyId: string,
   signingPrivateKey: JwkEs256k
 ) => {
-  const patches = [
-    {
-      action: 'add-public-keys',
-      publicKeys: [newPublicKey],
-    },
-  ];
+  const newDoc = {
+    publicKeys: [newPublicKey],
+  };
+  const updatePatch = DocumentComposer.generatePatch({}, newDoc);
+  const patches = [updatePatch];
 
   const updateOperationRequest = await createUpdateOperationRequest(
     didUniqueSuffix,
@@ -215,6 +209,7 @@ const createUpdateOperationRequestForAddingAKey = async (
 
   return updateOperationRequest;
 };
+
 /**
  * Generates an update operation that adds a new key.
  */
@@ -279,12 +274,8 @@ const createRecoverOperationRequest = async (
   nextUpdateCommitmentHash: string,
   document: any
 ) => {
-  const patches = [
-    {
-      action: 'replace',
-      document,
-    },
-  ];
+  const recoverPatch = DocumentComposer.generatePatch({}, document);
+  const patches = [recoverPatch];
 
   const delta = {
     patches,
