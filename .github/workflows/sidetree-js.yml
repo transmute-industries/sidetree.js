@@ -1,10 +1,11 @@
 name: Sidetree js
 on: [push]
 jobs:
-  sidetree-je:
+  sidetree-js:
     runs-on: ubuntu-latest
     env:
       working-directory: ./packages/sidetree.js
+      sidetree-common: ./packages/sidetree-common
     steps:
       - name: Begin CI...
         uses: actions/checkout@v2
@@ -12,6 +13,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
+      - name: Install sidetree-common
+        working-directory: ${{ env.sidetree-common }}
+        run: npm install
       - name: Install
         working-directory: ${{ env.working-directory }}
         run: npm install
