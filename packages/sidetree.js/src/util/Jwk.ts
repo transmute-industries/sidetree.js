@@ -1,6 +1,6 @@
-import ErrorCode from '../errors/ErrorCode';
+import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
 import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
-import SidetreeError from '../errors/SidetreeError';
+import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 import { JWK } from 'jose';
 
 /**

@@ -1,6 +1,6 @@
 import base64url from 'base64url';
-import ErrorCode from '../errors/ErrorCode';
-import SidetreeError from '../errors/SidetreeError';
+import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
+import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 
 /**
  * Class that encodes binary blobs into strings.
