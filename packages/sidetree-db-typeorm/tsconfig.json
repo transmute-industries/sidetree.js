@@ -1,25 +1,31 @@
 {
   "include": ["src", "types"],
   "compilerOptions": {
+    "resolveJsonModule": true,
+    "target": "es2016",                       /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */
+    // "module": "commonjs",                     /* Specify module code generation: 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
+    // "lib": ["es2017", "dom"],                 /* Specify library files to be included in the compilation:  */
+    "outDir": "./dist",                       /* Redirect output structure to the directory. */
+
     "module": "esnext",
-    "lib": ["dom", "esnext"],
-    "importHelpers": true,
+    // "lib": ["dom", "esnext"],
+    // "importHelpers": true,
     "declaration": true,
     "sourceMap": true,
-    "rootDir": "./src",
+    // "rootDir": "./src",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    // "emitDecoratorMetadata": true,
+    // "experimentalDecorators": true,
     "moduleResolution": "node",
-    "baseUrl": "./",
-    "paths": {
-      "*": ["src/*", "node_modules/*"]
-    },
-    "jsx": "react",
+    // "baseUrl": "./",
+    // "paths": {
+    //   "*": ["src/*", "node_modules/*"]
+    // },
+    // "jsx": "react",
     "esModuleInterop": true
   }
 }
