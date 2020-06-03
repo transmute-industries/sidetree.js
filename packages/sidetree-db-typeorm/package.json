@@ -28,11 +28,15 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
-    "mongodb": "^3.5.7",
+    "@sidetree/common": "file:../sidetree-common",
     "reflect-metadata": "^0.1.10",
     "tsdx": "^0.13.2",
     "tslib": "^1.11.2",
     "typeorm": "^0.2.24",
     "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@types/mongodb": "^3.5.20",
+    "mongodb": "^3.5.8"
   }
 }
