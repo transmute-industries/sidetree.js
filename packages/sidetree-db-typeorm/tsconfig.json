@@ -15,10 +15,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
-    // "baseUrl": "./",
-    // "paths": {
-    //   "*": ["src/*", "node_modules/*"]
-    // },
     "jsx": "react",
     "preserveSymlinks": true,
     "esModuleInterop": true
