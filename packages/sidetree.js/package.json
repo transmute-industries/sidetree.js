@@ -39,6 +39,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "@sidetree/common": "file:../sidetree-common",
     "base64url": "^3.0.1",
     "canonicalize": "^1.0.1",
     "crypto": "^1.0.1",
