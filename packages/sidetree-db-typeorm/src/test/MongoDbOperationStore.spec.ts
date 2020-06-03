@@ -1,24 +1,19 @@
 import AnchoredOperationModel from '@sidetree/common/src/models/AnchoredOperationModel';
 import IOperationStore from '@sidetree/common/src/interfaces/IOperationStore';
 // import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
-import MongoDb from '../MongoDb';
-import MongoDbOperationStore from '../MongoDbOperationStore';
+import OperationStore from '../OperationStore';
 // import OperationGenerator from '../generators/OperationGenerator';
 // import UpdateOperation from '../../lib/core/versions/latest/UpdateOperation';
 // import config from './config-test.json';
 import anchoredOperationModel from './__fixtures__/anchoredOperationModel';
 
-const databaseName = 'sidetree-test';
-const operationCollectionName = 'operations-test';
+// const databaseName = 'sidetree-test';
+// const operationCollectionName = 'operations-test';
 
 async function createOperationStore(
   mongoDbConnectionString: string
 ): Promise<IOperationStore> {
-  const operationStore = new MongoDbOperationStore(
-    mongoDbConnectionString,
-    databaseName,
-    operationCollectionName
-  );
+  const operationStore = new OperationStore(mongoDbConnectionString);
   await operationStore.initialize();
   return operationStore;
 }
@@ -96,23 +91,17 @@ function checkEqualArray(
 describe('MongoDbOperationStore', () => {
   let operationStore: IOperationStore;
 
-  let mongoServiceAvailable = false;
   beforeAll(async () => {
     const mongoDbConnectionString = 'mongodb://localhost:27017/';
-    mongoServiceAvailable = await MongoDb.isServerAvailable(
-      mongoDbConnectionString
-    );
-    if (mongoServiceAvailable) {
-      operationStore = await createOperationStore(mongoDbConnectionString);
-    }
+    operationStore = await createOperationStore(mongoDbConnectionString);
   });
 
   beforeEach(async () => {
-    if (!mongoServiceAvailable) {
-      pending('MongoDB service not available');
-    }
-
     await operationStore.delete();
+  });
+
+  afterAll(async () => {
+    await operationStore.close();
   });
 
   it('should get a put create operation', async () => {
@@ -126,7 +115,7 @@ describe('MongoDbOperationStore', () => {
   it('should get a put update operation', async () => {
     // Use a create operation to generate a DID
     const didUniqueSuffix = anchoredOperationModel.didUniqueSuffix;
-    console.log({ didUniqueSuffix });
+    console.log(didUniqueSuffix);
     // const [, anyUnusedCommitmentHash] = OperationGenerator.generateCommitRevealPair();
 
     // // Generate an update operation.
