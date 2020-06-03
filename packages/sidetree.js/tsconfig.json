@@ -1,7 +1,6 @@
 {
   "include": ["src"],
   "compilerOptions": {
-    "baseUrl": "./",
     "declaration": true,
     "downlevelIteration": true,
     "esModuleInterop": true,
@@ -14,9 +13,7 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "paths": {
-      "*": ["src/*", "node_modules/*"]
-    },
+    "preserveSymlinks": true,
     "resolveJsonModule": true,
     "rootDir": "./src",
     "sourceMap": true,
