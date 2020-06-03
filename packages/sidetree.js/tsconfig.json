@@ -17,7 +17,6 @@
     "paths": {
       "*": ["src/*", "node_modules/*"]
     },
-    "preserveSymlinks": true,
     "resolveJsonModule": true,
     "rootDir": "./src",
     "sourceMap": true,
