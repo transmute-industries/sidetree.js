@@ -5,6 +5,7 @@ import ChunkFile from '../entity/ChunkFile';
 import Delta from '../entity/Delta';
 import MapFile from '../entity/MapFile';
 import Operation from '../entity/Operation';
+import OperationType from '@sidetree/common/src/enums/OperationType';
 
 const txn = new SidetreeTransaction(
   89,
@@ -62,7 +63,14 @@ const mapFile = new MapFile(
   }
 );
 
-const operation = new Operation('didUniqueSuffix', 'type', new Buffer('data'));
+const operation = new Operation(
+  'didUniqueSuffix',
+  OperationType.Create,
+  new Buffer('data'),
+  0,
+  0,
+  0
+);
 
 export default [
   {
