@@ -1,4 +1,4 @@
-import OperationType from './enums/OperationType';
+import OperationType from '@sidetree/common/src/enums/OperationType';
 import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
 import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 import DeltaModel from '@sidetree/common/src/models/DeltaModel';

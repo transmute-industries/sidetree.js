@@ -6,7 +6,7 @@ import Jws from './util/Jws';
 import Multihash from './util/Multihash';
 import Operation from './Operation';
 import OperationModel from '@sidetree/common/src/models/OperationModel';
-import OperationType from './enums/OperationType';
+import OperationType from '@sidetree/common/src/enums/OperationType';
 import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 
 interface SignedDataModel {

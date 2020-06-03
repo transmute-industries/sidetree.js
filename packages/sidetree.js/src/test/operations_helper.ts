@@ -1,8 +1,8 @@
 import * as crypto from 'crypto';
 import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
 import PublicKeyModel from '@sidetree/common/src/models/PublicKeyModel';
-import OperationType from '../enums/OperationType';
-import PublicKeyUsage from '../enums/PublicKeyUsage';
+import OperationType from '@sidetree/common/src/enums/OperationType';
+import PublicKeyUsage from '@sidetree/common/src/enums/PublicKeyUsage';
 import Jwk from '../util/Jwk';
 import Jws from '../util/Jws';
 import Multihash from '../util/Multihash';

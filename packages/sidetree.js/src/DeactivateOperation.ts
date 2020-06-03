@@ -5,7 +5,7 @@ import Jwk from './util/Jwk';
 import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
 import Jws from './util/Jws';
 import OperationModel from '@sidetree/common/src/models/OperationModel';
-import OperationType from './enums/OperationType';
+import OperationType from '@sidetree/common/src/enums/OperationType';
 import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 
 interface SignedDataModel {
