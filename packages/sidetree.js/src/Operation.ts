@@ -1,4 +1,4 @@
-import DeltaModel from './models/DeltaModel';
+import DeltaModel from '@sidetree/common/src/models/DeltaModel';
 import DocumentComposer from './DocumentComposer';
 import Encoder from './util/Encoder';
 import ErrorCode from './errors/ErrorCode';

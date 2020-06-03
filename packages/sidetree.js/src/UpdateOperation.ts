@@ -1,11 +1,11 @@
-import DeltaModel from './models/DeltaModel';
+import DeltaModel from '@sidetree/common/src/models/DeltaModel';
 import Encoder from './util/Encoder';
 import ErrorCode from './errors/ErrorCode';
 import JsonAsync from './util/JsonAsync';
 import Jws from './util/Jws';
 import Multihash from './util/Multihash';
 import Operation from './Operation';
-import OperationModel from './models/OperationModel';
+import OperationModel from '@sidetree/common/src/models/OperationModel';
 import OperationType from './enums/OperationType';
 import SidetreeError from './errors/SidetreeError';
 

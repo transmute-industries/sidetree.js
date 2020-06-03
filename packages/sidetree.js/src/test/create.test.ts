@@ -5,7 +5,7 @@ import {
 import DocumentComposer from '../DocumentComposer';
 import CreateOperation from '../CreateOperation';
 import Jwk from '../util/Jwk';
-import JwkEs256k from 'models/JwkEs256k';
+import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
 import didActorDidDocument from './__fixtures__/didActorDidDocument.json';
 import simpleDidDocument from './__fixtures__/simpleDidDocument.json';
 

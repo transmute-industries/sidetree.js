@@ -1,7 +1,7 @@
 import Encoder from './Encoder';
 import ErrorCode from '../errors/ErrorCode';
-import JwkEs256k from '../models/JwkEs256k';
-import JwsModel from '../models/JwsModel';
+import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
+import JwsModel from '@sidetree/common/src/models/JwsModel';
 import SidetreeError from '../errors/SidetreeError';
 import { JWS } from 'jose';
 

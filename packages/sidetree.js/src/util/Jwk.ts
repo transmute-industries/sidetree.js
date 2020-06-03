@@ -1,5 +1,5 @@
 import ErrorCode from '../errors/ErrorCode';
-import JwkEs256k from '../models/JwkEs256k';
+import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
 import SidetreeError from '../errors/SidetreeError';
 import { JWK } from 'jose';
 
