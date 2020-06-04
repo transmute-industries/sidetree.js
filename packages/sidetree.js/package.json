@@ -40,7 +40,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@sidetree/common": "file:../sidetree-common",
+    "@sidetree/common": "0.1.0",
     "@sidetree/db": "0.1.0",
     "base64url": "^3.0.1",
     "canonicalize": "^1.0.1",
