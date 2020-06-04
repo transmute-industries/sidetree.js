@@ -1,7 +1,7 @@
 import jsonpatch, { Operation } from 'fast-json-patch';
-import ErrorCode from './errors/ErrorCode';
-import SidetreeError from './errors/SidetreeError';
-import DocumentModel from './models/DocumentModel';
+import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
+import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
+import DocumentModel from '@sidetree/common/src/models/DocumentModel';
 
 // See https://identity.foundation/sidetree/spec/#did-state-patches
 // We only support IETF's json patch: https://tools.ietf.org/html/rfc6902

@@ -1,7 +1,7 @@
 name: Sidetree js
 on: [push]
 jobs:
-  sidetree-je:
+  sidetree-js:
     runs-on: ubuntu-latest
     env:
       working-directory: ./packages/sidetree.js
@@ -13,7 +13,6 @@ jobs:
         with:
           node-version: 12.x
       - name: Install
-        working-directory: ${{ env.working-directory }}
         run: npm install
       - name: Lint
         working-directory: ${{ env.working-directory }}

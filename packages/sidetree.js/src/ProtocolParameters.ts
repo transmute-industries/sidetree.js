@@ -1,4 +1,4 @@
-﻿import ProtocolParameters from './models/ProtocolParameters';
+﻿import ProtocolParameters from '@sidetree/common/src/models/ProtocolParameters';
 
 /**
  * Defines the list of protocol parameters, intended ONLY to be used within each version of Sidetree.

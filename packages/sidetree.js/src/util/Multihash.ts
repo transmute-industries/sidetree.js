@@ -1,9 +1,9 @@
 import * as crypto from 'crypto';
 import Encoder from './Encoder';
-import ErrorCode from '../errors/ErrorCode';
+import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
 import JsonCanonicalizer from './JsonCanonicalizer';
 import ProtocolParameters from '../ProtocolParameters';
-import SidetreeError from '../errors/SidetreeError';
+import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 
 const multihashes = require('multihashes');
 

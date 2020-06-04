@@ -1,10 +1,10 @@
-import DeltaModel from './models/DeltaModel';
+import DeltaModel from '@sidetree/common/src/models/DeltaModel';
 import DocumentComposer from './DocumentComposer';
 import Encoder from './util/Encoder';
-import ErrorCode from './errors/ErrorCode';
+import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
 import JsonAsync from './util/JsonAsync';
 import Multihash from './util/Multihash';
-import SidetreeError from './errors/SidetreeError';
+import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 
 /**
  * A class that contains Sidetree operation utility methods.

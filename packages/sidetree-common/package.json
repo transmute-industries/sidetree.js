@@ -1,11 +1,7 @@
 {
-  "name": "sidetree.js",
-  "author": "Orie Steele",
-  "module": "dist/sidetree.js.esm.js",
+  "name": "@sidetree/common",
   "version": "0.1.0",
   "license": "MIT",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
   "files": [
     "dist",
     "src"
@@ -16,11 +12,11 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "pretest": "docker-compose up -d",
     "test": "tsdx test",
-    "lint": "tsdx lint src",
+    "lint": "tsdx lint src test",
     "prepare": "tsdx build"
   },
+  "peerDependencies": {},
   "prettier": {
     "printWidth": 80,
     "semi": true,
@@ -32,22 +28,10 @@
     "@typescript-eslint/parser": "^3.1.0",
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-jest": "^23.13.2",
     "eslint-plugin-prettier": "^3.1.3",
     "prettier": "^2.0.5",
     "tsdx": "^0.13.2",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
-  },
-  "dependencies": {
-    "@sidetree/common": "0.1.0",
-    "@sidetree/db": "0.1.0",
-    "base64url": "^3.0.1",
-    "canonicalize": "^1.0.1",
-    "crypto": "^1.0.1",
-    "fast-json-patch": "^3.0.0-1",
-    "jose": "^1.27.0",
-    "multihashes": "^0.4.19",
-    "yieldable-json": "^2.0.0"
   }
 }
