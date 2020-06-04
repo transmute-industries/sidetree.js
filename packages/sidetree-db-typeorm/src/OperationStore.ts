@@ -15,6 +15,9 @@ export default class OperationStore implements IOperationStore {
 
   public async initialize() {
     const connection = await createConnection({
+      // Typeorm does not allow two connections to have the same name
+      // So we use a different name everytime in order to have parallel connections
+      name: `${Date.now()}`,
       type: 'mongodb',
       useNewUrlParser: true,
       useUnifiedTopology: true,
