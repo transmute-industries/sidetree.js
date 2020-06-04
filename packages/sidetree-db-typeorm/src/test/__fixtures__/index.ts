@@ -1,10 +1,10 @@
-import SidetreeTransaction from '../entity/SidetreeTransaction';
-import AnchorFile from '../entity/AnchorFile';
-import AnchoredData from '../entity/AnchoredData';
-import ChunkFile from '../entity/ChunkFile';
-import Delta from '../entity/Delta';
-import MapFile from '../entity/MapFile';
-import Operation from '../entity/Operation';
+import SidetreeTransaction from '../../entity/SidetreeTransaction';
+import AnchorFile from '../../entity/AnchorFile';
+import AnchoredData from '../../entity/AnchoredData';
+import ChunkFile from '../../entity/ChunkFile';
+import Delta from '../../entity/Delta';
+import MapFile from '../../entity/MapFile';
+import Operation from '../../entity/Operation';
 import OperationType from '@sidetree/common/src/enums/OperationType';
 
 const txn = new SidetreeTransaction(
