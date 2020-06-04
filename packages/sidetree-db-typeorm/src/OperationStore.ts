@@ -63,7 +63,11 @@ export default class OperationStore implements IOperationStore {
   }
 
   public async delete(transactionNumber?: number): Promise<void> {
-    if (!transactionNumber) {
+    if (transactionNumber) {
+      await this.repo!.deleteMany({
+        transactionNumber: { $gt: transactionNumber },
+      });
+    } else {
       await this.repo!.deleteMany({});
     }
   }
