@@ -65,6 +65,8 @@ export default class OperationStore implements IOperationStore {
 
   public async get(didUniqueSuffix: string): Promise<AnchoredOperationModel[]> {
     const results = await this.repo!.find({ didUniqueSuffix });
+    // Ensure operations are sorted by increasing order of operationIndex
+    results.sort((op1, op2) => op1.operationIndex - op2.operationIndex);
     return results;
   }
 
