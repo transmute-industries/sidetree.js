@@ -19,7 +19,7 @@ export default class OperationStore implements IOperationStore {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       url: `${this.serverUrl}${this.databaseName}`,
-      entities: ['src/entity/**/*.ts'],
+      entities: [Operation],
     });
     this.connection = connection;
     this.repo = connection.getMongoRepository(Operation);
