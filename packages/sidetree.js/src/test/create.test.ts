@@ -1,7 +1,4 @@
-import {
-  generateCommitRevealPair,
-  generateCreateOperationRequest,
-} from './operations_helper';
+import OperationGenerator from './generators/OperationGenerator';
 import DocumentComposer from '../DocumentComposer';
 import CreateOperation from '../CreateOperation';
 import Jwk from '../util/Jwk';
@@ -15,11 +12,14 @@ describe('Create operation', () => {
 
   beforeAll(async () => {
     [recoveryPublicKey, ,] = await Jwk.generateEs256kKeyPair();
-    [, nextUpdateCommitmentHash] = generateCommitRevealPair();
+    [
+      ,
+      nextUpdateCommitmentHash,
+    ] = OperationGenerator.generateCommitRevealPair();
   });
 
   it('should contain a delta with valid ietf json patch', async () => {
-    const operationRequest = await generateCreateOperationRequest(
+    const operationRequest = await OperationGenerator.generateCreateOperationRequest(
       recoveryPublicKey,
       nextUpdateCommitmentHash,
       simpleDidDocument
@@ -36,7 +36,7 @@ describe('Create operation', () => {
   });
 
   it('should be able to create an arbitrary did document', async () => {
-    const operationRequest = await generateCreateOperationRequest(
+    const operationRequest = await OperationGenerator.generateCreateOperationRequest(
       recoveryPublicKey,
       nextUpdateCommitmentHash,
       didActorDidDocument

@@ -5,7 +5,6 @@ import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
 import { OperationStore } from '@sidetree/db';
 import OperationGenerator from './generators/OperationGenerator';
 import UpdateOperation from '../UpdateOperation';
-import { createDeactivateOperation } from './operations_helper';
 
 const databaseName = 'sidetree-test';
 
@@ -24,7 +23,7 @@ async function createOperationStore(
  * Constructs an operation chain that starts with the given create operation followed by a number of update operations.
  * @param transactionNumber The transaction number to use for all the operations created. If undefined, the array index is used.
  */
-console.log(createOperationChain, createDeactivateOperation);
+console.log(createOperationChain);
 async function createOperationChain(
   createOperation: AnchoredOperationModel,
   firstUpdateRevealValueEncodedString: string,

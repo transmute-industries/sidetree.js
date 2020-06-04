@@ -2,7 +2,6 @@ import * as crypto from 'crypto';
 import AnchoredOperationModel from '@sidetree/common/src/models/AnchoredOperationModel';
 import CreateOperation from '../../CreateOperation';
 import DeactivateOperation from '../../DeactivateOperation';
-import DocumentModel from '@sidetree/common/src/models/DocumentModel';
 import Encoder from '../../util/Encoder';
 import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
 import Jwk from '../../util/Jwk';
@@ -137,10 +136,13 @@ export default class OperationGenerator {
       nextUpdateCommitmentHash,
     ] = OperationGenerator.generateCommitRevealPair();
 
+    const doc = {
+      publicKeys: [signingPublicKey],
+    };
     const operationRequest = await OperationGenerator.generateCreateOperationRequest(
       recoveryPublicKey,
-      signingPublicKey,
-      nextUpdateCommitmentHash
+      nextUpdateCommitmentHash,
+      doc
     );
 
     const operationBuffer = Buffer.from(JSON.stringify(operationRequest));
@@ -272,20 +274,11 @@ export default class OperationGenerator {
    */
   public static async generateCreateOperationRequest(
     recoveryPublicKey: JwkEs256k,
-    signingPublicKey: PublicKeyModel,
-    nextUpdateCommitment: string
+    nextUpdateCommitment: string,
+    document: any
   ) {
-    const document: DocumentModel = {
-      publicKeys: [signingPublicKey],
-    };
-
-    const patches = [
-      {
-        action: 'replace',
-        document,
-      },
-    ];
-
+    const createPatch = DocumentComposer.generatePatch({}, document);
+    const patches = [createPatch];
     const delta = {
       update_commitment: nextUpdateCommitment,
       patches,
@@ -296,7 +289,7 @@ export default class OperationGenerator {
 
     const suffixData = {
       delta_hash: deltaHash,
-      recovery_commitment: Multihash.canonicalizeThenHashThenEncode(
+      recovery_commitment: await Multihash.canonicalizeThenHashThenEncode(
         recoveryPublicKey
       ),
     };
@@ -505,10 +498,13 @@ export default class OperationGenerator {
     signingPublicKey: PublicKeyModel,
     nextUpdateCommitmentHash: string
   ): Promise<Buffer> {
+    const doc = {
+      publicKeys: [signingPublicKey],
+    };
     const operation = await OperationGenerator.generateCreateOperationRequest(
       recoveryPublicKey,
-      signingPublicKey,
-      nextUpdateCommitmentHash
+      nextUpdateCommitmentHash,
+      doc
     );
 
     return Buffer.from(JSON.stringify(operation));
