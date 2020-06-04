@@ -3,5 +3,5 @@
 node_modules
 dist
 
-mongo-data
+mongo-data/*
 !mongo-data/.keep
