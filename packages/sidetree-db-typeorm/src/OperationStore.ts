@@ -1,5 +1,6 @@
 import IOperationStore from '@sidetree/common/src/interfaces/IOperationStore';
 import AnchoredOperationModel from '@sidetree/common/src/models/AnchoredOperationModel';
+import OperationType from '@sidetree/common/src/enums/OperationType';
 import { createConnection, MongoRepository, Connection } from 'typeorm';
 import Operation from './entity/Operation';
 
@@ -85,6 +86,20 @@ export default class OperationStore implements IOperationStore {
     transactionNumber: number,
     operationIndex: number
   ): Promise<void> {
-    console.log(didUniqueSuffix, transactionNumber, operationIndex);
+    await this.repo!.deleteMany({
+      $or: [
+        {
+          didUniqueSuffix,
+          transactionNumber: { $lt: transactionNumber },
+          type: OperationType.Update,
+        },
+        {
+          didUniqueSuffix,
+          transactionNumber,
+          operationIndex: { $lt: operationIndex },
+          type: OperationType.Update,
+        },
+      ],
+    });
   }
 }
