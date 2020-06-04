@@ -14,6 +14,7 @@ import PublicKeyModel from '@sidetree/common/src/models/PublicKeyModel';
 import PublicKeyUsage from '@sidetree/common/src/enums/PublicKeyUsage';
 import RecoverOperation from '../../RecoverOperation';
 import UpdateOperation from '../../UpdateOperation';
+import DocumentComposer from '../../DocumentComposer';
 
 interface AnchoredCreateOperationGenerationInput {
   transactionNumber: number;
@@ -524,12 +525,11 @@ export default class OperationGenerator {
     signingKeyId: string,
     signingPrivateKey: JwkEs256k
   ) {
-    const patches = [
-      {
-        action: 'add-public-keys',
-        public_keys: [newPublicKey],
-      },
-    ];
+    const newDoc = {
+      publicKeys: [newPublicKey],
+    };
+    const updatePatch = DocumentComposer.generatePatch({}, newDoc);
+    const patches = [updatePatch];
 
     const updateOperationRequest = await OperationGenerator.createUpdateOperationRequest(
       didUniqueSuffix,
