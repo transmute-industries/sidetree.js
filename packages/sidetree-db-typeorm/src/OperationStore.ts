@@ -51,7 +51,10 @@ export default class OperationStore implements IOperationStore {
     for (const operation of operationsWithoutDuplicates) {
       const anchoredOperation: AnchoredOperationModel = operation;
       const res = await this.get(anchoredOperation.didUniqueSuffix);
-      if (res.length === 0) {
+      const isDuplicated = res.find(
+        op => op.operationIndex === anchoredOperation.operationIndex
+      );
+      if (!Boolean(isDuplicated)) {
         onlyNewElements.push(anchoredOperation);
       }
     }
