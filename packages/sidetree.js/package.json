@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@sidetree/common": "file:../sidetree-common",
-    "@sidetree/db": "file:../sidetree-db-typeorm",
+    "@sidetree/db": "0.1.0",
     "base64url": "^3.0.1",
     "canonicalize": "^1.0.1",
     "crypto": "^1.0.1",

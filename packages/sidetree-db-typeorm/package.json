@@ -1,5 +1,5 @@
 {
-  "name": "sidetree-db-typeorm",
+  "name": "@sidetree/db",
   "author": "Orie Steele",
   "module": "dist/sidetree-db-typeorm.esm.js",
   "version": "0.1.0",
