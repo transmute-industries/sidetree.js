@@ -29,7 +29,17 @@ export default class OperationStore implements IOperationStore {
   }
 
   public async put(operations: AnchoredOperationModel[]): Promise<void> {
-    await this.repo!.insertMany(operations);
+    const withoutDuplicates: AnchoredOperationModel[] = [];
+    for (const operation of operations) {
+      const anchoredOperation: AnchoredOperationModel = operation;
+      const res = await this.get(anchoredOperation.didUniqueSuffix);
+      if (res.length === 0) {
+        withoutDuplicates.push(anchoredOperation);
+      }
+    }
+    if (withoutDuplicates.length > 0) {
+      await this.repo!.insertMany(withoutDuplicates);
+    }
   }
 
   public async get(didUniqueSuffix: string): Promise<AnchoredOperationModel[]> {
