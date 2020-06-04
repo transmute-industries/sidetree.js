@@ -29,16 +29,31 @@ export default class OperationStore implements IOperationStore {
   }
 
   public async put(operations: AnchoredOperationModel[]): Promise<void> {
-    const withoutDuplicates: AnchoredOperationModel[] = [];
-    for (const operation of operations) {
+    // Remove duplicates (same operationIndex) from the operations array
+    const operationsWithoutDuplicates = operations.reduce(
+      (opsWithoutDuplicates: AnchoredOperationModel[], operation) => {
+        const exists = opsWithoutDuplicates.find(
+          op => op.operationIndex === operation.operationIndex
+        );
+        if (Boolean(exists)) {
+          return opsWithoutDuplicates;
+        } else {
+          return [...opsWithoutDuplicates, operation];
+        }
+      },
+      []
+    );
+    // Only insert new elements
+    const onlyNewElements: AnchoredOperationModel[] = [];
+    for (const operation of operationsWithoutDuplicates) {
       const anchoredOperation: AnchoredOperationModel = operation;
       const res = await this.get(anchoredOperation.didUniqueSuffix);
       if (res.length === 0) {
-        withoutDuplicates.push(anchoredOperation);
+        onlyNewElements.push(anchoredOperation);
       }
     }
-    if (withoutDuplicates.length > 0) {
-      await this.repo!.insertMany(withoutDuplicates);
+    if (onlyNewElements.length > 0) {
+      await this.repo!.insertMany(onlyNewElements);
     }
   }
 
