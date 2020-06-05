@@ -1,7 +1,12 @@
-import jsonpatch, { Operation } from 'fast-json-patch';
+import PublicKeyUsage from '@sidetree/common/src/enums/PublicKeyUsage';
 import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
 import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 import DocumentModel from '@sidetree/common/src/models/DocumentModel';
+import PublicKeyModel from '@sidetree/common/src/models/PublicKeyModel';
+import jsonpatch, { Operation } from 'fast-json-patch';
+import Document from './Document';
+import UpdateOperation from './UpdateOperation';
+import Jwk from './util/Jwk';
 
 // See https://identity.foundation/sidetree/spec/#did-state-patches
 // We only support IETF's json patch: https://tools.ietf.org/html/rfc6902
@@ -24,6 +29,58 @@ export default class DocumentComposer {
       action: supportedActions.IetfJsonPatch,
       patches,
     };
+  }
+
+  /**
+   * Applies the update operation to the given document.
+   * @returns The resultant document.
+   * @throws SidetreeError if invalid operation is given.
+   */
+  public static async applyUpdateOperation(
+    operation: UpdateOperation,
+    document: any
+  ): Promise<any> {
+    // The current document must contain the public key mentioned in the operation ...
+    const publicKey = Document.getPublicKey(
+      document,
+      operation.signedDataJws.kid
+    );
+    DocumentComposer.validateOperationKey(publicKey);
+
+    // Verify the signature.
+    if (!(await operation.signedDataJws.verifySignature(publicKey!.jwk))) {
+      throw new SidetreeError(ErrorCode.DocumentComposerInvalidSignature);
+    }
+    // The operation passes all checks, apply the patches.
+    const resultantDocument = DocumentComposer.applyPatches(
+      document,
+      operation.delta!.patches
+    );
+
+    return resultantDocument;
+  }
+
+  /**
+   * Ensures the given key is an operation key allowed to perform document modification.
+   */
+  private static validateOperationKey(publicKey: PublicKeyModel | undefined) {
+    if (!publicKey) {
+      throw new SidetreeError(ErrorCode.DocumentComposerKeyNotFound);
+    }
+
+    if (publicKey.type !== 'EcdsaSecp256k1VerificationKey2019') {
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerOperationKeyTypeNotEs256k
+      );
+    }
+
+    if (!publicKey.usage.includes(PublicKeyUsage.Ops)) {
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerPublicKeyNotOperationKey
+      );
+    }
+
+    Jwk.validateJwkEs256k(publicKey.jwk);
   }
 
   /**

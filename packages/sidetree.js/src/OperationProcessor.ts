@@ -210,12 +210,10 @@ export default class OperationProcessor implements IOperationProcessor {
 
     let resultingDocument;
     try {
-      // FIXME
-      resultingDocument = didState.document;
-      // resultingDocument = await DocumentComposer.applyUpdateOperation(
-      //   operation,
-      //   didState.document
-      // );
+      resultingDocument = await DocumentComposer.applyUpdateOperation(
+        operation,
+        didState.document
+      );
     } catch (error) {
       const didUniqueSuffix = anchoredOperationModel.didUniqueSuffix;
       const transactionNumber = anchoredOperationModel.transactionNumber;

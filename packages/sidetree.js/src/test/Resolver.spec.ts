@@ -73,13 +73,15 @@ describe('Resolver', () => {
       const [additionalKey] = await OperationGenerator.generateKeyPair(
         `new-key1`
       );
+      let didState = await resolver.resolve(didUniqueSuffix);
       const updateOperation1PriorRecovery = await OperationGenerator.createUpdateOperationRequestForAddingAKey(
         didUniqueSuffix,
         firstUpdateRevealValue,
         additionalKey,
         update2CommitmentHashPriorToRecovery,
         signingPublicKey.id,
-        signingPrivateKey
+        signingPrivateKey,
+        didState!.document
       );
       const updateOperation1BufferPriorRecovery = Buffer.from(
         JSON.stringify(updateOperation1PriorRecovery)
@@ -93,16 +95,20 @@ describe('Resolver', () => {
         operationIndex: 2,
       };
       await operationStore.put([anchoredUpdateOperation1PriorRecovery]);
+      didState = (await resolver.resolve(didUniqueSuffix)) as DidState;
+      expect(didState.document.publicKeys.length).toEqual(2);
 
       // Create another update operation and insert it to the operation store.
       const [newKey] = await OperationGenerator.generateKeyPair('id');
+      didState = await resolver.resolve(didUniqueSuffix);
       const updatePayload2PriorRecovery = await OperationGenerator.createUpdateOperationRequestForAddingAKey(
         didUniqueSuffix,
         update2RevealValuePriorToRecovery,
         newKey,
         'EiD_UnusedNextUpdateCommitmentHash_AAAAAAAAAAA',
-        'someID',
-        signingPrivateKey
+        signingPublicKey.id,
+        signingPrivateKey,
+        didState!.document
       );
       const updateOperation2BufferPriorRecovery = Buffer.from(
         JSON.stringify(updatePayload2PriorRecovery)
@@ -118,8 +124,8 @@ describe('Resolver', () => {
       await operationStore.put([anchoredUpdateOperation2PriorRecovery]);
 
       // Sanity check to make sure the DID Document with update is resolved correctly.
-      let didState = (await resolver.resolve(didUniqueSuffix)) as DidState;
-      expect(didState.document.publicKeys.length).toEqual(2);
+      didState = (await resolver.resolve(didUniqueSuffix)) as DidState;
+      expect(didState.document.publicKeys.length).toEqual(3);
       console.log(Document, RecoverOperation, recoveryPrivateKey);
       // expect(didState.document.service_endpoints.length).toEqual(2);
 

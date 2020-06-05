@@ -231,7 +231,9 @@ export default class OperationGenerator {
       additionalPublicKey,
       nextUpdateCommitValue,
       updatePrivateKeyId,
-      updatePrivateKey
+      updatePrivateKey,
+      // FIXME
+      {}
     );
 
     const operationBuffer = Buffer.from(JSON.stringify(operationJson));
@@ -519,12 +521,17 @@ export default class OperationGenerator {
     newPublicKey: PublicKeyModel,
     nextUpdateCommitmentHash: string,
     signingKeyId: string,
-    signingPrivateKey: JwkEs256k
+    signingPrivateKey: JwkEs256k,
+    oldDocument: any
   ) {
-    const newDoc = {
-      publicKeys: [newPublicKey],
+    const newDocument = {
+      ...oldDocument,
+      publicKeys: [...(oldDocument.publicKeys || []), newPublicKey],
     };
-    const updatePatch = DocumentComposer.generatePatch({}, newDoc);
+    const updatePatch = DocumentComposer.generatePatch(
+      oldDocument,
+      newDocument
+    );
     const patches = [updatePatch];
 
     const updateOperationRequest = await OperationGenerator.createUpdateOperationRequest(
