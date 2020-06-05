@@ -126,114 +126,116 @@ describe('Resolver', () => {
       // Sanity check to make sure the DID Document with update is resolved correctly.
       didState = (await resolver.resolve(didUniqueSuffix)) as DidState;
       expect(didState.document.publicKeys.length).toEqual(3);
-      console.log(Document, RecoverOperation, recoveryPrivateKey);
-      // expect(didState.document.service_endpoints.length).toEqual(2);
 
-      // // Create new keys used for new document for recovery request.
-      // const [newRecoveryPublicKey] = await Jwk.generateEs256kKeyPair();
-      // const [
-      //   newSigningPublicKey,
-      //   newSigningPrivateKey,
-      // ] = await OperationGenerator.generateKeyPair('newSigningKey');
+      // Create new keys used for new document for recovery request.
+      const [newRecoveryPublicKey] = await Jwk.generateEs256kKeyPair();
+      const [
+        newSigningPublicKey,
+        newSigningPrivateKey,
+      ] = await OperationGenerator.generateKeyPair('newSigningKey');
 
-      // // Create the recover operation and insert it to the operation store.
-      // const [
-      //   update1RevealValueAfterRecovery,
-      //   update1CommitmentHashAfterRecovery,
-      // ] = OperationGenerator.generateCommitRevealPair();
-      // const recoverOperationJson = await OperationGenerator.generateRecoverOperationRequest(
-      //   didUniqueSuffix,
-      //   recoveryPrivateKey,
-      //   newRecoveryPublicKey,
-      //   newSigningPublicKey,
-      //   update1CommitmentHashAfterRecovery
-      // );
-      // const recoverOperationBuffer = Buffer.from(
-      //   JSON.stringify(recoverOperationJson)
-      // );
-      // const recoverOperation = await RecoverOperation.parse(
-      //   recoverOperationBuffer
-      // );
-      // const anchoredRecoverOperation = OperationGenerator.createAnchoredOperationModelFromOperationModel(
-      //   recoverOperation,
-      //   4,
-      //   4,
-      //   4
-      // );
-      // await operationStore.put([anchoredRecoverOperation]);
+      // Create the recover operation and insert it to the operation store.
+      const [
+        update1RevealValueAfterRecovery,
+        update1CommitmentHashAfterRecovery,
+      ] = OperationGenerator.generateCommitRevealPair();
+      const recoverOperationJson = await OperationGenerator.generateRecoverOperationRequest(
+        didUniqueSuffix,
+        recoveryPrivateKey,
+        newRecoveryPublicKey,
+        newSigningPublicKey,
+        update1CommitmentHashAfterRecovery
+      );
+      const recoverOperationBuffer = Buffer.from(
+        JSON.stringify(recoverOperationJson)
+      );
+      const recoverOperation = await RecoverOperation.parse(
+        recoverOperationBuffer
+      );
+      const anchoredRecoverOperation = OperationGenerator.createAnchoredOperationModelFromOperationModel(
+        recoverOperation,
+        4,
+        4,
+        4
+      );
+      await operationStore.put([anchoredRecoverOperation]);
 
-      // // Create an update operation after the recover operation.
-      // const [
-      //   update2RevealValueAfterRecovery,
-      //   update2CommitmentHashAfterRecovery,
-      // ] = OperationGenerator.generateCommitRevealPair();
-      // const [
-      //   newKey2ForUpdate1AfterRecovery,
-      // ] = await OperationGenerator.generateKeyPair(`newKey2Updte1PostRec`);
-      // const updateOperation1AfterRecovery = await OperationGenerator.createUpdateOperationRequestForAddingAKey(
-      //   didUniqueSuffix,
-      //   update1RevealValueAfterRecovery,
-      //   newKey2ForUpdate1AfterRecovery,
-      //   update2CommitmentHashAfterRecovery,
-      //   newSigningPublicKey.id,
-      //   newSigningPrivateKey
-      // );
-      // const updateOperation1BufferAfterRecovery = Buffer.from(
-      //   JSON.stringify(updateOperation1AfterRecovery)
-      // );
-      // const anchoredUpdateOperation1AfterRecovery: AnchoredOperationModel = {
-      //   type: OperationType.Update,
-      //   didUniqueSuffix,
-      //   operationBuffer: updateOperation1BufferAfterRecovery,
-      //   transactionTime: 5,
-      //   transactionNumber: 5,
-      //   operationIndex: 5,
-      // };
-      // await operationStore.put([anchoredUpdateOperation1AfterRecovery]);
+      // Create an update operation after the recover operation.
+      const [
+        update2RevealValueAfterRecovery,
+        update2CommitmentHashAfterRecovery,
+      ] = OperationGenerator.generateCommitRevealPair();
+      const [
+        newKey2ForUpdate1AfterRecovery,
+      ] = await OperationGenerator.generateKeyPair(`newKey2Updte1PostRec`);
+      didState = await resolver.resolve(didUniqueSuffix);
+      const updateOperation1AfterRecovery = await OperationGenerator.createUpdateOperationRequestForAddingAKey(
+        didUniqueSuffix,
+        update1RevealValueAfterRecovery,
+        newKey2ForUpdate1AfterRecovery,
+        update2CommitmentHashAfterRecovery,
+        newSigningPublicKey.id,
+        newSigningPrivateKey,
+        didState!.document
+      );
+      const updateOperation1BufferAfterRecovery = Buffer.from(
+        JSON.stringify(updateOperation1AfterRecovery)
+      );
+      const anchoredUpdateOperation1AfterRecovery: AnchoredOperationModel = {
+        type: OperationType.Update,
+        didUniqueSuffix,
+        operationBuffer: updateOperation1BufferAfterRecovery,
+        transactionTime: 5,
+        transactionNumber: 5,
+        operationIndex: 5,
+      };
+      await operationStore.put([anchoredUpdateOperation1AfterRecovery]);
 
-      // // Create another update and insert it to the operation store.
-      // const [newKey2] = await OperationGenerator.generateKeyPair('id');
-      // const updatePayload2AfterRecovery = await OperationGenerator.createUpdateOperationRequestForAddingAKey(
-      //   didUniqueSuffix,
-      //   update2RevealValueAfterRecovery,
-      //   newKey2,
-      //   'EiD_UnusedNextUpdateCommitmentHash_AAAAAAAAAAA',
-      //   'someID',
-      //   newSigningPrivateKey
-      // );
-      // const updateOperation2BufferAfterRecovery = Buffer.from(
-      //   JSON.stringify(updatePayload2AfterRecovery)
-      // );
-      // const anchoredUpdateOperation2AfterRecovery: AnchoredOperationModel = {
-      //   type: OperationType.Update,
-      //   didUniqueSuffix,
-      //   operationBuffer: updateOperation2BufferAfterRecovery,
-      //   transactionTime: 6,
-      //   transactionNumber: 6,
-      //   operationIndex: 6,
-      // };
-      // await operationStore.put([anchoredUpdateOperation2AfterRecovery]);
+      // Create another update and insert it to the operation store.
+      const [newKey2] = await OperationGenerator.generateKeyPair('id');
+      didState = await resolver.resolve(didUniqueSuffix);
+      const updatePayload2AfterRecovery = await OperationGenerator.createUpdateOperationRequestForAddingAKey(
+        didUniqueSuffix,
+        update2RevealValueAfterRecovery,
+        newKey2,
+        'EiD_UnusedNextUpdateCommitmentHash_AAAAAAAAAAA',
+        'someID',
+        newSigningPrivateKey,
+        didState!.document
+      );
+      const updateOperation2BufferAfterRecovery = Buffer.from(
+        JSON.stringify(updatePayload2AfterRecovery)
+      );
+      const anchoredUpdateOperation2AfterRecovery: AnchoredOperationModel = {
+        type: OperationType.Update,
+        didUniqueSuffix,
+        operationBuffer: updateOperation2BufferAfterRecovery,
+        transactionTime: 6,
+        transactionNumber: 6,
+        operationIndex: 6,
+      };
+      await operationStore.put([anchoredUpdateOperation2AfterRecovery]);
 
-      // // Validate recover operation getting applied.
-      // didState = (await resolver.resolve(didUniqueSuffix)) as DidState;
+      // Validate recover operation getting applied.
+      didState = (await resolver.resolve(didUniqueSuffix)) as DidState;
 
-      // const document = didState.document;
-      // expect(document).toBeDefined();
-      // expect(document.publicKeys.length).toEqual(2);
-      // const actualNewSigningPublicKey1 = Document.getPublicKey(
-      //   document,
-      //   'newSigningKey'
-      // );
-      // const actualNewSigningPublicKey2 = Document.getPublicKey(
-      //   document,
-      //   'newKey2Updte1PostRec'
-      // );
-      // expect(actualNewSigningPublicKey1).toBeDefined();
-      // expect(actualNewSigningPublicKey2).toBeDefined();
-      // expect(actualNewSigningPublicKey1!.jwk).toEqual(newSigningPublicKey.jwk);
-      // expect(actualNewSigningPublicKey2!.jwk).toEqual(
-      //   newKey2ForUpdate1AfterRecovery.jwk
-      // );
+      const document = didState.document;
+      expect(document).toBeDefined();
+      expect(document.publicKeys.length).toEqual(2);
+      const actualNewSigningPublicKey1 = Document.getPublicKey(
+        document,
+        'newSigningKey'
+      );
+      const actualNewSigningPublicKey2 = Document.getPublicKey(
+        document,
+        'newKey2Updte1PostRec'
+      );
+      expect(actualNewSigningPublicKey1).toBeDefined();
+      expect(actualNewSigningPublicKey2).toBeDefined();
+      expect(actualNewSigningPublicKey1!.jwk).toEqual(newSigningPublicKey.jwk);
+      expect(actualNewSigningPublicKey2!.jwk).toEqual(
+        newKey2ForUpdate1AfterRecovery.jwk
+      );
       // expect(document.service_endpoints).toBeDefined();
       // expect(document.service_endpoints.length).toEqual(1);
       // expect(document.service_endpoints[0].endpoint).toBeDefined();

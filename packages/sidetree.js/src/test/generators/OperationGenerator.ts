@@ -427,12 +427,8 @@ export default class OperationGenerator {
     nextUpdateCommitmentHash: string,
     document: any
   ) {
-    const patches = [
-      {
-        action: 'replace',
-        document,
-      },
-    ];
+    const recoverPatch = DocumentComposer.generatePatch({}, document);
+    const patches = [recoverPatch];
 
     const delta = {
       patches,
