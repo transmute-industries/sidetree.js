@@ -248,40 +248,80 @@ describe('Resolver', () => {
     });
   });
 
-  // describe('applyRecoverAndDeactivateOperations()', () => {
-  //   it('should apply earliest recover operations if multiple operations are valid with same reveal.', async (done) => {
-  //     // Setting up initial DID state for the test.
-  //     const createOperationData = await OperationGenerator.generateAnchoredCreateOperation({ transactionTime: 1, transactionNumber: 1, operationIndex: 1 });
-  //     const initialDidState = await operationProcessor.apply(createOperationData.anchoredOperationModel, undefined);
+  describe('applyRecoverAndDeactivateOperations()', () => {
+    it('should apply earliest recover operations if multiple operations are valid with same reveal.', async () => {
+      // Setting up initial DID state for the test.
+      const createOperationData = await OperationGenerator.generateAnchoredCreateOperation(
+        { transactionTime: 1, transactionNumber: 1, operationIndex: 1 }
+      );
+      const initialDidState = await operationProcessor.apply(
+        createOperationData.anchoredOperationModel,
+        undefined
+      );
 
-  //     // Generate 3 anchored recover operations with the same reveal value but different anchored time.
-  //     const recoveryOperation1Data = await OperationGenerator.generateRecoverOperation({
-  //       didUniqueSuffix: createOperationData.createOperation.didUniqueSuffix,
-  //       recoveryPrivateKey: createOperationData.recoveryPrivateKey });
-  //     const recoveryOperation2Data = await OperationGenerator.generateRecoverOperation({
-  //       didUniqueSuffix: createOperationData.createOperation.didUniqueSuffix,
-  //       recoveryPrivateKey: createOperationData.recoveryPrivateKey });
-  //     const recoveryOperation3Data = await OperationGenerator.generateRecoverOperation({
-  //       didUniqueSuffix: createOperationData.createOperation.didUniqueSuffix,
-  //       recoveryPrivateKey: createOperationData.recoveryPrivateKey });
-  //     const recoveryOperation1 = OperationGenerator.createAnchoredOperationModelFromOperationModel(recoveryOperation1Data.recoverOperation, 2, 2, 2);
-  //     const recoveryOperation2 = OperationGenerator.createAnchoredOperationModelFromOperationModel(recoveryOperation2Data.recoverOperation, 3, 3, 3);
-  //     const recoveryOperation3 = OperationGenerator.createAnchoredOperationModelFromOperationModel(recoveryOperation3Data.recoverOperation, 4, 4, 4);
+      // Generate 3 anchored recover operations with the same reveal value but different anchored time.
+      const recoveryOperation1Data = await OperationGenerator.generateRecoverOperation(
+        {
+          didUniqueSuffix: createOperationData.createOperation.didUniqueSuffix,
+          recoveryPrivateKey: createOperationData.recoveryPrivateKey,
+        }
+      );
+      const recoveryOperation2Data = await OperationGenerator.generateRecoverOperation(
+        {
+          didUniqueSuffix: createOperationData.createOperation.didUniqueSuffix,
+          recoveryPrivateKey: createOperationData.recoveryPrivateKey,
+        }
+      );
+      const recoveryOperation3Data = await OperationGenerator.generateRecoverOperation(
+        {
+          didUniqueSuffix: createOperationData.createOperation.didUniqueSuffix,
+          recoveryPrivateKey: createOperationData.recoveryPrivateKey,
+        }
+      );
+      const recoveryOperation1 = OperationGenerator.createAnchoredOperationModelFromOperationModel(
+        recoveryOperation1Data.recoverOperation,
+        2,
+        2,
+        2
+      );
+      const recoveryOperation2 = OperationGenerator.createAnchoredOperationModelFromOperationModel(
+        recoveryOperation2Data.recoverOperation,
+        3,
+        3,
+        3
+      );
+      const recoveryOperation3 = OperationGenerator.createAnchoredOperationModelFromOperationModel(
+        recoveryOperation3Data.recoverOperation,
+        4,
+        4,
+        4
+      );
 
-  //     // Intentionally insert earliest valid recover operation in between the other two operations to test sorting.
-  //     const recoveryCommitValueToOperationMap = new Map<string, AnchoredOperationModel[]>();
-  //     const nextRecoveryCommitment = createOperationData.createOperation.suffixData.recoveryCommitment;
-  //     recoveryCommitValueToOperationMap.set(nextRecoveryCommitment, [recoveryOperation3, recoveryOperation1, recoveryOperation2]);
+      // Intentionally insert earliest valid recover operation in between the other two operations to test sorting.
+      const recoveryCommitValueToOperationMap = new Map<
+        string,
+        AnchoredOperationModel[]
+      >();
+      const nextRecoveryCommitment =
+        createOperationData.createOperation.suffixData.recoveryCommitment;
+      recoveryCommitValueToOperationMap.set(nextRecoveryCommitment, [
+        recoveryOperation3,
+        recoveryOperation1,
+        recoveryOperation2,
+      ]);
 
-  //     const newDidState: DidState = await (resolver as any).applyRecoverAndDeactivateOperations(initialDidState, recoveryCommitValueToOperationMap);
+      const newDidState: DidState = await (resolver as any).applyRecoverAndDeactivateOperations(
+        initialDidState,
+        recoveryCommitValueToOperationMap
+      );
 
-  //     // Expecting the new state to contain info of the first recovery operation.
-  //     expect(newDidState.lastOperationTransactionNumber).toEqual(2);
-  //     expect(newDidState.nextRecoveryCommitmentHash).toEqual(recoveryOperation1Data.recoverOperation.signedData.recoveryCommitment);
-
-  //     done();
-  //   });
-  // });
+      // Expecting the new state to contain info of the first recovery operation.
+      expect(newDidState.lastOperationTransactionNumber).toEqual(2);
+      expect(newDidState.nextRecoveryCommitmentHash).toEqual(
+        recoveryOperation1Data.recoverOperation.signedData.recoveryCommitment
+      );
+    });
+  });
 
   // describe('applyUpdateOperations()', () => {
   //   it('should apply earliest update operations if multiple operations are valid with same reveal.', async (done) => {
