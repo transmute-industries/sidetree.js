@@ -7,17 +7,17 @@ jobs:
       - name: Begin CI...
         uses: actions/checkout@v2
         with:
-          fetch-depth: "0"
-      - run: git fetch origin master
+          fetch-depth: 0
+      - run: git fetch --prune
       - name: Use Node 12
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
       - name: Install
         run: npm install
-      - name: Lint
-        run: npm run lint
+      # - name: Lint
+      #   run: npm run lint
       - name: Test
         run: npm run test
-      - name: Build
-        run: npm run build
+      # - name: Build
+      #   run: npm run build

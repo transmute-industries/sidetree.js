@@ -4,7 +4,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "lint": "lerna run lint --stream",
-    "test": "lerna run test --stream --concurrency 1 --since master",
+    "test": "lerna run test --stream --concurrency 1 --since origin/master",
     "build": "lerna run build --stream"
   },
   "husky": {
