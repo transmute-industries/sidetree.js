@@ -18,6 +18,7 @@ services:
       - '5001:5001'
       - '4001:4001'
   mongo:
+    container_name: mongo
     image: mongo
     restart: always
     ports:
