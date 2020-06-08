@@ -2,11 +2,11 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "install:ci": "npm install --ignore-scripts && lerna bootstrap --since origin/master",
     "postinstall": "lerna bootstrap",
     "lint": "lerna run lint --stream",
-    "test": "lerna run test --stream --concurrency 1 --since origin/master",
-    "build": "lerna run build --stream"
+    "test": "lerna run test --stream",
+    "build": "lerna run build --stream",
+    "install:ci": "npm install --ignore-scripts && lerna link && lerna bootstrap --since origin/master --include-dependencies"
   },
   "husky": {
     "hooks": {
