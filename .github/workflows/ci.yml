@@ -7,7 +7,7 @@ jobs:
       - name: Begin CI...
         uses: actions/checkout@v2
       # We need to fetch master so that "lerna run test --since origin/master" works
-      #  https://github.com/actions/checkout/issues/118
+      # https://github.com/actions/checkout/issues/118
       - run: |
           git fetch --no-tags --prune --depth=1 origin +refs/heads/master:refs/remotes/origin/master
       - name: Use Node 12
