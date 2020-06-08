@@ -50,7 +50,8 @@ async function createOperationChain(
       newPublicKey,
       nextUpdateCommitmentHash,
       signingKeyId,
-      signingPrivateKey
+      signingPrivateKey,
+      {}
     );
     const operationModel = await UpdateOperation.parse(
       Buffer.from(JSON.stringify(operationRequest))
@@ -145,7 +146,8 @@ describe('MongoDbOperationStore', () => {
       newKey,
       anyUnusedCommitmentHash,
       'someID',
-      createOperationData.signingPrivateKey
+      createOperationData.signingPrivateKey,
+      {}
     );
     const operationModel = await UpdateOperation.parse(
       Buffer.from(JSON.stringify(operationRequest))
@@ -182,7 +184,8 @@ describe('MongoDbOperationStore', () => {
       newKey,
       anyUnusedCommitmentHash,
       'someID',
-      createOperationData.signingPrivateKey
+      createOperationData.signingPrivateKey,
+      {}
     );
     const operationModel = await UpdateOperation.parse(
       Buffer.from(JSON.stringify(operationRequest))
