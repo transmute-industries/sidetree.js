@@ -34,7 +34,8 @@ describe('Operations', () => {
         createOperationData.createOperation.didUniqueSuffix,
         createOperationData.nextUpdateRevealValueEncodedString,
         createOperationData.signingKeyId,
-        createOperationData.signingPrivateKey
+        createOperationData.signingPrivateKey,
+        {}
       );
       expect(updateOperationData).toBeDefined();
     });

@@ -339,19 +339,22 @@ describe('Resolver', () => {
         createOperationData.createOperation.didUniqueSuffix,
         createOperationData.nextUpdateRevealValueEncodedString,
         createOperationData.signingKeyId,
-        createOperationData.signingPrivateKey
+        createOperationData.signingPrivateKey,
+        {}
       );
       const updateOperation2Data = await OperationGenerator.generateUpdateOperation(
         createOperationData.createOperation.didUniqueSuffix,
         createOperationData.nextUpdateRevealValueEncodedString,
         createOperationData.signingKeyId,
-        createOperationData.signingPrivateKey
+        createOperationData.signingPrivateKey,
+        {}
       );
       const updateOperation3Data = await OperationGenerator.generateUpdateOperation(
         createOperationData.createOperation.didUniqueSuffix,
         createOperationData.nextUpdateRevealValueEncodedString,
         createOperationData.signingKeyId,
-        createOperationData.signingPrivateKey
+        createOperationData.signingPrivateKey,
+        {}
       );
       const updateOperation1 = OperationGenerator.createAnchoredOperationModelFromOperationModel(
         updateOperation1Data.updateOperation,

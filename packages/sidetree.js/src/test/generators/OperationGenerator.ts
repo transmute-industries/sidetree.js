@@ -214,7 +214,8 @@ export default class OperationGenerator {
     didUniqueSuffix: string,
     updateRevealValue: string,
     updatePrivateKeyId: string,
-    updatePrivateKey: JwkEs256k
+    updatePrivateKey: JwkEs256k,
+    oldDocument: any
   ) {
     const additionalKeyId = `additional-key`;
     const [
@@ -233,8 +234,7 @@ export default class OperationGenerator {
       nextUpdateCommitValue,
       updatePrivateKeyId,
       updatePrivateKey,
-      // FIXME
-      {}
+      oldDocument
     );
 
     const operationBuffer = Buffer.from(JSON.stringify(operationJson));
@@ -455,7 +455,6 @@ export default class OperationGenerator {
       ...oldDocument,
       service: [...(oldDocument.service || []), ...servicesToAdd],
     };
-    // TODO: test me
     const idsToRemove = new Set(idsOfServiceEndpointToRemove);
     const documentWithAddedAndRemovedServices = {
       ...documentWithAddedServices,
