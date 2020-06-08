@@ -8,8 +8,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: "0"
-      # pulls all commits (needed for lerna / semantic release to correctly version)
-      - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+      - run: git fetch origin master
       - name: Use Node 12
         uses: actions/setup-node@v1
         with:
