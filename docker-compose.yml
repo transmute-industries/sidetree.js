@@ -6,6 +6,8 @@ services:
     ports:
       - '8545:8545'
     command:
+      # This env variable comes from the .env file in the directory in which the
+      # docker-compose command is run. Here it will be ./packages/sidetree-ledger-ethereum
       - --mnemonic=${MNEMONIC}
       - --networkId='13370'
   ipfs:
