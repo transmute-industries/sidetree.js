@@ -17,6 +17,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
+    "pretest": "docker-compose up -d ganache",
     "test": "tsdx test",
     "lint": "tsdx lint src --fix",
     "prepare": "tsdx build",

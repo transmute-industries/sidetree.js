@@ -1,25 +1,24 @@
-name: Sidetree js
+name: CI
 on: [push]
 jobs:
-  sidetree-js:
+  ci:
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./packages/sidetree.js
     steps:
       - name: Begin CI...
         uses: actions/checkout@v2
+      # We need to fetch master so that "lerna run test --since origin/master" works
+      #  https://github.com/actions/checkout/issues/118
+      - run: |
+          git fetch --no-tags --prune --depth=1 origin +refs/heads/master:refs/remotes/origin/master
       - name: Use Node 12
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
       - name: Install
-        run: npm install
+        run: npm run install:ci
       - name: Lint
-        working-directory: ${{ env.working-directory }}
         run: npm run lint
       - name: Test
-        working-directory: ${{ env.working-directory }}
         run: npm run test
       - name: Build
-        working-directory: ${{ env.working-directory }}
         run: npm run build
