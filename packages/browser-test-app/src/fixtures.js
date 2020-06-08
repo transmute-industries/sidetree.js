@@ -1,3 +1,4 @@
+/* eslint no-use-before-define: 0 */
 import ipfsClient from "ipfs-http-client";
 import concat from "it-concat";
 
