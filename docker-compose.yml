@@ -2,7 +2,7 @@ version: '3'
 services:
   ganache:
     env_file:
-      - .env
+      - ./packages/sidetree-ledger-ethereum/.env
     container_name: ganache
     image: trufflesuite/ganache-cli:latest
     ports:
