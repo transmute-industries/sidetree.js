@@ -403,16 +403,20 @@ describe('Resolver', () => {
     });
   });
 
-  // describe('applyOperation()', () => {
-  //   it('should not throw error even if an error is thrown internally.', async (done) => {
-  //     spyOn(operationProcessor, 'apply').and.throwError('any error');
+  describe('applyOperation()', () => {
+    it('should not throw error even if an error is thrown internally.', async () => {
+      spyOn(operationProcessor, 'apply').and.throwError('any error');
 
-  //     const createOperationData = await OperationGenerator.generateAnchoredCreateOperation({ transactionTime: 1, transactionNumber: 1, operationIndex: 1 });
-  //     const initialDidState = await (resolver as any).applyOperation(createOperationData.anchoredOperationModel, undefined);
+      const createOperationData = await OperationGenerator.generateAnchoredCreateOperation(
+        { transactionTime: 1, transactionNumber: 1, operationIndex: 1 }
+      );
+      const initialDidState = await (resolver as any).applyOperation(
+        createOperationData.anchoredOperationModel,
+        undefined
+      );
 
-  //     // Expecting undefined to be returned instead of error being thrown.
-  //     expect(initialDidState).toBeUndefined();
-  //     done();
-  //   });
-  // });
+      // Expecting undefined to be returned instead of error being thrown.
+      expect(initialDidState).toBeUndefined();
+    });
+  });
 });
