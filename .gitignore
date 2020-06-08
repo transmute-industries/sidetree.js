@@ -8,3 +8,6 @@ data/ipfs/api
 data/ipfs/datastore_spec
 data/ipfs/repo.lock
 # data/ipfs/version
+
+**/mongo-data/*
+**/!mongo-data/.keep
