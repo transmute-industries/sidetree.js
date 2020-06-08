@@ -17,8 +17,8 @@ jobs:
       - name: Install
         run: npm run install:ci
       - name: Lint
-        run: npm run lint
+        run: npm run lint -- --since origin/master
       - name: Test
-        run: npm run test
+        run: npm run test -- --since origin/master --concurrency 1
       - name: Build
-        run: npm run build
+        run: npm run build -- --since origin/master
