@@ -99,13 +99,13 @@ describe('Resolver', () => {
       expect(didState.document.publicKeys.length).toEqual(2);
 
       // Create another update operation and insert it to the operation store.
-      const [newKey] = await OperationGenerator.generateKeyPair('id');
       didState = await resolver.resolve(didUniqueSuffix);
-      const updatePayload2PriorRecovery = await OperationGenerator.createUpdateOperationRequestForAddingAKey(
+      const updatePayload2PriorRecovery = await OperationGenerator.createUpdateOperationRequestForHubEndpoints(
         didUniqueSuffix,
         update2RevealValuePriorToRecovery,
-        newKey,
         'EiD_UnusedNextUpdateCommitmentHash_AAAAAAAAAAA',
+        'dummyUri2',
+        [],
         signingPublicKey.id,
         signingPrivateKey,
         didState!.document
@@ -125,7 +125,8 @@ describe('Resolver', () => {
 
       // Sanity check to make sure the DID Document with update is resolved correctly.
       didState = (await resolver.resolve(didUniqueSuffix)) as DidState;
-      expect(didState.document.publicKeys.length).toEqual(3);
+      expect(didState.document.publicKeys.length).toEqual(2);
+      expect(didState.document.service.length).toEqual(1);
 
       // Create new keys used for new document for recovery request.
       const [newRecoveryPublicKey] = await Jwk.generateEs256kKeyPair();
@@ -133,6 +134,9 @@ describe('Resolver', () => {
         newSigningPublicKey,
         newSigningPrivateKey,
       ] = await OperationGenerator.generateKeyPair('newSigningKey');
+      const newServiceEndpoints = OperationGenerator.generateServiceEndpoints([
+        'newDummyHubUri1',
+      ]);
 
       // Create the recover operation and insert it to the operation store.
       const [
@@ -144,7 +148,8 @@ describe('Resolver', () => {
         recoveryPrivateKey,
         newRecoveryPublicKey,
         newSigningPublicKey,
-        update1CommitmentHashAfterRecovery
+        update1CommitmentHashAfterRecovery,
+        newServiceEndpoints
       );
       const recoverOperationBuffer = Buffer.from(
         JSON.stringify(recoverOperationJson)
@@ -192,14 +197,14 @@ describe('Resolver', () => {
       await operationStore.put([anchoredUpdateOperation1AfterRecovery]);
 
       // Create another update and insert it to the operation store.
-      const [newKey2] = await OperationGenerator.generateKeyPair('id');
       didState = await resolver.resolve(didUniqueSuffix);
-      const updatePayload2AfterRecovery = await OperationGenerator.createUpdateOperationRequestForAddingAKey(
+      const updatePayload2AfterRecovery = await OperationGenerator.createUpdateOperationRequestForHubEndpoints(
         didUniqueSuffix,
         update2RevealValueAfterRecovery,
-        newKey2,
         'EiD_UnusedNextUpdateCommitmentHash_AAAAAAAAAAA',
-        'someID',
+        'newDummyHubUri2',
+        ['newDummyHubUri1'],
+        newSigningPublicKey.id,
         newSigningPrivateKey,
         didState!.document
       );
@@ -219,7 +224,7 @@ describe('Resolver', () => {
       // Validate recover operation getting applied.
       didState = (await resolver.resolve(didUniqueSuffix)) as DidState;
 
-      const document = didState.document;
+      const document = didState!.document;
       expect(document).toBeDefined();
       expect(document.publicKeys.length).toEqual(2);
       const actualNewSigningPublicKey1 = Document.getPublicKey(
@@ -236,10 +241,10 @@ describe('Resolver', () => {
       expect(actualNewSigningPublicKey2!.jwk).toEqual(
         newKey2ForUpdate1AfterRecovery.jwk
       );
-      // expect(document.service_endpoints).toBeDefined();
-      // expect(document.service_endpoints.length).toEqual(1);
-      // expect(document.service_endpoints[0].endpoint).toBeDefined();
-      // expect(document.service_endpoints[0].id).toEqual('newDummyHubUri2');
+      expect(document.service).toBeDefined();
+      expect(document.service.length).toEqual(1);
+      expect(document.service[0].endpoint).toBeDefined();
+      expect(document.service[0].id).toEqual('newDummyHubUri2');
     });
   });
 
