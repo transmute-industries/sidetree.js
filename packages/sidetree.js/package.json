@@ -48,6 +48,7 @@
     "fast-json-patch": "^3.0.0-1",
     "jose": "^1.27.0",
     "multihashes": "^0.4.19",
+    "time-span": "^4.0.0",
     "yieldable-json": "^2.0.0"
   }
 }
