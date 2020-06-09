@@ -1,5 +1,3 @@
-// TODO
-/* eslint-disable jest/expect-expect */
 import Compressor from '../../util/Compressor';
 import Encoder from '../../util/Encoder';
 import ErrorCode from '@sidetree/common/src/errors/ErrorCode';

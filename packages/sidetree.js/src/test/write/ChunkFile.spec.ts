@@ -1,4 +1,3 @@
-/* eslint-disable jest/expect-expect */
 import * as crypto from 'crypto';
 import ChunkFile from '../../write/ChunkFile';
 import Encoder from '../../util/Encoder';

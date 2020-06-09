@@ -1,4 +1,3 @@
-/* eslint-disable jest/expect-expect */
 import AnchoredOperationModel from '@sidetree/common/src/models/AnchoredOperationModel';
 import IOperationStore from '@sidetree/common/src/interfaces/IOperationStore';
 import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';

@@ -1,4 +1,3 @@
-/* eslint-disable jest/expect-expect */
 import AnchorFile from '../../write/AnchorFile';
 import Compressor from '../../util/Compressor';
 import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
