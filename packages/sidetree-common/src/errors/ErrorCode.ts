@@ -5,6 +5,8 @@ export default {
   AnchoredDataIncorrectFormat: 'anchored_data_incorrect_format',
   AnchoredDataNumberOfOperationsGreaterThanMax:
     'anchored_data_number_of_operations_greater_than_max',
+  AnchoredDataNumberOfOperationsNotPositiveInteger:
+    'anchored_data_number_of_operations_not_positive_integer',
   AnchoredDataNumberOfOperationsLessThanZero:
     'anchored_data_number_of_operations_less_than_zero',
   AnchoredDataNumberOfOperationsNotFourBytes:
