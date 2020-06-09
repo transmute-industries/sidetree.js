@@ -1,6 +1,5 @@
 import BlockchainTimeModel from '../models/BlockchainTimeModel';
 import TransactionModel from '../models/TransactionModel';
-import ValueTimeLockModel from '../models/ValueTimeLockModel';
 
 /**
  * Interface to access the underlying blockchain.
@@ -44,22 +43,4 @@ export default interface IBlockchain {
    * Useful for cases where high performance is desired and hgih accuracy is not required.
    */
   approximateTime: BlockchainTimeModel;
-
-  /**
-   * Gets the lock object associated with the given lock identifier.
-   *
-   * @param lockIdentifier The identifier of the desired lock.
-   * @returns the lock object if found; undefined otherwise.
-   */
-  getValueTimeLock(
-    lockIdentifier: string
-  ): Promise<ValueTimeLockModel | undefined>;
-
-  /**
-   * Gets the lock object required for batch writing.
-   *
-   * @returns the lock object if one exist; undefined otherwise.
-   * @throws SidetreeError with ErrorCode.ValueTimeLockInPendingState if the lock is not yet confirmed on the blockchain.
-   */
-  getWriterValueTimeLock(): Promise<ValueTimeLockModel | undefined>;
 }

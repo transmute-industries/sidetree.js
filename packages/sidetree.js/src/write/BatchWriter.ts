@@ -15,8 +15,6 @@ import OperationType from '@sidetree/common/src/enums/OperationType';
 import ProtocolParameters from '../ProtocolParameters';
 import RecoverOperation from '../RecoverOperation';
 import UpdateOperation from '../UpdateOperation';
-import ValueTimeLockModel from '@sidetree/common/src/models/ValueTimeLockModel';
-import ValueTimeLockVerifier from './ValueTimeLockVerifier';
 
 /**
  * Implementation of the `IBatchWriter`.
@@ -29,8 +27,7 @@ export default class BatchWriter implements IBatchWriter {
   ) {}
 
   public async write() {
-    const currentLock = await this.blockchain.getWriterValueTimeLock();
-    const numberOfOpsAllowed = this.getNumberOfOperationsToWrite(currentLock);
+    const numberOfOpsAllowed = this.getNumberOfOperationsToWrite();
 
     // Get the batch of operations to be anchored on the blockchain.
     const queuedOperations = await this.operationQueue.peek(numberOfOpsAllowed);
@@ -97,9 +94,7 @@ export default class BatchWriter implements IBatchWriter {
     );
 
     // Write the anchor file to content addressable store.
-    const writerLock = currentLock ? currentLock.identifier : undefined;
     const anchorFileBuffer = await AnchorFile.createBuffer(
-      writerLock,
       mapFileHash,
       createOperations,
       recoverOperations,
@@ -137,25 +132,10 @@ export default class BatchWriter implements IBatchWriter {
     await this.operationQueue.dequeue(queuedOperations.length);
   }
 
-  private getNumberOfOperationsToWrite(
-    valueTimeLock: ValueTimeLockModel | undefined
-  ): number {
+  private getNumberOfOperationsToWrite(): number {
     const maxNumberOfOpsAllowedByProtocol =
       ProtocolParameters.maxOperationsPerBatch;
-    const maxNumberOfOpsAllowedByLock = ValueTimeLockVerifier.calculateMaxNumberOfOperationsAllowed(
-      valueTimeLock
-    );
 
-    if (maxNumberOfOpsAllowedByLock > maxNumberOfOpsAllowedByProtocol) {
-      // tslint:disable-next-line: max-line-length
-      console.info(
-        `Maximum number of operations allowed by value time lock: ${maxNumberOfOpsAllowedByLock}; Maximum number of operations allowed by protocol: ${maxNumberOfOpsAllowedByProtocol}`
-      );
-    }
-
-    return Math.min(
-      maxNumberOfOpsAllowedByLock,
-      maxNumberOfOpsAllowedByProtocol
-    );
+    return maxNumberOfOpsAllowedByProtocol;
   }
 }

@@ -31,8 +31,6 @@ export default {
     'anchor_file_deactivate_property_not_array',
   AnchorFileUnexpectedPropertyInOperations:
     'anchor_file_unexpected_property_in_operations',
-  AnchorFileWriterLockIPropertyNotString:
-    'anchor_file_writer_lock_id_property_not_string',
   BatchWriterAlreadyHasOperationForDid:
     'batch_writer_already_has_operation_for_did',
   CasFileHashNotValid: 'cas_file_hash_not_valid',
@@ -216,10 +214,4 @@ export default {
     'update_operation_update_reveal_value_missing_or_invalid_type',
   UpdateOperationUpdateRevealValueTooLong:
     'update_operation_update_reveal_value_too_long',
-  ValueTimeLockVerifierInvalidNumberOfOperations:
-    'value_time_lock_verifierInvalid_number_of_operations',
-  ValueTimeLockVerifierTransactionTimeOutsideLockRange:
-    'value_time_lock_verifiertarget_transaction_time_outside_lock_range',
-  ValueTimeLockVerifierTransactionWriterLockOwnerMismatch:
-    'value_time_lock_verifiertransaction_owner_lock_writer_mismatch',
 };

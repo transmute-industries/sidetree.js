@@ -52,11 +52,7 @@ export default class AnchorFile {
       throw SidetreeError.createFromError(ErrorCode.AnchorFileNotJson, e);
     }
 
-    const allowedProperties = new Set([
-      'map_file_uri',
-      'operations',
-      'writer_lock_id',
-    ]);
+    const allowedProperties = new Set(['map_file_uri', 'operations']);
     for (const property in anchorFileModel) {
       if (!allowedProperties.has(property)) {
         throw new SidetreeError(ErrorCode.AnchorFileHasUnknownProperty);
@@ -71,13 +67,6 @@ export default class AnchorFile {
 
     if (!Object.prototype.hasOwnProperty.call(anchorFileModel, 'operations')) {
       throw new SidetreeError(ErrorCode.AnchorFileMissingOperationsProperty);
-    }
-
-    if (
-      Object.prototype.hasOwnProperty.call(anchorFileModel, 'writer_lock_id') &&
-      typeof anchorFileModel.writer_lock_id !== 'string'
-    ) {
-      throw new SidetreeError(ErrorCode.AnchorFileWriterLockIPropertyNotString);
     }
 
     // Map file hash validations.
@@ -190,7 +179,6 @@ export default class AnchorFile {
    * Creates an `AnchorFileModel`.
    */
   public static async createModel(
-    writerLockId: string | undefined,
     mapFileHash: string,
     createOperationArray: CreateOperation[],
     recoverOperationArray: RecoverOperation[],
@@ -217,7 +205,6 @@ export default class AnchorFile {
     });
 
     const anchorFileModel = {
-      writer_lock_id: writerLockId,
       map_file_uri: mapFileHash,
       operations: {
         create: createOperations,
@@ -233,14 +220,12 @@ export default class AnchorFile {
    * Creates an anchor file buffer.
    */
   public static async createBuffer(
-    writerLockId: string | undefined,
     mapFileHash: string,
     createOperations: CreateOperation[],
     recoverOperations: RecoverOperation[],
     deactivateOperations: DeactivateOperation[]
   ): Promise<Buffer> {
     const anchorFileModel = await AnchorFile.createModel(
-      writerLockId,
       mapFileHash,
       createOperations,
       recoverOperations,

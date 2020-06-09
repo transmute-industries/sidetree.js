@@ -32,7 +32,6 @@ describe('AnchorFile', () => {
       const deactivateOperation = deactivateOperationData.deactivateOperation;
 
       const anchorFileBuffer = await AnchorFile.createBuffer(
-        undefined,
         mapFileUri,
         [createOperation],
         [recoverOperation],
@@ -85,7 +84,6 @@ describe('AnchorFile', () => {
     it('should throw if has an unknown property.', async () => {
       const anchorFile = {
         unknownProperty: 'Unknown property',
-        writer_lock_id: 'writer lock',
         map_file_uri: 'EiB4ypIXxG9aFhXv2YC8I2tQvLEBbQAsNzHmph17vMfVYA',
         operations: {},
       };
@@ -100,7 +98,6 @@ describe('AnchorFile', () => {
 
     it('should throw if `operations` property has an unknown property.', async () => {
       const anchorFile = {
-        writer_lock_id: 'writer lock',
         map_file_uri: 'EiB4ypIXxG9aFhXv2YC8I2tQvLEBbQAsNzHmph17vMfVYA',
         operations: {
           unexpectedProperty: 'any value',
@@ -165,7 +162,6 @@ describe('AnchorFile', () => {
       const createOperationData = await OperationGenerator.generateCreateOperation();
       const createOperation = createOperationData.createOperation;
       const anchorFileModel = await AnchorFile.createModel(
-        'writerlock',
         'unusedMockFileHash',
         [createOperation],
         [],
@@ -187,7 +183,6 @@ describe('AnchorFile', () => {
       const createOperationData = await OperationGenerator.generateCreateOperation();
       const createOperation = createOperationData.createOperation;
       const anchorFileModel = await AnchorFile.createModel(
-        'writerlock',
         'invalidMapFileHash',
         [createOperation],
         [],
@@ -204,28 +199,6 @@ describe('AnchorFile', () => {
           await AnchorFile.parse(anchorFileCompressed);
         },
         ErrorCode.AnchorFileMapFileHashUnsupported
-      );
-    });
-
-    it('should throw if writer lock id is not string.', async () => {
-      const createOperationData = await OperationGenerator.generateCreateOperation();
-      const createOperation = createOperationData.createOperation;
-      const anchorFileModel = await AnchorFile.createModel(
-        'writerlock',
-        'unusedMockFileHash',
-        [createOperation],
-        [],
-        []
-      );
-
-      (anchorFileModel as any).writer_lock_id = {}; // intentionally set to invalid value
-
-      const anchorFileBuffer = Buffer.from(JSON.stringify(anchorFileModel));
-      const anchorFileCompressed = await Compressor.compress(anchorFileBuffer);
-
-      await JasmineSidetreeErrorValidator.expectSidetreeErrorToBeThrownAsync(
-        () => AnchorFile.parse(anchorFileCompressed),
-        ErrorCode.AnchorFileWriterLockIPropertyNotString
       );
     });
 
@@ -335,7 +308,6 @@ describe('AnchorFile', () => {
       const deactivateOperation = deactivateOperationData.deactivateOperation;
 
       const anchoreFileModel = await AnchorFile.createModel(
-        undefined,
         mapFileUri,
         [createOperation],
         [recoverOperation],
@@ -376,7 +348,6 @@ describe('AnchorFile', () => {
       const createOperation = createOperationData.createOperation;
 
       const anchoreFileBuffer = await AnchorFile.createBuffer(
-        undefined,
         mapFileHash,
         [createOperation],
         [],

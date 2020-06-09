@@ -1,7 +1,6 @@
 import BlockchainTimeModel from '@sidetree/common/src/models/BlockchainTimeModel';
 import IBlockchain from '@sidetree/common/src/interfaces/IBlockchain';
 import TransactionModel from '@sidetree/common/src/models/TransactionModel';
-import ValueTimeLockModel from '@sidetree/common/src/models/ValueTimeLockModel';
 
 /**
  * Mock Blockchain class for testing.
@@ -71,17 +70,5 @@ export default class MockBlockchain implements IBlockchain {
    */
   public setLatestTime(time: BlockchainTimeModel) {
     this.latestTime = time;
-  }
-
-  public async getValueTimeLock(
-    _lockIdentifer: string
-  ): Promise<ValueTimeLockModel | undefined> {
-    throw Error('Not implemented.');
-  }
-
-  public async getWriterValueTimeLock(): Promise<
-    ValueTimeLockModel | undefined
-  > {
-    throw Error('Not implemented.');
   }
 }
