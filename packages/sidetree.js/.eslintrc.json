@@ -16,6 +16,7 @@
   ],
   "rules": {
     "@typescript-eslint/ban-types": "warn",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-var-requires": "warn",
     "jest/expect-expect": "off"
   },

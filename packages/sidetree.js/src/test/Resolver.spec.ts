@@ -22,9 +22,8 @@ describe('Resolver', () => {
     // Make sure the mock version manager always returns the same operation processor in the test.
     operationProcessor = new OperationProcessor();
     const versionManager = new MockVersionManager();
-    spyOn(versionManager, 'getOperationProcessor').and.returnValue(
-      operationProcessor
-    );
+    const spy = jest.spyOn(versionManager, 'getOperationProcessor');
+    spy.mockReturnValue(operationProcessor);
 
     operationStore = new MockOperationStore();
     resolver = new Resolver(versionManager, operationStore);

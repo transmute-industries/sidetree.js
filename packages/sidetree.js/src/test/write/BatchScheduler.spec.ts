@@ -10,7 +10,8 @@ describe('BatchScheduler', () => {
     const batchWriter = new MockBatchWriter();
 
     const versionManager = new MockVersionManager();
-    spyOn(versionManager, 'getBatchWriter').and.returnValue(batchWriter);
+    const spy = jest.spyOn(versionManager, 'getBatchWriter');
+    spy.mockReturnValue(batchWriter);
 
     const batchScheduler = new BatchScheduler(versionManager, blockchain, 1);
 
