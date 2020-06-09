@@ -1,4 +1,4 @@
-// import IBatchWriter from './IBatchWriter';
+import IBatchWriter from './IBatchWriter';
 import IOperationProcessor from './IOperationProcessor';
 // import IRequestHandler from './IRequestHandler';
 // import ITransactionProcessor from './ITransactionProcessor';
@@ -15,7 +15,7 @@ export default interface IVersionManager {
    * Gets the batchwriter for the given blockchain time.
    * @param blockchainTime The blockchain time for which the batchwriter is needed.
    */
-  // getBatchWriter (blockchainTime: number): IBatchWriter;
+  getBatchWriter(blockchainTime: number): IBatchWriter;
 
   /**
    * Gets the operation processor for the given blockchain time.
