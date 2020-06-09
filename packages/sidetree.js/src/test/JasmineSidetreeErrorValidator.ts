@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-standalone-expect */
 import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 
 /**
