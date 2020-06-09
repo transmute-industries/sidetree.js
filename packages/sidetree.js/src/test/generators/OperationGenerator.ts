@@ -621,4 +621,49 @@ export default class OperationGenerator {
     }
     return serviceEndpoints;
   }
+
+  /**
+   * Generates an update operation request.
+   */
+  public static async generateUpdateOperationRequest(didUniqueSuffix?: string) {
+    if (didUniqueSuffix === undefined) {
+      didUniqueSuffix = OperationGenerator.generateRandomHash();
+    }
+
+    const [updateRevealValue] = OperationGenerator.generateCommitRevealPair();
+    const [
+      ,
+      nextUpdateCommitmentHash,
+    ] = OperationGenerator.generateCommitRevealPair();
+    const anyNewSigningPublicKeyId = 'anyNewKey';
+    const [anyNewSigningKey] = await OperationGenerator.generateKeyPair(
+      anyNewSigningPublicKeyId
+    );
+    const doc = {
+      publicKeys: [anyNewSigningKey],
+    };
+    const updatePatch = DocumentComposer.generatePatch({}, doc);
+    const patches = [updatePatch];
+    const signingKeyId = 'anySigningKeyId';
+    const [, signingPrivateKey] = await OperationGenerator.generateKeyPair(
+      anyNewSigningPublicKeyId
+    );
+    const request = await OperationGenerator.createUpdateOperationRequest(
+      didUniqueSuffix,
+      updateRevealValue,
+      nextUpdateCommitmentHash,
+      patches,
+      signingKeyId,
+      signingPrivateKey
+    );
+
+    const buffer = Buffer.from(JSON.stringify(request));
+    const updateOperation = await UpdateOperation.parse(buffer);
+
+    return {
+      request,
+      buffer,
+      updateOperation,
+    };
+  }
 }

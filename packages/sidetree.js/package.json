@@ -28,8 +28,10 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
+    "@types/async-retry": "^1.4.2",
     "@typescript-eslint/eslint-plugin": "^3.1.0",
     "@typescript-eslint/parser": "^3.1.0",
+    "async-retry": "^1.3.1",
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jest": "^23.13.2",
@@ -48,6 +50,7 @@
     "fast-json-patch": "^3.0.0-1",
     "jose": "^1.27.0",
     "multihashes": "^0.4.19",
+    "time-span": "^4.0.0",
     "yieldable-json": "^2.0.0"
   }
 }

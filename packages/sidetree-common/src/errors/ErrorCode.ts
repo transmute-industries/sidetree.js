@@ -5,6 +5,8 @@ export default {
   AnchoredDataIncorrectFormat: 'anchored_data_incorrect_format',
   AnchoredDataNumberOfOperationsGreaterThanMax:
     'anchored_data_number_of_operations_greater_than_max',
+  AnchoredDataNumberOfOperationsNotPositiveInteger:
+    'anchored_data_number_of_operations_not_positive_integer',
   AnchoredDataNumberOfOperationsLessThanZero:
     'anchored_data_number_of_operations_less_than_zero',
   AnchoredDataNumberOfOperationsNotFourBytes:
@@ -29,8 +31,6 @@ export default {
     'anchor_file_deactivate_property_not_array',
   AnchorFileUnexpectedPropertyInOperations:
     'anchor_file_unexpected_property_in_operations',
-  AnchorFileWriterLockIPropertyNotString:
-    'anchor_file_writer_lock_id_property_not_string',
   BatchWriterAlreadyHasOperationForDid:
     'batch_writer_already_has_operation_for_did',
   CasFileHashNotValid: 'cas_file_hash_not_valid',
@@ -200,9 +200,6 @@ export default {
   DeactivateOperationSignedDidUniqueSuffixMismatch:
     'deactivate_operation_signed_did_unique_suffix_mismatch',
   DeactivateOperationTypeIncorrect: 'deactivate_operation_type_incorrect',
-  TransactionFeePaidInvalid: 'transaction_fee_paid_is_invalid',
-  TransactionFeePaidLessThanNormalizedFee:
-    'transaction_fee_paid_less_than_normalized_fee',
   TransactionProcessorPaidOperationCountExceedsLimit:
     'transaction_processor_paid_operation_count_exceeds_limit',
   TransactionsNotInSameBlock: 'transactions_not_in_same_block',
@@ -217,10 +214,4 @@ export default {
     'update_operation_update_reveal_value_missing_or_invalid_type',
   UpdateOperationUpdateRevealValueTooLong:
     'update_operation_update_reveal_value_too_long',
-  ValueTimeLockVerifierInvalidNumberOfOperations:
-    'value_time_lock_verifierInvalid_number_of_operations',
-  ValueTimeLockVerifierTransactionTimeOutsideLockRange:
-    'value_time_lock_verifiertarget_transaction_time_outside_lock_range',
-  ValueTimeLockVerifierTransactionWriterLockOwnerMismatch:
-    'value_time_lock_verifiertransaction_owner_lock_writer_mismatch',
 };

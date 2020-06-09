@@ -10,7 +10,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lerna run lint --since HEAD"
+      "pre-commit": "lerna run lint --since HEAD --exclude-dependents"
     }
   },
   "devDependencies": {

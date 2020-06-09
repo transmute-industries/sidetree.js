@@ -1,4 +1,4 @@
-// import IBatchWriter from '../../lib/core/interfaces/IBatchWriter';
+import IBatchWriter from '@sidetree/common/src/interfaces/IBatchWriter';
 import IOperationProcessor from '@sidetree/common/src/interfaces/IOperationProcessor';
 // import IRequestHandler from '../../lib/core/interfaces/IRequestHandler';
 // import ITransactionProcessor from '../../lib/core/interfaces/ITransactionProcessor';
@@ -12,12 +12,12 @@ export default class MockVersionManager implements IVersionManager {
   // Hard-coded to support only SHA256.
   public allSupportedHashAlgorithms = [18];
 
-  // public getBatchWriter(blockchainTime: number): IBatchWriter {
-  //   throw new Error(
-  //     'Not implemented. Use spyOn to override the functionality. Input: ' +
-  //       blockchainTime
-  //   );
-  // }
+  public getBatchWriter(blockchainTime: number): IBatchWriter {
+    throw new Error(
+      'Not implemented. Use spyOn to override the functionality. Input: ' +
+        blockchainTime
+    );
+  }
   public getOperationProcessor(blockchainTime: number): IOperationProcessor {
     throw new Error(
       'Not implemented. Use spyOn to override the functionality. Input: ' +
