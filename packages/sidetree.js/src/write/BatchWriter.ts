@@ -29,9 +29,6 @@ export default class BatchWriter implements IBatchWriter {
   ) {}
 
   public async write() {
-    const normalizedFee = await this.blockchain.getFee(
-      this.blockchain.approximateTime.time
-    );
     const currentLock = await this.blockchain.getWriterValueTimeLock();
     const numberOfOpsAllowed = this.getNumberOfOperationsToWrite(currentLock);
 

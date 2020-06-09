@@ -20,26 +20,7 @@ export default class ValueTimeLockVerifier {
       return ProtocolParameters.maxNumberOfOperationsForNoValueTimeLock;
     }
 
-    // Using the following formula:
-    //  requiredLockAmount = normalizedfee * normalizedFeeMultipier * numberOfOps * valueTimeLockMultiplier
-    //
-    // We are going to find the numberOfOps given the requiredLockAmount
-    const feePerOperation =
-      valueTimeLock.normalizedFee *
-      ProtocolParameters.normalizedFeeToPerOperationFeeMultiplier;
-    const numberOfOpsAllowed =
-      valueTimeLock.amountLocked /
-      (feePerOperation * ProtocolParameters.valueTimeLockAmountMultiplier);
-
-    // Make sure that we are returning an integer; rounding down to make sure that we are not going above
-    // the max limit.
-    const numberOfOpsAllowedInt = Math.floor(numberOfOpsAllowed);
-
-    // Return at least the 'free' operations
-    return Math.max(
-      numberOfOpsAllowedInt,
-      ProtocolParameters.maxNumberOfOperationsForNoValueTimeLock
-    );
+    return ProtocolParameters.maxNumberOfOperationsForNoValueTimeLock;
   }
 
   /**

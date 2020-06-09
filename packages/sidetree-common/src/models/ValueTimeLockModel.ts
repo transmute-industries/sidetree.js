@@ -15,9 +15,6 @@ export default interface ValueTimeLockModel {
   /** At this transaction time the lock is no longer valid */
   unlockTransactionTime: number;
 
-  /** The normalized fee for the block when lock became active */
-  normalizedFee: number;
-
   /** The owner of the lock */
   owner: string;
 }

@@ -202,9 +202,6 @@ export default {
   DeactivateOperationSignedDidUniqueSuffixMismatch:
     'deactivate_operation_signed_did_unique_suffix_mismatch',
   DeactivateOperationTypeIncorrect: 'deactivate_operation_type_incorrect',
-  TransactionFeePaidInvalid: 'transaction_fee_paid_is_invalid',
-  TransactionFeePaidLessThanNormalizedFee:
-    'transaction_fee_paid_less_than_normalized_fee',
   TransactionProcessorPaidOperationCountExceedsLimit:
     'transaction_processor_paid_operation_count_exceeds_limit',
   TransactionsNotInSameBlock: 'transactions_not_in_same_block',
