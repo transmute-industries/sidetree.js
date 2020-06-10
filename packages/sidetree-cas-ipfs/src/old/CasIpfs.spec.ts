@@ -5,7 +5,7 @@ import {
   testInteger,
   testObj,
   testString,
-} from './__fixtures__';
+} from '../__fixtures__';
 
 describe('CasIpfs', () => {
   let cas: any;
