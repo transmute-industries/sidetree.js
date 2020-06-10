@@ -3,7 +3,7 @@ import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
 import ReadableStream from '@sidetree/common/src/util/ReadableStream';
 import ServiceVersionModel from '@sidetree/common/src/models/ServiceVersionModel';
 
-describe('Cas', async () => {
+describe('Cas', () => {
   it('should return file hash of the content written.', async () => {
     const casClient = new Cas('unused');
     const fetchSpy = spyOn(casClient as any, 'fetch').and.returnValue(
@@ -38,7 +38,7 @@ describe('Cas', async () => {
     fail();
   });
 
-  it('should set fetch result as not-found when fetch result in an unexpected error.', async () => {
+  it('should set fetch result as success', async () => {
     const casClient = new Cas('unused');
     const fetchSpy = spyOn(casClient as any, 'fetch').and.returnValue(
       Promise.resolve({ status: 200, body: 'unused' })
@@ -109,7 +109,7 @@ describe('Cas', async () => {
     expect(fetchResult.code).toEqual(FetchResultCode.InvalidHash);
   });
 
-  describe('getServiceVersion', async () => {
+  describe('getServiceVersion', () => {
     it('should get the version from the service version fetcher', async () => {
       const casClient = new Cas('unused');
       const expectedServiceVersion: ServiceVersionModel = {

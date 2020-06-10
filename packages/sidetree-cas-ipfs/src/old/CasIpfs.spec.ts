@@ -10,7 +10,7 @@ import {
 describe('CasIpfs', () => {
   let cas: any;
   beforeAll(() => {
-    cas = configure({ ipfs, methods, logger: { log: () => {} } });
+    cas = configure({ ipfs, methods, logger: { log: jest.fn() } });
   });
 
   it('configure', () => {
