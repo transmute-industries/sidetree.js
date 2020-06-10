@@ -31,6 +31,7 @@
   "dependencies": {
     "base64url": "^3.0.1",
     "canonicalize": "^1.0.1",
-    "multihashes": "^0.4.19"
+    "multihashes": "^0.4.19",
+    "node-fetch": "^2.6.0"
   }
 }
