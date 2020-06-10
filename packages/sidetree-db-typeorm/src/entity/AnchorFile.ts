@@ -7,40 +7,40 @@ export default class AnchorFile {
   _id?: string;
 
   @Column()
-  map_file_uri: string;
+  mapFileUri: string;
 
   @Column()
   operations: {
     create?: {
-      suffix_data: string;
+      suffixData: string;
     }[];
     recover?: {
-      did_suffix: string;
-      signed_data: string;
+      didSuffix: string;
+      signedData: string;
     }[];
     deactivate?: {
-      did_suffix: string;
-      signed_data: string;
+      didSuffix: string;
+      signedData: string;
     }[];
   };
 
   constructor(
-    map_file_uri: string,
+    mapFileUri: string,
     operations: {
       create?: {
-        suffix_data: string;
+        suffixData: string;
       }[];
       recover?: {
-        did_suffix: string;
-        signed_data: string;
+        didSuffix: string;
+        signedData: string;
       }[];
       deactivate?: {
-        did_suffix: string;
-        signed_data: string;
+        didSuffix: string;
+        signedData: string;
       }[];
     }
   ) {
-    this.map_file_uri = map_file_uri;
+    this.mapFileUri = mapFileUri;
     this.operations = operations;
   }
 }

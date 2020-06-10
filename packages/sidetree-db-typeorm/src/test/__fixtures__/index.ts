@@ -20,17 +20,17 @@ const anchorFileWithoutOperation = new AnchorFile('CAS_URI', {});
 const anchorFileWithOperations = new AnchorFile('CAS_URI', {
   create: [
     {
-      suffix_data: 'suffix_data_1',
+      suffixData: 'suffixData1',
     },
   ],
   recover: [
     {
-      did_suffix: 'did_suffix_1',
-      signed_data: 'signed_data_1',
+      didSuffix: 'didSuffix1',
+      signedData: 'signedData1',
     },
     {
-      did_suffix: 'did_suffix_2',
-      signed_data: 'signed_data_2',
+      didSuffix: 'didSuffix2',
+      signedData: 'signedData2',
     },
   ],
   deactivate: [],
@@ -45,17 +45,17 @@ const delta = new Delta(['patch1, patch2'], 'updateCommitment');
 const mapFile = new MapFile(
   [
     {
-      chunk_file_uri: 'chunk_file_uri_1',
+      chunkFileUri: 'chunkFileUri1',
     },
     {
-      chunk_file_uri: 'chunk_file_uri_2',
+      chunkFileUri: 'chunkFileUri2',
     },
   ],
   {
     update: [
       {
-        did_suffix: 'did_suffix',
-        signed_data: 'signed_data',
+        didSuffix: 'didSuffix',
+        signedData: 'signed_data',
       },
     ],
   }

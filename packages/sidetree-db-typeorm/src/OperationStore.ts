@@ -39,7 +39,7 @@ export default class OperationStore implements IOperationStore {
         const exists = opsWithoutDuplicates.find(
           op => op.operationIndex === operation.operationIndex
         );
-        if (Boolean(exists)) {
+        if (exists) {
           return opsWithoutDuplicates;
         } else {
           return [...opsWithoutDuplicates, operation];
@@ -55,7 +55,7 @@ export default class OperationStore implements IOperationStore {
       const isDuplicated = res.find(
         op => op.operationIndex === anchoredOperation.operationIndex
       );
-      if (!Boolean(isDuplicated)) {
+      if (!isDuplicated) {
         onlyNewElements.push(anchoredOperation);
       }
     }
