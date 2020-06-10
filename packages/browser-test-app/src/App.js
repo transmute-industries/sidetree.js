@@ -1,5 +1,5 @@
 import React from "react";
-import * as sidetreeCasIpfs from "@transmute/sidetree-cas-ipfs";
+import * as sidetreeCasIpfs from "@sidetree/ipfs";
 import { ipfs, methods, testObj } from "./fixtures";
 const cas = sidetreeCasIpfs.configure({ ipfs, methods });
 
