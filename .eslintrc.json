@@ -16,9 +16,10 @@
   ],
   "rules": {
     "@typescript-eslint/ban-types": "warn",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-var-requires": "warn",
-    "@typescript-eslint/interface-name-prefix": "off",
     "jest/expect-expect": "off"
   },
   "env": {

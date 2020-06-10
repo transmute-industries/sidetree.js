@@ -7,31 +7,31 @@ export default class SidetreeTransaction {
   _id?: string;
 
   @Column()
-  transactionNumber!: number;
+  transaction_number!: number;
 
   @Column()
-  transactionTime!: number;
+  transaction_time!: number;
 
   @Column()
-  transactionTimeHash!: string;
+  transaction_time_hash!: string;
 
   @Column()
-  anchorString!: string;
+  anchor_string!: string;
 
   @Column()
   writer!: string;
 
   constructor(
-    transactionNumber: number,
-    transactionTime: number,
-    transactionTimeHash: string,
-    anchorString: string,
+    transaction_number: number,
+    transaction_time: number,
+    transaction_time_hash: string,
+    anchor_string: string,
     writer: string
   ) {
-    this.transactionNumber = transactionNumber;
-    this.transactionTime = transactionTime;
-    this.transactionTimeHash = transactionTimeHash;
-    this.anchorString = anchorString;
+    this.transaction_number = transaction_number;
+    this.transaction_time = transaction_time;
+    this.transaction_time_hash = transaction_time_hash;
+    this.anchor_string = anchor_string;
     this.writer = writer;
   }
 }
