@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "@sidetree/common": "0.1.0",
+    "@types/node-fetch": "^2.5.7",
     "http-status": "^1.4.2"
   }
 }
