@@ -1,4 +1,4 @@
-import Encoder from './util/Encoder';
+import Encoder from '@sidetree/common/src/util/Encoder';
 import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
 import JsonAsync from './util/JsonAsync';
 import Jwk from './util/Jwk';

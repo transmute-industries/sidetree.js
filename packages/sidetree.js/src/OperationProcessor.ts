@@ -4,7 +4,7 @@ import CreateOperation from './CreateOperation';
 import DeactivateOperation from './DeactivateOperation';
 import DocumentComposer from './DocumentComposer';
 import DidState from '@sidetree/common/src/models/DidState';
-import Encoder from './util/Encoder';
+import Encoder from '@sidetree/common/src/util/Encoder';
 import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
 import IOperationProcessor from '@sidetree/common/src/interfaces/IOperationProcessor';
 import JsonCanonicalizer from './util/JsonCanonicalizer';

@@ -1,4 +1,4 @@
-import Encoder from '../../util/Encoder';
+import Encoder from '@sidetree/common/src/util/Encoder';
 import FetchResult from '@sidetree/common/src/models/FetchResult';
 import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
 import ICas from '@sidetree/common/src/interfaces/ICas';

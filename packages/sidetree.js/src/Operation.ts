@@ -2,7 +2,7 @@ import DeltaModel from '@sidetree/common/src/models/DeltaModel';
 import OperationModel from '@sidetree/common/src/models/OperationModel';
 import OperationType from '@sidetree/common/src/enums/OperationType';
 import DocumentComposer from './DocumentComposer';
-import Encoder from './util/Encoder';
+import Encoder from '@sidetree/common/src/util/Encoder';
 import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
 import JsonAsync from './util/JsonAsync';
 import Multihash from './util/Multihash';

@@ -11,7 +11,7 @@ import DeactivateOperation from '../../DeactivateOperation';
 import DocumentComposer from '../../DocumentComposer';
 import RecoverOperation from '../../RecoverOperation';
 import UpdateOperation from '../../UpdateOperation';
-import Encoder from '../../util/Encoder';
+import Encoder from '@sidetree/common/src/util/Encoder';
 import Jwk from '../../util/Jwk';
 import Jws from '../../util/Jws';
 import Multihash from '../../util/Multihash';

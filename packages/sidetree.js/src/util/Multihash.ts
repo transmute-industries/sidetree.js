@@ -1,5 +1,5 @@
 import * as crypto from 'crypto';
-import Encoder from './Encoder';
+import Encoder from '@sidetree/common/src/util/Encoder';
 import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
 import JsonCanonicalizer from './JsonCanonicalizer';
 import ProtocolParameters from '../ProtocolParameters';
