@@ -2,7 +2,7 @@ import Encoder from '@sidetree/common/src/util/Encoder';
 import FetchResult from '@sidetree/common/src/models/FetchResult';
 import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
 import ICas from '@sidetree/common/src/interfaces/ICas';
-import Multihash from '../../util/Multihash';
+import Multihash from '@sidetree/common/src/util/Multihash';
 
 /**
  * Implementation of a CAS class for testing.
@@ -42,7 +42,7 @@ export default class MockCas implements ICas {
     _maxSizeInBytes: number
   ): Promise<FetchResult> {
     // Wait for configured time before returning.
-    await new Promise((resolve) =>
+    await new Promise(resolve =>
       setTimeout(resolve, this.mockSecondsTakenForEachCasFetch * 1000)
     );
 

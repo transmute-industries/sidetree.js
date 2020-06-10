@@ -37,5 +37,8 @@
     "typescript": "^3.8.3",
     "it-concat": "^1.0.0",
     "ipfs-http-client": "42.0.0"
+  },
+  "dependencies": {
+    "@sidetree/common": "0.1.0"
   }
 }

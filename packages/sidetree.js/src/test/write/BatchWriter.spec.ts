@@ -1,6 +1,6 @@
 import BatchWriter from '../../write/BatchWriter';
 import MockBlockchain from '../mocks/MockBlockchain';
-import MockCas from '../mocks/MockCas';
+import MockCas from '@sidetree/ipfs/src/MockCas';
 import MockOperationQueue from '../mocks/MockOperationQueue';
 import ProtocolParameters from '@sidetree/common/src/util/ProtocolParameters';
 
