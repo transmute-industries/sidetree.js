@@ -2,7 +2,7 @@ import { web3 } from './index';
 
 describe('web3 sanity', () => {
   it('get accounts', async () => {
-    let accounts = await web3.eth.getAccounts();
+    const accounts = await web3.eth.getAccounts();
     expect(accounts).toEqual([
       '0x1E228837561e32a6eC1b16f0574D6A493Edc8863',
       '0x3bFE8B6CDEaD4574f187877b92b7e9AEE4B7e62C',
