@@ -18,12 +18,8 @@
     "build": "tsdx build",
     "pretest": "docker-compose up -d ipfs",
     "test": "tsdx test",
-    "lint": "tsdx lint src --fix",
+    "lint": "tsdx lint src",
     "prepare": "tsdx build"
-  },
-  "peerDependencies": {
-    "it-concat": "^1.0.0",
-    "ipfs-http-client": "42.0.0"
   },
   "prettier": {
     "printWidth": 80,
