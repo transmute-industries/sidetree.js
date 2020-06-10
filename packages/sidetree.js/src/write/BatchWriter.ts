@@ -39,9 +39,8 @@ export default class BatchWriter implements IBatchWriter {
       return;
     }
 
-    console.info(
-      LogColor.lightBlue(`Batch size = ${LogColor.green(numberOfOperations)}`)
-    );
+    const batchSize = LogColor.green(`${numberOfOperations}`);
+    console.info(LogColor.lightBlue(`Batch size = ${batchSize}`));
 
     const operationModels = await Promise.all(
       queuedOperations.map(async (queuedOperation) =>
