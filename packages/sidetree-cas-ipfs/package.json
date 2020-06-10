@@ -39,6 +39,7 @@
     "ipfs-http-client": "42.0.0"
   },
   "dependencies": {
-    "@sidetree/common": "0.1.0"
+    "@sidetree/common": "0.1.0",
+    "http-status": "^1.4.2"
   }
 }
