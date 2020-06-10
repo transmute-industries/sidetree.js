@@ -5,7 +5,7 @@ import DocumentComposer from './DocumentComposer';
 import Encoder from '@sidetree/common/src/util/Encoder';
 import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
 import JsonAsync from './util/JsonAsync';
-import Multihash from './util/Multihash';
+import Multihash from '@sidetree/common/src/util/Multihash';
 import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 import CreateOperation from './CreateOperation';
 import UpdateOperation from './UpdateOperation';

@@ -5,7 +5,7 @@ import DeltaModel from '@sidetree/common/src/models/DeltaModel';
 import OperationModel from '@sidetree/common/src/models/OperationModel';
 import Operation from './Operation';
 import JsonAsync from './util/JsonAsync';
-import Multihash from './util/Multihash';
+import Multihash from '@sidetree/common/src/util/Multihash';
 import Encoder from '@sidetree/common/src/util/Encoder';
 
 interface SuffixDataModel {

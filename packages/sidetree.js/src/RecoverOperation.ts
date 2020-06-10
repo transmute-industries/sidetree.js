@@ -9,7 +9,7 @@ import Encoder from '@sidetree/common/src/util/Encoder';
 import JsonAsync from './util/JsonAsync';
 import Jwk from './util/Jwk';
 import Jws from './util/Jws';
-import Multihash from './util/Multihash';
+import Multihash from '@sidetree/common/src/util/Multihash';
 
 interface SignedDataModel {
   deltaHash: string;

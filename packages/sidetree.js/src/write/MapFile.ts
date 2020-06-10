@@ -3,7 +3,7 @@ import Compressor from '../util/Compressor';
 import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
 import JsonAsync from '../util/JsonAsync';
 import MapFileModel from '@sidetree/common/src/models/MapFileModel';
-import Multihash from '../util/Multihash';
+import Multihash from '@sidetree/common/src/util/Multihash';
 import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 import UpdateOperation from '../UpdateOperation';
 

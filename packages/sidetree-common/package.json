@@ -35,6 +35,8 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "base64url": "^3.0.1"
+    "base64url": "^3.0.1",
+    "canonicalize": "^1.0.1",
+    "multihashes": "^0.4.19"
   }
 }

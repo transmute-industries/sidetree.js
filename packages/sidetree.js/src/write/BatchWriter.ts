@@ -12,7 +12,7 @@ import LogColor from '../LogColor';
 import MapFile from './MapFile';
 import Operation from '../Operation';
 import OperationType from '@sidetree/common/src/enums/OperationType';
-import ProtocolParameters from '../ProtocolParameters';
+import ProtocolParameters from '@sidetree/common/src/util/ProtocolParameters';
 import RecoverOperation from '../RecoverOperation';
 import UpdateOperation from '../UpdateOperation';
 
