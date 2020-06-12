@@ -1,7 +1,5 @@
 import ICas from '@sidetree/common/src/interfaces/ICas';
 import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
-import MockCas from '../MockCas';
-import CasIpfs from '../CasIpfs';
 import {
   testObj,
   testObjMultihash,
@@ -12,9 +10,6 @@ import {
   testBuffer,
   testBufferMultihash,
 } from '../__fixtures__';
-
-const mock = new MockCas();
-const casIpfs = new CasIpfs('/ip4/127.0.0.1/tcp/5001');
 
 const testSuite = (cas: ICas) => {
   describe(cas.constructor.name, () => {
@@ -68,6 +63,5 @@ const testSuite = (cas: ICas) => {
   });
 };
 
-testSuite(mock);
-
-testSuite(casIpfs);
+// eslint-disable-next-line jest/no-export
+export default testSuite;
