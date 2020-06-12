@@ -37,6 +37,8 @@
   "dependencies": {
     "@sidetree/common": "0.1.0",
     "@types/node-fetch": "^2.5.7",
-    "http-status": "^1.4.2"
+    "http-status": "^1.4.2",
+    "ipfs-unixfs": "^1.0.3",
+    "ipld-dag-pb": "^0.18.5"
   }
 }

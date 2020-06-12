@@ -3,6 +3,9 @@ import FetchResult from '@sidetree/common/src/models/FetchResult';
 import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
 import ICas from '@sidetree/common/src/interfaces/ICas';
 import Multihash from '@sidetree/common/src/util/Multihash';
+// FIXME
+const Unixfs = require('ipfs-unixfs');
+const { DAGNode } = require('ipld-dag-pb');
 
 /**
  * Implementation of a CAS class for testing.
@@ -12,27 +15,20 @@ export default class MockCas implements ICas {
   /** A Map that stores the given content. */
   private storage: Map<string, Buffer> = new Map();
 
-  /** Time taken in seconds for each mock fetch. */
-  private mockSecondsTakenForEachCasFetch = 0;
-
-  constructor(mockSecondsTakenForEachCasFetch?: number) {
-    if (mockSecondsTakenForEachCasFetch !== undefined) {
-      this.mockSecondsTakenForEachCasFetch = mockSecondsTakenForEachCasFetch;
-    }
-  }
-
   /**
    * Gets the address that can be used to access the given content.
    */
-  public static getAddress(content: Buffer): string {
-    const hash = Multihash.hash(content, 18); // SHA256
-    const encodedHash = Encoder.encode(hash);
-
-    return encodedHash;
+  public async getAddress(content: Buffer): Promise<string> {
+    const unixFs = new Unixfs('file', content);
+    const dagNode = new DAGNode(unixFs.marshal());
+    const dagLink = await dagNode.toDAGLink();
+    const cidV1 = dagLink.Hash;
+    const cidV0 = cidV1.toV0();
+    return cidV0.toString();
   }
 
   public async write(content: Buffer): Promise<string> {
-    const encodedHash = MockCas.getAddress(content);
+    const encodedHash = await this.getAddress(content);
     this.storage.set(encodedHash, content);
     return encodedHash;
   }
@@ -42,9 +38,6 @@ export default class MockCas implements ICas {
     _maxSizeInBytes: number
   ): Promise<FetchResult> {
     // Wait for configured time before returning.
-    await new Promise(resolve =>
-      setTimeout(resolve, this.mockSecondsTakenForEachCasFetch * 1000)
-    );
 
     const content = this.storage.get(address);
 
