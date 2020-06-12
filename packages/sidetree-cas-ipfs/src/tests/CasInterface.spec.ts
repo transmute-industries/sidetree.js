@@ -1,12 +1,16 @@
+import ICas from '@sidetree/common/src/interfaces/ICas';
 import MockCas from '../MockCas';
 import CasIpfs from '../CasIpfs';
-import ICas from '@sidetree/common/src/interfaces/ICas';
 import {
   // ipfs,
   // methods,
-  testInteger,
+
   testObj,
+  testObjMultihash,
   testString,
+  testStringMultiHash,
+  testInteger,
+  testIntegerMultiHash,
 } from '../__fixtures__';
 import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
 
@@ -18,42 +22,36 @@ const testSuite = (cas: ICas) => {
     describe('write', () => {
       it('should write a JSON and return content id', async () => {
         const cid = await cas.write(Buffer.from(JSON.stringify(testObj)));
-        expect(cid).toBe('QmNrEidQrAbxx3FzxNt9E6qjEDZrtvzxUVh47BXm55Zuen');
+        expect(cid).toBe(testObjMultihash);
       });
 
       it('should write a string and return content id', async () => {
         const cid = await cas.write(Buffer.from(testString));
-        expect(cid).toBe('QmVGtJ3tWYAotBwcwmRsdNqA9vtWZWkKCwxxLSwsBo3QFA');
+        expect(cid).toBe(testStringMultiHash);
       });
 
       it('should write an integer and return content id', async () => {
         const cid = await cas.write(Buffer.from(testInteger.toString()));
-        expect(cid).toBe('QmWYddCPs7uR9EvHNCZzpguVFVNfHc6aM3hPVzPdAEESMc');
+        expect(cid).toBe(testIntegerMultiHash);
       });
     });
     // Add test for buffer
 
     describe('read', () => {
       it('should read a JSON', async () => {
-        const fetchResult = await cas.read(
-          'QmNrEidQrAbxx3FzxNt9E6qjEDZrtvzxUVh47BXm55Zuen'
-        );
+        const fetchResult = await cas.read(testObjMultihash);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(JSON.parse(fetchResult.content)).toEqual(testObj);
       });
 
       it('should read a string', async () => {
-        const fetchResult = await cas.read(
-          'QmVGtJ3tWYAotBwcwmRsdNqA9vtWZWkKCwxxLSwsBo3QFA'
-        );
+        const fetchResult = await cas.read(testStringMultiHash);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(fetchResult.content.toString()).toEqual(testString);
       });
 
       it('should read an integer', async () => {
-        const fetchResult = await cas.read(
-          'QmWYddCPs7uR9EvHNCZzpguVFVNfHc6aM3hPVzPdAEESMc'
-        );
+        const fetchResult = await cas.read(testIntegerMultiHash);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(Number.parseInt(fetchResult.content)).toEqual(testInteger);
       });
