@@ -5,9 +5,9 @@ import ipfsClient from 'ipfs-http-client';
 import concat from 'it-concat';
 
 export default class CasIpfs implements ICas {
-  private ipfs;
+  private ipfs: any;
 
-  constructor(multiaddr) {
+  constructor(multiaddr: string) {
     const parts = multiaddr.split('/');
 
     if (parts[1] === 'ip4') {
