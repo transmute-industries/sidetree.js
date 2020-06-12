@@ -20,15 +20,15 @@ const testSuite = (cas: ICas) => {
         expect(cid).toBe('QmNrEidQrAbxx3FzxNt9E6qjEDZrtvzxUVh47BXm55Zuen');
       });
 
-      // it('should write a string and return content id', async () => {
-      //   const cid = await cas.write(Buffer.from(testString));
-      //   expect(cid).toBe('QmT2PFvRp4VXeBtFRWJUfJpssK6UqTZ5eHpaYQNcEXfNn8');
-      // });
+      it('should write a string and return content id', async () => {
+        const cid = await cas.write(Buffer.from(testString));
+        expect(cid).toBe('QmVGtJ3tWYAotBwcwmRsdNqA9vtWZWkKCwxxLSwsBo3QFA');
+      });
 
-      // it('should write an integer and return content id', async () => {
-      //   const cid = await cas.write(Buffer.from(testInteger));
-      //   expect(cid).toBe('QmWYddCPs7uR9EvHNCZzpguVFVNfHc6aM3hPVzPdAEESMc');
-      // });
+      it('should write an integer and return content id', async () => {
+        const cid = await cas.write(Buffer.from(testInteger.toString()));
+        expect(cid).toBe('QmWYddCPs7uR9EvHNCZzpguVFVNfHc6aM3hPVzPdAEESMc');
+      });
     });
 
     // describe('read', () => {
