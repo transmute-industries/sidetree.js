@@ -1,11 +1,8 @@
-import Encoder from '@sidetree/common/src/util/Encoder';
-import FetchResult from '@sidetree/common/src/models/FetchResult';
 import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
 import ICas from '@sidetree/common/src/interfaces/ICas';
-import Multihash from '@sidetree/common/src/util/Multihash';
-// FIXME
-const Unixfs = require('ipfs-unixfs');
-const { DAGNode } = require('ipld-dag-pb');
+import FetchResult from '@sidetree/common/src/models/FetchResult';
+import Unixfs from 'ipfs-unixfs';
+import { DAGNode } from 'ipld-dag-pb';
 
 /**
  * Implementation of a CAS class for testing.
