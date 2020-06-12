@@ -4,19 +4,6 @@ import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
 import ipfsClient from 'ipfs-http-client';
 import concat from 'it-concat';
 
-// https://italonascimento.github.io/applying-a-timeout-to-your-promises/
-const resolveValueOrNullInSeconds = (promise, seconds) => {
-  const timeout = new Promise(resolve => {
-    const id = setTimeout(() => {
-      clearTimeout(id);
-      resolve(null);
-    }, seconds * 1000);
-  });
-
-  // Returns a race between our timeout and the passed in promise
-  return Promise.race([promise, timeout]);
-};
-
 export default class CasIpfs implements ICas {
   private ipfs;
 
@@ -24,7 +11,7 @@ export default class CasIpfs implements ICas {
     const parts = multiaddr.split('/');
 
     if (parts[1] === 'ip4') {
-      this.ipfs = ipfsClient(multiaddr);
+      this.ipfs = ipfsClient({ host: parts[2], port: parts[4] });
     }
 
     if (parts[1] === 'dns4') {
@@ -45,20 +32,30 @@ export default class CasIpfs implements ICas {
   }
 
   public async read(address: string): Promise<FetchResult> {
-    const source = this.ipfs.get(address);
-    let content;
-    for await (const file of source) {
-      content = Buffer.from((await concat(file.content)).toString());
-      break;
-    }
-    if (content) {
+    try {
+      const source = this.ipfs.get(address, { timeout: 2000 });
+      let content;
+      for await (const file of source) {
+        content = Buffer.from((await concat(file.content)).toString());
+        break;
+      }
+      if (content) {
+        return {
+          code: FetchResultCode.Success,
+          content,
+        };
+      }
       return {
-        code: FetchResultCode.Success,
-        content,
+        code: FetchResultCode.NotFound,
       };
+    } catch (e) {
+      if (e.name === 'TimeoutError') {
+        return {
+          code: FetchResultCode.NotFound,
+        };
+      } else {
+        throw e;
+      }
     }
-    return {
-      code: FetchResultCode.NotFound,
-    };
   }
 }
