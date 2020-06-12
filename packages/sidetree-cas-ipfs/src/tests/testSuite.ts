@@ -9,6 +9,7 @@ import {
   testIntegerMultiHash,
   testBuffer,
   testBufferMultihash,
+  notFoundMultihash,
 } from '../__fixtures__';
 
 const testSuite = (cas: ICas) => {
@@ -58,6 +59,11 @@ const testSuite = (cas: ICas) => {
         const fetchResult = await cas.read(testBufferMultihash);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(fetchResult.content).toEqual(testBuffer);
+      });
+
+      it('should return not found if cid does not exist', async () => {
+        const fetchResult = await cas.read(notFoundMultihash);
+        expect(fetchResult.code).toEqual(FetchResultCode.NotFound);
       });
     });
   });

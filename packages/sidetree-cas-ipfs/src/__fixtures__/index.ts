@@ -41,3 +41,6 @@ export const testIntegerMultiHash =
 export const testBuffer = Buffer.from([1, 2, 3, 4]);
 export const testBufferMultihash =
   'QmZck3ivjTFqJWqLagTGXjUTikSvkDsSxDLgvizKWKj5rz';
+
+export const notFoundMultihash =
+  'Qmaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
