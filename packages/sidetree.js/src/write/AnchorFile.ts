@@ -3,11 +3,11 @@ import ArrayMethods from '../util/ArrayMethods';
 import Compressor from '../util/Compressor';
 import CreateOperation from '../CreateOperation';
 import DeactivateOperation from '../DeactivateOperation';
-import Encoder from '../util/Encoder';
+import Encoder from '@sidetree/common/src/util/Encoder';
 import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
 import JsonAsync from '../util/JsonAsync';
-import Multihash from '../util/Multihash';
-import ProtocolParameters from '../ProtocolParameters';
+import Multihash from '@sidetree/common/src/util/Multihash';
+import ProtocolParameters from '@sidetree/common/src/util/ProtocolParameters';
 import RecoverOperation from '../RecoverOperation';
 import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 

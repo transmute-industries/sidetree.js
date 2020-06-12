@@ -1,6 +1,6 @@
 import * as crypto from 'crypto';
 import ChunkFile from '../../write/ChunkFile';
-import Encoder from '../../util/Encoder';
+import Encoder from '@sidetree/common/src/util/Encoder';
 import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
 import JasmineSidetreeErrorValidator from '../JasmineSidetreeErrorValidator';
 import Jwk from '../../util/Jwk';

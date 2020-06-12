@@ -3,7 +3,7 @@ import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 import ChunkFileModel from '@sidetree/common/src/models/ChunkFileModel';
 import timeSpan from 'time-span';
 import CreateOperation from '../CreateOperation';
-import ProtocolParameters from '../ProtocolParameters';
+import ProtocolParameters from '@sidetree/common/src/util/ProtocolParameters';
 import RecoverOperation from '../RecoverOperation';
 import UpdateOperation from '../UpdateOperation';
 import Compressor from '../util/Compressor';

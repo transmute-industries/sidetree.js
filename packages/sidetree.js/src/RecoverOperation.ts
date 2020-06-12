@@ -5,11 +5,11 @@ import DeltaModel from '@sidetree/common/src/models/DeltaModel';
 import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
 import OperationModel from '@sidetree/common/src/models/OperationModel';
 import Operation from './Operation';
-import Encoder from './util/Encoder';
+import Encoder from '@sidetree/common/src/util/Encoder';
 import JsonAsync from './util/JsonAsync';
 import Jwk from './util/Jwk';
 import Jws from './util/Jws';
-import Multihash from './util/Multihash';
+import Multihash from '@sidetree/common/src/util/Multihash';
 
 interface SignedDataModel {
   deltaHash: string;
