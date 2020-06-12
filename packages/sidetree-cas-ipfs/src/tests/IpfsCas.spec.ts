@@ -1,6 +1,7 @@
 import testSuite from './testSuite';
 import IpfsCas from '../IpfsCas';
+import { multiaddr } from '../__fixtures__';
 
-const mock = new IpfsCas('/ip4/127.0.0.1/tcp/5001');
+const mock = new IpfsCas(multiaddr);
 
 testSuite(mock);
