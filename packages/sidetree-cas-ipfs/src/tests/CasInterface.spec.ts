@@ -39,7 +39,6 @@ const testSuite = (cas: ICas) => {
         expect(cid).toBe(testBufferMultihash);
       });
     });
-    // Add test for buffer
 
     describe('read', () => {
       it('should read a JSON', async () => {
