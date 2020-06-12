@@ -1,4 +1,4 @@
-import Cas from './Cas';
+import Cas from '../Cas';
 import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
 import ReadableStream from '@sidetree/common/src/util/ReadableStream';
 import ServiceVersionModel from '@sidetree/common/src/models/ServiceVersionModel';
