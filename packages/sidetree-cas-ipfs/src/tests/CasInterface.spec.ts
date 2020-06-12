@@ -1,18 +1,17 @@
 import ICas from '@sidetree/common/src/interfaces/ICas';
+import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
 import MockCas from '../MockCas';
 import CasIpfs from '../CasIpfs';
 import {
-  // ipfs,
-  // methods,
-
   testObj,
   testObjMultihash,
   testString,
   testStringMultiHash,
   testInteger,
   testIntegerMultiHash,
+  testBuffer,
+  testBufferMultihash,
 } from '../__fixtures__';
-import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
 
 const mock = new MockCas();
 const casIpfs = new CasIpfs('/ip4/127.0.0.1/tcp/5001');
@@ -34,6 +33,11 @@ const testSuite = (cas: ICas) => {
         const cid = await cas.write(Buffer.from(testInteger.toString()));
         expect(cid).toBe(testIntegerMultiHash);
       });
+
+      it('should write a buffer and return content id', async () => {
+        const cid = await cas.write(testBuffer);
+        expect(cid).toBe(testBufferMultihash);
+      });
     });
     // Add test for buffer
 
@@ -54,6 +58,12 @@ const testSuite = (cas: ICas) => {
         const fetchResult = await cas.read(testIntegerMultiHash);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(Number.parseInt(fetchResult.content)).toEqual(testInteger);
+      });
+
+      it('should read a buffer', async () => {
+        const fetchResult = await cas.read(testBufferMultihash);
+        expect(fetchResult.code).toEqual(FetchResultCode.Success);
+        expect(fetchResult.content).toEqual(testBuffer);
       });
     });
   });
