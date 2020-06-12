@@ -10,7 +10,7 @@ import {
   testBuffer,
   testBufferMultihash,
   notFoundMultihash,
-} from '../__fixtures__';
+} from './__fixtures__';
 
 const testSuite = (cas: ICas) => {
   describe(cas.constructor.name, () => {
