@@ -33,14 +33,8 @@ export default class MockCas implements ICas {
     return encodedHash;
   }
 
-  public async read(
-    address: string,
-    _maxSizeInBytes: number
-  ): Promise<FetchResult> {
-    // Wait for configured time before returning.
-
+  public async read(address: string): Promise<FetchResult> {
     const content = this.storage.get(address);
-
     if (content === undefined) {
       return {
         code: FetchResultCode.NotFound,
