@@ -2,6 +2,7 @@ import ICas from '@sidetree/common/src/interfaces/ICas';
 import FetchResult from '@sidetree/common/src/models/FetchResult';
 import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
 import ipfsClient from 'ipfs-http-client';
+import concat from 'it-concat';
 
 // https://italonascimento.github.io/applying-a-timeout-to-your-promises/
 const resolveValueOrNullInSeconds = (promise, seconds) => {
@@ -43,29 +44,19 @@ export default class CasIpfs implements ICas {
     return '';
   }
 
-  public async read(
-    address: string,
-    _maxSizeInBytes: number
-  ): Promise<FetchResult> {
-    // try {
-    //   const [node] = await resolveValueOrNullInSeconds(this.ipfs.get(cid), 5);
-    //   return JSON.parse(node.content);
-    // } catch (e) {
-    //   throw new Error(`Invalid JSON: https://ipfs.io/ipfs/${cid}`);
-    // }
-    console.log(address, _maxSizeInBytes);
-    // const content = this.storage.get(address);
-
-    // if (content === undefined) {
-    //   return {
-    //     code: FetchResultCode.NotFound,
-    //   };
-    // }
-
-    // return {
-    //   code: FetchResultCode.Success,
-    //   content,
-    // };
+  public async read(address: string): Promise<FetchResult> {
+    const source = this.ipfs.get(address);
+    let content;
+    for await (const file of source) {
+      content = Buffer.from((await concat(file.content)).toString());
+      break;
+    }
+    if (content) {
+      return {
+        code: FetchResultCode.Success,
+        content,
+      };
+    }
     return {
       code: FetchResultCode.NotFound,
     };
