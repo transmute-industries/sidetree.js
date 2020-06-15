@@ -39,19 +39,21 @@ const testSuite = (cas: ICas) => {
       it('should read a JSON', async () => {
         const fetchResult = await cas.read(testObjMultihash);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
-        expect(JSON.parse(fetchResult.content)).toEqual(testObj);
+        expect(JSON.parse(fetchResult.content!.toString())).toEqual(testObj);
       });
 
       it('should read a string', async () => {
         const fetchResult = await cas.read(testStringMultiHash);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
-        expect(fetchResult.content.toString()).toEqual(testString);
+        expect(fetchResult.content!.toString()).toEqual(testString);
       });
 
       it('should read an integer', async () => {
         const fetchResult = await cas.read(testIntegerMultiHash);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
-        expect(Number.parseInt(fetchResult.content)).toEqual(testInteger);
+        expect(Number.parseInt(fetchResult.content!.toString())).toEqual(
+          testInteger
+        );
       });
 
       it('should read a buffer', async () => {
