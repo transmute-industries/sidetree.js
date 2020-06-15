@@ -2,11 +2,12 @@
 
 [![npm version](https://badge.fury.io/js/sidetree.js.svg)](https://badge.fury.io/js/sidetree.js)
 
-![Database TypeORM](https://github.com/transmute-industries/sidetree.js/workflows/Database%20TypeORM/badge.svg)
+![Continuous Integrration](https://github.com/transmute-industries/sidetree.js/workflows/CI/badge.svg)
 
-![Ledger Ethereum](https://github.com/transmute-industries/sidetree.js/workflows/Ledger%20Ethereum/badge.svg)
+## How to pull individual packages from the mono repo
 
-![Storage IPFS](https://github.com/transmute-industries/sidetree.js/workflows/Storage%20IPFS/badge.svg)
+- Copy the global eslint config to the package
+- Make sure the linked packages are published
 
 ### Docker Commands
 
