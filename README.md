@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/sidetree.js.svg)](https://badge.fury.io/js/sidetree.js)
 
-![Continuous Integrration](https://github.com/transmute-industries/sidetree.js/workflows/CI/badge.svg)
+![Continuous Integration](https://github.com/transmute-industries/sidetree.js/workflows/CI/badge.svg)
 
 ## How to pull individual packages from the mono repo
 
