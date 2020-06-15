@@ -1,5 +1,4 @@
-import IOperationQueue from '@sidetree/common/src/interfaces/IOperationQueue';
-import QueuedOperationModel from '@sidetree/common/src/models/QueuedOperationModel';
+import { IOperationQueue, QueuedOperationModel } from '@sidetree/common';
 
 /**
  * A mock in-memory operation queue used by the Batch Writer.

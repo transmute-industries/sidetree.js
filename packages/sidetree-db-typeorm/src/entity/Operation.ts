@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryColumn, ObjectIdColumn } from 'typeorm';
-import OperationType from '@sidetree/common/src/enums/OperationType';
+import { OperationType } from '@sidetree/common';
 
 @Entity()
 export default class Operation {

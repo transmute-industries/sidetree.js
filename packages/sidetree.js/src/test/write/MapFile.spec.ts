@@ -1,12 +1,14 @@
+import {
+  Encoder,
+  ErrorCode,
+  MapFileModel,
+  Multihash,
+  SidetreeError,
+} from '@sidetree/common';
 import Compressor from '../../util/Compressor';
-import Encoder from '@sidetree/common/src/util/Encoder';
-import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
-import JasmineSidetreeErrorValidator from '../JasmineSidetreeErrorValidator';
 import MapFile from '../../write/MapFile';
-import MapFileModel from '@sidetree/common/src/models/MapFileModel';
-import Multihash from '@sidetree/common/src/util/Multihash';
-import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 import OperationGenerator from '../generators/OperationGenerator';
+import JasmineSidetreeErrorValidator from '../JasmineSidetreeErrorValidator';
 
 describe('MapFile', () => {
   describe('parse()', () => {

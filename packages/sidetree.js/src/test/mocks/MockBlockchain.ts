@@ -1,6 +1,8 @@
-import BlockchainTimeModel from '@sidetree/common/src/models/BlockchainTimeModel';
-import IBlockchain from '@sidetree/common/src/interfaces/IBlockchain';
-import TransactionModel from '@sidetree/common/src/models/TransactionModel';
+import {
+  BlockchainTimeModel,
+  IBlockchain,
+  TransactionModel,
+} from '@sidetree/common';
 
 /**
  * Mock Blockchain class for testing.

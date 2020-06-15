@@ -1,11 +1,10 @@
+import { Encoder, ErrorCode } from '@sidetree/common';
 import * as crypto from 'crypto';
-import ChunkFile from '../../write/ChunkFile';
-import Encoder from '@sidetree/common/src/util/Encoder';
-import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
-import JasmineSidetreeErrorValidator from '../JasmineSidetreeErrorValidator';
-import Jwk from '../../util/Jwk';
 import Compressor from '../../util/Compressor';
+import Jwk from '../../util/Jwk';
+import ChunkFile from '../../write/ChunkFile';
 import OperationGenerator from '../generators/OperationGenerator';
+import JasmineSidetreeErrorValidator from '../JasmineSidetreeErrorValidator';
 
 describe('ChunkFile', () => {
   describe('parse()', () => {

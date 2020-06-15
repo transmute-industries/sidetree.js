@@ -1,20 +1,22 @@
-import OperationType from '@sidetree/common/src/enums/OperationType';
-import PublicKeyUsage from '@sidetree/common/src/enums/PublicKeyUsage';
-import AnchoredOperationModel from '@sidetree/common/src/models/AnchoredOperationModel';
-import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
-import OperationModel from '@sidetree/common/src/models/OperationModel';
-import PublicKeyModel from '@sidetree/common/src/models/PublicKeyModel';
-import ServiceEndpointModel from '@sidetree/common/src/models/ServiceEndpointModel';
+import {
+  AnchoredOperationModel,
+  Encoder,
+  JwkEs256k,
+  Multihash,
+  OperationModel,
+  OperationType,
+  PublicKeyModel,
+  PublicKeyUsage,
+  ServiceEndpointModel,
+} from '@sidetree/common';
 import * as crypto from 'crypto';
 import CreateOperation from '../../CreateOperation';
 import DeactivateOperation from '../../DeactivateOperation';
 import DocumentComposer from '../../DocumentComposer';
 import RecoverOperation from '../../RecoverOperation';
 import UpdateOperation from '../../UpdateOperation';
-import Encoder from '@sidetree/common/src/util/Encoder';
 import Jwk from '../../util/Jwk';
 import Jws from '../../util/Jws';
-import Multihash from '@sidetree/common/src/util/Multihash';
 
 interface AnchoredCreateOperationGenerationInput {
   transactionNumber: number;

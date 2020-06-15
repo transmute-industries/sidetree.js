@@ -1,6 +1,4 @@
-import ICas from '@sidetree/common/src/interfaces/ICas';
-import FetchResult from '@sidetree/common/src/models/FetchResult';
-import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
+import { FetchResultCode, ICas, FetchResult } from '@sidetree/common';
 import ipfsClient from 'ipfs-http-client';
 import concat from 'it-concat';
 
@@ -25,10 +23,8 @@ export default class CasIpfs implements ICas {
 
   public async write(content: Buffer): Promise<string> {
     const source = await this.ipfs.add(content);
-    for await (const file of source) {
-      return file.path;
-    }
-    return '';
+    const file = await source.next();
+    return file.value.path;
   }
 
   public async read(address: string): Promise<FetchResult> {

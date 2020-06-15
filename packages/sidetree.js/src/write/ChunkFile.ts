@@ -1,9 +1,11 @@
-import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
-import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
-import ChunkFileModel from '@sidetree/common/src/models/ChunkFileModel';
+import {
+  ChunkFileModel,
+  ErrorCode,
+  SidetreeError,
+  protocolParameters,
+} from '@sidetree/common';
 import timeSpan from 'time-span';
 import CreateOperation from '../CreateOperation';
-import ProtocolParameters from '@sidetree/common/src/util/ProtocolParameters';
 import RecoverOperation from '../RecoverOperation';
 import UpdateOperation from '../UpdateOperation';
 import Compressor from '../util/Compressor';
@@ -63,10 +65,10 @@ export default class ChunkFile {
       const deltaBuffer = Buffer.from(encodedDelta);
 
       // Verify size of each delta does not exceed the maximum allowed limit.
-      if (deltaBuffer.length > ProtocolParameters.maxDeltaSizeInBytes) {
+      if (deltaBuffer.length > protocolParameters.maxDeltaSizeInBytes) {
         throw new SidetreeError(
           ErrorCode.ChunkFileDeltaSizeExceedsLimit,
-          `Operation size of ${deltaBuffer.length} bytes exceeds the allowed limit of ${ProtocolParameters.maxDeltaSizeInBytes} bytes.`
+          `Operation size of ${deltaBuffer.length} bytes exceeds the allowed limit of ${protocolParameters.maxDeltaSizeInBytes} bytes.`
         );
       }
     }

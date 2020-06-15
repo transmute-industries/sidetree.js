@@ -1,13 +1,15 @@
-import DeltaModel from '@sidetree/common/src/models/DeltaModel';
-import Encoder from '@sidetree/common/src/util/Encoder';
-import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
+import {
+  DeltaModel,
+  Encoder,
+  ErrorCode,
+  Multihash,
+  OperationModel,
+  OperationType,
+  SidetreeError,
+} from '@sidetree/common';
+import Operation from './Operation';
 import JsonAsync from './util/JsonAsync';
 import Jws from './util/Jws';
-import Multihash from '@sidetree/common/src/util/Multihash';
-import Operation from './Operation';
-import OperationModel from '@sidetree/common/src/models/OperationModel';
-import OperationType from '@sidetree/common/src/enums/OperationType';
-import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 
 interface SignedDataModel {
   deltaHash: string;

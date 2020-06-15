@@ -1,5 +1,4 @@
-import IBlockchain from '@sidetree/common/src/interfaces/IBlockchain';
-import IVersionManager from '@sidetree/common/src/interfaces/IVersionManager';
+import { IBlockchain, IVersionManager } from '@sidetree/common';
 import timeSpan = require('time-span');
 
 /**

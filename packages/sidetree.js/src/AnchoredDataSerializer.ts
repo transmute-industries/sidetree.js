@@ -1,7 +1,9 @@
-import AnchoredData from '@sidetree/common/src/models/AnchoredData';
-import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
-import ProtocolParameters from '@sidetree/common/src/util/ProtocolParameters';
-import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
+import {
+  AnchoredData,
+  ErrorCode,
+  protocolParameters,
+  SidetreeError,
+} from '@sidetree/common';
 
 /**
  * Encapsulates functionality to serialize/deserialize data that read/write to
@@ -40,10 +42,10 @@ export default class AnchoredDataSerializer {
       splitData[0]
     );
 
-    if (numberOfOperations > ProtocolParameters.maxOperationsPerBatch) {
+    if (numberOfOperations > protocolParameters.maxOperationsPerBatch) {
       throw new SidetreeError(
         ErrorCode.AnchoredDataNumberOfOperationsGreaterThanMax,
-        `Number of operations ${numberOfOperations} must be less than or equal to ${ProtocolParameters.maxOperationsPerBatch}`
+        `Number of operations ${numberOfOperations} must be less than or equal to ${protocolParameters.maxOperationsPerBatch}`
       );
     }
 

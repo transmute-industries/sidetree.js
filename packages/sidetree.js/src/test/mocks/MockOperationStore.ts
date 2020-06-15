@@ -1,5 +1,4 @@
-import AnchoredOperationModel from '@sidetree/common/src/models/AnchoredOperationModel';
-import IOperationStore from '@sidetree/common/src/interfaces/IOperationStore';
+import { AnchoredOperationModel, IOperationStore } from '@sidetree/common';
 
 /**
  * Compare two operations returning -1, 0, 1 when the first operand

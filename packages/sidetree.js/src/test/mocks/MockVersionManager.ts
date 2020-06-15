@@ -1,9 +1,8 @@
-import IBatchWriter from '@sidetree/common/src/interfaces/IBatchWriter';
-import IOperationProcessor from '@sidetree/common/src/interfaces/IOperationProcessor';
-// import IRequestHandler from '../../lib/core/interfaces/IRequestHandler';
-// import ITransactionProcessor from '../../lib/core/interfaces/ITransactionProcessor';
-import IVersionManager from '@sidetree/common/src/interfaces/IVersionManager';
-// import ITransactionSelector from '../../lib/core/interfaces/ITransactionSelector';
+import {
+  IBatchWriter,
+  IOperationProcessor,
+  IVersionManager,
+} from '@sidetree/common';
 
 /**
  * Mock version manager for testing.

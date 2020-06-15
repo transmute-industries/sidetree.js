@@ -5,7 +5,7 @@ import ChunkFile from '../../entity/ChunkFile';
 import Delta from '../../entity/Delta';
 import MapFile from '../../entity/MapFile';
 import Operation from '../../entity/Operation';
-import OperationType from '@sidetree/common/src/enums/OperationType';
+import { OperationType } from '@sidetree/common';
 
 const txn = new SidetreeTransaction(
   89,

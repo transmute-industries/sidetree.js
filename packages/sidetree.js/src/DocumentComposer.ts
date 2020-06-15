@@ -1,8 +1,10 @@
-import PublicKeyUsage from '@sidetree/common/src/enums/PublicKeyUsage';
-import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
-import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
-import DocumentModel from '@sidetree/common/src/models/DocumentModel';
-import PublicKeyModel from '@sidetree/common/src/models/PublicKeyModel';
+import {
+  DocumentModel,
+  ErrorCode,
+  PublicKeyModel,
+  PublicKeyUsage,
+  SidetreeError,
+} from '@sidetree/common';
 import jsonpatch, { Operation } from 'fast-json-patch';
 import Document from './Document';
 import UpdateOperation from './UpdateOperation';

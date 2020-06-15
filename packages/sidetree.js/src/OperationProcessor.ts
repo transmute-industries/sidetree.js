@@ -1,18 +1,20 @@
 /* eslint-disable no-case-declarations */
-import AnchoredOperationModel from '@sidetree/common/src/models/AnchoredOperationModel';
+import {
+  AnchoredOperationModel,
+  DidState,
+  Encoder,
+  ErrorCode,
+  IOperationProcessor,
+  JsonCanonicalizer,
+  Multihash,
+  OperationType,
+  SidetreeError,
+} from '@sidetree/common';
 import CreateOperation from './CreateOperation';
 import DeactivateOperation from './DeactivateOperation';
 import DocumentComposer from './DocumentComposer';
-import DidState from '@sidetree/common/src/models/DidState';
-import Encoder from '@sidetree/common/src/util/Encoder';
-import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
-import IOperationProcessor from '@sidetree/common/src/interfaces/IOperationProcessor';
-import JsonCanonicalizer from '@sidetree/common/src/util/JsonCanonicalizer';
-import Multihash from '@sidetree/common/src/util/Multihash';
 import Operation from './Operation';
-import OperationType from '@sidetree/common/src/enums/OperationType';
 import RecoverOperation from './RecoverOperation';
-import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 import UpdateOperation from './UpdateOperation';
 
 /**

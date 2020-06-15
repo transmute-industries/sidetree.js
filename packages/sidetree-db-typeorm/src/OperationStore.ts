@@ -1,6 +1,8 @@
-import IOperationStore from '@sidetree/common/src/interfaces/IOperationStore';
-import AnchoredOperationModel from '@sidetree/common/src/models/AnchoredOperationModel';
-import OperationType from '@sidetree/common/src/enums/OperationType';
+import {
+  IOperationStore,
+  AnchoredOperationModel,
+  OperationType,
+} from '@sidetree/common';
 import { createConnection, MongoRepository, Connection } from 'typeorm';
 import Operation from './entity/Operation';
 

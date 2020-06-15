@@ -2,10 +2,7 @@
   "name": "@sidetree/common",
   "version": "0.1.0",
   "license": "MIT",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "main": "dist/index.js",
   "engines": {
     "node": ">=10"
   },
@@ -24,6 +21,7 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
+    "@types/node-fetch": "^2.5.7",
     "tsdx": "^0.13.2",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
