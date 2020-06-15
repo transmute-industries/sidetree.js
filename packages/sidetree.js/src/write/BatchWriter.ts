@@ -1,20 +1,22 @@
-import AnchoredData from '@sidetree/common/src/models/AnchoredData';
+import {
+  AnchoredData,
+  IBatchWriter,
+  IBlockchain,
+  ICas,
+  IOperationQueue,
+  OperationType,
+  protocolParameters,
+} from '@sidetree/common';
 import AnchoredDataSerializer from '../AnchoredDataSerializer';
-import AnchorFile from './AnchorFile';
-import ChunkFile from './ChunkFile';
 import CreateOperation from '../CreateOperation';
 import DeactivateOperation from '../DeactivateOperation';
-import ICas from '@sidetree/common/src/interfaces/ICas';
-import IBatchWriter from '@sidetree/common/src/interfaces/IBatchWriter';
-import IBlockchain from '@sidetree/common/src/interfaces/IBlockchain';
-import IOperationQueue from '@sidetree/common/src/interfaces/IOperationQueue';
 import LogColor from '../LogColor';
-import MapFile from './MapFile';
 import Operation from '../Operation';
-import OperationType from '@sidetree/common/src/enums/OperationType';
-import ProtocolParameters from '@sidetree/common/src/util/ProtocolParameters';
 import RecoverOperation from '../RecoverOperation';
 import UpdateOperation from '../UpdateOperation';
+import AnchorFile from './AnchorFile';
+import ChunkFile from './ChunkFile';
+import MapFile from './MapFile';
 
 /**
  * Implementation of the `IBatchWriter`.
@@ -133,7 +135,7 @@ export default class BatchWriter implements IBatchWriter {
 
   private getNumberOfOperationsToWrite(): number {
     const maxNumberOfOpsAllowedByProtocol =
-      ProtocolParameters.maxOperationsPerBatch;
+      protocolParameters.maxOperationsPerBatch;
 
     return maxNumberOfOpsAllowedByProtocol;
   }

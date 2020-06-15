@@ -1,9 +1,9 @@
-import AnchorFile from '../../write/AnchorFile';
+import { ErrorCode } from '@sidetree/common';
 import Compressor from '../../util/Compressor';
-import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
-import JasmineSidetreeErrorValidator from '../JasmineSidetreeErrorValidator';
 import Jwk from '../../util/Jwk';
+import AnchorFile from '../../write/AnchorFile';
 import OperationGenerator from '../generators/OperationGenerator';
+import JasmineSidetreeErrorValidator from '../JasmineSidetreeErrorValidator';
 
 describe('AnchorFile', () => {
   describe('parse()', () => {

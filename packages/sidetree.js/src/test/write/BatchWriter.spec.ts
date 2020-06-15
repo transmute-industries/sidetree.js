@@ -2,7 +2,7 @@ import BatchWriter from '../../write/BatchWriter';
 import MockBlockchain from '../mocks/MockBlockchain';
 import MockCas from '@sidetree/ipfs/src/MockCas';
 import MockOperationQueue from '../mocks/MockOperationQueue';
-import ProtocolParameters from '@sidetree/common/src/util/ProtocolParameters';
+import { protocolParameters } from '@sidetree/common';
 
 describe('BatchWriter', () => {
   let batchWriter: BatchWriter;
@@ -18,7 +18,7 @@ describe('BatchWriter', () => {
   describe('getNumberOfOperationsToWrite', () => {
     it('should return the value from the lock verifier', () => {
       const actual = batchWriter['getNumberOfOperationsToWrite']();
-      expect(actual).toEqual(ProtocolParameters.maxOperationsPerBatch);
+      expect(actual).toEqual(protocolParameters.maxOperationsPerBatch);
     });
   });
 });

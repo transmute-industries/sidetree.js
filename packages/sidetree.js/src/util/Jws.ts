@@ -1,8 +1,10 @@
-import Encoder from '@sidetree/common/src/util/Encoder';
-import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
-import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
-import JwsModel from '@sidetree/common/src/models/JwsModel';
-import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
+import {
+  Encoder,
+  ErrorCode,
+  JwkEs256k,
+  JwsModel,
+  SidetreeError,
+} from '@sidetree/common';
 import { JWS } from 'jose';
 
 /**

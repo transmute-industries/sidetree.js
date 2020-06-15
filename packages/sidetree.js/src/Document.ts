@@ -1,5 +1,4 @@
-import DocumentModel from '@sidetree/common/src/models/DocumentModel';
-import PublicKeyModel from '@sidetree/common/src/models/PublicKeyModel';
+import { DocumentModel, PublicKeyModel } from '@sidetree/common';
 
 /**
  * Class containing reusable document related operations.

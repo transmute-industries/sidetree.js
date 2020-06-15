@@ -1,4 +1,4 @@
-import IBatchWriter from '@sidetree/common/src/interfaces/IBatchWriter';
+import { IBatchWriter } from '@sidetree/common';
 
 /**
  * Mock Blockchain class for testing.

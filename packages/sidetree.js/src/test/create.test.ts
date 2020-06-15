@@ -1,8 +1,8 @@
-import OperationGenerator from './generators/OperationGenerator';
-import DocumentComposer from '../DocumentComposer';
+import { JwkEs256k } from '@sidetree/common';
 import CreateOperation from '../CreateOperation';
+import DocumentComposer from '../DocumentComposer';
 import Jwk from '../util/Jwk';
-import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
+import OperationGenerator from './generators/OperationGenerator';
 import didActorDidDocument from './__fixtures__/didActorDidDocument.json';
 import simpleDidDocument from './__fixtures__/simpleDidDocument.json';
 

@@ -1,9 +1,11 @@
-import AnchoredOperationModel from '@sidetree/common/src/models/AnchoredOperationModel';
-import IOperationStore from '@sidetree/common/src/interfaces/IOperationStore';
-import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
+import {
+  AnchoredOperationModel,
+  IOperationStore,
+  JwkEs256k,
+} from '@sidetree/common';
 import { OperationStore } from '@sidetree/db';
-import OperationGenerator from './generators/OperationGenerator';
 import UpdateOperation from '../UpdateOperation';
+import OperationGenerator from './generators/OperationGenerator';
 
 const databaseName = 'sidetree-test';
 

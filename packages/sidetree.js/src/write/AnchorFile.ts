@@ -1,15 +1,17 @@
-import AnchorFileModel from '@sidetree/common/src/models/AnchorFileModel';
-import ArrayMethods from '../util/ArrayMethods';
-import Compressor from '../util/Compressor';
+import {
+  AnchorFileModel,
+  Encoder,
+  ErrorCode,
+  Multihash,
+  protocolParameters,
+  SidetreeError,
+} from '@sidetree/common';
 import CreateOperation from '../CreateOperation';
 import DeactivateOperation from '../DeactivateOperation';
-import Encoder from '@sidetree/common/src/util/Encoder';
-import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
-import JsonAsync from '../util/JsonAsync';
-import Multihash from '@sidetree/common/src/util/Multihash';
-import ProtocolParameters from '@sidetree/common/src/util/ProtocolParameters';
 import RecoverOperation from '../RecoverOperation';
-import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
+import ArrayMethods from '../util/ArrayMethods';
+import Compressor from '../util/Compressor';
+import JsonAsync from '../util/JsonAsync';
 
 /**
  * Class containing Anchor File related operations.
@@ -79,7 +81,7 @@ export default class AnchorFile {
     if (
       !Multihash.isComputedUsingHashAlgorithm(
         mapFileUriAsHashBuffer,
-        ProtocolParameters.hashAlgorithmInMultihashCode
+        protocolParameters.hashAlgorithmInMultihashCode
       )
     ) {
       throw new SidetreeError(

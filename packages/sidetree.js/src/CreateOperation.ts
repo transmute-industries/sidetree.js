@@ -1,12 +1,14 @@
-import OperationType from '@sidetree/common/src/enums/OperationType';
-import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
-import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
-import DeltaModel from '@sidetree/common/src/models/DeltaModel';
-import OperationModel from '@sidetree/common/src/models/OperationModel';
+import {
+  OperationType,
+  ErrorCode,
+  SidetreeError,
+  DeltaModel,
+  OperationModel,
+  Multihash,
+  Encoder,
+} from '@sidetree/common';
 import Operation from './Operation';
 import JsonAsync from './util/JsonAsync';
-import Multihash from '@sidetree/common/src/util/Multihash';
-import Encoder from '@sidetree/common/src/util/Encoder';
 
 interface SuffixDataModel {
   deltaHash: string;

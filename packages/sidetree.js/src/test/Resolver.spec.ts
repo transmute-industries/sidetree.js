@@ -1,17 +1,19 @@
-import AnchoredOperationModel from '@sidetree/common/src/models/AnchoredOperationModel';
+import {
+  OperationType,
+  AnchoredOperationModel,
+  DidState,
+  IOperationProcessor,
+  IOperationStore,
+} from '@sidetree/common';
 import CreateOperation from '../CreateOperation';
 import Document from '../Document';
-import DidState from '@sidetree/common/src/models/DidState';
-import IOperationProcessor from '@sidetree/common/src/interfaces/IOperationProcessor';
-import IOperationStore from '@sidetree/common/src/interfaces/IOperationStore';
-import Jwk from '../util/Jwk';
-import MockOperationStore from './mocks/MockOperationStore';
-import MockVersionManager from './mocks/MockVersionManager';
-import OperationGenerator from './generators/OperationGenerator';
 import OperationProcessor from '../OperationProcessor';
-import OperationType from '@sidetree/common/src/enums/OperationType';
 import RecoverOperation from '../RecoverOperation';
 import Resolver from '../Resolver';
+import Jwk from '../util/Jwk';
+import OperationGenerator from './generators/OperationGenerator';
+import MockOperationStore from './mocks/MockOperationStore';
+import MockVersionManager from './mocks/MockVersionManager';
 
 describe('Resolver', () => {
   let resolver: Resolver;

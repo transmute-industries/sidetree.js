@@ -1,12 +1,14 @@
-import Encoder from '@sidetree/common/src/util/Encoder';
-import ErrorCode from '@sidetree/common/src/errors/ErrorCode';
+import {
+  Encoder,
+  ErrorCode,
+  JwkEs256k,
+  OperationModel,
+  OperationType,
+  SidetreeError,
+} from '@sidetree/common';
 import JsonAsync from './util/JsonAsync';
 import Jwk from './util/Jwk';
-import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
 import Jws from './util/Jws';
-import OperationModel from '@sidetree/common/src/models/OperationModel';
-import OperationType from '@sidetree/common/src/enums/OperationType';
-import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
 
 interface SignedDataModel {
   didSuffix: string;

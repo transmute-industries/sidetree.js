@@ -1,10 +1,12 @@
-import AnchoredOperationModel from '@sidetree/common/src/models/AnchoredOperationModel';
-import DidState from '@sidetree/common/src/models/DidState';
-import IOperationStore from '@sidetree/common/src/interfaces/IOperationStore';
-import IVersionManager from '@sidetree/common/src/interfaces/IVersionManager';
-import Multihash from '@sidetree/common/src/util/Multihash';
-import OperationType from '@sidetree/common/src/enums/OperationType';
-import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
+import {
+  AnchoredOperationModel,
+  DidState,
+  IOperationStore,
+  IVersionManager,
+  Multihash,
+  OperationType,
+  SidetreeError,
+} from '@sidetree/common';
 
 /**
  * NOTE: Resolver cannot be versioned because it needs to be aware of `VersionManager` to fetch versioned operation processors.

@@ -1,5 +1,5 @@
 /* eslint-disable jest/no-standalone-expect */
-import SidetreeError from '@sidetree/common/src/errors/SidetreeError';
+import { SidetreeError } from '@sidetree/common';
 
 /**
  * Encapsulates the helper functions for the tests.

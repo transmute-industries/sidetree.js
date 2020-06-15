@@ -1,8 +1,6 @@
-import OperationGenerator from './generators/OperationGenerator';
+import { JwkEs256k, OperationType, PublicKeyModel } from '@sidetree/common';
 import CreateOperation from '../CreateOperation';
-import OperationType from '@sidetree/common/src/enums/OperationType';
-import JwkEs256k from '@sidetree/common/src/models/JwkEs256k';
-import PublicKeyModel from '@sidetree/common/src/models/PublicKeyModel';
+import OperationGenerator from './generators/OperationGenerator';
 
 interface ICreateOperationData {
   createOperation: CreateOperation;
