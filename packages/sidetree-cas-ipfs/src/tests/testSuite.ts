@@ -1,5 +1,4 @@
-import ICas from '@sidetree/common/src/interfaces/ICas';
-import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
+import { FetchResultCode, ICas } from '@sidetree/common';
 import {
   testObj,
   testObjMultihash,

@@ -1,6 +1,4 @@
-import ICas from '@sidetree/common/src/interfaces/ICas';
-import FetchResult from '@sidetree/common/src/models/FetchResult';
-import FetchResultCode from '@sidetree/common/src/enums/FetchResultCode';
+import { FetchResultCode, ICas, FetchResult } from '@sidetree/common';
 import ipfsClient from 'ipfs-http-client';
 import concat from 'it-concat';
 
