@@ -1,7 +1,7 @@
 import retry from 'async-retry';
 import BatchScheduler from '../../write/BatchScheduler';
 import MockBatchWriter from '../mocks/MockBatchWriter';
-import MockBlockchain from '../mocks/MockBlockchain';
+import { MockBlockchain } from '@sidetree/ledger';
 import MockVersionManager from '../mocks/MockVersionManager';
 
 describe('BatchScheduler', () => {
