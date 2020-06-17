@@ -1,9 +1,14 @@
 import utils from './utils';
+import {
+  IBlockchain,
+  TransactionModel,
+  BlockchainTimeModel,
+} from '@sidetree/common';
 
 const contract = require('@truffle/contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
 
-export class LedgerEthereum {
+export class LedgerEthereum implements IBlockchain {
   public anchorContractAddress?: string;
   private logger: any;
   public anchorContract: any;
@@ -24,6 +29,39 @@ export class LedgerEthereum {
       });
     }
   }
+
+  public async read(
+    sinceTransactionNumber?: number,
+    _transactionTimeHash?: string
+  ): Promise<{ moreTransactions: boolean; transactions: TransactionModel[] }> {
+    console.log(sinceTransactionNumber, _transactionTimeHash);
+    return {
+      moreTransactions: false,
+      transactions: [],
+    };
+  }
+
+  public async getFirstValidTransaction(
+    _transactions: TransactionModel[]
+  ): Promise<TransactionModel | undefined> {
+    return undefined;
+  }
+
+  private latestTime?: BlockchainTimeModel = {
+    time: 500000,
+    hash: 'dummyHash',
+  };
+
+  public get approximateTime(): BlockchainTimeModel {
+    return this.latestTime!;
+  }
+  /**
+   * Hardcodes the latest time to be returned.
+   */
+  public setLatestTime(time: BlockchainTimeModel) {
+    this.latestTime = time;
+  }
+
   public _createNewContract = async (fromAddress?: string) => {
     const from = fromAddress || (await utils.getAccounts(this.web3))[0];
     const instance = await utils.retryWithLatestTransactionCount(
@@ -103,10 +141,11 @@ export class LedgerEthereum {
           gasPrice: '100000000000',
         }
       );
-      return utils.eventLogToSidetreeTransaction(receipt.logs[0]);
+      console.log(receipt);
+      // return utils.eventLogToSidetreeTransaction(receipt.logs[0]);
     } catch (e) {
       this.logger.error(e.message);
-      return null;
+      // return null;
     }
   };
 }
