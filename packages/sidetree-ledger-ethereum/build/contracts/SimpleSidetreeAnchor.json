@@ -24,7 +24,7 @@
           "type": "bytes32"
         },
         {
-          "indexed": false,
+          "indexed": true,
           "name": "transactionNumber",
           "type": "uint256"
         }
@@ -47,15 +47,15 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.0+commit.1d4f565a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"_anchorHash\",\"type\":\"bytes32\"}],\"name\":\"anchorHash\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"transactionNumber\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"anchorFileHash\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"transactionNumber\",\"type\":\"uint256\"}],\"name\":\"Anchor\",\"type\":\"event\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/orie/Desktop/Code/Transmute/sidetree.js/packages/sidetree-ledger-ethereum/contracts/SimpleSidetreeAnchor.sol\":\"SimpleSidetreeAnchor\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/orie/Desktop/Code/Transmute/sidetree.js/packages/sidetree-ledger-ethereum/contracts/SimpleSidetreeAnchor.sol\":{\"keccak256\":\"0x2f01f55257fba79c537896eef9d52cdf63954a4a1708fba09defe03b3ac2231c\",\"urls\":[\"bzzr://8be3fe71a3c887e28939e1c2720e07e798cb8f1370cc866b05dc4e48d7051572\"]}},\"version\":1}",
-  "bytecode": "0x60806040526000805534801561001457600080fd5b50610139806100246000396000f3fe60806040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806392677c6914610051578063aac4c5c41461008c575b600080fd5b34801561005d57600080fd5b5061008a6004803603602081101561007457600080fd5b81019080803590602001909291905050506100b7565b005b34801561009857600080fd5b506100a1610107565b6040518082815260200191505060405180910390f35b7f5890dfddefcf0f55584aabc2ffa20af9345469cb722d5df543848b0bf124e8a181600054604051808381526020018281526020019250505060405180910390a160016000540160008190555050565b6000548156fea165627a7a723058202a0e989a529ea48deec478d3c87b5e7bc0b116f80f0b121909baca03de0292050029",
-  "deployedBytecode": "0x60806040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806392677c6914610051578063aac4c5c41461008c575b600080fd5b34801561005d57600080fd5b5061008a6004803603602081101561007457600080fd5b81019080803590602001909291905050506100b7565b005b34801561009857600080fd5b506100a1610107565b6040518082815260200191505060405180910390f35b7f5890dfddefcf0f55584aabc2ffa20af9345469cb722d5df543848b0bf124e8a181600054604051808381526020018281526020019250505060405180910390a160016000540160008190555050565b6000548156fea165627a7a723058202a0e989a529ea48deec478d3c87b5e7bc0b116f80f0b121909baca03de0292050029",
-  "sourceMap": "24:308:1:-;;;95:1;60:36;;24:308;8:9:-1;5:2;;;30:1;27;20:12;5:2;24:308:1;;;;;;;",
-  "deployedSourceMap": "24:308:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;171:159;;8:9:-1;5:2;;;30:1;27;20:12;5:2;171:159:1;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;171:159:1;;;;;;;;;;;;;;;;;;;;60:36;;8:9:-1;5:2;;;30:1;27;20:12;5:2;60:36:1;;;;;;;;;;;;;;;;;;;;;;;171:159;234:38;241:11;254:17;;234:38;;;;;;;;;;;;;;;;;;;;;;;;322:1;302:17;;:21;282:17;:41;;;;171:159;:::o;60:36::-;;;;:::o",
-  "source": "pragma solidity 0.5.0;\n\ncontract SimpleSidetreeAnchor {\n    uint256 public transactionNumber = 0;\n    event Anchor(bytes32 anchorFileHash, uint256 transactionNumber);\n    function anchorHash(bytes32 _anchorHash) public {\n        emit Anchor(_anchorHash, transactionNumber);\n        transactionNumber = transactionNumber + 1;\n    }\n}",
-  "sourcePath": "/Users/orie/Desktop/Code/Transmute/sidetree.js/packages/sidetree-ledger-ethereum/contracts/SimpleSidetreeAnchor.sol",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.0+commit.1d4f565a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"_anchorHash\",\"type\":\"bytes32\"}],\"name\":\"anchorHash\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"transactionNumber\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"anchorFileHash\",\"type\":\"bytes32\"},{\"indexed\":true,\"name\":\"transactionNumber\",\"type\":\"uint256\"}],\"name\":\"Anchor\",\"type\":\"event\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/guillaume/workspace/sidetree.js/packages/sidetree-ledger-ethereum/contracts/SimpleSidetreeAnchor.sol\":\"SimpleSidetreeAnchor\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/guillaume/workspace/sidetree.js/packages/sidetree-ledger-ethereum/contracts/SimpleSidetreeAnchor.sol\":{\"keccak256\":\"0xdb4755bb0565e8311c21da823f4352271dca90dfde2bc14f94460a08d274fc91\",\"urls\":[\"bzzr://fd32b9deabedf2fc86b4469fdd96fa5dea0650ce59e5995d306091917068282c\"]}},\"version\":1}",
+  "bytecode": "0x60806040526000805534801561001457600080fd5b50610128806100246000396000f3fe6080604052600436106049576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806392677c6914604e578063aac4c5c4146085575b600080fd5b348015605957600080fd5b50608360048036036020811015606e57600080fd5b810190808035906020019092919050505060ad565b005b348015609057600080fd5b50609760f6565b6040518082815260200191505060405180910390f35b6000547f5890dfddefcf0f55584aabc2ffa20af9345469cb722d5df543848b0bf124e8a1826040518082815260200191505060405180910390a260016000540160008190555050565b6000548156fea165627a7a7230582092574d9f4b0cc4ad76ee9a897a417af67c46de3b43058d08cc38119d6f1318c20029",
+  "deployedBytecode": "0x6080604052600436106049576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806392677c6914604e578063aac4c5c4146085575b600080fd5b348015605957600080fd5b50608360048036036020811015606e57600080fd5b810190808035906020019092919050505060ad565b005b348015609057600080fd5b50609760f6565b6040518082815260200191505060405180910390f35b6000547f5890dfddefcf0f55584aabc2ffa20af9345469cb722d5df543848b0bf124e8a1826040518082815260200191505060405180910390a260016000540160008190555050565b6000548156fea165627a7a7230582092574d9f4b0cc4ad76ee9a897a417af67c46de3b43058d08cc38119d6f1318c20029",
+  "sourceMap": "24:316:1:-;;;95:1;60:36;;24:316;8:9:-1;5:2;;;30:1;27;20:12;5:2;24:316:1;;;;;;;",
+  "deployedSourceMap": "24:316:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;179:159;;8:9:-1;5:2;;;30:1;27;20:12;5:2;179:159:1;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;179:159:1;;;;;;;;;;;;;;;;;;;;60:36;;8:9:-1;5:2;;;30:1;27;20:12;5:2;60:36:1;;;;;;;;;;;;;;;;;;;;;;;179:159;262:17;;242:38;249:11;242:38;;;;;;;;;;;;;;;;;;330:1;310:17;;:21;290:17;:41;;;;179:159;:::o;60:36::-;;;;:::o",
+  "source": "pragma solidity 0.5.0;\n\ncontract SimpleSidetreeAnchor {\n    uint256 public transactionNumber = 0;\n    event Anchor(bytes32 anchorFileHash, uint256 indexed transactionNumber);\n    function anchorHash(bytes32 _anchorHash) public {\n        emit Anchor(_anchorHash, transactionNumber);\n        transactionNumber = transactionNumber + 1;\n    }\n}\n",
+  "sourcePath": "/Users/guillaume/workspace/sidetree.js/packages/sidetree-ledger-ethereum/contracts/SimpleSidetreeAnchor.sol",
   "ast": {
-    "absolutePath": "/Users/orie/Desktop/Code/Transmute/sidetree.js/packages/sidetree-ledger-ethereum/contracts/SimpleSidetreeAnchor.sol",
+    "absolutePath": "/Users/guillaume/workspace/sidetree.js/packages/sidetree-ledger-ethereum/contracts/SimpleSidetreeAnchor.sol",
     "exportedSymbols": {
       "SimpleSidetreeAnchor": [
         85
@@ -170,11 +170,11 @@
                 {
                   "constant": false,
                   "id": 65,
-                  "indexed": false,
+                  "indexed": true,
                   "name": "transactionNumber",
                   "nodeType": "VariableDeclaration",
                   "scope": 67,
-                  "src": "139:25:1",
+                  "src": "139:33:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -195,15 +195,15 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "114:51:1"
+              "src": "114:59:1"
             },
-            "src": "102:64:1"
+            "src": "102:72:1"
           },
           {
             "body": {
               "id": 83,
               "nodeType": "Block",
-              "src": "219:111:1",
+              "src": "227:111:1",
               "statements": [
                 {
                   "eventCall": {
@@ -216,7 +216,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 69,
-                        "src": "241:11:1",
+                        "src": "249:11:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
                           "typeString": "bytes32"
@@ -229,7 +229,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 61,
-                        "src": "254:17:1",
+                        "src": "262:17:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -252,7 +252,7 @@
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 67,
-                      "src": "234:6:1",
+                      "src": "242:6:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_bytes32_$_t_uint256_$returns$__$",
                         "typeString": "function (bytes32,uint256)"
@@ -266,7 +266,7 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "234:38:1",
+                    "src": "242:38:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
@@ -274,7 +274,7 @@
                   },
                   "id": 76,
                   "nodeType": "EmitStatement",
-                  "src": "229:43:1"
+                  "src": "237:43:1"
                 },
                 {
                   "expression": {
@@ -291,7 +291,7 @@
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 61,
-                      "src": "282:17:1",
+                      "src": "290:17:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -317,7 +317,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 61,
-                        "src": "302:17:1",
+                        "src": "310:17:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -335,7 +335,7 @@
                         "kind": "number",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "322:1:1",
+                        "src": "330:1:1",
                         "subdenomination": null,
                         "typeDescriptions": {
                           "typeIdentifier": "t_rational_1_by_1",
@@ -343,13 +343,13 @@
                         },
                         "value": "1"
                       },
-                      "src": "302:21:1",
+                      "src": "310:21:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "src": "282:41:1",
+                    "src": "290:41:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -357,7 +357,7 @@
                   },
                   "id": 82,
                   "nodeType": "ExpressionStatement",
-                  "src": "282:41:1"
+                  "src": "290:41:1"
                 }
               ]
             },
@@ -378,7 +378,7 @@
                   "name": "_anchorHash",
                   "nodeType": "VariableDeclaration",
                   "scope": 84,
-                  "src": "191:19:1",
+                  "src": "199:19:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -389,7 +389,7 @@
                     "id": 68,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
-                    "src": "191:7:1",
+                    "src": "199:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -399,29 +399,29 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "190:21:1"
+              "src": "198:21:1"
             },
             "returnParameters": {
               "id": 71,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "219:0:1"
+              "src": "227:0:1"
             },
             "scope": 85,
-            "src": "171:159:1",
+            "src": "179:159:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
         "scope": 86,
-        "src": "24:308:1"
+        "src": "24:316:1"
       }
     ],
-    "src": "0:332:1"
+    "src": "0:341:1"
   },
   "legacyAST": {
-    "absolutePath": "/Users/orie/Desktop/Code/Transmute/sidetree.js/packages/sidetree-ledger-ethereum/contracts/SimpleSidetreeAnchor.sol",
+    "absolutePath": "/Users/guillaume/workspace/sidetree.js/packages/sidetree-ledger-ethereum/contracts/SimpleSidetreeAnchor.sol",
     "exportedSymbols": {
       "SimpleSidetreeAnchor": [
         85
@@ -536,11 +536,11 @@
                 {
                   "constant": false,
                   "id": 65,
-                  "indexed": false,
+                  "indexed": true,
                   "name": "transactionNumber",
                   "nodeType": "VariableDeclaration",
                   "scope": 67,
-                  "src": "139:25:1",
+                  "src": "139:33:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -561,15 +561,15 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "114:51:1"
+              "src": "114:59:1"
             },
-            "src": "102:64:1"
+            "src": "102:72:1"
           },
           {
             "body": {
               "id": 83,
               "nodeType": "Block",
-              "src": "219:111:1",
+              "src": "227:111:1",
               "statements": [
                 {
                   "eventCall": {
@@ -582,7 +582,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 69,
-                        "src": "241:11:1",
+                        "src": "249:11:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
                           "typeString": "bytes32"
@@ -595,7 +595,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 61,
-                        "src": "254:17:1",
+                        "src": "262:17:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -618,7 +618,7 @@
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 67,
-                      "src": "234:6:1",
+                      "src": "242:6:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_bytes32_$_t_uint256_$returns$__$",
                         "typeString": "function (bytes32,uint256)"
@@ -632,7 +632,7 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "234:38:1",
+                    "src": "242:38:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
@@ -640,7 +640,7 @@
                   },
                   "id": 76,
                   "nodeType": "EmitStatement",
-                  "src": "229:43:1"
+                  "src": "237:43:1"
                 },
                 {
                   "expression": {
@@ -657,7 +657,7 @@
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 61,
-                      "src": "282:17:1",
+                      "src": "290:17:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -683,7 +683,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 61,
-                        "src": "302:17:1",
+                        "src": "310:17:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -701,7 +701,7 @@
                         "kind": "number",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "322:1:1",
+                        "src": "330:1:1",
                         "subdenomination": null,
                         "typeDescriptions": {
                           "typeIdentifier": "t_rational_1_by_1",
@@ -709,13 +709,13 @@
                         },
                         "value": "1"
                       },
-                      "src": "302:21:1",
+                      "src": "310:21:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "src": "282:41:1",
+                    "src": "290:41:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -723,7 +723,7 @@
                   },
                   "id": 82,
                   "nodeType": "ExpressionStatement",
-                  "src": "282:41:1"
+                  "src": "290:41:1"
                 }
               ]
             },
@@ -744,7 +744,7 @@
                   "name": "_anchorHash",
                   "nodeType": "VariableDeclaration",
                   "scope": 84,
-                  "src": "191:19:1",
+                  "src": "199:19:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -755,7 +755,7 @@
                     "id": 68,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
-                    "src": "191:7:1",
+                    "src": "199:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -765,26 +765,26 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "190:21:1"
+              "src": "198:21:1"
             },
             "returnParameters": {
               "id": 71,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "219:0:1"
+              "src": "227:0:1"
             },
             "scope": 85,
-            "src": "171:159:1",
+            "src": "179:159:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
         "scope": 86,
-        "src": "24:308:1"
+        "src": "24:316:1"
       }
     ],
-    "src": "0:332:1"
+    "src": "0:341:1"
   },
   "compiler": {
     "name": "solc",
@@ -817,8 +817,7 @@
     }
   },
   "schemaVersion": "3.1.0",
-  "updatedAt": "2020-05-11T18:15:26.013Z",
-  "networkType": "ethereum",
+  "updatedAt": "2020-06-18T16:57:20.183Z",
   "devdoc": {
     "methods": {}
   },
