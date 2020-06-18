@@ -31,6 +31,13 @@ export class LedgerEthereum implements IBlockchain {
     }
   }
 
+  public _getInstance: any = async () => {
+    if (!this.instance) {
+      this.instance = await this.anchorContract.at(this.anchorContractAddress);
+    }
+    return this.instance;
+  };
+
   public _getTransactions = async (
     fromBlock: number | string,
     toBlock: number | string,
@@ -45,7 +52,25 @@ export class LedgerEthereum implements IBlockchain {
     if (options && options.omitTimestamp) {
       return txns;
     }
-    return this.extendSidetreeTransactionWithTimestamp(txns);
+    // TODO: test
+    return utils.extendSidetreeTransactionWithTimestamp(this.web3, txns);
+  };
+
+  public _createNewContract = async (fromAddress?: string) => {
+    const from = fromAddress || (await utils.getAccounts(this.web3))[0];
+    const instance = await utils.retryWithLatestTransactionCount(
+      this.web3,
+      this.anchorContract.new,
+      [],
+      {
+        from,
+        // TODO: Bad hard coded value, use gasEstimate
+        gas: 4712388,
+      }
+    );
+    this.anchorContractAddress = instance.address;
+    this.logger.log('_createNewContract', this.anchorContractAddress);
+    return instance;
   };
 
   public async read(
@@ -80,7 +105,8 @@ export class LedgerEthereum implements IBlockchain {
   public async getFirstValidTransaction(
     _transactions: TransactionModel[]
   ): Promise<TransactionModel | undefined> {
-    return undefined;
+    // Not implemented, because not needed
+    throw new Error('Not implemented');
   }
 
   public get approximateTime(): BlockchainTimeModel {
@@ -103,51 +129,6 @@ export class LedgerEthereum implements IBlockchain {
     this.cachedBlockchainTime = blockchainTime;
     return blockchainTime;
   }
-
-  public _createNewContract = async (fromAddress?: string) => {
-    const from = fromAddress || (await utils.getAccounts(this.web3))[0];
-    const instance = await utils.retryWithLatestTransactionCount(
-      this.web3,
-      this.anchorContract.new,
-      [],
-      {
-        from,
-        // TODO: Bad hard coded value, use gasEstimate
-        gas: 4712388,
-      }
-    );
-    this.anchorContractAddress = instance.address;
-    this.logger.log('_createNewContract', this.anchorContractAddress);
-    return instance;
-  };
-
-  public _getInstance: any = async () => {
-    if (!this.instance) {
-      this.instance = await this.anchorContract.at(this.anchorContractAddress);
-    }
-    return this.instance;
-  };
-
-  public getBlockchainTime = async (blockHashOrBlockNumber: any) => {
-    return utils.getBlockchainTime(this.web3, blockHashOrBlockNumber);
-  };
-
-  public extendSidetreeTransactionWithTimestamp = async (
-    txns: any
-  ): Promise<TransactionModel[]> => {
-    return Promise.all(
-      txns.map(async (txn: any) => {
-        const timestamp = await utils.getBlockchainTime(
-          this.web3,
-          txn.transactionTime
-        );
-        return {
-          ...txn,
-          transactionTimestamp: timestamp,
-        };
-      })
-    );
-  };
 
   public write = async (anchorFileHash: string): Promise<void> => {
     await this.resolving;

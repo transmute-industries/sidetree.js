@@ -1,3 +1,4 @@
+import { TransactionModel } from '@sidetree/common';
 const multihashes = require('multihashes');
 
 const getAccounts = (web3: any): Promise<Array<string>> =>
@@ -95,6 +96,21 @@ const getBlockchainTime = async (web3: any, blockHashOrBlockNumber: any) => {
   return null;
 };
 
+const extendSidetreeTransactionWithTimestamp = async (
+  web3: any,
+  txns: any
+): Promise<TransactionModel[]> => {
+  return Promise.all(
+    txns.map(async (txn: any) => {
+      const timestamp = await getBlockchainTime(web3, txn.transactionTime);
+      return {
+        ...txn,
+        transactionTimestamp: timestamp,
+      };
+    })
+  );
+};
+
 export default {
   retryWithLatestTransactionCount,
   eventLogToSidetreeTransaction,
@@ -102,4 +118,5 @@ export default {
   getAccounts,
   base58EncodedMultihashToBytes32,
   bytes32EnodedMultihashToBase58EncodedMultihash,
+  extendSidetreeTransactionWithTimestamp,
 };

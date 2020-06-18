@@ -35,8 +35,6 @@ const testSuite = (ledger: IBlockchain): void => {
         expect(readResult.transactions[0].writer).toBeDefined();
       });
     });
-
-    // describe('getFirstValidTransaction', () => {});
   });
 };
 
