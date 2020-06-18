@@ -7,7 +7,7 @@ import {
 /**
  * Mock Blockchain class for testing.
  */
-export default class MockBlockchain implements IBlockchain {
+export default class MockLedger implements IBlockchain {
   /** Stores each hash given in write() method. */
   hashes: [string][] = [];
 

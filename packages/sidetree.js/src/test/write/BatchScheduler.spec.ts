@@ -1,12 +1,12 @@
 import retry from 'async-retry';
 import BatchScheduler from '../../write/BatchScheduler';
 import MockBatchWriter from '../mocks/MockBatchWriter';
-import { MockBlockchain } from '@sidetree/ledger';
+import { MockLedger } from '@sidetree/ledger';
 import MockVersionManager from '../mocks/MockVersionManager';
 
 describe('BatchScheduler', () => {
   it('should periodically invoke batch writer.', async () => {
-    const blockchain = new MockBlockchain();
+    const blockchain = new MockLedger();
     const batchWriter = new MockBatchWriter();
 
     const versionManager = new MockVersionManager();
