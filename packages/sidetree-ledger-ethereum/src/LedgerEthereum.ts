@@ -157,7 +157,7 @@ export class LedgerEthereum implements IBlockchain {
       anchorFileHash
     );
     try {
-      const receipt = await utils.retryWithLatestTransactionCount(
+      await utils.retryWithLatestTransactionCount(
         this.web3,
         instance.anchorHash,
         [bytes32EncodedHash],
@@ -166,7 +166,6 @@ export class LedgerEthereum implements IBlockchain {
           gasPrice: '100000000000',
         }
       );
-      console.log(Boolean(receipt));
     } catch (e) {
       this.logger.error(e.message);
     }
