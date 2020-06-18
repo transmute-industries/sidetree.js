@@ -2,6 +2,7 @@ import { IBlockchain } from '@sidetree/common';
 
 const anchorString = 'anAnchorString';
 const anchorString2 = 'anotherAnchorString';
+const anchorString3 = 'aThirdAnchorString';
 
 jest.setTimeout(10 * 1000);
 
@@ -28,6 +29,7 @@ const testSuite = (ledger: IBlockchain): void => {
 
     describe('read', () => {
       let transactionTimeHash: string;
+      let sinceTransactionNumber: number;
 
       it('should get all transactions', async () => {
         const readResult = await ledger.read();
@@ -44,6 +46,7 @@ const testSuite = (ledger: IBlockchain): void => {
         expect(readResult2.moreTransactions).toBeFalsy();
         expect(readResult2.transactions).toHaveLength(2);
         transactionTimeHash = readResult2.transactions[1].transactionTimeHash;
+        sinceTransactionNumber = readResult2.transactions[1].transactionNumber;
       });
 
       it('should get a specific transaction', async () => {
@@ -52,6 +55,19 @@ const testSuite = (ledger: IBlockchain): void => {
         expect(readResult.transactions).toHaveLength(1);
         expect(readResult.transactions[0].transactionTimeHash).toBe(
           transactionTimeHash
+        );
+      });
+
+      it('should get all transactions from a block', async () => {
+        await ledger.write(anchorString3);
+        const readResult = await ledger.read(sinceTransactionNumber);
+        expect(readResult.moreTransactions).toBeFalsy();
+        expect(readResult.transactions).toHaveLength(2);
+        expect(readResult.transactions[0].transactionNumber).toBe(
+          sinceTransactionNumber
+        );
+        expect(readResult.transactions[1].transactionNumber).toBe(
+          sinceTransactionNumber + 1
         );
       });
     });

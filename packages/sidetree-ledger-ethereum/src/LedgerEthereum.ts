@@ -47,6 +47,7 @@ export class LedgerEthereum implements IBlockchain {
     const logs = await instance.getPastEvents('Anchor', {
       fromBlock,
       toBlock: toBlock || 'latest',
+      filter: options.filter || undefined,
     });
     const txns = logs.map(utils.eventLogToSidetreeTransaction);
     if (options && options.omitTimestamp) {
@@ -88,8 +89,14 @@ export class LedgerEthereum implements IBlockchain {
         options
       );
     } else if (sinceTransactionNumber) {
+      const sinceTransaction = await this._getTransactions(0, 'latest', {
+        ...options,
+        filter: { transactionNumber: [sinceTransactionNumber] },
+      });
+      const sinceBlockNumber =
+        sinceTransaction.length === 1 ? sinceTransaction[0].transactionTime : 0;
       transactions = await this._getTransactions(
-        sinceTransactionNumber,
+        sinceBlockNumber,
         'latest',
         options
       );
