@@ -1,5 +1,5 @@
 import { TransactionModel } from '@sidetree/common';
-const multihashes = require('multihashes');
+import multihashes from 'multihashes';
 
 const getAccounts = (web3: any): Promise<Array<string>> =>
   new Promise((resolve, reject) => {
