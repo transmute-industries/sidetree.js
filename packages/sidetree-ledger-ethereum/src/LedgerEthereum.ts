@@ -14,6 +14,7 @@ export class LedgerEthereum implements IBlockchain {
   public anchorContract: any;
   public resolving: any;
   public instance: any;
+  private cachedBlockchainTime: BlockchainTimeModel = { hash: '', time: 0 };
 
   constructor(public web3: any, public contractAddress?: string, logger?: any) {
     this.logger = logger || console;
@@ -47,19 +48,24 @@ export class LedgerEthereum implements IBlockchain {
     return undefined;
   }
 
-  private latestTime?: BlockchainTimeModel = {
-    time: 500000,
-    hash: 'dummyHash',
-  };
-
   public get approximateTime(): BlockchainTimeModel {
-    return this.latestTime!;
+    return this.cachedBlockchainTime;
   }
-  /**
-   * Hardcodes the latest time to be returned.
-   */
-  public setLatestTime(time: BlockchainTimeModel) {
-    this.latestTime = time;
+
+  public async getLatestTime(): Promise<BlockchainTimeModel> {
+    const block: any = await new Promise((resolve, reject) => {
+      this.web3.eth.getBlock('latest', (err: any, b: any) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(b);
+      });
+    });
+    console.log({ block });
+    return {
+      hash: 'lol',
+      time: 0,
+    };
   }
 
   public _createNewContract = async (fromAddress?: string) => {
