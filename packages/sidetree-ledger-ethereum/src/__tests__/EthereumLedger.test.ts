@@ -1,4 +1,4 @@
-import { LedgerEthereum } from '../LedgerEthereum';
+import { LedgerEthereum } from '../EthereumLedger';
 import testSuite from './testSuite';
 import { web3, logger } from '../__fixtures__';
 

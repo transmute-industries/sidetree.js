@@ -1,4 +1,4 @@
-import MockBlockchain from './MockBlockchain';
+import MockBlockchain from './MockLedger';
 
-export * from './LedgerEthereum';
+export * from './EthereumLedger';
 export { MockBlockchain };
