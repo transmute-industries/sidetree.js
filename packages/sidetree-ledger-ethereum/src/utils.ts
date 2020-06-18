@@ -81,7 +81,10 @@ const retryWithLatestTransactionCount = async (
     `);
 };
 
-const getBlockchainTime = async (web3: any, blockHashOrBlockNumber: any) => {
+const getBlock = async (
+  web3: any,
+  blockHashOrBlockNumber: any
+): Promise<any> => {
   const block: any = await new Promise((resolve, reject) => {
     web3.eth.getBlock(blockHashOrBlockNumber, (err: any, b: any) => {
       if (err) {
@@ -90,6 +93,11 @@ const getBlockchainTime = async (web3: any, blockHashOrBlockNumber: any) => {
       resolve(b);
     });
   });
+  return block;
+};
+
+const getBlockchainTime = async (web3: any, blockHashOrBlockNumber: any) => {
+  const block: any = await getBlock(web3, blockHashOrBlockNumber);
   if (block) {
     return block.timestamp;
   }
@@ -112,11 +120,12 @@ const extendSidetreeTransactionWithTimestamp = async (
 };
 
 export default {
-  retryWithLatestTransactionCount,
-  eventLogToSidetreeTransaction,
-  getBlockchainTime,
-  getAccounts,
   base58EncodedMultihashToBytes32,
   bytes32EnodedMultihashToBase58EncodedMultihash,
+  eventLogToSidetreeTransaction,
   extendSidetreeTransactionWithTimestamp,
+  getAccounts,
+  getBlock,
+  getBlockchainTime,
+  retryWithLatestTransactionCount,
 };

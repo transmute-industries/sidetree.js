@@ -52,7 +52,6 @@ export class LedgerEthereum implements IBlockchain {
     if (options && options.omitTimestamp) {
       return txns;
     }
-    // TODO: test
     return utils.extendSidetreeTransactionWithTimestamp(this.web3, txns);
   };
 
@@ -82,20 +81,21 @@ export class LedgerEthereum implements IBlockchain {
     };
     let transactions: TransactionModel[];
     if (_transactionTimeHash) {
+      const block = await utils.getBlock(this.web3, _transactionTimeHash);
       transactions = await this._getTransactions(
-        _transactionTimeHash,
-        _transactionTimeHash,
+        block.number,
+        block.number,
         options
       );
-    }
-    if (sinceTransactionNumber) {
+    } else if (sinceTransactionNumber) {
       transactions = await this._getTransactions(
         sinceTransactionNumber,
         'latest',
         options
       );
+    } else {
+      transactions = await this._getTransactions(0, 'latest', options);
     }
-    transactions = await this._getTransactions(0, 'latest', options);
     return {
       moreTransactions: false,
       transactions,
