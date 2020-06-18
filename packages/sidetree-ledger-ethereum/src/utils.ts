@@ -25,13 +25,14 @@ const base58EncodedMultihashToBytes32 = (base58EncodedMultihash: string) =>
     .substring(4)}`;
 
 const eventLogToSidetreeTransaction = (log: any) => ({
+  transactionNumber: log.args.transactionNumber.toNumber(),
   transactionTime: log.blockNumber,
   transactionTimeHash: log.blockHash,
   transactionHash: log.transactionHash,
-  transactionNumber: log.args.transactionNumber.toNumber(),
-  anchorFileHash: bytes32EnodedMultihashToBase58EncodedMultihash(
+  anchorString: bytes32EnodedMultihashToBase58EncodedMultihash(
     log.args.anchorFileHash
   ),
+  writer: 'writer',
 });
 
 const retryWithLatestTransactionCount = async (
@@ -72,7 +73,7 @@ const retryWithLatestTransactionCount = async (
     Most likely reason is invalid nonce.
     See https://ethereum.stackexchange.com/questions/2527
 
-    This interface uses web3, and cannot be parallelized. 
+    This interface uses web3, and cannot be parallelized.
     Consider using a different HD Path for each node / service / instance.
 
     ${JSON.stringify(errors, null, 2)}

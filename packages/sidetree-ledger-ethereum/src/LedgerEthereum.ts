@@ -31,14 +31,49 @@ export class LedgerEthereum implements IBlockchain {
     }
   }
 
+  public _getTransactions = async (
+    fromBlock: number | string,
+    toBlock: number | string,
+    options?: any
+  ): Promise<TransactionModel[]> => {
+    const instance = await this._getInstance();
+    const logs = await instance.getPastEvents('Anchor', {
+      fromBlock,
+      toBlock: toBlock || 'latest',
+    });
+    const txns = logs.map(utils.eventLogToSidetreeTransaction);
+    if (options && options.omitTimestamp) {
+      return txns;
+    }
+    return this.extendSidetreeTransactionWithTimestamp(txns);
+  };
+
   public async read(
     sinceTransactionNumber?: number,
     _transactionTimeHash?: string
   ): Promise<{ moreTransactions: boolean; transactions: TransactionModel[] }> {
-    console.log(sinceTransactionNumber, _transactionTimeHash);
+    const options = {
+      omitTimestamp: true,
+    };
+    let transactions: TransactionModel[];
+    if (_transactionTimeHash) {
+      transactions = await this._getTransactions(
+        _transactionTimeHash,
+        _transactionTimeHash,
+        options
+      );
+    }
+    if (sinceTransactionNumber) {
+      transactions = await this._getTransactions(
+        sinceTransactionNumber,
+        'latest',
+        options
+      );
+    }
+    transactions = await this._getTransactions(0, 'latest', options);
     return {
       moreTransactions: false,
-      transactions: [],
+      transactions,
     };
   }
 
@@ -86,7 +121,7 @@ export class LedgerEthereum implements IBlockchain {
     return instance;
   };
 
-  public _getInstance = async () => {
+  public _getInstance: any = async () => {
     if (!this.instance) {
       this.instance = await this.anchorContract.at(this.anchorContractAddress);
     }
@@ -97,7 +132,9 @@ export class LedgerEthereum implements IBlockchain {
     return utils.getBlockchainTime(this.web3, blockHashOrBlockNumber);
   };
 
-  public extendSidetreeTransactionWithTimestamp = async (txns: any) => {
+  public extendSidetreeTransactionWithTimestamp = async (
+    txns: any
+  ): Promise<TransactionModel[]> => {
     return Promise.all(
       txns.map(async (txn: any) => {
         const timestamp = await utils.getBlockchainTime(
@@ -112,26 +149,7 @@ export class LedgerEthereum implements IBlockchain {
     );
   };
 
-  public getTransactions = async (
-    fromBlock: any,
-    toBlock: any,
-    options?: any
-  ) => {
-    const instance = await this._getInstance();
-    const logs = await instance.getPastEvents('Anchor', {
-      // TODO: add indexing here...
-      // https://ethereum.stackexchange.com/questions/8658/what-does-the-indexed-keyword-do
-      fromBlock,
-      toBlock: toBlock || 'latest',
-    });
-    const txns = logs.map(utils.eventLogToSidetreeTransaction);
-    if (options && options.omitTimestamp) {
-      return txns;
-    }
-    return this.extendSidetreeTransactionWithTimestamp(txns);
-  };
-
-  public write = async (anchorFileHash: string) => {
+  public write = async (anchorFileHash: string): Promise<void> => {
     await this.resolving;
     const [from] = await utils.getAccounts(this.web3);
     const instance = await this._getInstance();
@@ -148,11 +166,9 @@ export class LedgerEthereum implements IBlockchain {
           gasPrice: '100000000000',
         }
       );
-      console.log(receipt);
-      // return utils.eventLogToSidetreeTransaction(receipt.logs[0]);
+      console.log(Boolean(receipt));
     } catch (e) {
       this.logger.error(e.message);
-      // return null;
     }
   };
 }

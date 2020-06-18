@@ -5,7 +5,7 @@ const anchorString = 'anAnchorString';
 const testSuite = (ledger: IBlockchain): void => {
   describe(ledger.constructor.name, () => {
     describe('write', () => {
-      it('should', async () => {
+      it('should write to the ledger', async () => {
         await ledger.write(anchorString);
       });
     });
@@ -28,13 +28,11 @@ const testSuite = (ledger: IBlockchain): void => {
         const readResult = await ledger.read();
         expect(readResult.moreTransactions).toBeFalsy();
         expect(readResult.transactions).toHaveLength(1);
-        expect(readResult.transactions[0]).toEqual({
-          transactionNumber: 0,
-          transactionTime: 0,
-          transactionTimeHash: 'anAnchorString',
-          anchorString: 'anAnchorString',
-          writer: 'writer',
-        });
+        expect(readResult.transactions[0].transactionNumber).toBe(0);
+        expect(readResult.transactions[0].transactionTime).toBeDefined();
+        expect(readResult.transactions[0].transactionTimeHash).toBeDefined();
+        expect(readResult.transactions[0].anchorString).toBeDefined();
+        expect(readResult.transactions[0].writer).toBeDefined();
       });
     });
 
