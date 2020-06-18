@@ -10,6 +10,19 @@ const testSuite = (ledger: IBlockchain): void => {
       });
     });
 
+    describe('getApproximateTime', () => {
+      it('should get latest cached blockchain time', async () => {
+        // cachedTime should initially not be defined
+        let cachedTime = await ledger.approximateTime;
+        expect(cachedTime.time).toBe(0);
+        expect(cachedTime.hash).toBe('');
+        const realTime = await (ledger as any).getLatestTime();
+        cachedTime = await ledger.approximateTime;
+        expect(cachedTime.time).toBe(realTime.time);
+        expect(cachedTime.hash).toBe(realTime.hash);
+      });
+    });
+
     describe('read', () => {
       it('should', async () => {
         const readResult = await ledger.read();

@@ -54,18 +54,19 @@ export class LedgerEthereum implements IBlockchain {
 
   public async getLatestTime(): Promise<BlockchainTimeModel> {
     const block: any = await new Promise((resolve, reject) => {
-      this.web3.eth.getBlock('latest', (err: any, b: any) => {
+      this.web3.eth.getBlock('latest', (err: Error, b: any) => {
         if (err) {
           reject(err);
         }
         resolve(b);
       });
     });
-    console.log({ block });
-    return {
-      hash: 'lol',
-      time: 0,
+    const blockchainTime: BlockchainTimeModel = {
+      time: block.number,
+      hash: block.hash,
     };
+    this.cachedBlockchainTime = blockchainTime;
+    return blockchainTime;
   }
 
   public _createNewContract = async (fromAddress?: string) => {
