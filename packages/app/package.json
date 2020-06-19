@@ -6,7 +6,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "@sidetree/ipfs": "0.1.0",
+    "@sidetree/cas": "0.1.0",
     "ipfs-http-client": "^44.0.3",
     "it-concat": "^1.0.0",
     "react": "^16.13.1",

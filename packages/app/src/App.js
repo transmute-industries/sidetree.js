@@ -1,16 +1,16 @@
-import React from "react";
-import * as sidetreeCasIpfs from "@sidetree/ipfs";
-import { ipfs, methods, testObj } from "./fixtures";
+import React from 'react';
+import * as sidetreeCasIpfs from '@sidetree/cas';
+import { ipfs, methods, testObj } from './fixtures';
 const cas = sidetreeCasIpfs.configure({ ipfs, methods });
 
 function App() {
   const [state, setState] = React.useState({});
 
   return (
-    <div className="App">
+    <div className='App'>
       <button
         onClick={async () => {
-          let cid = "QmNrEidQrAbxx3FzxNt9E6qjEDZrtvzxUVh47BXm55Zuen";
+          let cid = 'QmNrEidQrAbxx3FzxNt9E6qjEDZrtvzxUVh47BXm55Zuen';
           let readObj = await cas.read(cid);
           let writtenCid = await cas.write(testObj);
           setState({

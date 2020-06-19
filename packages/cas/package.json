@@ -1,5 +1,5 @@
 {
-  "name": "@sidetree/ipfs",
+  "name": "@sidetree/cas",
   "author": "Orie Steele",
   "module": "dist/sidetree-cas-ipfs.esm.js",
   "version": "0.1.0",
