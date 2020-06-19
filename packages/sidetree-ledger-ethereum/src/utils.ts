@@ -1,4 +1,5 @@
-const multihashes = require('multihashes');
+import { TransactionModel, AnchoredDataSerializer } from '@sidetree/common';
+import multihashes from 'multihashes';
 
 const getAccounts = (web3: any): Promise<Array<string>> =>
   new Promise((resolve, reject) => {
@@ -19,20 +20,29 @@ const bytes32EnodedMultihashToBase58EncodedMultihash = (
     )
   );
 
-const base58EncodedMultihashToBytes32 = (base58EncodedMultihash: string) =>
-  `0x${multihashes
+const base58EncodedMultihashToBytes32 = (base58EncodedMultihash: string) => {
+  return `0x${multihashes
     .toHexString(multihashes.fromB58String(base58EncodedMultihash))
     .substring(4)}`;
+};
 
-const eventLogToSidetreeTransaction = (log: any) => ({
-  transactionTime: log.blockNumber,
-  transactionTimeHash: log.blockHash,
-  transactionHash: log.transactionHash,
-  transactionNumber: log.args.transactionNumber.toNumber(),
-  anchorFileHash: bytes32EnodedMultihashToBase58EncodedMultihash(
-    log.args.anchorFileHash
-  ),
-});
+const eventLogToSidetreeTransaction = (log: any) => {
+  const anchoredData = {
+    anchorFileHash: bytes32EnodedMultihashToBase58EncodedMultihash(
+      log.args.anchorFileHash
+    ),
+    numberOfOperations: Number.parseInt(log.args.numberOfOperations),
+  };
+  const anchorString = AnchoredDataSerializer.serialize(anchoredData);
+  return {
+    transactionNumber: log.args.transactionNumber.toNumber(),
+    transactionTime: log.blockNumber,
+    transactionTimeHash: log.blockHash,
+    transactionHash: log.transactionHash,
+    anchorString,
+    writer: 'writer',
+  };
+};
 
 const retryWithLatestTransactionCount = async (
   web3: any,
@@ -72,14 +82,17 @@ const retryWithLatestTransactionCount = async (
     Most likely reason is invalid nonce.
     See https://ethereum.stackexchange.com/questions/2527
 
-    This interface uses web3, and cannot be parallelized. 
+    This interface uses web3, and cannot be parallelized.
     Consider using a different HD Path for each node / service / instance.
 
     ${JSON.stringify(errors, null, 2)}
     `);
 };
 
-const getBlockchainTime = async (web3: any, blockHashOrBlockNumber: any) => {
+const getBlock = async (
+  web3: any,
+  blockHashOrBlockNumber: any
+): Promise<any> => {
   const block: any = await new Promise((resolve, reject) => {
     web3.eth.getBlock(blockHashOrBlockNumber, (err: any, b: any) => {
       if (err) {
@@ -88,17 +101,39 @@ const getBlockchainTime = async (web3: any, blockHashOrBlockNumber: any) => {
       resolve(b);
     });
   });
+  return block;
+};
+
+const getBlockchainTime = async (web3: any, blockHashOrBlockNumber: any) => {
+  const block: any = await getBlock(web3, blockHashOrBlockNumber);
   if (block) {
     return block.timestamp;
   }
   return null;
 };
 
+const extendSidetreeTransactionWithTimestamp = async (
+  web3: any,
+  txns: any
+): Promise<TransactionModel[]> => {
+  return Promise.all(
+    txns.map(async (txn: any) => {
+      const timestamp = await getBlockchainTime(web3, txn.transactionTime);
+      return {
+        ...txn,
+        transactionTimestamp: timestamp,
+      };
+    })
+  );
+};
+
 export default {
-  retryWithLatestTransactionCount,
-  eventLogToSidetreeTransaction,
-  getBlockchainTime,
-  getAccounts,
   base58EncodedMultihashToBytes32,
   bytes32EnodedMultihashToBase58EncodedMultihash,
+  eventLogToSidetreeTransaction,
+  extendSidetreeTransactionWithTimestamp,
+  getAccounts,
+  getBlock,
+  getBlockchainTime,
+  retryWithLatestTransactionCount,
 };

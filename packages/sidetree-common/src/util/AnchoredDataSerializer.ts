@@ -1,9 +1,4 @@
-import {
-  AnchoredData,
-  ErrorCode,
-  protocolParameters,
-  SidetreeError,
-} from '@sidetree/common';
+import { AnchoredData, ErrorCode, protocolParameters, SidetreeError } from '..';
 
 /**
  * Encapsulates functionality to serialize/deserialize data that read/write to
@@ -20,7 +15,8 @@ export default class AnchoredDataSerializer {
    */
   public static serialize(dataToBeAnchored: AnchoredData): string {
     // Concatenate the inputs w/ the delimiter and return
-    return `${dataToBeAnchored.numberOfOperations}${AnchoredDataSerializer.delimiter}${dataToBeAnchored.anchorFileHash}`;
+    const anchorString = `${dataToBeAnchored.numberOfOperations}${AnchoredDataSerializer.delimiter}${dataToBeAnchored.anchorFileHash}`;
+    return anchorString;
   }
 
   /**

@@ -1,5 +1,6 @@
 import {
   AnchoredData,
+  AnchoredDataSerializer,
   IBatchWriter,
   IBlockchain,
   ICas,
@@ -7,7 +8,6 @@ import {
   OperationType,
   protocolParameters,
 } from '@sidetree/common';
-import AnchoredDataSerializer from '../AnchoredDataSerializer';
 import CreateOperation from '../CreateOperation';
 import DeactivateOperation from '../DeactivateOperation';
 import LogColor from '../LogColor';

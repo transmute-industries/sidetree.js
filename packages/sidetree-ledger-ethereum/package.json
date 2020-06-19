@@ -1,16 +1,10 @@
 {
-  "name": "sidetree-ledger-ethereum",
+  "name": "@sidetree/ledger",
   "author": "Orie Steele",
-  "module": "dist/sidetree-ledger-ethereum.esm.js",
   "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "build",
-    "src"
-  ],
   "engines": {
     "node": ">=10"
   },
@@ -45,6 +39,7 @@
   },
   "dependencies": {
     "@truffle/contract": "^4.2.4",
+    "@sidetree/common": "0.1.0",
     "multihashes": "^0.4.19"
   }
 }

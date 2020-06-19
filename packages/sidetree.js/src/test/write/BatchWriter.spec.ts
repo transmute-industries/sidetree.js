@@ -1,6 +1,6 @@
 import BatchWriter from '../../write/BatchWriter';
-import MockBlockchain from '../mocks/MockBlockchain';
-import MockCas from '@sidetree/ipfs/src/MockCas';
+import { MockLedger } from '@sidetree/ledger';
+import { MockCas } from '@sidetree/ipfs';
 import MockOperationQueue from '../mocks/MockOperationQueue';
 import { protocolParameters } from '@sidetree/common';
 
@@ -10,7 +10,7 @@ describe('BatchWriter', () => {
   beforeAll(() => {
     batchWriter = new BatchWriter(
       new MockOperationQueue(),
-      new MockBlockchain(),
+      new MockLedger(),
       new MockCas()
     );
   });

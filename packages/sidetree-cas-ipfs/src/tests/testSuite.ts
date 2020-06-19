@@ -11,7 +11,7 @@ import {
   notFoundMultihash,
 } from './__fixtures__';
 
-const testSuite = (cas: ICas) => {
+const testSuite = (cas: ICas): void => {
   describe(cas.constructor.name, () => {
     describe('write', () => {
       it('should write a JSON and return content id', async () => {
