@@ -1,9 +1,4 @@
-import {
-  AnchoredData,
-  ErrorCode,
-  protocolParameters,
-  SidetreeError,
-} from '@sidetree/common';
+import { AnchoredData, ErrorCode, protocolParameters, SidetreeError } from '..';
 
 /**
  * Encapsulates functionality to serialize/deserialize data that read/write to

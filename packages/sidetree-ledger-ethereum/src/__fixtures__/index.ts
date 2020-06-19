@@ -1,4 +1,5 @@
 import Web3 from 'web3';
+import { AnchoredData } from '@sidetree/common';
 
 export const logger = { log: () => jest.fn() };
 

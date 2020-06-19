@@ -1,3 +1,4 @@
+import AnchoredDataSerializer from './AnchoredDataSerializer';
 import Encoder from './Encoder';
 import JsonCanonicalizer from './JsonCanonicalizer';
 import Multihash from './Multihash';
@@ -6,6 +7,7 @@ import ReadableStream from './ReadableStream';
 import ServiceVersionFetcher from './ServiceVersionFetcher';
 
 export {
+  AnchoredDataSerializer,
   Encoder,
   JsonCanonicalizer,
   Multihash,
