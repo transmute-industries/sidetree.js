@@ -8,7 +8,7 @@ import {
 const contract = require('@truffle/contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
 
-export class EthereumLedger implements IBlockchain {
+export default class EthereumLedger implements IBlockchain {
   public anchorContractAddress?: string;
   private logger: any;
   public anchorContract: any;

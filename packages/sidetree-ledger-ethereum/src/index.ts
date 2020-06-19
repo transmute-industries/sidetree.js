@@ -1,4 +1,4 @@
 import MockLedger from './MockLedger';
+import EthereumLedger from './EthereumLedger';
 
-export * from './EthereumLedger';
-export { MockLedger };
+export { MockLedger, EthereumLedger };

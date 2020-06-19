@@ -19,36 +19,25 @@ export default class MockLedger implements IBlockchain {
     sinceTransactionNumber?: number,
     _transactionTimeHash?: string
   ): Promise<{ moreTransactions: boolean; transactions: TransactionModel[] }> {
-    if (sinceTransactionNumber === undefined) {
-      sinceTransactionNumber = -1;
-    }
-
-    let moreTransactions = false;
-    if (
-      this.hashes.length > 0 &&
-      sinceTransactionNumber < this.hashes.length - 2
-    ) {
-      moreTransactions = true;
-    }
-
-    const transactions: TransactionModel[] = [];
-    if (
-      this.hashes.length > 0 &&
-      sinceTransactionNumber < this.hashes.length - 1
-    ) {
-      const hashIndex = sinceTransactionNumber + 1;
-      const transaction = {
-        transactionNumber: hashIndex,
-        transactionTime: hashIndex,
-        transactionTimeHash: this.hashes[hashIndex][0],
-        anchorString: this.hashes[hashIndex][0],
-        writer: 'writer',
-      };
-      transactions.push(transaction);
+    let transactions: TransactionModel[] = this.hashes.map((hash, index) => ({
+      transactionNumber: index,
+      transactionTime: index,
+      transactionTimeHash: hash[0],
+      anchorString: hash[0],
+      writer: 'writer',
+    }));
+    if (sinceTransactionNumber) {
+      transactions = transactions.filter(
+        t => t.transactionNumber >= sinceTransactionNumber
+      );
+    } else if (_transactionTimeHash) {
+      transactions = transactions.filter(
+        t => t.transactionTimeHash === _transactionTimeHash
+      );
     }
 
     return {
-      moreTransactions: moreTransactions,
+      moreTransactions: false,
       transactions: transactions,
     };
   }
@@ -60,8 +49,16 @@ export default class MockLedger implements IBlockchain {
   }
 
   private latestTime?: BlockchainTimeModel = {
-    time: 500000,
-    hash: 'dummyHash',
+    time: 0,
+    hash: '',
+  };
+
+  public getLatestTime = (): BlockchainTimeModel => {
+    this.latestTime = {
+      time: 500000,
+      hash: 'dummyHash',
+    };
+    return this.latestTime;
   };
 
   public get approximateTime(): BlockchainTimeModel {
