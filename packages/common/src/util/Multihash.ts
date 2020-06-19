@@ -1,7 +1,7 @@
 import * as crypto from 'crypto';
 import Encoder from './Encoder';
 import ErrorCode from '../errors/ErrorCode';
-import JsonCanonicalizer from '../util/JsonCanonicalizer';
+import JsonCanonicalizer from './JsonCanonicalizer';
 import ProtocolParameters from './parameters';
 import SidetreeError from '../errors/SidetreeError';
 
