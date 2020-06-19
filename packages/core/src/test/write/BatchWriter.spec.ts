@@ -1,6 +1,6 @@
 import BatchWriter from '../../write/BatchWriter';
 import { MockLedger } from '@sidetree/ledger';
-import { MockCas } from '@sidetree/ipfs';
+import { MockCas } from '@sidetree/cas';
 import MockOperationQueue from '../mocks/MockOperationQueue';
 import { protocolParameters } from '@sidetree/common';
 
