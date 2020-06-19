@@ -20,10 +20,11 @@ const bytes32EnodedMultihashToBase58EncodedMultihash = (
     )
   );
 
-const base58EncodedMultihashToBytes32 = (base58EncodedMultihash: string) =>
-  `0x${multihashes
+const base58EncodedMultihashToBytes32 = (base58EncodedMultihash: string) => {
+  return `0x${multihashes
     .toHexString(multihashes.fromB58String(base58EncodedMultihash))
     .substring(4)}`;
+};
 
 const eventLogToSidetreeTransaction = (log: any) => ({
   transactionNumber: log.args.transactionNumber.toNumber(),

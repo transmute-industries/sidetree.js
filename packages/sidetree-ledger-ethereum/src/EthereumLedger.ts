@@ -1,8 +1,9 @@
 import utils from './utils';
 import {
+  BlockchainTimeModel,
   IBlockchain,
   TransactionModel,
-  BlockchainTimeModel,
+  AnchoredDataSerializer,
 } from '@sidetree/common';
 
 const contract = require('@truffle/contract');
@@ -137,18 +138,22 @@ export default class EthereumLedger implements IBlockchain {
     return blockchainTime;
   }
 
-  public write = async (anchorFileHash: string): Promise<void> => {
+  public write = async (anchorString: string): Promise<void> => {
     await this.resolving;
     const [from] = await utils.getAccounts(this.web3);
     const instance = await this._getInstance();
-    const bytes32EncodedHash = utils.base58EncodedMultihashToBytes32(
+    const {
+      anchorFileHash,
+      numberOfOperations,
+    } = AnchoredDataSerializer.deserialize(anchorString);
+    const bytes32AnchorFileHash = utils.base58EncodedMultihashToBytes32(
       anchorFileHash
     );
     try {
       await utils.retryWithLatestTransactionCount(
         this.web3,
         instance.anchorHash,
-        [bytes32EncodedHash],
+        [bytes32AnchorFileHash, numberOfOperations],
         {
           from,
           gasPrice: '100000000000',

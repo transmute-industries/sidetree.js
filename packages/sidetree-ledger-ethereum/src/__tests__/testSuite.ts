@@ -1,8 +1,5 @@
 import { IBlockchain } from '@sidetree/common';
-
-const anchorString = 'anAnchorString';
-const anchorString2 = 'anotherAnchorString';
-const anchorString3 = 'aThirdAnchorString';
+import { anchorString, anchorString2, anchorString3 } from '../__fixtures__';
 
 jest.setTimeout(10 * 1000);
 
