@@ -1,7 +1,6 @@
 {
-  "name": "sidetree.js",
+  "name": "@sidetree/core",
   "author": "Orie Steele",
-  "module": "dist/sidetree.js.esm.js",
   "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
