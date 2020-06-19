@@ -1,4 +1,4 @@
-import { TransactionModel } from '@sidetree/common';
+import { TransactionModel, AnchoredDataSerializer } from '@sidetree/common';
 import multihashes from 'multihashes';
 
 const getAccounts = (web3: any): Promise<Array<string>> =>
@@ -26,16 +26,23 @@ const base58EncodedMultihashToBytes32 = (base58EncodedMultihash: string) => {
     .substring(4)}`;
 };
 
-const eventLogToSidetreeTransaction = (log: any) => ({
-  transactionNumber: log.args.transactionNumber.toNumber(),
-  transactionTime: log.blockNumber,
-  transactionTimeHash: log.blockHash,
-  transactionHash: log.transactionHash,
-  anchorString: bytes32EnodedMultihashToBase58EncodedMultihash(
-    log.args.anchorFileHash
-  ),
-  writer: 'writer',
-});
+const eventLogToSidetreeTransaction = (log: any) => {
+  const anchoredData = {
+    anchorFileHash: bytes32EnodedMultihashToBase58EncodedMultihash(
+      log.args.anchorFileHash
+    ),
+    numberOfOperations: Number.parseInt(log.args.numberOfOperations),
+  };
+  const anchorString = AnchoredDataSerializer.serialize(anchoredData);
+  return {
+    transactionNumber: log.args.transactionNumber.toNumber(),
+    transactionTime: log.blockNumber,
+    transactionTimeHash: log.blockHash,
+    transactionHash: log.transactionHash,
+    anchorString,
+    writer: 'writer',
+  };
+};
 
 const retryWithLatestTransactionCount = async (
   web3: any,

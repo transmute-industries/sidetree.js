@@ -35,13 +35,15 @@ const testSuite = (ledger: IBlockchain): void => {
         expect(readResult.transactions[0].transactionNumber).toBe(0);
         expect(readResult.transactions[0].transactionTime).toBeDefined();
         expect(readResult.transactions[0].transactionTimeHash).toBeDefined();
-        expect(readResult.transactions[0].anchorString).toBeDefined();
+        expect(readResult.transactions[0].anchorString).toBe(anchorString);
         expect(readResult.transactions[0].writer).toBeDefined();
 
         await ledger.write(anchorString2);
         const readResult2 = await ledger.read();
         expect(readResult2.moreTransactions).toBeFalsy();
         expect(readResult2.transactions).toHaveLength(2);
+        expect(readResult2.transactions[0].anchorString).toBe(anchorString);
+        expect(readResult2.transactions[1].anchorString).toBe(anchorString2);
         transactionTimeHash = readResult2.transactions[1].transactionTimeHash;
         sinceTransactionNumber = readResult2.transactions[1].transactionNumber;
       });
@@ -53,9 +55,10 @@ const testSuite = (ledger: IBlockchain): void => {
         expect(readResult.transactions[0].transactionTimeHash).toBe(
           transactionTimeHash
         );
+        expect(readResult.transactions[0].anchorString).toBe(anchorString2);
       });
 
-      it('should get all transactions from a block', async () => {
+      it('should get all transactions since a block', async () => {
         await ledger.write(anchorString3);
         const readResult = await ledger.read(sinceTransactionNumber);
         expect(readResult.moreTransactions).toBeFalsy();
@@ -66,6 +69,8 @@ const testSuite = (ledger: IBlockchain): void => {
         expect(readResult.transactions[1].transactionNumber).toBe(
           sinceTransactionNumber + 1
         );
+        expect(readResult.transactions[0].anchorString).toBe(anchorString2);
+        expect(readResult.transactions[1].anchorString).toBe(anchorString3);
       });
     });
   });
