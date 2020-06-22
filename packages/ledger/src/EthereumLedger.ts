@@ -4,12 +4,27 @@ import {
   IBlockchain,
   TransactionModel,
   AnchoredDataSerializer,
+  ValueTimeLockModel,
 } from '@sidetree/common';
 
 const contract = require('@truffle/contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
 
 export default class EthereumLedger implements IBlockchain {
+  getFee(_transactionTime: number): Promise<number> {
+    throw new Error('Method not implemented.');
+  }
+
+  getValueTimeLock(
+    _lockIdentifier: string
+  ): Promise<ValueTimeLockModel | undefined> {
+    throw new Error('Method not implemented.');
+  }
+
+  getWriterValueTimeLock(): Promise<ValueTimeLockModel | undefined> {
+    throw new Error('Method not implemented.');
+  }
+
   public anchorContractAddress?: string;
   private logger: any;
   public anchorContract: any;

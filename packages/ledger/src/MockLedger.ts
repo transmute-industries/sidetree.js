@@ -2,12 +2,27 @@ import {
   BlockchainTimeModel,
   IBlockchain,
   TransactionModel,
+  ValueTimeLockModel,
 } from '@sidetree/common';
 
 /**
  * Mock Blockchain class for testing.
  */
 export default class MockLedger implements IBlockchain {
+  getFee(_transactionTime: number): Promise<number> {
+    throw new Error('Method not implemented.');
+  }
+
+  getValueTimeLock(
+    _lockIdentifier: string
+  ): Promise<ValueTimeLockModel | undefined> {
+    throw new Error('Method not implemented.');
+  }
+
+  getWriterValueTimeLock(): Promise<ValueTimeLockModel | undefined> {
+    throw new Error('Method not implemented.');
+  }
+
   /** Stores each hash given in write() method. */
   hashes: [string][] = [];
 
