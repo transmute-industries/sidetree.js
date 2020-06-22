@@ -25,6 +25,8 @@ export default class MockLedger implements IBlockchain {
       transactionTimeHash: hash[0],
       anchorString: hash[0],
       writer: 'writer',
+      transactionFeePaid: 0,
+      normalizedTransactionFee: 0,
     }));
     if (sinceTransactionNumber) {
       transactions = transactions.filter(
