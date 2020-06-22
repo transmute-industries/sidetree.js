@@ -1,5 +1,6 @@
 import BlockchainTimeModel from '../models/BlockchainTimeModel';
 import TransactionModel from '../models/TransactionModel';
+import ValueTimeLockModel from '../models/ValueTimeLockModel';
 
 /**
  * Interface to access the underlying blockchain.
@@ -9,8 +10,9 @@ export default interface IBlockchain {
   /**
    * Writes a Sidtree transaction with the given anchor string to blockchain.
    * @param anchorString Data to write to the blockchain.
+   * @param fee Fee for the current transaction.
    */
-  write(anchorString: string): Promise<void>;
+  write(anchorString: string, fee: number): Promise<void>;
 
   /**
    * Gets Sidetree transactions in chronological order.
@@ -43,4 +45,31 @@ export default interface IBlockchain {
    * Useful for cases where high performance is desired and hgih accuracy is not required.
    */
   approximateTime: BlockchainTimeModel;
+
+  /**
+   * Fetches the normalized transaction fee used for proof-of-fee calculation, given the blockchain time.
+   * @param transactionTime A valid Sidetree transaction time.
+   *
+   * @throws SidetreeError with ErrorCode.BlockchainTimeOutOfRange if the input transaction transactionTime is less
+   * than Sidetree genesis blockchain time or is later than the current blockchain time.
+   */
+  getFee(transactionTime: number): Promise<number>;
+
+  /**
+   * Gets the lock object associated with the given lock identifier.
+   *
+   * @param lockIdentifier The identifier of the desired lock.
+   * @returns the lock object if found; undefined otherwise.
+   */
+  getValueTimeLock(
+    lockIdentifier: string
+  ): Promise<ValueTimeLockModel | undefined>;
+
+  /**
+   * Gets the lock object required for batch writing.
+   *
+   * @returns the lock object if one exist; undefined otherwise.
+   * @throws SidetreeError with ErrorCode.ValueTimeLockInPendingState if the lock is not yet confirmed on the blockchain.
+   */
+  getWriterValueTimeLock(): Promise<ValueTimeLockModel | undefined>;
 }
