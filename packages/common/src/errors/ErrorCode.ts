@@ -7,12 +7,6 @@ export default {
     'anchored_data_number_of_operations_greater_than_max',
   AnchoredDataNumberOfOperationsNotPositiveInteger:
     'anchored_data_number_of_operations_not_positive_integer',
-  AnchoredDataNumberOfOperationsLessThanZero:
-    'anchored_data_number_of_operations_less_than_zero',
-  AnchoredDataNumberOfOperationsNotFourBytes:
-    'anchored_data_number_of_operations_not_four_bytes',
-  AnchoredDataNumberOfOperationsNotInteger:
-    'anchored_data_number_of_operations_not_integer',
   AnchorFileCreatePropertyNotArray: 'anchor_file_create_property_not_array',
   AnchorFileDecompressionFailure: 'anchor_file_decompression_failed',
   AnchorFileHasUnknownProperty: 'anchor_file_has_unknown_property',
@@ -31,6 +25,8 @@ export default {
     'anchor_file_deactivate_property_not_array',
   AnchorFileUnexpectedPropertyInOperations:
     'anchor_file_unexpected_property_in_operations',
+  AnchorFileWriterLockIPropertyNotString:
+    'anchor_file_writer_lock_id_property_not_string',
   BatchWriterAlreadyHasOperationForDid:
     'batch_writer_already_has_operation_for_did',
   CasFileHashNotValid: 'cas_file_hash_not_valid',
@@ -72,9 +68,6 @@ export default {
     'document_composer_id_not_using_base_64_url_character_set',
   DocumentComposerIdTooLong: 'document_composer_id_too_long',
   DocumentComposerInvalidSignature: 'document_composer_invalid_signature',
-  DocumentComposerKeyNotFound: 'document_composer_key_not_found',
-  DocumentComposerOperationKeyTypeNotEs256k:
-    'document_composer_operation_key_type_not_es256k',
   DocumentComposerPatchMissingOrUnknownAction:
     'document_composer_patch_missing_or_unknown_action',
   DocumentComposerPatchMissingOrUnknownProperty:
@@ -91,19 +84,19 @@ export default {
     'document_composer_patch_service_type_missing_or_unknown',
   DocumentComposerPublicKeyIdDuplicated:
     'document_composer_public_key_id_duplicated',
-  DocumentComposerPublicKeyNotOperationKey:
-    'document_composer_public_key_not_operation_key',
+  DocumentComposerPublicKeyJwkMissingOrIncorrectType:
+    'document_composer_public_key_jwk_missing_or_incorrect_type',
   DocumentComposerPublicKeyMissingOrUnknownProperty:
     'document_composer_public_key_missing_or_unknown_property',
   DocumentComposerPublicKeysNotArray: 'document_composer_public_keys_not_array',
-  DocumentComposerPublicKeyTypeMissingOrUnknown:
-    'document_composer_patch_public_key_type_missing_or_unknown',
-  DocumentComposerPublicKeyUsageMissingOrUnknown:
-    'document_composer_public_key_usage_missing_or_unknown',
-  DocumentComposerPublicKeyUsageExceedsMaxLength:
-    'document_composer_public_key_exceeds_max_length',
-  DocumentComposerPublicKeyInvalidUsage:
-    'document_composer_public_key_invalid_usage',
+  DocumentComposerPublicKeyTypeMissingOrIncorrectType:
+    'document_composer_public_key_type_missing_or_incorrect_type',
+  DocumentComposerPublicKeyPurposeMissingOrUnknown:
+    'document_composer_public_key_purpose_missing_or_unknown',
+  DocumentComposerPublicKeyPurposeExceedsMaxLength:
+    'document_composer_public_key_purpose_exceeds_max_length',
+  DocumentComposerPublicKeyInvalidPurpose:
+    'document_composer_public_key_invalid_purpose',
   DocumentComposerPatchServiceEndpointIdsNotArray:
     'document_composer_service_endpoint_ids_not_array',
   DocumentComposerPatchServiceEndpointServiceEndpointNotString:
@@ -142,8 +135,6 @@ export default {
   JwsPayloadNotBase64UrlString: 'jws_payload_not_base64url_string',
   JwsProtectedHeaderMissingOrIncorrectAlg:
     'jws_protected_header_missing_or_incorrect_alg',
-  JwsProtectedHeaderMissingOrIncorrectKid:
-    'jws_protected_header_missing_or_incorrect_kid',
   JwsProtectedHeaderMissingOrUnknownProperty:
     'jws_protected_header_missing_or_unknown_property',
   JwsSignatureNotBase64UrlString: 'jws_signature_not_base64url_string',
@@ -191,6 +182,7 @@ export default {
   RecoverOperationTypeIncorrect: 'recover_operation_type_incorrect',
   RequestHandlerDeltaExceedsMaximumSize:
     'request_handler_patch_data_exceeds_maximum_size',
+  RequestHandlerUnknownOperationType: 'request_handler_unknown_operation_type',
   DeactivateOperationMissingOrInvalidDidUniqueSuffix:
     'deactivate_operation_missing_or_invalid_did_unique_suffix',
   DeactivateOperationMissingOrUnknownProperty:
@@ -213,10 +205,6 @@ export default {
   UpdateOperationSignedDataHasMissingOrUnknownProperty:
     'update_operation_signed_data_has_missing_or_unknown_property',
   UpdateOperationTypeIncorrect: 'update_operation_type_incorrect',
-  UpdateOperationUpdateRevealValueMissingOrInvalidType:
-    'update_operation_update_reveal_value_missing_or_invalid_type',
-  UpdateOperationUpdateRevealValueTooLong:
-    'update_operation_update_reveal_value_too_long',
   ValueTimeLockVerifierInvalidNumberOfOperations:
     'value_time_lock_verifierInvalid_number_of_operations',
   ValueTimeLockVerifierTransactionTimeOutsideLockRange:
