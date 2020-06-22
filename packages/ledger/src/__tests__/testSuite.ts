@@ -7,7 +7,7 @@ const testSuite = (ledger: IBlockchain): void => {
   describe(ledger.constructor.name, () => {
     describe('write', () => {
       it('should write to the ledger', async () => {
-        await ledger.write(anchorString);
+        await ledger.write(anchorString, 0);
       });
     });
 
@@ -38,7 +38,7 @@ const testSuite = (ledger: IBlockchain): void => {
         expect(readResult.transactions[0].anchorString).toBe(anchorString);
         expect(readResult.transactions[0].writer).toBeDefined();
 
-        await ledger.write(anchorString2);
+        await ledger.write(anchorString2, 0);
         const readResult2 = await ledger.read();
         expect(readResult2.moreTransactions).toBeFalsy();
         expect(readResult2.transactions).toHaveLength(2);
@@ -59,7 +59,7 @@ const testSuite = (ledger: IBlockchain): void => {
       });
 
       it('should get all transactions since a block', async () => {
-        await ledger.write(anchorString3);
+        await ledger.write(anchorString3, 0);
         const readResult = await ledger.read(sinceTransactionNumber);
         expect(readResult.moreTransactions).toBeFalsy();
         expect(readResult.transactions).toHaveLength(2);
