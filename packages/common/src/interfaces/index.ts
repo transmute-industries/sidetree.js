@@ -9,6 +9,7 @@ import ITransactionSelector from './ITransactionSelector';
 import ITransactionStore from './ITransactionStore';
 import IUnresolvableTransactionStore from './IUnresolvableTransactionStore';
 import IVersionManager from './IVersionManager';
+import IVersionMetadataFetcher from './IVersionMetadataFetcher';
 
 export {
   IBatchWriter,
@@ -22,4 +23,5 @@ export {
   ITransactionStore,
   IUnresolvableTransactionStore,
   IVersionManager,
+  IVersionMetadataFetcher,
 };
