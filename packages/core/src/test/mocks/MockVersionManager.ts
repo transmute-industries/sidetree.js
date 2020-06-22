@@ -2,6 +2,7 @@ import {
   IBatchWriter,
   IOperationProcessor,
   IVersionManager,
+  ITransactionSelector,
 } from '@sidetree/common';
 
 /**
