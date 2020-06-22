@@ -4,6 +4,7 @@ import ICas from './ICas';
 import IOperationProcessor from './IOperationProcessor';
 import IOperationQueue from './IOperationQueue';
 import IOperationStore from './IOperationStore';
+import ITransactionProcessor from './ITransactionProcessor';
 import ITransactionSelector from './ITransactionSelector';
 import ITransactionStore from './ITransactionStore';
 import IUnresolvableTransactionStore from './IUnresolvableTransactionStore';
@@ -16,6 +17,7 @@ export {
   IOperationProcessor,
   IOperationQueue,
   IOperationStore,
+  ITransactionProcessor,
   ITransactionSelector,
   ITransactionStore,
   IUnresolvableTransactionStore,
