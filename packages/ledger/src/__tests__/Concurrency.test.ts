@@ -1,4 +1,4 @@
-import { getWeb3, logger } from '../__fixtures__';
+import { getWeb3, logger, anchorString } from '../__fixtures__';
 import { EthereumLedger } from '..';
 
 const w31 = getWeb3();
@@ -26,18 +26,18 @@ describe('Concurrency', () => {
     expect(ledger2).toBeDefined();
 
     try {
-      await ledger1.write('Qmc9Asse4CvAuQJ77vMARRqLYTrL4ZzWK8BKb2FHRAYcuD');
-      await ledger1.write('Qmc9Asse4CvAuQJ77vMARRqLYTrL4ZzWK8BKb2FHRAYcuD');
-      await ledger2.write('Qmc9Asse4CvAuQJ77vMARRqLYTrL4ZzWK8BKb2FHRAYcuD');
-      await ledger2.write('Qmc9Asse4CvAuQJ77vMARRqLYTrL4ZzWK8BKb2FHRAYcuD');
-      await ledger1.write('Qmc9Asse4CvAuQJ77vMARRqLYTrL4ZzWK8BKb2FHRAYcuD');
-      await ledger1.write('Qmc9Asse4CvAuQJ77vMARRqLYTrL4ZzWK8BKb2FHRAYcuD');
-      await ledger2.write('Qmc9Asse4CvAuQJ77vMARRqLYTrL4ZzWK8BKb2FHRAYcuD');
-      await ledger2.write('Qmc9Asse4CvAuQJ77vMARRqLYTrL4ZzWK8BKb2FHRAYcuD');
-      await ledger1.write('Qmc9Asse4CvAuQJ77vMARRqLYTrL4ZzWK8BKb2FHRAYcuD');
-      await ledger1.write('Qmc9Asse4CvAuQJ77vMARRqLYTrL4ZzWK8BKb2FHRAYcuD');
-      await ledger2.write('Qmc9Asse4CvAuQJ77vMARRqLYTrL4ZzWK8BKb2FHRAYcuD');
-      await ledger2.write('Qmc9Asse4CvAuQJ77vMARRqLYTrL4ZzWK8BKb2FHRAYcuD');
+      await ledger1.write(anchorString);
+      await ledger1.write(anchorString);
+      await ledger2.write(anchorString);
+      await ledger2.write(anchorString);
+      await ledger1.write(anchorString);
+      await ledger1.write(anchorString);
+      await ledger2.write(anchorString);
+      await ledger2.write(anchorString);
+      await ledger1.write(anchorString);
+      await ledger1.write(anchorString);
+      await ledger2.write(anchorString);
+      await ledger2.write(anchorString);
     } catch (e) {
       console.error(e);
     }
