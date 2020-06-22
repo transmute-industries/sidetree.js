@@ -153,7 +153,7 @@ export default class EthereumLedger implements IBlockchain {
     return blockchainTime;
   }
 
-  public write = async (anchorString: string): Promise<void> => {
+  public write = async (anchorString: string, _fee = 0): Promise<void> => {
     await this.resolving;
     const [from] = await utils.getAccounts(this.web3);
     const instance = await this._getInstance();

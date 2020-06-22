@@ -26,7 +26,7 @@ export default class MockLedger implements IBlockchain {
   /** Stores each hash given in write() method. */
   hashes: [string][] = [];
 
-  public async write(anchorString: string): Promise<void> {
+  public async write(anchorString: string, _fee = 0): Promise<void> {
     this.hashes.push([anchorString]);
   }
 
