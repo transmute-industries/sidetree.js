@@ -217,4 +217,10 @@ export default {
     'update_operation_update_reveal_value_missing_or_invalid_type',
   UpdateOperationUpdateRevealValueTooLong:
     'update_operation_update_reveal_value_too_long',
+  ValueTimeLockVerifierInvalidNumberOfOperations:
+    'value_time_lock_verifierInvalid_number_of_operations',
+  ValueTimeLockVerifierTransactionTimeOutsideLockRange:
+    'value_time_lock_verifiertarget_transaction_time_outside_lock_range',
+  ValueTimeLockVerifierTransactionWriterLockOwnerMismatch:
+    'value_time_lock_verifiertransaction_owner_lock_writer_mismatch',
 };
