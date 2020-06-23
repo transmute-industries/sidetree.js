@@ -125,11 +125,7 @@ export default class RecoverOperation implements OperationModel {
       );
     }
 
-    const expectKidInHeader = false;
-    const signedDataJws = Jws.parseCompactJws(
-      operationObject.signed_data,
-      expectKidInHeader
-    );
+    const signedDataJws = Jws.parseCompactJws(operationObject.signed_data);
     const signedData = await RecoverOperation.parseSignedDataPayload(
       signedDataJws.payload
     );

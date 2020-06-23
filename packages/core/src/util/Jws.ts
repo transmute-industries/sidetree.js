@@ -11,8 +11,6 @@ import { JWS } from 'jose';
  * Class containing reusable JWS operations.
  */
 export default class Jws {
-  /** Signing key ID. */
-  public readonly kid: string;
   /** Protected header. */
   public readonly protected: string;
   /** Payload. */
@@ -23,9 +21,8 @@ export default class Jws {
   /**
    * Constructs a JWS object.
    * @param compactJws Input should be a compact JWS string.
-   * @param expectKidInHeader If set to `true`, the given compact JWS must contain `kid`; else the compact JWS must not contain `kid`.
    */
-  private constructor(compactJws: any, expectKidInHeader: boolean) {
+  private constructor(compactJws: any) {
     if (typeof compactJws !== 'string') {
       throw new SidetreeError(ErrorCode.JwsCompactJwsNotString);
     }
@@ -44,10 +41,7 @@ export default class Jws {
     );
     const decodedProtectedHeader = JSON.parse(decodedProtectedHeadJsonString);
 
-    let expectedHeaderPropertyCount = 1; // By default we must have header property is `alg`.
-    if (expectKidInHeader) {
-      expectedHeaderPropertyCount = 2;
-    }
+    const expectedHeaderPropertyCount = 1; // By default we must have header property is `alg`.
 
     const headerProperties = Object.keys(decodedProtectedHeader);
     if (headerProperties.length !== expectedHeaderPropertyCount) {
@@ -63,16 +57,6 @@ export default class Jws {
       );
     }
 
-    // If protected header contains 2 properties, the 2nd property must be a string 'kid' property.
-    if (
-      headerProperties.length === 2 &&
-      typeof decodedProtectedHeader.kid !== 'string'
-    ) {
-      throw new SidetreeError(
-        ErrorCode.JwsProtectedHeaderMissingOrIncorrectKid
-      );
-    }
-
     // Must contain Base64URL string 'signature' property.
     if (!Encoder.isBase64UrlString(signature)) {
       throw new SidetreeError(ErrorCode.JwsSignatureNotBase64UrlString);
@@ -83,7 +67,6 @@ export default class Jws {
       throw new SidetreeError(ErrorCode.JwsPayloadNotBase64UrlString);
     }
 
-    this.kid = decodedProtectedHeader.kid;
     this.protected = protectedHeader;
     this.payload = payload;
     this.signature = signature;
@@ -185,13 +168,9 @@ export default class Jws {
 
   /**
    * Parses the input as a `Jws` object.
-   * @param expectKidInHeader If set to `true`, the given compact JWS must contain `kid`; else the compact JWS must not contain `kid`.
    */
-  public static parseCompactJws(
-    compactJws: any,
-    expectKidInHeader: boolean
-  ): Jws {
-    return new Jws(compactJws, expectKidInHeader);
+  public static parseCompactJws(compactJws: any): Jws {
+    return new Jws(compactJws);
   }
 
   /**
