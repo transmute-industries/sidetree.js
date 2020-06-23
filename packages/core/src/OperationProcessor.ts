@@ -2,7 +2,6 @@
 import {
   AnchoredOperationModel,
   DidState,
-  Encoder,
   ErrorCode,
   IOperationProcessor,
   JsonCanonicalizer,
@@ -63,13 +62,11 @@ export default class OperationProcessor implements IOperationProcessor {
     }
 
     try {
-      const lastOperationTransactionNumber = appliedDidState
-        ? appliedDidState.lastOperationTransactionNumber
-        : undefined;
-
       // If the operation was not applied, log some info in case needed for debugging.
       if (
-        previousOperationTransactionNumber === lastOperationTransactionNumber
+        appliedDidState === undefined ||
+        appliedDidState.lastOperationTransactionNumber ===
+          previousOperationTransactionNumber
       ) {
         const index = anchoredOperationModel.operationIndex;
         const time = anchoredOperationModel.transactionTime;
@@ -109,9 +106,10 @@ export default class OperationProcessor implements IOperationProcessor {
         );
         break;
       case OperationType.Update:
-        const encodedRevealValue = (operation as UpdateOperation).signedData
-          .updateRevealValue;
-        revealValueBuffer = Encoder.decodeAsBuffer(encodedRevealValue);
+        const updateOperation = operation as UpdateOperation;
+        revealValueBuffer = JsonCanonicalizer.canonicalizeAsBuffer(
+          updateOperation.signedData.updateKey
+        );
         break;
       default:
         // This is a deactivate.
@@ -192,12 +190,20 @@ export default class OperationProcessor implements IOperationProcessor {
       anchoredOperationModel.operationBuffer
     );
 
-    // Verify the actual reveal value hash against the expected commitment hash.
-    const isValidCommitReveal = Multihash.isValidHash(
-      operation.signedData.updateRevealValue,
+    // Verify the update key hash.
+    const isValidUpdateKey = Multihash.canonicalizeAndVerify(
+      operation.signedData.updateKey,
       didState.nextUpdateCommitmentHash!
     );
-    if (!isValidCommitReveal) {
+    if (!isValidUpdateKey) {
+      return didState;
+    }
+
+    // Verify the signature.
+    const signatureIsValid = await operation.signedDataJws.verifySignature(
+      operation.signedData.updateKey
+    );
+    if (!signatureIsValid) {
       return didState;
     }
 
