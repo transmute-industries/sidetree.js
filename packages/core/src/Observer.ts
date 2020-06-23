@@ -262,7 +262,7 @@ export default class Observer {
       while (
         i < unresolvableTransactionStatus.length &&
         unresolvableTransactionStatus[i].processingStatus ===
-          TransactionProcessingStatus.Processsed
+          TransactionProcessingStatus.Processed
       ) {
         i++;
       }
@@ -284,7 +284,7 @@ export default class Observer {
     while (
       i < this.transactionsUnderProcessing.length &&
       this.transactionsUnderProcessing[i].processingStatus ===
-        TransactionProcessingStatus.Processsed
+        TransactionProcessingStatus.Processed
     ) {
       await this.transactionStore.addTransaction(
         this.transactionsUnderProcessing[i].transaction
@@ -326,7 +326,7 @@ export default class Observer {
         `Finished processing transaction '${transaction.transactionNumber}'.`
       );
       transactionUnderProcessing.processingStatus =
-        TransactionProcessingStatus.Processsed;
+        TransactionProcessingStatus.Processed;
 
       if (transactionProcessedSuccessfully) {
         console.info(

@@ -3,7 +3,7 @@
  */
 enum TransactionProcessingStatus {
   Pending = 'pending',
-  Processsed = 'processed',
+  Processed = 'processed',
 }
 
 export default TransactionProcessingStatus;
