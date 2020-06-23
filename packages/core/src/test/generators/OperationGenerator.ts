@@ -331,7 +331,7 @@ export default class OperationGenerator {
     const patches = [
       {
         action: 'add-public-keys',
-        public_keys: [anyNewSigningKey],
+        publicKeys: [anyNewSigningKey],
       },
     ];
     const signingKeyId = 'anySigningKeyId';
@@ -408,8 +408,8 @@ export default class OperationGenerator {
     publicKeys?: PublicKeyModel[]
   ) {
     const document = {
-      public_keys: publicKeys,
-      service_endpoints: serviceEndpoints,
+      publicKeys: publicKeys,
+      serviceEndpoints: serviceEndpoints,
     };
     const recoverOperation = await OperationGenerator.createRecoverOperationRequest(
       didUniqueSuffix,
@@ -527,7 +527,7 @@ export default class OperationGenerator {
     const patches = [
       {
         action: 'add-public-keys',
-        public_keys: [newPublicKey],
+        publicKeys: [newPublicKey],
       },
     ];
 
@@ -558,7 +558,7 @@ export default class OperationGenerator {
     if (idOfServiceEndpointToAdd !== undefined) {
       const patch = {
         action: 'add-service-endpoints',
-        service_endpoints: OperationGenerator.generateServiceEndpoints([
+        serviceEndpoints: OperationGenerator.generateServiceEndpoints([
           idOfServiceEndpointToAdd,
         ]),
       };

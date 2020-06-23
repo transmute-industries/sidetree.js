@@ -121,7 +121,7 @@ export default class DocumentComposer {
       throw new SidetreeError(ErrorCode.DocumentComposerDocumentMissing);
     }
 
-    const allowedProperties = new Set(['public_keys', 'service_endpoints']);
+    const allowedProperties = new Set(['publicKeys', 'serviceEndpoints']);
     for (const property in document) {
       if (!allowedProperties.has(property)) {
         throw new SidetreeError(
@@ -131,15 +131,15 @@ export default class DocumentComposer {
       }
     }
 
-    // Verify 'public_keys' property if it exists.
-    if (Object.prototype.hasOwnProperty.call(document, 'publicKey')) {
-      DocumentComposer.validatePublicKeys(document.public_keys);
+    // Verify 'publicKeys' property if it exists.
+    if (Object.prototype.hasOwnProperty.call(document, 'publicKeys')) {
+      DocumentComposer.validatePublicKeys(document.publicKeys);
     }
 
-    // Verify 'service_endpoints' property if it exists.
-    if (Object.prototype.hasOwnProperty.call(document, 'service')) {
-      // Verify each endpoint entry in service_endpoints.
-      DocumentComposer.validateServiceEndpoints(document.service_endpoints);
+    // Verify 'serviceEndpoints' property if it exists.
+    if (Object.prototype.hasOwnProperty.call(document, 'serviceEndpoints')) {
+      // Verify each endpoint entry in serviceEndpoints.
+      DocumentComposer.validateServiceEndpoints(document.serviceEndpoints);
     }
   }
 
@@ -192,7 +192,7 @@ export default class DocumentComposer {
       );
     }
 
-    DocumentComposer.validatePublicKeys(patch.public_keys);
+    DocumentComposer.validatePublicKeys(patch.publicKeys);
   }
 
   private static validatePublicKeys(publicKeys: any) {
@@ -264,13 +264,13 @@ export default class DocumentComposer {
       );
     }
 
-    if (!Array.isArray(patch.public_keys)) {
+    if (!Array.isArray(patch.publicKeys)) {
       throw new SidetreeError(
         ErrorCode.DocumentComposerPatchPublicKeyIdsNotArray
       );
     }
 
-    for (const publicKeyId of patch.public_keys) {
+    for (const publicKeyId of patch.publicKeys) {
       if (typeof publicKeyId !== 'string') {
         throw new SidetreeError(
           ErrorCode.DocumentComposerPatchPublicKeyIdNotString
@@ -312,13 +312,13 @@ export default class DocumentComposer {
       );
     }
 
-    if (!Array.isArray(patch.service_endpoints)) {
+    if (!Array.isArray(patch.serviceEndpoints)) {
       throw new SidetreeError(
         ErrorCode.DocumentComposerPatchServiceEndpointsNotArray
       );
     }
 
-    DocumentComposer.validateServiceEndpoints(patch.service_endpoints);
+    DocumentComposer.validateServiceEndpoints(patch.serviceEndpoints);
   }
 
   /**
@@ -444,7 +444,7 @@ export default class DocumentComposer {
     );
 
     // Loop through all given public keys and add them if they don't exist already.
-    for (const publicKey of patch.public_keys) {
+    for (const publicKey of patch.publicKeys) {
       // NOTE: If a key ID already exists, we will just replace the existing key.
       // Not throwing error will minimize the need (thus risk) of reusing exposed update reveal value.
       publicKeyMap.set(publicKey.id, publicKey);
@@ -467,7 +467,7 @@ export default class DocumentComposer {
     );
 
     // Loop through all given public key IDs and delete them from the existing public key only if it is not a recovery key.
-    for (const publicKey of patch.public_keys) {
+    for (const publicKey of patch.publicKeys) {
       const existingKey = publicKeyMap.get(publicKey);
 
       if (existingKey !== undefined) {
@@ -486,7 +486,7 @@ export default class DocumentComposer {
     document: DocumentModel,
     patch: any
   ): DocumentModel {
-    const serviceEndpoints = patch.service_endpoints;
+    const serviceEndpoints = patch.serviceEndpoints;
 
     if (document.serviceEndpoints === undefined) {
       // create a new array if service did not exist
