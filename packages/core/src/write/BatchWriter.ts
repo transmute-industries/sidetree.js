@@ -51,7 +51,9 @@ export default class BatchWriter implements IBatchWriter {
     }
 
     console.info(
-      LogColor.lightBlue(`Batch size = ${LogColor.green(numberOfOperations)}`)
+      LogColor.lightBlue(
+        `Batch size = ${LogColor.green(`${numberOfOperations}`)}`
+      )
     );
 
     const operationModels = await Promise.all(
@@ -139,7 +141,7 @@ export default class BatchWriter implements IBatchWriter {
       LogColor.lightBlue(
         `Writing data to blockchain: ${LogColor.green(
           stringToWriteToBlockchain
-        )} with minimum fee of: ${LogColor.green(fee)}`
+        )} with minimum fee of: ${LogColor.green(`${fee}`)}`
       )
     );
 
