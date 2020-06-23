@@ -111,11 +111,7 @@ export default class DeactivateOperation implements OperationModel {
       );
     }
 
-    const expectKidInHeader = false;
-    const signedDataJws = Jws.parseCompactJws(
-      operationObject.signed_data,
-      expectKidInHeader
-    );
+    const signedDataJws = Jws.parseCompactJws(operationObject.signed_data);
     const signedData = await DeactivateOperation.parseSignedDataPayload(
       signedDataJws.payload,
       operationObject.did_suffix

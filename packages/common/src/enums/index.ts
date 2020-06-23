@@ -1,5 +1,11 @@
 import FetchResultCode from './FetchResultCode';
 import OperationType from './OperationType';
-import PublicKeyUsage from './PublicKeyUsage';
+import PublicKeyPurpose from './PublicKeyPurpose';
+import TransactionProcessingStatus from './TransactionProcessingStatus';
 
-export { FetchResultCode, OperationType, PublicKeyUsage };
+export {
+  FetchResultCode,
+  OperationType,
+  PublicKeyPurpose,
+  TransactionProcessingStatus,
+};

@@ -17,6 +17,8 @@ import QueuedOperationModel from './QueuedOperationModel';
 import ServiceEndpointModel from './ServiceEndpointModel';
 import ServiceVersionModel from './ServiceVersionModel';
 import TransactionModel from './TransactionModel';
+import TransactionUnderProcessingModel from './TransactionUnderProcessingModel';
+import ValueTimeLockModel from './ValueTimeLockModel';
 
 export {
   AnchoredData,
@@ -38,4 +40,6 @@ export {
   ServiceEndpointModel,
   ServiceVersionModel,
   TransactionModel,
+  TransactionUnderProcessingModel,
+  ValueTimeLockModel,
 };

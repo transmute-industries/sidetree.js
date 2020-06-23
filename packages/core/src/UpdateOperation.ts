@@ -2,18 +2,20 @@ import {
   DeltaModel,
   Encoder,
   ErrorCode,
+  JwkEs256k,
   Multihash,
   OperationModel,
   OperationType,
   SidetreeError,
 } from '@sidetree/common';
-import Operation from './Operation';
 import JsonAsync from './util/JsonAsync';
+import Jwk from './util/Jwk';
 import Jws from './util/Jws';
+import Operation from './Operation';
 
 interface SignedDataModel {
   deltaHash: string;
-  updateRevealValue: string;
+  updateKey: JwkEs256k;
 }
 
 /**
@@ -118,11 +120,7 @@ export default class UpdateOperation implements OperationModel {
       throw new SidetreeError(ErrorCode.UpdateOperationMissingDidUniqueSuffix);
     }
 
-    const expectKidInHeader = true;
-    const signedData = Jws.parseCompactJws(
-      operationObject.signed_data,
-      expectKidInHeader
-    );
+    const signedData = Jws.parseCompactJws(operationObject.signed_data);
     const signedDataModel = await UpdateOperation.parseSignedDataPayload(
       signedData.payload
     );
@@ -164,27 +162,14 @@ export default class UpdateOperation implements OperationModel {
       );
     }
 
-    if (typeof signedData.update_reveal_value !== 'string') {
-      throw new SidetreeError(
-        ErrorCode.UpdateOperationUpdateRevealValueMissingOrInvalidType
-      );
-    }
-
-    if (
-      (signedData.update_reveal_value as string).length >
-      Operation.maxEncodedRevealValueLength
-    ) {
-      throw new SidetreeError(
-        ErrorCode.UpdateOperationUpdateRevealValueTooLong
-      );
-    }
+    Jwk.validateJwkEs256k(signedData.update_key);
 
     const deltaHash = Encoder.decodeAsBuffer(signedData.delta_hash);
     Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(deltaHash);
 
     return {
       deltaHash: signedData.delta_hash,
-      updateRevealValue: signedData.update_reveal_value,
+      updateKey: signedData.update_key,
     };
   }
 }

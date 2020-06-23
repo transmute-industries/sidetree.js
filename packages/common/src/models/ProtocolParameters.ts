@@ -14,8 +14,14 @@ export default interface ProtocolParameters {
   maxDeltaSizeInBytes: number;
   /** Max number of operations observed per transaction time */
   maxNumberOfOperationsPerTransactionTime: number;
+  /** Maximum number of operations allowed with no lock. */
+  maxNumberOfOperationsForNoValueTimeLock: number;
   /** Max number of transactions observed per transaction time */
   maxNumberOfTransactionsPerTransactionTime: number;
   /** Maximum operations per batch. */
   maxOperationsPerBatch: number;
+  /** The multiplier that converts the normalized fee from blockchain into a 'per operation' fee. */
+  normalizedFeeToPerOperationFeeMultiplier: number;
+  /** The multiplier that converts the normalized 'per operation' fee into 'per operation lock amount' */
+  valueTimeLockAmountMultiplier: number;
 }

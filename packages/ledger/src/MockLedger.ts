@@ -2,16 +2,31 @@ import {
   BlockchainTimeModel,
   IBlockchain,
   TransactionModel,
+  ValueTimeLockModel,
 } from '@sidetree/common';
 
 /**
  * Mock Blockchain class for testing.
  */
 export default class MockLedger implements IBlockchain {
+  getFee(_transactionTime: number): Promise<number> {
+    throw new Error('Method not implemented.');
+  }
+
+  getValueTimeLock(
+    _lockIdentifier: string
+  ): Promise<ValueTimeLockModel | undefined> {
+    throw new Error('Method not implemented.');
+  }
+
+  getWriterValueTimeLock(): Promise<ValueTimeLockModel | undefined> {
+    throw new Error('Method not implemented.');
+  }
+
   /** Stores each hash given in write() method. */
   hashes: [string][] = [];
 
-  public async write(anchorString: string): Promise<void> {
+  public async write(anchorString: string, _fee = 0): Promise<void> {
     this.hashes.push([anchorString]);
   }
 
@@ -25,6 +40,8 @@ export default class MockLedger implements IBlockchain {
       transactionTimeHash: hash[0],
       anchorString: hash[0],
       writer: 'writer',
+      transactionFeePaid: 0,
+      normalizedTransactionFee: 0,
     }));
     if (sinceTransactionNumber) {
       transactions = transactions.filter(
