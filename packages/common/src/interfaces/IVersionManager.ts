@@ -1,6 +1,6 @@
 import IBatchWriter from './IBatchWriter';
 import IOperationProcessor from './IOperationProcessor';
-// import IRequestHandler from './IRequestHandler';
+import IRequestHandler from './IRequestHandler';
 import ITransactionProcessor from './ITransactionProcessor';
 import ITransactionSelector from './ITransactionSelector';
 
@@ -27,7 +27,7 @@ export default interface IVersionManager {
    * Gets the request handler for the given blockchain time.
    * @param blockchainTime The blockchain time for which the requesthandler is needed.
    */
-  // getRequestHandler (blockchainTime: number): IRequestHandler;
+  getRequestHandler(blockchainTime: number): IRequestHandler;
 
   /**
    * Gets the transaction process for the given blockchain time.
