@@ -3,6 +3,7 @@ import AnchoredOperationModel from './AnchoredOperationModel';
 import AnchorFileModel from './AnchorFileModel';
 import BlockchainTimeModel from './BlockchainTimeModel';
 import ChunkFileModel from './ChunkFileModel';
+import Config from './Config';
 import DeltaModel from './DeltaModel';
 import DidState from './DidState';
 import DocumentModel from './DocumentModel';
@@ -27,6 +28,7 @@ export {
   AnchorFileModel,
   BlockchainTimeModel,
   ChunkFileModel,
+  Config,
   DeltaModel,
   DidState,
   DocumentModel,
