@@ -1,9 +1,10 @@
 import {
   IBatchWriter,
   IOperationProcessor,
-  IVersionManager,
-  ITransactionSelector,
+  IRequestHandler,
   ITransactionProcessor,
+  ITransactionSelector,
+  IVersionManager,
 } from '@sidetree/common';
 
 /**
@@ -25,12 +26,12 @@ export default class MockVersionManager implements IVersionManager {
         blockchainTime
     );
   }
-  // public getRequestHandler(blockchainTime: number): IRequestHandler {
-  //   throw new Error(
-  //     'Not implemented. Use spyOn to override the functionality. Input: ' +
-  //       blockchainTime
-  //   );
-  // }
+  public getRequestHandler(blockchainTime: number): IRequestHandler {
+    throw new Error(
+      'Not implemented. Use spyOn to override the functionality. Input: ' +
+        blockchainTime
+    );
+  }
   public getTransactionProcessor(
     blockchainTime: number
   ): ITransactionProcessor {

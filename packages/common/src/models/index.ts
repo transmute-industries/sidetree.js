@@ -3,6 +3,7 @@ import AnchoredOperationModel from './AnchoredOperationModel';
 import AnchorFileModel from './AnchorFileModel';
 import BlockchainTimeModel from './BlockchainTimeModel';
 import ChunkFileModel from './ChunkFileModel';
+import Config from './Config';
 import DeltaModel from './DeltaModel';
 import DidState from './DidState';
 import DocumentModel from './DocumentModel';
@@ -14,6 +15,7 @@ import OperationModel from './OperationModel';
 import ProtocolParameters from './ProtocolParameters';
 import PublicKeyModel from './PublicKeyModel';
 import QueuedOperationModel from './QueuedOperationModel';
+import ResponseModel from './ResponseModel';
 import ServiceEndpointModel from './ServiceEndpointModel';
 import ServiceVersionModel from './ServiceVersionModel';
 import TransactionModel from './TransactionModel';
@@ -26,6 +28,7 @@ export {
   AnchorFileModel,
   BlockchainTimeModel,
   ChunkFileModel,
+  Config,
   DeltaModel,
   DidState,
   DocumentModel,
@@ -37,6 +40,7 @@ export {
   ProtocolParameters,
   PublicKeyModel,
   QueuedOperationModel,
+  ResponseModel,
   ServiceEndpointModel,
   ServiceVersionModel,
   TransactionModel,

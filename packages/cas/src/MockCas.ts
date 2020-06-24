@@ -22,7 +22,7 @@ export default class MockCas implements ICas {
   /**
    * Gets the address that can be used to access the given content.
    */
-  public async getAddress(content: Buffer): Promise<string> {
+  public static async getAddress(content: Buffer): Promise<string> {
     const unixFs = new Unixfs('file', content);
     const dagNode = new DAGNode(unixFs.marshal());
     const dagLink = await dagNode.toDAGLink();
@@ -32,7 +32,7 @@ export default class MockCas implements ICas {
   }
 
   public async write(content: Buffer): Promise<string> {
-    const encodedHash = await this.getAddress(content);
+    const encodedHash = await MockCas.getAddress(content);
     this.storage.set(encodedHash, content);
     return encodedHash;
   }

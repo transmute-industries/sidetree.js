@@ -1,4 +1,6 @@
-import { AnchoredData, ErrorCode, protocolParameters, SidetreeError } from '..';
+import { AnchoredData } from '../models';
+import { ErrorCode, SidetreeError } from '../errors';
+import protocolParameters from './parameters';
 
 /**
  * Encapsulates functionality to serialize/deserialize data that read/write to
