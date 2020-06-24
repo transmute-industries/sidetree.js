@@ -14,6 +14,7 @@ import OperationModel from './OperationModel';
 import ProtocolParameters from './ProtocolParameters';
 import PublicKeyModel from './PublicKeyModel';
 import QueuedOperationModel from './QueuedOperationModel';
+import ResponseModel from './ResponseModel';
 import ServiceEndpointModel from './ServiceEndpointModel';
 import ServiceVersionModel from './ServiceVersionModel';
 import TransactionModel from './TransactionModel';
@@ -37,6 +38,7 @@ export {
   ProtocolParameters,
   PublicKeyModel,
   QueuedOperationModel,
+  ResponseModel,
   ServiceEndpointModel,
   ServiceVersionModel,
   TransactionModel,
