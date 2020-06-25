@@ -188,8 +188,18 @@ export default class DocumentComposer {
     }
   }
 
-  private static validateIetfJsonPatch(patch: any) {
-    return Boolean(patch);
+  private static validateIetfJsonPatch(patch: any): void {
+    const patchProperties = Object.keys(patch);
+    if (patchProperties.length !== 2) {
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerPatchMissingOrUnknownProperty
+      );
+    }
+    const error = jsonpatch.validate(patch.patches);
+    if (error) {
+      console.warn(error);
+      throw new SidetreeError(error.name);
+    }
   }
 
   private static validateAddPublicKeysPatch(patch: any) {

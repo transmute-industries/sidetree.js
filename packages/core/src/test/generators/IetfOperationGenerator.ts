@@ -7,6 +7,7 @@ import {
   OperationType,
 } from '@sidetree/common';
 import CreateOperation from '../../CreateOperation';
+import UpdateOperation from '../../UpdateOperation';
 import Jwk from '../../util/Jwk';
 import OperationGenerator from './OperationGenerator';
 import jsonpatch from 'fast-json-patch';
@@ -106,6 +107,58 @@ export default class IetfOperationGenerator {
       signingPublicKey,
       signingPrivateKey,
       nextUpdateRevealValueEncodedString,
+    };
+  }
+
+  /**
+   * Generates an update operation that adds a new key.
+   */
+  public static async generateUpdateOperation(
+    didUniqueSuffix: string,
+    updatePublicKey: JwkEs256k,
+    updatePrivateKey: JwkEs256k
+  ) {
+    const additionalKeyId = `additional-key`;
+    const [
+      additionalPublicKey,
+      additionalPrivateKey,
+    ] = await OperationGenerator.generateKeyPair(additionalKeyId);
+
+    const nextUpdateCommitmentHash = Multihash.canonicalizeThenHashThenEncode(
+      additionalPublicKey
+    );
+
+    const patches = [
+      {
+        action: 'ietf-json-patch',
+        patches: [
+          {
+            op: 'add',
+            path: '/publicKey/999',
+            value: additionalPublicKey,
+          },
+        ],
+      },
+    ];
+
+    const updateOperationRequest = await OperationGenerator.createUpdateOperationRequest(
+      didUniqueSuffix,
+      updatePublicKey,
+      updatePrivateKey,
+      nextUpdateCommitmentHash,
+      patches
+    );
+
+    const operationBuffer = Buffer.from(JSON.stringify(updateOperationRequest));
+    const updateOperation = await UpdateOperation.parse(operationBuffer);
+
+    return {
+      updateOperation,
+      operationBuffer,
+      additionalKeyId,
+      additionalPublicKey,
+      additionalPrivateKey,
+      nextUpdateKey: additionalPublicKey.jwk,
     };
   }
 }
