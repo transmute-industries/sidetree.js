@@ -232,8 +232,6 @@ export default class IetfOperationGenerator {
     const signedDataPayloadObject = {
       delta_hash: deltaHash,
       recovery_key: Jwk.getEs256kPublicKey(input.recoveryPrivateKey),
-      // TODO: TEST THAT THIS DOESNT WORK
-      // recovery_key: Jwk.getEs256kPublicKey(newRecoveryPrivateKey),
       recovery_commitment: Multihash.canonicalizeThenHashThenEncode(
         newRecoveryPublicKey
       ),
@@ -251,24 +249,6 @@ export default class IetfOperationGenerator {
       delta: deltaEncodedString,
     };
 
-    // const recoverOperation = await OperationGenerator.createRecoverOperationRequest(
-    //   didUniqueSuffix,
-    //   recoveryPrivateKey,
-    //   newRecoveryPublicKey,
-    //   Multihash.canonicalizeThenHashThenEncode(newSigningPublicKey.jwk),
-    //   document
-    // );
-    // return recoverOperation;
-
-    // const operationJson = await OperationGenerator.generateRecoverOperationRequest(
-    //   input.didUniqueSuffix,
-    //   input.recoveryPrivateKey,
-    //   newRecoveryPublicKey,
-    //   newSigningPublicKey,
-    //   services,
-    //   [publicKeyToBeInDocument]
-    // );
-
     const operationBuffer = Buffer.from(JSON.stringify(operation));
     const recoverOperation = await RecoverOperation.parse(operationBuffer);
 
@@ -283,83 +263,4 @@ export default class IetfOperationGenerator {
       updatePrivateKey,
     };
   }
-
-  // public static async generateRecoverOperation() {
-  //   const signingKeyId = 'signingKey';
-  //   const [
-  //     recoveryPublicKey,
-  //     recoveryPrivateKey,
-  //   ] = await Jwk.generateEs256kKeyPair();
-  //   const [
-  //     updatePublicKey,
-  //     updatePrivateKey,
-  //   ] = await Jwk.generateEs256kKeyPair();
-  //   const [
-  //     signingPublicKey,
-  //     signingPrivateKey,
-  //   ] = await OperationGenerator.generateKeyPair(signingKeyId);
-  //   const service = OperationGenerator.generateServiceEndpoints([
-  //     'serviceEndpointId123',
-  //   ]);
-
-  //   const document = {
-  //     publicKey: [signingPublicKey],
-  //     service,
-  //   };
-  //   const patches = [
-  //     {
-  //       action: 'ietf-json-patch',
-  //       patches: jsonpatch.compare({}, document),
-  //     },
-  //   ];
-
-  //   const delta = {
-  //     patches,
-  //     update_commitment: Multihash.canonicalizeThenHashThenEncode(
-  //       updatePublicKey
-  //     ),
-  //   };
-
-  //   const deltaBuffer = Buffer.from(JSON.stringify(delta));
-  //   const deltaHash = Encoder.encode(Multihash.hash(deltaBuffer));
-
-  //   const signedDataPayloadObject = {
-  //     delta_hash: deltaHash,
-  //     recovery_key: Jwk.getEs256kPublicKey(recoveryPrivateKey),
-  //     recovery_commitment: Multihash.canonicalizeThenHashThenEncode(
-  //       recoveryPublicKey
-  //     ),
-  //   };
-  //   const signedData = await OperationGenerator.signUsingEs256k(
-  //     signedDataPayloadObject,
-  //     recoveryPrivateKey
-  //   );
-
-  //   const deltaEncodedString = Encoder.encode(deltaBuffer);
-  //   const operation = {
-  //     type: OperationType.Recover,
-  //     did_suffix: didUniqueSuffix,
-  //     signed_data: signedData,
-  //     delta: deltaEncodedString,
-  //   };
-
-  //   const operationBuffer = Buffer.from(JSON.stringify(operationRequest));
-
-  //   const createOperation = await CreateOperation.parse(operationBuffer);
-
-  //   const nextUpdateRevealValueEncodedString = Multihash.canonicalizeThenHashThenEncode(
-  //     signingPublicKey.jwk
-  //   );
-  //   return {
-  //     createOperation,
-  //     operationRequest,
-  //     recoveryPublicKey,
-  //     recoveryPrivateKey,
-  //     updatePublicKey,
-  //     updatePrivateKey,
-  //     signingPublicKey,
-  //     signingPrivateKey,
-  //     nextUpdateRevealValueEncodedString,
-  //   };
-  // }
 }
