@@ -9,14 +9,10 @@ import {
 import CreateOperation from '../../CreateOperation';
 import UpdateOperation from '../../UpdateOperation';
 import RecoverOperation from '../../RecoverOperation';
+import DeactivateOperation from '../../DeactivateOperation';
 import Jwk from '../../util/Jwk';
 import OperationGenerator from './OperationGenerator';
 import jsonpatch from 'fast-json-patch';
-
-interface RecoverOperationGenerationInput {
-  didUniqueSuffix: string;
-  recoveryPrivateKey: JwkEs256k;
-}
 
 interface GeneratedRecoverOperationData {
   operationBuffer: Buffer;
@@ -183,7 +179,8 @@ export default class IetfOperationGenerator {
    * Generates a recover operation.
    */
   public static async generateRecoverOperation(
-    input: RecoverOperationGenerationInput
+    didUniqueSuffix: string,
+    recoveryPrivateKey: JwkEs256k
   ): Promise<GeneratedRecoverOperationData> {
     const newSigningKeyId = 'newSigningKey';
     const [
@@ -231,20 +228,20 @@ export default class IetfOperationGenerator {
 
     const signedDataPayloadObject = {
       delta_hash: deltaHash,
-      recovery_key: Jwk.getEs256kPublicKey(input.recoveryPrivateKey),
+      recovery_key: Jwk.getEs256kPublicKey(recoveryPrivateKey),
       recovery_commitment: Multihash.canonicalizeThenHashThenEncode(
         newRecoveryPublicKey
       ),
     };
     const signedData = await OperationGenerator.signUsingEs256k(
       signedDataPayloadObject,
-      input.recoveryPrivateKey
+      recoveryPrivateKey
     );
 
     const deltaEncodedString = Encoder.encode(deltaBuffer);
     const operation = {
       type: OperationType.Recover,
-      did_suffix: input.didUniqueSuffix,
+      did_suffix: didUniqueSuffix,
       signed_data: signedData,
       delta: deltaEncodedString,
     };
@@ -261,6 +258,40 @@ export default class IetfOperationGenerator {
       signingPrivateKey: newSigningPrivateKey,
       updateKey,
       updatePrivateKey,
+    };
+  }
+
+  /**
+   * Generates a Deactivate Operation data.
+   */
+  public static async createDeactivateOperation(
+    didUniqueSuffix: string,
+    recoveryPrivateKey: JwkEs256k
+  ) {
+    const signedDataPayloadObject = {
+      did_suffix: didUniqueSuffix,
+      recovery_key: Jwk.getEs256kPublicKey(recoveryPrivateKey),
+    };
+    const signedData = await OperationGenerator.signUsingEs256k(
+      signedDataPayloadObject,
+      recoveryPrivateKey
+    );
+
+    const operationRequest = {
+      type: OperationType.Deactivate,
+      did_suffix: didUniqueSuffix,
+      signed_data: signedData,
+    };
+
+    const operationBuffer = Buffer.from(JSON.stringify(operationRequest));
+    const deactivateOperation = await DeactivateOperation.parse(
+      operationBuffer
+    );
+
+    return {
+      operationRequest,
+      operationBuffer,
+      deactivateOperation,
     };
   }
 }

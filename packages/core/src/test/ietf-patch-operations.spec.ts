@@ -15,6 +15,7 @@ describe('IETF Patch operations', () => {
   let operationProcessor: IOperationProcessor;
   let operationStore: IOperationStore;
   let createData: any;
+  let recoverData: any;
   let currentDocument: any;
 
   beforeAll(async () => {
@@ -74,12 +75,9 @@ describe('IETF Patch operations', () => {
   });
 
   it('should recover a did document', async () => {
-    const recoverInput = {
-      didUniqueSuffix: createData.createOperation.didUniqueSuffix,
-      recoveryPrivateKey: createData.recoveryPrivateKey,
-    };
-    const recoverData = await IetfOperationGenerator.generateRecoverOperation(
-      recoverInput
+    recoverData = await IetfOperationGenerator.generateRecoverOperation(
+      createData.createOperation.didUniqueSuffix,
+      createData.recoveryPrivateKey
     );
     const { didUniqueSuffix, operationBuffer } = recoverData.recoverOperation;
     const anchoredOperationModel = {
@@ -97,5 +95,54 @@ describe('IETF Patch operations', () => {
     expect(currentDocument.publicKey.length).toEqual(1);
     expect(currentDocument.publicKey[0].id).toBe('newKey');
     expect(currentDocument.service.length).toEqual(1);
+  });
+
+  it('should not deactivate a did document if wrong recovery key is passed', async () => {
+    const deactivateData = await IetfOperationGenerator.createDeactivateOperation(
+      createData.createOperation.didUniqueSuffix,
+      // old recovery key
+      createData.recoveryPrivateKey
+    );
+    const {
+      didUniqueSuffix,
+      operationBuffer,
+    } = deactivateData.deactivateOperation;
+    const anchoredOperationModel = {
+      type: OperationType.Deactivate,
+      didUniqueSuffix,
+      operationBuffer,
+      transactionNumber: 4,
+      transactionTime: 4,
+      operationIndex: 4,
+    };
+
+    await operationStore.put([anchoredOperationModel]);
+    const didState = (await resolver.resolve(didUniqueSuffix)) as DidState;
+    expect(didState.nextRecoveryCommitmentHash).toBeDefined();
+    expect(didState.nextUpdateCommitmentHash).toBeDefined();
+  });
+
+  it('should deactivate a did document', async () => {
+    const deactivateData = await IetfOperationGenerator.createDeactivateOperation(
+      createData.createOperation.didUniqueSuffix,
+      recoverData.recoveryPrivateKey
+    );
+    const {
+      didUniqueSuffix,
+      operationBuffer,
+    } = deactivateData.deactivateOperation;
+    const anchoredOperationModel = {
+      type: OperationType.Deactivate,
+      didUniqueSuffix,
+      operationBuffer,
+      transactionNumber: 5,
+      transactionTime: 5,
+      operationIndex: 5,
+    };
+
+    await operationStore.put([anchoredOperationModel]);
+    const didState = (await resolver.resolve(didUniqueSuffix)) as DidState;
+    expect(didState.nextRecoveryCommitmentHash).not.toBeDefined();
+    expect(didState.nextUpdateCommitmentHash).not.toBeDefined();
   });
 });
