@@ -7,6 +7,7 @@ import {
   PublicKeyPurpose,
 } from '@sidetree/common';
 import UpdateOperation from './UpdateOperation';
+import jsonpatch from 'fast-json-patch';
 
 /**
  * Class that handles the composition of operations into final external-facing document.
@@ -177,10 +178,27 @@ export default class DocumentComposer {
       case 'remove-service-endpoints':
         DocumentComposer.validateRemoveServiceEndpointsPatch(patch);
         break;
+      case 'ietf-json-patch':
+        DocumentComposer.validateIetfJsonPatch(patch);
+        break;
       default:
         throw new SidetreeError(
           ErrorCode.DocumentComposerPatchMissingOrUnknownAction
         );
+    }
+  }
+
+  private static validateIetfJsonPatch(patch: any): void {
+    const patchProperties = Object.keys(patch);
+    if (patchProperties.length !== 2) {
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerPatchMissingOrUnknownProperty
+      );
+    }
+    const error = jsonpatch.validate(patch.patches);
+    if (error) {
+      console.warn(error);
+      throw new SidetreeError(error.name);
     }
   }
 
@@ -429,7 +447,14 @@ export default class DocumentComposer {
       return DocumentComposer.addServiceEndpoints(document, patch);
     } else if (patch.action === 'remove-service-endpoints') {
       return DocumentComposer.removeServiceEndpoints(document, patch);
+    } else if (patch.action === 'ietf-json-patch') {
+      return DocumentComposer.applyIetfJsonPatch(document, patch);
     }
+  }
+
+  private static applyIetfJsonPatch(document: any, patch: any) {
+    const res = jsonpatch.applyPatch({ ...document }, patch.patches);
+    return res.newDocument;
   }
 
   /**
