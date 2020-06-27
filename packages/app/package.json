@@ -2,6 +2,7 @@
   "name": "@sidetree/app",
   "version": "0.1.0",
   "private": true,
+  "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
