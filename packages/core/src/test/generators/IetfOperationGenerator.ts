@@ -155,6 +155,53 @@ export default class IetfOperationGenerator {
     };
   }
 
+  public static async generateBadUpdateOperation(
+    didUniqueSuffix: string,
+    updatePublicKey: JwkEs256k,
+    updatePrivateKey: JwkEs256k,
+    oldDocument: any
+  ) {
+    const additionalKeyId = 'next-update-key';
+    const [
+      additionalPublicKey,
+      additionalPrivateKey,
+    ] = await OperationGenerator.generateKeyPair(additionalKeyId);
+
+    const nextUpdateCommitmentHash = Multihash.canonicalizeThenHashThenEncode(
+      additionalPublicKey
+    );
+
+    const newDocument = {
+      publicKey: [],
+    };
+
+    const patches = [
+      {
+        action: 'ietf-json-patch',
+        patches: jsonpatch.compare(oldDocument, newDocument),
+      },
+    ];
+    const updateOperationRequest = await OperationGenerator.createUpdateOperationRequest(
+      didUniqueSuffix,
+      updatePublicKey,
+      updatePrivateKey,
+      nextUpdateCommitmentHash,
+      patches
+    );
+
+    const operationBuffer = Buffer.from(JSON.stringify(updateOperationRequest));
+    const updateOperation = await UpdateOperation.parse(operationBuffer);
+
+    return {
+      updateOperation,
+      operationBuffer,
+      additionalKeyId,
+      additionalPublicKey,
+      additionalPrivateKey,
+      nextUpdateKey: additionalPublicKey.jwk,
+    };
+  }
+
   /**
    * Generates a recover operation.
    */
