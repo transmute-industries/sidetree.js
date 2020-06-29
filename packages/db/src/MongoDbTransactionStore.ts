@@ -12,6 +12,7 @@ export default class MongoDbTransactionStore implements ITransactionStore {
   /** Database name used by this transaction store. */
   public readonly databaseName: string;
 
+  private client: MongoClient | undefined;
   private db: Db | undefined;
   private transactionCollection: Collection<any> | undefined;
 
@@ -27,14 +28,20 @@ export default class MongoDbTransactionStore implements ITransactionStore {
       : MongoDbTransactionStore.defaultDatabaseName;
   }
 
+  public async close() {
+    return this.client!.close();
+  }
+
   /**
    * Initialize the MongoDB transaction store.
    */
   public async initialize(): Promise<void> {
-    const client = await MongoClient.connect(this.serverUrl, {
-      useNewUrlParser: true,
-    }); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
-    this.db = client.db(this.databaseName);
+    this.client =
+      this.client ||
+      (await MongoClient.connect(this.serverUrl, {
+        useNewUrlParser: true,
+      })); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
+    this.db = this.client.db(this.databaseName);
     this.transactionCollection = await MongoDbTransactionStore.createTransactionCollectionIfNotExist(
       this.db
     );
