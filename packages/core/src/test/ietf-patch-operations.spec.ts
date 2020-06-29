@@ -146,3 +146,90 @@ describe('IETF Patch operations', () => {
     expect(didState.nextUpdateCommitmentHash).not.toBeDefined();
   });
 });
+
+describe('Recover a DID document after a bad update', () => {
+  let resolver: Resolver;
+  let operationProcessor: IOperationProcessor;
+  let operationStore: IOperationStore;
+  let createData: any;
+  let recoverData: any;
+  let currentDocument: any;
+
+  beforeAll(async () => {
+    // Make sure the mock version manager always returns the same operation processor in the test.
+    operationProcessor = new OperationProcessor();
+    const versionManager = new MockVersionManager();
+    const spy = jest.spyOn(versionManager, 'getOperationProcessor');
+    spy.mockReturnValue(operationProcessor);
+
+    operationStore = new MockOperationStore();
+    resolver = new Resolver(versionManager, operationStore);
+  });
+
+  it('should create a did document', async () => {
+    createData = await IetfOperationGenerator.generateCreateOperation();
+    const { didUniqueSuffix, operationBuffer } = createData.createOperation;
+    const anchoredOperationModel = {
+      type: OperationType.Create,
+      didUniqueSuffix,
+      operationBuffer,
+      transactionNumber: 1,
+      transactionTime: 1,
+      operationIndex: 1,
+    };
+
+    await operationStore.put([anchoredOperationModel]);
+    const didState = (await resolver.resolve(didUniqueSuffix)) as DidState;
+    currentDocument = didState.document;
+    expect(currentDocument.publicKey.length).toEqual(1);
+    expect(currentDocument.publicKey[0].id).toBe('signingKey');
+    expect(currentDocument.service.length).toEqual(1);
+  });
+
+  it('should update to remove all the keys from the did document', async () => {
+    const updateData = await IetfOperationGenerator.generateBadUpdateOperation(
+      createData.createOperation.didUniqueSuffix,
+      createData.updatePublicKey,
+      createData.updatePrivateKey,
+      currentDocument
+    );
+    const { didUniqueSuffix, operationBuffer } = updateData.updateOperation;
+    const anchoredOperationModel = {
+      type: OperationType.Update,
+      didUniqueSuffix,
+      operationBuffer,
+      transactionNumber: 2,
+      transactionTime: 2,
+      operationIndex: 2,
+    };
+
+    await operationStore.put([anchoredOperationModel]);
+    const didState = (await resolver.resolve(didUniqueSuffix)) as DidState;
+    currentDocument = didState.document;
+    expect(currentDocument.publicKey.length).toEqual(0);
+    expect(currentDocument.service).not.toBeDefined();
+  });
+
+  it('should recover a did document', async () => {
+    recoverData = await IetfOperationGenerator.generateRecoverOperation(
+      createData.createOperation.didUniqueSuffix,
+      createData.recoveryPrivateKey
+    );
+    const { didUniqueSuffix, operationBuffer } = recoverData.recoverOperation;
+    const anchoredOperationModel = {
+      type: OperationType.Recover,
+      didUniqueSuffix,
+      operationBuffer,
+      transactionNumber: 3,
+      transactionTime: 3,
+      operationIndex: 3,
+    };
+
+    await operationStore.put([anchoredOperationModel]);
+    const didState = (await resolver.resolve(didUniqueSuffix)) as DidState;
+    currentDocument = didState.document;
+    expect(currentDocument.publicKey.length).toEqual(1);
+    expect(currentDocument.publicKey[0].id).toBe('newKey');
+    expect(currentDocument.service.length).toEqual(1);
+  });
+});

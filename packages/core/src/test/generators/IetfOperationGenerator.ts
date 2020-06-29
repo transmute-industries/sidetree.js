@@ -3,7 +3,6 @@ import {
   Multihash,
   Encoder,
   PublicKeyModel,
-  ServiceEndpointModel,
   OperationType,
 } from '@sidetree/common';
 import CreateOperation from '../../CreateOperation';
@@ -27,17 +26,29 @@ interface GeneratedRecoverOperationData {
 
 export default class IetfOperationGenerator {
   /**
-   * Generates a create operation request.
+   * Generates an create operation.
    */
-  public static async generateCreateOperationRequest(
-    recoveryPublicKey: JwkEs256k,
-    updatePublicKey: JwkEs256k,
-    otherPublicKeys: PublicKeyModel[],
-    serviceEndpoints?: ServiceEndpointModel[]
-  ) {
+  public static async generateCreateOperation() {
+    const signingKeyId = 'signingKey';
+    const [
+      recoveryPublicKey,
+      recoveryPrivateKey,
+    ] = await Jwk.generateEs256kKeyPair();
+    const [
+      updatePublicKey,
+      updatePrivateKey,
+    ] = await Jwk.generateEs256kKeyPair();
+    const [
+      signingPublicKey,
+      signingPrivateKey,
+    ] = await OperationGenerator.generateKeyPair(signingKeyId);
+    const service = OperationGenerator.generateServiceEndpoints([
+      'serviceEndpointId123',
+    ]);
+
     const document = {
-      publicKey: otherPublicKeys,
-      service: serviceEndpoints,
+      publicKey: [signingPublicKey],
+      service,
     };
 
     const patches = [
@@ -66,42 +77,11 @@ export default class IetfOperationGenerator {
 
     const suffixDataEncodedString = Encoder.encode(JSON.stringify(suffixData));
     const deltaEncodedString = Encoder.encode(deltaBuffer);
-    const operation = {
+    const operationRequest = {
       type: OperationType.Create,
       suffix_data: suffixDataEncodedString,
       delta: deltaEncodedString,
     };
-
-    return operation;
-  }
-
-  /**
-   * Generates an create operation.
-   */
-  public static async generateCreateOperation() {
-    const signingKeyId = 'signingKey';
-    const [
-      recoveryPublicKey,
-      recoveryPrivateKey,
-    ] = await Jwk.generateEs256kKeyPair();
-    const [
-      updatePublicKey,
-      updatePrivateKey,
-    ] = await Jwk.generateEs256kKeyPair();
-    const [
-      signingPublicKey,
-      signingPrivateKey,
-    ] = await OperationGenerator.generateKeyPair(signingKeyId);
-    const service = OperationGenerator.generateServiceEndpoints([
-      'serviceEndpointId123',
-    ]);
-
-    const operationRequest = await IetfOperationGenerator.generateCreateOperationRequest(
-      recoveryPublicKey,
-      updatePublicKey,
-      [signingPublicKey],
-      service
-    );
 
     const operationBuffer = Buffer.from(JSON.stringify(operationRequest));
 
@@ -154,6 +134,53 @@ export default class IetfOperationGenerator {
       },
     ];
 
+    const updateOperationRequest = await OperationGenerator.createUpdateOperationRequest(
+      didUniqueSuffix,
+      updatePublicKey,
+      updatePrivateKey,
+      nextUpdateCommitmentHash,
+      patches
+    );
+
+    const operationBuffer = Buffer.from(JSON.stringify(updateOperationRequest));
+    const updateOperation = await UpdateOperation.parse(operationBuffer);
+
+    return {
+      updateOperation,
+      operationBuffer,
+      additionalKeyId,
+      additionalPublicKey,
+      additionalPrivateKey,
+      nextUpdateKey: additionalPublicKey.jwk,
+    };
+  }
+
+  public static async generateBadUpdateOperation(
+    didUniqueSuffix: string,
+    updatePublicKey: JwkEs256k,
+    updatePrivateKey: JwkEs256k,
+    oldDocument: any
+  ) {
+    const additionalKeyId = 'next-update-key';
+    const [
+      additionalPublicKey,
+      additionalPrivateKey,
+    ] = await OperationGenerator.generateKeyPair(additionalKeyId);
+
+    const nextUpdateCommitmentHash = Multihash.canonicalizeThenHashThenEncode(
+      additionalPublicKey
+    );
+
+    const newDocument = {
+      publicKey: [],
+    };
+
+    const patches = [
+      {
+        action: 'ietf-json-patch',
+        patches: jsonpatch.compare(oldDocument, newDocument),
+      },
+    ];
     const updateOperationRequest = await OperationGenerator.createUpdateOperationRequest(
       didUniqueSuffix,
       updatePublicKey,
