@@ -147,7 +147,7 @@ describe('IETF Patch operations', () => {
   });
 });
 
-describe('Recovery', () => {
+describe('Recover a DID document after a bad update', () => {
   let resolver: Resolver;
   let operationProcessor: IOperationProcessor;
   let operationStore: IOperationStore;
