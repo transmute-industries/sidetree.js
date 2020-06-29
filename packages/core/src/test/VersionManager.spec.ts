@@ -125,8 +125,8 @@ describe('VersionManager', () => {
           operationStore,
           resolver,
           mockTransactionStore
-        ),
-          fail('expect to throw but did not');
+        );
+        fail('expect to throw but did not');
       } catch (e) {
         // eslint-disable-next-line jest/no-try-expect
         expect(e.code).toBe('MODULE_NOT_FOUND');
