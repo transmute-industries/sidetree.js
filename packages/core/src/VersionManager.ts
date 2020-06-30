@@ -13,19 +13,11 @@ import {
   ITransactionStore,
   IVersionManager,
   IVersionMetadataFetcher,
+  ProtocolVersionModel,
   SidetreeError,
 } from '@sidetree/common';
 import DownloadManager from './DownloadManager';
 import Resolver from './Resolver';
-
-/**
- * Defines a protocol version and its starting blockchain time.
- */
-export interface ProtocolVersionModel {
-  /** The inclusive starting logical blockchain time that this protocol applies to. */
-  startingBlockchainTime: number;
-  version: string;
-}
 
 /**
  * The class that handles the loading of different versions of protocol codebase.

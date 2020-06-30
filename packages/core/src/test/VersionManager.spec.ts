@@ -1,12 +1,13 @@
 import {
   AnchoredOperationModel,
+  Config,
   CoreErrorCode as ErrorCode,
   IBlockchain,
   ICas,
-  Config,
   IOperationStore,
   ITransactionStore,
   OperationType,
+  ProtocolVersionModel,
   TransactionModel,
 } from '@sidetree/common';
 import DownloadManager from '../DownloadManager';
@@ -15,7 +16,7 @@ import { MockCas } from '@sidetree/cas';
 import MockOperationStore from './mocks/MockOperationStore';
 import MockTransactionStore from './mocks/MockTransactionStore';
 import Resolver from '../Resolver';
-import VersionManager, { ProtocolVersionModel } from '../VersionManager';
+import VersionManager from '../VersionManager';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 console.debug = () => {};
