@@ -1,0 +1,6 @@
+{
+  "sidetreeTransactionPrefix": "sidetree:",
+  "genesisBlockNumber": 1500000,
+  "databaseName": "sidetree-bitcoin",
+  "mongoDbConnectionString": "mongodb://localhost:27017/"
+}
