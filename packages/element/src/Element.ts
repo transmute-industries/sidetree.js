@@ -1,17 +1,24 @@
-import { Config, ResponseModel, ResponseStatus } from '@sidetree/common';
-import BatchScheduler from '../../core/src/write/BatchScheduler';
+import {
+  Config,
+  ResponseModel,
+  ResponseStatus,
+  ProtocolVersionModel,
+} from '@sidetree/common';
+import {
+  BatchScheduler,
+  DownloadManager,
+  Observer,
+  Resolver,
+  ServiceInfo,
+  VersionManager,
+} from '@sidetree/core';
 import { EthereumLedger } from '@sidetree/ledger';
 import { IpfsCas as Cas } from '@sidetree/cas';
-import DownloadManager from '../../core/src/DownloadManager';
 import { OperationStore as MongoDbOperationStore } from '@sidetree/db';
 import {
   MongoDbTransactionStore,
   MongoDbUnresolvableTransactionStore,
 } from '@sidetree/db';
-import Observer from '../../core/src/Observer';
-import Resolver from '../../core/src/Resolver';
-import ServiceInfo from '../../core/src/ServiceInfoProvider';
-import VersionManager, { ProtocolVersionModel } from '../../core/src/VersionManager';
 
 /**
  * The core class that is instantiated when running a Sidetree node.
