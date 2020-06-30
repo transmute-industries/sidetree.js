@@ -5,12 +5,16 @@ import {
   TransactionModel,
   AnchoredDataSerializer,
   ValueTimeLockModel,
+  ServiceVersionModel,
 } from '@sidetree/common';
 
 const contract = require('@truffle/contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
 
 export default class EthereumLedger implements IBlockchain {
+  /** Interval for refreshing the cached blockchain time. */
+  static readonly cachedBlockchainTimeRefreshInSeconds = 60;
+
   getFee(_transactionTime: number): Promise<number> {
     throw new Error('Method not implemented.');
   }
@@ -46,6 +50,28 @@ export default class EthereumLedger implements IBlockchain {
       });
     }
   }
+
+  public initialize: VoidFunction = async () => {
+    await this._getInstance();
+    await this.getLatestTime();
+  };
+
+  /**
+   * The function that starts periodically anchoring operation batches to blockchain.
+   */
+  public startPeriodicCachedBlockchainTimeRefresh: VoidFunction = () => {
+    setInterval(
+      async () => this.getLatestTime(),
+      EthereumLedger.cachedBlockchainTimeRefreshInSeconds * 1000
+    );
+  };
+
+  public getServiceVersion: () => ServiceVersionModel = () => {
+    return {
+      name: '',
+      version: 'v0.0.1',
+    };
+  };
 
   public _getInstance: any = async () => {
     if (!this.instance) {

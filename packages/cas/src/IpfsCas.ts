@@ -1,4 +1,9 @@
-import { FetchResultCode, ICas, FetchResult } from '@sidetree/common';
+import {
+  FetchResultCode,
+  ICas,
+  FetchResult,
+  ServiceVersionModel,
+} from '@sidetree/common';
 import ipfsClient from 'ipfs-http-client';
 import concat from 'it-concat';
 
@@ -20,6 +25,13 @@ export default class CasIpfs implements ICas {
       });
     }
   }
+
+  public getServiceVersion: () => ServiceVersionModel = () => {
+    return {
+      name: '',
+      version: 'v0.0.1',
+    };
+  };
 
   public async write(content: Buffer): Promise<string> {
     const source = await this.ipfs.add(content);
