@@ -51,15 +51,11 @@ export default class Core {
       config.databaseName
     );
     this.blockchain = blockchain;
-    console.log('blockchain');
-    console.log(this.operationStore);
     this.cas = new Cas(config.contentAddressableStoreServiceUri);
-    console.log('lol');
     this.downloadManager = new DownloadManager(
       config.maxConcurrentDownloads,
       this.cas
     );
-    console.log('lol');
     this.resolver = new Resolver(this.versionManager, this.operationStore);
     this.batchScheduler = new BatchScheduler(
       this.versionManager,

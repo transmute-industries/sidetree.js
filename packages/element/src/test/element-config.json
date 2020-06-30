@@ -1,6 +1,7 @@
 {
-  "sidetreeTransactionPrefix": "sidetree:",
-  "genesisBlockNumber": 1500000,
+  "contentAddressableStoreServiceUri": "http://127.0.0.1:3001/v1.0",
   "databaseName": "sidetree-bitcoin",
-  "mongoDbConnectionString": "mongodb://localhost:27017/"
+  "genesisBlockNumber": 1500000,
+  "mongoDbConnectionString": "mongodb://localhost:27017/",
+  "sidetreeTransactionPrefix": "sidetree:"
 }
