@@ -1,5 +1,5 @@
-import util = require('util');
-import zlib = require('zlib');
+import util from 'util';
+import zlib from 'zlib';
 
 /**
  * Encapsulates functionality to compress/decompress data.
