@@ -16,17 +16,20 @@ export default class EthereumLedger implements IBlockchain {
   static readonly cachedBlockchainTimeRefreshInSeconds = 60;
 
   getFee(_transactionTime: number): Promise<number> {
-    throw new Error('Method not implemented.');
+    return Promise.resolve(0);
+    // throw new Error('Method not implemented.');
   }
 
   getValueTimeLock(
     _lockIdentifier: string
   ): Promise<ValueTimeLockModel | undefined> {
-    throw new Error('Method not implemented.');
+    return Promise.resolve(undefined);
+    // throw new Error('Method not implemented.');
   }
 
   getWriterValueTimeLock(): Promise<ValueTimeLockModel | undefined> {
-    throw new Error('Method not implemented.');
+    return Promise.resolve(undefined);
+    // throw new Error('Method not implemented.');
   }
 
   public anchorContractAddress?: string;
