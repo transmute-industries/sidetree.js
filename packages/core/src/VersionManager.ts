@@ -15,6 +15,7 @@ import {
   IVersionMetadataFetcher,
   ProtocolVersionModel,
   SidetreeError,
+  IOperationQueue,
 } from '@sidetree/common';
 import DownloadManager from './DownloadManager';
 import Resolver from './Resolver';
@@ -31,6 +32,7 @@ export default class VersionManager
 
   private batchWriters: Map<string, IBatchWriter>;
   private operationProcessors: Map<string, IOperationProcessor>;
+  private operationQueues: Map<string, IOperationQueue>;
   private requestHandlers: Map<string, IRequestHandler>;
   private transactionProcessors: Map<string, ITransactionProcessor>;
   private transactionSelectors: Map<string, ITransactionSelector>;
@@ -47,6 +49,7 @@ export default class VersionManager
 
     this.batchWriters = new Map();
     this.operationProcessors = new Map();
+    this.operationQueues = new Map();
     this.requestHandlers = new Map();
     this.transactionProcessors = new Map();
     this.transactionSelectors = new Map();
@@ -81,6 +84,7 @@ export default class VersionManager
         this.config.databaseName
       );
       await operationQueue.initialize();
+      this.operationQueues.set(version, operationQueue);
 
       /* tslint:disable-next-line */
       const TransactionProcessor = await this.loadDefaultExportsForVersion(
@@ -253,6 +257,13 @@ export default class VersionManager
     const versionMetadata = this.versionMetadatas.get(versionString);
     // this is always be defined because if blockchain time is found, version will be defined
     return versionMetadata!;
+  }
+
+  public getOperationQueue(blockchainTime: number): IOperationQueue {
+    const versionString = this.getVersionString(blockchainTime);
+    const operationQueue = this.operationQueues.get(versionString);
+    // this is always be defined because if blockchain time is found, version will be defined
+    return operationQueue!;
   }
 
   /**
