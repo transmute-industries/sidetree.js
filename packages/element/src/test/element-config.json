@@ -1,9 +1,10 @@
 {
   "contentAddressableStoreServiceUri": "http://127.0.0.1:3001/v1.0",
-  "databaseName": "sidetree-bitcoin",
+  "databaseName": "element",
   "genesisBlockNumber": 1500000,
   "mongoDbConnectionString": "mongodb://localhost:27017/",
   "sidetreeTransactionPrefix": "sidetree:",
+  "didMethodName": "elem",
   "batchingIntervalInSeconds": 10,
   "observingIntervalInSeconds": 10,
   "maxConcurrentDownloads": 20
