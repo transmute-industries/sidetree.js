@@ -1,5 +1,7 @@
 import Element from '../Element';
 import { EthereumLedger } from '@sidetree/ledger';
+import { Jwk, OperationGenerator, CreateOperation } from '@sidetree/core';
+import { Config } from '@sidetree/common';
 import Web3 from 'web3';
 
 jest.setTimeout(10 * 1000);
@@ -7,6 +9,8 @@ jest.setTimeout(10 * 1000);
 describe('Element', () => {
   let ledger: EthereumLedger;
   let element: Element;
+  const config: Config = require('./element-config.json');
+  const didMethodName = config.didMethodName;
 
   beforeAll(async () => {
     const provider = 'http://localhost:8545';
@@ -25,15 +29,50 @@ describe('Element', () => {
   });
 
   it('should create the element class', async () => {
-    const testConfig = require('./element-config.json');
     const testVersionConfig = require('./element-version-config.json');
-    const minimalConfig = Object.assign({}, testConfig);
-    delete minimalConfig.databaseName;
-    element = new Element(minimalConfig, testVersionConfig, ledger);
+    element = new Element(config, testVersionConfig, ledger);
     expect(element).toBeDefined();
   });
 
   it('should initialize the element class', async () => {
     await element.initialize();
+  });
+
+  it('should get versions', async () => {
+    const versions = await element.handleGetVersionRequest();
+    expect(versions.status).toBe('succeeded');
+    expect(JSON.parse(versions.body)).toHaveLength(3);
+  });
+
+  it('should handle operation request', async () => {
+    const [
+      recoveryPublicKey,
+      // recoveryPrivateKey,
+    ] = await Jwk.generateEs256kKeyPair();
+    const [signingPublicKey] = await OperationGenerator.generateKeyPair('key2');
+    const services = OperationGenerator.generateServiceEndpoints([
+      'serviceEndpointId123',
+    ]);
+    const createOperationBuffer = await OperationGenerator.generateCreateOperationBuffer(
+      recoveryPublicKey,
+      signingPublicKey,
+      services
+    );
+    const operation = await element.handleOperationRequest(
+      createOperationBuffer
+    );
+    expect(operation.status).toBe('succeeded');
+    expect(operation.body).toBeDefined();
+    expect(operation.body.methodMetadata).toBeDefined();
+    expect(operation.body.didDocument).toBeDefined();
+    const createOperation = await CreateOperation.parse(createOperationBuffer);
+    const didUniqueSuffix = createOperation.didUniqueSuffix;
+    const did = `did:${didMethodName}:${didUniqueSuffix}`;
+    expect(operation.body.didDocument.id).toBe(did);
+    expect(operation.body.didDocument['@context']).toBeDefined();
+    expect(operation.body.didDocument.service[0].id).toContain(services[0].id);
+    expect(operation.body.didDocument.publicKey[0].id).toContain(
+      signingPublicKey.id
+    );
   });
 });
