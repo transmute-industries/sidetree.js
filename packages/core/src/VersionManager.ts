@@ -276,9 +276,26 @@ export default class VersionManager
     version: string,
     className: string
   ): Promise<any> {
-    const defaults = (await import(`./versions/${version}/${className}`))
-      .default;
-
-    return defaults;
+    if (version === 'latest') {
+      switch (className) {
+        case 'MongoDbOperationQueue':
+          return (await import('@sidetree/db')).MongoDbOperationQueue;
+        case 'TransactionProcessor':
+          return (await import('./TransactionProcessor')).default;
+        case 'TransactionSelector':
+          return (await import('./TransactionSelector')).default;
+        case 'BatchWriter':
+          return (await import('./write/BatchWriter')).default;
+        case 'OperationProcessor':
+          return (await import('./OperationProcessor')).default;
+        case 'RequestHandler':
+          return (await import('./RequestHandler')).default;
+        case 'VersionMetadata':
+          return (await import('./VersionMetadata')).default;
+        default:
+          return;
+      }
+    }
+    return (await import(`./versions/${version}/${className}`)).default;
   }
 }
