@@ -20,6 +20,7 @@ describe('Element', () => {
   });
 
   afterAll(async () => {
+    await new Promise(resolve => setTimeout(resolve, 500));
     await element.close();
   });
 
@@ -34,6 +35,5 @@ describe('Element', () => {
 
   it('should initialize the element class', async () => {
     await element.initialize();
-    await new Promise(resolve => setTimeout(resolve, 1000));
   });
 });

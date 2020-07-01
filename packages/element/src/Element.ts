@@ -14,7 +14,7 @@ import {
 } from '@sidetree/core';
 import { EthereumLedger } from '@sidetree/ledger';
 import { IpfsCas as Cas } from '@sidetree/cas';
-import { OperationStore as MongoDbOperationStore } from '@sidetree/db';
+import { OperationStore as MongoDbOperationStore, MongoDbOperationQueue } from '@sidetree/db';
 import {
   MongoDbTransactionStore,
   MongoDbUnresolvableTransactionStore,
@@ -109,7 +109,16 @@ export default class Core {
   }
 
   public async close() {
+    const currentTime = this.blockchain.approximateTime;
+    const operationQueue = this.versionManager.getOperationQueue(
+      currentTime.time
+    );
+    await (operationQueue as MongoDbOperationQueue).close();
+    await this.transactionStore.close();
+    await this.unresolvableTransactionStore.close();
+    await this.operationStore.close();
     await this.observer.stopPeriodicProcessing();
+    this.batchScheduler.stopPeriodicBatchWriting();
   }
 
   /**
