@@ -108,6 +108,10 @@ export default class Core {
     this.downloadManager.start();
   }
 
+  public async close() {
+    await this.observer.stopPeriodicProcessing();
+  }
+
   /**
    * Handles an operation request.
    */
