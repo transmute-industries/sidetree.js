@@ -109,6 +109,14 @@ export default class Core {
     this.downloadManager.start();
   }
 
+  public async triggerBatchWriting() {
+    await this.batchScheduler.writeOperationBatch();
+  }
+
+  public async triggerProcessTransactions() {
+    await this.observer.processTransactions();
+  }
+
   public async close() {
     const currentTime = this.blockchain.approximateTime;
     const operationQueue = this.versionManager.getOperationQueue(

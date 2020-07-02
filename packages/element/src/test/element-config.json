@@ -5,7 +5,7 @@
   "mongoDbConnectionString": "mongodb://localhost:27017/",
   "sidetreeTransactionPrefix": "sidetree:",
   "didMethodName": "elem",
-  "batchingIntervalInSeconds": 3,
-  "observingIntervalInSeconds": 3,
+  "batchingIntervalInSeconds": 5,
+  "observingIntervalInSeconds": 5,
   "maxConcurrentDownloads": 20
 }

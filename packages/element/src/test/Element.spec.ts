@@ -82,13 +82,10 @@ describe('Element', () => {
     );
   });
 
-  it('should resolve a did', async () => {
-    const res = await element.handleResolveRequest(did);
-    expect(res.status).toBe('not-found');
-  });
-
   it('should resolve a did after Observer has picked up the transaction', async () => {
-    await new Promise(resolve => setTimeout(resolve, 11000));
+    await element.triggerBatchWriting();
+    await element.triggerProcessTransactions();
+    await new Promise(resolve => setTimeout(resolve, 10000));
     const operation = await element.handleResolveRequest(did);
     expect(operation.status).toBe('succeeded');
     expect(operation.body).toBeDefined();
