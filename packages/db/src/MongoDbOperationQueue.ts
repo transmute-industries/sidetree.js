@@ -50,7 +50,11 @@ export default class MongoDbOperationQueue implements IOperationQueue {
    * Initialize the MongoDB operation store.
    */
   public async initialize() {
-    this.client = this.client || (await MongoClient.connect(this.serverUrl));
+    this.client =
+      this.client ||
+      (await MongoClient.connect(this.serverUrl, {
+        useNewUrlParser: true,
+      })); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
     this.db = this.client.db(this.databaseName);
     this.collection = await MongoDbOperationQueue.createCollectionIfNotExist(
       this.db
