@@ -43,8 +43,8 @@ export default class CasIpfs implements ICas {
     try {
       const source = this.ipfs.get(address, { timeout: 2000 });
       const file = await source.next();
-      const bufferList = await concat(file.value.content);
-      const content = Buffer.from(bufferList.toString());
+      const bufferList: any = await concat(file.value.content);
+      const content = bufferList.copy();
       if (content) {
         return {
           code: FetchResultCode.Success,
