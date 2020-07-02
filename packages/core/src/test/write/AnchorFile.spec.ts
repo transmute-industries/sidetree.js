@@ -66,7 +66,7 @@ describe('AnchorFile', () => {
       );
     });
 
-    it('should throw if the buffer is not compressed', async () => {
+    it.skip('should throw if the buffer is not compressed', async () => {
       const anchorFile = {
         map_file_uri: 'EiB4ypIXxG9aFhXv2YC8I2tQvLEBbQAsNzHmph17vMfVYA',
         didUniqueSuffixes: [
