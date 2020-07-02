@@ -5,7 +5,7 @@ import { Config } from '@sidetree/common';
 import { MongoDb } from '@sidetree/db';
 import Web3 from 'web3';
 
-jest.setTimeout(10 * 1000);
+jest.setTimeout(15 * 1000);
 
 describe('Element', () => {
   let ledger: EthereumLedger;
@@ -73,12 +73,30 @@ describe('Element', () => {
     expect(operation.body.didDocument).toBeDefined();
     const createOperation = await CreateOperation.parse(createOperationBuffer);
     const didUniqueSuffix = createOperation.didUniqueSuffix;
-    const did = `did:${didMethodName}:${didUniqueSuffix}`;
+    did = `did:${didMethodName}:${didUniqueSuffix}`;
     expect(operation.body.didDocument.id).toBe(did);
     expect(operation.body.didDocument['@context']).toBeDefined();
     expect(operation.body.didDocument.service[0].id).toContain(services[0].id);
     expect(operation.body.didDocument.publicKey[0].id).toContain(
       signingPublicKey.id
     );
+  });
+
+  it('should resolve a did', async () => {
+    const res = await element.handleResolveRequest(did);
+    expect(res.status).toBe('not-found');
+  });
+
+  it('should resolve a did after Observer has picked up the transaction', async () => {
+    await new Promise(resolve => setTimeout(resolve, 11000));
+    const operation = await element.handleResolveRequest(did);
+    expect(operation.status).toBe('succeeded');
+    expect(operation.body).toBeDefined();
+    expect(operation.body.methodMetadata).toBeDefined();
+    expect(operation.body.didDocument).toBeDefined();
+    expect(operation.body.didDocument.id).toBe(did);
+    expect(operation.body.didDocument['@context']).toBeDefined();
+    expect(operation.body.didDocument.service).toHaveLength(1);
+    expect(operation.body.didDocument.publicKey).toHaveLength(1);
   });
 });
