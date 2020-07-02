@@ -1,5 +1,5 @@
 import { Config, ITransactionStore, TransactionModel } from '@sidetree/common';
-import MongoDb from './MongoDb';
+import MongoDb from '../MongoDb';
 import { MongoClient } from 'mongodb';
 import MongoDbTransactionStore from '../MongoDbTransactionStore';
 

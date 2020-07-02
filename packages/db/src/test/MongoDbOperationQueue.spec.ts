@@ -4,7 +4,7 @@ import {
   IOperationQueue,
   SidetreeError,
 } from '@sidetree/common';
-import MongoDb from './MongoDb';
+import MongoDb from '../MongoDb';
 import MongoDbOperationQueue from '../MongoDbOperationQueue';
 
 /**

@@ -17,4 +17,19 @@ export default class MongoDb {
     }
     return true;
   }
+
+  public static async resetDatabase(
+    serverUrl: string,
+    databaseName: string
+  ): Promise<boolean> {
+    try {
+      const client = await MongoClient.connect(serverUrl);
+      const db = await client.db(databaseName);
+      const res = await db.dropDatabase();
+      return res;
+    } catch (error) {
+      console.log('Mongoclient connect error: ' + error);
+      return false;
+    }
+  }
 }
