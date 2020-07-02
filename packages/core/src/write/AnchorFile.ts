@@ -1,11 +1,4 @@
-import {
-  AnchorFileModel,
-  ErrorCode,
-  SidetreeError,
-  Encoder,
-  Multihash,
-  protocolParameters,
-} from '@sidetree/common';
+import { AnchorFileModel, ErrorCode, SidetreeError } from '@sidetree/common';
 import ArrayMethods from '../util/ArrayMethods';
 import Compressor from '../util/Compressor';
 import CreateOperation from '../CreateOperation';
@@ -87,21 +80,6 @@ export default class AnchorFile {
     if (typeof mapFileUri !== 'string') {
       throw new SidetreeError(ErrorCode.AnchorFileMapFileHashNotString);
     }
-
-    const mapFileUriAsHashBuffer = Encoder.decodeAsBuffer(mapFileUri);
-    if (
-      !Multihash.isComputedUsingHashAlgorithm(
-        mapFileUriAsHashBuffer,
-        protocolParameters.hashAlgorithmInMultihashCode
-      )
-    ) {
-      throw new SidetreeError(
-        ErrorCode.AnchorFileMapFileHashUnsupported,
-        `Map file hash '${mapFileUri}' is unsupported.`
-      );
-    }
-
-    // `operations` validations.
 
     const allowedOperationsProperties = new Set([
       'create',
