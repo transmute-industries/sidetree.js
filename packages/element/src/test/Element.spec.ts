@@ -2,6 +2,7 @@ import Element from '../Element';
 import { EthereumLedger } from '@sidetree/ledger';
 import { Jwk, OperationGenerator, CreateOperation } from '@sidetree/core';
 import { Config } from '@sidetree/common';
+import { MongoDb } from '@sidetree/db';
 import Web3 from 'web3';
 
 jest.setTimeout(10 * 1000);
@@ -9,10 +10,15 @@ jest.setTimeout(10 * 1000);
 describe('Element', () => {
   let ledger: EthereumLedger;
   let element: Element;
+  let did: string;
   const config: Config = require('./element-config.json');
   const didMethodName = config.didMethodName;
 
   beforeAll(async () => {
+    await MongoDb.resetDatabase(
+      config.mongoDbConnectionString,
+      config.databaseName!
+    );
     const provider = 'http://localhost:8545';
     const web3 = new Web3(provider);
     ledger = new EthereumLedger(

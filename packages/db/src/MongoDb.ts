@@ -26,6 +26,7 @@ export default class MongoDb {
       const client = await MongoClient.connect(serverUrl);
       const db = await client.db(databaseName);
       const res = await db.dropDatabase();
+      await client.close();
       return res;
     } catch (error) {
       console.log('Mongoclient connect error: ' + error);
