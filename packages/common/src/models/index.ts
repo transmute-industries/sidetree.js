@@ -1,6 +1,6 @@
+import AnchorFileModel from './AnchorFileModel';
 import AnchoredData from './AnchoredData';
 import AnchoredOperationModel from './AnchoredOperationModel';
-import AnchorFileModel from './AnchorFileModel';
 import BlockchainTimeModel from './BlockchainTimeModel';
 import ChunkFileModel from './ChunkFileModel';
 import Config from './Config';
@@ -13,6 +13,7 @@ import JwsModel from './JwsModel';
 import MapFileModel from './MapFileModel';
 import OperationModel from './OperationModel';
 import ProtocolParameters from './ProtocolParameters';
+import ProtocolVersionModel from './ProtocolVersionModel';
 import PublicKeyModel from './PublicKeyModel';
 import QueuedOperationModel from './QueuedOperationModel';
 import ResponseModel from './ResponseModel';
@@ -23,9 +24,9 @@ import TransactionUnderProcessingModel from './TransactionUnderProcessingModel';
 import ValueTimeLockModel from './ValueTimeLockModel';
 
 export {
+  AnchorFileModel,
   AnchoredData,
   AnchoredOperationModel,
-  AnchorFileModel,
   BlockchainTimeModel,
   ChunkFileModel,
   Config,
@@ -38,6 +39,7 @@ export {
   MapFileModel,
   OperationModel,
   ProtocolParameters,
+  ProtocolVersionModel,
   PublicKeyModel,
   QueuedOperationModel,
   ResponseModel,

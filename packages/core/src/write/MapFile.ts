@@ -1,9 +1,4 @@
-import {
-  ErrorCode,
-  MapFileModel,
-  Multihash,
-  SidetreeError,
-} from '@sidetree/common';
+import { ErrorCode, MapFileModel, SidetreeError } from '@sidetree/common';
 import UpdateOperation from '../UpdateOperation';
 import ArrayMethods from '../util/ArrayMethods';
 import Compressor from '../util/Compressor';
@@ -135,10 +130,6 @@ export default class MapFile {
         ErrorCode.MapFileChunkHasMissingOrUnknownProperty
       );
     }
-
-    Multihash.verifyEncodedHashIsComputedUsingLastestAlgorithm(
-      chunk.chunk_file_uri
-    );
   }
 
   /**

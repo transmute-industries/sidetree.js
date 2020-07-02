@@ -3,6 +3,7 @@ import IOperationProcessor from './IOperationProcessor';
 import IRequestHandler from './IRequestHandler';
 import ITransactionProcessor from './ITransactionProcessor';
 import ITransactionSelector from './ITransactionSelector';
+import IOperationQueue from './IOperationQueue';
 
 /**
  * Defines an interface to return the correct 'version-ed' objects.
@@ -40,4 +41,10 @@ export default interface IVersionManager {
    * @param blockchainTime The blockchain time for which to be filtered
    */
   getTransactionSelector(blockchainTime: number): ITransactionSelector;
+
+  /**
+   * Gets the operation queue for the given blockchain time.
+   * @param blockchainTime The blockchain time for which to be filtered
+   */
+  getOperationQueue(blockchainTime: number): IOperationQueue;
 }

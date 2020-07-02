@@ -315,7 +315,6 @@ describe('OperationProcessor', () => {
 
     const didState = await resolver.resolve(didUniqueSuffix);
     expect(didState).toBeDefined();
-    console.log(didState!.document);
     validateDocumentAfterUpdates(didState!.document, numberOfUpdates);
 
     const deactivateOperationData = await OperationGenerator.createDeactivateOperation(

@@ -1,4 +1,9 @@
-import { FetchResultCode, ICas, FetchResult } from '@sidetree/common';
+import {
+  FetchResultCode,
+  ICas,
+  FetchResult,
+  ServiceVersionModel,
+} from '@sidetree/common';
 import ipfsClient from 'ipfs-http-client';
 import concat from 'it-concat';
 
@@ -21,6 +26,13 @@ export default class CasIpfs implements ICas {
     }
   }
 
+  public getServiceVersion: () => ServiceVersionModel = () => {
+    return {
+      name: '',
+      version: 'v0.0.1',
+    };
+  };
+
   public async write(content: Buffer): Promise<string> {
     const source = await this.ipfs.add(content);
     const file = await source.next();
@@ -31,8 +43,8 @@ export default class CasIpfs implements ICas {
     try {
       const source = this.ipfs.get(address, { timeout: 2000 });
       const file = await source.next();
-      const bufferList = await concat(file.value.content);
-      const content = Buffer.from(bufferList.toString());
+      const bufferList: any = await concat(file.value.content);
+      const content = bufferList.copy();
       if (content) {
         return {
           code: FetchResultCode.Success,

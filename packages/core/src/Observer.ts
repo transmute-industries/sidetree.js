@@ -77,7 +77,7 @@ export default class Observer {
    * Processes new transactions if any, then reprocess a set of unresolvable transactions if any,
    * then schedules the next round of processing unless `stopPeriodicProcessing()` is invoked.
    */
-  private async processTransactions() {
+  public async processTransactions() {
     try {
       await this.storeConsecutiveTransactionsProcessed(); // Do this in multiple places
 

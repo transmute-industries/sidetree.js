@@ -5,6 +5,7 @@ import {
   ITransactionProcessor,
   ITransactionSelector,
   IVersionManager,
+  IOperationQueue,
 } from '@sidetree/common';
 
 /**
@@ -41,6 +42,12 @@ export default class MockVersionManager implements IVersionManager {
     );
   }
   public getTransactionSelector(blockchainTime: number): ITransactionSelector {
+    throw new Error(
+      'Not implemented. Use spyOn to override the functionality. Input: ' +
+        blockchainTime
+    );
+  }
+  public getOperationQueue(blockchainTime: number): IOperationQueue {
     throw new Error(
       'Not implemented. Use spyOn to override the functionality. Input: ' +
         blockchainTime
