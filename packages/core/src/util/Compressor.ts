@@ -13,7 +13,6 @@ export default class Compressor {
    * @param inputAsBuffer The input string to be compressed.
    */
   public static async compress(inputAsBuffer: Buffer): Promise<Buffer> {
-    return inputAsBuffer;
     const result = await Compressor.gzipAsync(inputAsBuffer);
 
     // Casting result to Buffer as that's what is returned by gzip
@@ -25,7 +24,6 @@ export default class Compressor {
    * @param inputAsBuffer The gzip compressed data.
    */
   public static async decompress(inputAsBuffer: Buffer): Promise<Buffer> {
-    return inputAsBuffer;
     const result = await Compressor.gUnzipAsync(inputAsBuffer);
 
     // Casting result to Buffer as that's what is returned by gzip

@@ -22,7 +22,7 @@ describe('MapFile', () => {
       );
     });
 
-    it.skip('should throw if the buffer is not compressed', async () => {
+    it('should throw if the buffer is not compressed', async () => {
       const mapFileModel: MapFileModel = {
         chunks: [
           { chunk_file_uri: 'EiB4ypIXxG9aFhXv2YC8I2tQvLEBbQAsNzHmph17vMfVYA' },
