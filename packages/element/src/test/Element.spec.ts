@@ -1,18 +1,25 @@
 import Element from '../Element';
 import { EthereumLedger } from '@sidetree/ledger';
-import { Jwk, OperationGenerator, CreateOperation } from '@sidetree/core';
+import { OperationGenerator } from '@sidetree/core';
 import { Config } from '@sidetree/common';
 import { MongoDb } from '@sidetree/db';
 import Web3 from 'web3';
+import {
+  recoveryPublicKey,
+  signingPublicKey,
+  services,
+  resolveBody,
+} from './fixtures';
 
 jest.setTimeout(15 * 1000);
+
+console.info = () => null;
 
 describe('Element', () => {
   let ledger: EthereumLedger;
   let element: Element;
   let did: string;
   const config: Config = require('./element-config.json');
-  const didMethodName = config.didMethodName;
 
   beforeAll(async () => {
     await MongoDb.resetDatabase(
@@ -51,14 +58,6 @@ describe('Element', () => {
   });
 
   it('should handle operation request', async () => {
-    const [
-      recoveryPublicKey,
-      // recoveryPrivateKey,
-    ] = await Jwk.generateEs256kKeyPair();
-    const [signingPublicKey] = await OperationGenerator.generateKeyPair('key2');
-    const services = OperationGenerator.generateServiceEndpoints([
-      'serviceEndpointId123',
-    ]);
     const createOperationBuffer = await OperationGenerator.generateCreateOperationBuffer(
       recoveryPublicKey,
       signingPublicKey,
@@ -68,18 +67,8 @@ describe('Element', () => {
       createOperationBuffer
     );
     expect(operation.status).toBe('succeeded');
-    expect(operation.body).toBeDefined();
-    expect(operation.body.methodMetadata).toBeDefined();
-    expect(operation.body.didDocument).toBeDefined();
-    const createOperation = await CreateOperation.parse(createOperationBuffer);
-    const didUniqueSuffix = createOperation.didUniqueSuffix;
-    did = `did:${didMethodName}:${didUniqueSuffix}`;
-    expect(operation.body.didDocument.id).toBe(did);
-    expect(operation.body.didDocument['@context']).toBeDefined();
-    expect(operation.body.didDocument.service[0].id).toContain(services[0].id);
-    expect(operation.body.didDocument.publicKey[0].id).toContain(
-      signingPublicKey.id
-    );
+    expect(operation.body).toEqual(resolveBody);
+    did = resolveBody.didDocument.id;
   });
 
   it('should resolve a did after Observer has picked up the transaction', async () => {
