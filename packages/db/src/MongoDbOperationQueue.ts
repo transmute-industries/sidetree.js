@@ -53,6 +53,7 @@ export default class MongoDbOperationQueue implements IOperationQueue {
     this.client =
       this.client ||
       (await MongoClient.connect(this.serverUrl, {
+        useUnifiedTopology: true,
         useNewUrlParser: true,
       })); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
     this.db = this.client.db(this.databaseName);

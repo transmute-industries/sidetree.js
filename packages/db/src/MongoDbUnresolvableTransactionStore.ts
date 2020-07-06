@@ -62,6 +62,7 @@ export default class MongoDbUnresolvableTransactionStore
       this.client ||
       (await MongoClient.connect(this.serverUrl, {
         useNewUrlParser: true,
+        useUnifiedTopology: true,
       })); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
     this.db = this.client.db(this.databaseName);
     this.unresolvableTransactionCollection = await MongoDbUnresolvableTransactionStore.createUnresolvableTransactionCollectionIfNotExist(

@@ -9,7 +9,10 @@ export default class MongoDb {
    */
   public static async isServerAvailable(serverUrl: string): Promise<boolean> {
     try {
-      const client = await MongoClient.connect(serverUrl);
+      const client = await MongoClient.connect(serverUrl, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+      });
       await client.close();
     } catch (error) {
       console.log('Mongoclient connect error: ' + error);
@@ -23,7 +26,10 @@ export default class MongoDb {
     databaseName: string
   ): Promise<boolean> {
     try {
-      const client = await MongoClient.connect(serverUrl);
+      const client = await MongoClient.connect(serverUrl, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+      });
       const db = await client.db(databaseName);
       const res = await db.dropDatabase();
       await client.close();
