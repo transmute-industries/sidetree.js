@@ -77,12 +77,6 @@ describe('Element', () => {
     await new Promise(resolve => setTimeout(resolve, 10000));
     const operation = await element.handleResolveRequest(did);
     expect(operation.status).toBe('succeeded');
-    expect(operation.body).toBeDefined();
-    expect(operation.body.methodMetadata).toBeDefined();
-    expect(operation.body.didDocument).toBeDefined();
-    expect(operation.body.didDocument.id).toBe(did);
-    expect(operation.body.didDocument['@context']).toBeDefined();
-    expect(operation.body.didDocument.service).toHaveLength(1);
-    expect(operation.body.didDocument.publicKey).toHaveLength(1);
+    expect(operation.body).toEqual(resolveBody);
   });
 });
