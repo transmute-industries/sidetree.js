@@ -1,5 +1,6 @@
 import { OperationGenerator, CreateOperation } from '@sidetree/core';
 import { Config } from '@sidetree/common';
+import * as fs from 'fs';
 import {
   recoveryPublicKey,
   signingPublicKey,
@@ -22,17 +23,19 @@ const generateLongFormDidFixtures = async () => {
   const encodedSuffixData = createOperation.encodedSuffixData;
   const encodedDelta = createOperation.encodedDelta;
   const longFormDid = `${shortFormDid}?-${didMethodName}-initial-state=${encodedSuffixData}.${encodedDelta}`;
-  console.log(JSON.stringify(longFormDid, null, 2));
+  fs.writeFileSync(`${__dirname}/longFormDid.txt`, longFormDid);
 
   const longFormResolveBody = { ...resolveBody };
   (longFormResolveBody.didDocument['@context'][1] as any)[
     '@base'
   ] = longFormDid;
   longFormResolveBody.didDocument.id = longFormDid;
-  console.log(JSON.stringify(longFormResolveBody, null, 2));
+  fs.writeFileSync(
+    `${__dirname}/longFormResolveBody.json`,
+    JSON.stringify(longFormResolveBody, null, 2)
+  );
 };
 
 (async () => {
   await generateLongFormDidFixtures();
-  console.log(4);
 })();
