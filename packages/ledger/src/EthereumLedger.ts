@@ -114,7 +114,7 @@ export default class EthereumLedger implements IBlockchain {
       }
     );
     this.anchorContractAddress = instance.address;
-    this.logger.log('_createNewContract', this.anchorContractAddress);
+    this.logger.info('_createNewContract', this.anchorContractAddress);
     return instance;
   };
 

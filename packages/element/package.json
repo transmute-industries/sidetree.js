@@ -17,7 +17,8 @@
     "pretest": "docker-compose up -d mongo ganache ipfs",
     "test": "tsdx test",
     "lint": "tsdx lint src",
-    "prepare": "tsdx build"
+    "prepare": "tsdx build",
+    "generate:fixtures": "tsc src/test/__fixtures__/generate-fixtures.ts && node src/test/__fixtures__/generate-fixtures.js"
   },
   "prettier": {
     "printWidth": 80,
@@ -26,6 +27,7 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
+    "fs": "0.0.1-security",
     "tsdx": "^0.13.2",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"

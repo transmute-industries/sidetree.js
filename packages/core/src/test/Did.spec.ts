@@ -5,7 +5,7 @@ import OperationGenerator from './generators/OperationGenerator';
 
 describe('DID', () => {
   describe('create()', () => {
-    it('should create a short-form DID succssefully.', async () => {
+    it('should create a short-form DID successfully.', async () => {
       const expectedDidMethodName = 'sidetree';
       const uniqueSuffix = 'abcdefg';
       const didString = `did:${expectedDidMethodName}:${uniqueSuffix}`;

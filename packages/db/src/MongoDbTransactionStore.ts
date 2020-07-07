@@ -40,6 +40,7 @@ export default class MongoDbTransactionStore implements ITransactionStore {
       this.client ||
       (await MongoClient.connect(this.serverUrl, {
         useNewUrlParser: true,
+        useUnifiedTopology: true,
       })); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
     this.db = this.client.db(this.databaseName);
     this.transactionCollection = await MongoDbTransactionStore.createTransactionCollectionIfNotExist(

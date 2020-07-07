@@ -180,7 +180,7 @@ export default class RequestHandler implements IRequestHandler {
     shortOrLongFormDid: string
   ): Promise<ResponseModel> {
     try {
-      console.log(`Handling resolution request for: ${shortOrLongFormDid}...`);
+      console.info(`Handling resolution request for: ${shortOrLongFormDid}...`);
 
       const did = await Did.create(shortOrLongFormDid, this.didMethodName);
 
