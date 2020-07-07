@@ -7,7 +7,7 @@ import {
   resolveBody,
 } from '../fixtures';
 
-const config: Config = require('./element-config.json');
+const config: Config = require('../element-config.json');
 
 const generateLongFormDidFixtures = async () => {
   const createOperationBuffer = await OperationGenerator.generateCreateOperationBuffer(
