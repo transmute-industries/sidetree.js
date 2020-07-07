@@ -7,7 +7,8 @@
     "lint": "lerna run lint --stream",
     "test": "lerna run test --stream",
     "build": "lerna run build --stream",
-    "install:ci": "npm install --ignore-scripts && lerna link && lerna bootstrap --since origin/master --include-dependencies"
+    "install:ci": "npm install --ignore-scripts && lerna link && lerna bootstrap --since origin/master --include-dependencies",
+    "generate:fixtures": "lerna run generate:fixtures"
   },
   "husky": {
     "hooks": {
