@@ -1,6 +1,6 @@
 {
   "name": "@sidetree/common",
-  "version": "0.1.0",
+  "version": "0.0.1-unstable.0",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "engines": {
@@ -13,7 +13,6 @@
     "lint": "tsdx lint src test",
     "prepare": "tsdx build"
   },
-  "peerDependencies": {},
   "prettier": {
     "printWidth": 80,
     "semi": true,
