@@ -20,12 +20,19 @@ jobs:
           node-version: 12.x
 
       - name: Install
-        run: npm run install:cd
+        run: npm install
 
-      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc 2> /dev/null
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc # 2> /dev/null
         env:
-          NPM_TOKEN: ${{ secrets.NPMJS_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - run: npx lerna version prepatch --preid unstable --no-push --yes
+      - name: Setup git profile
+        run: |
+          git config user.name "Transmute CD"
+          git config user.email "engineers@transmute.industries"
+
+      - name: Publish unstable version with lerna
+        run: npx lerna version prepatch --preid unstable --no-push --yes
+
       - run: git status
       - run: npm whoami
