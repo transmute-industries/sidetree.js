@@ -8,6 +8,9 @@
     "test": "lerna run test --stream",
     "build": "lerna run build --stream",
     "install:ci": "npm install --ignore-scripts && lerna link && lerna bootstrap --since origin/master --include-dependencies",
+    "publish:stable:patch": "lerna version patch",
+    "publish:stable:minor": "lerna version minor",
+    "publish:stable:major": "lerna version major",
     "publish:unstable": "lerna version prerelease --preid unstable --yes",
     "generate:fixtures": "lerna run generate:fixtures --since origin/master --include-dependencies"
   },
