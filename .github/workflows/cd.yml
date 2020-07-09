@@ -20,7 +20,7 @@ jobs:
           node-version: 12.x
 
       - name: Install
-        run: npm run install:ci
+        run: npm run install:cd
 
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc 2> /dev/null
         env:
