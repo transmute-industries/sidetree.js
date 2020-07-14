@@ -27,7 +27,11 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
+    "@transmute/did-key-secp256k1": "^0.2.0",
+    "base64url": "^3.0.1",
+    "canonicalize": "^1.0.1",
     "fs": "0.0.1-security",
+    "multihashes": "^1.0.1",
     "tsdx": "^0.13.2",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"

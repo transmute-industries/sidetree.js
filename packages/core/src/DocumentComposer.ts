@@ -401,7 +401,7 @@ export default class DocumentComposer {
         `ID not string: ${JSON.stringify(id)} is of type '${typeof id}'`
       );
     }
-    if (id.length > 20) {
+    if (id.length > 50) {
       throw new SidetreeError(ErrorCode.DocumentComposerIdTooLong);
     }
 
