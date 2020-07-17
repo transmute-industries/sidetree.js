@@ -269,11 +269,11 @@ export default class OperationGenerator {
     recoveryPublicKey: JwkEs256k,
     updatePublicKey: JwkEs256k,
     otherPublicKeys: PublicKeyModel[],
-    serviceEndpoints?: ServiceEndpointModel[]
+    service_endpoints?: ServiceEndpointModel[]
   ) {
     const document: DocumentModel = {
-      publicKeys: otherPublicKeys,
-      serviceEndpoints,
+      public_keys: otherPublicKeys,
+      service_endpoints,
     };
 
     const patches = [
@@ -331,7 +331,7 @@ export default class OperationGenerator {
     const patches = [
       {
         action: 'add-public-keys',
-        publicKeys: [anyNewSigningKey],
+        public_keys: [anyNewSigningKey],
       },
     ];
     const signingKeyId = 'anySigningKeyId';
@@ -404,12 +404,12 @@ export default class OperationGenerator {
     recoveryPrivateKey: JwkEs256k,
     newRecoveryPublicKey: JwkEs256k,
     newSigningPublicKey: PublicKeyModel,
-    serviceEndpoints?: ServiceEndpointModel[],
-    publicKeys?: PublicKeyModel[]
+    service_endpoints?: ServiceEndpointModel[],
+    public_keys?: PublicKeyModel[]
   ) {
     const document = {
-      publicKeys: publicKeys,
-      serviceEndpoints: serviceEndpoints,
+      public_keys: public_keys,
+      service_endpoints: service_endpoints,
     };
     const recoverOperation = await OperationGenerator.createRecoverOperationRequest(
       didUniqueSuffix,
@@ -502,13 +502,13 @@ export default class OperationGenerator {
   public static async generateCreateOperationBuffer(
     recoveryPublicKey: JwkEs256k,
     signingPublicKey: PublicKeyModel,
-    serviceEndpoints?: ServiceEndpointModel[]
+    service_endpoints?: ServiceEndpointModel[]
   ): Promise<Buffer> {
     const operation = await OperationGenerator.generateCreateOperationRequest(
       recoveryPublicKey,
       signingPublicKey.jwk,
       [signingPublicKey],
-      serviceEndpoints
+      service_endpoints
     );
 
     return Buffer.from(JSON.stringify(operation));
@@ -527,7 +527,7 @@ export default class OperationGenerator {
     const patches = [
       {
         action: 'add-public-keys',
-        publicKeys: [newPublicKey],
+        public_keys: [newPublicKey],
       },
     ];
 
@@ -558,7 +558,7 @@ export default class OperationGenerator {
     if (idOfServiceEndpointToAdd !== undefined) {
       const patch = {
         action: 'add-service-endpoints',
-        serviceEndpoints: OperationGenerator.generateServiceEndpoints([
+        service_endpoints: OperationGenerator.generateServiceEndpoints([
           idOfServiceEndpointToAdd,
         ]),
       };
@@ -633,14 +633,14 @@ export default class OperationGenerator {
    * @param ids the id field in endpoint.
    */
   public static generateServiceEndpoints(ids: string[]): any[] {
-    const serviceEndpoints = [];
+    const service_endpoints = [];
     for (const id of ids) {
-      serviceEndpoints.push({
+      service_endpoints.push({
         id: id,
         type: 'someType',
         endpoint: 'https://www.url.com',
       });
     }
-    return serviceEndpoints;
+    return service_endpoints;
   }
 }

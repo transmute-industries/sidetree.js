@@ -50,7 +50,7 @@ async function createUpdateSequence(
       },
       {
         action: 'add-service-endpoints',
-        serviceEndpoints: OperationGenerator.generateServiceEndpoints([
+        service_endpoints: OperationGenerator.generateServiceEndpoints([
           'serviceEndpointId' + i,
         ]),
       },
@@ -120,7 +120,7 @@ function validateDocumentAfterUpdates(
   numberOfUpdates: number
 ) {
   expect(document).toBeDefined();
-  expect(document!.serviceEndpoints![0].id).toEqual(
+  expect(document!.service_endpoints![0].id).toEqual(
     'serviceEndpointId' + (numberOfUpdates - 1)
   );
 }
@@ -214,7 +214,7 @@ describe('OperationProcessor', () => {
     const patches = [
       {
         action: 'remove-public-keys',
-        publicKeys: [signingKeyId],
+        public_keys: [signingKeyId],
       },
     ];
     const nextUpdateCommitmentHash =
@@ -517,7 +517,7 @@ describe('OperationProcessor', () => {
       nextRecoveryCommitmentHash = Multihash.canonicalizeThenHashThenEncode(
         recoveryPublicKey
       );
-      const serviceEndpoints = OperationGenerator.generateServiceEndpoints([
+      const service_endpoints = OperationGenerator.generateServiceEndpoints([
         'dummyHubUri',
       ]);
 
@@ -525,7 +525,7 @@ describe('OperationProcessor', () => {
       const createOperationBuffer = await OperationGenerator.generateCreateOperationBuffer(
         recoveryPublicKey,
         signingPublicKey,
-        serviceEndpoints
+        service_endpoints
       );
       const createOperation = await CreateOperation.parse(
         createOperationBuffer
@@ -662,7 +662,7 @@ describe('OperationProcessor', () => {
         expect(newDidState!.document).toBeDefined();
 
         // The count of public keys should remain 1, not 2.
-        expect(newDidState!.document.publicKeys.length).toEqual(1);
+        expect(newDidState!.document.public_keys.length).toEqual(1);
       });
 
       it('should not apply update operation if signature is invalid.', async () => {
@@ -697,7 +697,7 @@ describe('OperationProcessor', () => {
         expect(newDidState!.document).toBeDefined();
 
         // The count of public signing keys should remain 1, not 2.
-        expect(newDidState!.document.publicKeys.length).toEqual(1);
+        expect(newDidState!.document.public_keys.length).toEqual(1);
       });
 
       it('should not apply update operation if updateKey is invalid', async () => {
@@ -735,7 +735,7 @@ describe('OperationProcessor', () => {
         expect(newDidState!.document).toBeDefined();
 
         // The count of public keys should remain 1, not 2.
-        expect(newDidState!.document.publicKeys.length).toEqual(1);
+        expect(newDidState!.document.public_keys.length).toEqual(1);
       });
     });
 
@@ -831,7 +831,7 @@ describe('OperationProcessor', () => {
         // Expecting resulting DID state to still be the same as prior to attempting to apply the invalid deactivate operation.
         expect(newDidState!.lastOperationTransactionNumber).toEqual(1);
         expect(newDidState!.document).toBeDefined();
-        expect(newDidState!.document.publicKeys.length).toEqual(1);
+        expect(newDidState!.document.public_keys.length).toEqual(1);
         expect(newDidState!.nextUpdateCommitmentHash).toEqual(
           didState!.nextUpdateCommitmentHash
         );

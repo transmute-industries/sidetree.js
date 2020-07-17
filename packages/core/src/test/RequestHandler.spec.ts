@@ -430,7 +430,7 @@ describe('RequestHandler', () => {
         'anySigningKey'
       );
       const document = {
-        publicKeys: [anySigningPublicKey],
+        public_keys: [anySigningPublicKey],
       };
       const mockedResolverReturnedDidState: DidState = {
         document,
@@ -446,8 +446,8 @@ describe('RequestHandler', () => {
         'unused'
       );
 
-      expect(didState.document.publicKeys.length).toEqual(1);
-      expect(didState.document.publicKeys[0].jwk).toEqual(
+      expect(didState.document.public_keys.length).toEqual(1);
+      expect(didState.document.public_keys[0].jwk).toEqual(
         anySigningPublicKey.jwk
       );
     });

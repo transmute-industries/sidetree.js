@@ -29,7 +29,7 @@ const createRequest = async (updateKey: any, recoveryKey: any) => {
       {
         action: 'replace',
         document: {
-          publicKeys: [
+          public_keys: [
             {
               id: updateKey.id.split('#').pop(),
               type: updateKey.type,
@@ -37,7 +37,7 @@ const createRequest = async (updateKey: any, recoveryKey: any) => {
               purpose: ['auth', 'general'],
             },
           ],
-          serviceEndpoints: [
+          service_endpoints: [
             {
               id: 'serviceEndpointId123',
               type: 'someType',
@@ -104,10 +104,12 @@ const createUpdateRequest = async (
       update_commitment,
     })
   );
-  const delta_hash = base64url.encode(multihashes.encode(
-    crypto.createHash('sha256').update(delta).digest(),
-    'sha2-256'
-  ));
+  const delta_hash = base64url.encode(
+    multihashes.encode(
+      crypto.createHash('sha256').update(delta).digest(),
+      'sha2-256'
+    )
+  );
   const signed_data = await signer.sign({
     update_key: reveal_update_key,
     delta_hash,

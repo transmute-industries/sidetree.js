@@ -131,7 +131,7 @@ it('update request', async () => {
   const patches = [
     {
       action: 'add-public-keys',
-      publicKeys: [
+      public_keys: [
         {
           id: 'new-key1',
           type: 'EcdsaSecp256k1VerificationKey2019',
@@ -147,7 +147,7 @@ it('update request', async () => {
     },
   ];
   const privateKeyJwk = await updateKey.toJwk(true);
-  delete privateKeyJwk.kid
+  delete privateKeyJwk.kid;
   const signer = {
     sign: (payload: any) => {
       return ES256K.sign(payload, privateKeyJwk);
