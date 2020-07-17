@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Secp256k1KeyPair } from '@transmute/did-key-secp256k1';
+import { Secp256k1KeyPair, ES256K } from '@transmute/did-key-secp256k1';
 import * as crypto from 'crypto';
 import {
   updateKeySeed,
@@ -8,14 +8,27 @@ import {
   createOperationRequest,
   shortFormDid,
   longFormDid,
+  updateOperationRequest,
 } from '../__fixtures__/test-vectors';
 
-const canonicalize = require('canonicalize');
-const multihashes = require('multihashes');
-const base64url = require('base64url');
+import {
+  createRequest,
+  createRequestToShortFormDid,
+  createRequestToLongFormDid,
+  createUpdateRequest,
+} from '../Op';
 
 let updateKey: Secp256k1KeyPair;
 let recoveryKey: Secp256k1KeyPair;
+
+beforeAll(async () => {
+  updateKey = await Secp256k1KeyPair.generate({
+    seed: Buffer.from(updateKeySeed, 'hex'),
+  });
+  recoveryKey = await Secp256k1KeyPair.generate({
+    seed: Buffer.from(recoveryKeySeed, 'hex'),
+  });
+});
 
 const OVERWRITE_FIXTURES = false;
 
@@ -60,12 +73,6 @@ it('generate seeds', async () => {
 });
 
 it('keys from seeds', async () => {
-  updateKey = await Secp256k1KeyPair.generate({
-    seed: Buffer.from(updateKeySeed, 'hex'),
-  });
-  recoveryKey = await Secp256k1KeyPair.generate({
-    seed: Buffer.from(recoveryKeySeed, 'hex'),
-  });
   expect(updateKey.id).toBe(
     '#zQ3shP2mWsZYWgvgM11nenXRTx9L1yiJKmkf9dfX7NaMKb1pX'
   );
@@ -75,70 +82,9 @@ it('keys from seeds', async () => {
 });
 
 it('initial-state from keys', async () => {
-  const updateKeyJwk = await updateKey.toJwk();
-  const recoveryKeyJwk = await recoveryKey.toJwk();
+  const request = await createRequest(updateKey, recoveryKey);
 
-  const encodedUpdateCommitment = base64url.encode(
-    multihashes.encode(
-      crypto.createHash('sha256').update(canonicalize(updateKeyJwk)).digest(),
-      'sha2-256'
-    )
-  );
-  const encodedRecoveryCommitment = base64url.encode(
-    multihashes.encode(
-      crypto.createHash('sha256').update(canonicalize(recoveryKeyJwk)).digest(),
-      'sha2-256'
-    )
-  );
-
-  expect(updateKey.type).toBe('EcdsaSecp256k1VerificationKey2019');
-
-  const deltaObject = {
-    update_commitment: encodedUpdateCommitment,
-    patches: [
-      {
-        action: 'replace',
-        document: {
-          publicKeys: [
-            {
-              id: updateKey.id.split('#').pop(),
-              type: updateKey.type,
-              jwk: updateKeyJwk,
-              purpose: ['auth', 'general'],
-            },
-          ],
-          serviceEndpoints: [
-            {
-              id: 'serviceEndpointId123',
-              type: 'someType',
-              endpoint: 'https://www.url.com',
-            },
-          ],
-        },
-      },
-    ],
-  };
-
-  const delta = base64url.encode(canonicalize(deltaObject));
-
-  const deltaHash = base64url.encode(
-    multihashes.encode(
-      crypto.createHash('sha256').update(base64url.toBuffer(delta)).digest(),
-      'sha2-256'
-    )
-  );
-
-  const request = {
-    type: 'create',
-    suffix_data: base64url.encode(
-      canonicalize({
-        delta_hash: deltaHash,
-        recovery_commitment: encodedRecoveryCommitment,
-      })
-    ),
-    delta: base64url.encode(canonicalize(deltaObject)),
-  };
-
+  console.log(JSON.stringify(request, null, 2));
   if (OVERWRITE_FIXTURES) {
     fs.writeFileSync(
       path.resolve(
@@ -151,15 +97,7 @@ it('initial-state from keys', async () => {
     expect(request).toEqual(JSON.parse(createOperationRequest));
   }
 
-  const _shortFormDid = `did:elem:${base64url.encode(
-    multihashes.encode(
-      crypto
-        .createHash('sha256')
-        .update(base64url.decode(request.suffix_data))
-        .digest(),
-      'sha2-256'
-    )
-  )}`;
+  const _shortFormDid = createRequestToShortFormDid(request);
 
   if (OVERWRITE_FIXTURES) {
     fs.writeFileSync(
@@ -172,7 +110,8 @@ it('initial-state from keys', async () => {
   } else {
     expect(_shortFormDid).toBe(shortFormDid);
   }
-  const _longFormDid = `${_shortFormDid}?-elem-initial-state=${request.suffix_data}.${request.delta}`;
+
+  const _longFormDid = createRequestToLongFormDid(request);
 
   if (OVERWRITE_FIXTURES) {
     fs.writeFileSync(
@@ -184,5 +123,56 @@ it('initial-state from keys', async () => {
     );
   } else {
     expect(_longFormDid).toBe(longFormDid);
+  }
+});
+
+it('update request', async () => {
+  const did_suffix = shortFormDid.split(':').pop() as string;
+  const patches = [
+    {
+      action: 'add-public-keys',
+      publicKeys: [
+        {
+          id: 'new-key1',
+          type: 'EcdsaSecp256k1VerificationKey2019',
+          jwk: {
+            kty: 'EC',
+            crv: 'secp256k1',
+            x: 'fDnNuWtIZJgLTgpy-B_3MGnY-s3_mvaK0h2IFk1xBQA',
+            y: 'U0iSMelJn-B56nedytH93hP4vWOBYhm6IHM3txZlNPY',
+          },
+          purpose: ['auth', 'general'],
+        },
+      ],
+    },
+  ];
+  const privateKeyJwk = await updateKey.toJwk(true);
+  delete privateKeyJwk.kid
+  const signer = {
+    sign: (payload: any) => {
+      return ES256K.sign(payload, privateKeyJwk);
+    },
+  };
+  const update_commitment = 'EiCq2QCMaNRbGmjLsiTrubhZRUmI78hcfJi7CTflzNYuzB';
+  const reveal_update_key = await updateKey.toJwk();
+  delete reveal_update_key.kid;
+  const request = await createUpdateRequest(
+    did_suffix,
+    patches,
+    update_commitment,
+    reveal_update_key,
+    signer
+  );
+  console.log(JSON.stringify(request, null, 2));
+  if (OVERWRITE_FIXTURES) {
+    fs.writeFileSync(
+      path.resolve(
+        __dirname,
+        '../__fixtures__/generated-test-vectors/updateOperationRequest.json'
+      ),
+      JSON.stringify(request, null, 2)
+    );
+  } else {
+    expect(request).toEqual(JSON.parse(updateOperationRequest));
   }
 });

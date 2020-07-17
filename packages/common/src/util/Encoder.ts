@@ -52,7 +52,7 @@ export default class Encoder {
     if (typeof input !== 'string') {
       throw new SidetreeError(
         ErrorCode.EncoderValidateBase64UrlStringInputNotString,
-        `Input '${input}' not a string.`
+        `Input '${JSON.stringify(input)}' not a string.`
       );
     }
 

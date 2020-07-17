@@ -25,6 +25,16 @@ const resolveBodyAfterCreate = fs
   .readFileSync(`${__dirname}/resolveBodyAfterCreate.json`)
   .toString();
 
+const updateOperationRequest = fs
+  .readFileSync(`${__dirname}/updateOperationRequest.json`)
+  .toString();
+
+const updateResponseBody = fs
+  .readFileSync(`${__dirname}/updateResponseBody.json`)
+  .toString();
+
+
+
 export {
   updateKeySeed,
   recoveryKeySeed,
@@ -33,4 +43,6 @@ export {
   longFormDid,
   longFormResolveBody,
   resolveBodyAfterCreate,
+  updateOperationRequest,
+  updateResponseBody
 };

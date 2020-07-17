@@ -7,6 +7,8 @@ import {
   shortFormDid,
   createOperationRequest,
   resolveBodyAfterCreate,
+  updateOperationRequest,
+  updateResponseBody
 } from '../__fixtures__/test-vectors';
 
 import { config, testVersionConfig } from '../__fixtures__';
@@ -41,7 +43,7 @@ afterAll(async () => {
   await element.close();
 });
 
-it('should handle operation request', async () => {
+it('should handle create request', async () => {
   const operation = await element.handleOperationRequest(
     Buffer.from(createOperationRequest)
   );
@@ -54,4 +56,21 @@ it('should resolve a did after Observer has picked up the transaction', async ()
   await new Promise((resolve) => setTimeout(resolve, 10000));
   const operation = await element.handleResolveRequest(shortFormDid);
   expect(operation).toEqual(JSON.parse(resolveBodyAfterCreate));
+});
+
+it('should handle update request', async () => {
+  const operation = await element.handleOperationRequest(
+    Buffer.from(updateOperationRequest)
+  );
+  expect(operation).toEqual(JSON.parse(updateResponseBody));
+});
+
+it('should resolve after updatet', async () => {
+
+  await element.triggerBatchWriting();
+  await element.triggerProcessTransactions();
+  await new Promise((resolve) => setTimeout(resolve, 10000));
+  const operation = await element.handleResolveRequest(shortFormDid);
+  console.log(JSON.stringify(operation, null, 2))
+  // expect(operation).toEqual(JSON.parse(resolveBodyAfterCreate));
 });

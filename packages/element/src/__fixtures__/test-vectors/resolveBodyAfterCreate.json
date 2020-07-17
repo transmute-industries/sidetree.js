@@ -3,11 +3,11 @@
   "body": {
     "@context": "https://www.w3.org/ns/did-resolution/v1",
     "didDocument": {
-      "id": "did:elem:EiA-VszCIDdzincgW4nFE-UvpaxdhYPWX85krTytcTAHDg",
+      "id": "did:elem:EiAbO6AetxMwbe_rMnY_UqLGB_VHUiBq7mHk8ELkI8Bj_w",
       "@context": [
         "https://www.w3.org/ns/did/v1",
         {
-          "@base": "did:elem:EiA-VszCIDdzincgW4nFE-UvpaxdhYPWX85krTytcTAHDg"
+          "@base": "did:elem:EiAbO6AetxMwbe_rMnY_UqLGB_VHUiBq7mHk8ELkI8Bj_w"
         }
       ],
       "service": [
@@ -24,18 +24,19 @@
           "type": "EcdsaSecp256k1VerificationKey2019",
           "publicKeyJwk": {
             "crv": "secp256k1",
-            "kid": "zaS0k3zk2KpT4NqqpdUA1YD0JVTOtQf3pNoKDI-wes0",
             "kty": "EC",
             "x": "GBMxavme-AfIVDKqI6WBJ4V5wZItsxJ9muhxPByllHQ",
             "y": "SChlfVBhTXG_sRGc9ZdFeCYzI3Kbph3ivE12OFVk4jo"
           }
         }
       ],
-      "authentication": ["#zQ3shP2mWsZYWgvgM11nenXRTx9L1yiJKmkf9dfX7NaMKb1pX"]
+      "authentication": [
+        "#zQ3shP2mWsZYWgvgM11nenXRTx9L1yiJKmkf9dfX7NaMKb1pX"
+      ]
     },
     "methodMetadata": {
-      "recoveryCommitment": "EiD64wWi51BDpkIeKPa1eGEwLryaMvSyKO4YFsbfGqlARw",
-      "updateCommitment": "EiBkO7W5rMiQ96VMQdNiO4NxCPiAiGX9Dww5-xCR4eWaXg"
+      "recoveryCommitment": "EiCq2QCMaNRbGmjLsiTrubhZRUmI78hcfJi7CTflzNYuzA",
+      "updateCommitment": "EiDNpLSTfOTYqlPg2qql1QDVgPQlVM61B_ek2goMj7B6zQ"
     }
   }
 }
