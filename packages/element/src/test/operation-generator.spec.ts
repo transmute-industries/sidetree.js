@@ -1,11 +1,17 @@
-import { OperationGenerator, CreateOperation, Jwk } from '@sidetree/core';
+import {
+  OperationGenerator,
+  // CreateOperation, Jwk
+} from '@sidetree/core';
 import { EthereumLedger } from '@sidetree/ledger';
-import { Config } from '@sidetree/common';
+import {
+  Config,
+  //  Multihash
+} from '@sidetree/common';
 import { MongoDb } from '@sidetree/db';
 import Web3 from 'web3';
 import Element from '../Element';
 
-jest.setTimeout(15 * 1000);
+jest.setTimeout(40 * 1000);
 
 console.info = () => null;
 
@@ -26,21 +32,14 @@ beforeAll(async () => {
     console
   );
   await ledger._createNewContract();
+  const testVersionConfig = require('./element-version-config.json');
+  element = new Element(config, testVersionConfig, ledger);
+  await element.initialize();
 });
 
 afterAll(async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
   await element.close();
-});
-
-it('should create the element class', async () => {
-  const testVersionConfig = require('./element-version-config.json');
-  element = new Element(config, testVersionConfig, ledger);
-  expect(element).toBeDefined();
-});
-
-it('should initialize the element class', async () => {
-  await element.initialize();
 });
 
 it('should get versions', async () => {
@@ -49,67 +48,43 @@ it('should get versions', async () => {
   expect(JSON.parse(versions.body)).toHaveLength(3);
 });
 
-let didUniqueSuffix: string;
-let createOperation: CreateOperation;
-let signingPublicKey: any;
-let recoveryPublicKey: any;
-let signingPrivateKey: any;
-let recoveryPrivateKey: any;
-
-it('should handle create operation', async () => {
-  [recoveryPublicKey, recoveryPrivateKey] = await Jwk.generateEs256kKeyPair();
-  [
-    signingPublicKey,
-    signingPrivateKey,
-  ] = await OperationGenerator.generateKeyPair('key2');
-  console.log(recoveryPrivateKey);
-  const services = OperationGenerator.generateServiceEndpoints([
-    'serviceEndpointId123',
-  ]);
-  const createOperationBuffer = await OperationGenerator.generateCreateOperationBuffer(
-    recoveryPublicKey,
-    signingPublicKey,
-    services
+it('sanity', async () => {
+  const create = await OperationGenerator.generateCreateOperation();
+  const update = await OperationGenerator.generateUpdateOperation(
+    create.createOperation.didUniqueSuffix,
+    create.updatePublicKey,
+    create.updatePrivateKey
   );
-  const operation = await element.handleOperationRequest(createOperationBuffer);
-  createOperation = await CreateOperation.parse(createOperationBuffer);
-  didUniqueSuffix = createOperation.didUniqueSuffix;
+  expect(create).toBeDefined();
+  expect(update).toBeDefined();
+  let operation = await element.handleOperationRequest(
+    create.createOperation.operationBuffer
+  );
   expect(operation.status).toBe('succeeded');
-});
-
-it('should resolve after create', async () => {
   await element.triggerBatchWriting();
   await element.triggerProcessTransactions();
-  await new Promise((resolve) => setTimeout(resolve, 10000));
-  const operation = await element.handleResolveRequest(
-    `did:elem:${didUniqueSuffix}`
+  await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
+  let txns = await element.transactionStore.getTransactions();
+  expect(txns.length).toBe(1);
+  operation = await element.handleResolveRequest(
+    `did:elem:${create.createOperation.didUniqueSuffix}`
+  );
+  console.log(JSON.stringify(operation, null, 2));
+  operation = await element.handleOperationRequest(
+    update.updateOperation.operationBuffer
   );
   expect(operation.status).toBe('succeeded');
+  await element.triggerBatchWriting();
+  await element.triggerProcessTransactions();
+  await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
+  txns = await element.transactionStore.getTransactions();
+  expect(txns.length).toBe(2);
+  let ops = await element.operationStore.get(
+    create.createOperation.didUniqueSuffix
+  );
+  expect(ops.length).toBe(2);
+  operation = await element.handleResolveRequest(
+    `did:elem:${create.createOperation.didUniqueSuffix}`
+  );
   console.log(JSON.stringify(operation, null, 2));
 });
-
-// it('should handle update operation', async () => {
-//   const updateOperationBuffer = await OperationGenerator.generateUpdateOperation(
-//     didUniqueSuffix,
-//     signingPublicKey,
-//     signingPrivateKey
-//   );
-//   console.log(updateOperationBuffer);
-//   // const operation = await element.handleOperationRequest(
-//   //   fs.readFileSync(
-//   //     path.resolve(__dirname, './__fixtures__/interop/update/update.json')
-//   //   )
-//   // );
-//   // expect(operation.status).toBe('succeeded');
-// });
-
-// it('should resolve after update', async () => {
-//   await element.triggerBatchWriting();
-//   await element.triggerProcessTransactions();
-//   await new Promise((resolve) => setTimeout(resolve, 10000));
-//   const operation = await element.handleResolveRequest(
-//     'did:elem:EiDpoi14bmEVVUp-woMgEruPyPvVEMtOsXtyo51eQ0Tdig'
-//   );
-//   expect(operation.status).toBe('succeeded');
-//   console.warn('should contain new-key1', JSON.stringify(operation, null, 2));
-// });

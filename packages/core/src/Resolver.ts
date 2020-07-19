@@ -64,6 +64,8 @@ export default class Resolver {
       updateCommitValueToOperationMap
     );
 
+    console.dir('maps are not arrays...', didState.document);
+
     return didState;
   }
 
@@ -173,6 +175,10 @@ export default class Resolver {
     commitValueToOperationMap: Map<string, AnchoredOperationModel[]>
   ): Promise<DidState> {
     let didState = startingDidState;
+    console.log(
+      'applyUpdateOperations: ',
+      JSON.stringify({ didState, commitValueToOperationMap }, null, 2)
+    );
 
     while (commitValueToOperationMap.has(didState.nextUpdateCommitmentHash!)) {
       let operationsWithCorrectRevealValue: AnchoredOperationModel[] = commitValueToOperationMap.get(
@@ -220,6 +226,7 @@ export default class Resolver {
       const operationProcessor = this.versionManager.getOperationProcessor(
         operation.transactionTime
       );
+      console.log({ operation });
       appliedDidState = await operationProcessor.apply(
         operation,
         appliedDidState
@@ -284,10 +291,14 @@ export default class Resolver {
         const revealValueBuffer = await operationProcessor.getRevealValue(
           operation
         );
+
+        console.log({ revealValueBuffer: revealValueBuffer.toString() });
         const hashOfRevealValue = Multihash.hashThenEncode(
           revealValueBuffer,
           hashAlgorithm
         );
+
+        console.log({ hashOfRevealValue });
 
         if (commitValueToOperationMap.has(hashOfRevealValue)) {
           commitValueToOperationMap.get(hashOfRevealValue)!.push(operation);
@@ -296,7 +307,7 @@ export default class Resolver {
         }
       }
     }
-
+    console.dir('commitValueToOperationMap', commitValueToOperationMap);
     return commitValueToOperationMap;
   }
 }

@@ -28,12 +28,10 @@
         "type": "EcdsaSecp256k1VerificationKey2019"
       }
     ],
-    "authentication": [
-      "#key2"
-    ]
+    "authentication": ["#key2"]
   },
   "methodMetadata": {
-    "recoveryCommitment": "EiAhaWQDgxZHkt-gmx6X_4KTN6aZVs4ZaU8g0do0QBxcDg",
-    "updateCommitment": "EiDYrilfd_PrJFyViHQOzGek-9rKI_GE9KTbl8xK4hMQ5Q"
+    "recovery_commitment": "EiAhaWQDgxZHkt-gmx6X_4KTN6aZVs4ZaU8g0do0QBxcDg",
+    "update_commitment": "EiDYrilfd_PrJFyViHQOzGek-9rKI_GE9KTbl8xK4hMQ5Q"
   }
 }

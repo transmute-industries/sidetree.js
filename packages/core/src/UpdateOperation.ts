@@ -14,8 +14,8 @@ import Jws from './util/Jws';
 import Operation from './Operation';
 
 interface SignedDataModel {
-  deltaHash: string;
-  updateKey: JwkEs256k;
+  delta_hash: string;
+  update_key: JwkEs256k;
 }
 
 /**
@@ -164,12 +164,12 @@ export default class UpdateOperation implements OperationModel {
 
     Jwk.validateJwkEs256k(signedData.update_key);
 
-    const deltaHash = Encoder.decodeAsBuffer(signedData.delta_hash);
-    Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(deltaHash);
+    const delta_hash = Encoder.decodeAsBuffer(signedData.delta_hash);
+    Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(delta_hash);
 
     return {
-      deltaHash: signedData.delta_hash,
-      updateKey: signedData.update_key,
+      delta_hash: signedData.delta_hash,
+      update_key: signedData.update_key,
     };
   }
 }

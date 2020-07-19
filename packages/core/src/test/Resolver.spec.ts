@@ -286,7 +286,7 @@ describe('Resolver', () => {
         AnchoredOperationModel[]
       >();
       const nextRecoveryCommitment =
-        createOperationData.createOperation.suffixData.recoveryCommitment;
+        createOperationData.createOperation.suffixData.recovery_commitment;
       recoveryCommitValueToOperationMap.set(nextRecoveryCommitment, [
         recoveryOperation3,
         recoveryOperation1,
@@ -301,7 +301,7 @@ describe('Resolver', () => {
       // Expecting the new state to contain info of the first recovery operation.
       expect(newDidState.lastOperationTransactionNumber).toEqual(2);
       expect(newDidState.nextRecoveryCommitmentHash).toEqual(
-        recoveryOperation1Data.recoverOperation.signedData.recoveryCommitment
+        recoveryOperation1Data.recoverOperation.signedData.recovery_commitment
       );
     });
   });
@@ -363,7 +363,7 @@ describe('Resolver', () => {
         updateOperation2,
       ]);
       const nextUpdateCommitment = createOperationData.createOperation.delta!
-        .updateCommitment;
+        .update_commitment;
       const updatesWithSameReveal = updateCommitValueToOperationMap.get(
         nextUpdateCommitment
       );
@@ -378,7 +378,7 @@ describe('Resolver', () => {
       // Expecting the new state to contain info of the first recovery operation.
       expect(newDidState.lastOperationTransactionNumber).toEqual(2);
       expect(newDidState.nextUpdateCommitmentHash).toEqual(
-        updateOperation1Data.updateOperation.delta!.updateCommitment
+        updateOperation1Data.updateOperation.delta!.update_commitment
       );
     });
   });

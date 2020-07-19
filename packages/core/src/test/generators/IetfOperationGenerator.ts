@@ -20,7 +20,7 @@ interface GeneratedRecoverOperationData {
   recoveryPrivateKey: JwkEs256k;
   signingPublicKey: PublicKeyModel;
   signingPrivateKey: JwkEs256k;
-  updateKey: PublicKeyModel;
+  update_key: PublicKeyModel;
   updatePrivateKey: JwkEs256k;
 }
 
@@ -66,10 +66,10 @@ export default class IetfOperationGenerator {
     };
 
     const deltaBuffer = Buffer.from(JSON.stringify(delta));
-    const deltaHash = Encoder.encode(Multihash.hash(deltaBuffer));
+    const delta_hash = Encoder.encode(Multihash.hash(deltaBuffer));
 
     const suffixData = {
-      delta_hash: deltaHash,
+      delta_hash: delta_hash,
       recovery_commitment: Multihash.canonicalizeThenHashThenEncode(
         recoveryPublicKey
       ),
@@ -227,9 +227,9 @@ export default class IetfOperationGenerator {
 
     // Generate the next update and recover operation commitment hash reveal value pair.
     const [
-      updateKey,
+      update_key,
       updatePrivateKey,
-    ] = await OperationGenerator.generateKeyPair('updateKey');
+    ] = await OperationGenerator.generateKeyPair('update_key');
 
     const document = {
       publicKey: [publicKeyToBeInDocument],
@@ -251,10 +251,10 @@ export default class IetfOperationGenerator {
     };
 
     const deltaBuffer = Buffer.from(JSON.stringify(delta));
-    const deltaHash = Encoder.encode(Multihash.hash(deltaBuffer));
+    const delta_hash = Encoder.encode(Multihash.hash(deltaBuffer));
 
     const signedDataPayloadObject = {
-      delta_hash: deltaHash,
+      delta_hash: delta_hash,
       recovery_key: Jwk.getEs256kPublicKey(recoveryPrivateKey),
       recovery_commitment: Multihash.canonicalizeThenHashThenEncode(
         newRecoveryPublicKey
@@ -283,7 +283,7 @@ export default class IetfOperationGenerator {
       recoveryPrivateKey: newRecoveryPrivateKey,
       signingPublicKey: newSigningPublicKey,
       signingPrivateKey: newSigningPrivateKey,
-      updateKey,
+      update_key,
       updatePrivateKey,
     };
   }

@@ -56,8 +56,8 @@ const generateDidFixtures = async () => {
       authentication: ['#key2'],
     },
     methodMetadata: {
-      recoveryCommitment: createOperation.suffixData.recoveryCommitment,
-      updateCommitment: createOperation.delta.updateCommitment,
+      recovery_commitment: createOperation.suffixData.recovery_commitment,
+      update_commitment: createOperation.delta.update_commitment,
     },
   };
   fs.writeFileSync(

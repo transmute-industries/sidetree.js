@@ -39,7 +39,7 @@ async function createUpdateSequence(
     const [
       nextUpdateKey,
       nextPrivateKey,
-    ] = await OperationGenerator.generateKeyPair('updateKey');
+    ] = await OperationGenerator.generateKeyPair('update_key');
     const nextUpdateCommitmentHash = Multihash.canonicalizeThenHashThenEncode(
       nextUpdateKey.jwk
     );
@@ -397,7 +397,7 @@ describe('OperationProcessor', () => {
     expect(didDocument).toBeUndefined();
   });
 
-  it('should ignore update operation with the incorrect updateKey', async () => {
+  it('should ignore update operation with the incorrect update_key', async () => {
     await operationStore.put([createOp]);
 
     const [anyPublicKey] = await OperationGenerator.generateKeyPair(
@@ -700,7 +700,7 @@ describe('OperationProcessor', () => {
         expect(newDidState!.document.public_keys.length).toEqual(1);
       });
 
-      it('should not apply update operation if updateKey is invalid', async () => {
+      it('should not apply update operation if update_key is invalid', async () => {
         // Create an update using the create operation generated in `beforeEach()`.
         const [additionalKey] = await OperationGenerator.generateKeyPair(
           `new-key1`

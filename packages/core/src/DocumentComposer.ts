@@ -27,12 +27,16 @@ export default class DocumentComposer {
 
     const document = didState.document as DocumentModel;
 
+    console.dir({ document });
+    console.log(Array.isArray(document.public_keys));
+
     // Only populate `publicKey` if general purpose exists.
     // Only populate `authentication` if auth purpose exists.
     const authentication: any[] = [];
     const public_keys: any[] = [];
     if (Array.isArray(document.public_keys)) {
       for (const publicKey of document.public_keys) {
+        console.group({ publicKey });
         const id = '#' + publicKey.id;
         const didDocumentPublicKey = {
           id: id,
@@ -88,8 +92,8 @@ export default class DocumentComposer {
       '@context': 'https://www.w3.org/ns/did-resolution/v1',
       didDocument: didDocument,
       methodMetadata: {
-        recoveryCommitment: didState.nextRecoveryCommitmentHash,
-        updateCommitment: didState.nextUpdateCommitmentHash,
+        recovery_commitment: didState.nextRecoveryCommitmentHash,
+        update_commitment: didState.nextUpdateCommitmentHash,
       },
     };
 
@@ -426,7 +430,7 @@ export default class DocumentComposer {
         patch
       );
     }
-
+    console.log({ resultantDocument });
     return resultantDocument;
   }
 
@@ -475,7 +479,9 @@ export default class DocumentComposer {
       publicKeyMap.set(publicKey.id, publicKey);
     }
 
-    document.public_keys = [...publicKeyMap.values()];
+    document.public_keys = Array.from(publicKeyMap.entries()).map(
+      (pkm: any) => pkm[1]
+    );
 
     return document;
   }
@@ -502,7 +508,9 @@ export default class DocumentComposer {
       // Not throwing error will minimize the need (thus risk) of reusing exposed update reveal value.
     }
 
-    document.public_keys = [...publicKeyMap.values()];
+    document.public_keys = Array.from(publicKeyMap.entries()).map(
+      (pkm: any) => pkm[1]
+    );
 
     return document;
   }

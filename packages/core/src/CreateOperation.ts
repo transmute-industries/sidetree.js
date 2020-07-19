@@ -11,8 +11,8 @@ import Operation from './Operation';
 import JsonAsync from './util/JsonAsync';
 
 interface SuffixDataModel {
-  deltaHash: string;
-  recoveryCommitment: string;
+  delta_hash: string;
+  recovery_commitment: string;
 }
 
 /**
@@ -179,19 +179,19 @@ export default class CreateOperation implements OperationModel {
       );
     }
 
-    const deltaHash = Encoder.decodeAsBuffer(suffixData.delta_hash);
+    const delta_hash = Encoder.decodeAsBuffer(suffixData.delta_hash);
     const nextRecoveryCommitment = Encoder.decodeAsBuffer(
       suffixData.recovery_commitment
     );
 
-    Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(deltaHash);
+    Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(delta_hash);
     Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(
       nextRecoveryCommitment
     );
 
     return {
-      deltaHash: suffixData.delta_hash,
-      recoveryCommitment: suffixData.recovery_commitment,
+      delta_hash: suffixData.delta_hash,
+      recovery_commitment: suffixData.recovery_commitment,
     };
   }
 }
