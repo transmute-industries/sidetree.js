@@ -30,7 +30,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise(resolve => setTimeout(resolve, 1000));
   await element.close();
 });
 
@@ -63,7 +63,7 @@ it('should handle create operation', async () => {
 it('should resolve after create', async () => {
   await element.triggerBatchWriting();
   await element.triggerProcessTransactions();
-  await new Promise((resolve) => setTimeout(resolve, 10000));
+  await new Promise(resolve => setTimeout(resolve, 10000));
   const operation = await element.handleResolveRequest(
     'did:elem:EiDpoi14bmEVVUp-woMgEruPyPvVEMtOsXtyo51eQ0Tdig'
   );
@@ -83,7 +83,7 @@ it('should handle update operation', async () => {
 it('should resolve after update', async () => {
   await element.triggerBatchWriting();
   await element.triggerProcessTransactions();
-  await new Promise((resolve) => setTimeout(resolve, 10000));
+  await new Promise(resolve => setTimeout(resolve, 10000));
   const operation = await element.handleResolveRequest(
     'did:elem:EiDpoi14bmEVVUp-woMgEruPyPvVEMtOsXtyo51eQ0Tdig'
   );
