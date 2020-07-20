@@ -43,7 +43,6 @@ export default class OperationProcessor implements IOperationProcessor {
         didState
       );
     } else if (anchoredOperationModel.type === OperationType.Update) {
-      console.log({ anchoredOperationModel });
       appliedDidState = await this.applyUpdateOperation(
         anchoredOperationModel,
         didState!
@@ -194,7 +193,7 @@ export default class OperationProcessor implements IOperationProcessor {
       operation.signedData.update_key,
       didState.nextUpdateCommitmentHash!
     );
-    console.log({ isValidUpdateKey });
+
     if (!isValidUpdateKey) {
       return didState;
     }
@@ -204,7 +203,6 @@ export default class OperationProcessor implements IOperationProcessor {
       operation.signedData.update_key
     );
 
-    console.log({ signatureIsValid });
     if (!signatureIsValid) {
       return didState;
     }
@@ -214,8 +212,6 @@ export default class OperationProcessor implements IOperationProcessor {
       operation.encodedDelta,
       operation.signedData.delta_hash
     );
-
-    console.log({ isValidDelta });
 
     if (!isValidDelta) {
       return didState;

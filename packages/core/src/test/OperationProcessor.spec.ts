@@ -125,6 +125,8 @@ function validateDocumentAfterUpdates(
   );
 }
 
+jest.setTimeout(10 * 1000);
+
 describe('OperationProcessor', () => {
   let resolver: Resolver;
   let operationStore: IOperationStore;

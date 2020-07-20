@@ -27,16 +27,12 @@ export default class DocumentComposer {
 
     const document = didState.document as DocumentModel;
 
-    console.dir({ document });
-    console.log(Array.isArray(document.public_keys));
-
     // Only populate `publicKey` if general purpose exists.
     // Only populate `authentication` if auth purpose exists.
     const authentication: any[] = [];
     const public_keys: any[] = [];
     if (Array.isArray(document.public_keys)) {
       for (const publicKey of document.public_keys) {
-        console.group({ publicKey });
         const id = '#' + publicKey.id;
         const didDocumentPublicKey = {
           id: id,
@@ -430,7 +426,7 @@ export default class DocumentComposer {
         patch
       );
     }
-    console.log({ resultantDocument });
+
     return resultantDocument;
   }
 
