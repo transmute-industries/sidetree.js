@@ -23,6 +23,6 @@ jobs:
         # before running the tests
         run: |
           npm run generate:fixtures
-          npm run test -- --since origin/master --concurrency 1 --scope @sidetree/element
+          npm run test -- --since origin/master --concurrency 1
       - name: Build
         run: npm run build -- --since origin/master
