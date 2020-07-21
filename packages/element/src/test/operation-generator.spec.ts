@@ -1,12 +1,6 @@
-import {
-  OperationGenerator,
-  // CreateOperation, Jwk
-} from '@sidetree/core';
+import { OperationGenerator } from '@sidetree/core';
 import { EthereumLedger } from '@sidetree/ledger';
-import {
-  Config,
-  //  Multihash
-} from '@sidetree/common';
+import { Config } from '@sidetree/common';
 import { MongoDb } from '@sidetree/db';
 import Web3 from 'web3';
 import Element from '../Element';
@@ -69,7 +63,6 @@ it('sanity', async () => {
   operation = await element.handleResolveRequest(
     `did:elem:${create.createOperation.didUniqueSuffix}`
   );
-  console.log(JSON.stringify(operation, null, 2));
   operation = await element.handleOperationRequest(
     update.updateOperation.operationBuffer
   );
@@ -86,5 +79,4 @@ it('sanity', async () => {
   operation = await element.handleResolveRequest(
     `did:elem:${create.createOperation.didUniqueSuffix}`
   );
-  console.log(JSON.stringify(operation, null, 2));
 });
