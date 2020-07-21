@@ -14,9 +14,9 @@ import Jwk from './util/Jwk';
 import Jws from './util/Jws';
 
 interface SignedDataModel {
-  deltaHash: string;
-  recoveryKey: JwkEs256k;
-  recoveryCommitment: string;
+  delta_hash: string;
+  recovery_key: JwkEs256k;
+  recovery_commitment: string;
 }
 
 /**
@@ -175,8 +175,8 @@ export default class RecoverOperation implements OperationModel {
 
     Jwk.validateJwkEs256k(signedData.recovery_key);
 
-    const deltaHash = Encoder.decodeAsBuffer(signedData.delta_hash);
-    Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(deltaHash);
+    const delta_hash = Encoder.decodeAsBuffer(signedData.delta_hash);
+    Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(delta_hash);
 
     const nextRecoveryCommitmentHash = Encoder.decodeAsBuffer(
       signedData.recovery_commitment
@@ -186,9 +186,9 @@ export default class RecoverOperation implements OperationModel {
     );
 
     return {
-      deltaHash: signedData.delta_hash,
-      recoveryKey: signedData.recovery_key,
-      recoveryCommitment: signedData.recovery_commitment,
+      delta_hash: signedData.delta_hash,
+      recovery_key: signedData.recovery_key,
+      recovery_commitment: signedData.recovery_commitment,
     };
   }
 }

@@ -1,11 +1,11 @@
 {
   "@context": "https://www.w3.org/ns/did-resolution/v1",
   "didDocument": {
-    "id": "did:elem:EiByThmMfut8K5y6Bv7Qk9-8k8HUcGD3ebbeAbLsZo3VSA",
+    "id": "did:elem:EiCMpYeL4NMvpOgkJZjCl5rT0OPcDjwtjnNITEH4T74G7Q",
     "@context": [
       "https://www.w3.org/ns/did/v1",
       {
-        "@base": "did:elem:EiByThmMfut8K5y6Bv7Qk9-8k8HUcGD3ebbeAbLsZo3VSA"
+        "@base": "did:elem:EiCMpYeL4NMvpOgkJZjCl5rT0OPcDjwtjnNITEH4T74G7Q"
       }
     ],
     "service": [
@@ -20,20 +20,18 @@
         "publicKeyJwk": {
           "kty": "EC",
           "crv": "secp256k1",
-          "x": "7pQ8PdlRnNfiZYOGvjKw9ktRq7QhAfm-eRrMoTDkwec",
-          "y": "jZlB5BfJdkwthW3uHgU0T8Yh2Dl1pvAMBFsMLCysHOM"
+          "x": "-1_90A9U-qQeui5WjMLA-WSztUtG5n5V3oqgCQSzMiM",
+          "y": "gHkCIFrkcWi8hccus1erC1lfisLuP-aIkt2N8JRW30I"
         },
         "controller": "",
         "id": "#key2",
         "type": "EcdsaSecp256k1VerificationKey2019"
       }
     ],
-    "authentication": [
-      "#key2"
-    ]
+    "authentication": ["#key2"]
   },
   "methodMetadata": {
-    "recoveryCommitment": "EiB9DPscsnKgl5Rj_bKSJN55PY2wMevKRbH1eoVDxgvLcQ",
-    "updateCommitment": "EiCkz-ntMUfm_tZ4Jy63bepkV_Z_BGLoxXYhoalcJgBRRA"
+    "recovery_commitment": "EiAhaWQDgxZHkt-gmx6X_4KTN6aZVs4ZaU8g0do0QBxcDg",
+    "update_commitment": "EiDYrilfd_PrJFyViHQOzGek-9rKI_GE9KTbl8xK4hMQ5Q"
   }
 }

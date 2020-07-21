@@ -102,25 +102,23 @@ export default class OperationProcessor implements IOperationProcessor {
       case OperationType.Recover:
         const recoverOperation = operation as RecoverOperation;
         revealValueBuffer = JsonCanonicalizer.canonicalizeAsBuffer(
-          recoverOperation.signedData.recoveryKey
+          recoverOperation.signedData.recovery_key
         );
-        break;
+        return revealValueBuffer;
       case OperationType.Update:
         const updateOperation = operation as UpdateOperation;
         revealValueBuffer = JsonCanonicalizer.canonicalizeAsBuffer(
-          updateOperation.signedData.updateKey
+          updateOperation.signedData.update_key
         );
-        break;
+        return revealValueBuffer;
       default:
         // This is a deactivate.
         const deactivateOperation = operation as DeactivateOperation;
         revealValueBuffer = JsonCanonicalizer.canonicalizeAsBuffer(
-          deactivateOperation.signedData.recoveryKey
+          deactivateOperation.signedData.recovery_key
         );
-        break;
+        return revealValueBuffer;
     }
-
-    return revealValueBuffer;
   }
 
   /**
@@ -142,7 +140,7 @@ export default class OperationProcessor implements IOperationProcessor {
     // Ensure actual delta hash matches expected delta hash.
     const isMatchingDelta = Multihash.isValidHash(
       operation.encodedDelta,
-      operation.suffixData.deltaHash
+      operation.suffixData.delta_hash
     );
     if (!isMatchingDelta) {
       return didState;
@@ -171,8 +169,8 @@ export default class OperationProcessor implements IOperationProcessor {
     const newDidState = {
       didUniqueSuffix: operation.didUniqueSuffix,
       document,
-      nextRecoveryCommitmentHash: operation.suffixData.recoveryCommitment,
-      nextUpdateCommitmentHash: delta ? delta.updateCommitment : undefined,
+      nextRecoveryCommitmentHash: operation.suffixData.recovery_commitment,
+      nextUpdateCommitmentHash: delta ? delta.update_commitment : undefined,
       lastOperationTransactionNumber: anchoredOperationModel.transactionNumber,
     };
 
@@ -192,17 +190,19 @@ export default class OperationProcessor implements IOperationProcessor {
 
     // Verify the update key hash.
     const isValidUpdateKey = Multihash.canonicalizeAndVerify(
-      operation.signedData.updateKey,
+      operation.signedData.update_key,
       didState.nextUpdateCommitmentHash!
     );
+
     if (!isValidUpdateKey) {
       return didState;
     }
 
     // Verify the signature.
     const signatureIsValid = await operation.signedDataJws.verifySignature(
-      operation.signedData.updateKey
+      operation.signedData.update_key
     );
+
     if (!signatureIsValid) {
       return didState;
     }
@@ -210,8 +210,9 @@ export default class OperationProcessor implements IOperationProcessor {
     // Verify the delta hash against the expected delta hash.
     const isValidDelta = Multihash.isValidHash(
       operation.encodedDelta,
-      operation.signedData.deltaHash
+      operation.signedData.delta_hash
     );
+
     if (!isValidDelta) {
       return didState;
     }
@@ -239,7 +240,7 @@ export default class OperationProcessor implements IOperationProcessor {
       nextRecoveryCommitmentHash: didState.nextRecoveryCommitmentHash,
       // New values below.
       document: resultingDocument,
-      nextUpdateCommitmentHash: operation.delta!.updateCommitment,
+      nextUpdateCommitmentHash: operation.delta!.update_commitment,
       lastOperationTransactionNumber: anchoredOperationModel.transactionNumber,
     };
 
@@ -259,7 +260,7 @@ export default class OperationProcessor implements IOperationProcessor {
 
     // Verify the recovery key hash.
     const isValidRecoveryKey = Multihash.canonicalizeAndVerify(
-      operation.signedData.recoveryKey,
+      operation.signedData.recovery_key,
       didState.nextRecoveryCommitmentHash!
     );
     if (!isValidRecoveryKey) {
@@ -268,7 +269,7 @@ export default class OperationProcessor implements IOperationProcessor {
 
     // Verify the signature.
     const signatureIsValid = await operation.signedDataJws.verifySignature(
-      operation.signedData.recoveryKey
+      operation.signedData.recovery_key
     );
     if (!signatureIsValid) {
       return didState;
@@ -277,7 +278,7 @@ export default class OperationProcessor implements IOperationProcessor {
     // Verify the actual delta hash against the expected delta hash.
     const isMatchingDelta = Multihash.isValidHash(
       operation.encodedDelta,
-      operation.signedData.deltaHash
+      operation.signedData.delta_hash
     );
     if (!isMatchingDelta) {
       return didState;
@@ -306,9 +307,9 @@ export default class OperationProcessor implements IOperationProcessor {
     const newDidState = {
       didUniqueSuffix: operation.didUniqueSuffix,
       document,
-      recoveryKey: operation.signedData.recoveryKey,
-      nextRecoveryCommitmentHash: operation.signedData.recoveryCommitment,
-      nextUpdateCommitmentHash: delta ? delta.updateCommitment : undefined,
+      recovery_key: operation.signedData.recovery_key,
+      nextRecoveryCommitmentHash: operation.signedData.recovery_commitment,
+      nextUpdateCommitmentHash: delta ? delta.update_commitment : undefined,
       lastOperationTransactionNumber: anchoredOperationModel.transactionNumber,
     };
 
@@ -328,7 +329,7 @@ export default class OperationProcessor implements IOperationProcessor {
 
     // Verify the recovery key hash.
     const isValidRecoveryKey = Multihash.canonicalizeAndVerify(
-      operation.signedData.recoveryKey,
+      operation.signedData.recovery_key,
       didState.nextRecoveryCommitmentHash!
     );
     if (!isValidRecoveryKey) {
@@ -337,7 +338,7 @@ export default class OperationProcessor implements IOperationProcessor {
 
     // Verify the signature.
     const signatureIsValid = await operation.signedDataJws.verifySignature(
-      operation.signedData.recoveryKey
+      operation.signedData.recovery_key
     );
     if (!signatureIsValid) {
       return didState;
@@ -347,7 +348,7 @@ export default class OperationProcessor implements IOperationProcessor {
     const newDidState = {
       document: didState.document,
       // New values below.
-      recoveryKey: undefined,
+      recovery_key: undefined,
       nextRecoveryCommitmentHash: undefined,
       nextUpdateCommitmentHash: undefined,
       lastOperationTransactionNumber: anchoredOperationModel.transactionNumber,

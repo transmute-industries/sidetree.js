@@ -130,7 +130,7 @@ describe('RecoverOperation', () => {
     it('should throw if signedData contains an additional unknown property.', async () => {
       const signedData = {
         delta_hash: 'anyUnusedHash',
-        recoveryKey: 'anyUnusedRecoveryKey',
+        recovery_key: 'anyUnusedRecoveryKey',
         nextRecoveryCommitmentHash: Encoder.encode(
           Multihash.hash(Buffer.from('some one time password'))
         ),

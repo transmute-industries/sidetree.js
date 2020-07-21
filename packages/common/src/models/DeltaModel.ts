@@ -3,5 +3,5 @@
  */
 export default interface DeltaModel {
   patches: any[];
-  updateCommitment: string;
+  update_commitment: string;
 }

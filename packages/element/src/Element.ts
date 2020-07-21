@@ -25,9 +25,9 @@ import {
  * The core class that is instantiated when running a Sidetree node.
  */
 export default class Core {
-  private transactionStore: MongoDbTransactionStore;
+  public transactionStore: MongoDbTransactionStore;
   private unresolvableTransactionStore: MongoDbUnresolvableTransactionStore;
-  private operationStore: MongoDbOperationStore;
+  public operationStore: MongoDbOperationStore;
   private versionManager: VersionManager;
   private blockchain: EthereumLedger;
   private cas: Cas;

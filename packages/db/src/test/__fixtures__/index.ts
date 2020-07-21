@@ -40,7 +40,7 @@ const anchoredData = new AnchoredData('anchorFileHash', 10);
 
 const chunkFile = new ChunkFile(['delta1', 'delta2']);
 
-const delta = new Delta(['patch1, patch2'], 'updateCommitment');
+const delta = new Delta(['patch1, patch2'], 'update_commitment');
 
 const mapFile = new MapFile(
   [

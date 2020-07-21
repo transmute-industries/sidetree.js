@@ -220,6 +220,7 @@ export default class Resolver {
       const operationProcessor = this.versionManager.getOperationProcessor(
         operation.transactionTime
       );
+
       appliedDidState = await operationProcessor.apply(
         operation,
         appliedDidState
@@ -284,6 +285,7 @@ export default class Resolver {
         const revealValueBuffer = await operationProcessor.getRevealValue(
           operation
         );
+
         const hashOfRevealValue = Multihash.hashThenEncode(
           revealValueBuffer,
           hashAlgorithm

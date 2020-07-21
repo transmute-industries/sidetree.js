@@ -43,7 +43,7 @@ describe('Resolver', () => {
         signingPublicKey,
         signingPrivateKey,
       ] = await OperationGenerator.generateKeyPair('signingKey');
-      const serviceEndpoints = OperationGenerator.generateServiceEndpoints([
+      const service_endpoints = OperationGenerator.generateServiceEndpoints([
         'dummyHubUri1',
       ]);
 
@@ -51,7 +51,7 @@ describe('Resolver', () => {
       const operationBuffer = await OperationGenerator.generateCreateOperationBuffer(
         recoveryPublicKey,
         signingPublicKey,
-        serviceEndpoints
+        service_endpoints
       );
       const createOperation = await CreateOperation.parse(operationBuffer);
       const anchoredOperationModel = {
@@ -118,8 +118,8 @@ describe('Resolver', () => {
 
       // Sanity check to make sure the DID Document with update is resolved correctly.
       let didState = (await resolver.resolve(didUniqueSuffix)) as DidState;
-      expect(didState.document.publicKeys.length).toEqual(2);
-      expect(didState.document.serviceEndpoints.length).toEqual(2);
+      expect(didState.document.public_keys.length).toEqual(2);
+      expect(didState.document.service_endpoints.length).toEqual(2);
 
       // Create new keys used for new document for recovery request.
       const [newRecoveryPublicKey] = await Jwk.generateEs256kKeyPair();
@@ -219,15 +219,15 @@ describe('Resolver', () => {
       );
       expect(actualNewSigningPublicKey1).toBeDefined();
       expect(actualNewSigningPublicKey2).toBeDefined();
-      expect(document.publicKeys.length).toEqual(2);
+      expect(document.public_keys.length).toEqual(2);
       expect(actualNewSigningPublicKey1!.jwk).toEqual(newSigningPublicKey.jwk);
       expect(actualNewSigningPublicKey2!.jwk).toEqual(
         newKey2ForUpdate1AfterRecovery.jwk
       );
-      expect(document.serviceEndpoints).toBeDefined();
-      expect(document.serviceEndpoints.length).toEqual(1);
-      expect(document.serviceEndpoints[0].endpoint).toBeDefined();
-      expect(document.serviceEndpoints[0].id).toEqual('newDummyHubUri2');
+      expect(document.service_endpoints).toBeDefined();
+      expect(document.service_endpoints.length).toEqual(1);
+      expect(document.service_endpoints[0].endpoint).toBeDefined();
+      expect(document.service_endpoints[0].id).toEqual('newDummyHubUri2');
     });
   });
 
@@ -286,7 +286,7 @@ describe('Resolver', () => {
         AnchoredOperationModel[]
       >();
       const nextRecoveryCommitment =
-        createOperationData.createOperation.suffixData.recoveryCommitment;
+        createOperationData.createOperation.suffixData.recovery_commitment;
       recoveryCommitValueToOperationMap.set(nextRecoveryCommitment, [
         recoveryOperation3,
         recoveryOperation1,
@@ -301,7 +301,7 @@ describe('Resolver', () => {
       // Expecting the new state to contain info of the first recovery operation.
       expect(newDidState.lastOperationTransactionNumber).toEqual(2);
       expect(newDidState.nextRecoveryCommitmentHash).toEqual(
-        recoveryOperation1Data.recoverOperation.signedData.recoveryCommitment
+        recoveryOperation1Data.recoverOperation.signedData.recovery_commitment
       );
     });
   });
@@ -363,7 +363,7 @@ describe('Resolver', () => {
         updateOperation2,
       ]);
       const nextUpdateCommitment = createOperationData.createOperation.delta!
-        .updateCommitment;
+        .update_commitment;
       const updatesWithSameReveal = updateCommitValueToOperationMap.get(
         nextUpdateCommitment
       );
@@ -378,7 +378,7 @@ describe('Resolver', () => {
       // Expecting the new state to contain info of the first recovery operation.
       expect(newDidState.lastOperationTransactionNumber).toEqual(2);
       expect(newDidState.nextUpdateCommitmentHash).toEqual(
-        updateOperation1Data.updateOperation.delta!.updateCommitment
+        updateOperation1Data.updateOperation.delta!.update_commitment
       );
     });
   });

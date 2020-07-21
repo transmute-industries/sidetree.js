@@ -126,14 +126,7 @@ export default class EthereumLedger implements IBlockchain {
       omitTimestamp: true,
     };
     let transactions: TransactionModel[];
-    if (_transactionTimeHash) {
-      const block = await utils.getBlock(this.web3, _transactionTimeHash);
-      transactions = await this._getTransactions(
-        block.number,
-        block.number,
-        options
-      );
-    } else if (sinceTransactionNumber) {
+    if (sinceTransactionNumber) {
       const sinceTransaction = await this._getTransactions(0, 'latest', {
         ...options,
         filter: { transactionNumber: [sinceTransactionNumber] },
@@ -142,6 +135,13 @@ export default class EthereumLedger implements IBlockchain {
         sinceTransaction.length === 1 ? sinceTransaction[0].transactionTime : 0;
       transactions = await this._getTransactions(
         sinceBlockNumber,
+        'latest',
+        options
+      );
+    } else if (_transactionTimeHash) {
+      const block = await utils.getBlock(this.web3, _transactionTimeHash);
+      transactions = await this._getTransactions(
+        block.number,
         'latest',
         options
       );

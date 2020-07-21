@@ -10,7 +10,7 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
-    "lint": "tsdx lint src test",
+    "lint": "tsdx lint src",
     "prepare": "tsdx build"
   },
   "prettier": {

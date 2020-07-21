@@ -11,10 +11,10 @@ export default class Delta {
   patches: any[];
 
   @Column()
-  updateCommitment: string;
+  update_commitment: string;
 
-  constructor(patches: any[], updateCommitment: string) {
+  constructor(patches: any[], update_commitment: string) {
     this.patches = patches;
-    this.updateCommitment = updateCommitment;
+    this.update_commitment = update_commitment;
   }
 }

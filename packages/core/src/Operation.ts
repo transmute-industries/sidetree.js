@@ -92,7 +92,7 @@ export default class Operation {
 
     return {
       patches: delta.patches,
-      updateCommitment: delta.update_commitment,
+      update_commitment: delta.update_commitment,
     };
   }
 }

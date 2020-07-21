@@ -16,7 +16,7 @@
     "build": "tsdx build",
     "pretest": "docker-compose up -d mongo ganache ipfs",
     "test": "tsdx test",
-    "lint": "tsdx lint src",
+    "lint": "tsdx lint src --fix",
     "prepare": "tsdx build",
     "generate:fixtures": "tsc src/test/__fixtures__/generate-fixtures.ts && node src/test/__fixtures__/generate-fixtures.js"
   },

@@ -12,7 +12,7 @@ import Jws from './util/Jws';
 
 interface SignedDataModel {
   didSuffix: string;
-  recoveryKey: JwkEs256k;
+  recovery_key: JwkEs256k;
 }
 
 /**
@@ -156,7 +156,7 @@ export default class DeactivateOperation implements OperationModel {
 
     return {
       didSuffix: signedData.did_suffix,
-      recoveryKey: signedData.recovery_key,
+      recovery_key: signedData.recovery_key,
     };
   }
 }
