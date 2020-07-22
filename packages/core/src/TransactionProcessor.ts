@@ -318,6 +318,18 @@ export default class TransactionProcessor implements ITransactionProcessor {
       }
     }
 
+    for (let i = 0; i < deactivateOperations.length; i++) {
+      const operation = deactivateOperations[i];
+      const operationJsonString = operation.operationBuffer.toString();
+      const operationObject = await JsonAsync.parse(operationJsonString);
+      operationObject.type = operation.type;
+
+      const patchedOperationBuffer = Buffer.from(
+        JSON.stringify(operationObject)
+      );
+      patchedOperationBuffers.push(patchedOperationBuffer);
+    }
+
     // Add anchored timestamp to each operation.
     const anchoredOperationModels = [];
     for (let i = 0; i < operations.length; i++) {
@@ -334,7 +346,6 @@ export default class TransactionProcessor implements ITransactionProcessor {
 
       anchoredOperationModels.push(anchoredOperationModel);
     }
-
     return anchoredOperationModels;
   }
 
