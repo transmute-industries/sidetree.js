@@ -1,9 +1,14 @@
-import { OperationGenerator } from '@sidetree/core';
 import { EthereumLedger } from '@sidetree/ledger';
 import { Config } from '@sidetree/common';
 import { MongoDb } from '@sidetree/db';
 import Web3 from 'web3';
 import Element from '../Element';
+import {
+  shortFormDid,
+  createOperationBuffer,
+  resolveBody,
+  deactivateOperationBuffer,
+} from './__fixtures__';
 
 jest.setTimeout(40 * 1000);
 console.info = () => null;
@@ -34,39 +39,33 @@ afterAll(async () => {
   await element.close();
 });
 
-it('sanity', async () => {
-  const create = await OperationGenerator.generateCreateOperation();
-  const deactivate = await OperationGenerator.createDeactivateOperation(
-    create.createOperation.didUniqueSuffix,
-    create.recoveryPrivateKey
+it('should create a did', async () => {
+  const createOperation = await element.handleOperationRequest(
+    createOperationBuffer
   );
-
-  expect(create).toBeDefined();
-  expect(deactivate).toBeDefined();
-
-  let operation = await element.handleOperationRequest(
-    create.createOperation.operationBuffer
-  );
-  expect(operation.status).toBe('succeeded');
+  expect(createOperation.status).toBe('succeeded');
+  expect(createOperation.body).toEqual(resolveBody);
   await element.triggerBatchWriting();
   await element.triggerProcessTransactions();
-  let txns = await element.transactionStore.getTransactions();
+  const txns = await element.transactionStore.getTransactions();
   expect(txns.length).toBe(1);
-  operation = await element.handleResolveRequest(
-    `did:elem:${create.createOperation.didUniqueSuffix}`
+  const resolveRequest = await element.handleResolveRequest(shortFormDid);
+  expect(resolveRequest.body).toEqual(resolveBody);
+});
+
+it('should deactivate a did', async () => {
+  const deactivateOperation = await element.handleOperationRequest(
+    deactivateOperationBuffer
   );
-  operation = await element.handleOperationRequest(deactivate.operationBuffer);
-  expect(operation.status).toBe('succeeded');
+  expect(deactivateOperation.status).toBe('succeeded');
   await element.triggerBatchWriting();
   await element.triggerProcessTransactions();
-  txns = await element.transactionStore.getTransactions();
+  const txns = await element.transactionStore.getTransactions();
   expect(txns.length).toBe(2);
-  const ops = await element.operationStore.get(
-    create.createOperation.didUniqueSuffix
-  );
+  const didUniqueSuffix = shortFormDid.split(':').pop();
+  console.log({ didUniqueSuffix });
+  const ops = await element.operationStore.get(didUniqueSuffix!);
   expect(ops.length).toBe(2);
-  operation = await element.handleResolveRequest(
-    `did:elem:${create.createOperation.didUniqueSuffix}`
-  );
-  expect(operation.body.status).toBe('deactivated');
+  const resolveRequest = await element.handleResolveRequest(shortFormDid);
+  expect(resolveRequest.body.status).toBe('deactivated');
 });
