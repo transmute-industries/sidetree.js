@@ -77,7 +77,7 @@ export default class Observer {
    * Processes new transactions if any, then reprocess a set of unresolvable transactions if any,
    * then schedules the next round of processing unless `stopPeriodicProcessing()` is invoked.
    */
-  public async processTransactions() {
+  public async processTransactions(awaitTransactionProcessing = false) {
     try {
       await this.storeConsecutiveTransactionsProcessed(); // Do this in multiple places
 
@@ -142,8 +142,12 @@ export default class Observer {
             processingStatus: TransactionProcessingStatus.Pending,
           };
           this.transactionsUnderProcessing.push(awaitingTransaction);
-          // Intentionally not awaiting on downloading and processing each operation batch.
-          void this.processTransaction(transaction, awaitingTransaction);
+          if (awaitTransactionProcessing) {
+            await this.processTransaction(transaction, awaitingTransaction);
+          } else {
+            // Intentionally not awaiting on downloading and processing each operation batch.
+            void this.processTransaction(transaction, awaitingTransaction);
+          }
         }
 
         // NOTE: Blockchain reorg has happened for sure only if `invalidTransactionNumberOrTimeHash` AND
@@ -197,7 +201,7 @@ export default class Observer {
       );
 
       // Continue onto processing unresolvable transactions if any.
-      await this.processUnresolvableTransactions();
+      await this.processUnresolvableTransactions(awaitTransactionProcessing);
     } catch (error) {
       console.error(
         `Encountered unhandled and possibly fatal Observer error, must investigate and fix:`
@@ -234,7 +238,9 @@ export default class Observer {
    * Attempts to fetch and process unresolvable transactions due for retry.
    * Waits until all unresolvable transactions due for retry are processed.
    */
-  private async processUnresolvableTransactions() {
+  private async processUnresolvableTransactions(
+    awaitTransactionProcessing = false
+  ) {
     const endTimer = timeSpan();
     const unresolvableTransactions = await this.unresolvableTransactionStore.getUnresolvableTransactionsDueForRetry();
     console.info(
@@ -252,7 +258,12 @@ export default class Observer {
       };
       unresolvableTransactionStatus.push(awaitingTransaction);
       // Intentionally not awaiting on downloading and processing each operation batch.
-      void this.processTransaction(transaction, awaitingTransaction);
+      if (awaitTransactionProcessing) {
+        await this.processTransaction(transaction, awaitingTransaction);
+      } else {
+        // Intentionally not awaiting on downloading and processing each operation batch.
+        void this.processTransaction(transaction, awaitingTransaction);
+      }
     }
 
     // Wait until all unresolvable transactions are processed,
