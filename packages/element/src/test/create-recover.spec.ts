@@ -1,11 +1,16 @@
-import { OperationGenerator } from '@sidetree/core';
 import { EthereumLedger } from '@sidetree/ledger';
 import { Config } from '@sidetree/common';
 import { MongoDb } from '@sidetree/db';
 import Web3 from 'web3';
 import Element from '../Element';
+import {
+  shortFormDid,
+  createOperationBuffer,
+  resolveBody,
+  recoverOperationBuffer,
+} from './__fixtures__';
 
-jest.setTimeout(40 * 1000);
+jest.setTimeout(20 * 1000);
 console.info = () => null;
 
 let ledger: EthereumLedger;
@@ -27,55 +32,41 @@ beforeAll(async () => {
   await ledger._createNewContract();
   const testVersionConfig = require('./element-version-config.json');
   element = new Element(config, testVersionConfig, ledger);
-  await element.initialize();
+  // TODO: REFACTOR
+  await element.initialize(false, false);
 });
 
 afterAll(async () => {
-  await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
   await element.close();
 });
 
-it('should get versions', async () => {
-  const versions = await element.handleGetVersionRequest();
-  expect(versions.status).toBe('succeeded');
-  expect(JSON.parse(versions.body)).toHaveLength(3);
+it('should create a did', async () => {
+  const createOperation = await element.handleOperationRequest(
+    createOperationBuffer
+  );
+  expect(createOperation.status).toBe('succeeded');
+  expect(createOperation.body).toEqual(resolveBody);
+  await element.triggerBatchWriting();
+  await element.triggerProcessTransactions();
+  const txns = await element.transactionStore.getTransactions();
+  expect(txns.length).toBe(1);
+  const resolveRequest = await element.handleResolveRequest(shortFormDid);
+  expect(resolveRequest.body).toEqual(resolveBody);
 });
 
-it('sanity', async () => {
-  const create = await OperationGenerator.generateCreateOperation();
-  const recover = await OperationGenerator.generateRecoverOperation({
-    didUniqueSuffix: create.createOperation.didUniqueSuffix,
-    recoveryPrivateKey: create.recoveryPrivateKey,
-  });
-
-  expect(create).toBeDefined();
-  expect(recover).toBeDefined();
-
-  let operation = await element.handleOperationRequest(
-    create.createOperation.operationBuffer
+it('should recover a did', async () => {
+  const recoverOperation = await element.handleOperationRequest(
+    recoverOperationBuffer
   );
-  expect(operation.status).toBe('succeeded');
+  expect(recoverOperation.status).toBe('succeeded');
+  // TODO: trigger batch and observe
   await element.triggerBatchWriting();
   await element.triggerProcessTransactions();
-  await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
-  let txns = await element.transactionStore.getTransactions();
-  expect(txns.length).toBe(1);
-  operation = await element.handleResolveRequest(
-    `did:elem:${create.createOperation.didUniqueSuffix}`
-  );
-  operation = await element.handleOperationRequest(recover.operationBuffer);
-  expect(operation.status).toBe('succeeded');
-  await element.triggerBatchWriting();
-  await element.triggerProcessTransactions();
-  await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
-  txns = await element.transactionStore.getTransactions();
+  const txns = await element.transactionStore.getTransactions();
   expect(txns.length).toBe(2);
-  let ops = await element.operationStore.get(
-    create.createOperation.didUniqueSuffix
-  );
+  const didUniqueSuffix = shortFormDid.split(':').pop();
+  const ops = await element.operationStore.get(didUniqueSuffix!);
   expect(ops.length).toBe(2);
-  operation = await element.handleResolveRequest(
-    `did:elem:${create.createOperation.didUniqueSuffix}`
-  );
-  expect(operation.body.didDocument.publicKey[0].id).toBe('#newKey');
+  const resolveRequest = await element.handleResolveRequest(shortFormDid);
+  expect(resolveRequest.body.didDocument.publicKey[0].id).toBe('#newKey');
 });

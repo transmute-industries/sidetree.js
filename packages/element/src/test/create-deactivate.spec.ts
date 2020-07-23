@@ -10,7 +10,7 @@ import {
   deactivateOperationBuffer,
 } from './__fixtures__';
 
-jest.setTimeout(40 * 1000);
+jest.setTimeout(20 * 1000);
 console.info = () => null;
 
 let ledger: EthereumLedger;
@@ -63,7 +63,6 @@ it('should deactivate a did', async () => {
   const txns = await element.transactionStore.getTransactions();
   expect(txns.length).toBe(2);
   const didUniqueSuffix = shortFormDid.split(':').pop();
-  console.log({ didUniqueSuffix });
   const ops = await element.operationStore.get(didUniqueSuffix!);
   expect(ops.length).toBe(2);
   const resolveRequest = await element.handleResolveRequest(shortFormDid);
