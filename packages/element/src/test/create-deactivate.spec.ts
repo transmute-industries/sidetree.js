@@ -31,14 +31,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
   await element.close();
-});
-
-it('should get versions', async () => {
-  const versions = await element.handleGetVersionRequest();
-  expect(versions.status).toBe('succeeded');
-  expect(JSON.parse(versions.body)).toHaveLength(3);
 });
 
 it('sanity', async () => {
@@ -57,7 +50,6 @@ it('sanity', async () => {
   expect(operation.status).toBe('succeeded');
   await element.triggerBatchWriting();
   await element.triggerProcessTransactions();
-  await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
   let txns = await element.transactionStore.getTransactions();
   expect(txns.length).toBe(1);
   operation = await element.handleResolveRequest(
@@ -67,10 +59,9 @@ it('sanity', async () => {
   expect(operation.status).toBe('succeeded');
   await element.triggerBatchWriting();
   await element.triggerProcessTransactions();
-  await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
   txns = await element.transactionStore.getTransactions();
   expect(txns.length).toBe(2);
-  let ops = await element.operationStore.get(
+  const ops = await element.operationStore.get(
     create.createOperation.didUniqueSuffix
   );
   expect(ops.length).toBe(2);
