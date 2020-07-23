@@ -92,6 +92,16 @@ const generateDidFixtures = async () => {
     `${__dirname}/deactivateOperationBuffer.txt`,
     deactivateOperationBuffer
   );
+
+  const recoverOperation = await OperationGenerator.generateRecoverOperation({
+    didUniqueSuffix: createOperation.didUniqueSuffix,
+    recoveryPrivateKey,
+  });
+  const recoverOperationBuffer = recoverOperation.operationBuffer;
+  fs.writeFileSync(
+    `${__dirname}/recoverOperationBuffer.txt`,
+    recoverOperationBuffer
+  );
 };
 
 (async () => {
