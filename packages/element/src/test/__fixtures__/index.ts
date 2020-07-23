@@ -6,6 +6,9 @@ const shortFormDid = fs
 const createOperationBuffer = Buffer.from(
   fs.readFileSync(`${__dirname}/createOperationBuffer.txt`).toString()
 );
+const deactivateOperationBuffer = Buffer.from(
+  fs.readFileSync(`${__dirname}/deactivateOperationBuffer.txt`).toString()
+);
 const resolveBody = JSON.parse(
   fs.readFileSync(`${__dirname}/resolveBody.json`).toString()
 );
@@ -18,6 +21,7 @@ const longFormResolveBody = JSON.parse(
 export {
   shortFormDid,
   createOperationBuffer,
+  deactivateOperationBuffer,
   resolveBody,
   longFormDid,
   longFormResolveBody,

@@ -4,7 +4,10 @@ import * as fs from 'fs';
 
 const config: Config = require('../element-config.json');
 const generateDidFixtures = async () => {
-  const [recoveryPublicKey] = await Jwk.generateEs256kKeyPair();
+  const [
+    recoveryPublicKey,
+    recoveryPrivateKey,
+  ] = await Jwk.generateEs256kKeyPair();
 
   const [signingPublicKey] = await OperationGenerator.generateKeyPair('key2');
 
@@ -57,7 +60,7 @@ const generateDidFixtures = async () => {
     },
     methodMetadata: {
       recovery_commitment: createOperation.suffixData.recovery_commitment,
-      update_commitment: createOperation.delta.update_commitment,
+      update_commitment: createOperation.delta!.update_commitment,
     },
   };
   fs.writeFileSync(
@@ -78,6 +81,16 @@ const generateDidFixtures = async () => {
   fs.writeFileSync(
     `${__dirname}/longFormResolveBody.json`,
     JSON.stringify(longFormResolveBody, null, 2)
+  );
+
+  const deactivateOperation = await OperationGenerator.createDeactivateOperation(
+    createOperation.didUniqueSuffix,
+    recoveryPrivateKey
+  );
+  const deactivateOperationBuffer = deactivateOperation.operationBuffer;
+  fs.writeFileSync(
+    `${__dirname}/deactivateOperationBuffer.txt`,
+    deactivateOperationBuffer
   );
 };
 
