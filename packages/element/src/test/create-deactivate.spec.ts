@@ -27,7 +27,7 @@ beforeAll(async () => {
   await ledger._createNewContract();
   const testVersionConfig = require('./element-version-config.json');
   element = new Element(config, testVersionConfig, ledger);
-  await element.initialize();
+  await element.initialize(false, false);
 });
 
 afterAll(async () => {

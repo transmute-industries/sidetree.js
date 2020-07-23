@@ -88,7 +88,7 @@ export default class Core {
    * The initialization method that must be called before consumption of this core object.
    * The method starts the Observer and Batch Writer.
    */
-  public async initialize() {
+  public async initialize(startObserver = true, startBatchWriter = true) {
     await this.transactionStore.initialize();
     await this.unresolvableTransactionStore.initialize();
     await this.operationStore.initialize();
@@ -102,9 +102,13 @@ export default class Core {
       this.transactionStore
     ); // `VersionManager` is last initialized component.
 
-    await this.observer.startPeriodicProcessing();
+    if (startObserver) {
+      await this.observer.startPeriodicProcessing();
+    }
 
-    this.batchScheduler.startPeriodicBatchWriting();
+    if (startBatchWriter) {
+      this.batchScheduler.startPeriodicBatchWriting();
+    }
     this.blockchain.startPeriodicCachedBlockchainTimeRefresh();
     this.downloadManager.start();
   }
