@@ -119,7 +119,7 @@ export default class Core {
 
   public async triggerProcessTransactions() {
     // By passing true, we force the observer to wait for all transactions
-    // to be downloaded efore returning. We need that for testing
+    // to be downloaded before returning. We need that for testing
     await this.observer.processTransactions(true);
   }
 
