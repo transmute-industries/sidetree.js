@@ -45,8 +45,7 @@ it('should create a did', async () => {
   );
   expect(createOperation.status).toBe('succeeded');
   expect(createOperation.body).toEqual(resolveBody);
-  await element.triggerBatchWriting();
-  await element.triggerProcessTransactions();
+  await element.triggerBatchAndObserve();
   const txns = await element.transactionStore.getTransactions();
   expect(txns.length).toBe(1);
   const resolveRequest = await element.handleResolveRequest(shortFormDid);
@@ -58,8 +57,7 @@ it('should deactivate a did', async () => {
     deactivateOperationBuffer
   );
   expect(deactivateOperation.status).toBe('succeeded');
-  await element.triggerBatchWriting();
-  await element.triggerProcessTransactions();
+  await element.triggerBatchAndObserve();
   const txns = await element.transactionStore.getTransactions();
   expect(txns.length).toBe(2);
   const didUniqueSuffix = shortFormDid.split(':').pop();

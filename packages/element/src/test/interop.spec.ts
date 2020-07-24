@@ -51,8 +51,7 @@ it('should handle create operation', async () => {
 });
 
 it('should resolve after create', async () => {
-  await element.triggerBatchWriting();
-  await element.triggerProcessTransactions();
+  await element.triggerBatchAndObserve();
   const operation = await element.handleResolveRequest(
     'did:elem:EiDpoi14bmEVVUp-woMgEruPyPvVEMtOsXtyo51eQ0Tdig'
   );
@@ -68,8 +67,7 @@ it('should handle update operation', async () => {
 });
 
 it('should resolve after update', async () => {
-  await element.triggerBatchWriting();
-  await element.triggerProcessTransactions();
+  await element.triggerBatchAndObserve();
   const operation = await element.handleResolveRequest(
     'did:elem:EiDpoi14bmEVVUp-woMgEruPyPvVEMtOsXtyo51eQ0Tdig'
   );

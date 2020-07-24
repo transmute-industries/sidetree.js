@@ -123,6 +123,11 @@ export default class Core {
     await this.observer.processTransactions(true);
   }
 
+  public async triggerBatchAndObserve() {
+    await this.triggerBatchWriting();
+    await this.triggerProcessTransactions();
+  }
+
   public async close() {
     const currentTime = this.blockchain.approximateTime;
     const operationQueue = this.versionManager.getOperationQueue(

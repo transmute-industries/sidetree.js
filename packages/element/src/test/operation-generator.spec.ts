@@ -55,8 +55,7 @@ it('sanity', async () => {
     create.createOperation.operationBuffer
   );
   expect(operation.status).toBe('succeeded');
-  await element.triggerBatchWriting();
-  await element.triggerProcessTransactions();
+  await element.triggerBatchAndObserve();
   await new Promise(resolve => setTimeout(resolve, 10 * 1000));
   let txns = await element.transactionStore.getTransactions();
   expect(txns.length).toBe(1);
@@ -67,8 +66,7 @@ it('sanity', async () => {
     update.updateOperation.operationBuffer
   );
   expect(operation.status).toBe('succeeded');
-  await element.triggerBatchWriting();
-  await element.triggerProcessTransactions();
+  await element.triggerBatchAndObserve();
   await new Promise(resolve => setTimeout(resolve, 10 * 1000));
   txns = await element.transactionStore.getTransactions();
   expect(txns.length).toBe(2);

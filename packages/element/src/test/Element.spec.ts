@@ -62,8 +62,7 @@ describe('Element', () => {
   });
 
   it('should resolve a did after Observer has picked up the transaction', async () => {
-    await element.triggerBatchWriting();
-    await element.triggerProcessTransactions();
+    await element.triggerBatchAndObserve();
     const operation = await element.handleResolveRequest(shortFormDid);
     expect(operation.status).toBe('succeeded');
     expect(operation.body).toEqual(resolveBody);
