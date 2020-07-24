@@ -7,7 +7,6 @@ import {
 } from './__fixtures__';
 import { getTestElement } from './utils';
 
-jest.setTimeout(20 * 1000);
 console.info = () => null;
 
 let element: Element;

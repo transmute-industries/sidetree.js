@@ -9,8 +9,6 @@ import {
   resolveBody,
 } from './__fixtures__';
 
-jest.setTimeout(20 * 1000);
-
 console.info = () => null;
 
 describe('Element', () => {

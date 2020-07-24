@@ -3,7 +3,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { getTestElement } from './utils';
 
-jest.setTimeout(20 * 1000);
 console.info = () => null;
 
 let element: Element;
