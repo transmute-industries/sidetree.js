@@ -9,7 +9,10 @@ const generateDidFixtures = async () => {
     recoveryPrivateKey,
   ] = await Jwk.generateEs256kKeyPair();
 
-  const [signingPublicKey] = await OperationGenerator.generateKeyPair('key2');
+  const [
+    signingPublicKey,
+    signingPrivateKey,
+  ] = await OperationGenerator.generateKeyPair('key2');
 
   const services = OperationGenerator.generateServiceEndpoints([
     'serviceEndpointId123',
@@ -83,6 +86,16 @@ const generateDidFixtures = async () => {
     JSON.stringify(longFormResolveBody, null, 2)
   );
 
+  const updateOperation = await OperationGenerator.generateUpdateOperation(
+    createOperation.didUniqueSuffix,
+    signingPublicKey.jwk,
+    signingPrivateKey
+  );
+  const updateOperationBuffer = updateOperation.operationBuffer;
+  fs.writeFileSync(
+    `${__dirname}/updateOperationBuffer.txt`,
+    updateOperationBuffer
+  );
   const deactivateOperation = await OperationGenerator.createDeactivateOperation(
     createOperation.didUniqueSuffix,
     recoveryPrivateKey
