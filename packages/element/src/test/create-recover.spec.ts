@@ -1,7 +1,3 @@
-import { EthereumLedger } from '@sidetree/ledger';
-import { Config } from '@sidetree/common';
-import { MongoDb } from '@sidetree/db';
-import Web3 from 'web3';
 import Element from '../Element';
 import {
   shortFormDid,
@@ -9,31 +5,15 @@ import {
   resolveBody,
   recoverOperationBuffer,
 } from './__fixtures__';
+import { getTestElement } from './utils';
 
 jest.setTimeout(20 * 1000);
 console.info = () => null;
 
-let ledger: EthereumLedger;
 let element: Element;
-const config: Config = require('./element-config.json');
 
 beforeAll(async () => {
-  await MongoDb.resetDatabase(
-    config.mongoDbConnectionString,
-    config.databaseName!
-  );
-  const provider = 'http://localhost:8545';
-  const web3 = new Web3(provider);
-  ledger = new EthereumLedger(
-    web3,
-    '0xeaf43D28235275afDB504aBF49863e778a4Cfea0',
-    console
-  );
-  await ledger._createNewContract();
-  const testVersionConfig = require('./element-version-config.json');
-  element = new Element(config, testVersionConfig, ledger);
-  // TODO: REFACTOR
-  await element.initialize(false, false);
+  element = await getTestElement();
 });
 
 afterAll(async () => {

@@ -1,38 +1,17 @@
 import { OperationGenerator } from '@sidetree/core';
-import { EthereumLedger } from '@sidetree/ledger';
-import { Config } from '@sidetree/common';
-import { MongoDb } from '@sidetree/db';
-import Web3 from 'web3';
 import Element from '../Element';
+import { getTestElement } from './utils';
 
-jest.setTimeout(40 * 1000);
-
+jest.setTimeout(20 * 1000);
 console.info = () => null;
 
-let ledger: EthereumLedger;
 let element: Element;
-const config: Config = require('./element-config.json');
 
 beforeAll(async () => {
-  await MongoDb.resetDatabase(
-    config.mongoDbConnectionString,
-    config.databaseName!
-  );
-  const provider = 'http://localhost:8545';
-  const web3 = new Web3(provider);
-  ledger = new EthereumLedger(
-    web3,
-    '0xeaf43D28235275afDB504aBF49863e778a4Cfea0',
-    console
-  );
-  await ledger._createNewContract();
-  const testVersionConfig = require('./element-version-config.json');
-  element = new Element(config, testVersionConfig, ledger);
-  await element.initialize();
+  element = await getTestElement();
 });
 
 afterAll(async () => {
-  await new Promise(resolve => setTimeout(resolve, 2 * 1000));
   await element.close();
 });
 
@@ -56,7 +35,6 @@ it('sanity', async () => {
   );
   expect(operation.status).toBe('succeeded');
   await element.triggerBatchAndObserve();
-  await new Promise(resolve => setTimeout(resolve, 10 * 1000));
   let txns = await element.transactionStore.getTransactions();
   expect(txns.length).toBe(1);
   operation = await element.handleResolveRequest(
@@ -67,7 +45,6 @@ it('sanity', async () => {
   );
   expect(operation.status).toBe('succeeded');
   await element.triggerBatchAndObserve();
-  await new Promise(resolve => setTimeout(resolve, 10 * 1000));
   txns = await element.transactionStore.getTransactions();
   expect(txns.length).toBe(2);
   const ops = await element.operationStore.get(
