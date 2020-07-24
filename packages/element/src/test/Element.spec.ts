@@ -9,7 +9,7 @@ import {
   resolveBody,
 } from './__fixtures__';
 
-jest.setTimeout(15 * 1000);
+jest.setTimeout(20 * 1000);
 
 console.info = () => null;
 
@@ -34,7 +34,6 @@ describe('Element', () => {
   });
 
   afterAll(async () => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
     await element.close();
   });
 
@@ -45,7 +44,7 @@ describe('Element', () => {
   });
 
   it('should initialize the element class', async () => {
-    await element.initialize();
+    await element.initialize(false, false);
   });
 
   it('should get versions', async () => {
@@ -65,7 +64,6 @@ describe('Element', () => {
   it('should resolve a did after Observer has picked up the transaction', async () => {
     await element.triggerBatchWriting();
     await element.triggerProcessTransactions();
-    await new Promise(resolve => setTimeout(resolve, 10000));
     const operation = await element.handleResolveRequest(shortFormDid);
     expect(operation.status).toBe('succeeded');
     expect(operation.body).toEqual(resolveBody);
