@@ -2,7 +2,7 @@
   "name": "@sidetree/cas",
   "author": "Orie Steele",
   "module": "dist/sidetree-cas-ipfs.esm.js",
-  "version": "0.0.1-unstable.3",
+  "version": "0.0.1-unstable.4",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -31,7 +31,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@sidetree/common": "^0.0.1-unstable.3",
+    "@sidetree/common": "^0.0.1-unstable.4",
     "@types/node-fetch": "^2.5.7",
     "http-status": "^1.4.2",
     "ipfs-unixfs": "^1.0.3",
