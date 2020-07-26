@@ -1,11 +1,11 @@
 {
   "@context": "https://www.w3.org/ns/did-resolution/v1",
   "didDocument": {
-    "id": "did:elem:EiCMpYeL4NMvpOgkJZjCl5rT0OPcDjwtjnNITEH4T74G7Q?-elem-initial-state=eyJkZWx0YV9oYXNoIjoiRWlCMnhpMTNsTDBhQzFXTFhyLTl4aDhJb0ZJMGpLS1FzbFI5QzZ3UEw3VTBpQSIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUFoYVdRRGd4WkhrdC1nbXg2WF80S1RONmFaVnM0WmFVOGcwZG8wUUJ4Y0RnIn0.eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpRFlyaWxmZF9QckpGeVZpSFFPekdlay05cktJX0dFOUtUYmw4eEs0aE1RNVEiLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5MiIsInR5cGUiOiJFY2RzYVNlY3AyNTZrMVZlcmlmaWNhdGlvbktleTIwMTkiLCJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiLTFfOTBBOVUtcVFldWk1V2pNTEEtV1N6dFV0RzVuNVYzb3FnQ1FTek1pTSIsInkiOiJnSGtDSUZya2NXaThoY2N1czFlckMxbGZpc0x1UC1hSWt0Mk44SlJXMzBJIn0sInB1cnBvc2UiOlsiYXV0aCIsImdlbmVyYWwiXX1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siaWQiOiJzZXJ2aWNlRW5kcG9pbnRJZDEyMyIsInR5cGUiOiJzb21lVHlwZSIsImVuZHBvaW50IjoiaHR0cHM6Ly93d3cudXJsLmNvbSJ9XX19XX0",
+    "id": "did:elem:EiCV8m_kkNditcZn3CKakra5-Ngs7VDltXz1b3nsCfbslQ?-elem-initial-state=eyJkZWx0YV9oYXNoIjoiRWlBM01aOVJ5STBwVUIyQl9rNUV4UnRaejVkOEl6TnVGcFJuVmxYTUxIeFhHUSIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUN6T19NVk02eWhBR2RkbmlyUzhvMlFhT1pUN3dQc1RKa2JsRmUycnJzRkpRIn0.eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpRHdTRjJzcUN5bmQ3aTZ6VlljRE04aUZzajJoRnIwMTMzVkMyVFZLb2tHX3ciLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5MiIsInR5cGUiOiJFY2RzYVNlY3AyNTZrMVZlcmlmaWNhdGlvbktleTIwMTkiLCJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiVTRxeFEtSkx1T1doN0Q3U1EzRnNHUVpoczFWcTN3d284SnVNMDlXMWMxZyIsInkiOiI4MktCcmhnVU1RUzJ0UHRLdTU0S2xSay0tWXRIaHBsMlo2QmFyVEdTcnVFIn0sInB1cnBvc2UiOlsiYXV0aCIsImdlbmVyYWwiXX1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siaWQiOiJzZXJ2aWNlRW5kcG9pbnRJZDEyMyIsInR5cGUiOiJzb21lVHlwZSIsImVuZHBvaW50IjoiaHR0cHM6Ly93d3cudXJsLmNvbSJ9XX19XX0",
     "@context": [
       "https://www.w3.org/ns/did/v1",
       {
-        "@base": "did:elem:EiCMpYeL4NMvpOgkJZjCl5rT0OPcDjwtjnNITEH4T74G7Q?-elem-initial-state=eyJkZWx0YV9oYXNoIjoiRWlCMnhpMTNsTDBhQzFXTFhyLTl4aDhJb0ZJMGpLS1FzbFI5QzZ3UEw3VTBpQSIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUFoYVdRRGd4WkhrdC1nbXg2WF80S1RONmFaVnM0WmFVOGcwZG8wUUJ4Y0RnIn0.eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpRFlyaWxmZF9QckpGeVZpSFFPekdlay05cktJX0dFOUtUYmw4eEs0aE1RNVEiLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5MiIsInR5cGUiOiJFY2RzYVNlY3AyNTZrMVZlcmlmaWNhdGlvbktleTIwMTkiLCJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiLTFfOTBBOVUtcVFldWk1V2pNTEEtV1N6dFV0RzVuNVYzb3FnQ1FTek1pTSIsInkiOiJnSGtDSUZya2NXaThoY2N1czFlckMxbGZpc0x1UC1hSWt0Mk44SlJXMzBJIn0sInB1cnBvc2UiOlsiYXV0aCIsImdlbmVyYWwiXX1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siaWQiOiJzZXJ2aWNlRW5kcG9pbnRJZDEyMyIsInR5cGUiOiJzb21lVHlwZSIsImVuZHBvaW50IjoiaHR0cHM6Ly93d3cudXJsLmNvbSJ9XX19XX0"
+        "@base": "did:elem:EiCV8m_kkNditcZn3CKakra5-Ngs7VDltXz1b3nsCfbslQ?-elem-initial-state=eyJkZWx0YV9oYXNoIjoiRWlBM01aOVJ5STBwVUIyQl9rNUV4UnRaejVkOEl6TnVGcFJuVmxYTUxIeFhHUSIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUN6T19NVk02eWhBR2RkbmlyUzhvMlFhT1pUN3dQc1RKa2JsRmUycnJzRkpRIn0.eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpRHdTRjJzcUN5bmQ3aTZ6VlljRE04aUZzajJoRnIwMTMzVkMyVFZLb2tHX3ciLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5MiIsInR5cGUiOiJFY2RzYVNlY3AyNTZrMVZlcmlmaWNhdGlvbktleTIwMTkiLCJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiVTRxeFEtSkx1T1doN0Q3U1EzRnNHUVpoczFWcTN3d284SnVNMDlXMWMxZyIsInkiOiI4MktCcmhnVU1RUzJ0UHRLdTU0S2xSay0tWXRIaHBsMlo2QmFyVEdTcnVFIn0sInB1cnBvc2UiOlsiYXV0aCIsImdlbmVyYWwiXX1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siaWQiOiJzZXJ2aWNlRW5kcG9pbnRJZDEyMyIsInR5cGUiOiJzb21lVHlwZSIsImVuZHBvaW50IjoiaHR0cHM6Ly93d3cudXJsLmNvbSJ9XX19XX0"
       }
     ],
     "service": [
@@ -20,18 +20,20 @@
         "publicKeyJwk": {
           "kty": "EC",
           "crv": "secp256k1",
-          "x": "-1_90A9U-qQeui5WjMLA-WSztUtG5n5V3oqgCQSzMiM",
-          "y": "gHkCIFrkcWi8hccus1erC1lfisLuP-aIkt2N8JRW30I"
+          "x": "U4qxQ-JLuOWh7D7SQ3FsGQZhs1Vq3wwo8JuM09W1c1g",
+          "y": "82KBrhgUMQS2tPtKu54KlRk--YtHhpl2Z6BarTGSruE"
         },
         "controller": "",
         "id": "#key2",
         "type": "EcdsaSecp256k1VerificationKey2019"
       }
     ],
-    "authentication": ["#key2"]
+    "authentication": [
+      "#key2"
+    ]
   },
   "methodMetadata": {
-    "recovery_commitment": "EiAhaWQDgxZHkt-gmx6X_4KTN6aZVs4ZaU8g0do0QBxcDg",
-    "update_commitment": "EiDYrilfd_PrJFyViHQOzGek-9rKI_GE9KTbl8xK4hMQ5Q"
+    "recovery_commitment": "EiCzO_MVM6yhAGddnirS8o2QaOZT7wPsTJkblFe2rrsFJQ",
+    "update_commitment": "EiDwSF2sqCynd7i6zVYcDM8iFsj2hFr0133VC2TVKokG_w"
   }
 }

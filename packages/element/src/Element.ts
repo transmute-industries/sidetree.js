@@ -88,7 +88,7 @@ export default class Core {
    * The initialization method that must be called before consumption of this core object.
    * The method starts the Observer and Batch Writer.
    */
-  public async initialize() {
+  public async initialize(startObserver = true, startBatchWriter = true) {
     await this.transactionStore.initialize();
     await this.unresolvableTransactionStore.initialize();
     await this.operationStore.initialize();
@@ -102,9 +102,13 @@ export default class Core {
       this.transactionStore
     ); // `VersionManager` is last initialized component.
 
-    await this.observer.startPeriodicProcessing();
+    if (startObserver) {
+      await this.observer.startPeriodicProcessing();
+    }
 
-    this.batchScheduler.startPeriodicBatchWriting();
+    if (startBatchWriter) {
+      this.batchScheduler.startPeriodicBatchWriting();
+    }
     this.blockchain.startPeriodicCachedBlockchainTimeRefresh();
     this.downloadManager.start();
   }
@@ -114,7 +118,14 @@ export default class Core {
   }
 
   public async triggerProcessTransactions() {
-    await this.observer.processTransactions();
+    // By passing true, we force the observer to wait for all transactions
+    // to be downloaded before returning. We need that for testing
+    await this.observer.processTransactions(true);
+  }
+
+  public async triggerBatchAndObserve() {
+    await this.triggerBatchWriting();
+    await this.triggerProcessTransactions();
   }
 
   public async close() {
