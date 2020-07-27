@@ -1,44 +1,46 @@
 import * as fs from 'fs';
 
-const shortFormDid = fs
-  .readFileSync(`${__dirname}/shortFormDid.txt`)
-  .toString();
-const resolveBody = JSON.parse(
-  fs.readFileSync(`${__dirname}/resolveBody.json`).toString()
-);
-const longFormDid = fs.readFileSync(`${__dirname}/longFormDid.txt`).toString();
-const longFormResolveBody = JSON.parse(
-  fs.readFileSync(`${__dirname}/longFormResolveBody.json`).toString()
-);
+const parse = (name: string) => {
+  if (name.includes('Buffer.txt')) {
+    return Buffer.from(
+      fs.readFileSync(`${__dirname}/${name}`).toString()
+    );
+  }
+  if (name.includes('.txt')) {
+    return fs.readFileSync(`${__dirname}/${name}`)
+      .toString();
+  }
+  if (name.includes('.json')) {
+    return JSON.parse(fs.readFileSync(`${__dirname}/${name}`).toString());
+  }
+}
+
+const shortFormDid = parse('shortFormDid.txt');
+const resolveBody = parse('resolveBody.json');
+const longFormDid = parse('longFormDid.txt');
+const longFormResolveBody = parse('longFormResolveBody.json');
 
 // Operation buffers
-const createOperationBuffer = Buffer.from(
-  fs.readFileSync(`${__dirname}/createOperationBuffer.txt`).toString()
-);
-const updateOperationBuffer = Buffer.from(
-  fs.readFileSync(`${__dirname}/updateOperationBuffer.txt`).toString()
-);
-const deactivateOperationBuffer = Buffer.from(
-  fs.readFileSync(`${__dirname}/deactivateOperationBuffer.txt`).toString()
-);
-const recoverOperationBuffer = Buffer.from(
-  fs.readFileSync(`${__dirname}/recoverOperationBuffer.txt`).toString()
-);
+const createOperationBuffer = parse('createOperationBuffer.txt');
+const updateOperationBuffer = parse('updateOperationBuffer.txt');
+const deactivateOperationBuffer = parse('deactivateOperationBuffer.txt');
+const recoverOperationBuffer = parse('recoverOperationBuffer.txt');
 
-const createChunkFile = require('./createChunkFile.json');
-const createMapFile = require('./createMapFile.json');
-const createAnchorFile = require('./createAnchorFile.json');
+// Files
+const createChunkFile = parse('createChunkFile.json');
+const createMapFile = parse('createMapFile.json');
+const createAnchorFile = parse('createAnchorFile.json');
 
 export {
+  createAnchorFile,
   createChunkFile,
   createMapFile,
-  createAnchorFile,
-  shortFormDid,
-  resolveBody,
+  createOperationBuffer,
+  deactivateOperationBuffer,
   longFormDid,
   longFormResolveBody,
-  createOperationBuffer,
-  updateOperationBuffer,
-  deactivateOperationBuffer,
   recoverOperationBuffer,
+  resolveBody,
+  shortFormDid,
+  updateOperationBuffer,
 };
