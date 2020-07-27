@@ -1,6 +1,16 @@
-import { OperationGenerator, CreateOperation, Jwk } from '@sidetree/core';
+import {
+  AnchorFile,
+  ChunkFile,
+  MapFile,
+  OperationGenerator,
+  CreateOperation,
+  Jwk,
+} from '@sidetree/core';
 import { Config } from '@sidetree/common';
+import { MockCas } from '@sidetree/cas';
 import * as fs from 'fs';
+
+let createOperation: CreateOperation;
 
 const config: Config = require('../element-config.json');
 const generateDidFixtures = async () => {
@@ -26,7 +36,8 @@ const generateDidFixtures = async () => {
     `${__dirname}/createOperationBuffer.txt`,
     createOperationBuffer
   );
-  const createOperation = await CreateOperation.parse(createOperationBuffer);
+  createOperation = await CreateOperation.parse(createOperationBuffer);
+
   const didMethodName = config.didMethodName;
   const didUniqueSuffix = createOperation.didUniqueSuffix;
   const shortFormDid = `did:${didMethodName}:${didUniqueSuffix}`;
@@ -117,6 +128,46 @@ const generateDidFixtures = async () => {
   );
 };
 
+const generateFiles = async () => {
+  // Generate create chunk file fixture
+  const createChunkFileBuffer = await ChunkFile.createBuffer(
+    [createOperation],
+    [],
+    []
+  );
+  const createChunkFile = await ChunkFile.parse(createChunkFileBuffer);
+  const createChunkFileHash = await MockCas.getAddress(createChunkFileBuffer);
+  fs.writeFileSync(
+    `${__dirname}/createChunkFile.json`,
+    JSON.stringify(createChunkFile, null, 2)
+  );
+  // Generate create map file fixture
+  const createMapFileBuffer = await MapFile.createBuffer(
+    createChunkFileHash,
+    []
+  );
+  const createMapFile = await MapFile.parse(createMapFileBuffer);
+  const createMapFileHash = await MockCas.getAddress(createMapFileBuffer);
+  fs.writeFileSync(
+    `${__dirname}/createMapFile.json`,
+    JSON.stringify(createMapFile, null, 2)
+  );
+  // Generate create anchor file fixture
+  const createAnchorFileBuffer = await AnchorFile.createBuffer(
+    undefined,
+    createMapFileHash,
+    [createOperation],
+    [],
+    []
+  );
+  const createAnchorFile = await AnchorFile.parse(createAnchorFileBuffer);
+  fs.writeFileSync(
+    `${__dirname}/createAnchorFile.json`,
+    JSON.stringify(createAnchorFile, null, 2)
+  );
+};
+
 (async () => {
   await generateDidFixtures();
+  await generateFiles();
 })();

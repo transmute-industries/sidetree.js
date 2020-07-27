@@ -1,11 +1,11 @@
 {
   "@context": "https://www.w3.org/ns/did-resolution/v1",
   "didDocument": {
-    "id": "did:elem:EiCV8m_kkNditcZn3CKakra5-Ngs7VDltXz1b3nsCfbslQ?-elem-initial-state=eyJkZWx0YV9oYXNoIjoiRWlBM01aOVJ5STBwVUIyQl9rNUV4UnRaejVkOEl6TnVGcFJuVmxYTUxIeFhHUSIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUN6T19NVk02eWhBR2RkbmlyUzhvMlFhT1pUN3dQc1RKa2JsRmUycnJzRkpRIn0.eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpRHdTRjJzcUN5bmQ3aTZ6VlljRE04aUZzajJoRnIwMTMzVkMyVFZLb2tHX3ciLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5MiIsInR5cGUiOiJFY2RzYVNlY3AyNTZrMVZlcmlmaWNhdGlvbktleTIwMTkiLCJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiVTRxeFEtSkx1T1doN0Q3U1EzRnNHUVpoczFWcTN3d284SnVNMDlXMWMxZyIsInkiOiI4MktCcmhnVU1RUzJ0UHRLdTU0S2xSay0tWXRIaHBsMlo2QmFyVEdTcnVFIn0sInB1cnBvc2UiOlsiYXV0aCIsImdlbmVyYWwiXX1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siaWQiOiJzZXJ2aWNlRW5kcG9pbnRJZDEyMyIsInR5cGUiOiJzb21lVHlwZSIsImVuZHBvaW50IjoiaHR0cHM6Ly93d3cudXJsLmNvbSJ9XX19XX0",
+    "id": "did:elem:EiAcH4SeN2CNy6Kisq6br1RzNh_E_RzKcVJe0pJViEtzsw?-elem-initial-state=eyJkZWx0YV9oYXNoIjoiRWlESVZKV3ZicVJqX1NGTy1HdGtlbnhyWGtnVm9xWV9fS0ZVZGpHRVp1RThkdyIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUFMYm5YZlV1OTBZbnVDUG1BdFBPWFhDcHg5TXV0UEZUV3R3NkwxRU5VZ2lBIn0.eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpQlRjZklCc1MzRlU3b2hzcDlsS3FoTkNCSVA1emc2elBxS19vam96ckYtaUEiLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5MiIsInR5cGUiOiJFY2RzYVNlY3AyNTZrMVZlcmlmaWNhdGlvbktleTIwMTkiLCJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiY3dYUFBmdE9zMHlOdVNkU2hFeWR1RmtTcUJ1Tk1XUVMtVDU4WGtJZWV2TSIsInkiOiJ6b2FHWFZHVkJCWlRjNXB6YVpQLWxJaEtfVWY4RFkzanpqcUM1MHQ0dVRjIn0sInB1cnBvc2UiOlsiYXV0aCIsImdlbmVyYWwiXX1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siaWQiOiJzZXJ2aWNlRW5kcG9pbnRJZDEyMyIsInR5cGUiOiJzb21lVHlwZSIsImVuZHBvaW50IjoiaHR0cHM6Ly93d3cudXJsLmNvbSJ9XX19XX0",
     "@context": [
       "https://www.w3.org/ns/did/v1",
       {
-        "@base": "did:elem:EiCV8m_kkNditcZn3CKakra5-Ngs7VDltXz1b3nsCfbslQ?-elem-initial-state=eyJkZWx0YV9oYXNoIjoiRWlBM01aOVJ5STBwVUIyQl9rNUV4UnRaejVkOEl6TnVGcFJuVmxYTUxIeFhHUSIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUN6T19NVk02eWhBR2RkbmlyUzhvMlFhT1pUN3dQc1RKa2JsRmUycnJzRkpRIn0.eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpRHdTRjJzcUN5bmQ3aTZ6VlljRE04aUZzajJoRnIwMTMzVkMyVFZLb2tHX3ciLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5MiIsInR5cGUiOiJFY2RzYVNlY3AyNTZrMVZlcmlmaWNhdGlvbktleTIwMTkiLCJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiVTRxeFEtSkx1T1doN0Q3U1EzRnNHUVpoczFWcTN3d284SnVNMDlXMWMxZyIsInkiOiI4MktCcmhnVU1RUzJ0UHRLdTU0S2xSay0tWXRIaHBsMlo2QmFyVEdTcnVFIn0sInB1cnBvc2UiOlsiYXV0aCIsImdlbmVyYWwiXX1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siaWQiOiJzZXJ2aWNlRW5kcG9pbnRJZDEyMyIsInR5cGUiOiJzb21lVHlwZSIsImVuZHBvaW50IjoiaHR0cHM6Ly93d3cudXJsLmNvbSJ9XX19XX0"
+        "@base": "did:elem:EiAcH4SeN2CNy6Kisq6br1RzNh_E_RzKcVJe0pJViEtzsw?-elem-initial-state=eyJkZWx0YV9oYXNoIjoiRWlESVZKV3ZicVJqX1NGTy1HdGtlbnhyWGtnVm9xWV9fS0ZVZGpHRVp1RThkdyIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUFMYm5YZlV1OTBZbnVDUG1BdFBPWFhDcHg5TXV0UEZUV3R3NkwxRU5VZ2lBIn0.eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpQlRjZklCc1MzRlU3b2hzcDlsS3FoTkNCSVA1emc2elBxS19vam96ckYtaUEiLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5MiIsInR5cGUiOiJFY2RzYVNlY3AyNTZrMVZlcmlmaWNhdGlvbktleTIwMTkiLCJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiY3dYUFBmdE9zMHlOdVNkU2hFeWR1RmtTcUJ1Tk1XUVMtVDU4WGtJZWV2TSIsInkiOiJ6b2FHWFZHVkJCWlRjNXB6YVpQLWxJaEtfVWY4RFkzanpqcUM1MHQ0dVRjIn0sInB1cnBvc2UiOlsiYXV0aCIsImdlbmVyYWwiXX1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siaWQiOiJzZXJ2aWNlRW5kcG9pbnRJZDEyMyIsInR5cGUiOiJzb21lVHlwZSIsImVuZHBvaW50IjoiaHR0cHM6Ly93d3cudXJsLmNvbSJ9XX19XX0"
       }
     ],
     "service": [
@@ -20,8 +20,8 @@
         "publicKeyJwk": {
           "kty": "EC",
           "crv": "secp256k1",
-          "x": "U4qxQ-JLuOWh7D7SQ3FsGQZhs1Vq3wwo8JuM09W1c1g",
-          "y": "82KBrhgUMQS2tPtKu54KlRk--YtHhpl2Z6BarTGSruE"
+          "x": "cwXPPftOs0yNuSdShEyduFkSqBuNMWQS-T58XkIeevM",
+          "y": "zoaGXVGVBBZTc5pzaZP-lIhK_Uf8DY3jzjqC50t4uTc"
         },
         "controller": "",
         "id": "#key2",
@@ -33,7 +33,7 @@
     ]
   },
   "methodMetadata": {
-    "recovery_commitment": "EiCzO_MVM6yhAGddnirS8o2QaOZT7wPsTJkblFe2rrsFJQ",
-    "update_commitment": "EiDwSF2sqCynd7i6zVYcDM8iFsj2hFr0133VC2TVKokG_w"
+    "recovery_commitment": "EiALbnXfUu90YnuCPmAtPOXXCpx9MutPFTWtw6L1ENUgiA",
+    "update_commitment": "EiBTcfIBsS3FU7ohsp9lKqhNCBIP5zg6zPqK_ojozrF-iA"
   }
 }

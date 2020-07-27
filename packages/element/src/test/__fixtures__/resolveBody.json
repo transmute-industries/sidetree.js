@@ -1,11 +1,11 @@
 {
   "@context": "https://www.w3.org/ns/did-resolution/v1",
   "didDocument": {
-    "id": "did:elem:EiCV8m_kkNditcZn3CKakra5-Ngs7VDltXz1b3nsCfbslQ",
+    "id": "did:elem:EiAcH4SeN2CNy6Kisq6br1RzNh_E_RzKcVJe0pJViEtzsw",
     "@context": [
       "https://www.w3.org/ns/did/v1",
       {
-        "@base": "did:elem:EiCV8m_kkNditcZn3CKakra5-Ngs7VDltXz1b3nsCfbslQ"
+        "@base": "did:elem:EiAcH4SeN2CNy6Kisq6br1RzNh_E_RzKcVJe0pJViEtzsw"
       }
     ],
     "service": [
@@ -20,8 +20,8 @@
         "publicKeyJwk": {
           "kty": "EC",
           "crv": "secp256k1",
-          "x": "U4qxQ-JLuOWh7D7SQ3FsGQZhs1Vq3wwo8JuM09W1c1g",
-          "y": "82KBrhgUMQS2tPtKu54KlRk--YtHhpl2Z6BarTGSruE"
+          "x": "cwXPPftOs0yNuSdShEyduFkSqBuNMWQS-T58XkIeevM",
+          "y": "zoaGXVGVBBZTc5pzaZP-lIhK_Uf8DY3jzjqC50t4uTc"
         },
         "controller": "",
         "id": "#key2",
@@ -33,7 +33,7 @@
     ]
   },
   "methodMetadata": {
-    "recovery_commitment": "EiCzO_MVM6yhAGddnirS8o2QaOZT7wPsTJkblFe2rrsFJQ",
-    "update_commitment": "EiDwSF2sqCynd7i6zVYcDM8iFsj2hFr0133VC2TVKokG_w"
+    "recovery_commitment": "EiALbnXfUu90YnuCPmAtPOXXCpx9MutPFTWtw6L1ENUgiA",
+    "update_commitment": "EiBTcfIBsS3FU7ohsp9lKqhNCBIP5zg6zPqK_ojozrF-iA"
   }
 }
