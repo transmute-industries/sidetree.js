@@ -25,10 +25,14 @@ const recoverOperationBuffer = Buffer.from(
   fs.readFileSync(`${__dirname}/recoverOperationBuffer.txt`).toString()
 );
 
-const anchorFile = require('./anchorFile.json');
+const createChunkFile = require('./createChunkFile.json');
+const createMapFile = require('./createMapFile.json');
+const createAnchorFile = require('./createAnchorFile.json');
 
 export {
-  anchorFile,
+  createChunkFile,
+  createMapFile,
+  createAnchorFile,
   shortFormDid,
   resolveBody,
   longFormDid,
