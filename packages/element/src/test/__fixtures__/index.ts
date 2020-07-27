@@ -25,7 +25,10 @@ const recoverOperationBuffer = Buffer.from(
   fs.readFileSync(`${__dirname}/recoverOperationBuffer.txt`).toString()
 );
 
+const anchorFile = require('./anchorFile.json');
+
 export {
+  anchorFile,
   shortFormDid,
   resolveBody,
   longFormDid,
