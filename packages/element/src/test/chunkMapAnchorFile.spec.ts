@@ -21,7 +21,7 @@ afterAll(async () => {
   await element.close();
 });
 
-it('should generate valid files', async () => {
+it('create operation should generate expected chunk map and anchor files', async () => {
   expect.assertions(3);
   const spy = jest.spyOn((element as any).cas, 'write');
   let spyCallCounter = 0;
