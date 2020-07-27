@@ -21,11 +21,11 @@ afterAll(async () => {
   await element.close();
 });
 
-it('should generate valid files', async (done) => {
+it('should generate valid files', async done => {
   expect.assertions(3);
   const spy = jest.spyOn((element as any).cas, 'write');
   let spyCallCounter = 0;
-  spy.mockImplementation(async (content) => {
+  spy.mockImplementation(async content => {
     const encodedHash = await MockCas.getAddress(content as Buffer);
     if (spyCallCounter === 0) {
       // Chunk file
@@ -38,7 +38,7 @@ it('should generate valid files', async (done) => {
     } else if (spyCallCounter === 2) {
       // Anchor file
       const parsedAnchorFile = await AnchorFile.parse(content as Buffer);
-      const jsonAnchorFile = JSON.parse(JSON.stringify(parsedAnchorFile))
+      const jsonAnchorFile = JSON.parse(JSON.stringify(parsedAnchorFile));
       expect(jsonAnchorFile).toEqual(createAnchorFile);
       done();
     }

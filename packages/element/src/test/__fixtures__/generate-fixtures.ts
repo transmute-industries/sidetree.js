@@ -137,7 +137,10 @@ const generateFiles = async () => {
   );
   const createChunkFile = await ChunkFile.parse(createChunkFileBuffer);
   const createChunkFileHash = await MockCas.getAddress(createChunkFileBuffer);
-  fs.writeFileSync(`${__dirname}/createChunkFile.json`, JSON.stringify(createChunkFile, null, 2));
+  fs.writeFileSync(
+    `${__dirname}/createChunkFile.json`,
+    JSON.stringify(createChunkFile, null, 2)
+  );
   // Generate create map file fixture
   const createMapFileBuffer = await MapFile.createBuffer(
     createChunkFileHash,
@@ -145,7 +148,10 @@ const generateFiles = async () => {
   );
   const createMapFile = await MapFile.parse(createMapFileBuffer);
   const createMapFileHash = await MockCas.getAddress(createMapFileBuffer);
-  fs.writeFileSync(`${__dirname}/createMapFile.json`, JSON.stringify(createMapFile, null, 2));
+  fs.writeFileSync(
+    `${__dirname}/createMapFile.json`,
+    JSON.stringify(createMapFile, null, 2)
+  );
   // Generate create anchor file fixture
   const createAnchorFileBuffer = await AnchorFile.createBuffer(
     undefined,
@@ -155,8 +161,11 @@ const generateFiles = async () => {
     []
   );
   const createAnchorFile = await AnchorFile.parse(createAnchorFileBuffer);
-  fs.writeFileSync(`${__dirname}/createAnchorFile.json`, JSON.stringify(createAnchorFile, null, 2));
-}
+  fs.writeFileSync(
+    `${__dirname}/createAnchorFile.json`,
+    JSON.stringify(createAnchorFile, null, 2)
+  );
+};
 
 (async () => {
   await generateDidFixtures();

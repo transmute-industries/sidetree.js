@@ -2,18 +2,15 @@ import * as fs from 'fs';
 
 const parse = (name: string) => {
   if (name.includes('Buffer.txt')) {
-    return Buffer.from(
-      fs.readFileSync(`${__dirname}/${name}`).toString()
-    );
+    return Buffer.from(fs.readFileSync(`${__dirname}/${name}`).toString());
   }
   if (name.includes('.txt')) {
-    return fs.readFileSync(`${__dirname}/${name}`)
-      .toString();
+    return fs.readFileSync(`${__dirname}/${name}`).toString();
   }
   if (name.includes('.json')) {
     return JSON.parse(fs.readFileSync(`${__dirname}/${name}`).toString());
   }
-}
+};
 
 const shortFormDid = parse('shortFormDid.txt');
 const resolveBody = parse('resolveBody.json');
