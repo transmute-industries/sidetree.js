@@ -17,7 +17,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-push": "lerna run lint --since HEAD --exclude-dependents"
+      "pre-push": "lerna run lint --since origin/master --exclude-dependents"
     }
   },
   "devDependencies": {
