@@ -21,7 +21,7 @@ afterAll(async () => {
   await element.close();
 });
 
-it('should generate a valid anchor file', async (done) => {
+it('should generate valid files', async (done) => {
   expect.assertions(3);
   const spy = jest.spyOn((element as any).cas, 'write');
   let spyCallCounter = 0;
