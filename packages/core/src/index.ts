@@ -1,3 +1,4 @@
+import AnchorFile from './write/AnchorFile';
 import BatchScheduler from './write/BatchScheduler';
 import CreateOperation from './CreateOperation';
 import DownloadManager from './DownloadManager';
@@ -9,6 +10,7 @@ import ServiceInfo from './ServiceInfoProvider';
 import VersionManager from './VersionManager';
 
 export {
+  AnchorFile,
   BatchScheduler,
   CreateOperation,
   DownloadManager,
