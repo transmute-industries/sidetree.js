@@ -1,12 +1,11 @@
 import {
   AnchorFile,
   ChunkFile,
+  CreateOperation,
   MapFile,
   OperationGenerator,
-  CreateOperation,
-  Jwk,
 } from '@sidetree/core';
-import { Config } from '@sidetree/common';
+import { Config, PublicKeyPurpose, Multihash } from '@sidetree/common';
 import { MockCas } from '@sidetree/cas';
 import * as fs from 'fs';
 
@@ -14,19 +13,83 @@ let createOperation: CreateOperation;
 
 const config: Config = require('../element-config.json');
 const generateDidFixtures = async () => {
-  const [
-    recoveryPublicKey,
-    recoveryPrivateKey,
-  ] = await Jwk.generateEs256kKeyPair();
+  // const [
+  //   recoveryPublicKey,
+  //   recoveryPrivateKey,
+  // ] = await Jwk.generateEs256kKeyPair();
+  const recoveryPublicKey = {
+    kty: 'EC',
+    crv: 'secp256k1',
+    x: 'XvoL6RfcylYRR997IxP3YorX2I8co8TEMyv6k3O-NZw',
+    y: '2XDM99zebqzM6TK3ZZMQx4qb8FGfeScE5uRP3_2st0k',
+  };
+  const recoveryPrivateKey = {
+    d: '8vvq3tLi88ImRvY053-RfWW22zqAtrTsD4AUuF3pttU',
+    kty: 'EC',
+    crv: 'secp256k1',
+    x: 'XvoL6RfcylYRR997IxP3YorX2I8co8TEMyv6k3O-NZw',
+    y: '2XDM99zebqzM6TK3ZZMQx4qb8FGfeScE5uRP3_2st0k',
+  };
+  console.log(Boolean(recoveryPrivateKey));
 
-  const [
-    signingPublicKey,
-    signingPrivateKey,
-  ] = await OperationGenerator.generateKeyPair('key2');
+  // const [
+  //   signingPublicKey,
+  //   signingPrivateKey,
+  // ] = await OperationGenerator.generateKeyPair('key2');
+  const signingPublicKey = {
+    id: 'key2',
+    type: 'EcdsaSecp256k1VerificationKey2019',
+    jwk: {
+      kty: 'EC',
+      crv: 'secp256k1',
+      x: '3VR7UmXTSgYur184XWUUFO3stZSiHw8rz2RlEkv8HxU',
+      y: 'IttzqtQqCN6AbFmuxkndwcVh59E3ZHWSpNBvLckubYw',
+    },
+    purpose: [PublicKeyPurpose.Auth, PublicKeyPurpose.General],
+  };
+  const signingPrivateKey = {
+    d: '7Z4OWeJgC_bZ1DYnpUVAvegeQjs6UBjKYopGz3YSZNA',
+    kty: 'EC',
+    crv: 'secp256k1',
+    x: '3VR7UmXTSgYur184XWUUFO3stZSiHw8rz2RlEkv8HxU',
+    y: 'IttzqtQqCN6AbFmuxkndwcVh59E3ZHWSpNBvLckubYw',
+  };
 
-  const services = OperationGenerator.generateServiceEndpoints([
-    'serviceEndpointId123',
-  ]);
+  // const services = OperationGenerator.generateServiceEndpoints([
+  //   'serviceEndpointId123',
+  // ]);
+  const services = [
+    {
+      id: 'serviceEndpointId123',
+      type: 'someType',
+      endpoint: 'https://www.url.com',
+    },
+  ];
+
+  // const additionalKeyId = `additional-key`;
+  // const [
+  //   additionalPublicKey,
+  //   additionalPrivateKey,
+  // ] = await OperationGenerator.generateKeyPair(additionalKeyId);
+  const additionalPublicKey = {
+    id: 'additional-key',
+    type: 'EcdsaSecp256k1VerificationKey2019',
+    jwk: {
+      kty: 'EC',
+      crv: 'secp256k1',
+      x: 'j1y5BVdvA3dRxBP47BViWfOF3JYixPNDaDHClQbofU0',
+      y: 'alJ3bb-lFAL8YGQUnnSBnM_ZbKtRPD7XjFeXy95dBiA',
+    },
+    purpose: [PublicKeyPurpose.Auth, PublicKeyPurpose.General],
+  };
+  const additionalPrivateKey = {
+    d: 'nHF1j2NbnLYKr_LETjECwig2MV_vT825LAjM7GQyn9w',
+    kty: 'EC',
+    crv: 'secp256k1',
+    x: 'j1y5BVdvA3dRxBP47BViWfOF3JYixPNDaDHClQbofU0',
+    y: 'alJ3bb-lFAL8YGQUnnSBnM_ZbKtRPD7XjFeXy95dBiA',
+  };
+
   const createOperationBuffer = await OperationGenerator.generateCreateOperationBuffer(
     recoveryPublicKey,
     signingPublicKey,
@@ -97,12 +160,16 @@ const generateDidFixtures = async () => {
     JSON.stringify(longFormResolveBody, null, 2)
   );
 
-  const updateOperation = await OperationGenerator.generateUpdateOperation(
-    createOperation.didUniqueSuffix,
+  const operationJson = await OperationGenerator.createUpdateOperationRequestForAddingAKey(
+    didUniqueSuffix,
     signingPublicKey.jwk,
-    signingPrivateKey
+    signingPrivateKey,
+    additionalPublicKey,
+    Multihash.canonicalizeThenHashThenEncode(additionalPublicKey)
   );
-  const updateOperationBuffer = updateOperation.operationBuffer;
+
+  const updateOperationBuffer = Buffer.from(JSON.stringify(operationJson));
+
   fs.writeFileSync(
     `${__dirname}/updateOperationBuffer.txt`,
     updateOperationBuffer
