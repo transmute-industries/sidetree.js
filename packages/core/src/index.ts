@@ -9,6 +9,7 @@ import Observer from './Observer';
 import OperationGenerator from './test/generators/OperationGenerator';
 import Resolver from './Resolver';
 import ServiceInfo from './ServiceInfoProvider';
+import UpdateOperation from './UpdateOperation';
 import VersionManager from './VersionManager';
 
 export {
@@ -23,5 +24,6 @@ export {
   OperationGenerator,
   Resolver,
   ServiceInfo,
+  UpdateOperation,
   VersionManager,
 };
