@@ -30,7 +30,6 @@ const generateDidFixtures = async () => {
     x: 'XvoL6RfcylYRR997IxP3YorX2I8co8TEMyv6k3O-NZw',
     y: '2XDM99zebqzM6TK3ZZMQx4qb8FGfeScE5uRP3_2st0k',
   };
-  console.log(Boolean(recoveryPrivateKey));
 
   // const [
   //   signingPublicKey,
