@@ -12,11 +12,24 @@ import * as fs from 'fs';
 let createOperation: CreateOperation;
 
 const config: Config = require('../element-config.json');
-const generateDidFixtures = async () => {
+
+const generateKeys = () => {
+  // Run this code to generate the following key material
+
   // const [
   //   recoveryPublicKey,
   //   recoveryPrivateKey,
   // ] = await Jwk.generateEs256kKeyPair();
+  // const [
+  //   signingPublicKey,
+  //   signingPrivateKey,
+  // ] = await OperationGenerator.generateKeyPair('key2');
+  // const additionalKeyId = `additional-key`;
+  // const [
+  //   additionalPublicKey,
+  //   additionalPrivateKey,
+  // ] = await OperationGenerator.generateKeyPair(additionalKeyId);
+
   const recoveryPublicKey = {
     kty: 'EC',
     crv: 'secp256k1',
@@ -31,10 +44,6 @@ const generateDidFixtures = async () => {
     y: '2XDM99zebqzM6TK3ZZMQx4qb8FGfeScE5uRP3_2st0k',
   };
 
-  // const [
-  //   signingPublicKey,
-  //   signingPrivateKey,
-  // ] = await OperationGenerator.generateKeyPair('key2');
   const signingPublicKey = {
     id: 'key2',
     type: 'EcdsaSecp256k1VerificationKey2019',
@@ -54,22 +63,6 @@ const generateDidFixtures = async () => {
     y: 'IttzqtQqCN6AbFmuxkndwcVh59E3ZHWSpNBvLckubYw',
   };
 
-  // const services = OperationGenerator.generateServiceEndpoints([
-  //   'serviceEndpointId123',
-  // ]);
-  const services = [
-    {
-      id: 'serviceEndpointId123',
-      type: 'someType',
-      endpoint: 'https://www.url.com',
-    },
-  ];
-
-  // const additionalKeyId = `additional-key`;
-  // const [
-  //   additionalPublicKey,
-  //   additionalPrivateKey,
-  // ] = await OperationGenerator.generateKeyPair(additionalKeyId);
   const additionalPublicKey = {
     id: 'additional-key',
     type: 'EcdsaSecp256k1VerificationKey2019',
@@ -88,6 +81,29 @@ const generateDidFixtures = async () => {
     x: 'j1y5BVdvA3dRxBP47BViWfOF3JYixPNDaDHClQbofU0',
     y: 'alJ3bb-lFAL8YGQUnnSBnM_ZbKtRPD7XjFeXy95dBiA',
   };
+
+  return {
+    recoveryPublicKey,
+    recoveryPrivateKey,
+    signingPublicKey,
+    signingPrivateKey,
+    additionalPublicKey,
+    additionalPrivateKey,
+  };
+};
+
+const generateDidFixtures = async () => {
+  const {
+    recoveryPublicKey,
+    recoveryPrivateKey,
+    signingPublicKey,
+    signingPrivateKey,
+    additionalPublicKey,
+  } = generateKeys();
+
+  const services = OperationGenerator.generateServiceEndpoints([
+    'serviceEndpointId123',
+  ]);
 
   const createOperationBuffer = await OperationGenerator.generateCreateOperationBuffer(
     recoveryPublicKey,
