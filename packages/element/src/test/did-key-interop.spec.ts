@@ -11,7 +11,6 @@ const privKeyBuffer = Buffer.from(
   '77d5b3ac2c9bf0f11fe3eca90102f2a2adcf5285f2e0fc4b936dae17b33fece5',
   'hex'
 );
-const pubKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer);
 
 const privKeyJwk = {
   kty: 'EC',
@@ -41,7 +40,7 @@ it('should convert hex keys to jwk', async () => {
 });
 
 it('should convert jwk to hex keys', async () => {
-  const generatedPrivKeyBuffer = keyto
+  const generatedPrivKeyHex = keyto
     .from(
       {
         ...privKeyJwk,
@@ -50,7 +49,8 @@ it('should convert jwk to hex keys', async () => {
       'jwk'
     )
     .toString('blk', 'private');
-  expect(generatedPrivKeyBuffer).toEqual(privKeyBuffer.toString('hex'));
+  const privKeyHex = privKeyBuffer.toString('hex');
+  expect(generatedPrivKeyHex).toEqual(privKeyHex);
 
   const generatedPubKeyHex = keyto
     .from(
@@ -61,8 +61,10 @@ it('should convert jwk to hex keys', async () => {
       'jwk'
     )
     .toString('blk', 'public');
-  const pubKeyHex = Buffer.from(pubKeyBuffer.buffer).toString('hex');
-  expect(generatedPubKeyHex).toContain(pubKeyHex.slice(2));
+  const pubKeyHex = Buffer.from(
+    secp256k1.publicKeyCreate(privKeyBuffer, false)
+  ).toString('hex');
+  expect(generatedPubKeyHex).toContain(pubKeyHex);
 });
 
 it('should deterministically sign a message with the secp256k1 library', async () => {
@@ -70,6 +72,7 @@ it('should deterministically sign a message with the secp256k1 library', async (
   expect(sigObj.signature.toString()).toEqual(
     '93,1,81,185,221,191,130,146,188,160,194,22,68,101,164,242,90,169,53,35,56,104,146,45,244,150,85,218,189,87,7,90,103,239,178,217,186,78,14,211,238,94,127,188,200,233,106,104,100,234,77,181,63,176,214,202,76,142,127,204,43,143,11,133'
   );
+  const pubKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer);
   expect(
     secp256k1.ecdsaVerify(sigObj.signature, msg, pubKeyBuffer)
   ).toBeTruthy();
