@@ -27,6 +27,7 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
+    "@transmute/did-key-secp256k1": "^0.2.1-unstable.3",
     "@trust/keyto": "^1.0.1",
     "@types/secp256k1": "^4.0.1",
     "base64url": "^3.0.1",

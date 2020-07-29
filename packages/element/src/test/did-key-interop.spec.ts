@@ -1,4 +1,5 @@
 import secp256k1 from 'secp256k1';
+import { ES256K } from '@transmute/did-key-secp256k1';
 import keyto from '@trust/keyto';
 import { Jws } from '@sidetree/core';
 import base64url from 'base64url';
@@ -7,6 +8,11 @@ const msg = Buffer.from(
   'e0cb3d2aa10da7445e52e7131c837ffc8281f0246ceb9d8f3a408d181824724f',
   'hex'
 );
+
+const header = {
+  alg: 'ES256K',
+};
+
 const privKeyBuffer = Buffer.from(
   '77d5b3ac2c9bf0f11fe3eca90102f2a2adcf5285f2e0fc4b936dae17b33fece5',
   'hex'
@@ -67,50 +73,38 @@ it('should convert jwk to hex keys', async () => {
   expect(generatedPubKeyHex).toContain(pubKeyHex);
 });
 
-it('should deterministically sign a message with the secp256k1 library', async () => {
-  const sigObj = secp256k1.ecdsaSign(msg, privKeyBuffer);
-  expect(sigObj.signature.toString()).toEqual(
-    '93,1,81,185,221,191,130,146,188,160,194,22,68,101,164,242,90,169,53,35,56,104,146,45,244,150,85,218,189,87,7,90,103,239,178,217,186,78,14,211,238,94,127,188,200,233,106,104,100,234,77,181,63,176,214,202,76,142,127,204,43,143,11,133'
-  );
-  const pubKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer);
-  expect(
-    secp256k1.ecdsaVerify(sigObj.signature, msg, pubKeyBuffer)
-  ).toBeTruthy();
+it('should deterministically sign a message with did-key ES256K lib', async () => {
+  const privateKeyWithKid = {
+    ...privKeyJwk,
+    kid: '',
+  };
+  const publicKeyWithKid = {
+    ...publicKeyJwk,
+    kid: '',
+  };
+  const jws = await ES256K.sign(msg, privateKeyWithKid);
+  const verified = await ES256K.verify(jws, publicKeyWithKid);
+  expect(verified).toBeTruthy();
+  const jws2 = await ES256K.sign(msg, privateKeyWithKid);
+  const verified2 = await ES256K.verify(jws, publicKeyWithKid);
+  expect(verified2).toBeTruthy();
+  // Signatures are the same because signature is deterministic
+  expect(jws).toEqual(jws2);
 });
 
 it('should nondeterministically sign a message with the JOSE library', async () => {
-  const jws = await Jws.sign(
-    {
-      alg: 'ES256K',
-    },
-    msg,
-    privKeyJwk
-  );
-  const verify = await Jws.verifySignature(
-    jws.protected,
-    jws.payload,
-    jws.signature,
-    publicKeyJwk
-  );
-  expect(verify).toBeTruthy();
-  const jws2 = await Jws.sign(
-    {
-      alg: 'ES256K',
-    },
-    msg,
-    privKeyJwk
-  );
-  const verify2 = await Jws.verifySignature(
-    jws2.protected,
-    jws2.payload,
-    jws2.signature,
-    publicKeyJwk
-  );
-  expect(verify2).toBeTruthy();
+  const jws = await Jws.signAsCompactJws(msg, privKeyJwk, header);
+  const verified = await Jws.verifyCompactJws(jws, publicKeyJwk);
+  expect(verified).toBeTruthy();
+  const jws2 = await Jws.signAsCompactJws(msg, privKeyJwk, header);
+  const verified2 = await Jws.verifyCompactJws(jws2, publicKeyJwk);
+  expect(verified2).toBeTruthy();
   // Show that signatures are different
-  expect(jws.protected).toBe(jws2.protected);
-  expect(jws.payload).toBe(jws2.payload);
-  expect(jws.signature).not.toBe(jws2.signature);
+  const [protectedHeader, payload, signature] = jws.split('.');
+  const [protectedHeader2, payload2, signature2] = jws2.split('.');
+  expect(protectedHeader).toBe(protectedHeader2);
+  expect(payload).toBe(payload2);
+  expect(signature).not.toBe(signature2);
 });
 
 it('should sign with JOSE and verify with secp256k1 library', async () => {
