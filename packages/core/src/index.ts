@@ -4,6 +4,7 @@ import ChunkFile from './write/ChunkFile';
 import CreateOperation from './CreateOperation';
 import DownloadManager from './DownloadManager';
 import Jwk from './util/Jwk';
+import Jws from './util/Jws';
 import MapFile from './write/MapFile';
 import Observer from './Observer';
 import OperationGenerator from './test/generators/OperationGenerator';
@@ -19,6 +20,7 @@ export {
   CreateOperation,
   DownloadManager,
   Jwk,
+  Jws,
   MapFile,
   Observer,
   OperationGenerator,

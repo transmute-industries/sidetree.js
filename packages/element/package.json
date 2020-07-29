@@ -27,6 +27,7 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
+    "@trust/keyto": "^1.0.1",
     "@types/secp256k1": "^4.0.1",
     "fs": "0.0.1-security",
     "secp256k1": "^4.0.2",
