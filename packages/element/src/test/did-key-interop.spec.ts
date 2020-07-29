@@ -1,6 +1,7 @@
 import secp256k1 from 'secp256k1';
 import keyto from '@trust/keyto';
 import { Jws } from '@sidetree/core';
+import base64url from 'base64url';
 
 const msg = Buffer.from(
   'e0cb3d2aa10da7445e52e7131c837ffc8281f0246ceb9d8f3a408d181824724f',
@@ -59,4 +60,35 @@ it('should nondeterministically sign a message with the JOSE library', async () 
   expect(jws.protected).toBe(jws2.protected);
   expect(jws.payload).toBe(jws2.payload);
   expect(jws.signature).not.toBe(jws2.signature);
+});
+
+it('should sign with secp256k1 and verify with JOSE library', async () => {
+  // Sanity check, verify that JWS signature can be verified by the JWS lib
+  const jws = await Jws.sign(
+    {
+      alg: 'ES256K',
+    },
+    msg,
+    privKeyJwk
+  );
+  const verify = await Jws.verifySignature(
+    base64url.encode(JSON.stringify({ alg: 'ES256K' })),
+    base64url.encode(msg),
+    jws.signature,
+    publicKeyJwk
+  );
+  expect(verify).toBeTruthy();
+
+  // Verify that secp256k1 signature can be verified by the JWS lib
+  const sigObj = secp256k1.ecdsaSign(msg, privKeyHex);
+  const sigBuffer = Buffer.from(sigObj.signature.buffer);
+
+  const verify2 = await Jws.verifySignature(
+    base64url.encode(JSON.stringify({ alg: 'ES256K' })),
+    base64url.encode(msg),
+    base64url.encode(sigBuffer),
+    publicKeyJwk
+  );
+  // FIXME: this should pass but does not
+  expect(verify2).toBeTruthy();
 });
