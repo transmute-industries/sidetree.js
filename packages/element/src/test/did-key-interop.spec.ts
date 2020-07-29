@@ -113,6 +113,33 @@ it('should nondeterministically sign a message with the JOSE library', async () 
   expect(jws.signature).not.toBe(jws2.signature);
 });
 
+it('should sign with JOSE and verify with secp256k1 library', async () => {
+  const pubKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer);
+
+  // Sanity check, verify that secp256k1 signature can be verified by the secp256k1 lib
+  const sigObj = secp256k1.ecdsaSign(msg, privKeyBuffer);
+  const verified = secp256k1.ecdsaVerify(sigObj.signature, msg, pubKeyBuffer);
+  expect(verified).toBeTruthy();
+
+  // Verify that JWS signature can be verified by the secp256k1 lib
+  const jws = await Jws.sign(
+    {
+      alg: 'ES256K',
+    },
+    msg,
+    privKeyJwk
+  );
+  const signatureBuffer = base64url.toBuffer(jws.signature);
+  const signatureUintArray = new Uint8Array(signatureBuffer);
+  const verified2 = secp256k1.ecdsaVerify(
+    signatureUintArray,
+    msg,
+    pubKeyBuffer
+  );
+  // FIXME: this should pass but does not
+  expect(verified2).toBeTruthy();
+});
+
 it('should sign with secp256k1 and verify with JOSE library', async () => {
   // Sanity check, verify that JWS signature can be verified by the JWS lib
   const jws = await Jws.sign(
