@@ -2,6 +2,7 @@ import secp256k1 from 'secp256k1';
 import { ES256K } from '@transmute/did-key-secp256k1';
 import keyto from '@trust/keyto';
 import { JWS } from 'jose';
+import { publicKeyJwk, privateKeyJwk, privateKeyBuffer } from './__fixtures__';
 
 const msg = Buffer.from(JSON.stringify({ hello: 'world' }));
 
@@ -9,36 +10,16 @@ const header = {
   alg: 'ES256K',
 };
 
-const privKeyBuffer = Buffer.from(
-  '77d5b3ac2c9bf0f11fe3eca90102f2a2adcf5285f2e0fc4b936dae17b33fece5',
-  'hex'
-);
-
-const privKeyJwk = {
-  kty: 'EC',
-  crv: 'secp256k1',
-  d: 'd9WzrCyb8PEf4-ypAQLyoq3PUoXy4PxLk22uF7M_7OU',
-  x: '3PAeFnNa_R6vxH6dDfzoH5K0O7UAmX342SzlL-4aEZE',
-  y: '1Rw6RknAvKUDaRFVO_NlTJnp7PrxtBfQOvlScUIk6qY',
-};
-
-const publicKeyJwk = {
-  kty: 'EC',
-  crv: 'secp256k1',
-  x: '3PAeFnNa_R6vxH6dDfzoH5K0O7UAmX342SzlL-4aEZE',
-  y: '1Rw6RknAvKUDaRFVO_NlTJnp7PrxtBfQOvlScUIk6qY',
-};
-
 describe('Convert key formats', () => {
   it('should convert hex keys to jwk', async () => {
     const generatedPrivKeyJwk = keyto
-      .from(privKeyBuffer, 'blk')
+      .from(privateKeyBuffer.toString('hex'), 'blk')
       .toJwk('private');
     generatedPrivKeyJwk.crv = 'secp256k1';
-    expect(generatedPrivKeyJwk).toEqual(privKeyJwk);
+    expect(generatedPrivKeyJwk).toEqual(privateKeyJwk);
 
     const generatedPublicKeyJwk = keyto
-      .from(privKeyBuffer, 'blk')
+      .from(privateKeyBuffer, 'blk')
       .toJwk('public');
     generatedPublicKeyJwk.crv = 'secp256k1';
     expect(generatedPublicKeyJwk).toEqual(publicKeyJwk);
@@ -48,13 +29,13 @@ describe('Convert key formats', () => {
     const generatedPrivKeyHex = keyto
       .from(
         {
-          ...privKeyJwk,
+          ...privateKeyJwk,
           crv: 'K-256',
         },
         'jwk'
       )
       .toString('blk', 'private');
-    const privKeyHex = privKeyBuffer.toString('hex');
+    const privKeyHex = privateKeyBuffer.toString('hex');
     expect(generatedPrivKeyHex).toEqual(privKeyHex);
 
     const generatedPubKeyHex = keyto
@@ -67,7 +48,7 @@ describe('Convert key formats', () => {
       )
       .toString('blk', 'public');
     const pubKeyHex = Buffer.from(
-      secp256k1.publicKeyCreate(privKeyBuffer, false)
+      secp256k1.publicKeyCreate(privateKeyBuffer, false)
     ).toString('hex');
     expect(generatedPubKeyHex).toContain(pubKeyHex);
   });
@@ -76,7 +57,7 @@ describe('Convert key formats', () => {
 describe('Interop between did key ES256K lib and JOSE lib', () => {
   it('should deterministically sign a message with did-key ES256K lib', async () => {
     const privateKeyWithKid = {
-      ...privKeyJwk,
+      ...privateKeyJwk,
       kid: '',
     };
     const publicKeyWithKid = {
@@ -94,10 +75,10 @@ describe('Interop between did key ES256K lib and JOSE lib', () => {
   });
 
   it('should nondeterministically sign a message with the JOSE library', async () => {
-    const jws = await JWS.sign(msg, privKeyJwk as any, header);
+    const jws = await JWS.sign(msg, privateKeyJwk as any, header);
     const verified = await JWS.verify(jws, publicKeyJwk as any);
     expect(verified).toBeTruthy();
-    const jws2 = await JWS.sign(msg, privKeyJwk as any, header);
+    const jws2 = await JWS.sign(msg, privateKeyJwk as any, header);
     const verified2 = await JWS.verify(jws2, publicKeyJwk as any);
     expect(verified2).toBeTruthy();
     // Show that signatures are different
@@ -110,7 +91,7 @@ describe('Interop between did key ES256K lib and JOSE lib', () => {
 
   it('should sign with did key ES256K and verify with JOSE', async () => {
     const privateKeyWithKid = {
-      ...privKeyJwk,
+      ...privateKeyJwk,
       kid: '',
     };
     const jws = await ES256K.sign(msg, privateKeyWithKid);
@@ -119,7 +100,7 @@ describe('Interop between did key ES256K lib and JOSE lib', () => {
   });
 
   it('should sign with JOSE and verify with did key ES256K ', async () => {
-    const jws = await JWS.sign(msg, privKeyJwk as any, header);
+    const jws = await JWS.sign(msg, privateKeyJwk as any, header);
     const publicKeyWithKid = {
       ...publicKeyJwk,
       kid: '',
