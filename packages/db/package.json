@@ -1,7 +1,7 @@
 {
   "name": "@sidetree/db",
   "author": "Orie Steele",
-  "version": "0.0.1-unstable.6",
+  "version": "0.0.1-unstable.7",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -27,7 +27,7 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
-    "@sidetree/common": "^0.0.1-unstable.6",
+    "@sidetree/common": "^0.0.1-unstable.7",
     "reflect-metadata": "^0.1.10",
     "tsdx": "^0.13.2",
     "tslib": "^1.11.2",
