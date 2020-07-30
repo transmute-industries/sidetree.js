@@ -13,7 +13,14 @@ import * as bip39 from 'bip39';
 const keyto = require('@trust/keyto');
 const hdkey = require('hdkey');
 
-export class KeyGenerator {
+class FileWriter {
+  static write(name: string, content: Buffer | string): void {
+    const generatedDir = `${__dirname}/generated`;
+    fs.writeFileSync(`${generatedDir}/${name}`, content);
+  }
+}
+
+class KeyGenerator {
   private mnemonic =
     'mosquito sorry ring page rough future world beach pretty calm person arena';
 
@@ -68,16 +75,13 @@ const generateDidFixtures = async () => {
     signingPublicKey,
     services
   );
-  fs.writeFileSync(
-    `${__dirname}/createOperationBuffer.txt`,
-    createOperationBuffer
-  );
+  FileWriter.write('createOperationBuffer.txt', createOperationBuffer);
   createOperation = await CreateOperation.parse(createOperationBuffer);
 
   const didMethodName = config.didMethodName;
   const didUniqueSuffix = createOperation.didUniqueSuffix;
   const shortFormDid = `did:${didMethodName}:${didUniqueSuffix}`;
-  fs.writeFileSync(`${__dirname}/shortFormDid.txt`, shortFormDid);
+  FileWriter.write('shortFormDid.txt', shortFormDid);
 
   const didDocService = [
     {
@@ -113,23 +117,20 @@ const generateDidFixtures = async () => {
       update_commitment: createOperation.delta!.update_commitment,
     },
   };
-  fs.writeFileSync(
-    `${__dirname}/resolveBody.json`,
-    JSON.stringify(resolveBody, null, 2)
-  );
+  FileWriter.write('resolveBody.json', JSON.stringify(resolveBody, null, 2));
 
   const encodedSuffixData = createOperation.encodedSuffixData;
   const encodedDelta = createOperation.encodedDelta;
   const longFormDid = `${shortFormDid}?-${didMethodName}-initial-state=${encodedSuffixData}.${encodedDelta}`;
-  fs.writeFileSync(`${__dirname}/longFormDid.txt`, longFormDid);
+  FileWriter.write('longFormDid.txt', longFormDid);
 
   const longFormResolveBody = { ...resolveBody };
   (longFormResolveBody.didDocument['@context'][1] as any)[
     '@base'
   ] = longFormDid;
   longFormResolveBody.didDocument.id = longFormDid;
-  fs.writeFileSync(
-    `${__dirname}/longFormResolveBody.json`,
+  FileWriter.write(
+    'longFormResolveBody.json',
     JSON.stringify(longFormResolveBody, null, 2)
   );
 
@@ -148,19 +149,13 @@ const generateDidFixtures = async () => {
     JSON.stringify(updateOperationJson)
   );
 
-  fs.writeFileSync(
-    `${__dirname}/updateOperationBuffer.txt`,
-    updateOperationBuffer
-  );
+  FileWriter.write('updateOperationBuffer.txt', updateOperationBuffer);
   const deactivateOperation = await OperationGenerator.createDeactivateOperation(
     createOperation.didUniqueSuffix,
     recoveryPrivateKey
   );
   const deactivateOperationBuffer = deactivateOperation.operationBuffer;
-  fs.writeFileSync(
-    `${__dirname}/deactivateOperationBuffer.txt`,
-    deactivateOperationBuffer
-  );
+  FileWriter.write('deactivateOperationBuffer.txt', deactivateOperationBuffer);
 
   const [newRecoveryPublicKey] = await keyGenerator.getKeyPair();
   const [newSigningPublicKey] = await keyGenerator.getDidDocumentKeyPair(
@@ -181,10 +176,7 @@ const generateDidFixtures = async () => {
   const recoverOperationBuffer = Buffer.from(
     JSON.stringify(recoverOperationJson)
   );
-  fs.writeFileSync(
-    `${__dirname}/recoverOperationBuffer.txt`,
-    recoverOperationBuffer
-  );
+  FileWriter.write('recoverOperationBuffer.txt', recoverOperationBuffer);
 };
 
 const generateFiles = async () => {
@@ -196,8 +188,8 @@ const generateFiles = async () => {
   );
   const createChunkFile = await ChunkFile.parse(createChunkFileBuffer);
   const createChunkFileHash = await MockCas.getAddress(createChunkFileBuffer);
-  fs.writeFileSync(
-    `${__dirname}/createChunkFile.json`,
+  FileWriter.write(
+    'createChunkFile.json',
     JSON.stringify(createChunkFile, null, 2)
   );
   // Generate create map file fixture
@@ -207,8 +199,8 @@ const generateFiles = async () => {
   );
   const createMapFile = await MapFile.parse(createMapFileBuffer);
   const createMapFileHash = await MockCas.getAddress(createMapFileBuffer);
-  fs.writeFileSync(
-    `${__dirname}/createMapFile.json`,
+  FileWriter.write(
+    'createMapFile.json',
     JSON.stringify(createMapFile, null, 2)
   );
   // Generate create anchor file fixture
@@ -220,8 +212,8 @@ const generateFiles = async () => {
     []
   );
   const createAnchorFile = await AnchorFile.parse(createAnchorFileBuffer);
-  fs.writeFileSync(
-    `${__dirname}/createAnchorFile.json`,
+  FileWriter.write(
+    'createAnchorFile.json',
     JSON.stringify(createAnchorFile, null, 2)
   );
 };
