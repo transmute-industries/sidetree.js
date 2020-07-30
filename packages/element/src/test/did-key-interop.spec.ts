@@ -1,7 +1,7 @@
 import secp256k1 from 'secp256k1';
 import { ES256K } from '@transmute/did-key-secp256k1';
 import keyto from '@trust/keyto';
-import { Jws } from '@sidetree/core';
+import { JWS } from 'jose';
 
 const msg = Buffer.from(JSON.stringify({ hello: 'world' }));
 
@@ -94,11 +94,11 @@ describe('Interop between did key ES256K lib and JOSE lib', () => {
   });
 
   it('should nondeterministically sign a message with the JOSE library', async () => {
-    const jws = await Jws.signAsCompactJws(msg, privKeyJwk, header);
-    const verified = await Jws.verifyCompactJws(jws, publicKeyJwk);
+    const jws = await JWS.sign(msg, privKeyJwk as any, header);
+    const verified = await JWS.verify(jws, publicKeyJwk as any);
     expect(verified).toBeTruthy();
-    const jws2 = await Jws.signAsCompactJws(msg, privKeyJwk, header);
-    const verified2 = await Jws.verifyCompactJws(jws2, publicKeyJwk);
+    const jws2 = await JWS.sign(msg, privKeyJwk as any, header);
+    const verified2 = await JWS.verify(jws2, publicKeyJwk as any);
     expect(verified2).toBeTruthy();
     // Show that signatures are different
     const [protectedHeader, payload, signature] = jws.split('.');
@@ -114,12 +114,12 @@ describe('Interop between did key ES256K lib and JOSE lib', () => {
       kid: '',
     };
     const jws = await ES256K.sign(msg, privateKeyWithKid);
-    const verified = await Jws.verifyCompactJws(jws, publicKeyJwk);
+    const verified = await JWS.verify(jws, publicKeyJwk as any);
     expect(verified).toBeTruthy();
   });
 
   it('should sign with JOSE and verify with did key ES256K ', async () => {
-    const jws = await Jws.signAsCompactJws(msg, privKeyJwk, header);
+    const jws = await JWS.sign(msg, privKeyJwk as any, header);
     const publicKeyWithKid = {
       ...publicKeyJwk,
       kid: '',
