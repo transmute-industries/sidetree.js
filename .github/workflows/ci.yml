@@ -19,10 +19,6 @@ jobs:
       - name: Lint
         run: npm run lint -- --since origin/master
       - name: Test
-        # Generate new fixtures that will not be version controlled as sanity check
-        # before running the tests
-        run: |
-          npm run generate:fixtures
-          npm run test -- --since origin/master --concurrency 1
+        run: npm run test -- --since origin/master --concurrency 1
       - name: Build
         run: npm run build -- --since origin/master

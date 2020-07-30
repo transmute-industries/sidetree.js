@@ -597,7 +597,7 @@ export default class OperationGenerator {
       alg: 'ES256K',
     };
 
-    const compactJws = Jws.signAsCompactJws(
+    const compactJws = await Jws.signAsCompactJws(
       payload,
       privateKey,
       protectedHeader
