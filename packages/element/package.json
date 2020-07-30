@@ -1,6 +1,6 @@
 {
   "name": "@sidetree/element",
-  "version": "0.0.1-unstable.5",
+  "version": "0.0.1-unstable.6",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -33,11 +33,11 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.0.1-unstable.5",
-    "@sidetree/common": "^0.0.1-unstable.5",
-    "@sidetree/core": "^0.0.1-unstable.5",
-    "@sidetree/db": "^0.0.1-unstable.5",
-    "@sidetree/ledger": "^0.0.1-unstable.5",
+    "@sidetree/cas": "^0.0.1-unstable.6",
+    "@sidetree/common": "^0.0.1-unstable.6",
+    "@sidetree/core": "^0.0.1-unstable.6",
+    "@sidetree/db": "^0.0.1-unstable.6",
+    "@sidetree/ledger": "^0.0.1-unstable.6",
     "web3": "^1.2.9"
   }
 }
