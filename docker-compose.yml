@@ -1,7 +1,6 @@
 version: '3'
 services:
   ganache:
-    container_name: ganache
     image: trufflesuite/ganache-cli:latest
     ports:
       - '8545:8545'
@@ -11,14 +10,12 @@ services:
       - --mnemonic=${MNEMONIC}
       - --networkId='13370'
   ipfs:
-    container_name: ipfs
     image: ipfs/go-ipfs:release
     ports:
       - '8080:8080'
       - '5001:5001'
       - '4001:4001'
   mongo:
-    container_name: mongo
     image: mongo
     restart: always
     ports:
