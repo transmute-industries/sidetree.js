@@ -16,7 +16,11 @@ const hdkey = require('hdkey');
 class FileWriter {
   static write(name: string, content: Buffer | string): void {
     const generatedDir = `${__dirname}/generated`;
-    fs.writeFileSync(`${generatedDir}/${name}`, content);
+    if (name.includes('Buffer.txt')) {
+      fs.writeFileSync(`${generatedDir}/${name}`, content.toString('hex'));
+    } else {
+      fs.writeFileSync(`${generatedDir}/${name}`, content);
+    }
   }
 }
 
@@ -218,7 +222,30 @@ const generateFiles = async () => {
   );
 };
 
+const generateKeyFixtures = async () => {
+  const keyGenerator = new KeyGenerator();
+  const [publicKeyJwk, privateKeyJwk] = await keyGenerator.getKeyPair();
+  FileWriter.write('publicKeyJwk.json', JSON.stringify(publicKeyJwk, null, 2));
+  FileWriter.write(
+    'privateKeyJwk.json',
+    JSON.stringify(privateKeyJwk, null, 2)
+  );
+
+  const privateKeyHex = keyto
+    .from(
+      {
+        ...privateKeyJwk,
+        crv: 'K-256',
+      },
+      'jwk'
+    )
+    .toString('blk', 'private');
+  const privateKeyBuffer = Buffer.from(privateKeyHex, 'hex');
+  FileWriter.write('privateKeyBuffer.txt', privateKeyBuffer);
+};
+
 (async () => {
+  await generateKeyFixtures();
   await generateDidFixtures();
   await generateFiles();
 })();

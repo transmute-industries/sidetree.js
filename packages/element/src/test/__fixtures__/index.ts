@@ -5,7 +5,7 @@ const generatedDir = `${__dirname}/generated`;
 const parse = (name: string) => {
   const content = fs.readFileSync(`${generatedDir}/${name}`).toString();
   if (name.includes('Buffer.txt')) {
-    return Buffer.from(content);
+    return Buffer.from(content, 'hex');
   }
   if (name.includes('.txt')) {
     return content;
@@ -32,6 +32,11 @@ const createChunkFile = parse('createChunkFile.json');
 const createMapFile = parse('createMapFile.json');
 const createAnchorFile = parse('createAnchorFile.json');
 
+// Keys
+const publicKeyJwk = parse('publicKeyJwk.json');
+const privateKeyJwk = parse('privateKeyJwk.json');
+const privateKeyBuffer = parse('privateKeyBuffer.txt');
+
 export {
   createAnchorFile,
   createChunkFile,
@@ -44,4 +49,7 @@ export {
   resolveBody,
   shortFormDid,
   updateOperationBuffer,
+  publicKeyJwk,
+  privateKeyJwk,
+  privateKeyBuffer,
 };
