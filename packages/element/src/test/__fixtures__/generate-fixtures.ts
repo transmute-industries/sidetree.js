@@ -8,116 +8,70 @@ import {
 import { Config, PublicKeyPurpose, Multihash } from '@sidetree/common';
 import { MockCas } from '@sidetree/cas';
 import * as fs from 'fs';
+import * as bip39 from 'bip39';
+
+const keyto = require('@trust/keyto');
+const hdkey = require('hdkey');
+
+export class KeyGenerator {
+  private mnemonic =
+    'mosquito sorry ring page rough future world beach pretty calm person arena';
+
+  private counter = 0;
+
+  public async getKeyPair() {
+    this.counter += 1;
+    const seed = await bip39.mnemonicToSeed(this.mnemonic);
+    const root = hdkey.fromMasterSeed(seed);
+    const hdPath = `m/44'/60'/0'/0/${this.counter}`;
+    const addrNode = root.derive(hdPath);
+    const privateKeyBuffer = addrNode.privateKey;
+    const publicKeyJwk = keyto.from(privateKeyBuffer, 'blk').toJwk('public');
+    publicKeyJwk.crv = 'secp256k1';
+    const privateKeyJwk = keyto.from(privateKeyBuffer, 'blk').toJwk('private');
+    privateKeyJwk.crv = 'secp256k1';
+    return [publicKeyJwk, privateKeyJwk];
+  }
+
+  public async getDidDocumentKeyPair(id: string) {
+    const [publicKeyJwk, privateKeyJwk] = await this.getKeyPair();
+    const didDocPublicKey = {
+      id,
+      type: 'EcdsaSecp256k1VerificationKey2019',
+      jwk: publicKeyJwk,
+      purpose: [PublicKeyPurpose.Auth, PublicKeyPurpose.General],
+    };
+    return [didDocPublicKey, privateKeyJwk];
+  }
+}
 
 let createOperation: CreateOperation;
 
 const config: Config = require('../element-config.json');
 
 const generateKeys = async () => {
-  // Run this code to generate the following key material
+  const keyGenerator = new KeyGenerator();
 
-  // const [
-  //   recoveryPublicKey,
-  //   recoveryPrivateKey,
-  // ] = await Jwk.generateEs256kKeyPair();
-  // const [
-  //   signingPublicKey,
-  //   signingPrivateKey,
-  // ] = await OperationGenerator.generateKeyPair('key2');
-  // const additionalKeyId = `additional-key`;
-  // const [
-  //   additionalPublicKey,
-  //   additionalPrivateKey,
-  // ] = await OperationGenerator.generateKeyPair(additionalKeyId);
+  const [
+    recoveryPublicKey,
+    recoveryPrivateKey,
+  ] = await keyGenerator.getKeyPair();
+  const [
+    signingPublicKey,
+    signingPrivateKey,
+  ] = await keyGenerator.getDidDocumentKeyPair('key2');
+  const [
+    additionalPublicKey,
+    additionalPrivateKey,
+  ] = await keyGenerator.getDidDocumentKeyPair('additional-key');
 
-  // const [newRecoveryPublicKey] = await Jwk.generateEs256kKeyPair();
-  // const [newSigningPublicKey] = await OperationGenerator.generateKeyPair(
-  //   'newSigningKey'
-  // );
-  // const [newAdditionalPublicKey] = await OperationGenerator.generateKeyPair(
-  //   'newKey'
-  // );
-
-  const recoveryPublicKey = {
-    kty: 'EC',
-    crv: 'secp256k1',
-    x: 'XvoL6RfcylYRR997IxP3YorX2I8co8TEMyv6k3O-NZw',
-    y: '2XDM99zebqzM6TK3ZZMQx4qb8FGfeScE5uRP3_2st0k',
-  };
-  const recoveryPrivateKey = {
-    d: '8vvq3tLi88ImRvY053-RfWW22zqAtrTsD4AUuF3pttU',
-    kty: 'EC',
-    crv: 'secp256k1',
-    x: 'XvoL6RfcylYRR997IxP3YorX2I8co8TEMyv6k3O-NZw',
-    y: '2XDM99zebqzM6TK3ZZMQx4qb8FGfeScE5uRP3_2st0k',
-  };
-
-  const signingPublicKey = {
-    id: 'key2',
-    type: 'EcdsaSecp256k1VerificationKey2019',
-    jwk: {
-      kty: 'EC',
-      crv: 'secp256k1',
-      x: '3VR7UmXTSgYur184XWUUFO3stZSiHw8rz2RlEkv8HxU',
-      y: 'IttzqtQqCN6AbFmuxkndwcVh59E3ZHWSpNBvLckubYw',
-    },
-    purpose: [PublicKeyPurpose.Auth, PublicKeyPurpose.General],
-  };
-  const signingPrivateKey = {
-    d: '7Z4OWeJgC_bZ1DYnpUVAvegeQjs6UBjKYopGz3YSZNA',
-    kty: 'EC',
-    crv: 'secp256k1',
-    x: '3VR7UmXTSgYur184XWUUFO3stZSiHw8rz2RlEkv8HxU',
-    y: 'IttzqtQqCN6AbFmuxkndwcVh59E3ZHWSpNBvLckubYw',
-  };
-
-  const additionalPublicKey = {
-    id: 'additional-key',
-    type: 'EcdsaSecp256k1VerificationKey2019',
-    jwk: {
-      kty: 'EC',
-      crv: 'secp256k1',
-      x: 'j1y5BVdvA3dRxBP47BViWfOF3JYixPNDaDHClQbofU0',
-      y: 'alJ3bb-lFAL8YGQUnnSBnM_ZbKtRPD7XjFeXy95dBiA',
-    },
-    purpose: [PublicKeyPurpose.Auth, PublicKeyPurpose.General],
-  };
-  const additionalPrivateKey = {
-    d: 'nHF1j2NbnLYKr_LETjECwig2MV_vT825LAjM7GQyn9w',
-    kty: 'EC',
-    crv: 'secp256k1',
-    x: 'j1y5BVdvA3dRxBP47BViWfOF3JYixPNDaDHClQbofU0',
-    y: 'alJ3bb-lFAL8YGQUnnSBnM_ZbKtRPD7XjFeXy95dBiA',
-  };
-
-  const newRecoveryPublicKey = {
-    kty: 'EC',
-    crv: 'secp256k1',
-    x: 'Geh6yuEgbEPU7EuirQsdzO2aMXDzBH22zPfK6AcFbTY',
-    y: 'h3RKPGSirHrDurXLGTqO_kAARayHJw0xfc4gRLErtbs',
-  };
-  const newSigningPublicKey = {
-    id: 'newSigningKey',
-    type: 'EcdsaSecp256k1VerificationKey2019',
-    jwk: {
-      kty: 'EC',
-      crv: 'secp256k1',
-      x: 'JfDpg6V9pboDS_2uO1x0LKpgPCfhG39MxDdLI5GFOvI',
-      y: 'nwcyDnouGjEMSRvno1ZIjC2mUyR8CfgivB_dVnC3NGM',
-    },
-    purpose: [PublicKeyPurpose.Auth, PublicKeyPurpose.General],
-  };
-  const newAdditionalPublicKey = {
-    id: 'newKey',
-    type: 'EcdsaSecp256k1VerificationKey2019',
-    jwk: {
-      kty: 'EC',
-      crv: 'secp256k1',
-      x: 'uwkRfnJkr0Z2rjObgl2ilx09YE3higoMYwXKI1x--Nk',
-      y: 'Qo--YL7hFsL7pJOcVxnzjwzs8TR2RD9tdq6M7_ucltw',
-    },
-    purpose: [PublicKeyPurpose.Auth, PublicKeyPurpose.General],
-  };
+  const [newRecoveryPublicKey] = await keyGenerator.getKeyPair();
+  const [newSigningPublicKey] = await keyGenerator.getDidDocumentKeyPair(
+    'newSigningKey'
+  );
+  const [newAdditionalPublicKey] = await keyGenerator.getDidDocumentKeyPair(
+    'newKey'
+  );
 
   return {
     recoveryPublicKey,
