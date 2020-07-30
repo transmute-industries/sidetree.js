@@ -6,6 +6,7 @@ import {
   SidetreeError,
 } from '@sidetree/common';
 import { JWS } from 'jose';
+import { ES256K } from '@transmute/did-key-secp256k1';
 
 /**
  * Class containing reusable JWS operations.
@@ -104,7 +105,10 @@ export default class Jws {
   ): Promise<boolean> {
     const jwsSigningInput =
       encodedProtectedHeader + '.' + encodedPayload + '.' + signature;
-    const signatureValid = Jws.verifyCompactJws(jwsSigningInput, publicKey);
+    const signatureValid = await Jws.verifyCompactJws(
+      jwsSigningInput,
+      publicKey
+    );
     return signatureValid;
   }
 
@@ -112,9 +116,12 @@ export default class Jws {
    * Verifies the compact JWS string using the given JWK key.
    * @returns true if signature is valid; else otherwise.
    */
-  public static verifyCompactJws(compactJws: string, jwk: any): boolean {
+  public static async verifyCompactJws(
+    compactJws: string,
+    jwk: any
+  ): Promise<boolean> {
     try {
-      JWS.verify(compactJws, jwk);
+      await ES256K.verify(compactJws, jwk);
       return true;
     } catch (error) {
       console.log(
@@ -157,12 +164,22 @@ export default class Jws {
    * Signs the given payload as a compact JWS string.
    * This is mainly used by tests to create valid test data.
    */
-  public static signAsCompactJws(
+  public static async signAsCompactJws(
     payload: object,
     privateKey: any,
     protectedHeader?: object
-  ): string {
-    const compactJws = JWS.sign(payload, privateKey, protectedHeader);
+  ): Promise<string> {
+    // ES256K requires private key to have a kid property
+    const privateKeyWithKid = {
+      ...privateKey,
+      kid: '',
+    };
+    // ES256K requires header to have an alg property
+    const header = {
+      ...protectedHeader,
+      alg: '',
+    };
+    const compactJws = await ES256K.sign(payload, privateKeyWithKid, header);
     return compactJws;
   }
 

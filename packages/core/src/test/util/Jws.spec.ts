@@ -30,7 +30,7 @@ describe('Jws', () => {
 
       const payload = { anyProperty: 'anyValue' };
 
-      const jws = Jws.signAsCompactJws(
+      const jws = await Jws.signAsCompactJws(
         payload,
         signingPrivateKey,
         protectedHeader
@@ -119,9 +119,9 @@ describe('Jws', () => {
       const [publicKey, privateKey] = await Jwk.generateEs256kKeyPair();
 
       const payload = { abc: 'unused value' };
-      const compactJws = Jws.signAsCompactJws(payload, privateKey);
+      const compactJws = await Jws.signAsCompactJws(payload, privateKey);
 
-      expect(Jws.verifyCompactJws(compactJws, publicKey)).toBeTruthy();
+      expect(await Jws.verifyCompactJws(compactJws, publicKey)).toBeTruthy();
     });
 
     it('should return false if given compact JWS string has an ivalid signature.', async () => {
@@ -129,16 +129,16 @@ describe('Jws', () => {
       const [, privateKey2] = await Jwk.generateEs256kKeyPair();
 
       const payload = { abc: 'some value' };
-      const compactJws = Jws.signAsCompactJws(payload, privateKey2); // Intentionally signing with a different key.
+      const compactJws = await Jws.signAsCompactJws(payload, privateKey2); // Intentionally signing with a different key.
 
-      expect(Jws.verifyCompactJws(compactJws, publicKey1)).toBeFalsy();
+      expect(await Jws.verifyCompactJws(compactJws, publicKey1)).toBeFalsy();
     });
 
     it('should return false if input is not a valid JWS string', async () => {
       const input = 'some invalid string';
       const [publicKey] = await Jwk.generateEs256kKeyPair();
 
-      expect(Jws.verifyCompactJws(input, publicKey)).toBeFalsy();
+      expect(await Jws.verifyCompactJws(input, publicKey)).toBeFalsy();
     });
   });
 });
