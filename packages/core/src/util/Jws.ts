@@ -134,7 +134,7 @@ export default class Jws {
   public static async signAsCompactJws(
     payload: object,
     privateKey: any,
-    protectedHeader?: object
+    protectedHeader?: any
   ): Promise<string> {
     // ES256K requires private key to have a kid property
     const privateKeyWithKid = {
@@ -144,7 +144,7 @@ export default class Jws {
     // ES256K requires header to have an alg property
     const header = {
       ...protectedHeader,
-      alg: '',
+      alg: (protectedHeader && protectedHeader.alg) || 'ES256K',
     };
     const compactJws = await ES256K.sign(payload, privateKeyWithKid, header);
     return compactJws;
