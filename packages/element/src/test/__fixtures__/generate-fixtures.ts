@@ -49,9 +49,12 @@ let createOperation: CreateOperation;
 
 const config: Config = require('../element-config.json');
 
-const generateKeys = async () => {
+const generateDidFixtures = async () => {
   const keyGenerator = new KeyGenerator();
 
+  const services = OperationGenerator.generateServiceEndpoints([
+    'serviceEndpointId123',
+  ]);
   const [
     recoveryPublicKey,
     recoveryPrivateKey,
@@ -60,48 +63,6 @@ const generateKeys = async () => {
     signingPublicKey,
     signingPrivateKey,
   ] = await keyGenerator.getDidDocumentKeyPair('key2');
-  const [
-    additionalPublicKey,
-    additionalPrivateKey,
-  ] = await keyGenerator.getDidDocumentKeyPair('additional-key');
-
-  const [newRecoveryPublicKey] = await keyGenerator.getKeyPair();
-  const [newSigningPublicKey] = await keyGenerator.getDidDocumentKeyPair(
-    'newSigningKey'
-  );
-  const [newAdditionalPublicKey] = await keyGenerator.getDidDocumentKeyPair(
-    'newKey'
-  );
-
-  return {
-    recoveryPublicKey,
-    recoveryPrivateKey,
-    signingPublicKey,
-    signingPrivateKey,
-    additionalPublicKey,
-    additionalPrivateKey,
-    newRecoveryPublicKey,
-    newSigningPublicKey,
-    newAdditionalPublicKey,
-  };
-};
-
-const generateDidFixtures = async () => {
-  const {
-    recoveryPublicKey,
-    recoveryPrivateKey,
-    signingPublicKey,
-    signingPrivateKey,
-    additionalPublicKey,
-    newRecoveryPublicKey,
-    newSigningPublicKey,
-    newAdditionalPublicKey,
-  } = await generateKeys();
-
-  const services = OperationGenerator.generateServiceEndpoints([
-    'serviceEndpointId123',
-  ]);
-
   const createOperationBuffer = await OperationGenerator.generateCreateOperationBuffer(
     recoveryPublicKey,
     signingPublicKey,
@@ -172,6 +133,9 @@ const generateDidFixtures = async () => {
     JSON.stringify(longFormResolveBody, null, 2)
   );
 
+  const [additionalPublicKey] = await keyGenerator.getDidDocumentKeyPair(
+    'additional-key'
+  );
   const updateOperationJson = await OperationGenerator.createUpdateOperationRequestForAddingAKey(
     didUniqueSuffix,
     signingPublicKey.jwk,
@@ -198,6 +162,13 @@ const generateDidFixtures = async () => {
     deactivateOperationBuffer
   );
 
+  const [newRecoveryPublicKey] = await keyGenerator.getKeyPair();
+  const [newSigningPublicKey] = await keyGenerator.getDidDocumentKeyPair(
+    'newSigningKey'
+  );
+  const [newAdditionalPublicKey] = await keyGenerator.getDidDocumentKeyPair(
+    'newKey'
+  );
   const recoverOperationJson = await OperationGenerator.generateRecoverOperationRequest(
     didUniqueSuffix,
     recoveryPrivateKey,
