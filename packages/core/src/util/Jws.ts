@@ -1,11 +1,4 @@
-import {
-  Encoder,
-  ErrorCode,
-  JwkEs256k,
-  JwsModel,
-  SidetreeError,
-} from '@sidetree/common';
-import { JWS } from 'jose';
+import { Encoder, ErrorCode, JwkEs256k, SidetreeError } from '@sidetree/common';
 import { ES256K } from '@transmute/did-key-secp256k1';
 
 /**
@@ -132,32 +125,6 @@ export default class Jws {
       );
       return false;
     }
-  }
-
-  /**
-   * Signs the given protected header and payload as a JWS.
-   * NOTE: this is mainly used by tests to create valid test data.
-   *
-   * @param payload If the given payload is of string type, it is assumed to be encoded string;
-   *                else the object will be stringified and encoded.
-   */
-  public static async sign(
-    protectedHeader: any,
-    payload: any,
-    privateKey: JwkEs256k
-  ): Promise<JwsModel> {
-    const flattenedJws = JWS.sign.flattened(
-      payload,
-      privateKey as any,
-      protectedHeader
-    );
-    const jws = {
-      protected: flattenedJws.protected!,
-      payload: flattenedJws.payload,
-      signature: flattenedJws.signature,
-    };
-
-    return jws;
   }
 
   /**

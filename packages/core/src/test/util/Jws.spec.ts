@@ -43,38 +43,6 @@ describe('Jws', () => {
       );
     });
 
-    it('should throw error if `alg` in header is missing or is in incorrect type.', async () => {
-      const [, signingPrivateKey] = await Jwk.generateEs256kKeyPair();
-
-      const protectedHeader = {
-        alg: 'ES256K',
-      };
-
-      const payload = { anyProperty: 'anyValue' };
-
-      const jws = await Jws.sign(protectedHeader, payload, signingPrivateKey);
-
-      // Replace the protected header with an invalid alg type.
-      const invalidProtectedHeader = {
-        alg: true, // Invalid type.
-      };
-      const invalidEncodedProtectedHeader = Encoder.encode(
-        JSON.stringify(invalidProtectedHeader)
-      );
-
-      const compactJws = Jws.createCompactJws(
-        invalidEncodedProtectedHeader,
-        jws.payload,
-        jws.signature
-      );
-
-      expect(() => {
-        Jws.parseCompactJws(compactJws);
-      }).toThrow(
-        new SidetreeError(ErrorCode.JwsProtectedHeaderMissingOrIncorrectAlg)
-      );
-    });
-
     it('should throw error if payload is not Base64URL string.', async () => {
       const protectedHeader = {
         alg: 'ES256K',
