@@ -13,7 +13,7 @@ let createOperation: CreateOperation;
 
 const config: Config = require('../element-config.json');
 
-const generateKeys = () => {
+const generateKeys = async () => {
   // Run this code to generate the following key material
 
   // const [
@@ -29,6 +29,14 @@ const generateKeys = () => {
   //   additionalPublicKey,
   //   additionalPrivateKey,
   // ] = await OperationGenerator.generateKeyPair(additionalKeyId);
+
+  // const [newRecoveryPublicKey] = await Jwk.generateEs256kKeyPair();
+  // const [newSigningPublicKey] = await OperationGenerator.generateKeyPair(
+  //   'newSigningKey'
+  // );
+  // const [newAdditionalPublicKey] = await OperationGenerator.generateKeyPair(
+  //   'newKey'
+  // );
 
   const recoveryPublicKey = {
     kty: 'EC',
@@ -82,6 +90,35 @@ const generateKeys = () => {
     y: 'alJ3bb-lFAL8YGQUnnSBnM_ZbKtRPD7XjFeXy95dBiA',
   };
 
+  const newRecoveryPublicKey = {
+    kty: 'EC',
+    crv: 'secp256k1',
+    x: 'Geh6yuEgbEPU7EuirQsdzO2aMXDzBH22zPfK6AcFbTY',
+    y: 'h3RKPGSirHrDurXLGTqO_kAARayHJw0xfc4gRLErtbs',
+  };
+  const newSigningPublicKey = {
+    id: 'newSigningKey',
+    type: 'EcdsaSecp256k1VerificationKey2019',
+    jwk: {
+      kty: 'EC',
+      crv: 'secp256k1',
+      x: 'JfDpg6V9pboDS_2uO1x0LKpgPCfhG39MxDdLI5GFOvI',
+      y: 'nwcyDnouGjEMSRvno1ZIjC2mUyR8CfgivB_dVnC3NGM',
+    },
+    purpose: [PublicKeyPurpose.Auth, PublicKeyPurpose.General],
+  };
+  const newAdditionalPublicKey = {
+    id: 'newKey',
+    type: 'EcdsaSecp256k1VerificationKey2019',
+    jwk: {
+      kty: 'EC',
+      crv: 'secp256k1',
+      x: 'uwkRfnJkr0Z2rjObgl2ilx09YE3higoMYwXKI1x--Nk',
+      y: 'Qo--YL7hFsL7pJOcVxnzjwzs8TR2RD9tdq6M7_ucltw',
+    },
+    purpose: [PublicKeyPurpose.Auth, PublicKeyPurpose.General],
+  };
+
   return {
     recoveryPublicKey,
     recoveryPrivateKey,
@@ -89,6 +126,9 @@ const generateKeys = () => {
     signingPrivateKey,
     additionalPublicKey,
     additionalPrivateKey,
+    newRecoveryPublicKey,
+    newSigningPublicKey,
+    newAdditionalPublicKey,
   };
 };
 
@@ -99,7 +139,10 @@ const generateDidFixtures = async () => {
     signingPublicKey,
     signingPrivateKey,
     additionalPublicKey,
-  } = generateKeys();
+    newRecoveryPublicKey,
+    newSigningPublicKey,
+    newAdditionalPublicKey,
+  } = await generateKeys();
 
   const services = OperationGenerator.generateServiceEndpoints([
     'serviceEndpointId123',
@@ -175,7 +218,7 @@ const generateDidFixtures = async () => {
     JSON.stringify(longFormResolveBody, null, 2)
   );
 
-  const operationJson = await OperationGenerator.createUpdateOperationRequestForAddingAKey(
+  const updateOperationJson = await OperationGenerator.createUpdateOperationRequestForAddingAKey(
     didUniqueSuffix,
     signingPublicKey.jwk,
     signingPrivateKey,
@@ -183,7 +226,9 @@ const generateDidFixtures = async () => {
     Multihash.canonicalizeThenHashThenEncode(additionalPublicKey)
   );
 
-  const updateOperationBuffer = Buffer.from(JSON.stringify(operationJson));
+  const updateOperationBuffer = Buffer.from(
+    JSON.stringify(updateOperationJson)
+  );
 
   fs.writeFileSync(
     `${__dirname}/updateOperationBuffer.txt`,
@@ -199,11 +244,18 @@ const generateDidFixtures = async () => {
     deactivateOperationBuffer
   );
 
-  const recoverOperation = await OperationGenerator.generateRecoverOperation({
-    didUniqueSuffix: createOperation.didUniqueSuffix,
+  const recoverOperationJson = await OperationGenerator.generateRecoverOperationRequest(
+    didUniqueSuffix,
     recoveryPrivateKey,
-  });
-  const recoverOperationBuffer = recoverOperation.operationBuffer;
+    newRecoveryPublicKey,
+    newSigningPublicKey,
+    services,
+    [newAdditionalPublicKey]
+  );
+
+  const recoverOperationBuffer = Buffer.from(
+    JSON.stringify(recoverOperationJson)
+  );
   fs.writeFileSync(
     `${__dirname}/recoverOperationBuffer.txt`,
     recoverOperationBuffer
