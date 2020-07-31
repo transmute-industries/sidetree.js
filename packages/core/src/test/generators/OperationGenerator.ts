@@ -1,7 +1,7 @@
 import {
   AnchoredOperationModel,
   Encoder,
-  JwkEs256k,
+  JwkCurve25519,
   Multihash,
   OperationModel,
   OperationType,
@@ -26,18 +26,18 @@ interface AnchoredCreateOperationGenerationInput {
 
 interface RecoverOperationGenerationInput {
   didUniqueSuffix: string;
-  recoveryPrivateKey: JwkEs256k;
+  recoveryPrivateKey: JwkCurve25519;
 }
 
 interface GeneratedRecoverOperationData {
   operationBuffer: Buffer;
   recoverOperation: RecoverOperation;
-  recoveryPublicKey: JwkEs256k;
-  recoveryPrivateKey: JwkEs256k;
+  recoveryPublicKey: JwkCurve25519;
+  recoveryPrivateKey: JwkCurve25519;
   signingPublicKey: PublicKeyModel;
-  signingPrivateKey: JwkEs256k;
+  signingPrivateKey: JwkCurve25519;
   update_key: PublicKeyModel;
-  updatePrivateKey: JwkEs256k;
+  updatePrivateKey: JwkCurve25519;
 }
 
 /**
@@ -63,8 +63,8 @@ export default class OperationGenerator {
   public static async generateKeyPair(
     id: string,
     purpose?: PublicKeyPurpose[]
-  ): Promise<[PublicKeyModel, JwkEs256k]> {
-    const [publicKey, privateKey] = await Jwk.generateEs256kKeyPair();
+  ): Promise<[PublicKeyModel, JwkCurve25519]> {
+    const [publicKey, privateKey] = await Jwk.generateEd25519KeyPair();
     const publicKeyModel = {
       id,
       type: 'EcdsaSecp256k1VerificationKey2019',
@@ -115,11 +115,11 @@ export default class OperationGenerator {
     const [
       recoveryPublicKey,
       recoveryPrivateKey,
-    ] = await Jwk.generateEs256kKeyPair();
+    ] = await Jwk.generateEd25519KeyPair();
     const [
       updatePublicKey,
       updatePrivateKey,
-    ] = await Jwk.generateEs256kKeyPair();
+    ] = await Jwk.generateEd25519KeyPair();
     const [
       signingPublicKey,
       signingPrivateKey,
@@ -165,7 +165,7 @@ export default class OperationGenerator {
     const [
       newRecoveryPublicKey,
       newRecoveryPrivateKey,
-    ] = await Jwk.generateEs256kKeyPair();
+    ] = await Jwk.generateEd25519KeyPair();
     const [
       newSigningPublicKey,
       newSigningPrivateKey,
@@ -212,8 +212,8 @@ export default class OperationGenerator {
    */
   public static async generateUpdateOperation(
     didUniqueSuffix: string,
-    updatePublicKey: JwkEs256k,
-    updatePrivateKey: JwkEs256k
+    updatePublicKey: JwkCurve25519,
+    updatePrivateKey: JwkCurve25519
   ) {
     const additionalKeyId = `additional-key`;
     const [
@@ -266,8 +266,8 @@ export default class OperationGenerator {
    * Generates a create operation request.
    */
   public static async generateCreateOperationRequest(
-    recoveryPublicKey: JwkEs256k,
-    updatePublicKey: JwkEs256k,
+    recoveryPublicKey: JwkCurve25519,
+    updatePublicKey: JwkCurve25519,
     otherPublicKeys: PublicKeyModel[],
     service_endpoints?: ServiceEndpointModel[]
   ) {
@@ -362,8 +362,8 @@ export default class OperationGenerator {
    */
   public static async createUpdateOperationRequest(
     didUniqueSuffix: string,
-    updatePublicKey: JwkEs256k,
-    updatePrivateKey: JwkEs256k,
+    updatePublicKey: JwkCurve25519,
+    updatePrivateKey: JwkCurve25519,
     nextUpdateCommitmentHash: string,
     patches: any
   ) {
@@ -381,7 +381,7 @@ export default class OperationGenerator {
       update_key: updatePublicKey,
       delta_hash: delta_hash,
     };
-    const signedData = await OperationGenerator.signUsingEs256k(
+    const signedData = await OperationGenerator.signUsingEd25519(
       signedDataPayloadObject,
       updatePrivateKey
     );
@@ -401,8 +401,8 @@ export default class OperationGenerator {
    */
   public static async generateRecoverOperationRequest(
     didUniqueSuffix: string,
-    recoveryPrivateKey: JwkEs256k,
-    newRecoveryPublicKey: JwkEs256k,
+    recoveryPrivateKey: JwkCurve25519,
+    newRecoveryPublicKey: JwkCurve25519,
     newSigningPublicKey: PublicKeyModel,
     service_endpoints?: ServiceEndpointModel[],
     public_keys?: PublicKeyModel[]
@@ -426,8 +426,8 @@ export default class OperationGenerator {
    */
   public static async createRecoverOperationRequest(
     didUniqueSuffix: string,
-    recoveryPrivateKey: JwkEs256k,
-    newRecoveryPublicKey: JwkEs256k,
+    recoveryPrivateKey: JwkCurve25519,
+    newRecoveryPublicKey: JwkCurve25519,
     nextUpdateCommitmentHash: string,
     document: any
   ) {
@@ -448,12 +448,12 @@ export default class OperationGenerator {
 
     const signedDataPayloadObject = {
       delta_hash: delta_hash,
-      recovery_key: Jwk.getEs256kPublicKey(recoveryPrivateKey),
+      recovery_key: Jwk.getCurve25519PublicKey(recoveryPrivateKey),
       recovery_commitment: Multihash.canonicalizeThenHashThenEncode(
         newRecoveryPublicKey
       ),
     };
-    const signedData = await OperationGenerator.signUsingEs256k(
+    const signedData = await OperationGenerator.signUsingEd25519(
       signedDataPayloadObject,
       recoveryPrivateKey
     );
@@ -474,13 +474,13 @@ export default class OperationGenerator {
    */
   public static async createDeactivateOperationRequest(
     didUniqueSuffix: string,
-    recoveryPrivateKey: JwkEs256k
+    recoveryPrivateKey: JwkCurve25519
   ) {
     const signedDataPayloadObject = {
       did_suffix: didUniqueSuffix,
-      recovery_key: Jwk.getEs256kPublicKey(recoveryPrivateKey),
+      recovery_key: Jwk.getCurve25519PublicKey(recoveryPrivateKey),
     };
-    const signedData = await OperationGenerator.signUsingEs256k(
+    const signedData = await OperationGenerator.signUsingEd25519(
       signedDataPayloadObject,
       recoveryPrivateKey
     );
@@ -500,7 +500,7 @@ export default class OperationGenerator {
    * @param nextUpdateCommitmentHash The encoded commitment hash for the next update.
    */
   public static async generateCreateOperationBuffer(
-    recoveryPublicKey: JwkEs256k,
+    recoveryPublicKey: JwkCurve25519,
     signingPublicKey: PublicKeyModel,
     service_endpoints?: ServiceEndpointModel[]
   ): Promise<Buffer> {
@@ -519,8 +519,8 @@ export default class OperationGenerator {
    */
   public static async createUpdateOperationRequestForAddingAKey(
     didUniqueSuffix: string,
-    updatePublicKey: JwkEs256k,
-    updatePrivateKey: JwkEs256k,
+    updatePublicKey: JwkCurve25519,
+    updatePrivateKey: JwkCurve25519,
     newPublicKey: PublicKeyModel,
     nextUpdateCommitmentHash: string
   ) {
@@ -548,7 +548,7 @@ export default class OperationGenerator {
   public static async createUpdateOperationRequestForHubEndpoints(
     didUniqueSuffix: string,
     updatePublicKey: any,
-    updatePrivateKey: JwkEs256k,
+    updatePrivateKey: JwkCurve25519,
     nextUpdateCommitmentHash: string,
     idOfServiceEndpointToAdd: string | undefined,
     idsOfServiceEndpointToRemove: string[]
@@ -587,14 +587,14 @@ export default class OperationGenerator {
   }
 
   /**
-   * Signs the given payload as a ES256K compact JWS.
+   * Signs the given payload as a ed25519 compact JWS.
    */
-  public static async signUsingEs256k(
+  public static async signUsingEd25519(
     payload: any,
-    privateKey: JwkEs256k
+    privateKey: JwkCurve25519
   ): Promise<string> {
     const protectedHeader = {
-      alg: 'ES256K',
+      alg: 'EdDSA',
     };
 
     const compactJws = await Jws.signAsCompactJws(
@@ -610,7 +610,7 @@ export default class OperationGenerator {
    */
   public static async createDeactivateOperation(
     didUniqueSuffix: string,
-    recoveryPrivateKey: JwkEs256k
+    recoveryPrivateKey: JwkCurve25519
   ) {
     const operationRequest = await OperationGenerator.createDeactivateOperationRequest(
       didUniqueSuffix,

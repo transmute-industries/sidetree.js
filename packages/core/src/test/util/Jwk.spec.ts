@@ -10,11 +10,11 @@ describe('Jwk', () => {
     });
   });
 
-  describe('validateJwkEs256k()', () => {
+  describe('validateJwkCurve25519()', () => {
     it('should throw error if `undefined` is passed.', async () => {
       expect(() => {
-        Jwk.validateJwkEs256k(undefined);
-      }).toThrow(new SidetreeError(ErrorCode.JwkEs256kUndefined));
+        Jwk.validateJwkCurve25519(undefined);
+      }).toThrow(new SidetreeError(ErrorCode.JwkCurve25519Undefined));
     });
 
     it('should throw error if un unknown property is included in the JWK.', async () => {
@@ -27,8 +27,8 @@ describe('Jwk', () => {
       };
 
       expect(() => {
-        Jwk.validateJwkEs256k(jwk);
-      }).toThrow(new SidetreeError(ErrorCode.JwkEs256kHasUnknownProperty));
+        Jwk.validateJwkCurve25519(jwk);
+      }).toThrow(new SidetreeError(ErrorCode.JwkCurve25519HasUnknownProperty));
     });
 
     it('should throw error if JWK has the wrong `kty` value.', async () => {
@@ -40,8 +40,8 @@ describe('Jwk', () => {
       };
 
       expect(() => {
-        Jwk.validateJwkEs256k(jwk);
-      }).toThrow(new SidetreeError(ErrorCode.JwkEs256kMissingOrInvalidKty));
+        Jwk.validateJwkCurve25519(jwk);
+      }).toThrow(new SidetreeError(ErrorCode.JwkCurve25519MissingOrInvalidKty));
     });
 
     it('should throw error if JWK has the wrong `crv` value.', async () => {
@@ -53,8 +53,8 @@ describe('Jwk', () => {
       };
 
       expect(() => {
-        Jwk.validateJwkEs256k(jwk);
-      }).toThrow(new SidetreeError(ErrorCode.JwkEs256kMissingOrInvalidCrv));
+        Jwk.validateJwkCurve25519(jwk);
+      }).toThrow(new SidetreeError(ErrorCode.JwkCurve25519MissingOrInvalidCrv));
     });
 
     it('should throw error if JWK has the wrong `x` type.', async () => {
@@ -66,8 +66,10 @@ describe('Jwk', () => {
       };
 
       expect(() => {
-        Jwk.validateJwkEs256k(jwk);
-      }).toThrow(new SidetreeError(ErrorCode.JwkEs256kMissingOrInvalidTypeX));
+        Jwk.validateJwkCurve25519(jwk);
+      }).toThrow(
+        new SidetreeError(ErrorCode.JwkCurve25519MissingOrInvalidTypeX)
+      );
     });
 
     it('should throw error if JWK has the wrong `y` type.', async () => {
@@ -79,8 +81,10 @@ describe('Jwk', () => {
       };
 
       expect(() => {
-        Jwk.validateJwkEs256k(jwk);
-      }).toThrow(new SidetreeError(ErrorCode.JwkEs256kMissingOrInvalidTypeY));
+        Jwk.validateJwkCurve25519(jwk);
+      }).toThrow(
+        new SidetreeError(ErrorCode.JwkCurve25519MissingOrInvalidTypeY)
+      );
     });
   });
 });

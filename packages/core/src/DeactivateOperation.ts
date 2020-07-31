@@ -1,7 +1,7 @@
 import {
   Encoder,
   ErrorCode,
-  JwkEs256k,
+  JwkCurve25519,
   OperationModel,
   OperationType,
   SidetreeError,
@@ -12,7 +12,7 @@ import Jws from './util/Jws';
 
 interface SignedDataModel {
   didSuffix: string;
-  recovery_key: JwkEs256k;
+  recovery_key: JwkCurve25519;
 }
 
 /**
@@ -152,7 +152,7 @@ export default class DeactivateOperation implements OperationModel {
       );
     }
 
-    Jwk.validateJwkEs256k(signedData.recovery_key);
+    Jwk.validateJwkCurve25519(signedData.recovery_key);
 
     return {
       didSuffix: signedData.did_suffix,

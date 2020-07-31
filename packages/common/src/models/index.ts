@@ -9,7 +9,6 @@ import DidState from './DidState';
 import DocumentModel from './DocumentModel';
 import FetchResult from './FetchResult';
 import JwkCurve25519 from './JwkCurve25519';
-import JwkEs256k from './JwkEs256k';
 import JwsModel from './JwsModel';
 import MapFileModel from './MapFileModel';
 import OperationModel from './OperationModel';
@@ -36,7 +35,6 @@ export {
   DocumentModel,
   FetchResult,
   JwkCurve25519,
-  JwkEs256k,
   JwsModel,
   MapFileModel,
   OperationModel,

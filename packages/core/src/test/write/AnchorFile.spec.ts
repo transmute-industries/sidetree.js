@@ -15,7 +15,7 @@ describe('AnchorFile', () => {
       const createOperation = createOperationData.createOperation;
 
       // Recover operation.
-      const [, anyRecoveryPrivateKey] = await Jwk.generateEs256kKeyPair();
+      const [, anyRecoveryPrivateKey] = await Jwk.generateEd25519KeyPair();
       const recoverOperationData = await OperationGenerator.generateRecoverOperation(
         {
           didUniqueSuffix: 'anyDid1',
@@ -318,7 +318,7 @@ describe('AnchorFile', () => {
       const createOperation = createOperationData.createOperation;
 
       // Recover operation.
-      const [, anyRecoveryPrivateKey] = await Jwk.generateEs256kKeyPair();
+      const [, anyRecoveryPrivateKey] = await Jwk.generateEd25519KeyPair();
       const recoverOperationData = await OperationGenerator.generateRecoverOperation(
         {
           didUniqueSuffix: 'anyDid1',

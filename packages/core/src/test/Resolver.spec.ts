@@ -38,7 +38,7 @@ describe('Resolver', () => {
       const [
         recoveryPublicKey,
         recoveryPrivateKey,
-      ] = await Jwk.generateEs256kKeyPair();
+      ] = await Jwk.generateEd25519KeyPair();
       const [
         signingPublicKey,
         signingPrivateKey,
@@ -122,7 +122,7 @@ describe('Resolver', () => {
       expect(didState.document.service_endpoints.length).toEqual(2);
 
       // Create new keys used for new document for recovery request.
-      const [newRecoveryPublicKey] = await Jwk.generateEs256kKeyPair();
+      const [newRecoveryPublicKey] = await Jwk.generateEd25519KeyPair();
       const [
         newSigningPublicKey,
         newSigningPrivateKey,
