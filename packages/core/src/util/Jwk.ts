@@ -28,7 +28,7 @@ export default class Jwk {
       throw new SidetreeError(ErrorCode.JwkCurve25519Undefined);
     }
 
-    const allowedProperties = new Set(['kty', 'crv', 'x']);
+    const allowedProperties = new Set(['kty', 'crv', 'x', 'kid']);
     for (const property in jwk) {
       if (!allowedProperties.has(property)) {
         throw new SidetreeError(ErrorCode.JwkCurve25519HasUnknownProperty);
