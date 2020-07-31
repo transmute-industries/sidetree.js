@@ -8,6 +8,7 @@ import DeltaModel from './DeltaModel';
 import DidState from './DidState';
 import DocumentModel from './DocumentModel';
 import FetchResult from './FetchResult';
+import JwkEd25519 from './JwkEd25519';
 import JwkEs256k from './JwkEs256k';
 import JwsModel from './JwsModel';
 import MapFileModel from './MapFileModel';
@@ -34,6 +35,7 @@ export {
   DidState,
   DocumentModel,
   FetchResult,
+  JwkEd25519,
   JwkEs256k,
   JwsModel,
   MapFileModel,

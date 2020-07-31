@@ -1,4 +1,9 @@
-import { ErrorCode, JwkEs256k, SidetreeError } from '@sidetree/common';
+import {
+  ErrorCode,
+  JwkEs256k,
+  SidetreeError,
+  JwkEd25519,
+} from '@sidetree/common';
 import { JWK } from 'jose';
 
 /**
@@ -23,6 +28,20 @@ export default class Jwk {
     };
 
     const privateKey = Object.assign({ d: keyPair.d }, publicKey);
+    return [publicKey, privateKey];
+  }
+
+  /**
+   * Generates ED25519 key pair.
+   * Mainly used for testing.
+   * @returns [publicKey, privateKey]
+   */
+  public static async generateEd25519KeyPair(): Promise<
+    [JwkEd25519, JwkEd25519]
+  > {
+    const keyPair = await JWK.generate('OKP', 'Ed25519');
+    const privateKey = keyPair.toJWK(true) as JwkEd25519;
+    const publicKey = keyPair.toJWK(false) as JwkEd25519;
     return [publicKey, privateKey];
   }
 
