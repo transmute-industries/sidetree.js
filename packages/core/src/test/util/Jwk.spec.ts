@@ -2,6 +2,14 @@ import { ErrorCode, SidetreeError } from '@sidetree/common';
 import Jwk from '../../util/Jwk';
 
 describe('Jwk', () => {
+  describe('Ed25519 keys', () => {
+    it('should generate generateEd25519KeyPair keypair', async () => {
+      const [publicKey, privateKey] = await Jwk.generateEd25519KeyPair();
+      expect(publicKey).toBeTruthy();
+      expect(privateKey).toBeTruthy();
+    });
+  });
+
   describe('validateJwkEs256k()', () => {
     it('should throw error if `undefined` is passed.', async () => {
       expect(() => {
