@@ -10,6 +10,9 @@ import Resolver from '../Resolver';
 import MockOperationStore from './mocks/MockOperationStore';
 import MockVersionManager from './mocks/MockVersionManager';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+console.info = () => {};
+
 describe('IETF Patch operations', () => {
   let resolver: Resolver;
   let operationProcessor: IOperationProcessor;

@@ -25,6 +25,9 @@ import config from './config-test.json';
 
 jest.setTimeout(10 * 1000);
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+console.info = () => {};
+
 describe('TransactionProcessor', () => {
   let casClient: MockCas;
   let operationStore: MockOperationStore;

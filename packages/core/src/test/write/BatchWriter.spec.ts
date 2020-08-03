@@ -16,6 +16,9 @@ import AnchorFile from '../../write/AnchorFile';
 
 jest.setTimeout(10 * 1000);
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+console.info = () => {};
+
 describe('BatchWriter', () => {
   let blockchain: IBlockchain;
   let cas: ICas;
