@@ -7,8 +7,8 @@ import RecoverOperation from '../RecoverOperation';
 describe('RecoverOperation', () => {
   describe('parse()', () => {
     it('parse as expected', async () => {
-      const [, recoveryPrivateKey] = await Jwk.generateEs256kKeyPair();
-      const [newRecoveryPublicKey] = await Jwk.generateEs256kKeyPair();
+      const [, recoveryPrivateKey] = await Jwk.generateEd25519KeyPair();
+      const [newRecoveryPublicKey] = await Jwk.generateEd25519KeyPair();
       const [newSigningPublicKey] = await OperationGenerator.generateKeyPair(
         'singingKey'
       );
@@ -28,8 +28,8 @@ describe('RecoverOperation', () => {
     });
 
     it('should throw if operation type is incorrect', async () => {
-      const [, recoveryPrivateKey] = await Jwk.generateEs256kKeyPair();
-      const [newRecoveryPublicKey] = await Jwk.generateEs256kKeyPair();
+      const [, recoveryPrivateKey] = await Jwk.generateEd25519KeyPair();
+      const [newRecoveryPublicKey] = await Jwk.generateEd25519KeyPair();
       const [newSigningPublicKey] = await OperationGenerator.generateKeyPair(
         'singingKey'
       );
@@ -53,8 +53,8 @@ describe('RecoverOperation', () => {
     });
 
     it('should throw if didUniqueSuffix is not string.', async () => {
-      const [, recoveryPrivateKey] = await Jwk.generateEs256kKeyPair();
-      const [newRecoveryPublicKey] = await Jwk.generateEs256kKeyPair();
+      const [, recoveryPrivateKey] = await Jwk.generateEd25519KeyPair();
+      const [newRecoveryPublicKey] = await Jwk.generateEd25519KeyPair();
       const [newSigningPublicKey] = await OperationGenerator.generateKeyPair(
         'singingKey'
       );
@@ -81,7 +81,7 @@ describe('RecoverOperation', () => {
   describe('parseOperationFromAnchorFile()', () => {
     it('should parse the operation included in an anchor file without the `delta` property.', async () => {
       const didUniqueSuffix = 'anyDidSuffix';
-      const [, recoveryPrivateKey] = await Jwk.generateEs256kKeyPair();
+      const [, recoveryPrivateKey] = await Jwk.generateEd25519KeyPair();
 
       const recoverOperationData = await OperationGenerator.generateRecoverOperation(
         { didUniqueSuffix, recoveryPrivateKey }

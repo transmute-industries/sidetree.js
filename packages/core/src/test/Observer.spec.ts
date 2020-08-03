@@ -25,6 +25,8 @@ import OperationGenerator from './generators/OperationGenerator';
 import TransactionSelector from '../TransactionSelector';
 import TransactionProcessor from '../TransactionProcessor';
 
+console.info = () => null;
+
 describe('Observer', () => {
   const config = require('./config-test.json');
 

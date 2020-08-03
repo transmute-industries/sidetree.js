@@ -2,7 +2,7 @@ import {
   DeltaModel,
   Encoder,
   ErrorCode,
-  JwkEs256k,
+  JwkCurve25519,
   Multihash,
   OperationModel,
   OperationType,
@@ -15,7 +15,7 @@ import Operation from './Operation';
 
 interface SignedDataModel {
   delta_hash: string;
-  update_key: JwkEs256k;
+  update_key: JwkCurve25519;
 }
 
 /**
@@ -162,7 +162,7 @@ export default class UpdateOperation implements OperationModel {
       );
     }
 
-    Jwk.validateJwkEs256k(signedData.update_key);
+    Jwk.validateJwkCurve25519(signedData.update_key);
 
     const delta_hash = Encoder.decodeAsBuffer(signedData.delta_hash);
     Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(delta_hash);

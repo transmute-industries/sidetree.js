@@ -21,11 +21,11 @@ describe('Jws', () => {
     });
 
     it('should throw error if protected header contains unexpected property.', async () => {
-      const [, signingPrivateKey] = await Jwk.generateEs256kKeyPair();
+      const [, signingPrivateKey] = await Jwk.generateEd25519KeyPair();
 
       const protectedHeader = {
         unknownProperty: 'anyValue',
-        alg: 'ES256K',
+        alg: 'EdDSA',
       };
 
       const payload = { anyProperty: 'anyValue' };
@@ -45,7 +45,7 @@ describe('Jws', () => {
 
     it('should throw error if payload is not Base64URL string.', async () => {
       const protectedHeader = {
-        alg: 'ES256K',
+        alg: 'EdDSA',
       };
       const encodedProtectedHeader = Encoder.encode(
         JSON.stringify(protectedHeader)
@@ -64,7 +64,7 @@ describe('Jws', () => {
 
     it('should throw error if signature is not Base64URL string.', async () => {
       const protectedHeader = {
-        alg: 'ES256K',
+        alg: 'EdDSA',
       };
       const encodedProtectedHeader = Encoder.encode(
         JSON.stringify(protectedHeader)
@@ -84,7 +84,7 @@ describe('Jws', () => {
 
   describe('verifyCompactJws()', () => {
     it('should return true if given compact JWS string has a valid signature.', async () => {
-      const [publicKey, privateKey] = await Jwk.generateEs256kKeyPair();
+      const [publicKey, privateKey] = await Jwk.generateEd25519KeyPair();
 
       const payload = { abc: 'unused value' };
       const compactJws = await Jws.signAsCompactJws(payload, privateKey);
@@ -93,8 +93,8 @@ describe('Jws', () => {
     });
 
     it('should return false if given compact JWS string has an ivalid signature.', async () => {
-      const [publicKey1] = await Jwk.generateEs256kKeyPair();
-      const [, privateKey2] = await Jwk.generateEs256kKeyPair();
+      const [publicKey1] = await Jwk.generateEd25519KeyPair();
+      const [, privateKey2] = await Jwk.generateEd25519KeyPair();
 
       const payload = { abc: 'some value' };
       const compactJws = await Jws.signAsCompactJws(payload, privateKey2); // Intentionally signing with a different key.
@@ -104,7 +104,7 @@ describe('Jws', () => {
 
     it('should return false if input is not a valid JWS string', async () => {
       const input = 'some invalid string';
-      const [publicKey] = await Jwk.generateEs256kKeyPair();
+      const [publicKey] = await Jwk.generateEd25519KeyPair();
 
       expect(await Jws.verifyCompactJws(input, publicKey)).toBeFalsy();
     });

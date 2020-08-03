@@ -32,7 +32,7 @@ describe('ChunkFile', () => {
       const createOperationData = await OperationGenerator.generateCreateOperation();
       const createOperation = createOperationData.createOperation;
 
-      const [, recoveryPrivateKey] = await Jwk.generateEs256kKeyPair();
+      const [, recoveryPrivateKey] = await Jwk.generateEd25519KeyPair();
       const recoverOperationData = await OperationGenerator.generateRecoverOperation(
         {
           didUniqueSuffix: 'didOfRecovery',

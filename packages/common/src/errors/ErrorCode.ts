@@ -123,12 +123,14 @@ export default {
     'encoder_validate_base64url_string_input_not_base64url_string',
   EncoderValidateBase64UrlStringInputNotString:
     'encoder_validate_base64url_string_input_not_string',
-  JwkEs256kHasUnknownProperty: 'jwk_es256k_has_unknown_property',
-  JwkEs256kMissingOrInvalidCrv: 'jwk_es256k_missing_or_invalid_crv',
-  JwkEs256kMissingOrInvalidKty: 'jwk_es256k_missing_or_invalid_kty',
-  JwkEs256kMissingOrInvalidTypeX: 'jwk_es256k_missing_or_invalid_type_x',
-  JwkEs256kMissingOrInvalidTypeY: 'jwk_es256k_missing_or_invalid_type_y',
-  JwkEs256kUndefined: 'jwk_es256k_undefined',
+  JwkCurve25519HasUnknownProperty: 'jwk_curve25519_has_unknown_property',
+  JwkCurve25519MissingOrInvalidCrv: 'jwk_curve25519_missing_or_invalid_crv',
+  JwkCurve25519MissingOrInvalidKty: 'jwk_curve25519_missing_or_invalid_kty',
+  JwkCurve25519MissingOrInvalidTypeX:
+    'jwk_curve25519_missing_or_invalid_type_x',
+  JwkCurve25519MissingOrInvalidTypeY:
+    'jwk_curve25519_missing_or_invalid_type_y',
+  JwkCurve25519Undefined: 'jwk_curve25519_undefined',
   JwsCompactJwsInvalid: 'jws_compact_jws_invalid',
   JwsCompactJwsNotString: 'jws_compact_jws_not_string',
   JwsFailedSignatureValidation: 'jws_failed_signature_validation',

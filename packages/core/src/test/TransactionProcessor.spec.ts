@@ -23,6 +23,10 @@ import TransactionProcessor from '../TransactionProcessor';
 import ValueTimeLockVerifier from '../ValueTimeLockVerifier';
 import config from './config-test.json';
 
+jest.setTimeout(10 * 1000);
+
+console.info = () => null;
+
 describe('TransactionProcessor', () => {
   let casClient: MockCas;
   let operationStore: MockOperationStore;

@@ -53,13 +53,8 @@ describe('DocumentComposer', () => {
           {
             id: '#anySigningKey',
             controller: '',
-            type: 'EcdsaSecp256k1VerificationKey2019',
-            publicKeyJwk: {
-              kty: 'EC',
-              crv: 'secp256k1',
-              x: anySigningPublicKey.jwk.x,
-              y: anySigningPublicKey.jwk.y,
-            },
+            type: 'Ed25519VerificationKey2018',
+            publicKeyJwk: anySigningPublicKey.jwk,
           },
         ],
         authentication: [
@@ -67,13 +62,8 @@ describe('DocumentComposer', () => {
           {
             id: '#authePbulicKey', // object here because it is an auth purpose only key
             controller: '',
-            type: 'EcdsaSecp256k1VerificationKey2019',
-            publicKeyJwk: {
-              kty: 'EC',
-              crv: 'secp256k1',
-              x: authPublicKey.jwk.x,
-              y: authPublicKey.jwk.y,
-            },
+            type: 'Ed25519VerificationKey2018',
+            publicKeyJwk: authPublicKey.jwk,
           },
         ],
       });
@@ -551,7 +541,7 @@ describe('DocumentComposer', () => {
       }, ErrorCode.DocumentComposerIdNotString);
     });
 
-    it('should throw error if the a secp256k1 public key in an add-public-keys patch is not specified in `jwk` property.', async () => {
+    it('should throw error if the a ed25519 public key in an add-public-keys patch is not specified in `jwk` property.', async () => {
       const patches = generatePatchesForPublicKeys();
 
       // Simulate that `jwk` is missing.
@@ -717,13 +707,13 @@ describe('DocumentComposer', () => {
         public_keys: [
           {
             id: 'key1',
-            type: 'EcdsaSecp256k1VerificationKey2019',
+            type: 'Ed25519VerificationKey2018',
             jwk: { a: 'unused a' },
             purpose: ['general'],
           },
           {
             id: 'key1', // Intentional duplicated key ID.
-            type: 'EcdsaSecp256k1VerificationKey2019',
+            type: 'Ed25519VerificationKey2018',
             jwk: { b: 'unused b' },
             purpose: ['general'],
           },
@@ -743,7 +733,7 @@ describe('DocumentComposer', () => {
         public_keys: [
           {
             id: 'key1',
-            type: 'EcdsaSecp256k1VerificationKey2019',
+            type: 'Ed25519VerificationKey2018',
             jwk: {},
             purpose: [],
           },
@@ -763,7 +753,7 @@ describe('DocumentComposer', () => {
         public_keys: [
           {
             id: 'key1',
-            type: 'EcdsaSecp256k1VerificationKey2019',
+            type: 'Ed25519VerificationKey2018',
             jwk: {},
             purpose: undefined,
           },
@@ -783,7 +773,7 @@ describe('DocumentComposer', () => {
         public_keys: [
           {
             id: 'key1',
-            type: 'EcdsaSecp256k1VerificationKey2019',
+            type: 'Ed25519VerificationKey2018',
             jwk: {},
             purpose: ['general', 'general', 'general', 'general'],
           },
@@ -803,7 +793,7 @@ describe('DocumentComposer', () => {
         public_keys: [
           {
             id: 'key1',
-            type: 'EcdsaSecp256k1VerificationKey2019',
+            type: 'Ed25519VerificationKey2018',
             jwk: {},
             purpose: ['general', 'somethingInvalid'],
           },
@@ -846,12 +836,12 @@ function generatePatchesForPublicKeys() {
       public_keys: [
         {
           id: 'keyX',
-          type: 'EcdsaSecp256k1VerificationKey2019',
+          type: 'Ed25519VerificationKey2018',
           jwk: {
-            kty: 'EC',
-            crv: 'secp256k1',
-            x: '5s3-bKjD1Eu_3NJu8pk7qIdOPl1GBzU_V8aR3xiacoM',
-            y: 'v0-Q5H3vcfAfQ4zsebJQvMrIg3pcsaJzRvuIYZ3_UOY',
+            crv: 'Ed25519',
+            x: 'vcLqWyMCFAg8Wrbxu-p01-SG0ATO3rAKq3KobKUSsN8',
+            kty: 'OKP',
+            kid: 'ee5XJ8S-BMuvPFsk0GN-mkL3QEGoorgLbnMFIzXkUSE',
           },
           purpose: ['general'],
         },

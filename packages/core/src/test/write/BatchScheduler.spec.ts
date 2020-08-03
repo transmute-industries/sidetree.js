@@ -4,6 +4,8 @@ import MockBatchWriter from '../mocks/MockBatchWriter';
 import { MockLedger } from '@sidetree/ledger';
 import MockVersionManager from '../mocks/MockVersionManager';
 
+console.info = () => null;
+
 describe('BatchScheduler', () => {
   it('should periodically invoke batch writer.', async () => {
     const blockchain = new MockLedger();

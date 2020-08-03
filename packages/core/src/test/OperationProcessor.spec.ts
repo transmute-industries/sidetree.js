@@ -6,7 +6,7 @@ import {
   ErrorCode,
   IOperationProcessor,
   IVersionManager,
-  JwkEs256k,
+  JwkCurve25519,
   Multihash,
   OperationType,
   PublicKeyModel,
@@ -25,6 +25,8 @@ import Resolver from '../Resolver';
 import UpdateOperation from '../UpdateOperation';
 import JasmineSidetreeErrorValidator from './JasmineSidetreeErrorValidator';
 
+console.info = () => null;
+
 async function createUpdateSequence(
   didUniqueSuffix: string,
   createOp: AnchoredOperationModel,
@@ -33,7 +35,7 @@ async function createUpdateSequence(
 ): Promise<AnchoredOperationModel[]> {
   const ops = new Array(createOp);
 
-  let currentUpdateKey = Jwk.getEs256kPublicKey(privateKey);
+  let currentUpdateKey = Jwk.getCurve25519PublicKey(privateKey);
   let currentPrivateKey = privateKey;
   for (let i = 0; i < numberOfUpdates; ++i) {
     const [
@@ -133,11 +135,11 @@ describe('OperationProcessor', () => {
   let versionManager: IVersionManager;
   let operationProcessor: IOperationProcessor;
   let createOp: AnchoredOperationModel;
-  let recoveryPublicKey: JwkEs256k;
-  let recoveryPrivateKey: JwkEs256k;
+  let recoveryPublicKey: JwkCurve25519;
+  let recoveryPrivateKey: JwkCurve25519;
   let signingKeyId: string;
   let signingPublicKey: PublicKeyModel;
-  let signingPrivateKey: JwkEs256k;
+  let signingPrivateKey: JwkCurve25519;
   let didUniqueSuffix: string;
 
   beforeEach(async () => {
@@ -151,7 +153,10 @@ describe('OperationProcessor', () => {
 
     // Generate a unique key-pair used for each test.
     signingKeyId = 'signingKey';
-    [recoveryPublicKey, recoveryPrivateKey] = await Jwk.generateEs256kKeyPair();
+    [
+      recoveryPublicKey,
+      recoveryPrivateKey,
+    ] = await Jwk.generateEd25519KeyPair();
     [
       signingPublicKey,
       signingPrivateKey,
@@ -281,8 +286,8 @@ describe('OperationProcessor', () => {
     validateDocumentAfterUpdates(didState!.document, numberOfUpdates);
   });
 
-  it('should correctly process updates in every (5! = 120) order', async () => {
-    const numberOfUpdates = 4;
+  it('should correctly process updates in every (4! = 24) order', async () => {
+    const numberOfUpdates = 3;
     const ops = await createUpdateSequence(
       didUniqueSuffix,
       createOp,
@@ -494,10 +499,10 @@ describe('OperationProcessor', () => {
   });
 
   describe('apply()', () => {
-    let recoveryPublicKey: JwkEs256k;
-    let recoveryPrivateKey: JwkEs256k;
+    let recoveryPublicKey: JwkCurve25519;
+    let recoveryPrivateKey: JwkCurve25519;
     let signingPublicKey: PublicKeyModel;
-    let signingPrivateKey: JwkEs256k;
+    let signingPrivateKey: JwkCurve25519;
     let namedAnchoredCreateOperationModel: AnchoredOperationModel;
     let didState: DidState | undefined;
     let nextRecoveryCommitmentHash: string;
@@ -511,7 +516,7 @@ describe('OperationProcessor', () => {
       [
         recoveryPublicKey,
         recoveryPrivateKey,
-      ] = await Jwk.generateEs256kKeyPair();
+      ] = await Jwk.generateEd25519KeyPair();
       [
         signingPublicKey,
         signingPrivateKey,
@@ -639,7 +644,7 @@ describe('OperationProcessor', () => {
         );
         const updateOperationRequest = await OperationGenerator.createUpdateOperationRequestForAddingAKey(
           didUniqueSuffix,
-          (await Jwk.generateEs256kKeyPair())[0], // this is a random bad key
+          (await Jwk.generateEd25519KeyPair())[0], // this is a random bad key
           signingPrivateKey,
           additionalKey,
           OperationGenerator.generateRandomHash()
@@ -770,7 +775,7 @@ describe('OperationProcessor', () => {
 
       it('should still apply successfully with resultant document being { } if new document is in some unexpected format.', async () => {
         const document = 'unexpected document format';
-        const [anyNewRecoveryPublicKey] = await Jwk.generateEs256kKeyPair();
+        const [anyNewRecoveryPublicKey] = await Jwk.generateEd25519KeyPair();
         const recoverOperationRequest = await OperationGenerator.createRecoverOperationRequest(
           didUniqueSuffix,
           recoveryPrivateKey,
@@ -810,7 +815,7 @@ describe('OperationProcessor', () => {
         const [
           ,
           anyIncorrectRecoveryPrivateKey,
-        ] = await Jwk.generateEs256kKeyPair();
+        ] = await Jwk.generateEd25519KeyPair();
         const deactivateOperationData = await OperationGenerator.createDeactivateOperation(
           didUniqueSuffix,
           anyIncorrectRecoveryPrivateKey

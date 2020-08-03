@@ -2,7 +2,11 @@ import secp256k1 from 'secp256k1';
 import { ES256K } from '@transmute/did-key-secp256k1';
 import keyto from '@trust/keyto';
 import { JWS } from 'jose';
-import { publicKeyJwk, privateKeyJwk, privateKeyBuffer } from './__fixtures__';
+import {
+  secp256KPublicKeyJwk,
+  secp256KPrivateKeyJwk,
+  secp256KPrivateKeyBuffer,
+} from './__fixtures__';
 
 const msg = Buffer.from(JSON.stringify({ hello: 'world' }));
 
@@ -13,42 +17,42 @@ const header = {
 describe('Convert key formats', () => {
   it('should convert hex keys to jwk', async () => {
     const generatedPrivKeyJwk = keyto
-      .from(privateKeyBuffer.toString('hex'), 'blk')
+      .from(secp256KPrivateKeyBuffer.toString('hex'), 'blk')
       .toJwk('private');
     generatedPrivKeyJwk.crv = 'secp256k1';
-    expect(generatedPrivKeyJwk).toEqual(privateKeyJwk);
+    expect(generatedPrivKeyJwk).toEqual(secp256KPrivateKeyJwk);
 
-    const generatedPublicKeyJwk = keyto
-      .from(privateKeyBuffer, 'blk')
+    const generatedsecp256KPublicKeyJwk = keyto
+      .from(secp256KPrivateKeyBuffer, 'blk')
       .toJwk('public');
-    generatedPublicKeyJwk.crv = 'secp256k1';
-    expect(generatedPublicKeyJwk).toEqual(publicKeyJwk);
+    generatedsecp256KPublicKeyJwk.crv = 'secp256k1';
+    expect(generatedsecp256KPublicKeyJwk).toEqual(secp256KPublicKeyJwk);
   });
 
   it('should convert jwk to hex keys', async () => {
     const generatedPrivKeyHex = keyto
       .from(
         {
-          ...privateKeyJwk,
+          ...secp256KPrivateKeyJwk,
           crv: 'K-256',
         },
         'jwk'
       )
       .toString('blk', 'private');
-    const privKeyHex = privateKeyBuffer.toString('hex');
+    const privKeyHex = secp256KPrivateKeyBuffer.toString('hex');
     expect(generatedPrivKeyHex).toEqual(privKeyHex);
 
     const generatedPubKeyHex = keyto
       .from(
         {
-          ...publicKeyJwk,
+          ...secp256KPublicKeyJwk,
           crv: 'K-256',
         },
         'jwk'
       )
       .toString('blk', 'public');
     const pubKeyHex = Buffer.from(
-      secp256k1.publicKeyCreate(privateKeyBuffer, false)
+      secp256k1.publicKeyCreate(secp256KPrivateKeyBuffer, false)
     ).toString('hex');
     expect(generatedPubKeyHex).toContain(pubKeyHex);
   });
@@ -57,11 +61,11 @@ describe('Convert key formats', () => {
 describe('Interop between did key ES256K lib and JOSE lib', () => {
   it('should deterministically sign a message with did-key ES256K lib', async () => {
     const privateKeyWithKid = {
-      ...privateKeyJwk,
+      ...secp256KPrivateKeyJwk,
       kid: '',
     };
     const publicKeyWithKid = {
-      ...publicKeyJwk,
+      ...secp256KPublicKeyJwk,
       kid: '',
     };
     const jws = await ES256K.sign(msg, privateKeyWithKid);
@@ -75,11 +79,11 @@ describe('Interop between did key ES256K lib and JOSE lib', () => {
   });
 
   it('should nondeterministically sign a message with the JOSE library', async () => {
-    const jws = await JWS.sign(msg, privateKeyJwk as any, header);
-    const verified = await JWS.verify(jws, publicKeyJwk as any);
+    const jws = await JWS.sign(msg, secp256KPrivateKeyJwk as any, header);
+    const verified = await JWS.verify(jws, secp256KPublicKeyJwk as any);
     expect(verified).toBeTruthy();
-    const jws2 = await JWS.sign(msg, privateKeyJwk as any, header);
-    const verified2 = await JWS.verify(jws2, publicKeyJwk as any);
+    const jws2 = await JWS.sign(msg, secp256KPrivateKeyJwk as any, header);
+    const verified2 = await JWS.verify(jws2, secp256KPublicKeyJwk as any);
     expect(verified2).toBeTruthy();
     // Show that signatures are different
     const [protectedHeader, payload, signature] = jws.split('.');
@@ -91,18 +95,18 @@ describe('Interop between did key ES256K lib and JOSE lib', () => {
 
   it('should sign with did key ES256K and verify with JOSE', async () => {
     const privateKeyWithKid = {
-      ...privateKeyJwk,
+      ...secp256KPrivateKeyJwk,
       kid: '',
     };
     const jws = await ES256K.sign(msg, privateKeyWithKid);
-    const verified = await JWS.verify(jws, publicKeyJwk as any);
+    const verified = await JWS.verify(jws, secp256KPublicKeyJwk as any);
     expect(verified).toBeTruthy();
   });
 
   it('should sign with JOSE and verify with did key ES256K ', async () => {
-    const jws = await JWS.sign(msg, privateKeyJwk as any, header);
+    const jws = await JWS.sign(msg, secp256KPrivateKeyJwk as any, header);
     const publicKeyWithKid = {
-      ...publicKeyJwk,
+      ...secp256KPublicKeyJwk,
       kid: '',
     };
     try {

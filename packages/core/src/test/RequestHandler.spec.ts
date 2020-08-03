@@ -9,7 +9,7 @@ import {
   ICas,
   IOperationStore,
   IVersionManager,
-  JwkEs256k,
+  JwkCurve25519,
   OperationType,
   Config,
   SidetreeError,
@@ -35,19 +35,15 @@ import RequestHandler from '../RequestHandler';
 import Resolver from '../Resolver';
 import Response from '../Response';
 
+jest.setTimeout(10 * 1000);
+
 const util = require('util');
 
 describe('RequestHandler', () => {
   // Surpress console logging during dtesting so we get a compact test summary in console.
-  console.info = () => {
-    return;
-  };
-  console.error = () => {
-    return;
-  };
-  console.debug = () => {
-    return;
-  };
+  console.info = () => null;
+  console.error = () => null;
+  console.debug = () => null;
 
   const config: Config = require('./config-test.json');
   const didMethodName = config.didMethodName;
@@ -61,8 +57,8 @@ describe('RequestHandler', () => {
   let requestHandler: RequestHandler;
   let versionManager: IVersionManager;
 
-  let recoveryPublicKey: JwkEs256k;
-  let recoveryPrivateKey: JwkEs256k;
+  let recoveryPublicKey: JwkCurve25519;
+  let recoveryPrivateKey: JwkCurve25519;
   let did: string; // This DID is created at the beginning of every test.
   let didUniqueSuffix: string;
 
@@ -120,7 +116,10 @@ describe('RequestHandler', () => {
     blockchain.setLatestTime(mockLatestTime);
 
     // Generate a unique key-pair used for each test.
-    [recoveryPublicKey, recoveryPrivateKey] = await Jwk.generateEs256kKeyPair();
+    [
+      recoveryPublicKey,
+      recoveryPrivateKey,
+    ] = await Jwk.generateEd25519KeyPair();
     const [signingPublicKey] = await OperationGenerator.generateKeyPair('key2');
     const services = OperationGenerator.generateServiceEndpoints([
       'serviceEndpointId123',
@@ -207,7 +206,7 @@ describe('RequestHandler', () => {
 
   it('should return bad request if two operations for the same DID is received.', async () => {
     // Create the initial create operation.
-    const [recoveryPublicKey] = await Jwk.generateEs256kKeyPair();
+    const [recoveryPublicKey] = await Jwk.generateEd25519KeyPair();
     const [signingPublicKey] = await OperationGenerator.generateKeyPair(
       'signingKey'
     );
@@ -295,7 +294,7 @@ describe('RequestHandler', () => {
   });
 
   it('should respond with HTTP 200 when an update operation request is successful.', async () => {
-    const [, anySigningPrivateKey] = await Jwk.generateEs256kKeyPair();
+    const [, anySigningPrivateKey] = await Jwk.generateEd25519KeyPair();
     const [additionalKey] = await OperationGenerator.generateKeyPair(
       `new-key1`
     );

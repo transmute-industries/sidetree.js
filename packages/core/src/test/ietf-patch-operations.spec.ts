@@ -10,6 +10,8 @@ import Resolver from '../Resolver';
 import MockOperationStore from './mocks/MockOperationStore';
 import MockVersionManager from './mocks/MockVersionManager';
 
+console.info = () => null;
+
 describe('IETF Patch operations', () => {
   let resolver: Resolver;
   let operationProcessor: IOperationProcessor;

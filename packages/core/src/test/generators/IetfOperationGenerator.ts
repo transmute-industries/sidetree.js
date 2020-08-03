@@ -1,5 +1,5 @@
 import {
-  JwkEs256k,
+  JwkCurve25519,
   Multihash,
   Encoder,
   PublicKeyModel,
@@ -16,12 +16,12 @@ import jsonpatch from 'fast-json-patch';
 interface GeneratedRecoverOperationData {
   operationBuffer: Buffer;
   recoverOperation: RecoverOperation;
-  recoveryPublicKey: JwkEs256k;
-  recoveryPrivateKey: JwkEs256k;
+  recoveryPublicKey: JwkCurve25519;
+  recoveryPrivateKey: JwkCurve25519;
   signingPublicKey: PublicKeyModel;
-  signingPrivateKey: JwkEs256k;
+  signingPrivateKey: JwkCurve25519;
   update_key: PublicKeyModel;
-  updatePrivateKey: JwkEs256k;
+  updatePrivateKey: JwkCurve25519;
 }
 
 export default class IetfOperationGenerator {
@@ -33,11 +33,11 @@ export default class IetfOperationGenerator {
     const [
       recoveryPublicKey,
       recoveryPrivateKey,
-    ] = await Jwk.generateEs256kKeyPair();
+    ] = await Jwk.generateEd25519KeyPair();
     const [
       updatePublicKey,
       updatePrivateKey,
-    ] = await Jwk.generateEs256kKeyPair();
+    ] = await Jwk.generateEd25519KeyPair();
     const [
       signingPublicKey,
       signingPrivateKey,
@@ -108,8 +108,8 @@ export default class IetfOperationGenerator {
    */
   public static async generateUpdateOperation(
     didUniqueSuffix: string,
-    updatePublicKey: JwkEs256k,
-    updatePrivateKey: JwkEs256k
+    updatePublicKey: JwkCurve25519,
+    updatePrivateKey: JwkCurve25519
   ) {
     const additionalKeyId = `additional-key`;
     const [
@@ -157,8 +157,8 @@ export default class IetfOperationGenerator {
 
   public static async generateBadUpdateOperation(
     didUniqueSuffix: string,
-    updatePublicKey: JwkEs256k,
-    updatePrivateKey: JwkEs256k,
+    updatePublicKey: JwkCurve25519,
+    updatePrivateKey: JwkCurve25519,
     oldDocument: any
   ) {
     const additionalKeyId = 'next-update-key';
@@ -207,13 +207,13 @@ export default class IetfOperationGenerator {
    */
   public static async generateRecoverOperation(
     didUniqueSuffix: string,
-    recoveryPrivateKey: JwkEs256k
+    recoveryPrivateKey: JwkCurve25519
   ): Promise<GeneratedRecoverOperationData> {
     const newSigningKeyId = 'newSigningKey';
     const [
       newRecoveryPublicKey,
       newRecoveryPrivateKey,
-    ] = await Jwk.generateEs256kKeyPair();
+    ] = await Jwk.generateEd25519KeyPair();
     const [
       newSigningPublicKey,
       newSigningPrivateKey,
@@ -255,12 +255,12 @@ export default class IetfOperationGenerator {
 
     const signedDataPayloadObject = {
       delta_hash: delta_hash,
-      recovery_key: Jwk.getEs256kPublicKey(recoveryPrivateKey),
+      recovery_key: Jwk.getCurve25519PublicKey(recoveryPrivateKey),
       recovery_commitment: Multihash.canonicalizeThenHashThenEncode(
         newRecoveryPublicKey
       ),
     };
-    const signedData = await OperationGenerator.signUsingEs256k(
+    const signedData = await OperationGenerator.signUsingEd25519(
       signedDataPayloadObject,
       recoveryPrivateKey
     );
@@ -293,13 +293,13 @@ export default class IetfOperationGenerator {
    */
   public static async createDeactivateOperation(
     didUniqueSuffix: string,
-    recoveryPrivateKey: JwkEs256k
+    recoveryPrivateKey: JwkCurve25519
   ) {
     const signedDataPayloadObject = {
       did_suffix: didUniqueSuffix,
-      recovery_key: Jwk.getEs256kPublicKey(recoveryPrivateKey),
+      recovery_key: Jwk.getCurve25519PublicKey(recoveryPrivateKey),
     };
-    const signedData = await OperationGenerator.signUsingEs256k(
+    const signedData = await OperationGenerator.signUsingEd25519(
       signedDataPayloadObject,
       recoveryPrivateKey
     );
