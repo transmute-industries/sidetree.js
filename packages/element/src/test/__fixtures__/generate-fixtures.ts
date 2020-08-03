@@ -42,7 +42,6 @@ class KeyGenerator {
     const root = hdkey.fromMasterSeed(seed);
     const hdPath = `m/44'/60'/0'/0/${this.counter}`;
     const addrNode = root.derive(hdPath);
-    this.counter += 1;
     return addrNode.privateKey;
   }
 
