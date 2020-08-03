@@ -41,15 +41,9 @@ const util = require('util');
 
 describe('RequestHandler', () => {
   // Surpress console logging during dtesting so we get a compact test summary in console.
-  console.info = () => {
-    return;
-  };
-  console.error = () => {
-    return;
-  };
-  console.debug = () => {
-    return;
-  };
+  console.info = () => null;
+  console.error = () => null;
+  console.debug = () => null;
 
   const config: Config = require('./config-test.json');
   const didMethodName = config.didMethodName;

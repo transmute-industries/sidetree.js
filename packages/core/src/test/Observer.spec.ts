@@ -25,8 +25,7 @@ import OperationGenerator from './generators/OperationGenerator';
 import TransactionSelector from '../TransactionSelector';
 import TransactionProcessor from '../TransactionProcessor';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-console.info = () => {};
+console.info = () => null;
 
 describe('Observer', () => {
   const config = require('./config-test.json');

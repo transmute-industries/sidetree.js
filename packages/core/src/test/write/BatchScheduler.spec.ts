@@ -4,8 +4,7 @@ import MockBatchWriter from '../mocks/MockBatchWriter';
 import { MockLedger } from '@sidetree/ledger';
 import MockVersionManager from '../mocks/MockVersionManager';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-console.info = () => {};
+console.info = () => null;
 
 describe('BatchScheduler', () => {
   it('should periodically invoke batch writer.', async () => {

@@ -25,8 +25,7 @@ import Resolver from '../Resolver';
 import UpdateOperation from '../UpdateOperation';
 import JasmineSidetreeErrorValidator from './JasmineSidetreeErrorValidator';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-console.info = () => {};
+console.info = () => null;
 
 async function createUpdateSequence(
   didUniqueSuffix: string,
