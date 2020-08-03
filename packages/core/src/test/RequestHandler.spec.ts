@@ -35,6 +35,8 @@ import RequestHandler from '../RequestHandler';
 import Resolver from '../Resolver';
 import Response from '../Response';
 
+jest.setTimeout(10 * 1000);
+
 const util = require('util');
 
 describe('RequestHandler', () => {
