@@ -1,6 +1,6 @@
 {
-  "kty": "EC",
-  "crv": "secp256k1",
-  "x": "4N4dL6SqdsLhTe6vjE3Td6tLvFoGsukp15Uq8NPrK1I",
-  "y": "LtMyPHQizcJuY3vEJa9afQuV8f-nBR9O3adqjTXo-9o"
+  "crv": "Ed25519",
+  "x": "Ud_jGhH_FyCim4aCRgHh5u6Zsu0AZ4hgY9ROOfUfgXE",
+  "kty": "OKP",
+  "kid": "dgD-1XhMsPwh400mdT2Ankn0jYHTvaZ-NpVd6DVqJCs"
 }

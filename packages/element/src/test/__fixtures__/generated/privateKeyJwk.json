@@ -1,7 +1,7 @@
 {
-  "kty": "EC",
-  "crv": "secp256k1",
+  "crv": "Ed25519",
   "d": "REQ3NNk0XPdP6PtzO6rMKnsh3q3p3cs9iqYFnEnt6qg",
-  "x": "4N4dL6SqdsLhTe6vjE3Td6tLvFoGsukp15Uq8NPrK1I",
-  "y": "LtMyPHQizcJuY3vEJa9afQuV8f-nBR9O3adqjTXo-9o"
+  "x": "Ud_jGhH_FyCim4aCRgHh5u6Zsu0AZ4hgY9ROOfUfgXE",
+  "kty": "OKP",
+  "kid": "dgD-1XhMsPwh400mdT2Ankn0jYHTvaZ-NpVd6DVqJCs"
 }
