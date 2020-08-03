@@ -67,7 +67,7 @@ export default class OperationGenerator {
     const [publicKey, privateKey] = await Jwk.generateEd25519KeyPair();
     const publicKeyModel = {
       id,
-      type: 'EcdsaSecp256k1VerificationKey2019',
+      type: 'Ed25519VerificationKey2018',
       jwk: publicKey,
       purpose: purpose || Object.values(PublicKeyPurpose),
     };
