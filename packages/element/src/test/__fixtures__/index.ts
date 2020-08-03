@@ -33,9 +33,9 @@ const createMapFile = parse('createMapFile.json');
 const createAnchorFile = parse('createAnchorFile.json');
 
 // Keys
-const publicKeyJwk = parse('publicKeyJwk.json');
-const privateKeyJwk = parse('privateKeyJwk.json');
-const privateKeyBuffer = parse('privateKeyBuffer.txt');
+const secp256KPublicKeyJwk = parse('secp256KPublicKeyJwk.json');
+const secp256KPrivateKeyJwk = parse('secp256KPrivateKeyJwk.json');
+const secp256KPrivateKeyBuffer = parse('secp256KPrivateKeyBuffer.txt');
 
 export {
   createAnchorFile,
@@ -49,7 +49,7 @@ export {
   resolveBody,
   shortFormDid,
   updateOperationBuffer,
-  publicKeyJwk,
-  privateKeyJwk,
-  privateKeyBuffer,
+  secp256KPublicKeyJwk,
+  secp256KPrivateKeyJwk,
+  secp256KPrivateKeyBuffer,
 };

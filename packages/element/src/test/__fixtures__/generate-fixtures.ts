@@ -10,12 +10,14 @@ import {
   PublicKeyPurpose,
   Multihash,
   JwkCurve25519,
+  JwkEs256k,
 } from '@sidetree/common';
 import { MockCas } from '@sidetree/cas';
 import * as fs from 'fs';
 import * as bip39 from 'bip39';
 import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
 
+const keyto = require('@trust/keyto');
 const hdkey = require('hdkey');
 
 class FileWriter {
@@ -35,19 +37,16 @@ class KeyGenerator {
 
   private counter = 0;
 
-  public getCounter(): number {
-    return this.counter;
-  }
-
-  public async getRandomBuffer(counter?: number): Promise<Buffer> {
+  public async getRandomBuffer(): Promise<Buffer> {
     const seed = await bip39.mnemonicToSeed(this.mnemonic);
     const root = hdkey.fromMasterSeed(seed);
-    const hdPath = `m/44'/60'/0'/0/${counter || this.counter}`;
+    const hdPath = `m/44'/60'/0'/0/${this.counter}`;
     const addrNode = root.derive(hdPath);
+    this.counter += 1;
     return addrNode.privateKey;
   }
 
-  public async getKeyPair(): Promise<[JwkCurve25519, JwkCurve25519]> {
+  public async getEd25519KeyPair(): Promise<[JwkCurve25519, JwkCurve25519]> {
     this.counter += 1;
     const randomBuffer = await this.getRandomBuffer();
     const keyPair = await Ed25519KeyPair.generate({
@@ -59,10 +58,20 @@ class KeyGenerator {
     return [publicKeyJwk, privateKeyJwk];
   }
 
+  public async getSecp256K1KeyPair(): Promise<[JwkEs256k, JwkEs256k]> {
+    this.counter += 1;
+    const randomBuffer = await this.getRandomBuffer();
+    const publicKeyJwk = keyto.from(randomBuffer, 'blk').toJwk('public');
+    publicKeyJwk.crv = 'secp256k1';
+    const privateKeyJwk = keyto.from(randomBuffer, 'blk').toJwk('private');
+    privateKeyJwk.crv = 'secp256k1';
+    return [publicKeyJwk, privateKeyJwk];
+  }
+
   public async getDidDocumentKeyPair(
     id: string
   ): Promise<[any, JwkCurve25519]> {
-    const [publicKeyJwk, privateKeyJwk] = await this.getKeyPair();
+    const [publicKeyJwk, privateKeyJwk] = await this.getEd25519KeyPair();
     const didDocPublicKey = {
       id,
       type: 'Ed25519VerificationKey2018',
@@ -86,7 +95,7 @@ const generateDidFixtures = async (): Promise<void> => {
   const [
     recoveryPublicKey,
     recoveryPrivateKey,
-  ] = await keyGenerator.getKeyPair();
+  ] = await keyGenerator.getEd25519KeyPair();
   const [
     signingPublicKey,
     signingPrivateKey,
@@ -178,7 +187,7 @@ const generateDidFixtures = async (): Promise<void> => {
   const deactivateOperationBuffer = deactivateOperation.operationBuffer;
   FileWriter.write('deactivateOperationBuffer.txt', deactivateOperationBuffer);
 
-  const [newRecoveryPublicKey] = await keyGenerator.getKeyPair();
+  const [newRecoveryPublicKey] = await keyGenerator.getEd25519KeyPair();
   const [newSigningPublicKey] = await keyGenerator.getDidDocumentKeyPair(
     'newSigningKey'
   );
@@ -241,16 +250,22 @@ const generateFiles = async (): Promise<void> => {
 
 const generateKeyFixtures = async (): Promise<void> => {
   const keyGenerator = new KeyGenerator();
-  const [publicKeyJwk, privateKeyJwk] = await keyGenerator.getKeyPair();
-  FileWriter.write('publicKeyJwk.json', JSON.stringify(publicKeyJwk, null, 2));
+  const [
+    publicKeyJwk,
+    privateKeyJwk,
+  ] = await keyGenerator.getSecp256K1KeyPair();
   FileWriter.write(
-    'privateKeyJwk.json',
+    'secp256KPublicKeyJwk.json',
+    JSON.stringify(publicKeyJwk, null, 2)
+  );
+  FileWriter.write(
+    'secp256KPrivateKeyJwk.json',
     JSON.stringify(privateKeyJwk, null, 2)
   );
 
-  const counter = keyGenerator.getCounter();
-  const privateKeyBuffer = await keyGenerator.getRandomBuffer(counter);
-  FileWriter.write('privateKeyBuffer.txt', privateKeyBuffer);
+  // Get random buffer used to generate the JWKs above ^
+  const privateKeyBuffer = await keyGenerator.getRandomBuffer();
+  FileWriter.write('secp256KPrivateKeyBuffer.txt', privateKeyBuffer);
 };
 
 (async (): Promise<void> => {
