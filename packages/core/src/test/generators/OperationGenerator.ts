@@ -56,7 +56,7 @@ export default class OperationGenerator {
   }
 
   /**
-   * Generates SECP256K1 key pair to be used in an operation. If purpose not supplied, all purposes will be included
+   * Generates Ed25519 key pair to be used in an operation. If purpose not supplied, all purposes will be included
    * Mainly used for testing.
    * @returns [publicKey, privateKey]
    */

@@ -541,7 +541,7 @@ describe('DocumentComposer', () => {
       }, ErrorCode.DocumentComposerIdNotString);
     });
 
-    it('should throw error if the a secp256k1 public key in an add-public-keys patch is not specified in `jwk` property.', async () => {
+    it('should throw error if the a ed25519 public key in an add-public-keys patch is not specified in `jwk` property.', async () => {
       const patches = generatePatchesForPublicKeys();
 
       // Simulate that `jwk` is missing.
