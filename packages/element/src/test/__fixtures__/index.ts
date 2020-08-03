@@ -36,6 +36,8 @@ const createAnchorFile = parse('createAnchorFile.json');
 const secp256KPublicKeyJwk = parse('secp256KPublicKeyJwk.json');
 const secp256KPrivateKeyJwk = parse('secp256KPrivateKeyJwk.json');
 const secp256KPrivateKeyBuffer = parse('secp256KPrivateKeyBuffer.txt');
+const ed25519PublicKeyJwk = parse('ed25519PublicKeyJwk.json');
+const ed25519PrivateKeyJwk = parse('ed25519PrivateKeyJwk.json');
 
 export {
   createAnchorFile,
@@ -52,4 +54,6 @@ export {
   secp256KPublicKeyJwk,
   secp256KPrivateKeyJwk,
   secp256KPrivateKeyBuffer,
+  ed25519PublicKeyJwk,
+  ed25519PrivateKeyJwk,
 };
