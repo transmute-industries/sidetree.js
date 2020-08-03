@@ -54,12 +54,7 @@ describe('DocumentComposer', () => {
             id: '#anySigningKey',
             controller: '',
             type: 'EcdsaSecp256k1VerificationKey2019',
-            publicKeyJwk: {
-              kty: 'EC',
-              crv: 'secp256k1',
-              x: anySigningPublicKey.jwk.x,
-              y: anySigningPublicKey.jwk.y,
-            },
+            publicKeyJwk: anySigningPublicKey.jwk,
           },
         ],
         authentication: [
@@ -68,12 +63,7 @@ describe('DocumentComposer', () => {
             id: '#authePbulicKey', // object here because it is an auth purpose only key
             controller: '',
             type: 'EcdsaSecp256k1VerificationKey2019',
-            publicKeyJwk: {
-              kty: 'EC',
-              crv: 'secp256k1',
-              x: authPublicKey.jwk.x,
-              y: authPublicKey.jwk.y,
-            },
+            publicKeyJwk: authPublicKey.jwk,
           },
         ],
       });
