@@ -284,8 +284,8 @@ describe('OperationProcessor', () => {
     validateDocumentAfterUpdates(didState!.document, numberOfUpdates);
   });
 
-  it('should correctly process updates in every (5! = 120) order', async () => {
-    const numberOfUpdates = 4;
+  it('should correctly process updates in every (4! = 24) order', async () => {
+    const numberOfUpdates = 3;
     const ops = await createUpdateSequence(
       didUniqueSuffix,
       createOp,
