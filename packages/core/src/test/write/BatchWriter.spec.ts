@@ -14,6 +14,8 @@ import ValueTimeLockVerifier from '../../ValueTimeLockVerifier';
 import ChunkFile from '../../write/ChunkFile';
 import AnchorFile from '../../write/AnchorFile';
 
+jest.setTimeout(10 * 1000);
+
 describe('BatchWriter', () => {
   let blockchain: IBlockchain;
   let cas: ICas;
