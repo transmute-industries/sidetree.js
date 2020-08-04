@@ -91,18 +91,5 @@ describe('Jwk', () => {
         Jwk.validatePublicJwk(jwk);
       }).toThrow(new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeX));
     });
-
-    it('should throw error if JWK has the wrong `kid` value', async () => {
-      const jwk = {
-        crv: 'Ed25519',
-        x: 'vcLqWyMCFAg8Wrbxu-p01-SG0ATO3rAKq3KobKUSsN8',
-        kty: 'OKP',
-        kid: 123,
-      };
-
-      expect(() => {
-        Jwk.validatePublicJwk(jwk);
-      }).toThrow(new SidetreeError(ErrorCode.JwkMissingOrInvalidKid));
-    });
   });
 });
