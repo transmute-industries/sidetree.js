@@ -13,7 +13,7 @@ describe('Jwk', () => {
 
     it('should be valid JWK', async () => {
       const [publicKey] = await Jwk.generateEd25519KeyPair();
-      expect(Jwk.validatePublicJwk(publicKey)).toBe(undefined);
+      expect(() => Jwk.validatePublicJwk(publicKey)).not.toThrow();
     });
   });
 
@@ -28,7 +28,7 @@ describe('Jwk', () => {
 
     it('should be valid JWK', async () => {
       const [publicKey] = await Jwk.generateEs256kKeyPair();
-      expect(Jwk.validatePublicJwk(publicKey)).toBe(undefined);
+      expect(() => Jwk.validatePublicJwk(publicKey)).not.toThrow();
     });
   });
 
