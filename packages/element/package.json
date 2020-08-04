@@ -18,7 +18,7 @@
     "test": "tsdx test --runInBand",
     "lint": "tsdx lint src --fix",
     "prepare": "tsdx build",
-    "generate:fixtures": "tsc src/test/__fixtures__/generate-fixtures.ts && node src/test/__fixtures__/generate-fixtures.js"
+    "generate:fixtures": "node src/test/__fixtures__/generate-fixtures.js"
   },
   "prettier": {
     "printWidth": 80,

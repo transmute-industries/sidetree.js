@@ -1,23 +1,20 @@
-import {
+const {
   AnchorFile,
   ChunkFile,
   CreateOperation,
   MapFile,
   OperationGenerator,
   Jwk,
-} from '@sidetree/core';
-import {
-  Config,
+} = require('@sidetree/core');
+const {
   PublicKeyPurpose,
   Multihash,
-  JwkCurve25519,
-  JwkEs256k,
-} from '@sidetree/common';
-import { MockCas } from '@sidetree/cas';
-import * as fs from 'fs';
+} = require('@sidetree/common');
+const { MockCas } = require('@sidetree/cas');
+const fs = require('fs');
 
 class FileWriter {
-  static write(name: string, content: Buffer | string): void {
+  static write(name, content) {
     const generatedDir = `${__dirname}/generated`;
     if (name.includes('Buffer.txt')) {
       fs.writeFileSync(`${generatedDir}/${name}`, content.toString('hex'));
@@ -28,12 +25,12 @@ class FileWriter {
 }
 
 class KeyGenerator {
-  private mnemonic =
+  mnemonic =
     'mosquito sorry ring page rough future world beach pretty calm person arena';
 
-  private counter = 0;
+  counter = 0;
 
-  public async getEd25519KeyPair(): Promise<[JwkCurve25519, JwkCurve25519]> {
+  async getEd25519KeyPair() {
     this.counter += 1;
     const [
       publicKeyJwk,
@@ -45,11 +42,11 @@ class KeyGenerator {
     return [publicKeyJwk, privateKeyJwk];
   }
 
-  public async getPrivateKeyBuffer(): Promise<Buffer> {
+  async getPrivateKeyBuffer() {
     return Jwk.getBufferAtIndex(this.mnemonic, this.counter);
   }
 
-  public async getSecp256K1KeyPair(): Promise<[JwkEs256k, JwkEs256k]> {
+  async getSecp256K1KeyPair() {
     this.counter += 1;
     const [
       publicKeyJwk,
@@ -61,9 +58,7 @@ class KeyGenerator {
     return [publicKeyJwk, privateKeyJwk];
   }
 
-  public async getDidDocumentKeyPair(
-    id: string
-  ): Promise<[any, JwkCurve25519]> {
+  async getDidDocumentKeyPair(id) {
     const [publicKeyJwk, privateKeyJwk] = await this.getEd25519KeyPair();
     const didDocPublicKey = {
       id,
@@ -75,11 +70,11 @@ class KeyGenerator {
   }
 }
 
-let createOperation: CreateOperation;
+let createOperation;
 
-const config: Config = require('../element-config.json');
+const config = require('../element-config.json');
 
-const generateDidFixtures = async (): Promise<void> => {
+const generateDidFixtures = async () => {
   const keyGenerator = new KeyGenerator();
 
   const services = OperationGenerator.generateServiceEndpoints([
@@ -137,7 +132,7 @@ const generateDidFixtures = async (): Promise<void> => {
     },
     methodMetadata: {
       recovery_commitment: createOperation.suffixData.recovery_commitment,
-      update_commitment: createOperation.delta!.update_commitment,
+      update_commitment: createOperation.delta.update_commitment,
     },
   };
   FileWriter.write('resolveBody.json', JSON.stringify(resolveBody, null, 2));
@@ -148,7 +143,7 @@ const generateDidFixtures = async (): Promise<void> => {
   FileWriter.write('longFormDid.txt', longFormDid);
 
   const longFormResolveBody = { ...resolveBody };
-  (longFormResolveBody.didDocument['@context'][1] as any)[
+  (longFormResolveBody.didDocument['@context'][1])[
     '@base'
   ] = longFormDid;
   longFormResolveBody.didDocument.id = longFormDid;
@@ -202,7 +197,7 @@ const generateDidFixtures = async (): Promise<void> => {
   FileWriter.write('recoverOperationBuffer.txt', recoverOperationBuffer);
 };
 
-const generateFiles = async (): Promise<void> => {
+const generateFiles = async () => {
   // Generate create chunk file fixture
   const createChunkFileBuffer = await ChunkFile.createBuffer(
     [createOperation],
@@ -241,7 +236,7 @@ const generateFiles = async (): Promise<void> => {
   );
 };
 
-const generateKeyFixtures = async (): Promise<void> => {
+const generateKeyFixtures = async () => {
   const keyGenerator = new KeyGenerator();
   // secp256K1 key material
   const [
@@ -276,7 +271,7 @@ const generateKeyFixtures = async (): Promise<void> => {
   );
 };
 
-(async (): Promise<void> => {
+(async () => {
   await generateKeyFixtures();
   await generateDidFixtures();
   await generateFiles();
