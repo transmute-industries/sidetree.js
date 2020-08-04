@@ -1,7 +1,7 @@
 {
   "name": "@sidetree/ledger",
   "author": "Orie Steele",
-  "version": "0.0.1-unstable.8",
+  "version": "0.0.1-unstable.9",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -38,7 +38,7 @@
     "web3": "^1.2.7"
   },
   "dependencies": {
-    "@sidetree/common": "^0.0.1-unstable.8",
+    "@sidetree/common": "^0.0.1-unstable.9",
     "@truffle/contract": "^4.2.4",
     "multihashes": "^0.4.19"
   }
