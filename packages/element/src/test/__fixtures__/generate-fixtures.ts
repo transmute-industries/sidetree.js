@@ -4,6 +4,7 @@ import {
   CreateOperation,
   MapFile,
   OperationGenerator,
+  Jwk,
 } from '@sidetree/core';
 import {
   Config,
@@ -14,11 +15,6 @@ import {
 } from '@sidetree/common';
 import { MockCas } from '@sidetree/cas';
 import * as fs from 'fs';
-import * as bip39 from 'bip39';
-import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
-
-const keyto = require('@trust/keyto');
-const hdkey = require('hdkey');
 
 class FileWriter {
   static write(name: string, content: Buffer | string): void {
@@ -37,33 +33,31 @@ class KeyGenerator {
 
   private counter = 0;
 
-  public async getRandomBuffer(): Promise<Buffer> {
-    const seed = await bip39.mnemonicToSeed(this.mnemonic);
-    const root = hdkey.fromMasterSeed(seed);
-    const hdPath = `m/44'/60'/0'/0/${this.counter}`;
-    const addrNode = root.derive(hdPath);
-    return addrNode.privateKey;
-  }
-
   public async getEd25519KeyPair(): Promise<[JwkCurve25519, JwkCurve25519]> {
     this.counter += 1;
-    const randomBuffer = await this.getRandomBuffer();
-    const keyPair = await Ed25519KeyPair.generate({
-      seed: randomBuffer,
-    });
-    const ed25519KeyPair = new Ed25519KeyPair(keyPair);
-    const publicKeyJwk = (await ed25519KeyPair.toJwk(false)) as JwkCurve25519;
-    const privateKeyJwk = (await ed25519KeyPair.toJwk(true)) as JwkCurve25519;
+    const [
+      publicKeyJwk,
+      privateKeyJwk,
+    ] = await Jwk.generateDeterministicEd25519KeyPair(
+      this.mnemonic,
+      this.counter
+    );
     return [publicKeyJwk, privateKeyJwk];
+  }
+
+  public async getPrivateKeyBuffer(): Promise<Buffer> {
+    return Jwk.getBufferAtIndex(this.mnemonic, this.counter);
   }
 
   public async getSecp256K1KeyPair(): Promise<[JwkEs256k, JwkEs256k]> {
     this.counter += 1;
-    const randomBuffer = await this.getRandomBuffer();
-    const publicKeyJwk = keyto.from(randomBuffer, 'blk').toJwk('public');
-    publicKeyJwk.crv = 'secp256k1';
-    const privateKeyJwk = keyto.from(randomBuffer, 'blk').toJwk('private');
-    privateKeyJwk.crv = 'secp256k1';
+    const [
+      publicKeyJwk,
+      privateKeyJwk,
+    ] = await Jwk.generateDeterministicSecp256k1KeyPair(
+      this.mnemonic,
+      this.counter
+    );
     return [publicKeyJwk, privateKeyJwk];
   }
 
@@ -264,7 +258,7 @@ const generateKeyFixtures = async (): Promise<void> => {
   );
 
   // Get random buffer used to generate the JWKs above ^
-  const privateKeyBuffer = await keyGenerator.getRandomBuffer();
+  const privateKeyBuffer = await keyGenerator.getPrivateKeyBuffer();
   FileWriter.write('secp256KPrivateKeyBuffer.txt', privateKeyBuffer);
 
   // ed25519 key material

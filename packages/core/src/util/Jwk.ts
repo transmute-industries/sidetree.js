@@ -28,7 +28,8 @@ export default class Jwk {
     return [publicKey, privateKey];
   }
 
-  private static async getBufferAtIndex(
+  // Helper method to generate keys from a mnemonic
+  public static async getBufferAtIndex(
     mnemonic: string,
     index: number
   ): Promise<Buffer> {
