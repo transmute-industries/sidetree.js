@@ -3,10 +3,22 @@ import Jwk from '../../util/Jwk';
 
 describe('Jwk', () => {
   describe('Ed25519 keys', () => {
-    it('should generate generateEd25519KeyPair keypair', async () => {
+    it('should generate Ed25519 keypair', async () => {
       const [publicKey, privateKey] = await Jwk.generateEd25519KeyPair();
-      expect(publicKey).toBeTruthy();
-      expect(privateKey).toBeTruthy();
+      expect(publicKey).toBeDefined();
+      expect(publicKey.crv).toBe('Ed25519');
+      expect(privateKey).toBeDefined();
+      expect(privateKey.crv).toBe('Ed25519');
+    });
+  });
+
+  describe('Secp256k1 keys', () => {
+    it('should generate Secp256K1 keypair', async () => {
+      const [publicKey, privateKey] = await Jwk.generateEs256kKeyPair();
+      expect(publicKey).toBeDefined();
+      expect(publicKey.crv).toBe('secp256k1');
+      expect(privateKey).toBeDefined();
+      expect(privateKey.crv).toBe('secp256k1');
     });
   });
 
