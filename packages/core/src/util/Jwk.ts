@@ -7,7 +7,7 @@ import {
 import { JWK } from 'jose';
 import * as bip39 from 'bip39';
 import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
-import * as hdkey from 'hdkey';
+import hdkey from 'hdkey';
 import { from as keytoFrom } from '@trust/keyto';
 
 /**
