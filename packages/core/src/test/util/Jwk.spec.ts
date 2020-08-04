@@ -10,6 +10,11 @@ describe('Jwk', () => {
       expect(privateKey).toBeDefined();
       expect(privateKey.crv).toBe('Ed25519');
     });
+
+    it('should be valid JWK', async () => {
+      const [publicKey] = await Jwk.generateEd25519KeyPair();
+      expect(Jwk.validatePublicJwk(publicKey)).toBe(undefined);
+    });
   });
 
   describe('Secp256k1 keys', () => {
@@ -19,6 +24,11 @@ describe('Jwk', () => {
       expect(publicKey.crv).toBe('secp256k1');
       expect(privateKey).toBeDefined();
       expect(privateKey.crv).toBe('secp256k1');
+    });
+
+    it('should be valid JWK', async () => {
+      const [publicKey] = await Jwk.generateEs256kKeyPair();
+      expect(Jwk.validatePublicJwk(publicKey)).toBe(undefined);
     });
   });
 
