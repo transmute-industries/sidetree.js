@@ -40,28 +40,40 @@ export default class Jwk {
    * Validates the given key is a public key in JWK format allowed by Sidetree.
    * @throws SidetreeError if given object is not a key in JWK format allowed by Sidetree.
    */
-  public static validateJwk(jwk: any): void {
+  public static validatePublicJwk(jwk: any): void {
     if (jwk === undefined) {
       throw new SidetreeError(ErrorCode.JwkUndefined);
     }
 
-    const allowedProperties = new Set(['kty', 'crv', 'x', 'kid']);
+    const allowedProperties = new Set(['kty', 'crv', 'x', 'y', 'kid']);
     for (const property in jwk) {
       if (!allowedProperties.has(property)) {
         throw new SidetreeError(ErrorCode.JwkHasUnknownProperty);
       }
     }
 
-    if (jwk.kty !== 'OKP') {
-      throw new SidetreeError(ErrorCode.JwkMissingOrInvalidKty);
-    }
-
-    if (jwk.crv !== 'Ed25519') {
-      throw new SidetreeError(ErrorCode.JwkMissingOrInvalidCrv);
-    }
-
-    if (typeof jwk.x !== 'string') {
-      throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeX);
+    switch (jwk.crv) {
+      case 'Ed25519':
+        if (jwk.kty !== 'OKP') {
+          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidKty);
+        }
+        if (typeof jwk.x !== 'string') {
+          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeX);
+        }
+        break;
+      case 'secp256k1':
+        if (jwk.kty !== 'EC') {
+          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidKty);
+        }
+        if (typeof jwk.x !== 'string') {
+          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeX);
+        }
+        if (typeof jwk.y !== 'string') {
+          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeY);
+        }
+        break;
+      default:
+        throw new SidetreeError(ErrorCode.JwkMissingOrInvalidCrv);
     }
   }
 
