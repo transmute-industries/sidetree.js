@@ -61,6 +61,9 @@ export default class Jwk {
         if (typeof jwk.x !== 'string') {
           throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeX);
         }
+        if (typeof jwk.kid !== 'string') {
+          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidKid);
+        }
         break;
       case 'secp256k1':
         if (jwk.kty !== 'EC') {
@@ -71,6 +74,9 @@ export default class Jwk {
         }
         if (typeof jwk.y !== 'string') {
           throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeY);
+        }
+        if (typeof jwk.kid !== 'string') {
+          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidKid);
         }
         break;
       default:
