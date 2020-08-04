@@ -5,6 +5,10 @@ import {
   JwkEs256k,
 } from '@sidetree/common';
 import { JWK } from 'jose';
+import * as bip39 from 'bip39';
+import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
+import * as hdkey from 'hdkey';
+import { from as keytoFrom } from '@trust/keyto';
 
 /**
  * Class containing reusable JWK operations.
@@ -34,6 +38,18 @@ export default class Jwk {
     const publicKey = keyPair.toJWK(false);
     const privateKey = keyPair.toJWK(true);
     return [publicKey, privateKey];
+  }
+
+  public static async generateDeterministicSecp256k1KeyPair(
+    mnemonic: string,
+    index: number
+  ): Promise<[JwkEs256k, JwkEs256k]> {
+    const privateKeyBuffer = await Jwk.getBufferAtIndex(mnemonic, index);
+    const publicKeyJwk = keytoFrom(privateKeyBuffer, 'blk').toJwk('public');
+    publicKeyJwk.crv = 'secp256k1';
+    const privateKeyJwk = keytoFrom(privateKeyBuffer, 'blk').toJwk('private');
+    privateKeyJwk.crv = 'secp256k1';
+    return [publicKeyJwk, privateKeyJwk];
   }
 
   /**
