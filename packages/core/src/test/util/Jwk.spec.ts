@@ -22,10 +22,10 @@ describe('Jwk', () => {
     });
   });
 
-  describe('validateJwk()', () => {
+  describe('validatePublicJwk()', () => {
     it('should throw error if `undefined` is passed.', async () => {
       expect(() => {
-        Jwk.validateJwk(undefined);
+        Jwk.validatePublicJwk(undefined);
       }).toThrow(new SidetreeError(ErrorCode.JwkUndefined));
     });
 
@@ -39,7 +39,7 @@ describe('Jwk', () => {
       };
 
       expect(() => {
-        Jwk.validateJwk(jwk);
+        Jwk.validatePublicJwk(jwk);
       }).toThrow(new SidetreeError(ErrorCode.JwkHasUnknownProperty));
     });
 
@@ -52,7 +52,7 @@ describe('Jwk', () => {
       };
 
       expect(() => {
-        Jwk.validateJwk(jwk);
+        Jwk.validatePublicJwk(jwk);
       }).toThrow(new SidetreeError(ErrorCode.JwkMissingOrInvalidKty));
     });
 
@@ -65,7 +65,7 @@ describe('Jwk', () => {
       };
 
       expect(() => {
-        Jwk.validateJwk(jwk);
+        Jwk.validatePublicJwk(jwk);
       }).toThrow(new SidetreeError(ErrorCode.JwkMissingOrInvalidCrv));
     });
 
@@ -78,7 +78,7 @@ describe('Jwk', () => {
       };
 
       expect(() => {
-        Jwk.validateJwk(jwk);
+        Jwk.validatePublicJwk(jwk);
       }).toThrow(new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeX));
     });
   });

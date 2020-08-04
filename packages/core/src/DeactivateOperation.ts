@@ -152,7 +152,7 @@ export default class DeactivateOperation implements OperationModel {
       );
     }
 
-    Jwk.validateJwk(signedData.recovery_key);
+    Jwk.validatePublicJwk(signedData.recovery_key);
 
     return {
       didSuffix: signedData.did_suffix,
