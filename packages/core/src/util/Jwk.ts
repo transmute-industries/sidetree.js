@@ -45,6 +45,7 @@ export default class Jwk {
       throw new SidetreeError(ErrorCode.JwkUndefined);
     }
 
+    // TODO: Check validity with JSON schema...
     const allowedProperties = new Set(['kty', 'crv', 'x', 'y', 'kid']);
     for (const property in jwk) {
       if (!allowedProperties.has(property)) {
