@@ -1,4 +1,9 @@
-import { ErrorCode, SidetreeError, JwkCurve25519 } from '@sidetree/common';
+import {
+  ErrorCode,
+  SidetreeError,
+  JwkCurve25519,
+  JwkEs256k,
+} from '@sidetree/common';
 import { JWK } from 'jose';
 
 /**
@@ -20,31 +25,62 @@ export default class Jwk {
   }
 
   /**
-   * Validates the given key is a Ed25519 public key in JWK format allowed by Sidetree.
-   * @throws SidetreeError if given object is not a Ed25519 public key in JWK format allowed by Sidetree.
+   * Generates SECP256K1 key pair.
+   * Mainly used for testing.
+   * @returns [publicKey, privateKey]
    */
-  public static validateJwkCurve25519(jwk: any): void {
+  public static async generateEs256kKeyPair(): Promise<[JwkEs256k, JwkEs256k]> {
+    const keyPair = await JWK.generate('EC', 'secp256k1');
+    const publicKey = keyPair.toJWK(false);
+    const privateKey = keyPair.toJWK(true);
+    return [publicKey, privateKey];
+  }
+
+  /**
+   * Validates the given key is a public key in JWK format allowed by Sidetree.
+   * @throws SidetreeError if given object is not a key in JWK format allowed by Sidetree.
+   */
+  public static validatePublicJwk(jwk: any): void {
     if (jwk === undefined) {
-      throw new SidetreeError(ErrorCode.JwkCurve25519Undefined);
+      throw new SidetreeError(ErrorCode.JwkUndefined);
     }
 
-    const allowedProperties = new Set(['kty', 'crv', 'x', 'kid']);
+    // TODO: Check validity with JSON schema...
+    const allowedProperties = new Set(['kty', 'crv', 'x', 'y', 'kid']);
     for (const property in jwk) {
       if (!allowedProperties.has(property)) {
-        throw new SidetreeError(ErrorCode.JwkCurve25519HasUnknownProperty);
+        throw new SidetreeError(ErrorCode.JwkHasUnknownProperty);
       }
     }
 
-    if (jwk.kty !== 'OKP') {
-      throw new SidetreeError(ErrorCode.JwkCurve25519MissingOrInvalidKty);
-    }
-
-    if (jwk.crv !== 'Ed25519') {
-      throw new SidetreeError(ErrorCode.JwkCurve25519MissingOrInvalidCrv);
-    }
-
-    if (typeof jwk.x !== 'string') {
-      throw new SidetreeError(ErrorCode.JwkCurve25519MissingOrInvalidTypeX);
+    switch (jwk.crv) {
+      case 'Ed25519':
+        if (jwk.kty !== 'OKP') {
+          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidKty);
+        }
+        if (typeof jwk.x !== 'string') {
+          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeX);
+        }
+        if (typeof jwk.kid !== 'string') {
+          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidKid);
+        }
+        break;
+      case 'secp256k1':
+        if (jwk.kty !== 'EC') {
+          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidKty);
+        }
+        if (typeof jwk.x !== 'string') {
+          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeX);
+        }
+        if (typeof jwk.y !== 'string') {
+          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeY);
+        }
+        if (typeof jwk.kid !== 'string') {
+          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidKid);
+        }
+        break;
+      default:
+        throw new SidetreeError(ErrorCode.JwkMissingOrInvalidCrv);
     }
   }
 

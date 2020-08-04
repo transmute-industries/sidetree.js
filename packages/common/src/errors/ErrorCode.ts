@@ -123,14 +123,13 @@ export default {
     'encoder_validate_base64url_string_input_not_base64url_string',
   EncoderValidateBase64UrlStringInputNotString:
     'encoder_validate_base64url_string_input_not_string',
-  JwkCurve25519HasUnknownProperty: 'jwk_curve25519_has_unknown_property',
-  JwkCurve25519MissingOrInvalidCrv: 'jwk_curve25519_missing_or_invalid_crv',
-  JwkCurve25519MissingOrInvalidKty: 'jwk_curve25519_missing_or_invalid_kty',
-  JwkCurve25519MissingOrInvalidTypeX:
-    'jwk_curve25519_missing_or_invalid_type_x',
-  JwkCurve25519MissingOrInvalidTypeY:
-    'jwk_curve25519_missing_or_invalid_type_y',
-  JwkCurve25519Undefined: 'jwk_curve25519_undefined',
+  JwkHasUnknownProperty: 'jwk_has_unknown_property',
+  JwkMissingOrInvalidCrv: 'jwk_missing_or_invalid_crv',
+  JwkMissingOrInvalidKty: 'jwk_missing_or_invalid_kty',
+  JwkMissingOrInvalidTypeX: 'jwk_missing_or_invalid_type_x',
+  JwkMissingOrInvalidTypeY: 'jwk_missing_or_invalid_type_y',
+  JwkMissingOrInvalidKid: 'jwk_missing_or_invalid_kid',
+  JwkUndefined: 'jwk_undefined',
   JwsCompactJwsInvalid: 'jws_compact_jws_invalid',
   JwsCompactJwsNotString: 'jws_compact_jws_not_string',
   JwsFailedSignatureValidation: 'jws_failed_signature_validation',
