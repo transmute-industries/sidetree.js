@@ -25,26 +25,26 @@ export default class Jwk {
    */
   public static validateJwkCurve25519(jwk: any): void {
     if (jwk === undefined) {
-      throw new SidetreeError(ErrorCode.JwkCurve25519Undefined);
+      throw new SidetreeError(ErrorCode.JwkUndefined);
     }
 
     const allowedProperties = new Set(['kty', 'crv', 'x', 'kid']);
     for (const property in jwk) {
       if (!allowedProperties.has(property)) {
-        throw new SidetreeError(ErrorCode.JwkCurve25519HasUnknownProperty);
+        throw new SidetreeError(ErrorCode.JwkHasUnknownProperty);
       }
     }
 
     if (jwk.kty !== 'OKP') {
-      throw new SidetreeError(ErrorCode.JwkCurve25519MissingOrInvalidKty);
+      throw new SidetreeError(ErrorCode.JwkMissingOrInvalidKty);
     }
 
     if (jwk.crv !== 'Ed25519') {
-      throw new SidetreeError(ErrorCode.JwkCurve25519MissingOrInvalidCrv);
+      throw new SidetreeError(ErrorCode.JwkMissingOrInvalidCrv);
     }
 
     if (typeof jwk.x !== 'string') {
-      throw new SidetreeError(ErrorCode.JwkCurve25519MissingOrInvalidTypeX);
+      throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeX);
     }
   }
 
