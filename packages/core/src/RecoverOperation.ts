@@ -173,7 +173,7 @@ export default class RecoverOperation implements OperationModel {
       );
     }
 
-    Jwk.validateJwkCurve25519(signedData.recovery_key);
+    Jwk.validateJwk(signedData.recovery_key);
 
     const delta_hash = Encoder.decodeAsBuffer(signedData.delta_hash);
     Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(delta_hash);

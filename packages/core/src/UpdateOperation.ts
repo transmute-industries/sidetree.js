@@ -162,7 +162,7 @@ export default class UpdateOperation implements OperationModel {
       );
     }
 
-    Jwk.validateJwkCurve25519(signedData.update_key);
+    Jwk.validateJwk(signedData.update_key);
 
     const delta_hash = Encoder.decodeAsBuffer(signedData.delta_hash);
     Multihash.verifyHashComputedUsingLatestSupportedAlgorithm(delta_hash);

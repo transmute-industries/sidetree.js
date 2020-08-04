@@ -20,10 +20,10 @@ export default class Jwk {
   }
 
   /**
-   * Validates the given key is a Ed25519 public key in JWK format allowed by Sidetree.
-   * @throws SidetreeError if given object is not a Ed25519 public key in JWK format allowed by Sidetree.
+   * Validates the given key is a public key in JWK format allowed by Sidetree.
+   * @throws SidetreeError if given object is not a key in JWK format allowed by Sidetree.
    */
-  public static validateJwkCurve25519(jwk: any): void {
+  public static validateJwk(jwk: any): void {
     if (jwk === undefined) {
       throw new SidetreeError(ErrorCode.JwkUndefined);
     }
