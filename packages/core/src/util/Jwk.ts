@@ -1,4 +1,9 @@
-import { ErrorCode, SidetreeError, JwkCurve25519 } from '@sidetree/common';
+import {
+  ErrorCode,
+  SidetreeError,
+  JwkCurve25519,
+  JwkEs256k,
+} from '@sidetree/common';
 import { JWK } from 'jose';
 
 /**
@@ -16,6 +21,18 @@ export default class Jwk {
     const keyPair = await JWK.generate('OKP', 'Ed25519');
     const privateKey = keyPair.toJWK(true) as JwkCurve25519;
     const publicKey = keyPair.toJWK(false) as JwkCurve25519;
+    return [publicKey, privateKey];
+  }
+
+  /**
+   * Generates SECP256K1 key pair.
+   * Mainly used for testing.
+   * @returns [publicKey, privateKey]
+   */
+  public static async generateEs256kKeyPair(): Promise<[JwkEs256k, JwkEs256k]> {
+    const keyPair = await JWK.generate('EC', 'secp256k1');
+    const publicKey = keyPair.toJWK(false);
+    const privateKey = keyPair.toJWK(true);
     return [publicKey, privateKey];
   }
 
