@@ -28,12 +28,39 @@ export default class Jwk {
     return [publicKey, privateKey];
   }
 
+  private static async getBufferAtIndex(
+    mnemonic: string,
+    index: number
+  ): Promise<Buffer> {
+    const seed = await bip39.mnemonicToSeed(mnemonic);
+    const root = hdkey.fromMasterSeed(seed);
+    const hdPath = `m/44'/60'/0'/0/${index}`;
+    const addrNode = root.derive(hdPath);
+    return addrNode.privateKey;
+  }
+
+  public static async generateDeterministicEd25519KeyPair(
+    mnemonic: string,
+    index: number
+  ): Promise<[JwkCurve25519, JwkCurve25519]> {
+    const privateKeyBuffer = await Jwk.getBufferAtIndex(mnemonic, index);
+    const keyPair = await Ed25519KeyPair.generate({
+      seed: privateKeyBuffer,
+    });
+    const ed25519KeyPair = new Ed25519KeyPair(keyPair);
+    const publicKeyJwk = (await ed25519KeyPair.toJwk(false)) as JwkCurve25519;
+    const privateKeyJwk = (await ed25519KeyPair.toJwk(true)) as JwkCurve25519;
+    return [publicKeyJwk, privateKeyJwk];
+  }
+
   /**
    * Generates SECP256K1 key pair.
    * Mainly used for testing.
    * @returns [publicKey, privateKey]
    */
-  public static async generateEs256kKeyPair(): Promise<[JwkEs256k, JwkEs256k]> {
+  public static async generateSecp256k1KeyPair(): Promise<
+    [JwkEs256k, JwkEs256k]
+  > {
     const keyPair = await JWK.generate('EC', 'secp256k1');
     const publicKey = keyPair.toJWK(false);
     const privateKey = keyPair.toJWK(true);

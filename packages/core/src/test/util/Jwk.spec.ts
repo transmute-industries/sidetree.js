@@ -36,7 +36,7 @@ describe('Jwk', () => {
 
   describe('Secp256k1 keys', () => {
     it('should generate secp256k1 keypair', async () => {
-      const [publicKey, privateKey] = await Jwk.generateEs256kKeyPair();
+      const [publicKey, privateKey] = await Jwk.generateSecp256k1KeyPair();
       expect(publicKey).toBeDefined();
       expect(publicKey.crv).toBe('secp256k1');
       expect(privateKey).toBeDefined();
@@ -44,7 +44,7 @@ describe('Jwk', () => {
     });
 
     it('should be valid JWK', async () => {
-      const [publicKey] = await Jwk.generateEs256kKeyPair();
+      const [publicKey] = await Jwk.generateSecp256k1KeyPair();
       expect(() => Jwk.validatePublicJwk(publicKey)).not.toThrow();
     });
 
