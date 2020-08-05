@@ -2,9 +2,11 @@ import {
   Encoder,
   ErrorCode,
   SidetreeError,
-  JwkCurve25519,
+  PublicKeyJwk,
+  PrivateKeyJwk,
 } from '@sidetree/common';
 import { EdDSA } from '@transmute/did-key-ed25519';
+import { ES256K } from '@transmute/did-key-secp256k1';
 
 /**
  * Class containing reusable JWS operations.
@@ -50,7 +52,10 @@ export default class Jws {
     }
 
     // Protected header must contain 'alg' property with value 'EdDSA'.
-    if (decodedProtectedHeader.alg !== 'EdDSA') {
+    if (
+      decodedProtectedHeader.alg !== 'EdDSA' &&
+      decodedProtectedHeader.alg !== 'ES256K'
+    ) {
       throw new SidetreeError(
         ErrorCode.JwsProtectedHeaderMissingOrIncorrectAlg
       );
@@ -82,7 +87,7 @@ export default class Jws {
    * Verifies the JWS signature.
    * @returns true if signature is successfully verified, false otherwise.
    */
-  public async verifySignature(publicKey: JwkCurve25519): Promise<boolean> {
+  public async verifySignature(publicKey: PublicKeyJwk): Promise<boolean> {
     return Jws.verifySignature(
       this.protected,
       this.payload,
@@ -99,7 +104,7 @@ export default class Jws {
     encodedProtectedHeader: string,
     encodedPayload: string,
     signature: string,
-    publicKey: JwkCurve25519
+    publicKey: PublicKeyJwk
   ): Promise<boolean> {
     const jwsSigningInput =
       encodedProtectedHeader + '.' + encodedPayload + '.' + signature;
@@ -116,10 +121,16 @@ export default class Jws {
    */
   public static async verifyCompactJws(
     compactJws: string,
-    jwk: JwkCurve25519
+    jwk: PublicKeyJwk
   ): Promise<boolean> {
     try {
-      await EdDSA.verify(compactJws, jwk);
+      if (jwk.crv === 'Ed25519') {
+        await EdDSA.verify(compactJws, jwk);
+      } else if (jwk.crv === 'secp256k1') {
+        await ES256K.verify(compactJws, jwk as any);
+      } else {
+        return false;
+      }
       return true;
     } catch (error) {
       console.log(
@@ -138,21 +149,27 @@ export default class Jws {
    */
   public static async signAsCompactJws(
     payload: object,
-    privateKey: any,
+    privateKey: PrivateKeyJwk,
     protectedHeader?: any
   ): Promise<string> {
-    // ES256K requires private key to have a kid property
-    const privateKeyWithKid = {
-      ...privateKey,
-      kid: '',
-    };
-    // ES256K requires header to have an alg property
+    let alg;
+    if (protectedHeader && protectedHeader.alg) {
+      alg = protectedHeader.alg;
+    } else {
+      if (privateKey.crv === 'Ed25519') {
+        alg = 'EdDSA';
+      } else {
+        alg = 'ES256K';
+      }
+    }
     const header = {
       ...protectedHeader,
-      alg: (protectedHeader && protectedHeader.alg) || 'EdDSA',
+      alg,
     };
-    const compactJws = await EdDSA.sign(payload, privateKeyWithKid, header);
-    return compactJws;
+    if (privateKey.crv === 'secp256k1') {
+      return await ES256K.sign(payload, privateKey as any, header);
+    }
+    return await EdDSA.sign(payload, privateKey, header);
   }
 
   /**

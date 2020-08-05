@@ -1,10 +1,14 @@
 import {
   ErrorCode,
   SidetreeError,
-  JwkCurve25519,
-  JwkEs256k,
+  PublicKeyJwk,
+  PrivateKeyJwk,
 } from '@sidetree/common';
 import { JWK } from 'jose';
+import * as bip39 from 'bip39';
+import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
+import hdkey from 'hdkey';
+import { from as keytoFrom } from '@trust/keyto';
 
 /**
  * Class containing reusable JWK operations.
@@ -16,12 +20,40 @@ export default class Jwk {
    * @returns [publicKey, privateKey]
    */
   public static async generateEd25519KeyPair(): Promise<
-    [JwkCurve25519, JwkCurve25519]
+    [PublicKeyJwk, PrivateKeyJwk]
   > {
     const keyPair = await JWK.generate('OKP', 'Ed25519');
-    const privateKey = keyPair.toJWK(true) as JwkCurve25519;
-    const publicKey = keyPair.toJWK(false) as JwkCurve25519;
+    const privateKey = keyPair.toJWK(true) as PrivateKeyJwk;
+    const publicKey = keyPair.toJWK(false) as PublicKeyJwk;
     return [publicKey, privateKey];
+  }
+
+  // Helper method to generate keys from a mnemonic
+  public static async getBufferAtIndex(
+    mnemonic: string,
+    index: number
+  ): Promise<Buffer> {
+    const seed = await bip39.mnemonicToSeed(mnemonic);
+    const root = hdkey.fromMasterSeed(seed);
+    const hdPath = `m/44'/60'/0'/0/${index}`;
+    const addrNode = root.derive(hdPath);
+    return addrNode.privateKey;
+  }
+
+  public static async generateDeterministicEd25519KeyPair(
+    mnemonic: string,
+    index: number
+  ): Promise<[PublicKeyJwk, PrivateKeyJwk]> {
+    const privateKeyBuffer = await Jwk.getBufferAtIndex(mnemonic, index);
+    const keyPair = await Ed25519KeyPair.generate({
+      seed: privateKeyBuffer,
+    });
+    const ed25519KeyPair = new Ed25519KeyPair(keyPair);
+    const publicKeyJwk = (await ed25519KeyPair.toJwk(false)) as PublicKeyJwk;
+    const privateKeyJwk = ((await ed25519KeyPair.toJwk(
+      true
+    )) as unknown) as PrivateKeyJwk;
+    return [publicKeyJwk, privateKeyJwk];
   }
 
   /**
@@ -29,11 +61,25 @@ export default class Jwk {
    * Mainly used for testing.
    * @returns [publicKey, privateKey]
    */
-  public static async generateEs256kKeyPair(): Promise<[JwkEs256k, JwkEs256k]> {
+  public static async generateSecp256k1KeyPair(): Promise<
+    [PublicKeyJwk, PrivateKeyJwk]
+  > {
     const keyPair = await JWK.generate('EC', 'secp256k1');
-    const publicKey = keyPair.toJWK(false);
-    const privateKey = keyPair.toJWK(true);
+    const publicKey = keyPair.toJWK(false) as PublicKeyJwk;
+    const privateKey = keyPair.toJWK(true) as PrivateKeyJwk;
     return [publicKey, privateKey];
+  }
+
+  public static async generateDeterministicSecp256k1KeyPair(
+    mnemonic: string,
+    index: number
+  ): Promise<[PublicKeyJwk, PrivateKeyJwk]> {
+    const privateKeyBuffer = await Jwk.getBufferAtIndex(mnemonic, index);
+    const publicKeyJwk = keytoFrom(privateKeyBuffer, 'blk').toJwk('public');
+    publicKeyJwk.crv = 'secp256k1';
+    const privateKeyJwk = keytoFrom(privateKeyBuffer, 'blk').toJwk('private');
+    privateKeyJwk.crv = 'secp256k1';
+    return [publicKeyJwk, privateKeyJwk];
   }
 
   /**
@@ -61,9 +107,6 @@ export default class Jwk {
         if (typeof jwk.x !== 'string') {
           throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeX);
         }
-        if (typeof jwk.kid !== 'string') {
-          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidKid);
-        }
         break;
       case 'secp256k1':
         if (jwk.kty !== 'EC') {
@@ -74,9 +117,6 @@ export default class Jwk {
         }
         if (typeof jwk.y !== 'string') {
           throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeY);
-        }
-        if (typeof jwk.kid !== 'string') {
-          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidKid);
         }
         break;
       default:
@@ -89,8 +129,8 @@ export default class Jwk {
    * Mainly used for testing purposes.
    */
   public static getCurve25519PublicKey(
-    privateKey: JwkCurve25519
-  ): JwkCurve25519 {
+    privateKey: PrivateKeyJwk
+  ): PublicKeyJwk {
     const keyCopy = Object.assign({}, privateKey);
 
     // Delete the private key portion.

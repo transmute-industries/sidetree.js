@@ -2,7 +2,7 @@ import {
   DeltaModel,
   Encoder,
   ErrorCode,
-  JwkCurve25519,
+  PublicKeyJwk,
   Multihash,
   OperationModel,
   OperationType,
@@ -15,7 +15,7 @@ import Jws from './util/Jws';
 
 interface SignedDataModel {
   delta_hash: string;
-  recovery_key: JwkCurve25519;
+  recovery_key: PublicKeyJwk;
   recovery_commitment: string;
 }
 

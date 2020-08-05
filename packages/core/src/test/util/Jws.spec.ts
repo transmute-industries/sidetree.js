@@ -109,4 +109,40 @@ describe('Jws', () => {
       expect(await Jws.verifyCompactJws(input, publicKey)).toBeFalsy();
     });
   });
+
+  describe('Ed25519', () => {
+    it('should support Ed25519 sign and verify', async () => {
+      const [publicKey, privateKey] = await Jwk.generateEd25519KeyPair();
+      const payload = { abc: 'some value' };
+      const compactJws = await Jws.signAsCompactJws(payload, privateKey);
+      const verified = await Jws.verifyCompactJws(compactJws, publicKey);
+      expect(verified).toBeTruthy();
+    });
+
+    it('should parse Ed25519 compact jws', async () => {
+      const [, privateKey] = await Jwk.generateEd25519KeyPair();
+      const payload = { abc: 'some value' };
+      const compactJws = await Jws.signAsCompactJws(payload, privateKey);
+      const parsed = Jws.parseCompactJws(compactJws);
+      expect(parsed).toBeDefined();
+    });
+  });
+
+  describe('ES256K', () => {
+    it('should support ES256K sign and verify', async () => {
+      const [publicKey, privateKey] = await Jwk.generateSecp256k1KeyPair();
+      const payload = { abc: 'some value' };
+      const compactJws = await Jws.signAsCompactJws(payload, privateKey);
+      const verified = await Jws.verifyCompactJws(compactJws, publicKey);
+      expect(verified).toBeTruthy();
+    });
+
+    it('should parse ES256K compact jws', async () => {
+      const [, privateKey] = await Jwk.generateSecp256k1KeyPair();
+      const payload = { abc: 'some value' };
+      const compactJws = await Jws.signAsCompactJws(payload, privateKey);
+      const parsed = Jws.parseCompactJws(compactJws);
+      expect(parsed).toBeDefined();
+    });
+  });
 });

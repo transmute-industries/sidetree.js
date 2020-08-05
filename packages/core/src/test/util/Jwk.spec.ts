@@ -1,9 +1,12 @@
 import { ErrorCode, SidetreeError } from '@sidetree/common';
 import Jwk from '../../util/Jwk';
 
+const mnemonic =
+  'mosquito sorry ring page rough future world beach pretty calm person arena';
+
 describe('Jwk', () => {
   describe('Ed25519 keys', () => {
-    it('should generate Ed25519 keypair', async () => {
+    it('should generate valid Ed25519 keypair', async () => {
       const [publicKey, privateKey] = await Jwk.generateEd25519KeyPair();
       expect(publicKey).toBeDefined();
       expect(publicKey.crv).toBe('Ed25519');
@@ -15,11 +18,25 @@ describe('Jwk', () => {
       const [publicKey] = await Jwk.generateEd25519KeyPair();
       expect(() => Jwk.validatePublicJwk(publicKey)).not.toThrow();
     });
+
+    it('should deterministically generate Ed25519 keypair', async () => {
+      const [
+        publicKey1,
+        privateKey1,
+      ] = await Jwk.generateDeterministicEd25519KeyPair(mnemonic, 0);
+      const [
+        publicKey2,
+        privateKey2,
+      ] = await Jwk.generateDeterministicEd25519KeyPair(mnemonic, 0);
+      expect(publicKey1).toEqual(publicKey2);
+      expect(privateKey1).toEqual(privateKey2);
+      expect(() => Jwk.validatePublicJwk(publicKey1)).not.toThrow();
+    });
   });
 
   describe('Secp256k1 keys', () => {
-    it('should generate Secp256K1 keypair', async () => {
-      const [publicKey, privateKey] = await Jwk.generateEs256kKeyPair();
+    it('should generate secp256k1 keypair', async () => {
+      const [publicKey, privateKey] = await Jwk.generateSecp256k1KeyPair();
       expect(publicKey).toBeDefined();
       expect(publicKey.crv).toBe('secp256k1');
       expect(privateKey).toBeDefined();
@@ -27,8 +44,22 @@ describe('Jwk', () => {
     });
 
     it('should be valid JWK', async () => {
-      const [publicKey] = await Jwk.generateEs256kKeyPair();
+      const [publicKey] = await Jwk.generateSecp256k1KeyPair();
       expect(() => Jwk.validatePublicJwk(publicKey)).not.toThrow();
+    });
+
+    it('should deterministically generate secp256k1 keypair', async () => {
+      const [
+        publicKey1,
+        privateKey1,
+      ] = await Jwk.generateDeterministicSecp256k1KeyPair(mnemonic, 0);
+      const [
+        publicKey2,
+        privateKey2,
+      ] = await Jwk.generateDeterministicSecp256k1KeyPair(mnemonic, 0);
+      expect(publicKey1).toEqual(publicKey2);
+      expect(privateKey1).toEqual(privateKey2);
+      expect(() => Jwk.validatePublicJwk(publicKey1)).not.toThrow();
     });
   });
 
@@ -90,19 +121,6 @@ describe('Jwk', () => {
       expect(() => {
         Jwk.validatePublicJwk(jwk);
       }).toThrow(new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeX));
-    });
-
-    it('should throw error if JWK has the wrong `kid` value', async () => {
-      const jwk = {
-        crv: 'Ed25519',
-        x: 'vcLqWyMCFAg8Wrbxu-p01-SG0ATO3rAKq3KobKUSsN8',
-        kty: 'OKP',
-        kid: 123,
-      };
-
-      expect(() => {
-        Jwk.validatePublicJwk(jwk);
-      }).toThrow(new SidetreeError(ErrorCode.JwkMissingOrInvalidKid));
     });
   });
 });

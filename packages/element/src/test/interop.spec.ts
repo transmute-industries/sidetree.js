@@ -15,7 +15,7 @@ afterAll(async () => {
   await element.close();
 });
 
-describe.skip('interop', () => {
+describe('interop', () => {
   it('should get versions', async () => {
     const versions = await element.handleGetVersionRequest();
     expect(versions.status).toBe('succeeded');

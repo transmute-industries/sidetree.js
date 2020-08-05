@@ -8,13 +8,13 @@ import DeltaModel from './DeltaModel';
 import DidState from './DidState';
 import DocumentModel from './DocumentModel';
 import FetchResult from './FetchResult';
-import JwkCurve25519 from './JwkCurve25519';
-import JwkEs256k from './JwkEs256k';
 import JwsModel from './JwsModel';
 import MapFileModel from './MapFileModel';
 import OperationModel from './OperationModel';
+import PrivateKeyJwk from './PrivateKeyJwk';
 import ProtocolParameters from './ProtocolParameters';
 import ProtocolVersionModel from './ProtocolVersionModel';
+import PublicKeyJwk from './PublicKeyJwk';
 import PublicKeyModel from './PublicKeyModel';
 import QueuedOperationModel from './QueuedOperationModel';
 import ResponseModel from './ResponseModel';
@@ -35,13 +35,13 @@ export {
   DidState,
   DocumentModel,
   FetchResult,
-  JwkCurve25519,
-  JwkEs256k,
   JwsModel,
   MapFileModel,
   OperationModel,
+  PrivateKeyJwk,
   ProtocolParameters,
   ProtocolVersionModel,
+  PublicKeyJwk,
   PublicKeyModel,
   QueuedOperationModel,
   ResponseModel,

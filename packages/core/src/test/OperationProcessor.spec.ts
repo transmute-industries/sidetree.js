@@ -6,11 +6,12 @@ import {
   ErrorCode,
   IOperationProcessor,
   IVersionManager,
-  JwkCurve25519,
+  PublicKeyJwk,
   Multihash,
   OperationType,
   PublicKeyModel,
   IOperationStore,
+  PrivateKeyJwk,
 } from '@sidetree/common';
 import CreateOperation from '../CreateOperation';
 import DeactivateOperation from '../DeactivateOperation';
@@ -135,11 +136,11 @@ describe('OperationProcessor', () => {
   let versionManager: IVersionManager;
   let operationProcessor: IOperationProcessor;
   let createOp: AnchoredOperationModel;
-  let recoveryPublicKey: JwkCurve25519;
-  let recoveryPrivateKey: JwkCurve25519;
+  let recoveryPublicKey: PublicKeyJwk;
+  let recoveryPrivateKey: PrivateKeyJwk;
   let signingKeyId: string;
   let signingPublicKey: PublicKeyModel;
-  let signingPrivateKey: JwkCurve25519;
+  let signingPrivateKey: PrivateKeyJwk;
   let didUniqueSuffix: string;
 
   beforeEach(async () => {
@@ -499,10 +500,10 @@ describe('OperationProcessor', () => {
   });
 
   describe('apply()', () => {
-    let recoveryPublicKey: JwkCurve25519;
-    let recoveryPrivateKey: JwkCurve25519;
+    let recoveryPublicKey: PublicKeyJwk;
+    let recoveryPrivateKey: PrivateKeyJwk;
     let signingPublicKey: PublicKeyModel;
-    let signingPrivateKey: JwkCurve25519;
+    let signingPrivateKey: PrivateKeyJwk;
     let namedAnchoredCreateOperationModel: AnchoredOperationModel;
     let didState: DidState | undefined;
     let nextRecoveryCommitmentHash: string;

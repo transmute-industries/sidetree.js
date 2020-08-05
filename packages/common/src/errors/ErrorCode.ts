@@ -128,7 +128,6 @@ export default {
   JwkMissingOrInvalidKty: 'jwk_missing_or_invalid_kty',
   JwkMissingOrInvalidTypeX: 'jwk_missing_or_invalid_type_x',
   JwkMissingOrInvalidTypeY: 'jwk_missing_or_invalid_type_y',
-  JwkMissingOrInvalidKid: 'jwk_missing_or_invalid_kid',
   JwkUndefined: 'jwk_undefined',
   JwsCompactJwsInvalid: 'jws_compact_jws_invalid',
   JwsCompactJwsNotString: 'jws_compact_jws_not_string',
