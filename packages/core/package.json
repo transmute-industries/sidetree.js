@@ -1,7 +1,7 @@
 {
   "name": "@sidetree/core",
   "author": "Orie Steele",
-  "version": "0.0.1-unstable.9",
+  "version": "0.0.1-unstable.10",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -35,10 +35,10 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.0.1-unstable.9",
-    "@sidetree/common": "^0.0.1-unstable.9",
-    "@sidetree/db": "^0.0.1-unstable.9",
-    "@sidetree/ledger": "^0.0.1-unstable.9",
+    "@sidetree/cas": "^0.0.1-unstable.10",
+    "@sidetree/common": "^0.0.1-unstable.10",
+    "@sidetree/db": "^0.0.1-unstable.10",
+    "@sidetree/ledger": "^0.0.1-unstable.10",
     "@transmute/did-key-ed25519": "^0.2.1-unstable.3",
     "@transmute/did-key-secp256k1": "^0.2.1-unstable.10",
     "@trust/keyto": "^1.0.1",
