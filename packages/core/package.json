@@ -40,6 +40,7 @@
     "@sidetree/db": "^0.0.1-unstable.9",
     "@sidetree/ledger": "^0.0.1-unstable.9",
     "@transmute/did-key-ed25519": "^0.2.1-unstable.3",
+    "@transmute/did-key-secp256k1": "^0.2.1-unstable.10",
     "@trust/keyto": "^1.0.1",
     "bip39": "^3.0.2",
     "crypto": "^1.0.1",
