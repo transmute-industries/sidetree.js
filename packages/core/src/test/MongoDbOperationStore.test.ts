@@ -1,9 +1,9 @@
 import {
   AnchoredOperationModel,
   IOperationStore,
-  JwkCurve25519,
   PublicKeyModel,
   Multihash,
+  PrivateKeyJwk,
 } from '@sidetree/common';
 import { OperationStore } from '@sidetree/db';
 import UpdateOperation from '../UpdateOperation';
@@ -30,7 +30,7 @@ async function createOperationChain(
   createOperation: AnchoredOperationModel,
   chainLength: number,
   signingKey: PublicKeyModel,
-  signingPrivateKey: JwkCurve25519,
+  signingPrivateKey: PrivateKeyJwk,
   transactionNumber?: number
 ): Promise<AnchoredOperationModel[]> {
   const didUniqueSuffix = createOperation.didUniqueSuffix;

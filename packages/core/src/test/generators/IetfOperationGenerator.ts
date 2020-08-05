@@ -1,9 +1,10 @@
 import {
-  JwkCurve25519,
+  PublicKeyJwk,
   Multihash,
   Encoder,
   PublicKeyModel,
   OperationType,
+  PrivateKeyJwk,
 } from '@sidetree/common';
 import CreateOperation from '../../CreateOperation';
 import UpdateOperation from '../../UpdateOperation';
@@ -16,12 +17,12 @@ import jsonpatch from 'fast-json-patch';
 interface GeneratedRecoverOperationData {
   operationBuffer: Buffer;
   recoverOperation: RecoverOperation;
-  recoveryPublicKey: JwkCurve25519;
-  recoveryPrivateKey: JwkCurve25519;
+  recoveryPublicKey: PublicKeyJwk;
+  recoveryPrivateKey: PrivateKeyJwk;
   signingPublicKey: PublicKeyModel;
-  signingPrivateKey: JwkCurve25519;
+  signingPrivateKey: PrivateKeyJwk;
   update_key: PublicKeyModel;
-  updatePrivateKey: JwkCurve25519;
+  updatePrivateKey: PrivateKeyJwk;
 }
 
 export default class IetfOperationGenerator {
@@ -108,8 +109,8 @@ export default class IetfOperationGenerator {
    */
   public static async generateUpdateOperation(
     didUniqueSuffix: string,
-    updatePublicKey: JwkCurve25519,
-    updatePrivateKey: JwkCurve25519
+    updatePublicKey: PublicKeyJwk,
+    updatePrivateKey: PrivateKeyJwk
   ) {
     const additionalKeyId = `additional-key`;
     const [
@@ -157,8 +158,8 @@ export default class IetfOperationGenerator {
 
   public static async generateBadUpdateOperation(
     didUniqueSuffix: string,
-    updatePublicKey: JwkCurve25519,
-    updatePrivateKey: JwkCurve25519,
+    updatePublicKey: PublicKeyJwk,
+    updatePrivateKey: PrivateKeyJwk,
     oldDocument: any
   ) {
     const additionalKeyId = 'next-update-key';
@@ -207,7 +208,7 @@ export default class IetfOperationGenerator {
    */
   public static async generateRecoverOperation(
     didUniqueSuffix: string,
-    recoveryPrivateKey: JwkCurve25519
+    recoveryPrivateKey: PrivateKeyJwk
   ): Promise<GeneratedRecoverOperationData> {
     const newSigningKeyId = 'newSigningKey';
     const [
@@ -293,7 +294,7 @@ export default class IetfOperationGenerator {
    */
   public static async createDeactivateOperation(
     didUniqueSuffix: string,
-    recoveryPrivateKey: JwkCurve25519
+    recoveryPrivateKey: PrivateKeyJwk
   ) {
     const signedDataPayloadObject = {
       did_suffix: didUniqueSuffix,

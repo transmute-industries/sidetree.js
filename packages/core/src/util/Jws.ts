@@ -2,7 +2,7 @@ import {
   Encoder,
   ErrorCode,
   SidetreeError,
-  JwkCurve25519,
+  PublicKeyJwk,
 } from '@sidetree/common';
 import { EdDSA } from '@transmute/did-key-ed25519';
 
@@ -82,7 +82,7 @@ export default class Jws {
    * Verifies the JWS signature.
    * @returns true if signature is successfully verified, false otherwise.
    */
-  public async verifySignature(publicKey: JwkCurve25519): Promise<boolean> {
+  public async verifySignature(publicKey: PublicKeyJwk): Promise<boolean> {
     return Jws.verifySignature(
       this.protected,
       this.payload,
@@ -99,7 +99,7 @@ export default class Jws {
     encodedProtectedHeader: string,
     encodedPayload: string,
     signature: string,
-    publicKey: JwkCurve25519
+    publicKey: PublicKeyJwk
   ): Promise<boolean> {
     const jwsSigningInput =
       encodedProtectedHeader + '.' + encodedPayload + '.' + signature;
@@ -116,7 +116,7 @@ export default class Jws {
    */
   public static async verifyCompactJws(
     compactJws: string,
-    jwk: JwkCurve25519
+    jwk: PublicKeyJwk
   ): Promise<boolean> {
     try {
       await EdDSA.verify(compactJws, jwk);

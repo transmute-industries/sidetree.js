@@ -1,7 +1,7 @@
 import {
   Encoder,
   ErrorCode,
-  JwkCurve25519,
+  PublicKeyJwk,
   OperationModel,
   OperationType,
   SidetreeError,
@@ -12,7 +12,7 @@ import Jws from './util/Jws';
 
 interface SignedDataModel {
   didSuffix: string;
-  recovery_key: JwkCurve25519;
+  recovery_key: PublicKeyJwk;
 }
 
 /**

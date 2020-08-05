@@ -9,11 +9,12 @@ import {
   ICas,
   IOperationStore,
   IVersionManager,
-  JwkCurve25519,
+  PublicKeyJwk,
   OperationType,
   Config,
   SidetreeError,
   ResponseStatus,
+  PrivateKeyJwk,
 } from '@sidetree/common';
 import BatchScheduler from '../write/BatchScheduler';
 import BatchWriter from '../write/BatchWriter';
@@ -57,8 +58,8 @@ describe('RequestHandler', () => {
   let requestHandler: RequestHandler;
   let versionManager: IVersionManager;
 
-  let recoveryPublicKey: JwkCurve25519;
-  let recoveryPrivateKey: JwkCurve25519;
+  let recoveryPublicKey: PublicKeyJwk;
+  let recoveryPrivateKey: PrivateKeyJwk;
   let did: string; // This DID is created at the beginning of every test.
   let didUniqueSuffix: string;
 
