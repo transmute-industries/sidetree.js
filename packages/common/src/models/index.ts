@@ -15,6 +15,8 @@ import PrivateKeyJwk from './PrivateKeyJwk';
 import ProtocolParameters from './ProtocolParameters';
 import ProtocolVersionModel from './ProtocolVersionModel';
 import PublicKeyJwk from './PublicKeyJwk';
+import PublicKeyJwkEc from './PublicKeyJwkEc';
+import PublicKeyJwkOkp from './PublicKeyJwkOkp';
 import PublicKeyModel from './PublicKeyModel';
 import QueuedOperationModel from './QueuedOperationModel';
 import ResponseModel from './ResponseModel';
@@ -42,6 +44,8 @@ export {
   ProtocolParameters,
   ProtocolVersionModel,
   PublicKeyJwk,
+  PublicKeyJwkEc,
+  PublicKeyJwkOkp,
   PublicKeyModel,
   QueuedOperationModel,
   ResponseModel,
