@@ -10,6 +10,7 @@ import {
   ServiceEndpointModel,
   PublicKeyPurpose,
   DocumentModel,
+  PrivateKeyJwkOkp,
 } from '@sidetree/common';
 import * as crypto from 'crypto';
 import CreateOperation from '../../CreateOperation';
@@ -449,7 +450,9 @@ export default class OperationGenerator {
 
     const signedDataPayloadObject = {
       delta_hash: delta_hash,
-      recovery_key: Jwk.getCurve25519PublicKey(recoveryPrivateKey),
+      recovery_key: Jwk.getCurve25519PublicKey(
+        recoveryPrivateKey as PrivateKeyJwkOkp
+      ),
       recovery_commitment: Multihash.canonicalizeThenHashThenEncode(
         newRecoveryPublicKey
       ),
@@ -479,7 +482,9 @@ export default class OperationGenerator {
   ) {
     const signedDataPayloadObject = {
       did_suffix: didUniqueSuffix,
-      recovery_key: Jwk.getCurve25519PublicKey(recoveryPrivateKey),
+      recovery_key: Jwk.getCurve25519PublicKey(
+        recoveryPrivateKey as PrivateKeyJwkOkp
+      ),
     };
     const signedData = await OperationGenerator.signUsingEd25519(
       signedDataPayloadObject,
