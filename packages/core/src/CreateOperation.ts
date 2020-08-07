@@ -7,7 +7,7 @@ import {
   Multihash,
   Encoder,
 } from '@sidetree/common';
-import Operation from './Operation';
+import OperationUtils from './OperationUtils';
 import JsonAsync from './util/JsonAsync';
 
 interface SuffixDataModel {
@@ -137,7 +137,7 @@ export default class CreateOperation implements OperationModel {
 
       encodedDelta = operationObject.delta;
       try {
-        delta = await Operation.parseDelta(operationObject.delta);
+        delta = await OperationUtils.parseDelta(operationObject.delta);
       } catch {
         // For compatibility with data pruning, we have to assume that `delta` may be unavailable,
         // thus an operation with invalid `delta` needs to be processed as an operation with unavailable `delta`,
