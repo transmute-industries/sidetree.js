@@ -11,14 +11,16 @@ import FetchResult from './FetchResult';
 import JwsModel from './JwsModel';
 import MapFileModel from './MapFileModel';
 import OperationModel from './OperationModel';
-import PrivateKeyJwk from './PrivateKeyJwk';
-import PrivateKeyJwkEc from './PrivateKeyJwkEc';
-import PrivateKeyJwkOkp from './PrivateKeyJwkOkp';
+import {
+  PublicKeyJwk,
+  PublicKeyJwkEc,
+  PublicKeyJwkOkp,
+  PrivateKeyJwk,
+  PrivateKeyJwkEc,
+  PrivateKeyJwkOkp,
+} from './JwkModels';
 import ProtocolParameters from './ProtocolParameters';
 import ProtocolVersionModel from './ProtocolVersionModel';
-import PublicKeyJwk from './PublicKeyJwk';
-import PublicKeyJwkEc from './PublicKeyJwkEc';
-import PublicKeyJwkOkp from './PublicKeyJwkOkp';
 import PublicKeyModel from './PublicKeyModel';
 import QueuedOperationModel from './QueuedOperationModel';
 import ResponseModel from './ResponseModel';
