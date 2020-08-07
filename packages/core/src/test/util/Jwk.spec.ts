@@ -23,11 +23,11 @@ describe('Jwk', () => {
       const [
         publicKey1,
         privateKey1,
-      ] = await Jwk.generateDeterministicEd25519KeyPair(mnemonic, 0);
+      ] = await Jwk.generateEd25519KeyPairFromMnemonic(mnemonic, 0);
       const [
         publicKey2,
         privateKey2,
-      ] = await Jwk.generateDeterministicEd25519KeyPair(mnemonic, 0);
+      ] = await Jwk.generateEd25519KeyPairFromMnemonic(mnemonic, 0);
       expect(publicKey1).toEqual(publicKey2);
       expect(privateKey1).toEqual(privateKey2);
       expect(() => Jwk.validatePublicJwk(publicKey1)).not.toThrow();
@@ -52,11 +52,11 @@ describe('Jwk', () => {
       const [
         publicKey1,
         privateKey1,
-      ] = await Jwk.generateDeterministicSecp256k1KeyPair(mnemonic, 0);
+      ] = await Jwk.generateSecp256k1KeyPairFromMnemonic(mnemonic, 0);
       const [
         publicKey2,
         privateKey2,
-      ] = await Jwk.generateDeterministicSecp256k1KeyPair(mnemonic, 0);
+      ] = await Jwk.generateSecp256k1KeyPairFromMnemonic(mnemonic, 0);
       expect(publicKey1).toEqual(publicKey2);
       expect(privateKey1).toEqual(privateKey2);
       expect(() => Jwk.validatePublicJwk(publicKey1)).not.toThrow();

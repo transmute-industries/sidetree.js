@@ -42,7 +42,7 @@ export default class Jwk {
     return addrNode.privateKey;
   }
 
-  public static async generateDeterministicEd25519KeyPair(
+  public static async generateEd25519KeyPairFromMnemonic(
     mnemonic: string,
     index: number
   ): Promise<[PublicKeyJwkOkp, PrivateKeyJwkOkp]> {
@@ -72,7 +72,7 @@ export default class Jwk {
     return [publicKey, privateKey];
   }
 
-  public static async generateDeterministicSecp256k1KeyPair(
+  public static async generateSecp256k1KeyPairFromMnemonic(
     mnemonic: string,
     index: number
   ): Promise<[PublicKeyJwkEc, PrivateKeyJwkEc]> {
