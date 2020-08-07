@@ -1,7 +1,7 @@
 /**
  * Model for representing an EC private key in a JWK format.
  */
-export type PrivateKeyJwkEc = {
+export type PrivateKeyJwkSecp256k1 = {
   kty: 'EC';
   crv: 'secp256k1';
   x: string;
@@ -13,7 +13,7 @@ export type PrivateKeyJwkEc = {
 /**
  * Model for representing an Okp private key in a JWK format.
  */
-export type PrivateKeyJwkOkp = {
+export type PrivateKeyJwkEd25519 = {
   kty: 'OKP';
   crv: 'Ed25519';
   x: string;
@@ -24,12 +24,12 @@ export type PrivateKeyJwkOkp = {
 /**
  * Model for representing a private key in a JWK format.
  */
-export type PrivateKeyJwk = PrivateKeyJwkEc | PrivateKeyJwkOkp;
+export type PrivateKeyJwk = PrivateKeyJwkSecp256k1 | PrivateKeyJwkEd25519;
 
 /**
  * Model for representing an EC public key in a JWK format.
  */
-export type PublicKeyJwkEc = {
+export type PublicKeyJwkSecp256k1 = {
   kty: 'EC';
   crv: 'secp256k1';
   x: string;
@@ -40,7 +40,7 @@ export type PublicKeyJwkEc = {
 /**
  * Model for representing an OKP public key in a JWK format.
  */
-export type PublicKeyJwkOkp = {
+export type PublicKeyJwkEd25519 = {
   kty: 'OKP';
   crv: 'Ed25519';
   x: string;
@@ -50,4 +50,4 @@ export type PublicKeyJwkOkp = {
 /**
  * Model for representing a public key in a JWK format.
  */
-export type PublicKeyJwk = PublicKeyJwkEc | PublicKeyJwkOkp;
+export type PublicKeyJwk = PublicKeyJwkSecp256k1 | PublicKeyJwkEd25519;

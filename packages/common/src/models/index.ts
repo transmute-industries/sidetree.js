@@ -13,11 +13,11 @@ import MapFileModel from './MapFileModel';
 import OperationModel from './OperationModel';
 import {
   PublicKeyJwk,
-  PublicKeyJwkEc,
-  PublicKeyJwkOkp,
+  PublicKeyJwkSecp256k1,
+  PublicKeyJwkEd25519,
   PrivateKeyJwk,
-  PrivateKeyJwkEc,
-  PrivateKeyJwkOkp,
+  PrivateKeyJwkSecp256k1,
+  PrivateKeyJwkEd25519,
 } from './JwkModels';
 import ProtocolParameters from './ProtocolParameters';
 import ProtocolVersionModel from './ProtocolVersionModel';
@@ -45,13 +45,13 @@ export {
   MapFileModel,
   OperationModel,
   PrivateKeyJwk,
-  PrivateKeyJwkEc,
-  PrivateKeyJwkOkp,
+  PrivateKeyJwkSecp256k1,
+  PrivateKeyJwkEd25519,
   ProtocolParameters,
   ProtocolVersionModel,
   PublicKeyJwk,
-  PublicKeyJwkEc,
-  PublicKeyJwkOkp,
+  PublicKeyJwkSecp256k1,
+  PublicKeyJwkEd25519,
   PublicKeyModel,
   QueuedOperationModel,
   ResponseModel,

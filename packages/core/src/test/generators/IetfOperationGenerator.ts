@@ -5,7 +5,7 @@ import {
   PublicKeyModel,
   OperationType,
   PrivateKeyJwk,
-  PrivateKeyJwkOkp,
+  PrivateKeyJwkEd25519,
 } from '@sidetree/common';
 import CreateOperation from '../../CreateOperation';
 import UpdateOperation from '../../UpdateOperation';
@@ -258,7 +258,7 @@ export default class IetfOperationGenerator {
     const signedDataPayloadObject = {
       delta_hash: delta_hash,
       recovery_key: Jwk.getCurve25519PublicKey(
-        recoveryPrivateKey as PrivateKeyJwkOkp
+        recoveryPrivateKey as PrivateKeyJwkEd25519
       ),
       recovery_commitment: Multihash.canonicalizeThenHashThenEncode(
         newRecoveryPublicKey
@@ -302,7 +302,7 @@ export default class IetfOperationGenerator {
     const signedDataPayloadObject = {
       did_suffix: didUniqueSuffix,
       recovery_key: Jwk.getCurve25519PublicKey(
-        recoveryPrivateKey as PrivateKeyJwkOkp
+        recoveryPrivateKey as PrivateKeyJwkEd25519
       ),
     };
     const signedData = await OperationGenerator.signUsingEd25519(
