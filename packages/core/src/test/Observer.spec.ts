@@ -40,7 +40,7 @@ describe('Observer', () => {
   const originalDefaultTestTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 
   beforeAll(async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000; // These asynchronous tests can take a bit longer than normal.
+    jest.setTimeout(20000); // These asynchronous tests can take a bit longer than normal.
 
     casClient = new MockCas();
 
