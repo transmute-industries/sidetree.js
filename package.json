@@ -7,6 +7,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "lint": "lerna run lint --stream",
+    "lint:fix": "lerna run lint:fix --stream",
     "test": "lerna run test --stream",
     "build": "lerna run build --stream",
     "install:ci": "npm install --ignore-scripts && lerna link && lerna bootstrap --since origin/master --include-dependencies",
