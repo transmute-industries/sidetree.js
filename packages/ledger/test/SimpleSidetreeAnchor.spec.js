@@ -34,15 +34,17 @@ contract('SimpleSidetreeAnchor', accounts => {
     assert(events.length === 1);
   });
 
-  it('can listen for anchor', done => {
-    instance.Anchor(async (err, log) => {
-      assert(log.args.anchorFileHash === anchorFileHash);
-      assert(log.args.transactionNumber.toNumber() === 1);
-      done();
-    });
+  it('can listen for anchor', () => {
+    return new Promise(done => {
+      instance.Anchor(async (err, log) => {
+        assert(log.args.anchorFileHash === anchorFileHash);
+        assert(log.args.transactionNumber.toNumber() === 1);
+        done();
+      });
 
-    instance.anchorHash(anchorFileHash, {
-      from: accounts[0],
+      instance.anchorHash(anchorFileHash, {
+        from: accounts[0],
+      });
     });
   });
 });

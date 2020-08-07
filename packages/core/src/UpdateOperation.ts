@@ -11,7 +11,7 @@ import {
 import JsonAsync from './util/JsonAsync';
 import Jwk from './util/Jwk';
 import Jws from './util/Jws';
-import Operation from './Operation';
+import OperationUtils from './OperationUtils';
 
 interface SignedDataModel {
   delta_hash: string;
@@ -134,7 +134,7 @@ export default class UpdateOperation implements OperationModel {
       }
 
       encodedDelta = operationObject.delta;
-      delta = await Operation.parseDelta(encodedDelta);
+      delta = await OperationUtils.parseDelta(encodedDelta);
     }
 
     return new UpdateOperation(

@@ -8,7 +8,7 @@ import {
   OperationType,
   SidetreeError,
 } from '@sidetree/common';
-import Operation from './Operation';
+import OperationUtils from './OperationUtils';
 import JsonAsync from './util/JsonAsync';
 import Jwk from './util/Jwk';
 import Jws from './util/Jws';
@@ -140,7 +140,7 @@ export default class RecoverOperation implements OperationModel {
 
       encodedDelta = operationObject.delta;
       try {
-        delta = await Operation.parseDelta(operationObject.delta);
+        delta = await OperationUtils.parseDelta(operationObject.delta);
       } catch {
         // For compatibility with data pruning, we have to assume that delta may be unavailable,
         // thus an operation with invalid delta needs to be processed as an operation with unavailable delta,

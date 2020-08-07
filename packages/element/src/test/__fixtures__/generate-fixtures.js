@@ -6,10 +6,7 @@ const {
   OperationGenerator,
   Jwk,
 } = require('@sidetree/core');
-const {
-  PublicKeyPurpose,
-  Multihash,
-} = require('@sidetree/common');
+const { PublicKeyPurpose, Multihash } = require('@sidetree/common');
 const { MockCas } = require('@sidetree/cas');
 const fs = require('fs');
 
@@ -35,7 +32,8 @@ class KeyGenerator {
     const [
       publicKeyJwk,
       privateKeyJwk,
-    ] = await Jwk.generateDeterministicEd25519KeyPair(
+    ] = await Jwk.generateJwkKeyPairFromMnemonic(
+      'ed25519',
       this.mnemonic,
       this.counter
     );
@@ -51,7 +49,8 @@ class KeyGenerator {
     const [
       publicKeyJwk,
       privateKeyJwk,
-    ] = await Jwk.generateDeterministicSecp256k1KeyPair(
+    ] = await Jwk.generateJwkKeyPairFromMnemonic(
+      'secp256k1',
       this.mnemonic,
       this.counter
     );
@@ -143,9 +142,7 @@ const generateDidFixtures = async () => {
   FileWriter.write('longFormDid.txt', longFormDid);
 
   const longFormResolveBody = { ...resolveBody };
-  (longFormResolveBody.didDocument['@context'][1])[
-    '@base'
-  ] = longFormDid;
+  longFormResolveBody.didDocument['@context'][1]['@base'] = longFormDid;
   longFormResolveBody.didDocument.id = longFormDid;
   FileWriter.write(
     'longFormResolveBody.json',

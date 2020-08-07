@@ -1,5 +1,7 @@
 {
   "name": "@sidetree/common",
+  "author": "Orie Steele (https://github.com/OR13)",
+  "contributors": ["Orie Steele (https://github.com/OR13)", "gjgd (https://github.com/gjgd)"],
   "version": "0.0.1-unstable.11",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
@@ -11,6 +13,7 @@
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint src",
+    "lint:fix": "tsdx lint src --fix",
     "prepare": "tsdx build"
   },
   "prettier": {

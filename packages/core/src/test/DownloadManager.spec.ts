@@ -13,7 +13,7 @@ describe('DownloadManager', () => {
   const originalDefaultTestTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 
   beforeAll(() => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000; // These asynchronous tests can take a bit longer than normal.
+    jest.setTimeout(20000); // These asynchronous tests can take a bit longer than normal.
 
     cas = new MockCas(mockSecondsTakenForEachCasFetch);
     downloadManager = new DownloadManager(maxConcurrentDownloads, cas);

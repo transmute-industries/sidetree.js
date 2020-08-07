@@ -1,6 +1,7 @@
 {
   "name": "@sidetree/ledger",
-  "author": "Orie Steele",
+  "author": "Orie Steele (https://github.com/OR13)",
+  "contributors": ["Orie Steele (https://github.com/OR13)", "gjgd (https://github.com/gjgd)"],
   "version": "0.0.1-unstable.11",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
@@ -13,7 +14,8 @@
     "build": "tsdx build",
     "pretest": "docker-compose up -d ganache",
     "test": "tsdx test",
-    "lint": "tsdx lint src --fix",
+    "lint": "tsdx lint src",
+    "lint:fix": "tsdx lint src --fix",
     "prepare": "tsdx build",
     "contracts:test": "truffle test",
     "contracts:migrate:dev": "truffle migrate --network development --reset",
