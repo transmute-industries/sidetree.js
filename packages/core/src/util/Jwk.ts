@@ -1,8 +1,10 @@
 import {
   ErrorCode,
   SidetreeError,
-  PublicKeyJwk,
-  PrivateKeyJwk,
+  PublicKeyJwkEc,
+  PublicKeyJwkOkp,
+  PrivateKeyJwkEc,
+  PrivateKeyJwkOkp,
 } from '@sidetree/common';
 import { JWK } from 'jose';
 import * as bip39 from 'bip39';
@@ -20,11 +22,11 @@ export default class Jwk {
    * @returns [publicKey, privateKey]
    */
   public static async generateEd25519KeyPair(): Promise<
-    [PublicKeyJwk, PrivateKeyJwk]
+    [PublicKeyJwkOkp, PrivateKeyJwkOkp]
   > {
     const keyPair = await JWK.generate('OKP', 'Ed25519');
-    const privateKey = keyPair.toJWK(true) as PrivateKeyJwk;
-    const publicKey = keyPair.toJWK(false) as PublicKeyJwk;
+    const privateKey = keyPair.toJWK(true) as PrivateKeyJwkOkp;
+    const publicKey = keyPair.toJWK(false) as PublicKeyJwkOkp;
     return [publicKey, privateKey];
   }
 
@@ -43,16 +45,16 @@ export default class Jwk {
   public static async generateDeterministicEd25519KeyPair(
     mnemonic: string,
     index: number
-  ): Promise<[PublicKeyJwk, PrivateKeyJwk]> {
+  ): Promise<[PublicKeyJwkOkp, PrivateKeyJwkOkp]> {
     const privateKeyBuffer = await Jwk.getBufferAtIndex(mnemonic, index);
     const keyPair = await Ed25519KeyPair.generate({
       seed: privateKeyBuffer,
     });
     const ed25519KeyPair = new Ed25519KeyPair(keyPair);
-    const publicKeyJwk = (await ed25519KeyPair.toJwk(false)) as PublicKeyJwk;
-    const privateKeyJwk = ((await ed25519KeyPair.toJwk(
+    const publicKeyJwk = (await ed25519KeyPair.toJwk(false)) as PublicKeyJwkOkp;
+    const privateKeyJwk = (await ed25519KeyPair.toJwk(
       true
-    )) as unknown) as PrivateKeyJwk;
+    )) as PrivateKeyJwkOkp;
     return [publicKeyJwk, privateKeyJwk];
   }
 
@@ -62,18 +64,18 @@ export default class Jwk {
    * @returns [publicKey, privateKey]
    */
   public static async generateSecp256k1KeyPair(): Promise<
-    [PublicKeyJwk, PrivateKeyJwk]
+    [PublicKeyJwkEc, PrivateKeyJwkEc]
   > {
     const keyPair = await JWK.generate('EC', 'secp256k1');
-    const publicKey = keyPair.toJWK(false) as PublicKeyJwk;
-    const privateKey = keyPair.toJWK(true) as PrivateKeyJwk;
+    const publicKey = keyPair.toJWK(false) as PublicKeyJwkEc;
+    const privateKey = keyPair.toJWK(true) as PrivateKeyJwkEc;
     return [publicKey, privateKey];
   }
 
   public static async generateDeterministicSecp256k1KeyPair(
     mnemonic: string,
     index: number
-  ): Promise<[PublicKeyJwk, PrivateKeyJwk]> {
+  ): Promise<[PublicKeyJwkEc, PrivateKeyJwkEc]> {
     const privateKeyBuffer = await Jwk.getBufferAtIndex(mnemonic, index);
     const publicKeyJwk = keytoFrom(privateKeyBuffer, 'blk').toJwk('public');
     publicKeyJwk.crv = 'secp256k1';
@@ -129,8 +131,8 @@ export default class Jwk {
    * Mainly used for testing purposes.
    */
   public static getCurve25519PublicKey(
-    privateKey: PrivateKeyJwk
-  ): PublicKeyJwk {
+    privateKey: PrivateKeyJwkOkp
+  ): PublicKeyJwkOkp {
     const keyCopy = Object.assign({}, privateKey);
 
     // Delete the private key portion.

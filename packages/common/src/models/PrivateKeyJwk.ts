@@ -1,10 +1,9 @@
+import PrivateKeyJwkEc from './PrivateKeyJwkEc';
+import PrivateKeyJwkOkp from './PrivateKeyJwkOkp';
+
 /**
- * Model for representing a public key in a JWK format.
+ * Model for representing a private key in a JWK format.
  */
-export default interface PrivateKeyJwk {
-  kty: string;
-  crv: string;
-  x: string;
-  y?: string;
-  d: string;
-}
+type PrivateKeyJwk = PrivateKeyJwkEc | PrivateKeyJwkOkp;
+
+export default PrivateKeyJwk;
