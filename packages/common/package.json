@@ -1,6 +1,6 @@
 {
   "name": "@sidetree/common",
-  "version": "0.0.1-unstable.10",
+  "version": "0.0.1-unstable.11",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "engines": {
