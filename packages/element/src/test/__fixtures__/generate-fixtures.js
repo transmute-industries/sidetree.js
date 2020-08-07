@@ -32,7 +32,8 @@ class KeyGenerator {
     const [
       publicKeyJwk,
       privateKeyJwk,
-    ] = await Jwk.generateEd25519KeyPairFromMnemonic(
+    ] = await Jwk.generateJwkKeyPairFromMnemonic(
+      'ed25519',
       this.mnemonic,
       this.counter
     );
@@ -48,7 +49,8 @@ class KeyGenerator {
     const [
       publicKeyJwk,
       privateKeyJwk,
-    ] = await Jwk.generateSecp256k1KeyPairFromMnemonic(
+    ] = await Jwk.generateJwkKeyPairFromMnemonic(
+      'secp256k1',
       this.mnemonic,
       this.counter
     );

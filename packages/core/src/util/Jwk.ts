@@ -5,6 +5,8 @@ import {
   PublicKeyJwkOkp,
   PrivateKeyJwkEc,
   PrivateKeyJwkOkp,
+  PrivateKeyJwk,
+  PublicKeyJwk,
 } from '@sidetree/common';
 import { JWK } from 'jose';
 import * as bip39 from 'bip39';
@@ -42,7 +44,7 @@ export default class Jwk {
     return addrNode.privateKey;
   }
 
-  public static async generateEd25519KeyPairFromMnemonic(
+  private static async generateEd25519KeyPairFromMnemonic(
     mnemonic: string,
     index: number
   ): Promise<[PublicKeyJwkOkp, PrivateKeyJwkOkp]> {
@@ -72,7 +74,22 @@ export default class Jwk {
     return [publicKey, privateKey];
   }
 
-  public static async generateSecp256k1KeyPairFromMnemonic(
+  public static async generateJwkKeyPairFromMnemonic(
+    keyType: string,
+    mnemonic: string,
+    index: number
+  ): Promise<[PublicKeyJwk, PrivateKeyJwk]> {
+    switch (keyType) {
+      case 'secp256k1':
+        return this.generateSecp256k1KeyPairFromMnemonic(mnemonic, index);
+      case 'ed25519':
+        return this.generateEd25519KeyPairFromMnemonic(mnemonic, index);
+      default:
+        throw new Error('Invalid key type');
+    }
+  }
+
+  private static async generateSecp256k1KeyPairFromMnemonic(
     mnemonic: string,
     index: number
   ): Promise<[PublicKeyJwkEc, PrivateKeyJwkEc]> {
