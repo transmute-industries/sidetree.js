@@ -1,5 +1,7 @@
 {
   "name": "root",
+  "author": "Orie Steele (https://github.com/OR13)",
+  "contributors": ["Orie Steele (https://github.com/OR13)", "gjgd (https://github.com/gjgd)"],
   "private": true,
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "scripts": {
