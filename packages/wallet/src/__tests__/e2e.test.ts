@@ -2,12 +2,12 @@ import * as wallet from '../index';
 import * as fixtures from '../__fixtures__';
 
 it('generateMnemonic', async () => {
-  let mnemonic: string = await wallet.generateMnemonic();
+  const mnemonic: string = await wallet.generateMnemonic();
   expect(mnemonic).toBeDefined();
 });
 
 it('Mnemonic toUniversalWalletDataModel', async () => {
-  let mnemonicContent = await wallet.toUniversalWalletDataModel(
+  const mnemonicContent = await wallet.toUniversalWalletDataModel(
     'Mnemonic',
     fixtures.mnemonic
   );
@@ -15,7 +15,7 @@ it('Mnemonic toUniversalWalletDataModel', async () => {
 });
 
 it('getLinkedDataKeyPairsAtIndex', async () => {
-  let keyPairs = await wallet.getLinkedDataKeyPairsAtIndex(
+  const keyPairs = await wallet.getLinkedDataKeyPairsAtIndex(
     fixtures.mnemonicContent,
     0
   );
@@ -23,16 +23,16 @@ it('getLinkedDataKeyPairsAtIndex', async () => {
 });
 
 it('initial state', async () => {
-  let data = await wallet.getLinkedDataKeyPairsAtIndex(
+  const data = await wallet.getLinkedDataKeyPairsAtIndex(
     fixtures.mnemonicContent,
     0
   );
-  let initialState = await wallet.toInitialState(data[1]);
+  const initialState = await wallet.toInitialState(data[1]);
   expect(initialState).toBe(fixtures.initialState);
 });
 
 it('walletContents at event number', async () => {
-  let derivedWalletContents = await wallet.getDerivedWalletContent(
+  const derivedWalletContents = await wallet.getDerivedWalletContent(
     fixtures.mnemonicContent,
     0
   );

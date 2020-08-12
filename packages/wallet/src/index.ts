@@ -13,7 +13,7 @@ const generateMnemonic = async () => {
 
 const toMnemonic = async (mnemonic: string) => {
   const seed = await bip39.mnemonicToSeed(mnemonic);
-  let id = await seedToId(seed);
+  const id = await seedToId(seed);
   return {
     '@context': [
       'https://transmute-industries.github.io/universal-wallet/contexts/wallet-v1.json',
@@ -61,14 +61,14 @@ const getEd25519KeyPairFromMnemonicAtIndex = async (
   mnemonicContent: any,
   index: number
 ): Promise<any> => {
-  let [
+  const [
     publicKeyJwk,
     privateKeyJwk,
   ] = await Jwk.generateDeterministicEd25519KeyPair(
     mnemonicContent.value,
     index
   );
-  let fingerprint = await ed25519.Ed25519KeyPair.fingerprintFromPublicKey({
+  const fingerprint = await ed25519.Ed25519KeyPair.fingerprintFromPublicKey({
     publicKeyBase58: await ed25519.keyUtils.publicKeyBase58FromPublicKeyJwk(
       publicKeyJwk
     ),
@@ -86,18 +86,20 @@ const getSecp256k1KeyPairFromMnemonicAtIndex = async (
   mnemonicContent: any,
   index: number
 ): Promise<any> => {
-  let [
+  const [
     publicKeyJwk,
     privateKeyJwk,
   ] = await Jwk.generateDeterministicSecp256k1KeyPair(
     mnemonicContent.value,
     index
   );
-  let fingerprint = await secp256k1.Secp256k1KeyPair.fingerprintFromPublicKey({
-    publicKeyBase58: await secp256k1.keyUtils.publicKeyBase58FromPublicKeyHex(
-      await secp256k1.keyUtils.publicKeyHexFromJwk(publicKeyJwk as any)
-    ),
-  });
+  const fingerprint = await secp256k1.Secp256k1KeyPair.fingerprintFromPublicKey(
+    {
+      publicKeyBase58: await secp256k1.keyUtils.publicKeyBase58FromPublicKeyHex(
+        await secp256k1.keyUtils.publicKeyHexFromJwk(publicKeyJwk as any)
+      ),
+    }
+  );
   const secp256k1KeyPair = await secp256k1.Secp256k1KeyPair.from({
     id: '#' + fingerprint,
     controller: '',
@@ -163,7 +165,7 @@ const toInitialState = async (secp256k1KeyPair: any) => {
 };
 
 const initialStateToShortFormDid = (initialState: string) => {
-  let didMethodName = 'elem:ropsten';
+  const didMethodName = 'elem:ropsten';
   const parts = initialState.split('.');
   const didUniqueSuffix = Multihash.canonicalizeThenHashThenEncode(
     JSON.parse(base64url.decode(parts[0]))
