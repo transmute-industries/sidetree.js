@@ -1,4 +1,4 @@
-import MockLedger from '../MockLedger';
+import { MockLedger } from '@sidetree/ledger';
 import testSuite from './testSuite';
 
 const mock = new MockLedger();
