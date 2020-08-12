@@ -64,7 +64,8 @@ const getEd25519KeyPairFromMnemonicAtIndex = async (
   const [
     publicKeyJwk,
     privateKeyJwk,
-  ] = await Jwk.generateDeterministicEd25519KeyPair(
+  ] = await Jwk.generateJwkKeyPairFromMnemonic(
+    'ed25519',
     mnemonicContent.value,
     index
   );
@@ -89,7 +90,8 @@ const getSecp256k1KeyPairFromMnemonicAtIndex = async (
   const [
     publicKeyJwk,
     privateKeyJwk,
-  ] = await Jwk.generateDeterministicSecp256k1KeyPair(
+  ] = await Jwk.generateJwkKeyPairFromMnemonic(
+    'secp256k1',
     mnemonicContent.value,
     index
   );
