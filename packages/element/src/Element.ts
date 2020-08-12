@@ -12,7 +12,7 @@ import {
   ServiceInfo,
   VersionManager,
 } from '@sidetree/core';
-import { EthereumLedger } from '@sidetree/ledger';
+import { EthereumLedger } from '@sidetree/ethereum';
 import { IpfsCas as Cas } from '@sidetree/cas';
 import {
   OperationStore as MongoDbOperationStore,

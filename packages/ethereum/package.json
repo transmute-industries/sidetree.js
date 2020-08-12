@@ -1,5 +1,5 @@
 {
-  "name": "@sidetree/element",
+  "name": "@sidetree/ethereum",
   "author": "Orie Steele (https://github.com/OR13)",
   "contributors": [
     "Orie Steele (https://github.com/OR13)",
@@ -9,22 +9,23 @@
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
   "engines": {
     "node": ">=10"
   },
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "pretest": "docker-compose up -d mongo ganache ipfs",
-    "test": "tsdx test --runInBand",
+    "pretest": "docker-compose up -d ganache",
+    "test": "tsdx test",
     "lint": "tsdx lint src",
     "lint:fix": "tsdx lint src --fix",
     "prepare": "tsdx build",
-    "generate:fixtures": "node src/test/__fixtures__/generate-fixtures.js"
+    "contracts:test": "truffle test",
+    "contracts:migrate:dev": "truffle migrate --network development --reset",
+    "contracts:migrate:ropsten": "truffle migrate --network ropsten"
+  },
+  "peerDependencies": {
+    "web3": ">=1.2.7"
   },
   "prettier": {
     "printWidth": 80,
@@ -33,22 +34,17 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
-    "@transmute/did-key-ed25519": "^0.2.1-unstable.3",
-    "@transmute/did-key-secp256k1": "^0.2.1-unstable.3",
-    "@trust/keyto": "^1.0.1",
-    "@types/secp256k1": "^4.0.1",
-    "jose": "^1.27.2",
-    "secp256k1": "^4.0.2",
+    "@truffle/hdwallet-provider": "^1.0.35",
+    "dotenv": "^8.2.0",
+    "truffle": "^5.1.25",
     "tsdx": "^0.13.2",
-    "tslib": "^1.11.1",
-    "typescript": "^3.8.3"
+    "tslib": "^1.11.2",
+    "typescript": "^3.8.3",
+    "web3": "^1.2.7"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.0.1-unstable.11",
     "@sidetree/common": "^0.0.1-unstable.11",
-    "@sidetree/core": "^0.0.1-unstable.11",
-    "@sidetree/db": "^0.0.1-unstable.11",
-    "@sidetree/ethereum": "^0.0.1-unstable.11",
-    "web3": "^1.2.9"
+    "@truffle/contract": "^4.2.4",
+    "multihashes": "^0.4.19"
   }
 }

@@ -1,7 +1,7 @@
 import { MongoDb } from '@sidetree/db';
 import { Config } from '@sidetree/common';
 import Web3 from 'web3';
-import { EthereumLedger } from '@sidetree/ledger';
+import { EthereumLedger } from '@sidetree/ethereum';
 import Element from '../Element';
 
 const config: Config = require('./element-config.json');
