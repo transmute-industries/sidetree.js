@@ -1,8 +1,11 @@
 {
   "name": "@sidetree/core",
   "author": "Orie Steele (https://github.com/OR13)",
-  "contributors": ["Orie Steele (https://github.com/OR13)", "gjgd (https://github.com/gjgd)"],
-  "version": "0.0.1-unstable.11",
+  "contributors": [
+    "Orie Steele (https://github.com/OR13)",
+    "gjgd (https://github.com/gjgd)"
+  ],
+  "version": "0.0.1-unstable.12",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -37,10 +40,10 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.0.1-unstable.11",
-    "@sidetree/common": "^0.0.1-unstable.11",
-    "@sidetree/db": "^0.0.1-unstable.11",
-    "@sidetree/ledger": "^0.0.1-unstable.11",
+    "@sidetree/cas": "^0.0.1-unstable.12",
+    "@sidetree/common": "^0.0.1-unstable.12",
+    "@sidetree/db": "^0.0.1-unstable.12",
+    "@sidetree/ledger": "^0.0.1-unstable.12",
     "@transmute/did-key-ed25519": "^0.2.1-unstable.3",
     "@transmute/did-key-secp256k1": "^0.2.1-unstable.10",
     "@trust/keyto": "^1.0.1",
