@@ -1,5 +1,5 @@
 import Element from '../Element';
-import { EthereumLedger } from '@sidetree/ledger';
+import { EthereumLedger } from '@sidetree/ethereum';
 import { Config } from '@sidetree/common';
 import {
   shortFormDid,
