@@ -88,8 +88,8 @@ export default class DocumentComposer {
       '@context': 'https://www.w3.org/ns/did-resolution/v1',
       didDocument: didDocument,
       methodMetadata: {
-        recovery_commitment: didState.nextRecoveryCommitmentHash,
-        update_commitment: didState.nextUpdateCommitmentHash,
+        recoveryCommitment: didState.nextRecoveryCommitmentHash,
+        updateCommitment: didState.nextUpdateCommitmentHash,
       },
     };
 
