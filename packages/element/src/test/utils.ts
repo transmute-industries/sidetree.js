@@ -36,8 +36,8 @@ const getTestElement = async () => {
 
 const replaceMethod = (
   result: any,
-  defaultMethod: string = 'sidetree',
-  specificMethod: string = 'elem'
+  defaultMethod = 'sidetree',
+  specificMethod = 'elem'
 ) => {
   // prevent mutation
   const _result = JSON.parse(JSON.stringify(result));

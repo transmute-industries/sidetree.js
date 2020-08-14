@@ -37,7 +37,7 @@ it('update', async () => {
   let response = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(testVectors.update.createRequest))
   );
-  let did = response.body.didDocument.id;
+  const did = response.body.didDocument.id;
   await element.triggerBatchAndObserve();
   response = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(testVectors.update.updateRequest))
@@ -57,7 +57,7 @@ it('recover', async () => {
   let response = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(testVectors.recover.createRequest))
   );
-  let did = response.body.didDocument.id;
+  const did = response.body.didDocument.id;
   await element.triggerBatchAndObserve();
   response = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(testVectors.recover.recoverRequest))
@@ -77,7 +77,7 @@ it('deactivate', async () => {
   let response = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(testVectors.deactivate.createRequest))
   );
-  let did = response.body.didDocument.id;
+  const did = response.body.didDocument.id;
   await element.triggerBatchAndObserve();
   response = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(testVectors.deactivate.deactivateRequest))

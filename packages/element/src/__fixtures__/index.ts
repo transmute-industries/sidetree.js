@@ -1,2 +1,4 @@
-export * as testVectors from './test-vectors';
-export * as apiTestVectors from './api-test-vectors';
+import * as testVectors from './test-vectors';
+import * as apiTestVectors from './api-test-vectors';
+
+export { testVectors, apiTestVectors };
