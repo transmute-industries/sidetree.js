@@ -16,8 +16,8 @@ afterEach(async () => {
 
 const replaceMethod = (
   operation: any,
-  defaultMethod: string = 'sidetree',
-  specificMethod: string = 'elem'
+  defaultMethod = 'sidetree',
+  specificMethod = 'elem'
 ) => {
   // prevent mutation
   const _op = JSON.parse(JSON.stringify(operation));
@@ -54,7 +54,7 @@ it('update', async () => {
   let operation = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(testVectors.update.createRequest))
   );
-  let did = operation.body.didDocument.id;
+  const did = operation.body.didDocument.id;
   await element.triggerBatchAndObserve();
   operation = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(testVectors.update.updateRequest))
@@ -74,7 +74,7 @@ it('recover', async () => {
   let operation = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(testVectors.recover.createRequest))
   );
-  let did = operation.body.didDocument.id;
+  const did = operation.body.didDocument.id;
   await element.triggerBatchAndObserve();
   operation = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(testVectors.recover.recoverRequest))
@@ -94,7 +94,7 @@ it('deactivate', async () => {
   let operation = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(testVectors.deactivate.createRequest))
   );
-  let did = operation.body.didDocument.id;
+  const did = operation.body.didDocument.id;
   await element.triggerBatchAndObserve();
   operation = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(testVectors.deactivate.deactivateRequest))

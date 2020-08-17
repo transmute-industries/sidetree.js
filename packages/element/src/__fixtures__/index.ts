@@ -1,1 +1,1 @@
-export * as testVectors from './test-vectors';
+export * from './test-vectors';
