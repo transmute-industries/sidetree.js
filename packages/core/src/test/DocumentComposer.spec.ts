@@ -39,8 +39,8 @@ describe('DocumentComposer', () => {
         'https://www.w3.org/ns/did-resolution/v1'
       );
       expect(result.methodMetadata).toEqual({
-        recovery_commitment: 'anyCommitmentHash',
-        update_commitment: 'anyCommitmentHash',
+        recoveryCommitment: 'anyCommitmentHash',
+        updateCommitment: 'anyCommitmentHash',
       });
       expect(result.didDocument).toEqual({
         id: 'did:method:suffix',
