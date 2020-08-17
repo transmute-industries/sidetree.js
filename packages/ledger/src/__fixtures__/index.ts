@@ -1,11 +1,6 @@
-import Web3 from 'web3';
 import { AnchoredDataSerializer } from '@sidetree/common';
 
 export const logger = console;
-
-export const getWeb3 = (provider: any = 'http://localhost:8545') => {
-  return new Web3(provider);
-};
 
 const anchorFileHash = 'QmNrEidQrAbxx3FzxNt9E6qjEDZrtvzxUVh47BXm55Zuen';
 const anchorFileHash2 = 'QmVGtJ3tWYAotBwcwmRsdNqA9vtWZWkKCwxxLSwsBo3QFA';
@@ -31,5 +26,3 @@ export const anchorString4 = AnchoredDataSerializer.serialize({
   anchorFileHash: anchorFileHash4,
   numberOfOperations: 10000,
 });
-
-export const web3 = getWeb3();
