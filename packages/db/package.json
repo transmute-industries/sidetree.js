@@ -1,5 +1,8 @@
 {
   "name": "@sidetree/db",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Orie Steele (https://github.com/OR13)",
   "contributors": [
     "Orie Steele (https://github.com/OR13)",

@@ -1,5 +1,8 @@
 {
   "name": "@sidetree/api",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Orie Steele",
   "module": "dist/api.esm.js",
   "version": "0.0.1",
@@ -10,9 +13,6 @@
     "dist",
     "src"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "engines": {
     "node": ">=10"
   },
