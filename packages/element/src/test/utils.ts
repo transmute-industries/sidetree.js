@@ -34,4 +34,21 @@ const getTestElement = async () => {
   return element;
 };
 
-export { resetDatabase, getTestLedger, getTestElement };
+const replaceMethod = (
+  result: any,
+  defaultMethod = 'sidetree',
+  specificMethod = 'elem'
+) => {
+  // prevent mutation
+  const _result = JSON.parse(JSON.stringify(result));
+  _result.didDocument.id = _result.didDocument.id.replace(
+    specificMethod,
+    defaultMethod
+  );
+  _result.didDocument['@context'][1]['@base'] = _result.didDocument[
+    '@context'
+  ][1]['@base'].replace(specificMethod, defaultMethod);
+  return _result;
+};
+
+export { resetDatabase, getTestLedger, getTestElement, replaceMethod };

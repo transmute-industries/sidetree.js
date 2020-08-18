@@ -1,7 +1,7 @@
 {
-  "name": "@sidetree/wallet",
+  "name": "@sidetree/api",
   "author": "Orie Steele",
-  "module": "dist/wallet.esm.js",
+  "module": "dist/api.esm.js",
   "version": "0.0.1-unstable.14",
   "license": "Apache-2.0",
   "main": "dist/index.js",
@@ -30,20 +30,14 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
-    "@types/base64url": "^2.0.0",
+    "@types/supertest": "^2.0.10",
+    "supertest": "^4.0.2",
     "tsdx": "^0.13.2",
     "tslib": "^2.0.0",
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@sidetree/common": "^0.0.1-unstable.14",
-    "@sidetree/core": "^0.0.1-unstable.14",
-    "@transmute/did-key-ed25519": "^0.2.1-unstable.10",
-    "@transmute/did-key-secp256k1": "^0.2.1-unstable.10",
-    "@transmute/ed25519-signature-2018": "^0.1.1-unstable.3",
-    "@transmute/universal-wallet": "0.0.10",
-    "@transmute/vc.js": "^0.1.1-unstable.3",
-    "bip39": "^3.0.2",
-    "edv-client": "^4.0.1"
+    "fastify": "^3.2.0",
+    "fastify-plugin": "^2.3.0"
   }
 }
