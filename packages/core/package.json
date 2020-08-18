@@ -55,5 +55,6 @@
     "priorityqueue": "^1.0.0",
     "time-span": "^4.0.0",
     "yieldable-json": "^2.0.0"
-  }
+  },
+  "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7"
 }

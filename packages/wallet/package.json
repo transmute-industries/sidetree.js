@@ -44,5 +44,6 @@
     "@transmute/vc.js": "^0.1.1-unstable.3",
     "bip39": "^3.0.2",
     "edv-client": "^4.0.1"
-  }
+  },
+  "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7"
 }
