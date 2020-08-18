@@ -30,7 +30,6 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
-    "@types/base64url": "^2.0.0",
     "tsdx": "^0.13.2",
     "tslib": "^2.0.0",
     "typescript": "^3.9.7"
