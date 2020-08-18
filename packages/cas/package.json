@@ -40,7 +40,7 @@
     "@sidetree/common": "^0.0.2-unstable.0",
     "@types/node-fetch": "^2.5.7",
     "http-status": "^1.4.2",
-    "ipfs-http-client": "46.0.0",
+    "ipfs-http-client": "42.0.0",
     "ipfs-unixfs": "^1.0.3",
     "ipld-dag-pb": "^0.18.5",
     "it-concat": "^1.0.0"
