@@ -28,6 +28,8 @@ import JasmineSidetreeErrorValidator from './JasmineSidetreeErrorValidator';
 
 console.info = () => null;
 
+jest.setTimeout(20 * 1000);
+
 async function createUpdateSequence(
   didUniqueSuffix: string,
   createOp: AnchoredOperationModel,
