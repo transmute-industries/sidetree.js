@@ -1,11 +1,14 @@
 {
   "name": "@sidetree/element",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Orie Steele (https://github.com/OR13)",
   "contributors": [
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.0.1-unstable.15",
+  "version": "0.0.2-unstable.4",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -40,14 +43,15 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@sidetree/api": "^0.0.1-unstable.15",
-    "@sidetree/cas": "^0.0.1-unstable.15",
-    "@sidetree/common": "^0.0.1-unstable.15",
-    "@sidetree/core": "^0.0.1-unstable.15",
-    "@sidetree/db": "^0.0.1-unstable.15",
-    "@sidetree/ethereum": "^0.0.1-unstable.15",
+    "@sidetree/api": "^0.0.2-unstable.0",
+    "@sidetree/cas": "^0.0.2-unstable.3",
+    "@sidetree/common": "^0.0.2-unstable.0",
+    "@sidetree/core": "^0.0.2-unstable.4",
+    "@sidetree/db": "^0.0.2-unstable.4",
+    "@sidetree/ethereum": "^0.0.2-unstable.0",
     "fastify": "^3.2.0",
     "fastify-plugin": "^2.3.0",
     "web3": "^1.2.9"
-  }
+  },
+  "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7"
 }

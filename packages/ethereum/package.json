@@ -1,11 +1,14 @@
 {
   "name": "@sidetree/ethereum",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Orie Steele (https://github.com/OR13)",
   "contributors": [
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.0.1-unstable.15",
+  "version": "0.0.2-unstable.0",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -43,9 +46,10 @@
     "web3": "^1.2.7"
   },
   "dependencies": {
-    "@sidetree/common": "^0.0.1-unstable.15",
-    "@sidetree/ledger": "^0.0.1-unstable.15",
+    "@sidetree/common": "^0.0.2-unstable.0",
+    "@sidetree/ledger": "^0.0.2-unstable.0",
     "@truffle/contract": "^4.2.4",
     "multihashes": "^0.4.19"
-  }
+  },
+  "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7"
 }

@@ -1,11 +1,14 @@
 {
   "name": "@sidetree/common",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Orie Steele (https://github.com/OR13)",
   "contributors": [
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.0.1-unstable.15",
+  "version": "0.0.2-unstable.0",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "engines": {
@@ -36,5 +39,6 @@
     "canonicalize": "^1.0.1",
     "multihashes": "^0.4.19",
     "node-fetch": "^2.6.0"
-  }
+  },
+  "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7"
 }
