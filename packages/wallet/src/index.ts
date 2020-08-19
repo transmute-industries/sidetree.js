@@ -128,6 +128,8 @@ const getLinkedDataKeyPairsAtIndex = async (
 
 const toInitialState = async (secp256k1KeyPair: any) => {
   const updateAndRecoveryPublicKeyJwk = await secp256k1KeyPair.toJwk();
+  let { kid } = updateAndRecoveryPublicKeyJwk;
+  delete updateAndRecoveryPublicKeyJwk.kid;
 
   const recovery_commitment = Multihash.canonicalizeThenHashThenEncode(
     updateAndRecoveryPublicKeyJwk
@@ -141,7 +143,7 @@ const toInitialState = async (secp256k1KeyPair: any) => {
         document: {
           public_keys: [
             {
-              id: updateAndRecoveryPublicKeyJwk.kid,
+              id: kid,
               type: 'JsonWebKey2020',
               jwk: updateAndRecoveryPublicKeyJwk,
               purpose: ['auth', 'general'],
@@ -152,7 +154,10 @@ const toInitialState = async (secp256k1KeyPair: any) => {
     ],
   };
 
-  const delta_hash = Multihash.canonicalizeThenHashThenEncode(delta_object);
+  const delta_hash = Multihash.hashThenEncode(
+    Buffer.from(JSON.stringify(delta_object)),
+    18
+  );
 
   const suffix_data_object = {
     delta_hash,
