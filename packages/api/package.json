@@ -5,7 +5,7 @@
   },
   "author": "Orie Steele",
   "module": "dist/api.esm.js",
-  "version": "0.0.2-unstable.0",
+  "version": "0.0.2-unstable.5",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
