@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.0.2-unstable.5",
+  "version": "0.0.2-unstable.6",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -43,12 +43,12 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@sidetree/api": "^0.0.2-unstable.5",
-    "@sidetree/cas": "^0.0.2-unstable.5",
-    "@sidetree/common": "^0.0.2-unstable.5",
-    "@sidetree/core": "^0.0.2-unstable.5",
-    "@sidetree/db": "^0.0.2-unstable.5",
-    "@sidetree/ethereum": "^0.0.2-unstable.5",
+    "@sidetree/api": "^0.0.2-unstable.6",
+    "@sidetree/cas": "^0.0.2-unstable.6",
+    "@sidetree/common": "^0.0.2-unstable.6",
+    "@sidetree/core": "^0.0.2-unstable.6",
+    "@sidetree/db": "^0.0.2-unstable.6",
+    "@sidetree/ethereum": "^0.0.2-unstable.6",
     "fastify": "^3.2.0",
     "fastify-plugin": "^2.3.0",
     "web3": "^1.2.9"
