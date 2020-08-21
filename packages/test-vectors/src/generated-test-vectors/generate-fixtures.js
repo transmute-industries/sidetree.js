@@ -130,8 +130,8 @@ const generateDidFixtures = async () => {
       authentication: ['#key2'],
     },
     methodMetadata: {
-      recovery_commitment: createOperation.suffixData.recovery_commitment,
-      update_commitment: createOperation.delta.update_commitment,
+      recoveryCommitment: createOperation.suffixData.recovery_commitment,
+      updateCommitment: createOperation.delta.update_commitment,
     },
   };
   FileWriter.write('resolveBody.json', JSON.stringify(resolveBody, null, 2));
