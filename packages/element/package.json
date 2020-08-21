@@ -49,6 +49,7 @@
     "@sidetree/core": "^0.0.2-unstable.6",
     "@sidetree/db": "^0.0.2-unstable.6",
     "@sidetree/ethereum": "^0.0.2-unstable.6",
+    "@sidetree/test-vectors": "^0.0.2-unstable.6",
     "fastify": "^3.2.0",
     "fastify-plugin": "^2.3.0",
     "web3": "^1.2.9"

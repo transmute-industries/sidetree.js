@@ -1,5 +1,5 @@
 import Element from '../Element';
-import { testVectors } from '../__fixtures__';
+import { testVectors } from '@sidetree/test-vectors';
 import { getTestElement, replaceMethod } from '../test/utils';
 
 console.info = () => null;

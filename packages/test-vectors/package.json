@@ -11,6 +11,7 @@
   "version": "0.0.2-unstable.6",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "index.js",
+  "types": "typings.d.ts",
   "engines": {
     "node": ">=10"
   },

@@ -1,12 +1,14 @@
 import Element from '../Element';
 import { EthereumLedger } from '@sidetree/ethereum';
 import { Config } from '@sidetree/common';
-import {
+import { generatedTestVectors } from '@sidetree/test-vectors';
+import { resetDatabase, getTestLedger } from './utils';
+
+const {
   shortFormDid,
   createOperationBuffer,
   resolveBody,
-} from './__fixtures__';
-import { resetDatabase, getTestLedger } from './utils';
+} = generatedTestVectors;
 
 console.info = () => null;
 
