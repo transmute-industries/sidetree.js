@@ -1,5 +1,5 @@
 {
-  "include": ["src", "global.d.ts"],
+  "include": ["src"],
   "compilerOptions": {
     "baseUrl": "./",
     "declaration": true,
