@@ -20,7 +20,8 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test",
-    "lint": "tsdx lint src --fix",
+    "lint": "tsdx lint src",
+    "lint:fix": "tsdx lint src --fix",
     "prepare": "tsdx build"
   },
   "prettier": {
