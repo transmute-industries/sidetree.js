@@ -28,7 +28,9 @@
         "type": "Ed25519VerificationKey2018"
       }
     ],
-    "authentication": ["#key2"]
+    "authentication": [
+      "#key2"
+    ]
   },
   "methodMetadata": {
     "recoveryCommitment": "EiBoJusqUYyKozdH3LSWD5jvuRoZqY29vs8BEGWOG332Tg",

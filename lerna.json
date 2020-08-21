@@ -1,6 +1,14 @@
 {
   "packages": [
-    "packages/*"
+    "packages/cas",
+    "packages/common",
+    "packages/core",
+    "packages/db",
+    "packages/element",
+    "packages/ethereum",
+    "packages/ledger",
+    "packages/test-vectors",
+    "packages/wallet"
   ],
   "version": "0.0.2-unstable.6"
 }

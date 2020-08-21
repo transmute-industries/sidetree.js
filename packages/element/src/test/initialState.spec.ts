@@ -1,6 +1,8 @@
 import Element from '../Element';
-import { longFormDid, longFormResolveBody } from './__fixtures__';
+import { generatedTestVectors } from '@sidetree/test-vectors';
 import { getTestElement } from './utils';
+
+const { longFormDid, longFormResolveBody } = generatedTestVectors;
 
 console.info = () => null;
 

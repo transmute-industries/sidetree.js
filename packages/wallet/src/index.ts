@@ -128,7 +128,7 @@ const getLinkedDataKeyPairsAtIndex = async (
 
 const toInitialState = async (secp256k1KeyPair: any) => {
   const updateAndRecoveryPublicKeyJwk = await secp256k1KeyPair.toJwk();
-  let { kid } = updateAndRecoveryPublicKeyJwk;
+  const { kid } = updateAndRecoveryPublicKeyJwk;
   delete updateAndRecoveryPublicKeyJwk.kid;
 
   const recovery_commitment = Multihash.canonicalizeThenHashThenEncode(

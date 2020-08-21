@@ -20,7 +20,8 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test",
-    "lint": "tsdx lint src --fix",
+    "lint": "tsdx lint src",
+    "lint:fix": "tsdx lint src --fix",
     "prepare": "tsdx build"
   },
   "prettier": {
@@ -30,6 +31,8 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
+    "@sidetree/test-vectors": "^0.0.2-unstable.6",
+    "@types/base64url": "^2.0.0",
     "tsdx": "^0.13.2",
     "tslib": "^2.0.0",
     "typescript": "^3.9.7"
@@ -39,9 +42,10 @@
     "@sidetree/core": "^0.0.2-unstable.6",
     "@transmute/did-key-ed25519": "^0.2.1-unstable.10",
     "@transmute/did-key-secp256k1": "^0.2.1-unstable.10",
-    "@transmute/ed25519-signature-2018": "^0.1.1-unstable.3",
+    "@transmute/ed25519-signature-2018": "^0.1.1-unstable.4",
     "@transmute/universal-wallet": "0.0.10",
-    "@transmute/vc.js": "^0.1.1-unstable.3",
+    "@transmute/vc.js": "^0.1.1-unstable.4",
+    "base64url": "^3.0.1",
     "bip39": "^3.0.2",
     "edv-client": "^4.0.1"
   },

@@ -1,12 +1,8 @@
 import Element from '../Element';
-import {
-  derivedWalletContents,
-  createResponse,
-} from '../__fixtures__/universal-wallet-vectors';
-import {
-  getTestElement,
-  // replaceMethod
-} from '../test/utils';
+import { universalWalletVectors } from '@sidetree/test-vectors';
+import { getTestElement } from '../test/utils';
+
+const { derivedWalletContents, createResponse } = universalWalletVectors;
 
 console.info = () => null;
 

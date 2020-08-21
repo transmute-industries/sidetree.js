@@ -1,5 +1,5 @@
 import * as wallet from '../index';
-import * as fixtures from '../__fixtures__';
+import { universalWalletVectors as fixtures } from '@sidetree/test-vectors';
 
 it('generateMnemonic', async () => {
   const mnemonic: string = await wallet.generateMnemonic();

@@ -36,21 +36,17 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
-    "@types/supertest": "^2.0.10",
-    "supertest": "^4.0.2",
     "tsdx": "^0.13.2",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@sidetree/api": "^0.0.2-unstable.6",
     "@sidetree/cas": "^0.0.2-unstable.6",
     "@sidetree/common": "^0.0.2-unstable.6",
     "@sidetree/core": "^0.0.2-unstable.6",
     "@sidetree/db": "^0.0.2-unstable.6",
     "@sidetree/ethereum": "^0.0.2-unstable.6",
-    "fastify": "^3.2.0",
-    "fastify-plugin": "^2.3.0",
+    "@sidetree/test-vectors": "^0.0.2-unstable.6",
     "web3": "^1.2.9"
   },
   "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7"
