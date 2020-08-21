@@ -1,6 +1,6 @@
 import Element from '../Element';
 import { testVectors } from '@sidetree/test-vectors';
-import { getTestElement, replaceMethod } from '../test/utils';
+import { getTestElement, replaceMethod } from './utils';
 
 console.info = () => null;
 
