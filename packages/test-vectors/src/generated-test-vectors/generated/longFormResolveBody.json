@@ -28,10 +28,12 @@
         "type": "Ed25519VerificationKey2018"
       }
     ],
-    "authentication": ["#key2"]
+    "authentication": [
+      "#key2"
+    ]
   },
   "methodMetadata": {
-    "recoveryCommitment": "EiBoJusqUYyKozdH3LSWD5jvuRoZqY29vs8BEGWOG332Tg",
-    "updateCommitment": "EiCR26SD_OGytHbiV9noPPx4KxEPni8cD-nskO6vOcvDcQ"
+    "recovery_commitment": "EiBoJusqUYyKozdH3LSWD5jvuRoZqY29vs8BEGWOG332Tg",
+    "update_commitment": "EiCR26SD_OGytHbiV9noPPx4KxEPni8cD-nskO6vOcvDcQ"
   }
 }

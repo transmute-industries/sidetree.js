@@ -1,6 +1,6 @@
 {
   "model": {
-    "map_file_uri": "QmQ5XTqnXb33UmUGRYWU4a8ZkGdWwib5sYvDtCy7bvZULb",
+    "map_file_uri": "Qmc72oq9dee7CoTTRtZc5Dv3mmrdnjG3Ph7ggVR4XUYX4p",
     "operations": {
       "create": [
         {
@@ -11,7 +11,9 @@
       "deactivate": []
     }
   },
-  "didUniqueSuffixes": ["EiAopY0yhhEQD0VdiWHanOcjJjBWmqDCUtmcGBVkQX7l5A"],
+  "didUniqueSuffixes": [
+    "EiAopY0yhhEQD0VdiWHanOcjJjBWmqDCUtmcGBVkQX7l5A"
+  ],
   "createOperations": [
     {
       "didUniqueSuffix": "EiAopY0yhhEQD0VdiWHanOcjJjBWmqDCUtmcGBVkQX7l5A",

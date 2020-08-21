@@ -71,7 +71,7 @@ class KeyGenerator {
 
 let createOperation;
 
-const config = require('../element-config.json');
+const config = require('../../../element/src/test/element-config.json');
 
 const generateDidFixtures = async () => {
   const keyGenerator = new KeyGenerator();
