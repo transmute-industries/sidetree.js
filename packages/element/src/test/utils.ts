@@ -1,11 +1,9 @@
 import { MongoDb } from '@sidetree/db';
-import { Config } from '@sidetree/common';
 import Web3 from 'web3';
 import { EthereumLedger } from '@sidetree/ethereum';
 import Element from '../Element';
 
-const config: Config = require('./element-config.json');
-const testVersionConfig = require('./element-version-config.json');
+const config: any = require('./element-config.json');
 
 const resetDatabase = async () => {
   await MongoDb.resetDatabase(
@@ -15,21 +13,17 @@ const resetDatabase = async () => {
 };
 
 const getTestLedger = async () => {
-  const provider = 'http://localhost:8545';
-  const web3 = new Web3(provider);
-  const ledger = new EthereumLedger(
-    web3,
-    '0xeaf43D28235275afDB504aBF49863e778a4Cfea0',
-    console
-  );
-  await ledger._createNewContract();
+  const web3 = new Web3(config.ethereumRpcUrl);
+  const ledger = new EthereumLedger(web3, config.elementAnchorContract);
+  await ledger.resolving;
   return ledger;
 };
 
 const getTestElement = async () => {
   await resetDatabase();
   const ledger = await getTestLedger();
-  const element = new Element(config, testVersionConfig, ledger);
+
+  const element = new Element(config, config.versions, ledger);
   await element.initialize(false, false);
   return element;
 };

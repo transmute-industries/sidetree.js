@@ -119,7 +119,7 @@ describe('Observer', () => {
       transactions: [],
     };
 
-    const blockchainClient = new MockLedger(/*config.blockchainServiceUri*/);
+    const blockchainClient = new MockLedger();
 
     let readInvocationCount = 0;
     const mockReadFunction = async () => {
@@ -251,7 +251,7 @@ describe('Observer', () => {
     };
     spyOn(downloadManager, 'download').and.callFake(mockDownloadFunction);
 
-    const blockchainClient = new MockLedger(/*config.blockchainServiceUri*/);
+    const blockchainClient = new MockLedger();
     const observer = new Observer(
       versionManager,
       blockchainClient,
@@ -304,7 +304,7 @@ describe('Observer', () => {
     const expectedConsoleLogSubstring = tuple[1];
 
     it(`should stop processing a transaction if ${mockFetchReturnCode}`, async () => {
-      const blockchainClient = new MockLedger(/*config.blockchainServiceUri*/);
+      const blockchainClient = new MockLedger();
       const observer = new Observer(
         versionManager,
         blockchainClient,
@@ -431,7 +431,7 @@ describe('Observer', () => {
       transactions: [],
     };
 
-    const blockchainClient = new MockLedger(/*config.blockchainServiceUri*/);
+    const blockchainClient = new MockLedger();
 
     // Force blockchain time to be higher than the latest known transaction time by core,
     // such that Observer will consider `InvalidTransactionNumberOrTimeHash` a block reorg.
@@ -534,7 +534,7 @@ describe('Observer', () => {
     // Prep the transaction store with some initial state.
     await transactionStore.addTransaction(transaction);
 
-    const blockchainClient = new MockLedger(/*config.blockchainServiceUri*/);
+    const blockchainClient = new MockLedger();
 
     // Always return a blockchain time less than the last transaction known by core to simulate blockchain service being behind core service.
     spyOn(blockchainClient, 'getLatestTime').and.returnValue(
