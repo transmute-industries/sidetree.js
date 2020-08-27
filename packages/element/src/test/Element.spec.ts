@@ -1,8 +1,8 @@
 import Element from '../Element';
 import { EthereumLedger } from '@sidetree/ethereum';
-import { Config } from '@sidetree/common';
 import { generatedTestVectors } from '@sidetree/test-vectors';
 import { resetDatabase, getTestLedger } from './utils';
+import config from './element-config.json';
 
 const {
   shortFormDid,
@@ -15,7 +15,6 @@ console.info = () => null;
 describe('Element', () => {
   let ledger: EthereumLedger;
   let element: Element;
-  const config: Config = require('./element-config.json');
 
   beforeAll(async () => {
     await resetDatabase();
@@ -27,8 +26,7 @@ describe('Element', () => {
   });
 
   it('should create the element class', async () => {
-    const testVersionConfig = require('./element-version-config.json');
-    element = new Element(config, testVersionConfig, ledger);
+    element = new Element(config, config.versions, ledger);
     expect(element).toBeDefined();
   });
 
