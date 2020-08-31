@@ -13,11 +13,7 @@ describe('Concurrency', () => {
   let anchorContractAddress: any;
 
   beforeAll(async () => {
-    const ledger0 = new EthereumLedger(
-      w31,
-      '0xeaf43D28235275afDB504aBF49863e778a4Cfea0',
-      logger
-    );
+    const ledger0 = new EthereumLedger(w31);
     await ledger0._createNewContract();
     anchorContractAddress = ledger0.anchorContractAddress;
   });
