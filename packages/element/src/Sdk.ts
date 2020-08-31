@@ -1,5 +1,4 @@
 import * as bip39 from 'bip39';
-import Jwk from './util/Jwk';
 import {
   PublicKeyJwk,
   PrivateKeyJwk,
@@ -7,11 +6,11 @@ import {
   Encoder,
   OperationType,
 } from '@sidetree/common';
-import CreateOperation from './CreateOperation';
+import { CreateOperation, Jwk } from '@sidetree/core';
 import jsonpatch from 'fast-json-patch';
 
 class SidetreeKeys {
-  public static async generateMnemonic() {
+  public static async generateMnemonic(): Promise<string> {
     const mnemonic = await bip39.generateMnemonic();
     return mnemonic;
   }
@@ -33,8 +32,16 @@ class SidetreeOperations {
     signingKeyPair: [PublicKeyJwk, PrivateKeyJwk],
     updateKeyPair: [PublicKeyJwk, PrivateKeyJwk],
     recoverKeyPair: [PublicKeyJwk, PrivateKeyJwk],
-    documentModel: unknown
-  ) {
+    documentModel: Record<string, unknown>
+  ): Promise<{
+    createOperation: CreateOperation;
+    operationRequest: {
+      type: OperationType;
+      suffix_data: string;
+      delta: string;
+    };
+    nextUpdateRevealValueEncodedString: string;
+  }> {
     const patches = [
       {
         action: 'ietf-json-patch',
