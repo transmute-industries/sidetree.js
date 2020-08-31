@@ -1,4 +1,4 @@
-import { web3 } from './index';
+import { web3 } from './web3';
 
 describe('web3 sanity', () => {
   it('get accounts', async () => {
