@@ -1,5 +1,8 @@
-import { getWeb3, logger, anchorString } from '../__fixtures__';
+import { ledger as fixtures } from '@sidetree/test-vectors';
+import { getWeb3 } from './web3';
 import { EthereumLedger } from '..';
+
+const { logger, anchorString } = fixtures;
 
 const w31 = getWeb3();
 const w32 = getWeb3();

@@ -1,6 +1,9 @@
 import { EthereumLedger } from '..';
-import testSuite from './testSuite';
-import { web3, logger } from '../__fixtures__';
+import { testSuite } from '@sidetree/ledger';
+import { ledger as fixtures } from '@sidetree/test-vectors';
+import { web3 } from './web3';
+
+const { logger } = fixtures;
 
 const ledger = new EthereumLedger(
   web3,
