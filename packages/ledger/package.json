@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@sidetree/common": "^0.0.3-unstable.0",
+    "@sidetree/test-vectors": "^0.0.3-unstable.0",
     "multihashes": "^0.4.19"
   },
   "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7"

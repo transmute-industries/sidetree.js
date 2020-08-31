@@ -3,4 +3,5 @@ export {
   generatedTestVectors,
   testVectors,
   universalWalletVectors,
+  ledger,
 } from './index.js';

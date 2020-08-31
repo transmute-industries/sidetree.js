@@ -1,5 +1,7 @@
 import { IBlockchain } from '@sidetree/common';
-import { anchorString, anchorString2, anchorString3 } from '../__fixtures__';
+import { ledger as fixtures } from '@sidetree/test-vectors';
+
+const { anchorString, anchorString2, anchorString3 } = fixtures;
 
 jest.setTimeout(10 * 1000);
 
