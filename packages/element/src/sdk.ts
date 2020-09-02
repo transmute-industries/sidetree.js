@@ -9,7 +9,7 @@ import {
 import { CreateOperation, Jwk } from '@sidetree/core';
 import jsonpatch from 'fast-json-patch';
 
-class SidetreeKeys {
+class Keys {
   public static async generateMnemonic(): Promise<string> {
     const mnemonic = await bip39.generateMnemonic();
     return mnemonic;
@@ -27,21 +27,13 @@ class SidetreeKeys {
   }
 }
 
-class SidetreeOperations {
+class Operations {
   public static async generateCreateOperation(
-    signingKeyPair: [PublicKeyJwk, PrivateKeyJwk],
+    _: [PublicKeyJwk, PrivateKeyJwk],
     updateKeyPair: [PublicKeyJwk, PrivateKeyJwk],
     recoverKeyPair: [PublicKeyJwk, PrivateKeyJwk],
     documentModel: Record<string, unknown>
-  ): Promise<{
-    createOperation: CreateOperation;
-    operationRequest: {
-      type: OperationType;
-      suffix_data: string;
-      delta: string;
-    };
-    nextUpdateRevealValueEncodedString: string;
-  }> {
+  ): Promise<CreateOperation> {
     const patches = [
       {
         action: 'ietf-json-patch',
@@ -74,24 +66,13 @@ class SidetreeOperations {
     };
 
     const operationBuffer = Buffer.from(JSON.stringify(operationRequest));
-
     const createOperation = await CreateOperation.parse(operationBuffer);
 
-    const nextUpdateRevealValueEncodedString = Multihash.canonicalizeThenHashThenEncode(
-      signingKeyPair[0]
-    );
-    return {
-      createOperation,
-      operationRequest,
-      nextUpdateRevealValueEncodedString,
-    };
+    return createOperation;
   }
 }
 
-const keys = new SidetreeKeys();
-const operations = new SidetreeOperations();
-
 export default {
-  keys,
-  operations,
+  Keys,
+  Operations,
 };
