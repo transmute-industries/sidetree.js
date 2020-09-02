@@ -4,7 +4,7 @@ import { getSidetreeUnanchoredContentFromLinkedDataKeyPair } from './getSidetree
 
 export const toSidetreeInitialContent = async (
   mnemonic: any,
-  index: number = 0,
+  index = 0,
   didMethod = 'elem'
 ) => {
   const mnemonicContent = await toUniversalWalletDataModel(
@@ -13,7 +13,7 @@ export const toSidetreeInitialContent = async (
   );
 
   const [ed25519KeyPair, secp256k1KeyPair] = await getLinkedDataKeyPairsAtIndex(
-    mnemonicContent,
+    mnemonic,
     index
   );
 

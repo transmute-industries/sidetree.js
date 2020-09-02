@@ -2,17 +2,13 @@ import { Jwk } from '@sidetree/core';
 import * as ed25519 from '@transmute/did-key-ed25519';
 
 export const getEd25519KeyPairFromMnemonicAtIndex = async (
-  mnemonicContent: any,
+  mnemonic: string,
   index: number
 ): Promise<any> => {
   const [
     publicKeyJwk,
     privateKeyJwk,
-  ] = await Jwk.generateJwkKeyPairFromMnemonic(
-    'ed25519',
-    mnemonicContent.value,
-    index
-  );
+  ] = await Jwk.generateJwkKeyPairFromMnemonic('ed25519', mnemonic, index);
   const fingerprint = await ed25519.Ed25519KeyPair.fingerprintFromPublicKey({
     publicKeyBase58: await ed25519.keyUtils.publicKeyBase58FromPublicKeyJwk(
       publicKeyJwk

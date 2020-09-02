@@ -2,17 +2,13 @@ import { Jwk } from '@sidetree/core';
 import * as secp256k1 from '@transmute/did-key-secp256k1';
 
 export const getSecp256k1KeyPairFromMnemonicAtIndex = async (
-  mnemonicContent: any,
+  mnemonic: string,
   index: number
 ): Promise<any> => {
   const [
     publicKeyJwk,
     privateKeyJwk,
-  ] = await Jwk.generateJwkKeyPairFromMnemonic(
-    'secp256k1',
-    mnemonicContent.value,
-    index
-  );
+  ] = await Jwk.generateJwkKeyPairFromMnemonic('secp256k1', mnemonic, index);
   const fingerprint = await secp256k1.Secp256k1KeyPair.fingerprintFromPublicKey(
     {
       publicKeyBase58: await secp256k1.keyUtils.publicKeyBase58FromPublicKeyHex(
