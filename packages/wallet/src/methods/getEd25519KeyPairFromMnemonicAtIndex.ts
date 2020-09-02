@@ -1,11 +1,12 @@
 import { Jwk } from '@sidetree/core';
 import * as ed25519 from '@transmute/did-key-ed25519';
-import { LinkedDataKeyPair } from '../types';
+
+import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
 
 export const getEd25519KeyPairFromMnemonicAtIndex = async (
   mnemonic: string,
   index: number
-): Promise<LinkedDataKeyPair> => {
+): Promise<Ed25519KeyPair> => {
   const [
     publicKeyJwk,
     privateKeyJwk,
