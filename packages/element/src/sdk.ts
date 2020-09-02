@@ -6,7 +6,7 @@ import {
   Encoder,
   OperationType,
 } from '@sidetree/common';
-import { CreateOperation, Jwk } from '@sidetree/core';
+import { CreateOperation, Jwk, Jws, UpdateOperation } from '@sidetree/core';
 import jsonpatch from 'fast-json-patch';
 
 class Keys {
@@ -68,6 +68,52 @@ class Operations {
     const createOperation = await CreateOperation.parse(operationBuffer);
 
     return createOperation;
+  }
+
+  public static async generateUpdateOperation(
+    didUniqueSuffix: string,
+    oldUpdateKeyPair: [PublicKeyJwk, PrivateKeyJwk],
+    newUpdateKeyPair: [PublicKeyJwk, PrivateKeyJwk],
+    oldDocumentModel: Record<string, unknown>,
+    newDocumentModel: Record<string, unknown>
+  ): Promise<UpdateOperation> {
+    const patches = [
+      {
+        action: 'ietf-json-patch',
+        patches: jsonpatch.compare(oldDocumentModel, newDocumentModel),
+      },
+    ];
+    const delta = {
+      update_commitment: Multihash.canonicalizeThenHashThenEncode(
+        newUpdateKeyPair[0]
+      ),
+      patches,
+    };
+    const deltaJsonString = JSON.stringify(delta);
+    const delta_hash = Encoder.encode(
+      Multihash.hash(Buffer.from(deltaJsonString))
+    );
+    const encodedDeltaString = Encoder.encode(deltaJsonString);
+
+    const signedDataPayloadObject = {
+      update_key: oldUpdateKeyPair[0],
+      delta_hash: delta_hash,
+    };
+    const signedData = await Jws.signAsCompactJws(
+      signedDataPayloadObject,
+      oldUpdateKeyPair[1]
+    );
+
+    const updateOperationRequest = {
+      type: OperationType.Update,
+      did_suffix: didUniqueSuffix,
+      delta: encodedDeltaString,
+      signed_data: signedData,
+    };
+
+    const operationBuffer = Buffer.from(JSON.stringify(updateOperationRequest));
+    const updateOperation = await UpdateOperation.parse(operationBuffer);
+    return updateOperation;
   }
 }
 
