@@ -2,11 +2,12 @@ import { toUniversalWalletDataModel } from './toUniversalWalletDataModel';
 import { getLinkedDataKeyPairsAtIndex } from './getLinkedDataKeyPairsAtIndex';
 import { getSidetreeUnanchoredContentFromLinkedDataKeyPair } from './getSidetreeUnanchoredContentFromLinkedDataKeyPair';
 
+import { WalletContent } from '../types';
 export const toSidetreeInitialContent = async (
-  mnemonic: any,
+  mnemonic: string,
   index = 0,
   didMethod = 'elem'
-) => {
+): Promise<WalletContent[]> => {
   const mnemonicContent = await toUniversalWalletDataModel(
     'Mnemonic',
     mnemonic
@@ -38,7 +39,7 @@ export const toSidetreeInitialContent = async (
     sidetreeContent,
     ed25519WalletKeyPair,
     secp256k1WalletKeyPair,
-  ].map((content: any) => {
+  ].map((content: WalletContent) => {
     return {
       ...content,
       // note the index that was used to generate this content

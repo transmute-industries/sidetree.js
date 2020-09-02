@@ -1,7 +1,10 @@
 import * as bip39 from 'bip39';
 import { seedToId } from '@transmute/universal-wallet';
+import { WalletContentMnemonic } from '../types';
 
-export const toMnemonic = async (mnemonic: string) => {
+export const toMnemonic = async (
+  mnemonic: string
+): Promise<WalletContentMnemonic> => {
   const seed = await bip39.mnemonicToSeed(mnemonic);
   const id = await seedToId(seed);
   return {

@@ -1,10 +1,12 @@
 import { toInitialState } from './toInitialState';
 import { initialStateToShortFormDid } from './initialStateToShortFormDid';
 
+import { LinkedDataKeyPair, WalletContentDidDocument } from '../types';
+
 export const getSidetreeUnanchoredContentFromLinkedDataKeyPair = async (
-  secp256k1KeyPair: any,
+  secp256k1KeyPair: LinkedDataKeyPair,
   didMethod = 'elem'
-) => {
+): Promise<WalletContentDidDocument> => {
   const initialState = await toInitialState(secp256k1KeyPair);
   const shortFormDid = initialStateToShortFormDid(initialState);
   const longFormDid = `${shortFormDid}?-${didMethod}-initial-state=${initialState}`;

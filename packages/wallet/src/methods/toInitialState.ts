@@ -1,7 +1,11 @@
 import { Multihash } from '@sidetree/common';
 import base64url from 'base64url';
 
-export const toInitialState = async (secp256k1KeyPair: any) => {
+import { LinkedDataKeyPair } from '../types';
+
+export const toInitialState = async (
+  secp256k1KeyPair: LinkedDataKeyPair
+): Promise<string> => {
   const updateAndRecoveryPublicKeyJwk = await secp256k1KeyPair.toJwk();
   const { kid } = updateAndRecoveryPublicKeyJwk;
   delete updateAndRecoveryPublicKeyJwk.kid;

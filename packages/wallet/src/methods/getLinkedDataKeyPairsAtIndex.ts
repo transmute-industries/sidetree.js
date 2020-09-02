@@ -1,10 +1,12 @@
 import { getEd25519KeyPairFromMnemonicAtIndex } from './getEd25519KeyPairFromMnemonicAtIndex';
 import { getSecp256k1KeyPairFromMnemonicAtIndex } from './getSecp256k1KeyPairFromMnemonicAtIndex';
 
+import { LinkedDataKeyPair } from '../types';
+
 export const getLinkedDataKeyPairsAtIndex = async (
   mnemonic: string,
   index: number
-): Promise<any> => {
+): Promise<LinkedDataKeyPair[]> => {
   const ed25519KeyPair = await getEd25519KeyPairFromMnemonicAtIndex(
     mnemonic,
     index
