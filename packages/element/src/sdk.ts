@@ -29,7 +29,6 @@ class Keys {
 
 class Operations {
   public static async generateCreateOperation(
-    _: [PublicKeyJwk, PrivateKeyJwk],
     updateKeyPair: [PublicKeyJwk, PrivateKeyJwk],
     recoverKeyPair: [PublicKeyJwk, PrivateKeyJwk],
     documentModel: Record<string, unknown>
