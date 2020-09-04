@@ -47,8 +47,10 @@
     "@transmute/vc.js": "^0.1.1-unstable.4",
     "base64url": "^3.0.1",
     "bip39": "^3.0.2",
+    "canonicalize": "^1.0.3",
     "edv-client": "^4.0.1",
-    "factory.ts": "^0.5.1"
+    "factory.ts": "^0.5.1",
+    "hdkey": "^2.0.1"
   },
   "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7"
 }

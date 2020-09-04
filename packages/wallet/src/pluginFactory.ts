@@ -1,23 +1,12 @@
 import * as Factory from 'factory.ts';
 
-import {
-  generateMnemonic,
-  toUniversalWalletDataModel,
-  getLinkedDataKeyPairsAtIndex,
-  toInitialState,
-  toSidetreeInitialContent,
-  longFormDidToCreateOperation,
-} from './methods';
+import { toMnemonic, toKeyPair } from './functions';
 
 import { SidetreePlugin } from './types';
 
 const factoryDefaults = {
-  generateMnemonic,
-  toUniversalWalletDataModel,
-  getLinkedDataKeyPairsAtIndex,
-  toInitialState,
-  toSidetreeInitialContent,
-  longFormDidToCreateOperation,
+  toMnemonic,
+  toKeyPair,
 };
 
 const pluginFactory = Factory.Sync.makeFactory<SidetreePlugin>(factoryDefaults);
