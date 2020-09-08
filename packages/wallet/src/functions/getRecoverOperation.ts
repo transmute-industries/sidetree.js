@@ -66,7 +66,7 @@ export const getRecoverOperation = async (
 
   const jws = await ES256K.sign(
     jws_payload,
-    currentRecoveryKey.privateKeyJwk,
+    currentRecoveryKey.privateKeyJwk as any,
     jws_header
   );
   const encoded_delta = base64url.encode(canonicalize(deleta_object));
