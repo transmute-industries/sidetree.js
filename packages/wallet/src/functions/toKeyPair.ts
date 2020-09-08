@@ -1,6 +1,7 @@
 import * as bip39 from 'bip39';
 import hdkey from 'hdkey';
 import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
+import { Secp256k1KeyPair } from '@transmute/did-key-secp256k1';
 import {
   UNIVERSAL_WALLET_CONTEXT_URL,
   SIDETREE_BIP44_COIN_TYPE,
@@ -11,17 +12,35 @@ import { KeyPair } from '../types';
 
 export const toKeyPair = async (
   mnemonic: string,
-  index: number
+  index: number,
+  type: string = 'Ed25519VerificationKey2020'
 ): Promise<KeyPair> => {
   const seed = await bip39.mnemonicToSeed(mnemonic);
   const root = hdkey.fromMasterSeed(seed);
   const hdPath = `m/44'/${SIDETREE_BIP44_COIN_TYPE}'/0'/0/${index}`;
   const addrNode = root.derive(hdPath);
-  const keypair = await Ed25519KeyPair.generate({
-    secureRandom: () => {
-      return addrNode._privateKey;
-    },
-  });
+  let keypair: any;
+
+  switch (type) {
+    case 'EcdsaSecp256k1Verification2018': {
+      keypair = await Secp256k1KeyPair.generate({
+        secureRandom: () => {
+          return addrNode._privateKey;
+        },
+      });
+      break;
+    }
+    case 'Ed25519VerificationKey2020':
+    default: {
+      keypair = await Ed25519KeyPair.generate({
+        secureRandom: () => {
+          return addrNode._privateKey;
+        },
+      });
+      break;
+    }
+  }
+
   return {
     ...keypair,
     '@context': [UNIVERSAL_WALLET_CONTEXT_URL],

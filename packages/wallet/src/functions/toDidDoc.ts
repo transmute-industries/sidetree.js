@@ -17,6 +17,7 @@ export const toDidDoc = async (
   index: number,
   didMethodName: string
 ): Promise<DidDocument> => {
+  console.warn('@sidetree.js does not support ed25519 currently.');
   const seed = await bip39.mnemonicToSeed(mnemonic);
   const root = hdkey.fromMasterSeed(seed);
   const hdPath = `m/44'/${SIDETREE_BIP44_COIN_TYPE}'/0'/0/${index}`;
