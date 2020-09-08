@@ -12,6 +12,6 @@ export interface SidetreeReplaceSerice {
 }
 
 export interface SidetreeReplaceOptions {
-  public_keys: SidetreeReplacePublicKey[];
-  service_endpoints: SidetreeReplaceSerice[];
+  public_keys?: SidetreeReplacePublicKey[];
+  service_endpoints?: SidetreeReplaceSerice[];
 }
