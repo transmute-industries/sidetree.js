@@ -43,7 +43,7 @@ it('kill me now', async () => {
   expect(response.body.didDocument.publicKey[0].id).toBe(
     '#hOe3i-Yby1YXeP9tA0fpLBK6fVucRiC41uZU9SHLQ14'
   );
-  let did = response.body.didDocument.id;
+  const did = response.body.didDocument.id;
   const didUniqueSuffix = did.split(':').pop();
   await element.triggerBatchAndObserve();
   response = await element.handleResolveRequest(did);
