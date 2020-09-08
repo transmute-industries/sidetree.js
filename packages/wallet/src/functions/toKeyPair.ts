@@ -8,18 +8,19 @@ import {
   placeHolderImage,
 } from '../constants';
 
-import { KeyPair } from '../types';
+import { KeyPair, KeyPairBase58Btc } from '../types';
 
 export const toKeyPair = async (
   mnemonic: string,
   index: number,
-  type: string = 'Ed25519VerificationKey2020'
+  type = 'Ed25519VerificationKey2020'
 ): Promise<KeyPair> => {
   const seed = await bip39.mnemonicToSeed(mnemonic);
   const root = hdkey.fromMasterSeed(seed);
   const hdPath = `m/44'/${SIDETREE_BIP44_COIN_TYPE}'/0'/0/${index}`;
   const addrNode = root.derive(hdPath);
-  let keypair: any;
+
+  let keypair: KeyPairBase58Btc;
 
   switch (type) {
     case 'EcdsaSecp256k1Verification2018': {

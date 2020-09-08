@@ -3,6 +3,7 @@ export * from './WalletContentWithMeta';
 export * from './KeyPair';
 export * from './Mnemonic';
 export * from './DidDocument';
+export * from './KeyPairBase58Btc';
 
 // these stay here
 export * from './SidetreeJwkPair';

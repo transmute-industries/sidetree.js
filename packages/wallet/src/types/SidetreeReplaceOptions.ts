@@ -1,7 +1,7 @@
 export interface SidetreeReplacePublicKey {
   id: string;
   type: string;
-  jwk: any;
+  jwk: object;
   purpose: string[];
 }
 

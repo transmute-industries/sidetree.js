@@ -1,14 +1,12 @@
-import * as bip39 from 'bip39';
-import hdkey from 'hdkey';
 import base64url from 'base64url';
-import canonicalize from 'canonicalize';
 import crypto from 'crypto';
-import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
-import {
-  UNIVERSAL_WALLET_CONTEXT_URL,
-  SIDETREE_BIP44_COIN_TYPE,
-  placeHolderImage,
-} from '../constants';
+import canonicalize from 'canonicalize';
+
+import { UNIVERSAL_WALLET_CONTEXT_URL, placeHolderImage } from '../constants';
+
+import { getCreateOperation } from './getCreateOperation';
+import { toKeyPair } from './toKeyPair';
+import { getSidetreeKeyPairRepresentations } from './getSidetreeKeyPairRepresentations';
 
 import { DidDocument } from '../types';
 
@@ -18,62 +16,29 @@ export const toDidDoc = async (
   didMethodName: string
 ): Promise<DidDocument> => {
   console.warn('@sidetree.js does not support ed25519 currently.');
-  const seed = await bip39.mnemonicToSeed(mnemonic);
-  const root = hdkey.fromMasterSeed(seed);
-  const hdPath = `m/44'/${SIDETREE_BIP44_COIN_TYPE}'/0'/0/${index}`;
-  const addrNode = root.derive(hdPath);
-  const keypair = await Ed25519KeyPair.generate({
-    secureRandom: () => {
-      return addrNode._privateKey;
-    },
-  });
 
-  const signingKeyJwk = await keypair.toJwk();
-  const x2559KeyPair = await keypair.toX25519KeyPair();
-  const encryptionKeyJwk = await x2559KeyPair.toJwk();
-
-  const canonical_suffix_data = canonicalize({
-    delta_hash: 'EiBXM4otLuP2fG4ZA75-anrkWVX0637xZtMJSoKop-trdw',
-    recovery_commitment: 'EiC8G4IdbD7D4Co57GjLNKhmDEabrzkO1wsKE9MQeUvOgw',
-  });
-
-  const suffix_data = base64url.encode(canonical_suffix_data);
-  const delta = base64url.encode(
-    canonicalize({
-      update_commitment: 'EiCIPcXBzjjQaJUIcR52euI0rIXzhNZ_MljsKK9zxXTyqQ',
-      patches: [
-        {
-          action: 'replace',
-          document: {
-            public_keys: [
-              {
-                id: signingKeyJwk.kid,
-                type: 'JsonWebKey2020',
-                jwk: signingKeyJwk,
-                purpose: ['auth', 'assertion'],
-              },
-              {
-                id: encryptionKeyJwk.kid,
-                type: 'JsonWebKey2020',
-                jwk: encryptionKeyJwk,
-                purpose: ['agreement'],
-              },
-            ],
-          },
-        },
-      ],
-    })
+  const first_key = await toKeyPair(
+    mnemonic,
+    index,
+    'EcdsaSecp256k1Verification2018'
   );
+  const key = await getSidetreeKeyPairRepresentations(first_key);
+  const createOperation = await getCreateOperation(mnemonic, index);
 
   const didUniqueSuffix = base64url.encode(
-    crypto.createHash('sha256').update(canonical_suffix_data).digest()
+    crypto
+      .createHash('sha256')
+      .update(
+        canonicalize(JSON.parse(base64url.decode(createOperation.suffix_data)))
+      )
+      .digest()
   );
 
   const shortFormDid = `did:${didMethodName}:${didUniqueSuffix}`;
 
   const longFormDid = `${shortFormDid}?-${
     didMethodName.split(':')[0]
-  }-initial-state=${suffix_data}.${delta}`;
+  }-initial-state=${createOperation.suffix_data}.${createOperation.delta}`;
 
   const didDocument = {
     '@context': [
@@ -85,24 +50,13 @@ export const toDidDoc = async (
     id: shortFormDid,
     publicKey: [
       {
-        id: '#' + signingKeyJwk.kid,
+        id: '#' + key.kid,
         type: 'JsonWebKey2020',
         controller: shortFormDid,
-        publicKeyJwk: signingKeyJwk,
+        publicKeyJwk: key.publicKeyJwk,
       },
     ],
-    authentication: ['#' + signingKeyJwk.kid],
-    assertionMethod: ['#' + signingKeyJwk.kid],
-    capabilityInvocation: ['#' + signingKeyJwk.kid],
-    capabilityDelegation: ['#' + signingKeyJwk.kid],
-    keyAgreement: [
-      {
-        id: '#' + encryptionKeyJwk.kid,
-        type: 'JsonWebKey2020',
-        controller: shortFormDid,
-        publicKeyJwk: encryptionKeyJwk,
-      },
-    ],
+    authentication: ['#' + key.kid],
   };
 
   return {

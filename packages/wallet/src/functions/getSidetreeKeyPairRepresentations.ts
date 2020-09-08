@@ -1,9 +1,9 @@
 import canonicalize from 'canonicalize';
 import { Secp256k1KeyPair } from '@transmute/did-key-secp256k1';
-import { SidetreeJwkPair } from '../types';
+import { SidetreeJwkPair, KeyPair } from '../types';
 
 export const getSidetreeKeyPairRepresentations = async (
-  keypair: any
+  keypair: KeyPair
 ): Promise<SidetreeJwkPair> => {
   const key = new Secp256k1KeyPair(keypair);
   const publicKeyJwk = await key.toJwk();
