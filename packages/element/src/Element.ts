@@ -29,7 +29,7 @@ export default class Element {
   private unresolvableTransactionStore: MongoDbUnresolvableTransactionStore;
   public operationStore: MongoDbOperationStore;
   private versionManager: VersionManager;
-  private blockchain: EthereumLedger;
+  public blockchain: EthereumLedger;
   private cas: Cas;
   private downloadManager: DownloadManager;
   private observer: Observer;
