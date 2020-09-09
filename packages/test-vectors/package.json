@@ -25,10 +25,6 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
-    "@sidetree/cas": "^0.0.3-unstable.6",
-    "@sidetree/common": "^0.0.3-unstable.6",
-    "@sidetree/core": "^0.0.3-unstable.6",
-    "fs": "0.0.1-security",
-    "path": "^0.12.7"
+    "@sidetree/common": "^0.0.3-unstable.6"
   }
 }

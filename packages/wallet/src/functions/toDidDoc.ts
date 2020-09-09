@@ -1,6 +1,4 @@
 import base64url from 'base64url';
-import crypto from 'crypto';
-import canonicalize from 'canonicalize';
 
 import { UNIVERSAL_WALLET_CONTEXT_URL, placeHolderImage } from '../constants';
 
@@ -9,6 +7,7 @@ import { toKeyPair } from './toKeyPair';
 import { getSidetreeKeyPairRepresentations } from './getSidetreeKeyPairRepresentations';
 
 import { DidDocument } from '../types';
+import { hashThenEncode } from './sidetreeEncoding';
 
 export const toDidDoc = async (
   mnemonic: string,
@@ -25,15 +24,9 @@ export const toDidDoc = async (
   const key = await getSidetreeKeyPairRepresentations(first_key);
   const createOperation = await getCreateOperation(mnemonic, index);
 
-  const didUniqueSuffix = base64url.encode(
-    crypto
-      .createHash('sha256')
-      .update(
-        canonicalize(JSON.parse(base64url.decode(createOperation.suffix_data)))
-      )
-      .digest()
+  const didUniqueSuffix = hashThenEncode(
+    base64url.toBuffer(createOperation.suffix_data)
   );
-
   const shortFormDid = `did:${didMethodName}:${didUniqueSuffix}`;
 
   const longFormDid = `${shortFormDid}?-${
