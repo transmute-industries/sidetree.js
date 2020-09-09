@@ -1,9 +1,9 @@
 import { filesystem } from '@sidetree/test-vectors';
 
-const { anchorString } = filesystem.anchorFile;
-
 import { getWeb3 } from './web3';
 import { EthereumLedger } from '..';
+
+const { anchorString } = filesystem.anchorFile;
 
 const logger = console;
 const w31 = getWeb3();
