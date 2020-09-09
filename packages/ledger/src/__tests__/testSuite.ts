@@ -1,5 +1,5 @@
 import { IBlockchain } from '@sidetree/common';
-import { ledger as fixtures } from '@sidetree/test-vectors';
+import * as fixtures from '../__fixtures__';
 
 const { anchorString, anchorString2, anchorString3 } = fixtures;
 

@@ -1,4 +1,4 @@
-import { ledger as fixtures } from '@sidetree/test-vectors';
+import * as fixtures from '../__fixtures__';
 import { getWeb3 } from './web3';
 import { EthereumLedger } from '..';
 
