@@ -8,7 +8,8 @@ import {
   placeHolderImage,
 } from '../constants';
 
-import { KeyPair, KeyPairBase58Btc } from '../types';
+import { KeyPair } from '../types';
+import { KeyPairBase58Btc } from '../types/KeyPairBase58btc';
 
 export const toKeyPair = async (
   mnemonic: string,
