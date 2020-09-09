@@ -1,9 +1,12 @@
 import { Mnemonic, KeyPair, DidDocument } from '../types';
+import { wallet } from '@sidetree/test-vectors';
 
-import mnemonic_fixtures from './mnemonic.json';
-import keypair_fixtures from './keypair.json';
-import did_fixtures from './did.json';
-import sidetree_data_model_fixtures from './sidetree_data_model.json';
+const {
+  mnemonic_fixtures,
+  keypair_fixtures,
+  did_fixtures,
+  sidetree_data_model_fixtures,
+} = wallet;
 
 const mnemonic_0 = mnemonic_fixtures.mnemonic_0 as Mnemonic;
 const keypair_0 = keypair_fixtures.keypair_0 as KeyPair;
