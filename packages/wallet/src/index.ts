@@ -1,5 +1,3 @@
-import * as methods from './methods';
+import * as methods from './functions';
 import * as pluginFactory from './pluginFactory';
-import * as sidetreeWalletFactory from './sidetreeWalletFactory';
-
-export { methods, pluginFactory, sidetreeWalletFactory };
+export { methods, pluginFactory };
