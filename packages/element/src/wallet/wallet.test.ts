@@ -1,29 +1,22 @@
+import { getTestElement, resetDatabase } from '../test/utils';
 import Element from '../Element';
-import { EthereumLedger } from '@sidetree/ethereum';
-import { resetDatabase, getTestLedger } from '../test/utils';
-import config from '../test/element-config.json';
-
 import { wallet } from './index';
 
-let ledger: EthereumLedger;
 let element: Element;
 
 beforeAll(async () => {
   await resetDatabase();
-  ledger = await getTestLedger();
-  element = new Element(config, config.versions, ledger);
-  await element.initialize(false, false);
+  element = await getTestElement();
 });
 
 afterAll(async () => {
   await element.close();
 });
 
-it('kill me now', async () => {
-  // console.log(wallet);
-  const mnemonc =
+it('sidetree wallet integration test', async () => {
+  const mnemonic =
     'exile flight define return spring jazz absorb lens always fatigue wheat absorb';
-  const mnemonic_content = await wallet.toMnemonic(mnemonc);
+  const mnemonic_content = await wallet.toMnemonic(mnemonic);
   const createOperation = await wallet.getCreateOperation(
     mnemonic_content.value,
     0,
