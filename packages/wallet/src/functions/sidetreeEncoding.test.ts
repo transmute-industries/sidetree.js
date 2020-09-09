@@ -24,7 +24,7 @@ it('canonicalizeThenHashThenEncode', () => {
   );
 });
 
-it.only('didUniqueSuffix from data', () => {
+it('didUniqueSuffix from data', () => {
   const digest = sidetreeEncoding.hashThenEncode(
     base64url.toBuffer(
       fixtures.sidetree_data_model_fixtures.keypair_0_create_operation

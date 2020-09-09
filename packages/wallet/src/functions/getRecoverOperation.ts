@@ -7,7 +7,11 @@ import { getSidetreeKeyPairRepresentations } from './getSidetreeKeyPairRepresent
 import { canonicalizeThenHashThenEncode } from './sidetreeEncoding';
 import { toKeyPair } from './toKeyPair';
 
-import { SidetreeRecoverOperation, SidetreeReplaceOptions } from '../types';
+import {
+  SidetreeRecoverOperation,
+  SidetreeReplaceOptions,
+  PrivateKeyJwk,
+} from '../types';
 export const getRecoverOperation = async (
   mnemonic: string,
   index: number,
@@ -66,7 +70,7 @@ export const getRecoverOperation = async (
 
   const jws = await ES256K.sign(
     jws_payload,
-    currentRecoveryKey.privateKeyJwk as any,
+    currentRecoveryKey.privateKeyJwk as PrivateKeyJwk,
     jws_header
   );
   const encoded_delta = base64url.encode(canonicalize(deleta_object));
