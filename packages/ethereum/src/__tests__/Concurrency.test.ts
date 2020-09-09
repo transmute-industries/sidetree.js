@@ -1,9 +1,11 @@
-import * as fixtures from '../__fixtures__';
+import { filesystem } from '@sidetree/test-vectors';
+
+const { anchorString } = filesystem.anchorFile;
+
 import { getWeb3 } from './web3';
 import { EthereumLedger } from '..';
 
-const { logger, anchorString } = fixtures;
-
+const logger = console;
 const w31 = getWeb3();
 const w32 = getWeb3();
 
