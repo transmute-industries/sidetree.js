@@ -1,0 +1,39 @@
+{
+  "@context": "https://www.w3.org/ns/did-resolution/v1",
+  "didDocument": {
+    "id": "did:elem:EiAopY0yhhEQD0VdiWHanOcjJjBWmqDCUtmcGBVkQX7l5A",
+    "@context": [
+      "https://www.w3.org/ns/did/v1",
+      {
+        "@base": "did:elem:EiAopY0yhhEQD0VdiWHanOcjJjBWmqDCUtmcGBVkQX7l5A"
+      }
+    ],
+    "service": [
+      {
+        "id": "#serviceEndpointId123",
+        "serviceEndpoint": "https://www.url.com",
+        "type": "someType"
+      }
+    ],
+    "publicKey": [
+      {
+        "publicKeyJwk": {
+          "crv": "Ed25519",
+          "x": "0Ylr5tLFdpIm3TRO4XCM0lr6jqZRhd-yLDhFUxZNlXQ",
+          "kty": "OKP",
+          "kid": "ZktXteM6vdUuLHVBtRA6UHsp7Z8Jcll7yNWxB11dzB8"
+        },
+        "controller": "",
+        "id": "#key2",
+        "type": "Ed25519VerificationKey2018"
+      }
+    ],
+    "authentication": [
+      "#key2"
+    ]
+  },
+  "methodMetadata": {
+    "recoveryCommitment": "EiBoJusqUYyKozdH3LSWD5jvuRoZqY29vs8BEGWOG332Tg",
+    "updateCommitment": "EiCR26SD_OGytHbiV9noPPx4KxEPni8cD-nskO6vOcvDcQ"
+  }
+}
