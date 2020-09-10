@@ -1,81 +1,15 @@
-import {
-  AnchorFile,
-  ChunkFile,
-  CreateOperation,
-  MapFile,
-  OperationGenerator,
-  Jwk,
-} from '../index';
+import { CreateOperation, OperationGenerator } from '../index';
 
-import { PublicKeyPurpose, Multihash } from '@sidetree/common';
-import { MockCas } from '@sidetree/cas';
+import { Multihash } from '@sidetree/common';
 
-const fs = require('fs');
-
-class FileWriter {
-  static write(name: string, content: any) {
-    const generatedDir = `${__dirname}/generated`;
-    if (name.includes('Buffer.txt')) {
-      fs.writeFileSync(`${generatedDir}/${name}`, content.toString('hex'));
-    } else {
-      fs.writeFileSync(`${generatedDir}/${name}`, content);
-    }
-  }
-}
-
-class KeyGenerator {
-  mnemonic =
-    'mosquito sorry ring page rough future world beach pretty calm person arena';
-
-  counter = 0;
-
-  async getEd25519KeyPair() {
-    this.counter += 1;
-    const [
-      publicKeyJwk,
-      privateKeyJwk,
-    ] = await Jwk.generateJwkKeyPairFromMnemonic(
-      'ed25519',
-      this.mnemonic,
-      this.counter
-    );
-    return [publicKeyJwk, privateKeyJwk];
-  }
-
-  async getPrivateKeyBuffer() {
-    return Jwk.getBufferAtIndex(this.mnemonic, this.counter);
-  }
-
-  async getSecp256K1KeyPair() {
-    this.counter += 1;
-    const [
-      publicKeyJwk,
-      privateKeyJwk,
-    ] = await Jwk.generateJwkKeyPairFromMnemonic(
-      'secp256k1',
-      this.mnemonic,
-      this.counter
-    );
-    return [publicKeyJwk, privateKeyJwk];
-  }
-
-  async getDidDocumentKeyPair(id: string) {
-    const [publicKeyJwk, privateKeyJwk] = await this.getEd25519KeyPair();
-    const didDocPublicKey = {
-      id,
-      type: 'Ed25519VerificationKey2018',
-      jwk: publicKeyJwk,
-      purpose: [PublicKeyPurpose.Auth, PublicKeyPurpose.General],
-    };
-    return [didDocPublicKey, privateKeyJwk];
-  }
-}
+import { FileWriter } from './FileWriter';
+import { KeyGenerator } from './KeyGenerator';
 
 let createOperation: any;
 
 const config = require('../../../element/src/test/element-config.json');
 
-const generateDidFixtures = async () => {
+export const generateDidFixtures = async () => {
   const keyGenerator = new KeyGenerator();
 
   const services = OperationGenerator.generateServiceEndpoints([
@@ -195,83 +129,3 @@ const generateDidFixtures = async () => {
   );
   FileWriter.write('recoverOperationBuffer.txt', recoverOperationBuffer);
 };
-
-const generateFiles = async () => {
-  // Generate create chunk file fixture
-  const createChunkFileBuffer = await ChunkFile.createBuffer(
-    [createOperation],
-    [],
-    []
-  );
-  const createChunkFile = await ChunkFile.parse(createChunkFileBuffer);
-  const createChunkFileHash = await MockCas.getAddress(createChunkFileBuffer);
-  FileWriter.write(
-    'createChunkFile.json',
-    JSON.stringify(createChunkFile, null, 2)
-  );
-  // Generate create map file fixture
-  const createMapFileBuffer = await MapFile.createBuffer(
-    createChunkFileHash,
-    []
-  );
-  const createMapFile = await MapFile.parse(createMapFileBuffer);
-  const createMapFileHash = await MockCas.getAddress(createMapFileBuffer);
-  FileWriter.write(
-    'createMapFile.json',
-    JSON.stringify(createMapFile, null, 2)
-  );
-  // Generate create anchor file fixture
-  const createAnchorFileBuffer = await AnchorFile.createBuffer(
-    undefined,
-    createMapFileHash,
-    [createOperation],
-    [],
-    []
-  );
-  const createAnchorFile = await AnchorFile.parse(createAnchorFileBuffer);
-  FileWriter.write(
-    'createAnchorFile.json',
-    JSON.stringify(createAnchorFile, null, 2)
-  );
-};
-
-const generateKeyFixtures = async () => {
-  const keyGenerator = new KeyGenerator();
-  // secp256K1 key material
-  const [
-    secp256KPublicKeyJwk,
-    secp256KPrivateKeyJwk,
-  ] = await keyGenerator.getSecp256K1KeyPair();
-  FileWriter.write(
-    'secp256KPublicKeyJwk.json',
-    JSON.stringify(secp256KPublicKeyJwk, null, 2)
-  );
-  FileWriter.write(
-    'secp256KPrivateKeyJwk.json',
-    JSON.stringify(secp256KPrivateKeyJwk, null, 2)
-  );
-
-  // Get random buffer used to generate the JWKs above ^
-  const privateKeyBuffer = await keyGenerator.getPrivateKeyBuffer();
-  FileWriter.write('secp256KPrivateKeyBuffer.txt', privateKeyBuffer);
-
-  // ed25519 key material
-  const [
-    ed25519PublicKeyJwk,
-    ed25519PrivateKeyJwk,
-  ] = await keyGenerator.getEd25519KeyPair();
-  FileWriter.write(
-    'ed25519PublicKeyJwk.json',
-    JSON.stringify(ed25519PublicKeyJwk, null, 2)
-  );
-  FileWriter.write(
-    'ed25519PrivateKeyJwk.json',
-    JSON.stringify(ed25519PrivateKeyJwk, null, 2)
-  );
-};
-
-it('can generate fixtures', async () => {
-  await generateKeyFixtures();
-  await generateDidFixtures();
-  await generateFiles();
-});
