@@ -1,11 +1,6 @@
-import mnemonic_fixtures from './mnemonic.json';
-import keypair_fixtures from './keypair.json';
-import did_fixtures from './did.json';
-import sidetree_data_model_fixtures from './sidetree_data_model.json';
+const mnemonic = require('./mnemonic.json');
+const keypair = require('./keypair.json');
+const did = require('./did.json');
+const sidetree = require('./sidetree.json');
 
-export {
-  mnemonic_fixtures,
-  keypair_fixtures,
-  did_fixtures,
-  sidetree_data_model_fixtures,
-};
+export { mnemonic, keypair, did, sidetree };

@@ -8,24 +8,12 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "module": "dist/wallet.esm.js",
   "version": "0.0.3-unstable.6",
-  "license": "Apache-2.0",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
+  "main": "src/index.js",
+  "types": "typings.d.ts",
   "engines": {
     "node": ">=10"
-  },
-  "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "lint": "tsdx lint src",
-    "lint:fix": "tsdx lint src --fix",
-    "prepare": "tsdx build"
   },
   "prettier": {
     "printWidth": 80,
@@ -33,9 +21,5 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "devDependencies": {
-    "tsdx": "^0.13.2"
-  },
-  "dependencies": {},
-  "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7"
+  "devDependencies": {}
 }

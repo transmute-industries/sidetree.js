@@ -1,3 +1,2 @@
-import anchorFile from './anchorFile.json';
-
+const anchorFile = require('./anchorFile.json');
 export { anchorFile };
