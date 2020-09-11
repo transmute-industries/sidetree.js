@@ -44,51 +44,6 @@ const eventLogToSidetreeTransaction = (log: any) => {
   };
 };
 
-const retryWithLatestTransactionCount = async (
-  web3: any,
-  method: any,
-  args: any,
-  options: any,
-  maxRetries = 5
-) => {
-  let tryCount = 0;
-  const errors = [];
-  try {
-    return await method(...args, {
-      ...options,
-    });
-  } catch (e) {
-    errors.push(`${e}`);
-    tryCount += 1;
-  }
-  while (tryCount < maxRetries) {
-    try {
-      return method(...args, {
-        ...options,
-        nonce:
-          // eslint-disable-next-line
-          (await web3.eth.getTransactionCount(options.from, 'pending')) +
-          tryCount -
-          1,
-      });
-    } catch (e) {
-      console.warn(e);
-      errors.push(`${e}`);
-      tryCount += 1;
-    }
-  }
-  throw new Error(`
-    Could not use method: ${method}.
-    Most likely reason is invalid nonce.
-    See https://ethereum.stackexchange.com/questions/2527
-
-    This interface uses web3, and cannot be parallelized.
-    Consider using a different HD Path for each node / service / instance.
-
-    ${JSON.stringify(errors, null, 2)}
-    `);
-};
-
 const getBlock = async (
   web3: any,
   blockHashOrBlockNumber: any
@@ -135,5 +90,4 @@ export default {
   getAccounts,
   getBlock,
   getBlockchainTime,
-  retryWithLatestTransactionCount,
 };

@@ -15,21 +15,27 @@ export default class EthereumLedger implements IBlockchain {
   /** Interval for refreshing the cached blockchain time. */
   static readonly cachedBlockchainTimeRefreshInSeconds = 60;
 
+  public async getFirstValidTransaction(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _transactions: TransactionModel[]
+  ): Promise<TransactionModel | undefined> {
+    return Promise.resolve(undefined);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getFee(_transactionTime: number): Promise<number> {
     return Promise.resolve(0);
-    // throw new Error('Method not implemented.');
   }
 
   getValueTimeLock(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _lockIdentifier: string
   ): Promise<ValueTimeLockModel | undefined> {
     return Promise.resolve(undefined);
-    // throw new Error('Method not implemented.');
   }
 
   getWriterValueTimeLock(): Promise<ValueTimeLockModel | undefined> {
     return Promise.resolve(undefined);
-    // throw new Error('Method not implemented.');
   }
 
   public anchorContractAddress?: string;
@@ -43,14 +49,14 @@ export default class EthereumLedger implements IBlockchain {
     this.logger = logger || console;
     this.anchorContract = contract(anchorContractArtifact);
     this.anchorContract.setProvider(this.web3.currentProvider);
+    this.anchorContract.defaults({
+      gasPrice: '100000000000',
+    });
 
     if (contractAddress) {
       this.anchorContractAddress = contractAddress;
     } else {
-      this.resolving = this._createNewContract().then((instance: any) => {
-        this.anchorContract.setProvider(this.web3.currentProvider);
-        this.anchorContractAddress = instance.address;
-      });
+      this.resolving = this._createNewContract();
     }
   }
 
@@ -101,18 +107,20 @@ export default class EthereumLedger implements IBlockchain {
     return utils.extendSidetreeTransactionWithTimestamp(this.web3, txns);
   };
 
+  public extendSidetreeTransactionWithTimestamp = async (
+    transactions: TransactionModel[]
+  ): Promise<any[]> => {
+    return utils.extendSidetreeTransactionWithTimestamp(
+      this.web3,
+      transactions
+    );
+  };
+
   public _createNewContract = async (fromAddress?: string) => {
     const from = fromAddress || (await utils.getAccounts(this.web3))[0];
-    const instance = await utils.retryWithLatestTransactionCount(
-      this.web3,
-      this.anchorContract.new,
-      [],
-      {
-        from,
-        // TODO: Bad hard coded value, use gasEstimate
-        gas: 4712388,
-      }
-    );
+    const instance = await this.anchorContract.new({
+      from,
+    });
     this.anchorContractAddress = instance.address;
     this.logger.info('_createNewContract', this.anchorContractAddress);
     return instance;
@@ -154,26 +162,12 @@ export default class EthereumLedger implements IBlockchain {
     };
   }
 
-  public async getFirstValidTransaction(
-    _transactions: TransactionModel[]
-  ): Promise<TransactionModel | undefined> {
-    // Not implemented, because not needed
-    throw new Error('Not implemented');
-  }
-
   public get approximateTime(): BlockchainTimeModel {
     return this.cachedBlockchainTime;
   }
 
   public async getLatestTime(): Promise<BlockchainTimeModel> {
-    const block: any = await new Promise((resolve, reject) => {
-      this.web3.eth.getBlock('latest', (err: Error, b: any) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(b);
-      });
-    });
+    const block: any = await utils.getBlock(this.web3, 'latest');
     const blockchainTime: BlockchainTimeModel = {
       time: block.number,
       hash: block.hash,
@@ -194,17 +188,18 @@ export default class EthereumLedger implements IBlockchain {
       anchorFileHash
     );
     try {
-      await utils.retryWithLatestTransactionCount(
-        this.web3,
-        instance.anchorHash,
-        [bytes32AnchorFileHash, numberOfOperations],
+      const txn = await instance.anchorHash(
+        bytes32AnchorFileHash,
+        numberOfOperations,
         {
           from,
-          gasPrice: '100000000000',
         }
       );
-    } catch (e) {
-      this.logger.error(e.message);
+      this.logger.info(
+        `Ethereum transaction successful: https://ropsten.etherscan.io/tx/${txn.tx}`
+      );
+    } catch (err) {
+      this.logger.error(err.message);
     }
   };
 }
