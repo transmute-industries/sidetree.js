@@ -102,17 +102,13 @@ export default class EthereumLedger implements IBlockchain {
   };
 
   public _createNewContract = async (fromAddress?: string) => {
+    // TODO
     const from = fromAddress || (await utils.getAccounts(this.web3))[0];
-    const instance = await utils.retryWithLatestTransactionCount(
-      this.web3,
-      this.anchorContract.new,
-      [],
-      {
-        from,
-        // TODO: Bad hard coded value, use gasEstimate
-        gas: 4712388,
-      }
-    );
+    const instance = await this.anchorContract.new({
+      from,
+      // TODO: Bad hard coded value, use gasEstimate
+      gas: 4712388,
+    });
     this.anchorContractAddress = instance.address;
     this.logger.info('_createNewContract', this.anchorContractAddress);
     return instance;
@@ -193,18 +189,14 @@ export default class EthereumLedger implements IBlockchain {
     const bytes32AnchorFileHash = utils.base58EncodedMultihashToBytes32(
       anchorFileHash
     );
-    try {
-      await utils.retryWithLatestTransactionCount(
-        this.web3,
-        instance.anchorHash,
-        [bytes32AnchorFileHash, numberOfOperations],
-        {
-          from,
-          gasPrice: '100000000000',
-        }
-      );
-    } catch (e) {
-      this.logger.error(e.message);
-    }
+    const lol = await instance.anchorHash(
+      bytes32AnchorFileHash,
+      numberOfOperations,
+      {
+        from,
+        gasPrice: '100000000000',
+      }
+    );
+    console.log({ lol });
   };
 }
