@@ -48,7 +48,7 @@ it('sidetree wallet integration test', async () => {
   let response = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(createOperation))
   );
-  console.log(response.body.didDocument);
+
   expect(response.body.didDocument.publicKey[0].id).toBe(
     '#hOe3i-Yby1YXeP9tA0fpLBK6fVucRiC41uZU9SHLQ14'
   );
