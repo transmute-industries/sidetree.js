@@ -47,10 +47,7 @@ export default class EthereumLedger implements IBlockchain {
     if (contractAddress) {
       this.anchorContractAddress = contractAddress;
     } else {
-      this.resolving = this._createNewContract().then((instance: any) => {
-        this.anchorContract.setProvider(this.web3.currentProvider);
-        this.anchorContractAddress = instance.address;
-      });
+      this.resolving = this._createNewContract();
     }
   }
 
