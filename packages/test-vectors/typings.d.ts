@@ -1,1 +1,1 @@
-export { testVectors, wallet } from './src/index.js';
+export { testVectors, wallet, filesystem, generated } from './src/index.js';

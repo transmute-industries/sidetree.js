@@ -3,8 +3,6 @@ import { AnchorFile, ChunkFile, MapFile, CreateOperation } from '../index';
 import { MockCas } from '@sidetree/cas';
 
 export const generateFiles = async (createOperationRequest: any) => {
-  const operations = require('./generated/operation.json');
-
   const createOperation = await CreateOperation.parse(
     Buffer.from(JSON.stringify(createOperationRequest))
   );
@@ -39,7 +37,7 @@ export const generateFiles = async (createOperationRequest: any) => {
   let filesystem = {
     operation: [
       {
-        operation: operations.operation[0].request,
+        operation: createOperationRequest,
         chunkFile: createChunkFile,
         mapFile: createMapFile,
         anchorFile: createAnchorFile.model,
