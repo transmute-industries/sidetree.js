@@ -2,7 +2,6 @@ import { CreateOperation, OperationGenerator } from '../index';
 
 import { Multihash } from '@sidetree/common';
 
-import { FileWriter } from './FileWriter';
 import { KeyGenerator } from './KeyGenerator';
 
 let createOperation: any;
@@ -10,31 +9,35 @@ let createOperation: any;
 const config = require('../../../element/src/test/element-config.json');
 
 export const generateDidFixtures = async () => {
+  // note that this resets the counter.
   const keyGenerator = new KeyGenerator();
+
+  let operation: any = {
+    mnemonic: keyGenerator.mnemonic,
+  };
 
   const services = OperationGenerator.generateServiceEndpoints([
     'serviceEndpointId123',
   ]);
-  const [
-    recoveryPublicKey,
-    recoveryPrivateKey,
-  ] = await keyGenerator.getEd25519KeyPair();
-  const [
-    signingPublicKey,
-    signingPrivateKey,
-  ] = await keyGenerator.getDidDocumentKeyPair('key2');
+
+  const recoveryKeyPair0 = await keyGenerator.getKeyPair();
+  const signingKeyPair0 = await keyGenerator.getSidetreeInternalDataModelKeyPair();
+
   const createOperationBuffer = await OperationGenerator.generateCreateOperationBuffer(
-    recoveryPublicKey,
-    signingPublicKey as any,
+    recoveryKeyPair0.publicKeyJwk,
+    signingKeyPair0.sidetreeInternalDataModelPublicKey as any,
     services
   );
-  FileWriter.write('createOperationBuffer.txt', createOperationBuffer);
+
   createOperation = await CreateOperation.parse(createOperationBuffer);
 
   const didMethodName = config.didMethodName;
   const didUniqueSuffix = createOperation.didUniqueSuffix;
   const shortFormDid = `did:${didMethodName}:${didUniqueSuffix}`;
-  FileWriter.write('shortFormDid.txt', shortFormDid);
+
+  const encodedSuffixData = createOperation.encodedSuffixData;
+  const encodedDelta = createOperation.encodedDelta;
+  const longFormDid = `${shortFormDid}?-${didMethodName}-initial-state=${encodedSuffixData}.${encodedDelta}`;
 
   const didDocService = [
     {
@@ -45,10 +48,10 @@ export const generateDidFixtures = async () => {
   ];
   const didDocPublicKey = [
     {
-      publicKeyJwk: (signingPublicKey as any).jwk,
+      publicKeyJwk: (signingKeyPair0 as any).jwk,
       controller: '',
-      id: `#${(signingPublicKey as any).id}`,
-      type: (signingPublicKey as any).type,
+      id: `#${(signingKeyPair0 as any).id}`,
+      type: (signingKeyPair0 as any).type,
     },
   ];
   const resolveBody = {
@@ -70,62 +73,123 @@ export const generateDidFixtures = async () => {
       updateCommitment: createOperation.delta.update_commitment,
     },
   };
-  FileWriter.write('resolveBody.json', JSON.stringify(resolveBody, null, 2));
-
-  const encodedSuffixData = createOperation.encodedSuffixData;
-  const encodedDelta = createOperation.encodedDelta;
-  const longFormDid = `${shortFormDid}?-${didMethodName}-initial-state=${encodedSuffixData}.${encodedDelta}`;
-  FileWriter.write('longFormDid.txt', longFormDid);
 
   const longFormResolveBody: any = { ...resolveBody };
   longFormResolveBody.didDocument['@context'][1]['@base'] = longFormDid;
   longFormResolveBody.didDocument.id = longFormDid;
-  FileWriter.write(
-    'longFormResolveBody.json',
-    JSON.stringify(longFormResolveBody, null, 2)
-  );
 
-  const [additionalPublicKey] = await keyGenerator.getDidDocumentKeyPair(
+  // everything associated with a create operation.
+  operation = {
+    ...operation,
+    operation: [
+      {
+        type: 'create',
+        shortFormDid,
+        longFormDid,
+        keypair: [recoveryKeyPair0, signingKeyPair0],
+        request: JSON.parse(createOperationBuffer.toString()),
+        response: resolveBody,
+        malformedResponse: longFormResolveBody,
+      },
+    ],
+  };
+
+  const signingKeyPair1 = await keyGenerator.getSidetreeInternalDataModelKeyPair(
     'additional-key'
   );
+
   const updateOperationJson = await OperationGenerator.createUpdateOperationRequestForAddingAKey(
     didUniqueSuffix,
-    (signingPublicKey as any).jwk,
-    signingPrivateKey as any,
-    additionalPublicKey as any,
-    Multihash.canonicalizeThenHashThenEncode(additionalPublicKey)
+    signingKeyPair0.sidetreeInternalDataModelPublicKey.jwk,
+    signingKeyPair0.privateKeyJwk as any,
+    signingKeyPair1 as any,
+    // not that this update operation commits to a public key which is dislosed.
+    // instead this should be a commitment to a public key which is not in the did document
+    // OR a public key with a nonce kid.
+    Multihash.canonicalizeThenHashThenEncode(
+      signingKeyPair1.sidetreeInternalDataModelPublicKey.jwk
+    )
   );
 
-  const updateOperationBuffer = Buffer.from(
-    JSON.stringify(updateOperationJson)
-  );
+  // everything associated with an update operation.
+  operation = {
+    ...operation,
+    operation: [
+      ...operation.operation,
+      {
+        type: 'update',
+        additionalKeyPair: {
+          publicKeyJwk: signingKeyPair1.sidetreeInternalDataModelPublicKey.jwk,
+          privateKeyJwk: signingKeyPair1.privateKeyJwk,
+        },
+        request: updateOperationJson,
+      },
+    ],
+  };
 
-  FileWriter.write('updateOperationBuffer.txt', updateOperationBuffer);
-  const deactivateOperation = await OperationGenerator.createDeactivateOperation(
-    createOperation.didUniqueSuffix,
-    recoveryPrivateKey as any
-  );
-  const deactivateOperationBuffer = deactivateOperation.operationBuffer;
-  FileWriter.write('deactivateOperationBuffer.txt', deactivateOperationBuffer);
+  const newRecoveryKey = await keyGenerator.getKeyPair();
 
-  const [newRecoveryPublicKey] = await keyGenerator.getEd25519KeyPair();
-  const [newSigningPublicKey] = await keyGenerator.getDidDocumentKeyPair(
+  const newSigningKey = await keyGenerator.getSidetreeInternalDataModelKeyPair(
     'newSigningKey'
   );
-  const [newAdditionalPublicKey] = await keyGenerator.getDidDocumentKeyPair(
+
+  const additionalKey2 = await keyGenerator.getSidetreeInternalDataModelKeyPair(
     'newKey'
   );
+
+  const services2 = OperationGenerator.generateServiceEndpoints([
+    'recoveredServiceEndpoint456',
+  ]);
+
   const recoverOperationJson = await OperationGenerator.generateRecoverOperationRequest(
     didUniqueSuffix,
-    recoveryPrivateKey as any,
-    newRecoveryPublicKey,
-    newSigningPublicKey as any,
-    services,
-    [newAdditionalPublicKey as any]
+    recoveryKeyPair0.privateKeyJwk as any,
+    newRecoveryKey.publicKeyJwk,
+    newSigningKey.sidetreeInternalDataModelPublicKey as any,
+    services2,
+    [additionalKey2.sidetreeInternalDataModelPublicKey as any]
   );
 
-  const recoverOperationBuffer = Buffer.from(
-    JSON.stringify(recoverOperationJson)
+  // everything associated with a recover operation.
+  operation = {
+    ...operation,
+    operation: [
+      ...operation.operation,
+      {
+        type: 'recover',
+        recoveryKeyPair: {
+          publicKeyJwk: newRecoveryKey.publicKeyJwk,
+          privateKeyJwk: newRecoveryKey.privateKeyJwk,
+        },
+        signingKeyPair: {
+          publicKeyJwk: newSigningKey.sidetreeInternalDataModelPublicKey.jwk,
+          privateKeyJwk: newSigningKey.privateKeyJwk,
+        },
+        additionalKeyPair: {
+          publicKeyJwk: additionalKey2.sidetreeInternalDataModelPublicKey.jwk,
+          privateKeyJwk: additionalKey2.privateKeyJwk,
+        },
+        request: recoverOperationJson,
+      },
+    ],
+  };
+
+  const deactivateOperation = await OperationGenerator.createDeactivateOperation(
+    createOperation.didUniqueSuffix,
+    newRecoveryKey.privateKeyJwk as any
   );
-  FileWriter.write('recoverOperationBuffer.txt', recoverOperationBuffer);
+
+  // everything associated with a deactivate operation.
+  operation = {
+    ...operation,
+    operation: [
+      ...operation.operation,
+      {
+        type: 'deactivate',
+        request: deactivateOperation.operationRequest,
+      },
+    ],
+  };
+
+  return operation;
 };

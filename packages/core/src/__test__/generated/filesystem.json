@@ -1,0 +1,39 @@
+{
+  "operation": [
+    {
+      "operation": {
+        "type": "create",
+        "suffix_data": "eyJkZWx0YV9oYXNoIjoiRWlBS19PX0JVRG96M3ZXcnVJc2w4bTFick9zMjNPdHZxVDZ1Ny1zcDZmQXU1QSIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUJKNjFrQnJMZXBncWU3RlE4YWZqc2VSRXlfbTVRUGctbUFtdUh5N1Vqa1VBIn0",
+        "delta": "eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpQm9KdXNxVVl5S296ZEgzTFNXRDVqdnVSb1pxWTI5dnM4QkVHV09HMzMyVGciLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5LTEiLCJ0eXBlIjoiRWQyNTUxOVZlcmlmaWNhdGlvbktleTIwMTgiLCJqd2siOnsiY3J2IjoiRWQyNTUxOSIsIngiOiJVZF9qR2hIX0Z5Q2ltNGFDUmdIaDV1NlpzdTBBWjRoZ1k5Uk9PZlVmZ1hFIiwia3R5IjoiT0tQIiwia2lkIjoiZGdELTFYaE1zUHdoNDAwbWRUMkFua24wallIVHZhWi1OcFZkNkRWcUpDcyJ9LCJwdXJwb3NlIjpbImF1dGgiLCJnZW5lcmFsIl19XSwic2VydmljZV9lbmRwb2ludHMiOlt7ImlkIjoic2VydmljZUVuZHBvaW50SWQxMjMiLCJ0eXBlIjoic29tZVR5cGUiLCJlbmRwb2ludCI6Imh0dHBzOi8vd3d3LnVybC5jb20ifV19fV19"
+      },
+      "chunkFile": {
+        "deltas": [
+          "eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpQm9KdXNxVVl5S296ZEgzTFNXRDVqdnVSb1pxWTI5dnM4QkVHV09HMzMyVGciLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5LTEiLCJ0eXBlIjoiRWQyNTUxOVZlcmlmaWNhdGlvbktleTIwMTgiLCJqd2siOnsiY3J2IjoiRWQyNTUxOSIsIngiOiJVZF9qR2hIX0Z5Q2ltNGFDUmdIaDV1NlpzdTBBWjRoZ1k5Uk9PZlVmZ1hFIiwia3R5IjoiT0tQIiwia2lkIjoiZGdELTFYaE1zUHdoNDAwbWRUMkFua24wallIVHZhWi1OcFZkNkRWcUpDcyJ9LCJwdXJwb3NlIjpbImF1dGgiLCJnZW5lcmFsIl19XSwic2VydmljZV9lbmRwb2ludHMiOlt7ImlkIjoic2VydmljZUVuZHBvaW50SWQxMjMiLCJ0eXBlIjoic29tZVR5cGUiLCJlbmRwb2ludCI6Imh0dHBzOi8vd3d3LnVybC5jb20ifV19fV19"
+        ]
+      },
+      "mapFile": {
+        "model": {
+          "chunks": [
+            {
+              "chunk_file_uri": "QmU2Lxsrcrcv8gJpwbttoXyusGWmh4YLcbTubKSZbc3ukj"
+            }
+          ]
+        },
+        "didUniqueSuffixes": [],
+        "updateOperations": []
+      },
+      "anchorFile": {
+        "map_file_uri": "QmcuuyC9ohmS6oA3EtAUKB2WAfBBKkid5MWmSBGcTutnFp",
+        "operations": {
+          "create": [
+            {
+              "suffix_data": "eyJkZWx0YV9oYXNoIjoiRWlBS19PX0JVRG96M3ZXcnVJc2w4bTFick9zMjNPdHZxVDZ1Ny1zcDZmQXU1QSIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUJKNjFrQnJMZXBncWU3RlE4YWZqc2VSRXlfbTVRUGctbUFtdUh5N1Vqa1VBIn0"
+            }
+          ],
+          "recover": [],
+          "deactivate": []
+        }
+      }
+    }
+  ]
+}

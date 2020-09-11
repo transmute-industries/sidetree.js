@@ -1,51 +1,51 @@
 import { Jwk } from '../index';
-
 import { PublicKeyPurpose } from '@sidetree/common';
 
 export class KeyGenerator {
-  mnemonic =
-    'mosquito sorry ring page rough future world beach pretty calm person arena';
+  constructor(
+    public counter: number = 0,
+    public mnemonic: string = 'mosquito sorry ring page rough future world beach pretty calm person arena'
+  ) {
+    //nop
+  }
 
-  counter = 0;
+  async getKeyPair(
+    mnemonic: string = this.mnemonic,
+    index: number = this.counter,
+    type: string = 'ed25519'
+  ) {
+    let keypairId = `key-${index}`;
+    let publicKeyJwk = undefined;
+    let privateKeyJwk = undefined;
+    [publicKeyJwk, privateKeyJwk] = await Jwk.generateJwkKeyPairFromMnemonic(
+      type,
+      mnemonic,
+      index
+    );
+    this.counter++;
 
-  async getEd25519KeyPair() {
-    this.counter += 1;
-    const [
+    return {
+      id: keypairId,
       publicKeyJwk,
       privateKeyJwk,
-    ] = await Jwk.generateJwkKeyPairFromMnemonic(
-      'ed25519',
-      this.mnemonic,
-      this.counter
-    );
-    return [publicKeyJwk, privateKeyJwk];
+    };
   }
 
   async getPrivateKeyBuffer() {
     return Jwk.getBufferAtIndex(this.mnemonic, this.counter);
   }
 
-  async getSecp256K1KeyPair() {
-    this.counter += 1;
-    const [
-      publicKeyJwk,
-      privateKeyJwk,
-    ] = await Jwk.generateJwkKeyPairFromMnemonic(
-      'secp256k1',
-      this.mnemonic,
-      this.counter
-    );
-    return [publicKeyJwk, privateKeyJwk];
-  }
-
-  async getDidDocumentKeyPair(id: string) {
-    const [publicKeyJwk, privateKeyJwk] = await this.getEd25519KeyPair();
-    const didDocPublicKey = {
-      id,
+  async getSidetreeInternalDataModelKeyPair(id?: string) {
+    const keypair = await this.getKeyPair();
+    const sidetreeInternalDataModelPublicKey = {
+      id: id || keypair.id,
       type: 'Ed25519VerificationKey2018',
-      jwk: publicKeyJwk,
+      jwk: keypair.publicKeyJwk,
       purpose: [PublicKeyPurpose.Auth, PublicKeyPurpose.General],
     };
-    return [didDocPublicKey, privateKeyJwk];
+    return {
+      sidetreeInternalDataModelPublicKey,
+      privateKeyJwk: keypair.privateKeyJwk,
+    };
   }
 }
