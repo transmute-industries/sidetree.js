@@ -189,14 +189,13 @@ export default class EthereumLedger implements IBlockchain {
     const bytes32AnchorFileHash = utils.base58EncodedMultihashToBytes32(
       anchorFileHash
     );
-    const lol = await instance.anchorHash(
-      bytes32AnchorFileHash,
-      numberOfOperations,
-      {
+    try {
+      await instance.anchorHash(bytes32AnchorFileHash, numberOfOperations, {
         from,
         gasPrice: '100000000000',
-      }
-    );
-    console.log({ lol });
+      });
+    } catch (err) {
+      this.logger.error(err.message);
+    }
   };
 }
