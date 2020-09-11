@@ -7,7 +7,7 @@ export const generateKeyFixtures = async () => {
   const k2 = await keyGenerator.getKeyPair();
   const k3 = await keyGenerator.getKeyPair('ed25519');
 
-  let keypair = {
+  const keypair = {
     mnemonic: keyGenerator.mnemonic,
     keypair: [k0, k1, k2, k3],
   };

@@ -34,7 +34,7 @@ export const generateFiles = async (createOperationRequest: any) => {
   );
   const createAnchorFile = await AnchorFile.parse(createAnchorFileBuffer);
 
-  let filesystem = {
+  const filesystem = {
     operation: [
       {
         operation: createOperationRequest,

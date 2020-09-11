@@ -12,9 +12,9 @@ export class KeyGenerator {
   async getKeyPair(
     mnemonic: string = this.mnemonic,
     index: number = this.counter,
-    type: string = 'ed25519'
+    type = 'ed25519'
   ) {
-    let keypairId = `key-${index}`;
+    const keypairId = `key-${index}`;
     let publicKeyJwk = undefined;
     let privateKeyJwk = undefined;
     [publicKeyJwk, privateKeyJwk] = await Jwk.generateJwkKeyPairFromMnemonic(
