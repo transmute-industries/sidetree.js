@@ -188,9 +188,16 @@ export default class EthereumLedger implements IBlockchain {
       anchorFileHash
     );
     try {
-      await instance.anchorHash(bytes32AnchorFileHash, numberOfOperations, {
-        from,
-      });
+      const txn = await instance.anchorHash(
+        bytes32AnchorFileHash,
+        numberOfOperations,
+        {
+          from,
+        }
+      );
+      this.logger.info(
+        `Ethereum transaction successful: https://ropsten.etherscan.io/tx/${txn.tx}`
+      );
     } catch (err) {
       this.logger.error(err.message);
     }
