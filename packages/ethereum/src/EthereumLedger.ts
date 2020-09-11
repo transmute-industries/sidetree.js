@@ -43,6 +43,9 @@ export default class EthereumLedger implements IBlockchain {
     this.logger = logger || console;
     this.anchorContract = contract(anchorContractArtifact);
     this.anchorContract.setProvider(this.web3.currentProvider);
+    this.anchorContract.defaults({
+      gasPrice: '100000000000',
+    });
 
     if (contractAddress) {
       this.anchorContractAddress = contractAddress;
@@ -189,7 +192,6 @@ export default class EthereumLedger implements IBlockchain {
     try {
       await instance.anchorHash(bytes32AnchorFileHash, numberOfOperations, {
         from,
-        gasPrice: '100000000000',
       });
     } catch (err) {
       this.logger.error(err.message);
