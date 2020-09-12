@@ -164,11 +164,9 @@ export default class MockTransactionStore
     }
 
     console.info(
-      `Reverting ${
-        this.processedTransactions.length -
+      `Reverting ${this.processedTransactions.length -
         bestKnownValidRecentProcessedTransactionIndex -
-        1
-      } transactions...`
+        1} transactions...`
     );
     this.processedTransactions.splice(
       bestKnownValidRecentProcessedTransactionIndex + 1
@@ -211,11 +209,11 @@ export default class MockTransactionStore
     exclusiveEndTransactionTime: number
   ): Promise<TransactionModel[]> {
     if (inclusiveBeginTransactionTime === exclusiveEndTransactionTime) {
-      return this.processedTransactions.filter((transaction) => {
+      return this.processedTransactions.filter(transaction => {
         return transaction.transactionTime === inclusiveBeginTransactionTime;
       });
     } else {
-      return this.processedTransactions.filter((transaction) => {
+      return this.processedTransactions.filter(transaction => {
         return (
           transaction.transactionTime >= inclusiveBeginTransactionTime &&
           transaction.transactionTime < exclusiveEndTransactionTime

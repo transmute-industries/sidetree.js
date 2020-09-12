@@ -88,7 +88,7 @@ describe('BatchWriter', () => {
       );
 
       const anchorFileCreateBufferSpy = spyOn(AnchorFile, 'createBuffer');
-      anchorFileCreateBufferSpy.and.callFake(async (lockId) => {
+      anchorFileCreateBufferSpy.and.callFake(async lockId => {
         // This is the check for the test.
         expect(lockId).toEqual(valueLock.identifier);
         return Buffer.from('anyAnchorFileBuffer');

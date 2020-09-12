@@ -54,7 +54,7 @@ export default class MapFile {
       mapFileModel.operations
     );
     const didUniqueSuffixes = updateOperations.map(
-      (operation) => operation.didUniqueSuffix
+      operation => operation.didUniqueSuffix
     );
 
     const mapFile = new MapFile(
@@ -97,7 +97,7 @@ export default class MapFile {
 
     // Make sure no operation with same DID.
     const didUniqueSuffixes = updateOperations.map(
-      (operation) => operation.didUniqueSuffix
+      operation => operation.didUniqueSuffix
     );
     if (ArrayMethods.hasDuplicates(didUniqueSuffixes)) {
       throw new SidetreeError(ErrorCode.MapFileMultipleOperationsForTheSameDid);
@@ -139,7 +139,7 @@ export default class MapFile {
     chunkFileHash: string,
     updateOperationArray: UpdateOperation[]
   ): Promise<Buffer> {
-    const updateOperations = updateOperationArray.map((operation) => {
+    const updateOperations = updateOperationArray.map(operation => {
       return {
         did_suffix: operation.didUniqueSuffix,
         signed_data: operation.signedDataJws.toCompactJws(),
