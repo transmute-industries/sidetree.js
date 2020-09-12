@@ -5,7 +5,7 @@ import { generateFiles } from './generateFiles';
 import { FileWriter } from './FileWriter';
 const { generated } = require('@sidetree/test-vectors');
 
-process.env.WRITE_FIXTURES_TO_DISK = 'NO';
+process.env.WRITE_FIXTURES_TO_DISK = 'YES';
 
 let keypair: any;
 let operation: any;

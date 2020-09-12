@@ -56,10 +56,10 @@
     "fast-json-patch": "^3.0.0-1",
     "hdkey": "^2.0.1",
     "jose": "^1.27.0",
+    "pako": "^1.0.11",
     "priorityqueue": "^1.0.0",
     "time-span": "^4.0.0",
-    "yieldable-json": "^2.0.0",
-    "zlib": "^1.0.5"
+    "yieldable-json": "^2.0.0"
   },
   "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7"
 }

@@ -16,10 +16,10 @@ it('getAddress', async () => {
     .digest('hex');
 
   expect(bufferHash).toBe(
-    'bc07c2585ac66dfef059c80a628eccdf8418e389647ad626251f03e0fd8887c2'
+    '587779ff401f6a67a90e941a8532071fd888cdc944f7a297b89bdc3ba6eaa0f1'
   );
   const address = await MockCas.getAddress(compressedBuffer);
-  expect(address).toEqual('QmU2Lxsrcrcv8gJpwbttoXyusGWmh4YLcbTubKSZbc3ukj');
+  expect(address).toEqual('QmPd5Wk65qPgXFJixTpCYiKEQ87HmUH6uuQnCpiVUGSSgg');
   // expect(address).toEqual(
   //   generated.filesystem.operation[0].mapFile.model.chunks[0].chunk_file_uri
   // );

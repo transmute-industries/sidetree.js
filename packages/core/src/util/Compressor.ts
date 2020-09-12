@@ -1,22 +1,16 @@
-import util from 'util';
-import zlib from 'zlib';
+const pako = require('pako');
 
 /**
  * Encapsulates functionality to compress/decompress data.
  */
 export default class Compressor {
-  private static readonly gzipAsync = util.promisify(zlib.gzip);
-  private static readonly gUnzipAsync = util.promisify(zlib.gunzip);
-
   /**
-   * Compresses teh data in gzip and return it as buffer.
+   * Compresses the data in gzip and return it as buffer.
    * @param inputAsBuffer The input string to be compressed.
    */
   public static async compress(inputAsBuffer: Buffer): Promise<Buffer> {
-    const result = await Compressor.gzipAsync(inputAsBuffer);
-
-    // Casting result to Buffer as that's what is returned by gzip
-    return result as Buffer;
+    const result = pako.deflate(Buffer.from(inputAsBuffer));
+    return Buffer.from(result);
   }
 
   /**
@@ -24,9 +18,7 @@ export default class Compressor {
    * @param inputAsBuffer The gzip compressed data.
    */
   public static async decompress(inputAsBuffer: Buffer): Promise<Buffer> {
-    const result = await Compressor.gUnzipAsync(inputAsBuffer);
-
-    // Casting result to Buffer as that's what is returned by gzip
-    return result as Buffer;
+    const result = pako.inflate(inputAsBuffer);
+    return Buffer.from(result);
   }
 }
