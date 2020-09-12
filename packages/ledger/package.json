@@ -31,13 +31,10 @@
   },
   "devDependencies": {
     "tsdx": "^0.13.2",
-    "tslib": "^1.11.2",
-    "typescript": "^3.8.3"
+    "@sidetree/test-vectors": "^0.0.3-unstable.8"
   },
   "dependencies": {
-    "@sidetree/common": "^0.0.3-unstable.8",
-    "@sidetree/test-vectors": "^0.0.3-unstable.8",
-    "multihashes": "^0.4.19"
+    "@sidetree/common": "^0.0.3-unstable.8"
   },
   "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7"
 }
