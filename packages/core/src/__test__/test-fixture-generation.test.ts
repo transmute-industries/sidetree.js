@@ -1,6 +1,6 @@
 import { generateKeyFixtures } from './generateKeyFixtures';
 import { generateDidFixtures } from './generateDidFixtures';
-// import { generateFiles } from './generateFiles';
+import { generateFiles } from './generateFiles';
 
 import { FileWriter } from './FileWriter';
 const { generated } = require('@sidetree/test-vectors');
@@ -21,10 +21,10 @@ it('can generate did fixtures', async () => {
   expect(operation).toEqual(generated.operation);
 });
 
-// it('can generate files', async () => {
-//   filesystem = await generateFiles(operation.operation[0].request);
-//   expect(filesystem).toEqual(generated.filesystem);
-// });
+it('can generate files', async () => {
+  filesystem = await generateFiles(generated.operation.operation[0].request);
+  expect(filesystem).toEqual(generated.filesystem);
+});
 
 it('can write files to disk', async () => {
   if (process.env.WRITE_FIXTURES_TO_DISK === 'YES') {
