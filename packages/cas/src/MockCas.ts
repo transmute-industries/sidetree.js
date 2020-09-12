@@ -40,7 +40,7 @@ export default class MockCas implements ICas {
 
   public async read(address: string): Promise<FetchResult> {
     // Wait for configured time before returning.
-    await new Promise((resolve) =>
+    await new Promise(resolve =>
       setTimeout(resolve, this.mockSecondsTakenForEachCasFetch * 1000)
     );
     const content = this.storage.get(address);
