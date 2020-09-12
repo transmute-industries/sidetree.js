@@ -24,11 +24,12 @@ export default class MockCas implements ICas {
    */
   public static async getAddress(content: Buffer): Promise<string> {
     const unixFs = new Unixfs('file', content);
-    const dagNode = new DAGNode(unixFs.marshal());
-    const dagLink = await dagNode.toDAGLink();
-    const cidV1 = dagLink.Hash;
-    const cidV0 = cidV1.toV0();
-    return cidV0.toString();
+    const marshaled = unixFs.marshal();
+    const dagNode = new DAGNode(marshaled);
+    const dagLink = await dagNode.toDAGLink({
+      cidVersion: 0,
+    });
+    return dagLink.Hash.toString();
   }
 
   public async write(content: Buffer): Promise<string> {
@@ -39,7 +40,7 @@ export default class MockCas implements ICas {
 
   public async read(address: string): Promise<FetchResult> {
     // Wait for configured time before returning.
-    await new Promise(resolve =>
+    await new Promise((resolve) =>
       setTimeout(resolve, this.mockSecondsTakenForEachCasFetch * 1000)
     );
     const content = this.storage.get(address);
