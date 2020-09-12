@@ -41,8 +41,8 @@
     "@types/node-fetch": "^2.5.7",
     "http-status": "^1.4.2",
     "ipfs-http-client": "42.0.0",
-    "ipfs-unixfs": "^1.0.3",
-    "ipld-dag-pb": "^0.18.5",
+    "ipfs-unixfs": "^2.0.3",
+    "ipld-dag-pb": "^0.20.0",
     "it-concat": "^1.0.0"
   },
   "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7"
