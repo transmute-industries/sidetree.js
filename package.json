@@ -8,6 +8,7 @@
   "private": true,
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "scripts": {
+    "clean:lock": "npx lerna exec 'rm -rf package-lock.json node_modules'",
     "postinstall": "lerna bootstrap",
     "lint": "lerna run lint --stream",
     "lint:fix": "lerna run lint:fix --stream",
