@@ -50,6 +50,7 @@
     "@transmute/did-key-ed25519": "^0.2.1-unstable.11",
     "@transmute/did-key-secp256k1": "^0.2.1-unstable.11",
     "@trust/keyto": "^1.0.1",
+    "base64url-universal": "^1.1.0",
     "bip39": "^3.0.2",
     "fast-json-patch": "^3.0.0-1",
     "hdkey": "^2.0.1",
