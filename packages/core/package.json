@@ -47,7 +47,7 @@
     "@sidetree/common": "^0.0.3-unstable.8",
     "@sidetree/db": "^0.0.3-unstable.8",
     "@sidetree/ledger": "^0.0.3-unstable.8",
-    "@transmute/did-key-ed25519": "^0.2.1-unstable.11",
+    "@transmute/did-key-ed25519": "^0.2.1-unstable.18",
     "@transmute/did-key-secp256k1": "^0.2.1-unstable.11",
     "@trust/keyto": "^1.0.1",
     "bip39": "^3.0.2",
