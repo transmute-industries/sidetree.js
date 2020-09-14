@@ -27,7 +27,10 @@ export default class Multihash {
     let hash;
     switch (hashAlgorithmInMultihashCode) {
       case 18: // SHA256
-        hash = crypto.createHash('sha256').update(content).digest();
+        hash = crypto
+          .createHash('sha256')
+          .update(content)
+          .digest();
         break;
       default:
         throw new SidetreeError(ErrorCode.MultihashUnsupportedHashAlgorithm);

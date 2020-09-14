@@ -7,9 +7,7 @@ it('can get create operation from mnemonic', async () => {
     fixtures.mnemonic_0.value,
     0
   );
-  expect(createOperation).toEqual(
-    fixtures.sidetree_data_model_fixtures.keypair_0_create_operation
-  );
+  expect(createOperation).toEqual(fixtures.sidetree.keypair_0_create_operation);
 });
 
 it('can get create operation with service endpoints', async () => {
@@ -27,6 +25,6 @@ it('can get create operation with service endpoints', async () => {
     }
   );
   expect(createOperation).toEqual(
-    fixtures.sidetree_data_model_fixtures.keypair_0_crete_operation_with_service
+    fixtures.sidetree.keypair_0_crete_operation_with_service
   );
 });

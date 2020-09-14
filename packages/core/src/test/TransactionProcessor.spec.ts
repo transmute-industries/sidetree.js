@@ -102,7 +102,7 @@ describe('TransactionProcessor', () => {
       spyOn(downloadManager, 'download').and.callFake(
         (): Promise<FetchResult> => {
           const result: FetchResult = { code: FetchResultCode.InvalidHash };
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             resolve(result);
           });
         }
@@ -130,7 +130,7 @@ describe('TransactionProcessor', () => {
       spyOn(downloadManager, 'download').and.callFake(
         (): Promise<FetchResult> => {
           const result: FetchResult = { code: FetchResultCode.MaxSizeExceeded };
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             resolve(result);
           });
         }
@@ -158,7 +158,7 @@ describe('TransactionProcessor', () => {
       spyOn(downloadManager, 'download').and.callFake(
         (): Promise<FetchResult> => {
           const result: FetchResult = { code: FetchResultCode.NotAFile };
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             resolve(result);
           });
         }
@@ -186,7 +186,7 @@ describe('TransactionProcessor', () => {
       spyOn(downloadManager, 'download').and.callFake(
         (): Promise<FetchResult> => {
           const result: FetchResult = { code: FetchResultCode.CasNotReachable };
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             resolve(result);
           });
         }
@@ -214,7 +214,7 @@ describe('TransactionProcessor', () => {
       spyOn(downloadManager, 'download').and.callFake(
         (): Promise<FetchResult> => {
           const result: FetchResult = { code: FetchResultCode.NotFound };
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             resolve(result);
           });
         }

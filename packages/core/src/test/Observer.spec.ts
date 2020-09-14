@@ -148,7 +148,7 @@ describe('Observer', () => {
       observer['throughputLimiter'],
       'getQualifiedTransactions'
     ).and.callFake((transactions: TransactionModel[]) => {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         resolve(transactions);
       });
     });
@@ -158,7 +158,7 @@ describe('Observer', () => {
 
     // Monitor the processed transactions list until change is detected or max retries is reached.
     await retry(
-      async (_bail) => {
+      async _bail => {
         const processedTransactionCount = transactionStore.getTransactions()
           .length;
         if (processedTransactionCount === 2) {
@@ -285,7 +285,7 @@ describe('Observer', () => {
     );
 
     const didUniqueSuffixes = createOperations.map(
-      (operation) => operation.didUniqueSuffix
+      operation => operation.didUniqueSuffix
     );
     for (const didUniqueSuffix of didUniqueSuffixes) {
       const operationArray = await operationStore.get(didUniqueSuffix);
@@ -483,7 +483,7 @@ describe('Observer', () => {
       observer['throughputLimiter'],
       'getQualifiedTransactions'
     ).and.callFake((transactions: TransactionModel[]) => {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         resolve(transactions);
       });
     });
@@ -493,7 +493,7 @@ describe('Observer', () => {
     // Monitor the processed transactions list until the expected count or max retries is reached.
     const processedTransactions = transactionStore.getTransactions();
     await retry(
-      async (_bail) => {
+      async _bail => {
         const processedTransactionCount = processedTransactions.length;
         if (processedTransactionCount === 4) {
           return;
@@ -582,7 +582,7 @@ describe('Observer', () => {
 
     // Monitor the Observer until at two processing cycle has lapsed.
     await retry(
-      async (_bail) => {
+      async _bail => {
         if (readInvocationCount >= 2) {
           return;
         }

@@ -3,6 +3,7 @@ import * as Factory from 'factory.ts';
 import {
   toMnemonic,
   toKeyPair,
+  toDidDoc,
   getCreateOperation,
   getRecoverOperation,
 } from './functions';
@@ -12,6 +13,7 @@ import { SidetreePlugin } from './types';
 const factoryDefaults = {
   toMnemonic,
   toKeyPair,
+  toDidDoc,
   getCreateOperation,
   getRecoverOperation,
 };

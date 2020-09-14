@@ -1,0 +1,69 @@
+{
+  "mnemonic": "mosquito sorry ring page rough future world beach pretty calm person arena",
+  "keypair": [
+    {
+      "id": "key-0",
+      "publicKeyJwk": {
+        "crv": "Ed25519",
+        "x": "UU1Chp9ZkGe0hHD6BJS2V5_vtbULP5-8Thgyls5-y2U",
+        "kty": "OKP",
+        "kid": "cixDR_Pj5qpAWzXXoLMI-I--4P0i_ZqzftgBJMACjak"
+      },
+      "privateKeyJwk": {
+        "crv": "Ed25519",
+        "d": "fbzn_-PiMCzrX_G_9v4tc9fRTceFuNelXieLyt4uhVU",
+        "x": "UU1Chp9ZkGe0hHD6BJS2V5_vtbULP5-8Thgyls5-y2U",
+        "kty": "OKP",
+        "kid": "cixDR_Pj5qpAWzXXoLMI-I--4P0i_ZqzftgBJMACjak"
+      }
+    },
+    {
+      "id": "key-1",
+      "publicKeyJwk": {
+        "crv": "Ed25519",
+        "x": "mghVnEa5-9rJyTWLO6EzvLUH50OGlkjcJyqBN6VyuGQ",
+        "kty": "OKP",
+        "kid": "fV8JWpgJ8sul3Z6Dn5suGPC-The49g59jvon8TDywls"
+      },
+      "privateKeyJwk": {
+        "crv": "Ed25519",
+        "d": "6t-j6zB8ajX8mdLyNCkuypoMSqBfh1VgDHFjyRg7vcY",
+        "x": "mghVnEa5-9rJyTWLO6EzvLUH50OGlkjcJyqBN6VyuGQ",
+        "kty": "OKP",
+        "kid": "fV8JWpgJ8sul3Z6Dn5suGPC-The49g59jvon8TDywls"
+      }
+    },
+    {
+      "id": "key-2",
+      "publicKeyJwk": {
+        "crv": "Ed25519",
+        "x": "0Ylr5tLFdpIm3TRO4XCM0lr6jqZRhd-yLDhFUxZNlXQ",
+        "kty": "OKP",
+        "kid": "ZktXteM6vdUuLHVBtRA6UHsp7Z8Jcll7yNWxB11dzB8"
+      },
+      "privateKeyJwk": {
+        "crv": "Ed25519",
+        "d": "gC46ul9zyJleYOu4h8jWeNDxvkvabFLbUoUvsUNcoJU",
+        "x": "0Ylr5tLFdpIm3TRO4XCM0lr6jqZRhd-yLDhFUxZNlXQ",
+        "kty": "OKP",
+        "kid": "ZktXteM6vdUuLHVBtRA6UHsp7Z8Jcll7yNWxB11dzB8"
+      }
+    },
+    {
+      "id": "key-3",
+      "publicKeyJwk": {
+        "crv": "Ed25519",
+        "x": "808PD1uiR2Aw9zzrRiQ7cSUe6EiYKZUaSunriJFfqDQ",
+        "kty": "OKP",
+        "kid": "TvLEaKMAb3pT8xNpO9vOw86PVJtpAX0rrfB6IBvHyc8"
+      },
+      "privateKeyJwk": {
+        "crv": "Ed25519",
+        "d": "61zGHkBa3FP9y6-hP14YVyqXSp3u0muPfT6MMiGRaWM",
+        "x": "808PD1uiR2Aw9zzrRiQ7cSUe6EiYKZUaSunriJFfqDQ",
+        "kty": "OKP",
+        "kid": "TvLEaKMAb3pT8xNpO9vOw86PVJtpAX0rrfB6IBvHyc8"
+      }
+    }
+  ]
+}

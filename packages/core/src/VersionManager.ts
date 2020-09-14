@@ -158,7 +158,7 @@ export default class VersionManager
     // Get and cache supported hash algorithms.
     const hashAlgorithmsWithDuplicates = Array.from(
       this.versionMetadatas.values(),
-      (value) => value.hashAlgorithmInMultihashCode
+      value => value.hashAlgorithmInMultihashCode
     );
     this.allSupportedHashAlgorithms = Array.from(
       new Set(hashAlgorithmsWithDuplicates)

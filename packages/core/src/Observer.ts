@@ -228,7 +228,7 @@ export default class Observer {
       await this.storeConsecutiveTransactionsProcessed();
 
       // Wait a little before checking again.
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 1000));
     }
 
     return;
@@ -282,7 +282,7 @@ export default class Observer {
       unresolvableTransactionStatus.splice(0, i);
 
       // Wait a little before checking again.
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 1000));
     }
   }
 

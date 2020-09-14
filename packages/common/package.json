@@ -30,15 +30,13 @@
   },
   "devDependencies": {
     "@types/node-fetch": "^2.5.7",
-    "tsdx": "^0.13.2",
-    "tslib": "^1.11.1",
-    "typescript": "^3.8.3"
+    "tsdx": "^0.13.2"
   },
   "dependencies": {
     "base64url": "^3.0.1",
     "canonicalize": "^1.0.1",
     "multihashes": "^0.4.19",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.1"
   },
   "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7"
 }

@@ -83,8 +83,8 @@ describe('VersionManager', () => {
       spyOn(versionMgr as any, 'loadDefaultExportsForVersion').and.callFake(
         async (version: string, className: string) => {
           if (className === 'VersionMetadata') {
-            const fakeClass = class {}; // a fake class that does nothing
-            return fakeClass;
+            const FakeClass = class {}; // a fake class that does nothing
+            return FakeClass;
           } else {
             return (await import(`./versions/${version}/${className}`)).default;
           }

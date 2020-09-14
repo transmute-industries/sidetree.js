@@ -10,13 +10,10 @@
   ],
   "version": "0.0.3-unstable.8",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
-  "main": "index.js",
+  "main": "src/index.js",
   "types": "typings.d.ts",
   "engines": {
     "node": ">=10"
-  },
-  "scripts": {
-    "generate:fixtures": "node src/generated-test-vectors/generate-fixtures.js"
   },
   "prettier": {
     "printWidth": 80,
@@ -24,11 +21,5 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "devDependencies": {
-    "@sidetree/cas": "^0.0.3-unstable.8",
-    "@sidetree/common": "^0.0.3-unstable.8",
-    "@sidetree/core": "^0.0.3-unstable.8",
-    "fs": "0.0.1-security",
-    "path": "^0.12.7"
-  }
+  "devDependencies": {}
 }

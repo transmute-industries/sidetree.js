@@ -5,6 +5,7 @@ import { KeyPair } from './KeyPair';
 import { SidetreeCreateOperation } from './SidetreeCreateOperation';
 import { SidetreeRecoverOperation } from './SidetreeRecoverOperation';
 import { SidetreeReplaceOptions } from './SidetreeReplaceOptions';
+import { DidDocument } from './DidDocument';
 
 export interface SidetreePlugin {
   toMnemonic: (mnemonic?: string) => Promise<Mnemonic>;
@@ -24,6 +25,11 @@ export interface SidetreePlugin {
     didUniqueSuffix: string,
     options?: SidetreeReplaceOptions
   ) => Promise<SidetreeRecoverOperation>;
+  toDidDoc: (
+    mnemonic: string,
+    index: number,
+    didMethodName: string
+  ) => Promise<DidDocument>;
 }
 
 export interface SidetreeWallet extends Wallet, SidetreePlugin {}

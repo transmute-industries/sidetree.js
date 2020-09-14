@@ -1,7 +1,1 @@
-export {
-  apiTestVectors,
-  generatedTestVectors,
-  testVectors,
-  universalWalletVectors,
-  ledger,
-} from './index.js';
+export { testVectors, wallet, filesystem, generated } from './src/index.js';

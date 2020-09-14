@@ -10,7 +10,7 @@ it('can get recover operation from mnemonic', async () => {
   );
 
   expect(recoverOperation).toEqual(
-    fixtures.sidetree_data_model_fixtures.keypair_0_recover_operation
+    fixtures.sidetree.keypair_0_recover_operation
   );
 });
 
@@ -31,7 +31,6 @@ it('can get recover operation from mnemonic with service', async () => {
   );
 
   expect(recoverOperation).toEqual(
-    fixtures.sidetree_data_model_fixtures
-      .keypair_0_recover_operation_with_service
+    fixtures.sidetree.keypair_0_recover_operation_with_service
   );
 });
