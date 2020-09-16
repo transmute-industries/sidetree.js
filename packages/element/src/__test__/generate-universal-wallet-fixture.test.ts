@@ -2,13 +2,17 @@ import { sidetreeUniversalWallet } from '@sidetree/test-vectors';
 
 import Element from '../Element';
 
-import { getTestElement, resetDatabase } from '../test/utils';
+import { getTestElement, resetDatabase, writeFixture } from '../test/utils';
+
+import { walletResolution } from '../__fixtures__';
 
 console.info = () => null;
 
 const { walletOperation } = sidetreeUniversalWallet;
 
 let element: Element;
+
+const WRITE_FIXTURE_TO_DISK = false;
 
 beforeAll(async () => {
   await resetDatabase();
@@ -21,20 +25,38 @@ afterAll(async () => {
 
 it('can generate test fixture', async () => {
   const fixture: any = {
-    // sidetreeUniversalWallet,
+    resolution: [],
   };
   await Promise.all(
     [walletOperation.operation[0]].map(async (opFixture: any) => {
       let response = await element.handleOperationRequest(
         Buffer.from(JSON.stringify(opFixture.createOperation))
       );
-      await element.triggerBatchAndObserve();
       const did = response.body.didDocument.id;
-      response = await element.handleResolveRequest(did);
+      await element.triggerBatchAndObserve();
+      const afterCreate = await element.handleResolveRequest(did);
       expect(response.body.didDocument).toEqual(
         opFixture.createOperationWalletDidDoc.didDocument
       );
+      response = await element.handleOperationRequest(
+        Buffer.from(JSON.stringify(opFixture.recoverOperation))
+      );
+      await element.triggerBatchAndObserve();
+      const afterRecover = await element.handleResolveRequest(did);
+
+      fixture.resolution.push({
+        afterCreate,
+        afterRecover,
+      });
     })
   );
-  console.log(JSON.stringify(fixture, null, 2));
+
+  // uncomment to debug
+  // console.log(JSON.stringify(fixture, null, 2));
+
+  expect(fixture).toEqual(walletResolution);
+
+  if (WRITE_FIXTURE_TO_DISK) {
+    writeFixture('wallet-resolution.json', fixture);
+  }
 });

@@ -1,9 +1,19 @@
+import fs from 'fs';
+import path from 'path';
+
 import { MongoDb } from '@sidetree/db';
 import Web3 from 'web3';
 import { EthereumLedger } from '@sidetree/ethereum';
 import Element from '../Element';
 
 const config: any = require('./element-config.json');
+
+const writeFixture = (filename: string, object: any) => {
+  fs.writeFileSync(
+    path.resolve(__dirname, '../__fixtures__/', filename),
+    JSON.stringify(object, null, 2)
+  );
+};
 
 const resetDatabase = async () => {
   await MongoDb.resetDatabase(
@@ -45,4 +55,10 @@ const replaceMethod = (
   return _result;
 };
 
-export { resetDatabase, getTestLedger, getTestElement, replaceMethod };
+export {
+  resetDatabase,
+  getTestLedger,
+  getTestElement,
+  replaceMethod,
+  writeFixture,
+};
