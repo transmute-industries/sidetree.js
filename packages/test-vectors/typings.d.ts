@@ -4,4 +4,5 @@ export {
   filesystem,
   generated,
   crypto,
+  sidetreeUniversalWallet,
 } from './src/index.js';
