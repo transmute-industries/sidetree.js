@@ -1,2 +1,2 @@
 const anchorFile = require('./anchorFile.json');
-export { anchorFile };
+module.exports = { anchorFile };

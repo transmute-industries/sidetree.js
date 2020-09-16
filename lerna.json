@@ -2,13 +2,15 @@
   "packages": [
     "packages/cas",
     "packages/common",
+    "packages/crypto",
     "packages/core",
     "packages/db",
     "packages/element",
     "packages/ethereum",
     "packages/ledger",
     "packages/test-vectors",
-    "packages/wallet"
+    "packages/wallet",
+    "packages/test-pak"
   ],
   "version": "0.0.3-unstable.9"
 }

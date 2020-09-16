@@ -21,4 +21,4 @@ const deactivate = {
   deactivateResponse: require('./deactivate/resultingDocument.json'),
 };
 
-export { create, update, recover, deactivate };
+module.exports = { create, update, recover, deactivate };

@@ -1,17 +1,30 @@
 import { toKeyPair } from './toKeyPair';
 
-import { mnemonic_0, keypair_0, keypair_1 } from '../__fixtures__';
+import { walletKeyPair } from '../__fixtures__';
 
-it('can generate key pair', async () => {
-  const content = await toKeyPair(mnemonic_0.value, 0);
-  expect(content).toEqual(keypair_0);
+it('can generate key pair Ed25519', async () => {
+  const content = await toKeyPair(
+    walletKeyPair.keypair[0].mnemonic,
+    0,
+    'Ed25519'
+  );
+  expect(content).toEqual(walletKeyPair.keypair[0].Ed25519);
+});
+
+it('can generate key pair X25519', async () => {
+  const content = await toKeyPair(
+    walletKeyPair.keypair[0].mnemonic,
+    0,
+    'X25519'
+  );
+  expect(content).toEqual(walletKeyPair.keypair[0].X25519);
 });
 
 it('can generate key pair secp256k1', async () => {
   const content = await toKeyPair(
-    mnemonic_0.value,
+    walletKeyPair.keypair[0].mnemonic,
     0,
-    'EcdsaSecp256k1Verification2018'
+    'secp256k1'
   );
-  expect(content).toEqual(keypair_1);
+  expect(content).toEqual(walletKeyPair.keypair[0].secp256k1);
 });

@@ -4,7 +4,6 @@ import { UNIVERSAL_WALLET_CONTEXT_URL, placeHolderImage } from '../constants';
 
 import { getCreateOperation } from './getCreateOperation';
 import { toKeyPair } from './toKeyPair';
-import { getSidetreeKeyPairRepresentations } from './getSidetreeKeyPairRepresentations';
 
 import { DidDocument } from '../types';
 import { hashThenEncode } from './sidetreeEncoding';
@@ -16,12 +15,7 @@ export const toDidDoc = async (
 ): Promise<DidDocument> => {
   console.warn('@sidetree.js does not support ed25519 currently.');
 
-  const first_key = await toKeyPair(
-    mnemonic,
-    index,
-    'EcdsaSecp256k1Verification2018'
-  );
-  const key = await getSidetreeKeyPairRepresentations(first_key);
+  const first_key = await toKeyPair(mnemonic, index, 'secp256k1');
   const createOperation = await getCreateOperation(mnemonic, index);
 
   const didUniqueSuffix = hashThenEncode(
@@ -43,13 +37,13 @@ export const toDidDoc = async (
     id: shortFormDid,
     publicKey: [
       {
-        id: '#' + key.kid,
+        id: '#' + first_key.id.split('#').pop(),
         type: 'JsonWebKey2020',
         controller: shortFormDid,
-        publicKeyJwk: key.publicKeyJwk,
+        publicKeyJwk: first_key.publicKeyJwk,
       },
     ],
-    authentication: ['#' + key.kid],
+    authentication: ['#' + first_key.id.split('#').pop()],
   };
 
   return {
