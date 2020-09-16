@@ -29,12 +29,20 @@ it('can generate test fixture', async () => {
   };
   await Promise.all(
     [walletOperation.operation[0]].map(async (opFixture: any) => {
-      let response = await element.handleOperationRequest(
+      let response = await element.handleResolveRequest(
+        opFixture.createOperationWalletDidDoc.id
+      );
+      // assert long form matches what wallet creates.
+      expect(response.body.didDocument).toEqual(
+        opFixture.createOperationWalletDidDoc.didDocument
+      );
+      response = await element.handleOperationRequest(
         Buffer.from(JSON.stringify(opFixture.createOperation))
       );
       const did = response.body.didDocument.id;
       await element.triggerBatchAndObserve();
       const afterCreate = await element.handleResolveRequest(did);
+      // assert short form matches what wallet creates.
       expect(response.body.didDocument).toEqual(
         opFixture.createOperationWalletDidDoc.didDocument
       );

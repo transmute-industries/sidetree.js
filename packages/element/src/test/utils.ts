@@ -49,6 +49,11 @@ const replaceMethod = (
     specificMethod,
     defaultMethod
   );
+  // upstream sidetree sets controller incorrectly.
+  _result.didDocument.publicKey[0].controller = '';
+  if (_result.didDocument.publicKey[1]) {
+    _result.didDocument.publicKey[1].controller = '';
+  }
   _result.didDocument['@context'][1]['@base'] = _result.didDocument[
     '@context'
   ][1]['@base'].replace(specificMethod, defaultMethod);

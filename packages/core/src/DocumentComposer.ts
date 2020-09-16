@@ -27,6 +27,8 @@ export default class DocumentComposer {
 
     const document = didState.document as DocumentModel;
 
+    const shortFormDid = did.split('?')[0];
+
     // Only populate `publicKey` if general purpose exists.
     // Only populate `authentication` if auth purpose exists.
     const authentication: any[] = [];
@@ -36,7 +38,7 @@ export default class DocumentComposer {
         const id = '#' + publicKey.id;
         const didDocumentPublicKey = {
           id: id,
-          controller: did,
+          controller: shortFormDid,
           type: publicKey.type,
           publicKeyJwk: publicKey.jwk,
         };
@@ -71,8 +73,8 @@ export default class DocumentComposer {
     }
 
     const didDocument: any = {
-      id: did,
-      '@context': ['https://www.w3.org/ns/did/v1', { '@base': did }],
+      id: shortFormDid,
+      '@context': ['https://www.w3.org/ns/did/v1', { '@base': shortFormDid }],
       service: service_endpoints,
     };
 
