@@ -17,14 +17,16 @@ it('hashThenEncode', () => {
 
 it('canonicalizeThenHashThenEncode', () => {
   const digest = sidetreeEncoding.canonicalizeThenHashThenEncode(
-    fixtures.sidetree.keypair_0.publicKeyJwk
+    fixtures.walletKeyPair.keypair[0].secp256k1.publicKeyJwk
   );
-  expect(digest).toBe(fixtures.sidetree.keypair_0_commitment);
+  expect(digest).toBe('EiACsZGLF2z30LcNJp3IagIMPGURQlZwbYH84kHqt-uC9A');
 });
 
 it('didUniqueSuffix from data', () => {
   const digest = sidetreeEncoding.hashThenEncode(
-    base64url.toBuffer(fixtures.sidetree.keypair_0_create_operation.suffix_data)
+    base64url.toBuffer(
+      fixtures.walletOperation.operation[0].createOperation.suffix_data
+    )
   );
-  expect(digest).toBe('EiC1JOpBitKv4JS59njU7P_Y-0a6IisowgGJ1pwUKaV7wg');
+  expect(digest).toBe('EiA0qPvCoAuSLJS8l7DJ9CDrkTJlE4lEmub-SjDdNSn86A');
 });
