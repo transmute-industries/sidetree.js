@@ -14,7 +14,7 @@ export class KeyGenerator {
   async getKeyPair(
     mnemonic: string = this.mnemonic,
     index: number = this.counter,
-    type = 'secp256k1'
+    type = 'Ed25519'
   ) {
     const keypairId = `key-${index}`;
     let publicKeyJwk = undefined;

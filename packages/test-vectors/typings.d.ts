@@ -5,4 +5,5 @@ export {
   crypto,
   sidetreeUniversalWallet,
   sidetreeCoreGeneratedSecp256k1,
+  sidetreeCoreGeneratedEd25519,
 } from './src/index.js';
