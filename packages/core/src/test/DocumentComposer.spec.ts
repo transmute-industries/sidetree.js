@@ -42,6 +42,7 @@ describe('DocumentComposer', () => {
         recoveryCommitment: 'anyCommitmentHash',
         updateCommitment: 'anyCommitmentHash',
       });
+      // TODO: fix test to compate to static JSON fixture.
       expect(result.didDocument).toEqual({
         id: 'did:method:suffix',
         '@context': [
@@ -52,7 +53,7 @@ describe('DocumentComposer', () => {
         publicKey: [
           {
             id: '#anySigningKey',
-            controller: '',
+            controller: 'did:method:suffix',
             type: 'Ed25519VerificationKey2018',
             publicKeyJwk: anySigningPublicKey.jwk,
           },
@@ -61,7 +62,7 @@ describe('DocumentComposer', () => {
           '#anySigningKey', // reference because it is a general purpose key
           {
             id: '#authePbulicKey', // object here because it is an auth purpose only key
-            controller: '',
+            controller: 'did:method:suffix',
             type: 'Ed25519VerificationKey2018',
             publicKeyJwk: authPublicKey.jwk,
           },
