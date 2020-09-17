@@ -8,5 +8,6 @@ export default interface TransactionModel {
   anchorString: string;
   transactionFeePaid: number;
   normalizedTransactionFee: number;
+  transactionTimestamp?: number;
   writer: string;
 }
