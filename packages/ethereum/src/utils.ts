@@ -62,7 +62,7 @@ const getBlock = async (
 
 const extendSidetreeTransactionWithTimestamp = async (
   web3: Web3,
-  txns: [{ transactionTime: number }]
+  txns: { transactionTime: number }[]
 ): Promise<TransactionModel[]> => {
   return Promise.all(txns.map(txn => getBlock(web3, txn.transactionTime)));
 };
