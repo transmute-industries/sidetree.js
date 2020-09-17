@@ -52,3 +52,39 @@ it('can update and resolve', async () => {
     sidetreeCoreGeneratedSecp256k1Resolutions.resolution[0]
   );
 });
+
+it('can recover and resolve', async () => {
+  const response = await element.handleOperationRequest(
+    Buffer.from(JSON.stringify(operationFixture[2].request))
+  );
+  expect(response).toEqual({
+    status: 'succeeded',
+  });
+
+  await element.triggerBatchAndObserve();
+  const txns = await element.transactionStore.getTransactions();
+  expect(txns.length).toBe(3);
+  // consider further fixtures tests here.
+  const resolveRequest = await element.handleResolveRequest(did);
+  expect(resolveRequest).toEqual(
+    sidetreeCoreGeneratedSecp256k1Resolutions.resolution[1]
+  );
+});
+
+it('can deactivate and resolve', async () => {
+  const response = await element.handleOperationRequest(
+    Buffer.from(JSON.stringify(operationFixture[3].request))
+  );
+  expect(response).toEqual({
+    status: 'succeeded',
+  });
+
+  await element.triggerBatchAndObserve();
+  const txns = await element.transactionStore.getTransactions();
+  expect(txns.length).toBe(4);
+  // consider further fixtures tests here.
+  const resolveRequest = await element.handleResolveRequest(did);
+  expect(resolveRequest).toEqual(
+    sidetreeCoreGeneratedSecp256k1Resolutions.resolution[2]
+  );
+});
