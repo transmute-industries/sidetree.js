@@ -60,14 +60,6 @@ const getBlock = async (
   return block;
 };
 
-const getBlockchainTime = async (web3: Web3, blockHashOrBlockNumber: any) => {
-  const block: any = await getBlock(web3, blockHashOrBlockNumber);
-  if (block) {
-    return block.timestamp;
-  }
-  return null;
-};
-
 const extendSidetreeTransactionWithTimestamp = async (
   web3: Web3,
   txns: [{ transactionTime: number }]
@@ -82,5 +74,4 @@ export default {
   extendSidetreeTransactionWithTimestamp,
   getAccounts,
   getBlock,
-  getBlockchainTime,
 };
