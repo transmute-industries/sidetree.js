@@ -7,6 +7,8 @@ import {
   ValueTimeLockModel,
   ServiceVersionModel,
 } from '@sidetree/common';
+import Web3 from 'web3';
+import { BlockTransactionString } from 'web3-eth';
 
 const contract = require('@truffle/contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
@@ -39,13 +41,17 @@ export default class EthereumLedger implements IBlockchain {
   }
 
   public anchorContractAddress?: string;
-  private logger: any;
+  private logger: Console;
   public anchorContract: any;
-  public resolving: any;
+  public resolving: Promise<any> | null = null;
   public instance: any;
   private cachedBlockchainTime: BlockchainTimeModel = { hash: '', time: 0 };
 
-  constructor(public web3: any, public contractAddress?: string, logger?: any) {
+  constructor(
+    public web3: Web3,
+    public contractAddress?: string,
+    logger?: Console
+  ) {
     this.logger = logger || console;
     this.anchorContract = contract(anchorContractArtifact);
     this.anchorContract.setProvider(this.web3.currentProvider);
@@ -82,7 +88,7 @@ export default class EthereumLedger implements IBlockchain {
     };
   };
 
-  public _getInstance: any = async () => {
+  public _getInstance = async (): Promise<any> => {
     if (!this.instance) {
       this.instance = await this.anchorContract.at(this.anchorContractAddress);
     }
@@ -92,13 +98,13 @@ export default class EthereumLedger implements IBlockchain {
   public _getTransactions = async (
     fromBlock: number | string,
     toBlock: number | string,
-    options?: any
+    options?: { filter?: any; omitTimestamp?: boolean }
   ): Promise<TransactionModel[]> => {
     const instance = await this._getInstance();
     const logs = await instance.getPastEvents('Anchor', {
       fromBlock,
       toBlock: toBlock || 'latest',
-      filter: options.filter || undefined,
+      filter: (options && options.filter) || undefined,
     });
     const txns = logs.map(utils.eventLogToSidetreeTransaction);
     if (options && options.omitTimestamp) {
@@ -109,14 +115,14 @@ export default class EthereumLedger implements IBlockchain {
 
   public extendSidetreeTransactionWithTimestamp = async (
     transactions: TransactionModel[]
-  ): Promise<any[]> => {
+  ): Promise<TransactionModel[]> => {
     return utils.extendSidetreeTransactionWithTimestamp(
       this.web3,
       transactions
     );
   };
 
-  public _createNewContract = async (fromAddress?: string) => {
+  public _createNewContract = async (fromAddress?: string): Promise<any> => {
     const from = fromAddress || (await utils.getAccounts(this.web3))[0];
     const instance = await this.anchorContract.new({
       from,
@@ -167,7 +173,10 @@ export default class EthereumLedger implements IBlockchain {
   }
 
   public async getLatestTime(): Promise<BlockchainTimeModel> {
-    const block: any = await utils.getBlock(this.web3, 'latest');
+    const block: BlockTransactionString = await utils.getBlock(
+      this.web3,
+      'latest'
+    );
     const blockchainTime: BlockchainTimeModel = {
       time: block.number,
       hash: block.hash,
@@ -176,6 +185,7 @@ export default class EthereumLedger implements IBlockchain {
     return blockchainTime;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public write = async (anchorString: string, _fee = 0): Promise<void> => {
     await this.resolving;
     const [from] = await utils.getAccounts(this.web3);
