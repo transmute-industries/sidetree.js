@@ -1,10 +1,12 @@
-import { Jwk } from '../index';
 import { PublicKeyPurpose } from '@sidetree/common';
+import { toKeyPair } from '@sidetree/crypto';
+
+const { crypto } = require('@sidetree/test-vectors');
 
 export class KeyGenerator {
   constructor(
     public counter: number = 0,
-    public mnemonic: string = 'mosquito sorry ring page rough future world beach pretty calm person arena'
+    public mnemonic: string = crypto.mnemonic.mnemonic[0]
   ) {
     //nop
   }
@@ -12,18 +14,14 @@ export class KeyGenerator {
   async getKeyPair(
     mnemonic: string = this.mnemonic,
     index: number = this.counter,
-    type = 'ed25519'
+    type = 'secp256k1'
   ) {
     const keypairId = `key-${index}`;
     let publicKeyJwk = undefined;
     let privateKeyJwk = undefined;
-    [publicKeyJwk, privateKeyJwk] = await Jwk.generateJwkKeyPairFromMnemonic(
-      type,
-      mnemonic,
-      index
-    );
+    const keypair = await toKeyPair(mnemonic, index, type);
+    ({ publicKeyJwk, privateKeyJwk } = await keypair.toJsonWebKeyPair(true));
     this.counter++;
-
     return {
       id: keypairId,
       publicKeyJwk,
@@ -31,21 +29,18 @@ export class KeyGenerator {
     };
   }
 
-  async getPrivateKeyBuffer() {
-    return Jwk.getBufferAtIndex(this.mnemonic, this.counter);
-  }
+  async getSidetreeInternalDataModelKeyPair(_id?: string) {
+    const { id, publicKeyJwk, privateKeyJwk } = await this.getKeyPair();
 
-  async getSidetreeInternalDataModelKeyPair(id?: string) {
-    const keypair = await this.getKeyPair();
     const sidetreeInternalDataModelPublicKey = {
-      id: id || keypair.id,
-      type: 'Ed25519VerificationKey2018',
-      jwk: keypair.publicKeyJwk,
+      id: _id || id,
+      type: 'JsonWebKey2020',
+      jwk: publicKeyJwk,
       purpose: [PublicKeyPurpose.Auth, PublicKeyPurpose.General],
     };
     return {
       sidetreeInternalDataModelPublicKey,
-      privateKeyJwk: keypair.privateKeyJwk,
+      privateKeyJwk: privateKeyJwk,
     };
   }
 }

@@ -12,5 +12,5 @@ export const generateKeyFixtures = async () => {
     keypair: [k0, k1, k2, k3],
   };
 
-  return keypair;
+  return JSON.parse(JSON.stringify(keypair));
 };

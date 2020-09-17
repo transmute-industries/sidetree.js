@@ -2,7 +2,7 @@ export {
   testVectors,
   wallet,
   filesystem,
-  generated,
   crypto,
   sidetreeUniversalWallet,
+  sidetreeCoreGeneratedSecp256k1,
 } from './src/index.js';

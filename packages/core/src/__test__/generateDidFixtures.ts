@@ -48,10 +48,10 @@ export const generateDidFixtures = async () => {
   ];
   const didDocPublicKey = [
     {
-      publicKeyJwk: (signingKeyPair0 as any).jwk,
-      controller: '',
-      id: `#${(signingKeyPair0 as any).id}`,
-      type: (signingKeyPair0 as any).type,
+      id: `#${signingKeyPair0.sidetreeInternalDataModelPublicKey.id}`,
+      type: signingKeyPair0.sidetreeInternalDataModelPublicKey.type,
+      controller: shortFormDid,
+      publicKeyJwk: signingKeyPair0.sidetreeInternalDataModelPublicKey.jwk,
     },
   ];
   const resolveBody = {
@@ -66,17 +66,15 @@ export const generateDidFixtures = async () => {
       ],
       service: didDocService,
       publicKey: didDocPublicKey,
-      authentication: ['#key2'],
+      authentication: [
+        `#${signingKeyPair0.sidetreeInternalDataModelPublicKey.id}`,
+      ],
     },
     methodMetadata: {
       recoveryCommitment: createOperation.suffixData.recovery_commitment,
       updateCommitment: createOperation.delta.update_commitment,
     },
   };
-
-  const longFormResolveBody: any = { ...resolveBody };
-  longFormResolveBody.didDocument['@context'][1]['@base'] = longFormDid;
-  longFormResolveBody.didDocument.id = longFormDid;
 
   // everything associated with a create operation.
   operation = {
@@ -89,7 +87,6 @@ export const generateDidFixtures = async () => {
         keypair: [recoveryKeyPair0, signingKeyPair0],
         request: JSON.parse(createOperationBuffer.toString()),
         response: resolveBody,
-        malformedResponse: longFormResolveBody,
       },
     ],
   };
@@ -191,5 +188,5 @@ export const generateDidFixtures = async () => {
     ],
   };
 
-  return operation;
+  return JSON.parse(JSON.stringify(operation));
 };
