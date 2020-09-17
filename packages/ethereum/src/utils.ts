@@ -69,17 +69,9 @@ const getBlockchainTime = async (web3: any, blockHashOrBlockNumber: any) => {
 
 const extendSidetreeTransactionWithTimestamp = async (
   web3: any,
-  txns: any
+  txns: [{ transactionTime: number }]
 ): Promise<TransactionModel[]> => {
-  return Promise.all(
-    txns.map(async (txn: any) => {
-      const timestamp = await getBlockchainTime(web3, txn.transactionTime);
-      return {
-        ...txn,
-        transactionTimestamp: timestamp,
-      };
-    })
-  );
+  return Promise.all(txns.map(txn => getBlock(web3, txn.transactionTime)));
 };
 
 export default {
