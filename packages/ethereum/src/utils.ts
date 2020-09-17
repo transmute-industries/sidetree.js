@@ -1,7 +1,8 @@
 import { TransactionModel, AnchoredDataSerializer } from '@sidetree/common';
 import multihashes from 'multihashes';
+import Web3 from 'web3';
 
-const getAccounts = (web3: any): Promise<Array<string>> =>
+const getAccounts = (web3: Web3): Promise<Array<string>> =>
   new Promise((resolve, reject) => {
     web3.eth.getAccounts((err: any, accounts: any) => {
       if (err) {
@@ -45,7 +46,7 @@ const eventLogToSidetreeTransaction = (log: any) => {
 };
 
 const getBlock = async (
-  web3: any,
+  web3: Web3,
   blockHashOrBlockNumber: any
 ): Promise<any> => {
   const block: any = await new Promise((resolve, reject) => {
@@ -59,7 +60,7 @@ const getBlock = async (
   return block;
 };
 
-const getBlockchainTime = async (web3: any, blockHashOrBlockNumber: any) => {
+const getBlockchainTime = async (web3: Web3, blockHashOrBlockNumber: any) => {
   const block: any = await getBlock(web3, blockHashOrBlockNumber);
   if (block) {
     return block.timestamp;
@@ -68,7 +69,7 @@ const getBlockchainTime = async (web3: any, blockHashOrBlockNumber: any) => {
 };
 
 const extendSidetreeTransactionWithTimestamp = async (
-  web3: any,
+  web3: Web3,
   txns: [{ transactionTime: number }]
 ): Promise<TransactionModel[]> => {
   return Promise.all(txns.map(txn => getBlock(web3, txn.transactionTime)));
