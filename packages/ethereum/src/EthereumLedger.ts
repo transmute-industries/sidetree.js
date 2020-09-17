@@ -108,7 +108,7 @@ export default class EthereumLedger implements IBlockchain {
   };
 
   public extendSidetreeTransactionWithTimestamp = async (
-    transactions: { transactionTime: number }[]
+    transactions: TransactionModel[]
   ): Promise<any[]> => {
     return utils.extendSidetreeTransactionWithTimestamp(
       this.web3,
