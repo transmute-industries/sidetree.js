@@ -256,7 +256,7 @@ describe('RequestHandler', () => {
     expect(httpStatus).toEqual(200);
     expect(response.body).toBeDefined();
 
-    validateDidReferencesInDidDocument(response.body.didDocument, longFormDid);
+    validateDidReferencesInDidDocument(response.body.didDocument, shortFormDid);
   });
 
   it('should return NotFound given an unknown DID.', async () => {
@@ -454,6 +454,7 @@ describe('RequestHandler', () => {
   });
 });
 
+// TODO: Move this to test utilities
 /**
  * Verifies that the given DID document contains correct references to the DID throughout.
  */
@@ -462,7 +463,7 @@ function validateDidReferencesInDidDocument(didDocument: any, did: string) {
 
   if (didDocument.publicKey) {
     for (const publicKeyEntry of didDocument.publicKey) {
-      expect(publicKeyEntry.controller).toEqual('');
+      expect(publicKeyEntry.controller).toEqual(didDocument.id);
       expect((publicKeyEntry.id as string).startsWith('#'));
     }
   }
