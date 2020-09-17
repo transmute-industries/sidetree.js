@@ -1,3 +1,5 @@
 const walletResolution = require('./wallet-resolution.json');
 
-export { walletResolution };
+const sidetreeCoreGeneratedSecp256k1Resolutions = require('./sidetree-core-generated-secp256k1-resolution.json');
+
+export { walletResolution, sidetreeCoreGeneratedSecp256k1Resolutions };

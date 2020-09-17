@@ -99,7 +99,7 @@ export const generateDidFixtures = async () => {
     didUniqueSuffix,
     signingKeyPair0.sidetreeInternalDataModelPublicKey.jwk,
     signingKeyPair0.privateKeyJwk as any,
-    signingKeyPair1 as any,
+    signingKeyPair1.sidetreeInternalDataModelPublicKey,
     // not that this update operation commits to a public key which is dislosed.
     // instead this should be a commitment to a public key which is not in the did document
     // OR a public key with a nonce kid.

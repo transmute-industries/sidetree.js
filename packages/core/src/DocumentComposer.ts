@@ -225,6 +225,7 @@ export default class DocumentComposer {
       const publicKeyProperties = Object.keys(publicKey);
       // the expected fields are id, purpose, type and jwk
       if (publicKeyProperties.length !== 4) {
+        console.log(publicKeyProperties);
         throw new SidetreeError(
           ErrorCode.DocumentComposerPublicKeyMissingOrUnknownProperty
         );
