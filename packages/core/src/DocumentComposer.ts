@@ -468,7 +468,7 @@ export default class DocumentComposer {
     patch: any
   ): DocumentModel {
     const publicKeyMap = new Map(
-      (document.public_keys || []).map((publicKey) => [publicKey.id, publicKey])
+      (document.public_keys || []).map(publicKey => [publicKey.id, publicKey])
     );
 
     // Loop through all given public keys and add them if they don't exist already.
@@ -493,7 +493,7 @@ export default class DocumentComposer {
     patch: any
   ): DocumentModel {
     const publicKeyMap = new Map(
-      (document.public_keys || []).map((publicKey) => [publicKey.id, publicKey])
+      (document.public_keys || []).map(publicKey => [publicKey.id, publicKey])
     );
 
     // Loop through all given public key IDs and delete them from the existing public key only if it is not a recovery key.
@@ -553,7 +553,7 @@ export default class DocumentComposer {
 
     const idsToRemove = new Set(patch.ids);
     document.service_endpoints = document.service_endpoints.filter(
-      (serviceEndpoint) => !idsToRemove.has(serviceEndpoint.id)
+      serviceEndpoint => !idsToRemove.has(serviceEndpoint.id)
     );
 
     return document;
