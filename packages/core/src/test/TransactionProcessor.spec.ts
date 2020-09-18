@@ -66,6 +66,7 @@ describe('TransactionProcessor', () => {
       const mockTransaction: TransactionModel = {
         transactionNumber: 1,
         transactionTime: 1000000,
+        transactionHash: 'hash',
         transactionTimeHash: '1000',
         anchorString: anchoredData,
         transactionFeePaid: 1,
@@ -86,6 +87,7 @@ describe('TransactionProcessor', () => {
       const mockTransaction: TransactionModel = {
         transactionNumber: 1,
         transactionTime: 1000000,
+        transactionHash: 'hash',
         transactionTimeHash: '1000',
         anchorString: anchoredData,
         transactionFeePaid: 1,
@@ -114,6 +116,7 @@ describe('TransactionProcessor', () => {
       const mockTransaction: TransactionModel = {
         transactionNumber: 1,
         transactionTime: 1000000,
+        transactionHash: 'hash',
         transactionTimeHash: '1000',
         anchorString: anchoredData,
         transactionFeePaid: 999999,
@@ -142,6 +145,7 @@ describe('TransactionProcessor', () => {
       const mockTransaction: TransactionModel = {
         transactionNumber: 1,
         transactionTime: 1000000,
+        transactionHash: 'hash',
         transactionTimeHash: '1000',
         anchorString: anchoredData,
         transactionFeePaid: 999999,
@@ -170,6 +174,7 @@ describe('TransactionProcessor', () => {
       const mockTransaction: TransactionModel = {
         transactionNumber: 1,
         transactionTime: 1000000,
+        transactionHash: 'hash',
         transactionTimeHash: '1000',
         anchorString: anchoredData,
         transactionFeePaid: 999999,
@@ -198,6 +203,7 @@ describe('TransactionProcessor', () => {
       const mockTransaction: TransactionModel = {
         transactionNumber: 1,
         transactionTime: 1000000,
+        transactionHash: 'hash',
         transactionTimeHash: '1000',
         anchorString: anchoredData,
         transactionFeePaid: 999999,
@@ -226,6 +232,7 @@ describe('TransactionProcessor', () => {
       const mockTransaction: TransactionModel = {
         transactionNumber: 1,
         transactionTime: 1000000,
+        transactionHash: 'hash',
         transactionTimeHash: '1000',
         anchorString: anchoredData,
         transactionFeePaid: 999999,
@@ -246,6 +253,7 @@ describe('TransactionProcessor', () => {
       const mockTransaction: TransactionModel = {
         transactionNumber: 1,
         transactionTime: 1000000,
+        transactionHash: 'hash',
         transactionTimeHash: '1000',
         anchorString: anchoredData,
         transactionFeePaid: 999999,
@@ -273,6 +281,7 @@ describe('TransactionProcessor', () => {
         transactionFeePaid: 1234,
         transactionNumber: 98765,
         transactionTime: 5678,
+        transactionHash: 'hash',
         transactionTimeHash: 'transaction time hash',
         writer: 'writer',
       };
@@ -317,6 +326,7 @@ describe('TransactionProcessor', () => {
         transactionFeePaid: 1234,
         transactionNumber: 98765,
         transactionTime: 5678,
+        transactionHash: 'hash',
         transactionTimeHash: 'transaction time hash',
         writer: 'writer',
       };
@@ -371,6 +381,7 @@ describe('TransactionProcessor', () => {
         transactionFeePaid: 1234,
         transactionNumber: 98765,
         transactionTime: 5678,
+        transactionHash: 'hash',
         transactionTimeHash: 'transaction time hash',
         writer: 'writer',
       };
@@ -435,6 +446,7 @@ describe('TransactionProcessor', () => {
         transactionFeePaid: 1234,
         transactionNumber: 98765,
         transactionTime: 5678,
+        transactionHash: 'hash',
         transactionTimeHash: 'transaction time hash',
         writer: 'writer',
       };
@@ -700,6 +712,7 @@ describe('TransactionProcessor', () => {
         transactionFeePaid: 9999,
         transactionNumber: 1,
         transactionTime: 1,
+        transactionHash: 'hash',
         transactionTimeHash: 'anyValue',
         writer: 'anyWriter',
       };
@@ -758,6 +771,7 @@ describe('TransactionProcessor', () => {
         transactionFeePaid: 9999,
         transactionNumber: 1,
         transactionTime: 1,
+        transactionHash: 'hash',
         transactionTimeHash: 'anyValue',
         writer: 'anyWriter',
       };

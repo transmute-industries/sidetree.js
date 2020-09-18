@@ -37,6 +37,7 @@ export default class MockLedger implements IBlockchain {
     let transactions: TransactionModel[] = this.hashes.map((hash, index) => ({
       transactionNumber: index,
       transactionTime: index,
+      transactionHash: hash[0],
       transactionTimeHash: hash[0],
       anchorString: hash[0],
       writer: 'writer',

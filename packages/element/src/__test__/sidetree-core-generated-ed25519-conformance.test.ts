@@ -20,6 +20,8 @@ afterAll(async () => {
 const operationFixture = sidetreeCoreGeneratedEd25519.operation.operation;
 
 let did: any;
+jest.setTimeout(60 * 1000);
+
 it('can create and resolve', async () => {
   const response = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(operationFixture[0].request))

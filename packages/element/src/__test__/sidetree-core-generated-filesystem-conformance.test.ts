@@ -18,6 +18,8 @@ afterAll(async () => {
   await element.close();
 });
 
+jest.setTimeout(60 * 1000);
+
 // move these tests to test-vector-conformance.spec.ts
 it('create operation should generate expected chunk map and anchor files', async () => {
   const spy = jest.spyOn((element as any).cas, 'write');

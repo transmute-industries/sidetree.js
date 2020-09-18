@@ -14,6 +14,8 @@ afterEach(async () => {
   await element.close();
 });
 
+jest.setTimeout(60 * 1000);
+
 it('create', async () => {
   const response = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(testVectors.create.createRequest))

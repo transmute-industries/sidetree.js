@@ -19,6 +19,8 @@ afterAll(async () => {
 
 const operationFixture = sidetreeCoreGeneratedSecp256k1.operation.operation;
 
+jest.setTimeout(60 * 1000);
+
 let did: any;
 it('can create and resolve', async () => {
   const response = await element.handleOperationRequest(

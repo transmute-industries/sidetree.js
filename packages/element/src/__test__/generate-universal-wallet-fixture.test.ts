@@ -23,6 +23,8 @@ afterAll(async () => {
   await element.close();
 });
 
+jest.setTimeout(60 * 1000);
+
 it('can generate test fixture', async () => {
   const fixture: any = {
     resolution: [],
