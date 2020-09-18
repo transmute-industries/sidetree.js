@@ -233,6 +233,7 @@ describe('VersionManager', () => {
         anchorString: '',
         transactionNumber: 0,
         transactionTime: 0,
+        transactionHash: 'hash',
         transactionTimeHash: '',
         transactionFeePaid: 1,
         normalizedTransactionFee: 1,

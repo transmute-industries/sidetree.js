@@ -30,6 +30,7 @@ describe('ThroughputLimiter', () => {
         {
           transactionNumber: 1,
           transactionTime: 1,
+          transactionHash: 'hash',
           transactionTimeHash: 'some hash',
           anchorString: 'some string',
           transactionFeePaid: 333,
@@ -39,6 +40,7 @@ describe('ThroughputLimiter', () => {
         {
           transactionNumber: 2,
           transactionTime: 2,
+          transactionHash: 'hash',
           transactionTimeHash: 'some hash',
           anchorString: 'some string',
           transactionFeePaid: 998,
@@ -48,6 +50,7 @@ describe('ThroughputLimiter', () => {
         {
           transactionNumber: 3,
           transactionTime: 2,
+          transactionHash: 'hash',
           transactionTimeHash: 'some hash',
           anchorString: 'some string',
           transactionFeePaid: 999,
@@ -57,6 +60,7 @@ describe('ThroughputLimiter', () => {
         {
           transactionNumber: 4,
           transactionTime: 3,
+          transactionHash: 'hash',
           transactionTimeHash: 'some hash',
           anchorString: 'some string',
           transactionFeePaid: 14,
@@ -73,6 +77,7 @@ describe('ThroughputLimiter', () => {
         {
           transactionNumber: 1,
           transactionTime: 1,
+          transactionHash: 'hash',
           transactionTimeHash: 'some hash',
           anchorString: 'some string',
           transactionFeePaid: 333,
@@ -82,6 +87,7 @@ describe('ThroughputLimiter', () => {
         {
           transactionNumber: 2,
           transactionTime: 2,
+          transactionHash: 'hash',
           transactionTimeHash: 'some hash',
           anchorString: 'some string',
           transactionFeePaid: 998,
@@ -91,6 +97,7 @@ describe('ThroughputLimiter', () => {
         {
           transactionNumber: 4,
           transactionTime: 3,
+          transactionHash: 'hash',
           transactionTimeHash: 'some hash',
           anchorString: 'some string',
           transactionFeePaid: 14,

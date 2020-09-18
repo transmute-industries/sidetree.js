@@ -269,6 +269,7 @@ describe('Observer', () => {
     const mockTransaction: TransactionModel = {
       transactionNumber: 1,
       transactionTime: 1000000,
+      transactionHash: 'hash',
       transactionTimeHash: '1000',
       anchorString: anchoredData,
       transactionFeePaid: 1,
@@ -336,6 +337,7 @@ describe('Observer', () => {
       const mockTransaction: TransactionModel = {
         transactionNumber: 1,
         transactionTime: 1000000,
+        transactionHash: 'hash',
         transactionTimeHash: '1000',
         anchorString: anchoredData,
         transactionFeePaid: 1,
@@ -524,6 +526,7 @@ describe('Observer', () => {
     const transaction = {
       transactionNumber: 1,
       transactionTime: 1000,
+      transactionHash: 'hash',
       transactionTimeHash: '1000',
       anchorString: anchoredData,
       transactionFeePaid: 1,
