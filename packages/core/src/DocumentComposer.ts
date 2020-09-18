@@ -32,6 +32,11 @@ export default class DocumentComposer {
     // Only populate `publicKey` if general purpose exists.
     // Only populate `authentication` if auth purpose exists.
     const authentication: any[] = [];
+    const assertionMethod: any[] = [];
+    const capabilityInvocation: any[] = [];
+    const capabilityDelegation: any[] = [];
+    const keyAgreement: any[] = [];
+
     const public_keys: any[] = [];
     if (Array.isArray(document.public_keys)) {
       for (const publicKey of document.public_keys) {
@@ -46,28 +51,45 @@ export default class DocumentComposer {
 
         if (purposeSet.has(PublicKeyPurpose.General)) {
           public_keys.push(didDocumentPublicKey);
+
           if (purposeSet.has(PublicKeyPurpose.Auth)) {
-            // add into authentication by reference if has auth and has general
             authentication.push(id);
           }
+          if (purposeSet.has(PublicKeyPurpose.AssertionMethod)) {
+            assertionMethod.push(id);
+          }
+          if (purposeSet.has(PublicKeyPurpose.CapabilityInvocation)) {
+            capabilityInvocation.push(id);
+          }
+          if (purposeSet.has(PublicKeyPurpose.CapabilityDelegation)) {
+            capabilityDelegation.push(id);
+          }
+          if (purposeSet.has(PublicKeyPurpose.KeyAgreement)) {
+            keyAgreement.push(id);
+          }
         } else if (purposeSet.has(PublicKeyPurpose.Auth)) {
-          // add into authentication by object if has auth but no general
           authentication.push(didDocumentPublicKey);
+        } else if (purposeSet.has(PublicKeyPurpose.AssertionMethod)) {
+          assertionMethod.push(assertionMethod);
+        } else if (purposeSet.has(PublicKeyPurpose.CapabilityInvocation)) {
+          capabilityInvocation.push(didDocumentPublicKey);
+        } else if (purposeSet.has(PublicKeyPurpose.CapabilityDelegation)) {
+          capabilityDelegation.push(didDocumentPublicKey);
+        } else if (purposeSet.has(PublicKeyPurpose.KeyAgreement)) {
+          keyAgreement.push(didDocumentPublicKey);
         }
       }
     }
 
     // Only update `service_endpoints` if the array is present
-    let service_endpoints;
+    let service_endpoints = [];
     if (Array.isArray(document.service_endpoints)) {
-      service_endpoints = [];
       for (const serviceEndpoint of document.service_endpoints) {
         const didDocumentServiceEndpoint = {
           id: '#' + serviceEndpoint.id,
           type: serviceEndpoint.type,
           serviceEndpoint: serviceEndpoint.endpoint,
         };
-
         service_endpoints.push(didDocumentServiceEndpoint);
       }
     }
@@ -75,7 +97,6 @@ export default class DocumentComposer {
     const didDocument: any = {
       id: shortFormDid,
       '@context': ['https://www.w3.org/ns/did/v1', { '@base': shortFormDid }],
-      service: service_endpoints,
     };
 
     if (public_keys.length !== 0) {
@@ -84,6 +105,26 @@ export default class DocumentComposer {
 
     if (authentication.length !== 0) {
       didDocument.authentication = authentication;
+    }
+
+    if (assertionMethod.length !== 0) {
+      didDocument.assertionMethod = assertionMethod;
+    }
+
+    if (capabilityInvocation.length !== 0) {
+      didDocument.capabilityInvocation = capabilityInvocation;
+    }
+
+    if (capabilityDelegation.length !== 0) {
+      didDocument.capabilityDelegation = capabilityDelegation;
+    }
+
+    if (keyAgreement.length !== 0) {
+      didDocument.keyAgreement = keyAgreement;
+    }
+
+    if (service_endpoints.length !== 0) {
+      didDocument.service = service_endpoints;
     }
 
     const didResolutionResult: any = {
@@ -225,7 +266,6 @@ export default class DocumentComposer {
       const publicKeyProperties = Object.keys(publicKey);
       // the expected fields are id, purpose, type and jwk
       if (publicKeyProperties.length !== 4) {
-        console.log(publicKeyProperties);
         throw new SidetreeError(
           ErrorCode.DocumentComposerPublicKeyMissingOrUnknownProperty
         );
@@ -259,7 +299,7 @@ export default class DocumentComposer {
         );
       }
 
-      if (publicKey.purpose.length > 3) {
+      if (publicKey.purpose.length > Object.values(PublicKeyPurpose).length) {
         throw new SidetreeError(
           ErrorCode.DocumentComposerPublicKeyPurposeExceedsMaxLength
         );
@@ -468,7 +508,7 @@ export default class DocumentComposer {
     patch: any
   ): DocumentModel {
     const publicKeyMap = new Map(
-      (document.public_keys || []).map(publicKey => [publicKey.id, publicKey])
+      (document.public_keys || []).map((publicKey) => [publicKey.id, publicKey])
     );
 
     // Loop through all given public keys and add them if they don't exist already.
@@ -493,7 +533,7 @@ export default class DocumentComposer {
     patch: any
   ): DocumentModel {
     const publicKeyMap = new Map(
-      (document.public_keys || []).map(publicKey => [publicKey.id, publicKey])
+      (document.public_keys || []).map((publicKey) => [publicKey.id, publicKey])
     );
 
     // Loop through all given public key IDs and delete them from the existing public key only if it is not a recovery key.
@@ -553,7 +593,7 @@ export default class DocumentComposer {
 
     const idsToRemove = new Set(patch.ids);
     document.service_endpoints = document.service_endpoints.filter(
-      serviceEndpoint => !idsToRemove.has(serviceEndpoint.id)
+      (serviceEndpoint) => !idsToRemove.has(serviceEndpoint.id)
     );
 
     return document;

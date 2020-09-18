@@ -1,7 +1,6 @@
 import canonicalize from 'canonicalize';
 import base64url from 'base64url';
 import { canonicalizeThenHashThenEncode } from './sidetreeEncoding';
-// import { getSidetreeKeyPairRepresentations } from './getSidetreeKeyPairRepresentations';
 import { toKeyPair } from './toKeyPair';
 import { SidetreeCreateOperation, SidetreeReplaceOptions } from '../types';
 export const getCreateOperation = async (
@@ -10,7 +9,6 @@ export const getCreateOperation = async (
   options?: SidetreeReplaceOptions
 ): Promise<SidetreeCreateOperation> => {
   const first_keypair = await toKeyPair(mnemonic, index, 'secp256k1');
-  // const first_key = await getSidetreeKeyPairRepresentations(first_keypair);
 
   const delta_object = {
     update_commitment: canonicalizeThenHashThenEncode(
