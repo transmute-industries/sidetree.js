@@ -49,7 +49,6 @@ describe('DocumentComposer', () => {
           'https://www.w3.org/ns/did/v1',
           { '@base': 'did:method:suffix' },
         ],
-        service: undefined,
         publicKey: [
           {
             id: '#anySigningKey',
@@ -58,6 +57,10 @@ describe('DocumentComposer', () => {
             publicKeyJwk: anySigningPublicKey.jwk,
           },
         ],
+        assertionMethod: ['#anySigningKey'],
+        capabilityInvocation: ['#anySigningKey'],
+        capabilityDelegation: ['#anySigningKey'],
+        keyAgreement: ['#anySigningKey'],
         authentication: [
           '#anySigningKey', // reference because it is a general purpose key
           {
@@ -776,7 +779,20 @@ describe('DocumentComposer', () => {
             id: 'key1',
             type: 'Ed25519VerificationKey2018',
             jwk: {},
-            purpose: ['general', 'general', 'general', 'general'],
+            purpose: [
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+            ],
           },
         ],
       };
