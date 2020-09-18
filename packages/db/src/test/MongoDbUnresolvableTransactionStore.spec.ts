@@ -33,6 +33,7 @@ async function generateTransactions(
       anchorString: i.toString(),
       transactionNumber: i,
       transactionTime: i,
+      transactionHash: i.toString(),
       transactionTimeHash: i.toString(),
       transactionFeePaid: 1,
       normalizedTransactionFee: 1,
