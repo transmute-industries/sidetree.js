@@ -52,6 +52,7 @@ const eventLogToSidetreeTransaction = (
   return {
     transactionNumber: log.args.transactionNumber.toNumber(),
     transactionTime: log.blockNumber,
+    transactionHash: log.transactionHash,
     transactionTimeHash: log.blockHash,
     anchorString,
     transactionFeePaid: 0,
