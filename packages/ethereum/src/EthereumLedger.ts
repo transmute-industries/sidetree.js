@@ -134,7 +134,7 @@ export default class EthereumLedger implements IBlockchain {
 
   public async read(
     sinceTransactionNumber?: number,
-    _transactionTimeHash?: string
+    transactionTimeHash?: string
   ): Promise<{ moreTransactions: boolean; transactions: TransactionModel[] }> {
     const options = {
       omitTimestamp: true,
@@ -152,8 +152,8 @@ export default class EthereumLedger implements IBlockchain {
         'latest',
         options
       );
-    } else if (_transactionTimeHash) {
-      const block = await utils.getBlock(this.web3, _transactionTimeHash);
+    } else if (transactionTimeHash) {
+      const block = await utils.getBlock(this.web3, transactionTimeHash);
       transactions = await this._getTransactions(
         block.number,
         block.number,
