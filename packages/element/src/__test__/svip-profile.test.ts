@@ -30,7 +30,7 @@ afterAll(async () => {
 jest.setTimeout(60 * 1000);
 
 it('SVIP Profile Sanity', async () => {
-  let response = await element.handleOperationRequest(
+  const response = await element.handleOperationRequest(
     Buffer.from(JSON.stringify(createOperation))
   );
   expect(response).toEqual({

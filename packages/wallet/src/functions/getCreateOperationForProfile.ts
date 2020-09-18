@@ -8,7 +8,7 @@ import { PublicKeyPurpose } from '@sidetree/common';
 export const getCreateOperationForProfile = async (
   mnemonic: string,
   index: number,
-  profile: string = 'SVIP'
+  profile = 'SVIP'
 ): Promise<SidetreeCreateOperation> => {
   console.log(profile, 'is experimental');
   const signingKeyPair = await toKeyPair(mnemonic, index, 'Ed25519');
