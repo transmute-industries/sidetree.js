@@ -140,7 +140,9 @@ export default class EthereumLedger implements IBlockchain {
       omitTimestamp: true,
     };
     let transactions: TransactionModel[];
-    if (sinceTransactionNumber) {
+    // if(sinceTransactionNumber) does not work because 0 evaluates to false
+    // but 0 is a valid value of sinceTransactionNumber...
+    if (sinceTransactionNumber !== undefined) {
       const sinceTransaction = await this._getTransactions(0, 'latest', {
         ...options,
         filter: { transactionNumber: [sinceTransactionNumber] },
