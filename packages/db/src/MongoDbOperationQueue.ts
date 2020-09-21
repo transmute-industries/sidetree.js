@@ -31,14 +31,14 @@ export default class MongoDbOperationQueue implements IOperationQueue {
   /**
    * MongoDb database name where the operations are stored
    */
-  private databaseName = 'sidetree';
+  private serverUrl: string;
+  private databaseName: string;
 
   private db: Db | undefined;
 
-  constructor(private serverUrl: string, databaseName?: string) {
-    if (databaseName) {
-      this.databaseName = databaseName;
-    }
+  constructor(serverUrl: string, databaseName: string) {
+    this.serverUrl = serverUrl;
+    this.databaseName = databaseName;
   }
 
   private client: MongoClient | undefined;
