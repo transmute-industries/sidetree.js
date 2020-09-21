@@ -1,7 +1,8 @@
-import { Config, TransactionModel } from '@sidetree/common';
+import { TransactionModel } from '@sidetree/common';
 import MongoDb from '../MongoDb';
 import MongoDbUnresolvableTransactionStore from '../MongoDbUnresolvableTransactionStore';
 import { MongoClient } from 'mongodb';
+import config from './config-test.json';
 
 /**
  * Creates a MongoDbUnresolvableTransactionStore and initializes it.
@@ -47,7 +48,6 @@ async function generateTransactions(
 }
 
 describe('MongoDbUnresolvableTransactionStore', () => {
-  const config: Config = require('./config-test.json');
   const databaseName = 'sidetree-test';
 
   let mongoServiceAvailable = false;
@@ -65,10 +65,6 @@ describe('MongoDbUnresolvableTransactionStore', () => {
   });
 
   beforeEach(async () => {
-    if (!mongoServiceAvailable) {
-      pending('MongoDB service not available');
-    }
-
     await store.clearCollection();
   });
 
@@ -78,7 +74,10 @@ describe('MongoDbUnresolvableTransactionStore', () => {
 
   it('should create collection needed on initialization if they do not exist.', async () => {
     console.info(`Deleting collections...`);
-    const client = await MongoClient.connect(config.mongoDbConnectionString);
+    const client = await MongoClient.connect(config.mongoDbConnectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     const db = client.db(databaseName);
     await db.dropCollection(
       MongoDbUnresolvableTransactionStore.unresolvableTransactionCollectionName
