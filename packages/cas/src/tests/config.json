@@ -1,0 +1,5 @@
+{
+  "contentAddressableStoreServiceUri": "/ip4/127.0.0.1/tcp/5001",
+  "databaseName": "element-test",
+  "mongoDbConnectionString": "mongodb://localhost:27017/"
+}
