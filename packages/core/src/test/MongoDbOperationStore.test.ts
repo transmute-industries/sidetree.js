@@ -8,13 +8,12 @@ import {
 import { OperationStore } from '@sidetree/db';
 import UpdateOperation from '../UpdateOperation';
 import OperationGenerator from './generators/OperationGenerator';
+import config from './config-test.json';
 
-async function createOperationStore(
-  mongoDbConnectionString: string
-): Promise<IOperationStore> {
+async function createOperationStore(): Promise<IOperationStore> {
   const operationStore = new OperationStore(
-    mongoDbConnectionString,
-    databaseName
+    config.mongoDbConnectionString,
+    config.databaseName
   );
   await operationStore.initialize();
   return operationStore;
@@ -99,10 +98,9 @@ function checkEqualArray(
 
 describe('MongoDbOperationStore', () => {
   let operationStore: IOperationStore;
-  const config = require('./config-test.json');
 
   beforeAll(async () => {
-    operationStore = await createOperationStore(config.mongoDbConnectionString);
+    operationStore = await createOperationStore();
   });
 
   beforeEach(async () => {
@@ -324,9 +322,7 @@ describe('MongoDbOperationStore', () => {
     checkEqualArray(operationChain, returnedOperations);
 
     // Create another instance of the operation store
-    const operationStore2 = await createOperationStore(
-      config.mongoDbConnectionString
-    );
+    const operationStore2 = await createOperationStore();
 
     // Check if we have all the previously put operations
     returnedOperations = await operationStore.get(didUniqueSuffix);

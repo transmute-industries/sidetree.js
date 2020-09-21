@@ -26,7 +26,7 @@ import Resolver from '../Resolver';
 import UpdateOperation from '../UpdateOperation';
 import JasmineSidetreeErrorValidator from './JasmineSidetreeErrorValidator';
 
-console.info = () => null;
+console.info = (): null => null;
 
 jest.setTimeout(20 * 1000);
 
@@ -123,14 +123,12 @@ function getPermutation(size: number, index: number): Array<number> {
 function validateDocumentAfterUpdates(
   document: DocumentModel | undefined,
   numberOfUpdates: number
-) {
+): void {
   expect(document).toBeDefined();
   expect(document!.service_endpoints![0].id).toEqual(
     'serviceEndpointId' + (numberOfUpdates - 1)
   );
 }
-
-jest.setTimeout(10 * 1000);
 
 describe('OperationProcessor', () => {
   let resolver: Resolver;
@@ -149,9 +147,8 @@ describe('OperationProcessor', () => {
     operationStore = new MockOperationStore();
     operationProcessor = new OperationProcessor();
     versionManager = new MockVersionManager();
-    spyOn(versionManager, 'getOperationProcessor').and.returnValue(
-      operationProcessor
-    );
+    const spy = jest.spyOn(versionManager, 'getOperationProcessor');
+    spy.mockReturnValue(operationProcessor);
     resolver = new Resolver(versionManager, operationStore);
 
     // Generate a unique key-pair used for each test.
@@ -609,7 +606,10 @@ describe('OperationProcessor', () => {
         { transactionTime: 2, transactionNumber: 2, operationIndex: 2 }
       );
 
-      spyOn(console, 'debug').and.throwError('An error message.');
+      const spy = jest.spyOn(console, 'debug');
+      spy.mockImplementation(() => {
+        throw new Error('An error message.');
+      });
       const newDidState = await operationProcessor.apply(
         createOperationData.anchoredOperationModel,
         didState
