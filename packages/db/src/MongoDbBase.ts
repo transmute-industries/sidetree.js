@@ -4,7 +4,7 @@ import MongoDb from './MongoDb';
 export default abstract class MongoDbBase {
   abstract collectionName: string;
   private serverUrl: string;
-  private databaseName: string;
+  public databaseName: string;
   private client: MongoClient | undefined;
   protected db: Db | undefined;
   protected collection: Collection<any> | undefined;
