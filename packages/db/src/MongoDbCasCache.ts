@@ -1,5 +1,6 @@
 import { FetchResult, FetchResultCode } from '@sidetree/common';
 import { Collection, MongoClient, Db } from 'mongodb';
+import { MongoDb } from '.';
 
 /**
  * Operation queue used by the Batch Writer implemented using MongoDB.
@@ -28,29 +29,6 @@ export default class MongoDbCasCache {
     await this.collection!.deleteMany({});
   }
 
-  private async createCollectionIfNotExist(): Promise<Collection<any>> {
-    if (this.db) {
-      // Get the names of existing collections.
-      const collections = await this.db.collections();
-      const collectionNames = collections.map(
-        collection => collection.collectionName
-      );
-
-      // If the collection exists, use it; else create it then use it.
-      let collection;
-      if (collectionNames.includes(this.collectionName)) {
-        collection = this.db.collection(this.collectionName);
-      } else {
-        collection = await this.db.createCollection(this.collectionName);
-      }
-      await collection.createIndex({ hash: 1 }, { unique: true });
-
-      return collection;
-    } else {
-      throw new Error('db must be defined in order to create collection');
-    }
-  }
-
   public async initialize(): Promise<void> {
     this.client =
       this.client ||
@@ -59,7 +37,11 @@ export default class MongoDbCasCache {
         useNewUrlParser: true,
       })); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
     this.db = this.client.db(this.databaseName);
-    this.collection = await this.createCollectionIfNotExist();
+    this.collection = await MongoDb.createCollectionIfNotExist(
+      this.db,
+      this.collectionName,
+      'hash'
+    );
   }
 
   async read(hash: string): Promise<FetchResult> {

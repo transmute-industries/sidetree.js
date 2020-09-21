@@ -1,11 +1,16 @@
 import config from './config-test.json';
 import MongoDbCasCache from '../MongoDbCasCache';
 import { FetchResultCode } from '@sidetree/common';
+import { MongoDb } from '..';
 
 describe('MongoDbCasCache', () => {
   let cache: MongoDbCasCache;
 
   beforeAll(async () => {
+    await MongoDb.resetDatabase(
+      config.mongoDbConnectionString,
+      config.databaseName
+    );
     cache = new MongoDbCasCache(
       config.mongoDbConnectionString,
       config.databaseName

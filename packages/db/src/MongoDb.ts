@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb';
+import { Collection, MongoClient, Db } from 'mongodb';
 
 /**
  * MongoDB related operations.
@@ -38,5 +38,31 @@ export default class MongoDb {
       console.log('Mongoclient connect error: ' + error);
       return false;
     }
+  }
+
+  public static async createCollectionIfNotExist(
+    db: Db,
+    collectionName: string,
+    index?: string
+  ): Promise<Collection<any>> {
+    // Get the names of existing collections.
+    const collections = await db.collections();
+    const collectionNames = collections.map(
+      collection => collection.collectionName
+    );
+    const collectionExists = collectionNames.find(c => c === collectionName);
+
+    // If the collection exists, use it; else create it then use it.
+    let collection;
+    if (collectionExists) {
+      collection = db.collection(collectionName);
+    } else {
+      collection = await db.createCollection(collectionName);
+    }
+    if (index) {
+      await collection.createIndex({ [index]: 1 }, { unique: true });
+    }
+
+    return collection;
   }
 }
