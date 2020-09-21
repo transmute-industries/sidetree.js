@@ -1,6 +1,11 @@
 import { FetchResult, FetchResultCode } from '@sidetree/common';
-import { Collection, MongoClient, Db } from 'mongodb';
+import { Collection, MongoClient, Db, Binary } from 'mongodb';
 import { MongoDb } from '.';
+
+type CasCacheRecord = {
+  hash: string;
+  content: Binary;
+};
 
 /**
  * Operation queue used by the Batch Writer implemented using MongoDB.
@@ -9,7 +14,7 @@ export default class MongoDbCasCache {
   /** Collection name for queued operations. */
   public readonly collectionName: string = 'cas-cache';
 
-  private collection: Collection<any> | undefined;
+  private collection: Collection<CasCacheRecord> | undefined;
   private serverUrl: string;
   private databaseName: string;
   private db: Db | undefined;
@@ -52,7 +57,7 @@ export default class MongoDbCasCache {
       const operation = operations.pop();
       return {
         code: FetchResultCode.Success,
-        content: operation.content.buffer,
+        content: operation!.content.buffer as Buffer,
       };
     }
     return {
@@ -60,7 +65,7 @@ export default class MongoDbCasCache {
     };
   }
 
-  async write(hash: string, content: Buffer): Promise<string> {
+  async write(hash: string, content: Binary): Promise<void> {
     try {
       await this.collection!.insertOne({ hash, content });
     } catch (error) {
@@ -69,6 +74,5 @@ export default class MongoDbCasCache {
         throw error;
       }
     }
-    return '';
   }
 }
