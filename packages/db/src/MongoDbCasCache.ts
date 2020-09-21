@@ -1,52 +1,12 @@
 import { FetchResult, FetchResultCode } from '@sidetree/common';
-import { Collection, MongoClient, Db, Binary } from 'mongodb';
-import { MongoDb } from '.';
+import MongoDbBase from './MongoDbBase';
 
-type CasCacheRecord = {
-  hash: string;
-  content: Binary;
-};
-
-/**
- * Operation queue used by the Batch Writer implemented using MongoDB.
- */
-export default class MongoDbCasCache {
-  /** Collection name for queued operations. */
-  public readonly collectionName: string = 'cas-cache';
-
-  private collection: Collection<CasCacheRecord> | undefined;
-  private serverUrl: string;
-  private databaseName: string;
-  private db: Db | undefined;
-
-  constructor(serverUrl: string, databaseName: string) {
-    this.serverUrl = serverUrl;
-    this.databaseName = databaseName;
-  }
-
-  private client: MongoClient | undefined;
-
-  public async close(): Promise<void> {
-    return this.client!.close();
-  }
-
-  public async clearCollection(): Promise<void> {
-    await this.collection!.deleteMany({});
-  }
+export default class MongoDbCasCache extends MongoDbBase {
+  readonly collectionName = 'cas-cache';
 
   public async initialize(): Promise<void> {
-    this.client =
-      this.client ||
-      (await MongoClient.connect(this.serverUrl, {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-      })); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
-    this.db = this.client.db(this.databaseName);
-    this.collection = await MongoDb.createCollectionIfNotExist(
-      this.db,
-      this.collectionName,
-      'hash'
-    );
+    await super.initialize();
+    await this.collection!.createIndex({ hash: 1 }, { unique: true });
   }
 
   async read(hash: string): Promise<FetchResult> {
@@ -65,7 +25,7 @@ export default class MongoDbCasCache {
     };
   }
 
-  async write(hash: string, content: Binary): Promise<void> {
+  async write(hash: string, content: Buffer): Promise<void> {
     try {
       await this.collection!.insertOne({ hash, content });
     } catch (error) {

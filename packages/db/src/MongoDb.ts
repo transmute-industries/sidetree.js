@@ -42,8 +42,7 @@ export default class MongoDb {
 
   public static async createCollectionIfNotExist(
     db: Db,
-    collectionName: string,
-    index?: string
+    collectionName: string
   ): Promise<Collection<any>> {
     // Get the names of existing collections.
     const collections = await db.collections();
@@ -61,10 +60,6 @@ export default class MongoDb {
       console.info(`Creating new collection ${collectionName}`);
       collection = await db.createCollection(collectionName);
     }
-    if (index) {
-      await collection.createIndex({ [index]: 1 }, { unique: true });
-    }
-
     return collection;
   }
 }
