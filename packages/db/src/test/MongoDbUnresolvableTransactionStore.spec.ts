@@ -1,7 +1,8 @@
-import { Config, TransactionModel } from '@sidetree/common';
+import { TransactionModel } from '@sidetree/common';
 import MongoDb from '../MongoDb';
 import MongoDbUnresolvableTransactionStore from '../MongoDbUnresolvableTransactionStore';
 import { MongoClient } from 'mongodb';
+import config from './config-test.json';
 
 /**
  * Creates a MongoDbUnresolvableTransactionStore and initializes it.
@@ -47,11 +48,10 @@ async function generateTransactions(
 }
 
 describe('MongoDbUnresolvableTransactionStore', () => {
-  const config: Config = require('./config-test.json');
-  const databaseName = 'sidetree-test';
-
   let mongoServiceAvailable = false;
   let store: MongoDbUnresolvableTransactionStore;
+  const collectionName = 'unresolvable-transactions';
+
   beforeAll(async () => {
     mongoServiceAvailable = await MongoDb.isServerAvailable(
       config.mongoDbConnectionString
@@ -59,16 +59,12 @@ describe('MongoDbUnresolvableTransactionStore', () => {
     if (mongoServiceAvailable) {
       store = await createIUnresolvableTransactionStore(
         config.mongoDbConnectionString,
-        databaseName
+        config.databaseName
       );
     }
   });
 
   beforeEach(async () => {
-    if (!mongoServiceAvailable) {
-      pending('MongoDB service not available');
-    }
-
     await store.clearCollection();
   });
 
@@ -78,22 +74,19 @@ describe('MongoDbUnresolvableTransactionStore', () => {
 
   it('should create collection needed on initialization if they do not exist.', async () => {
     console.info(`Deleting collections...`);
-    const client = await MongoClient.connect(config.mongoDbConnectionString);
-    const db = client.db(databaseName);
-    await db.dropCollection(
-      MongoDbUnresolvableTransactionStore.unresolvableTransactionCollectionName
-    );
+    const client = await MongoClient.connect(config.mongoDbConnectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    const db = client.db(config.databaseName);
+    await db.dropCollection(collectionName);
 
     console.info(`Verify collections no longer exist.`);
     let collections = await db.collections();
     let collectionNames = collections.map(
       collection => collection.collectionName
     );
-    expect(
-      collectionNames.includes(
-        MongoDbUnresolvableTransactionStore.unresolvableTransactionCollectionName
-      )
-    ).toBeFalsy();
+    expect(collectionNames.includes(collectionName)).toBeFalsy();
 
     console.info(`Trigger initialization.`);
     await store.initialize();
@@ -101,11 +94,7 @@ describe('MongoDbUnresolvableTransactionStore', () => {
     console.info(`Verify collection exists now.`);
     collections = await db.collections();
     collectionNames = collections.map(collection => collection.collectionName);
-    expect(
-      collectionNames.includes(
-        MongoDbUnresolvableTransactionStore.unresolvableTransactionCollectionName
-      )
-    ).toBeTruthy();
+    expect(collectionNames.includes(collectionName)).toBeTruthy();
     await client.close();
   });
 
@@ -226,10 +215,9 @@ describe('MongoDbUnresolvableTransactionStore', () => {
 
   it('should default the database name as `sidetree` if not explicitly overriden.', async () => {
     const store = new MongoDbUnresolvableTransactionStore(
-      config.mongoDbConnectionString
+      config.mongoDbConnectionString,
+      config.databaseName
     );
-    expect(store.databaseName).toEqual(
-      MongoDbUnresolvableTransactionStore.defaultDatabaseName
-    );
+    expect(store.databaseName).toEqual(config.databaseName);
   });
 });

@@ -1,7 +1,8 @@
-import { Config, ITransactionStore, TransactionModel } from '@sidetree/common';
+import { ITransactionStore, TransactionModel } from '@sidetree/common';
 import MongoDb from '../MongoDb';
 import { MongoClient } from 'mongodb';
 import MongoDbTransactionStore from '../MongoDbTransactionStore';
+import config from './config-test.json';
 
 /**
  * Creates a MongoDbTransactionStore and initializes it.
@@ -50,11 +51,9 @@ async function generateAndStoreTransactions(
 }
 
 describe('MongoDbTransactionStore', () => {
-  const config: Config = require('./config-test.json');
-  const databaseName = 'sidetree-test';
-
   let mongoServiceAvailable: boolean | undefined;
   let transactionStore: MongoDbTransactionStore;
+  const collectionName = 'transactions';
   beforeAll(async () => {
     mongoServiceAvailable = await MongoDb.isServerAvailable(
       config.mongoDbConnectionString
@@ -62,16 +61,12 @@ describe('MongoDbTransactionStore', () => {
     if (mongoServiceAvailable) {
       transactionStore = await createTransactionStore(
         config.mongoDbConnectionString,
-        databaseName
+        config.databaseName
       );
     }
   });
 
   beforeEach(async () => {
-    if (!mongoServiceAvailable) {
-      pending('MongoDB service not available');
-    }
-
     await transactionStore.clearCollection();
   });
 
@@ -81,20 +76,19 @@ describe('MongoDbTransactionStore', () => {
 
   it('should create collections needed on initialization if they do not exist.', async () => {
     console.info(`Deleting collections...`);
-    const client = await MongoClient.connect(config.mongoDbConnectionString);
-    const db = client.db(databaseName);
-    await db.dropCollection(MongoDbTransactionStore.transactionCollectionName);
+    const client = await MongoClient.connect(config.mongoDbConnectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    const db = client.db(config.databaseName);
+    await db.dropCollection(collectionName);
 
     console.info(`Verify collections no longer exist.`);
     let collections = await db.collections();
     let collectionNames = collections.map(
       collection => collection.collectionName
     );
-    expect(
-      collectionNames.includes(
-        MongoDbTransactionStore.transactionCollectionName
-      )
-    ).toBeFalsy();
+    expect(collectionNames.includes(collectionName)).toBeFalsy();
 
     console.info(`Trigger initialization.`);
     await transactionStore.initialize();
@@ -102,11 +96,7 @@ describe('MongoDbTransactionStore', () => {
     console.info(`Verify collection exists now.`);
     collections = await db.collections();
     collectionNames = collections.map(collection => collection.collectionName);
-    expect(
-      collectionNames.includes(
-        MongoDbTransactionStore.transactionCollectionName
-      )
-    ).toBeTruthy();
+    expect(collectionNames.includes(collectionName)).toBeTruthy();
     await client.close();
   });
 
@@ -250,11 +240,10 @@ describe('MongoDbTransactionStore', () => {
 
   it('should default the database name as `sidetree` if not explicitly overriden.', async () => {
     const transactionStore = new MongoDbTransactionStore(
-      config.mongoDbConnectionString
+      config.mongoDbConnectionString,
+      config.databaseName
     );
-    expect(transactionStore.databaseName).toEqual(
-      MongoDbTransactionStore.defaultDatabaseName
-    );
+    expect(transactionStore.databaseName).toEqual(config.databaseName);
   });
 
   it('should fetch transactions by 1 transactionTime when end time is the same as begin time', async () => {
