@@ -22,7 +22,7 @@ export default class MongoDbUnresolvableTransactionStore
   private maximumUnresolvableTransactionReturnCount = 100;
 
   private serverUrl: string;
-  private databaseName: string;
+  public databaseName: string;
 
   private client: MongoClient | undefined;
   private db: Db | undefined;

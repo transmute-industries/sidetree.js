@@ -48,10 +48,10 @@ async function generateTransactions(
 }
 
 describe('MongoDbUnresolvableTransactionStore', () => {
-  const databaseName = 'sidetree-test';
-
   let mongoServiceAvailable = false;
   let store: MongoDbUnresolvableTransactionStore;
+  const collectionName = 'unresolvable-transactions';
+
   beforeAll(async () => {
     mongoServiceAvailable = await MongoDb.isServerAvailable(
       config.mongoDbConnectionString
@@ -59,7 +59,7 @@ describe('MongoDbUnresolvableTransactionStore', () => {
     if (mongoServiceAvailable) {
       store = await createIUnresolvableTransactionStore(
         config.mongoDbConnectionString,
-        databaseName
+        config.databaseName
       );
     }
   });
@@ -78,21 +78,15 @@ describe('MongoDbUnresolvableTransactionStore', () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    const db = client.db(databaseName);
-    await db.dropCollection(
-      MongoDbUnresolvableTransactionStore.unresolvableTransactionCollectionName
-    );
+    const db = client.db(config.databaseName);
+    await db.dropCollection(collectionName);
 
     console.info(`Verify collections no longer exist.`);
     let collections = await db.collections();
     let collectionNames = collections.map(
       collection => collection.collectionName
     );
-    expect(
-      collectionNames.includes(
-        MongoDbUnresolvableTransactionStore.unresolvableTransactionCollectionName
-      )
-    ).toBeFalsy();
+    expect(collectionNames.includes(collectionName)).toBeFalsy();
 
     console.info(`Trigger initialization.`);
     await store.initialize();
@@ -100,11 +94,7 @@ describe('MongoDbUnresolvableTransactionStore', () => {
     console.info(`Verify collection exists now.`);
     collections = await db.collections();
     collectionNames = collections.map(collection => collection.collectionName);
-    expect(
-      collectionNames.includes(
-        MongoDbUnresolvableTransactionStore.unresolvableTransactionCollectionName
-      )
-    ).toBeTruthy();
+    expect(collectionNames.includes(collectionName)).toBeTruthy();
     await client.close();
   });
 
@@ -225,10 +215,9 @@ describe('MongoDbUnresolvableTransactionStore', () => {
 
   it('should default the database name as `sidetree` if not explicitly overriden.', async () => {
     const store = new MongoDbUnresolvableTransactionStore(
-      config.mongoDbConnectionString
+      config.mongoDbConnectionString,
+      config.databaseName
     );
-    expect(store.databaseName).toEqual(
-      MongoDbUnresolvableTransactionStore.defaultDatabaseName
-    );
+    expect(store.databaseName).toEqual(config.databaseName);
   });
 });

@@ -9,7 +9,7 @@ export default class MongoDbTransactionStore implements ITransactionStore {
   public readonly collectionName: string = 'transactions';
 
   private serverUrl: string;
-  private databaseName: string;
+  public databaseName: string;
 
   private client: MongoClient | undefined;
   private db: Db | undefined;

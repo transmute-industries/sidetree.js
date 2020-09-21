@@ -9,8 +9,6 @@ import { OperationStore } from '@sidetree/db';
 import UpdateOperation from '../UpdateOperation';
 import OperationGenerator from './generators/OperationGenerator';
 
-const databaseName = 'sidetree-test';
-
 async function createOperationStore(
   mongoDbConnectionString: string
 ): Promise<IOperationStore> {

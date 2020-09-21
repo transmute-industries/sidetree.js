@@ -39,8 +39,6 @@ async function generateAndQueueOperations(
 }
 
 describe('MongoDbOperationQueue', () => {
-  const databaseName = 'sidetree-test';
-
   let mongoServiceAvailable = false;
   let operationQueue: MongoDbOperationQueue;
   beforeAll(async () => {
@@ -50,7 +48,7 @@ describe('MongoDbOperationQueue', () => {
     if (mongoServiceAvailable) {
       operationQueue = await createOperationQueue(
         config.mongoDbConnectionString,
-        databaseName
+        config.databaseName
       );
     }
   });

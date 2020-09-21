@@ -64,7 +64,7 @@ const mapFile = new MapFile(
 const operation = new Operation(
   'didUniqueSuffix',
   OperationType.Create,
-  new Buffer('data'),
+  Buffer.from('data'),
   0,
   0,
   0
