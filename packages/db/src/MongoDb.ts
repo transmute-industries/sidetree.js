@@ -55,8 +55,10 @@ export default class MongoDb {
     // If the collection exists, use it; else create it then use it.
     let collection;
     if (collectionExists) {
+      console.info(`Reusing existing collection ${collectionName}`);
       collection = db.collection(collectionName);
     } else {
+      console.info(`Creating new collection ${collectionName}`);
       collection = await db.createCollection(collectionName);
     }
     if (index) {

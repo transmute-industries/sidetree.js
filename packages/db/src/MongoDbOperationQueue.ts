@@ -29,9 +29,6 @@ export default class MongoDbOperationQueue implements IOperationQueue {
 
   private collection: Collection<IMongoQueuedOperation> | undefined;
 
-  /**
-   * MongoDb database name where the operations are stored
-   */
   private serverUrl: string;
   private databaseName: string;
 

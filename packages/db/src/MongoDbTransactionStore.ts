@@ -1,34 +1,26 @@
 import { ITransactionStore, TransactionModel } from '@sidetree/common';
 import { Collection, Cursor, Db, Long, MongoClient } from 'mongodb';
+import MongoDb from './MongoDb';
 
 /**
  * Implementation of ITransactionStore that stores the transaction data in a MongoDB database.
  */
 export default class MongoDbTransactionStore implements ITransactionStore {
-  /** Default database name used if not specified in constructor. */
-  public static readonly defaultDatabaseName: string = 'sidetree';
-  /** Collection name for transactions. */
-  public static readonly transactionCollectionName: string = 'transactions';
-  /** Database name used by this transaction store. */
-  public readonly databaseName: string;
+  public readonly collectionName: string = 'transactions';
+
+  private serverUrl: string;
+  private databaseName: string;
 
   private client: MongoClient | undefined;
   private db: Db | undefined;
   private transactionCollection: Collection<any> | undefined;
 
-  /**
-   * Constructs a `MongoDbTransactionStore`;
-   * @param retryExponentialDelayFactor
-   *   The exponential delay factor in milliseconds for retries of unresolvable transactions.
-   *   e.g. if it is set to 1 seconds, then the delays for retries will be 1 second, 2 seconds, 4 seconds... until the transaction can be resolved.
-   */
-  constructor(private serverUrl: string, databaseName?: string) {
-    this.databaseName = databaseName
-      ? databaseName
-      : MongoDbTransactionStore.defaultDatabaseName;
+  constructor(serverUrl: string, databaseName: string) {
+    this.serverUrl = serverUrl;
+    this.databaseName = databaseName;
   }
 
-  public async close() {
+  public async close(): Promise<void> {
     return this.client!.close();
   }
 
@@ -43,8 +35,10 @@ export default class MongoDbTransactionStore implements ITransactionStore {
         useUnifiedTopology: true,
       })); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
     this.db = this.client.db(this.databaseName);
-    this.transactionCollection = await MongoDbTransactionStore.createTransactionCollectionIfNotExist(
-      this.db
+    this.transactionCollection = await MongoDb.createCollectionIfNotExist(
+      this.db,
+      this.collectionName,
+      'transactionNumber'
     );
   }
 
@@ -109,7 +103,7 @@ export default class MongoDbTransactionStore implements ITransactionStore {
   /**
    * Clears the transaction store.
    */
-  public async clearCollection() {
+  public async clearCollection(): Promise<void> {
     // NOTE: We avoid implementing this by deleting and recreating the collection in rapid succession,
     // because doing so against some cloud MongoDB services such as CosmosDB,
     // especially in rapid repetition that can occur in tests, will lead to `MongoError: ns not found` connectivity error.
@@ -227,45 +221,5 @@ export default class MongoDbTransactionStore implements ITransactionStore {
       .sort({ transactionNumber: 1 })
       .toArray();
     return transactions;
-  }
-
-  /**
-   * Creates the `transaction` collection with indexes if it does not exists.
-   * @returns The existing collection if exists, else the newly created collection.
-   */
-  // FIXME: move to Mongo class
-  private static async createTransactionCollectionIfNotExist(
-    db: Db
-  ): Promise<Collection<TransactionModel>> {
-    const collections = await db.collections();
-    const collectionNames = collections.map(
-      collection => collection.collectionName
-    );
-
-    // If 'transactions' collection exists, use it; else create it.
-    let transactionCollection;
-    if (
-      collectionNames.includes(
-        MongoDbTransactionStore.transactionCollectionName
-      )
-    ) {
-      console.info('Transaction collection already exists.');
-      transactionCollection = db.collection(
-        MongoDbTransactionStore.transactionCollectionName
-      );
-    } else {
-      console.info('Transaction collection does not exists, creating...');
-      transactionCollection = await db.createCollection(
-        MongoDbTransactionStore.transactionCollectionName
-      );
-      // Note the unique index, so duplicate inserts are rejected.
-      await transactionCollection.createIndex(
-        { transactionNumber: 1 },
-        { unique: true }
-      );
-      console.info('Transaction collection created.');
-    }
-
-    return transactionCollection;
   }
 }
