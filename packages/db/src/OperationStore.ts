@@ -16,7 +16,7 @@ export default class OperationStore implements IOperationStore {
     this.databaseName = databaseName ? databaseName : 'sidetree';
   }
 
-  public async initialize() {
+  public async initialize(): Promise<void> {
     const connection = await createConnection({
       // Typeorm does not allow two connections to have the same name
       // So we use a different name everytime in order to have parallel connections
@@ -30,7 +30,7 @@ export default class OperationStore implements IOperationStore {
     this.connection = connection;
     this.repo = connection.getMongoRepository(Operation);
   }
-  public async close() {
+  public async close(): Promise<void> {
     return this.connection!.close();
   }
 

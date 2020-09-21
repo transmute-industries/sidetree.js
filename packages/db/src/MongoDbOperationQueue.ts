@@ -4,8 +4,8 @@ import {
   SidetreeError,
   QueuedOperationModel,
 } from '@sidetree/common';
-import { Binary, Collection, MongoClient, Db, ObjectId } from 'mongodb';
-import MongoDb from './MongoDb';
+import { Binary, ObjectId } from 'mongodb';
+import MongoDbBase from './MongoDbBase';
 
 /**
  * Sidetree operation stored in MongoDb.
@@ -23,43 +23,15 @@ interface IMongoQueuedOperation {
 /**
  * Operation queue used by the Batch Writer implemented using MongoDB.
  */
-export default class MongoDbOperationQueue implements IOperationQueue {
-  /** Collection name for queued operations. */
-  public readonly collectionName: string = 'queued-operations';
+export default class MongoDbOperationQueue extends MongoDbBase
+  implements IOperationQueue {
+  readonly collectionName = 'queued-operations';
 
-  private collection: Collection<IMongoQueuedOperation> | undefined;
-
-  private serverUrl: string;
-  private databaseName: string;
-
-  private db: Db | undefined;
-
-  constructor(serverUrl: string, databaseName: string) {
-    this.serverUrl = serverUrl;
-    this.databaseName = databaseName;
-  }
-
-  private client: MongoClient | undefined;
-
-  public async close(): Promise<void> {
-    return this.client!.close();
-  }
-
-  /**
-   * Initialize the MongoDB operation store.
-   */
   public async initialize(): Promise<void> {
-    this.client =
-      this.client ||
-      (await MongoClient.connect(this.serverUrl, {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-      })); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
-    this.db = this.client.db(this.databaseName);
-    this.collection = await MongoDb.createCollectionIfNotExist(
-      this.db,
-      this.databaseName,
-      'didUniqueSuffix'
+    await super.initialize();
+    await this.collection!.createIndex(
+      { didUniqueSuffix: 1 },
+      { unique: true }
     );
   }
 
@@ -125,20 +97,6 @@ export default class MongoDbOperationQueue implements IOperationQueue {
       .limit(1)
       .toArray();
     return operations.length > 0;
-  }
-
-  /**
-   * * Clears the unresolvable transaction store. Mainly used in tests.
-   */
-  public async clearCollection(): Promise<void> {
-    await this.collection!.drop();
-    if (this.db) {
-      this.collection = await MongoDb.createCollectionIfNotExist(
-        this.db,
-        this.databaseName,
-        'didUniqueSuffix'
-      );
-    }
   }
 
   private static convertToQueuedOperationModel(

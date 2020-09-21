@@ -1,44 +1,19 @@
 import { ITransactionStore, TransactionModel } from '@sidetree/common';
-import { Collection, Cursor, Db, Long, MongoClient } from 'mongodb';
-import MongoDb from './MongoDb';
+import { Cursor, Long } from 'mongodb';
+import MongoDbBase from './MongoDbBase';
 
 /**
  * Implementation of ITransactionStore that stores the transaction data in a MongoDB database.
  */
-export default class MongoDbTransactionStore implements ITransactionStore {
-  public readonly collectionName: string = 'transactions';
+export default class MongoDbTransactionStore extends MongoDbBase
+  implements ITransactionStore {
+  readonly collectionName = 'transactions';
 
-  private serverUrl: string;
-  public databaseName: string;
-
-  private client: MongoClient | undefined;
-  private db: Db | undefined;
-  private transactionCollection: Collection<any> | undefined;
-
-  constructor(serverUrl: string, databaseName: string) {
-    this.serverUrl = serverUrl;
-    this.databaseName = databaseName;
-  }
-
-  public async close(): Promise<void> {
-    return this.client!.close();
-  }
-
-  /**
-   * Initialize the MongoDB transaction store.
-   */
   public async initialize(): Promise<void> {
-    this.client =
-      this.client ||
-      (await MongoClient.connect(this.serverUrl, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
-    this.db = this.client.db(this.databaseName);
-    this.transactionCollection = await MongoDb.createCollectionIfNotExist(
-      this.db,
-      this.collectionName,
-      'transactionNumber'
+    await super.initialize();
+    await this.collection!.createIndex(
+      { transactionNumber: 1 },
+      { unique: true }
     );
   }
 
@@ -47,14 +22,14 @@ export default class MongoDbTransactionStore implements ITransactionStore {
    * Mainly used by tests.
    */
   public async getTransactionsCount(): Promise<number> {
-    const transactionCount = await this.transactionCollection!.countDocuments();
+    const transactionCount = await this.collection!.countDocuments();
     return transactionCount;
   }
 
   public async getTransaction(
     transactionNumber: number
   ): Promise<TransactionModel | undefined> {
-    const transactions = await this.transactionCollection!.find({
+    const transactions = await this.collection!.find({
       transactionNumber: Long.fromNumber(transactionNumber),
     }).toArray();
     if (transactions.length === 0) {
@@ -76,9 +51,9 @@ export default class MongoDbTransactionStore implements ITransactionStore {
 
       // If given `undefined`, return transactions from the start.
       if (transactionNumber === undefined) {
-        dbCursor = this.transactionCollection!.find();
+        dbCursor = this.collection!.find();
       } else {
-        dbCursor = this.transactionCollection!.find({
+        dbCursor = this.collection!.find({
           transactionNumber: { $gt: Long.fromNumber(transactionNumber) },
         });
       }
@@ -100,21 +75,11 @@ export default class MongoDbTransactionStore implements ITransactionStore {
     return transactions;
   }
 
-  /**
-   * Clears the transaction store.
-   */
-  public async clearCollection(): Promise<void> {
-    // NOTE: We avoid implementing this by deleting and recreating the collection in rapid succession,
-    // because doing so against some cloud MongoDB services such as CosmosDB,
-    // especially in rapid repetition that can occur in tests, will lead to `MongoError: ns not found` connectivity error.
-    await this.transactionCollection!.deleteMany({}); // Empty filter removes all entries in collection.
-  }
-
   async addTransaction(transaction: TransactionModel): Promise<void> {
     try {
       const transactionInMongoDb = {
         anchorString: transaction.anchorString,
-        // NOTE: MUST force `transactionNumber` to be Int64 in MondoDB.
+        // NOTE: MUST force `transactionNumber` to be Int64 in MongoDB.
         transactionNumber: Long.fromNumber(transaction.transactionNumber),
         transactionTime: transaction.transactionTime,
         transactionTimeHash: transaction.transactionTimeHash,
@@ -122,7 +87,7 @@ export default class MongoDbTransactionStore implements ITransactionStore {
         normalizedTransactionFee: transaction.normalizedTransactionFee,
         writer: transaction.writer,
       };
-      await this.transactionCollection!.insertOne(transactionInMongoDb);
+      await this.collection!.insertOne(transactionInMongoDb);
     } catch (error) {
       // Swallow duplicate insert errors (error code 11000) as no-op; rethrow others
       if (error.code !== 11000) {
@@ -132,7 +97,7 @@ export default class MongoDbTransactionStore implements ITransactionStore {
   }
 
   async getLastTransaction(): Promise<TransactionModel | undefined> {
-    const lastTransactions = await this.transactionCollection!.find()
+    const lastTransactions = await this.collection!.find()
       .limit(1)
       .sort({ transactionNumber: -1 })
       .toArray();
@@ -146,7 +111,7 @@ export default class MongoDbTransactionStore implements ITransactionStore {
 
   async getExponentiallySpacedTransactions(): Promise<TransactionModel[]> {
     const exponentiallySpacedTransactions: TransactionModel[] = [];
-    const allTransactions = await this.transactionCollection!.find()
+    const allTransactions = await this.collection!.find()
       .sort({ transactionNumber: 1 })
       .toArray();
 
@@ -167,7 +132,7 @@ export default class MongoDbTransactionStore implements ITransactionStore {
       return;
     }
 
-    await this.transactionCollection!.deleteMany({
+    await this.collection!.deleteMany({
       transactionNumber: { $gt: Long.fromNumber(transactionNumber) },
     });
   }
@@ -177,7 +142,7 @@ export default class MongoDbTransactionStore implements ITransactionStore {
    * Mainly used for test purposes.
    */
   public async getTransactions(): Promise<TransactionModel[]> {
-    const transactions = await this.transactionCollection!.find()
+    const transactions = await this.collection!.find()
       .sort({ transactionNumber: 1 })
       .toArray();
     return transactions;
@@ -195,13 +160,13 @@ export default class MongoDbTransactionStore implements ITransactionStore {
     let cursor: Cursor<any>;
     if (inclusiveBeginTransactionTime === exclusiveEndTransactionTime) {
       // if begin === end, query for 1 transaction time
-      cursor = this.transactionCollection!.find({
+      cursor = this.collection!.find({
         transactionTime: {
           $eq: Long.fromNumber(inclusiveBeginTransactionTime),
         },
       });
     } else {
-      cursor = this.transactionCollection!.find({
+      cursor = this.collection!.find({
         $and: [
           {
             transactionTime: {
