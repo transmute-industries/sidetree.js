@@ -1,11 +1,7 @@
-import {
-  Config,
-  ErrorCode,
-  IOperationQueue,
-  SidetreeError,
-} from '@sidetree/common';
+import { ErrorCode, IOperationQueue, SidetreeError } from '@sidetree/common';
 import MongoDb from '../MongoDb';
 import MongoDbOperationQueue from '../MongoDbOperationQueue';
+import config from './config-test.json';
 
 /**
  * Creates a MongoDbOperationQueue and initializes it.
@@ -43,7 +39,6 @@ async function generateAndQueueOperations(
 }
 
 describe('MongoDbOperationQueue', () => {
-  const config: Config = require('./config-test.json');
   const databaseName = 'sidetree-test';
 
   let mongoServiceAvailable = false;
@@ -61,10 +56,6 @@ describe('MongoDbOperationQueue', () => {
   });
 
   beforeEach(async () => {
-    if (!mongoServiceAvailable) {
-      pending('MongoDB service not available');
-    }
-
     await operationQueue.clearCollection();
   });
 
@@ -144,7 +135,8 @@ describe('MongoDbOperationQueue', () => {
     const operationCount = 3;
     await generateAndQueueOperations(operationQueue, operationCount);
 
-    spyOn((operationQueue as any).collection, 'insertOne').and.callFake(() => {
+    const spy = jest.spyOn((operationQueue as any).collection, 'insertOne');
+    spy.mockImplementation(() => {
       const error = new Error(ErrorCode.BatchWriterAlreadyHasOperationForDid);
       (error as any)['code'] = 11000;
       throw error;
@@ -165,7 +157,8 @@ describe('MongoDbOperationQueue', () => {
   });
 
   it('should throw original error if unexpected error is thrown when enqueuing.', async () => {
-    spyOn((operationQueue as any).collection, 'insertOne').and.callFake(() => {
+    const spy = jest.spyOn((operationQueue as any).collection, 'insertOne');
+    spy.mockImplementation(() => {
       const error = new Error(ErrorCode.BatchWriterAlreadyHasOperationForDid);
       (error as any)['code'] = 'unexpected-error';
       throw error;
