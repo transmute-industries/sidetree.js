@@ -53,7 +53,7 @@ export default class MongoDbTransactionStore implements ITransactionStore {
    * Mainly used by tests.
    */
   public async getTransactionsCount(): Promise<number> {
-    const transactionCount = await this.transactionCollection!.count();
+    const transactionCount = await this.transactionCollection!.countDocuments();
     return transactionCount;
   }
 

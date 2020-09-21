@@ -1,7 +1,8 @@
-import { Config, ITransactionStore, TransactionModel } from '@sidetree/common';
+import { ITransactionStore, TransactionModel } from '@sidetree/common';
 import MongoDb from '../MongoDb';
 import { MongoClient } from 'mongodb';
 import MongoDbTransactionStore from '../MongoDbTransactionStore';
+import config from './config-test.json';
 
 /**
  * Creates a MongoDbTransactionStore and initializes it.
@@ -50,7 +51,6 @@ async function generateAndStoreTransactions(
 }
 
 describe('MongoDbTransactionStore', () => {
-  const config: Config = require('./config-test.json');
   const databaseName = 'sidetree-test';
 
   let mongoServiceAvailable: boolean | undefined;
@@ -68,10 +68,6 @@ describe('MongoDbTransactionStore', () => {
   });
 
   beforeEach(async () => {
-    if (!mongoServiceAvailable) {
-      pending('MongoDB service not available');
-    }
-
     await transactionStore.clearCollection();
   });
 
@@ -81,7 +77,10 @@ describe('MongoDbTransactionStore', () => {
 
   it('should create collections needed on initialization if they do not exist.', async () => {
     console.info(`Deleting collections...`);
-    const client = await MongoClient.connect(config.mongoDbConnectionString);
+    const client = await MongoClient.connect(config.mongoDbConnectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     const db = client.db(databaseName);
     await db.dropCollection(MongoDbTransactionStore.transactionCollectionName);
 
