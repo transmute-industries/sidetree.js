@@ -3,9 +3,10 @@ import { generateDidFixtures } from './generateDidFixtures';
 import { generateFiles } from './generateFiles';
 
 import { FileWriter } from './FileWriter';
-const { generated } = require('@sidetree/test-vectors');
 
-process.env.WRITE_FIXTURES_TO_DISK = 'YES';
+const { sidetreeCoreGeneratedEd25519 } = require('@sidetree/test-vectors');
+
+const WRITE_FIXTURES_TO_DISK = false;
 
 let keypair: any;
 let operation: any;
@@ -13,21 +14,21 @@ let filesystem: any;
 
 it('can generate key fixtures', async () => {
   keypair = await generateKeyFixtures();
-  expect(keypair).toEqual(generated.keypair);
 });
 
 it('can generate did fixtures', async () => {
   operation = await generateDidFixtures();
-  expect(operation).toEqual(generated.operation);
 });
 
 it('can generate files', async () => {
-  filesystem = await generateFiles(generated.operation.operation[0].request);
-  expect(filesystem).toEqual(generated.filesystem);
+  filesystem = await generateFiles(operation.operation[0].request);
 });
 
-it('can write files to disk', async () => {
-  if (process.env.WRITE_FIXTURES_TO_DISK === 'YES') {
+it('compare and write files to disk', async () => {
+  expect(keypair).toEqual(sidetreeCoreGeneratedEd25519.keypair);
+  expect(operation).toEqual(sidetreeCoreGeneratedEd25519.operation);
+  expect(filesystem).toEqual(sidetreeCoreGeneratedEd25519.filesystem);
+  if (WRITE_FIXTURES_TO_DISK) {
     FileWriter.write(`keypair.json`, JSON.stringify(keypair, null, 2));
     FileWriter.write('operation.json', JSON.stringify(operation, null, 2));
     FileWriter.write('filesystem.json', JSON.stringify(filesystem, null, 2));

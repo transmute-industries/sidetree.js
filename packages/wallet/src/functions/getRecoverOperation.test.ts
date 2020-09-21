@@ -4,21 +4,27 @@ import { getRecoverOperation } from './getRecoverOperation';
 
 it('can get recover operation from mnemonic', async () => {
   const recoverOperation = await getRecoverOperation(
-    fixtures.mnemonic_0.value,
+    fixtures.walletOperation.operation[0].mnemonic,
     0,
-    'EiAVh3lQ5Yosi7p6OP9HlBVnZ8H68LDf9qkFIgqw_JVnrg'
+    (fixtures.walletOperation.operation[0].createOperationWalletDidDoc
+      .didDocument as any).id
+      .split(':')
+      .pop()
   );
 
   expect(recoverOperation).toEqual(
-    fixtures.sidetree.keypair_0_recover_operation
+    fixtures.walletOperation.operation[0].recoverOperation
   );
 });
 
 it('can get recover operation from mnemonic with service', async () => {
   const recoverOperation = await getRecoverOperation(
-    fixtures.mnemonic_0.value,
+    fixtures.walletOperation.operation[0].mnemonic,
     0,
-    'EiAVh3lQ5Yosi7p6OP9HlBVnZ8H68LDf9qkFIgqw_JVnrg',
+    (fixtures.walletOperation.operation[0].createOperationWalletDidDoc
+      .didDocument as any).id
+      .split(':')
+      .pop(),
     {
       service_endpoints: [
         {
@@ -31,6 +37,6 @@ it('can get recover operation from mnemonic with service', async () => {
   );
 
   expect(recoverOperation).toEqual(
-    fixtures.sidetree.keypair_0_recover_operation_with_service
+    fixtures.walletOperation.operation[0].recoverOperationWithPatch
   );
 });

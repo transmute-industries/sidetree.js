@@ -1,16 +1,18 @@
 import { toMnemonic } from './toMnemonic';
 
-import { mnemonic_0 } from '../__fixtures__';
+import { walletMnemonic } from '../__fixtures__';
 
 it('can generate a mnemonic', async () => {
   const content = await toMnemonic();
-  expect(content.type).toBe(mnemonic_0.type);
-  expect(content.name).toBe(mnemonic_0.name);
-  expect(content.image).toBe(mnemonic_0.image);
-  expect(content.description).toBe(mnemonic_0.description);
+  expect(content.type).toBe(walletMnemonic.mnemonic[0].content.type);
+  expect(content.name).toBe(walletMnemonic.mnemonic[0].content.name);
+  expect(content.image).toBe(walletMnemonic.mnemonic[0].content.image);
+  expect(content.description).toBe(
+    walletMnemonic.mnemonic[0].content.description
+  );
 });
 
 it('can generate a mnemonic from a value', async () => {
-  const content = await toMnemonic(mnemonic_0.value);
-  expect(content).toEqual(mnemonic_0);
+  const content = await toMnemonic(walletMnemonic.mnemonic[0].mnemonic);
+  expect(content).toEqual(walletMnemonic.mnemonic[0].content);
 });

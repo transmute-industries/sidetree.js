@@ -1,0 +1,39 @@
+{
+  "operation": [
+    {
+      "operation": {
+        "type": "create",
+        "suffix_data": "eyJkZWx0YV9oYXNoIjoiRWlEYWtoM0h6bnZGZjNVMkFQMzFHSEE2MWZOOHdZeE4wTm8yeXVJUnpFdzQ5USIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUJoYmtnSlZNdUxHQWZ4RjZHSEJaOGFEcE92UFlOMWNJOW1SZXJfaTZNS2V3In0",
+        "delta": "eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpQnltdzRhN2JmVWdlc1B1VGZjOWhlXzc5NG1YMmNGN3pnVWJIM19reUozSEEiLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5LTEiLCJ0eXBlIjoiSnNvbldlYktleTIwMjAiLCJqd2siOnsiY3J2IjoiRWQyNTUxOSIsIngiOiJZZGhYRjJzUE1Vbzk5Z1M0TVZJY1J5bTFBNVoxaGxEaDZES3QwUHJZdF8wIiwia3R5IjoiT0tQIiwia2lkIjoidDRlWVk2eU1PUHc2WGt0TXhlR1k3a1AtN0IwSEJMam1FeHZiemFmUzdpMCJ9LCJwdXJwb3NlIjpbImF1dGgiLCJnZW5lcmFsIl19XSwic2VydmljZV9lbmRwb2ludHMiOlt7ImlkIjoic2VydmljZUVuZHBvaW50SWQxMjMiLCJ0eXBlIjoic29tZVR5cGUiLCJlbmRwb2ludCI6Imh0dHBzOi8vd3d3LnVybC5jb20ifV19fV19"
+      },
+      "chunkFile": {
+        "deltas": [
+          "eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpQnltdzRhN2JmVWdlc1B1VGZjOWhlXzc5NG1YMmNGN3pnVWJIM19reUozSEEiLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5LTEiLCJ0eXBlIjoiSnNvbldlYktleTIwMjAiLCJqd2siOnsiY3J2IjoiRWQyNTUxOSIsIngiOiJZZGhYRjJzUE1Vbzk5Z1M0TVZJY1J5bTFBNVoxaGxEaDZES3QwUHJZdF8wIiwia3R5IjoiT0tQIiwia2lkIjoidDRlWVk2eU1PUHc2WGt0TXhlR1k3a1AtN0IwSEJMam1FeHZiemFmUzdpMCJ9LCJwdXJwb3NlIjpbImF1dGgiLCJnZW5lcmFsIl19XSwic2VydmljZV9lbmRwb2ludHMiOlt7ImlkIjoic2VydmljZUVuZHBvaW50SWQxMjMiLCJ0eXBlIjoic29tZVR5cGUiLCJlbmRwb2ludCI6Imh0dHBzOi8vd3d3LnVybC5jb20ifV19fV19"
+        ]
+      },
+      "mapFile": {
+        "model": {
+          "chunks": [
+            {
+              "chunk_file_uri": "QmTJXyYdaze2R7jzBHaumJt6bmRHiuyduhrPoQfhpaaiTF"
+            }
+          ]
+        },
+        "didUniqueSuffixes": [],
+        "updateOperations": []
+      },
+      "anchorFile": {
+        "map_file_uri": "QmQTsbmEKrxcqgYsciiEo8bo1p3rMwEGjtT5ZBcheEQmoK",
+        "operations": {
+          "create": [
+            {
+              "suffix_data": "eyJkZWx0YV9oYXNoIjoiRWlEYWtoM0h6bnZGZjNVMkFQMzFHSEE2MWZOOHdZeE4wTm8yeXVJUnpFdzQ5USIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUJoYmtnSlZNdUxHQWZ4RjZHSEJaOGFEcE92UFlOMWNJOW1SZXJfaTZNS2V3In0"
+            }
+          ],
+          "recover": [],
+          "deactivate": []
+        }
+      }
+    }
+  ]
+}

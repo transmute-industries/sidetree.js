@@ -42,26 +42,30 @@ describe('DocumentComposer', () => {
         recoveryCommitment: 'anyCommitmentHash',
         updateCommitment: 'anyCommitmentHash',
       });
+      // TODO: fix test to compate to static JSON fixture.
       expect(result.didDocument).toEqual({
         id: 'did:method:suffix',
         '@context': [
           'https://www.w3.org/ns/did/v1',
           { '@base': 'did:method:suffix' },
         ],
-        service: undefined,
         publicKey: [
           {
             id: '#anySigningKey',
-            controller: '',
+            controller: 'did:method:suffix',
             type: 'Ed25519VerificationKey2018',
             publicKeyJwk: anySigningPublicKey.jwk,
           },
         ],
+        assertionMethod: ['#anySigningKey'],
+        capabilityInvocation: ['#anySigningKey'],
+        capabilityDelegation: ['#anySigningKey'],
+        keyAgreement: ['#anySigningKey'],
         authentication: [
           '#anySigningKey', // reference because it is a general purpose key
           {
             id: '#authePbulicKey', // object here because it is an auth purpose only key
-            controller: '',
+            controller: 'did:method:suffix',
             type: 'Ed25519VerificationKey2018',
             publicKeyJwk: authPublicKey.jwk,
           },
@@ -775,7 +779,20 @@ describe('DocumentComposer', () => {
             id: 'key1',
             type: 'Ed25519VerificationKey2018',
             jwk: {},
-            purpose: ['general', 'general', 'general', 'general'],
+            purpose: [
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+              'general',
+            ],
           },
         ],
       };
