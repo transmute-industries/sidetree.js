@@ -5,6 +5,7 @@ import {
   QueuedOperationModel,
 } from '@sidetree/common';
 import { Binary, Collection, MongoClient, Db, ObjectId } from 'mongodb';
+import MongoDb from './MongoDb';
 
 /**
  * Sidetree operation stored in MongoDb.
@@ -24,7 +25,7 @@ interface IMongoQueuedOperation {
  */
 export default class MongoDbOperationQueue implements IOperationQueue {
   /** Collection name for queued operations. */
-  public static readonly collectionName: string = 'queued-operations';
+  public readonly collectionName: string = 'queued-operations';
 
   private collection: Collection<IMongoQueuedOperation> | undefined;
 
@@ -58,8 +59,10 @@ export default class MongoDbOperationQueue implements IOperationQueue {
         useNewUrlParser: true,
       })); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
     this.db = this.client.db(this.databaseName);
-    this.collection = await MongoDbOperationQueue.createCollectionIfNotExist(
-      this.db
+    this.collection = await MongoDb.createCollectionIfNotExist(
+      this.db,
+      this.databaseName,
+      'didUniqueSuffix'
     );
   }
 
@@ -132,36 +135,13 @@ export default class MongoDbOperationQueue implements IOperationQueue {
    */
   public async clearCollection(): Promise<void> {
     await this.collection!.drop();
-    this.collection = await MongoDbOperationQueue.createCollectionIfNotExist(
-      this.db!
-    );
-  }
-
-  /**
-   * Creates the queued operation collection with indexes if it does not exists.
-   * @returns The existing collection if exists, else the newly created collection.
-   */
-  private static async createCollectionIfNotExist(
-    db: Db
-  ): Promise<Collection<IMongoQueuedOperation>> {
-    // Get the names of existing collections.
-    const collections = await db.collections();
-    const collectionNames = collections.map(
-      collection => collection.collectionName
-    );
-
-    // If the queued operation collection exists, use it; else create it then use it.
-    let collection;
-    if (collectionNames.includes(this.collectionName)) {
-      collection = db.collection(this.collectionName);
-    } else {
-      collection = await db.createCollection(this.collectionName);
-      // Create an index on didUniqueSuffix make `contains()` operations more efficient.
-      // This is an unique index, so duplicate inserts are rejected.
-      await collection.createIndex({ didUniqueSuffix: 1 }, { unique: true });
+    if (this.db) {
+      this.collection = await MongoDb.createCollectionIfNotExist(
+        this.db,
+        this.databaseName,
+        'didUniqueSuffix'
+      );
     }
-
-    return collection;
   }
 
   private static convertToQueuedOperationModel(
