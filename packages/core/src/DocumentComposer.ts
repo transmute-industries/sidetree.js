@@ -27,16 +27,23 @@ export default class DocumentComposer {
 
     const document = didState.document as DocumentModel;
 
+    const shortFormDid = did.split('?')[0];
+
     // Only populate `publicKey` if general purpose exists.
     // Only populate `authentication` if auth purpose exists.
     const authentication: any[] = [];
+    const assertionMethod: any[] = [];
+    const capabilityInvocation: any[] = [];
+    const capabilityDelegation: any[] = [];
+    const keyAgreement: any[] = [];
+
     const public_keys: any[] = [];
     if (Array.isArray(document.public_keys)) {
       for (const publicKey of document.public_keys) {
         const id = '#' + publicKey.id;
         const didDocumentPublicKey = {
           id: id,
-          controller: '',
+          controller: shortFormDid,
           type: publicKey.type,
           publicKeyJwk: publicKey.jwk,
         };
@@ -44,36 +51,52 @@ export default class DocumentComposer {
 
         if (purposeSet.has(PublicKeyPurpose.General)) {
           public_keys.push(didDocumentPublicKey);
+
           if (purposeSet.has(PublicKeyPurpose.Auth)) {
-            // add into authentication by reference if has auth and has general
             authentication.push(id);
           }
+          if (purposeSet.has(PublicKeyPurpose.AssertionMethod)) {
+            assertionMethod.push(id);
+          }
+          if (purposeSet.has(PublicKeyPurpose.CapabilityInvocation)) {
+            capabilityInvocation.push(id);
+          }
+          if (purposeSet.has(PublicKeyPurpose.CapabilityDelegation)) {
+            capabilityDelegation.push(id);
+          }
+          if (purposeSet.has(PublicKeyPurpose.KeyAgreement)) {
+            keyAgreement.push(id);
+          }
         } else if (purposeSet.has(PublicKeyPurpose.Auth)) {
-          // add into authentication by object if has auth but no general
           authentication.push(didDocumentPublicKey);
+        } else if (purposeSet.has(PublicKeyPurpose.AssertionMethod)) {
+          assertionMethod.push(assertionMethod);
+        } else if (purposeSet.has(PublicKeyPurpose.CapabilityInvocation)) {
+          capabilityInvocation.push(didDocumentPublicKey);
+        } else if (purposeSet.has(PublicKeyPurpose.CapabilityDelegation)) {
+          capabilityDelegation.push(didDocumentPublicKey);
+        } else if (purposeSet.has(PublicKeyPurpose.KeyAgreement)) {
+          keyAgreement.push(didDocumentPublicKey);
         }
       }
     }
 
     // Only update `service_endpoints` if the array is present
-    let service_endpoints;
+    const service_endpoints = [];
     if (Array.isArray(document.service_endpoints)) {
-      service_endpoints = [];
       for (const serviceEndpoint of document.service_endpoints) {
         const didDocumentServiceEndpoint = {
           id: '#' + serviceEndpoint.id,
           type: serviceEndpoint.type,
           serviceEndpoint: serviceEndpoint.endpoint,
         };
-
         service_endpoints.push(didDocumentServiceEndpoint);
       }
     }
 
     const didDocument: any = {
-      id: did,
-      '@context': ['https://www.w3.org/ns/did/v1', { '@base': did }],
-      service: service_endpoints,
+      id: shortFormDid,
+      '@context': ['https://www.w3.org/ns/did/v1', { '@base': shortFormDid }],
     };
 
     if (public_keys.length !== 0) {
@@ -82,6 +105,26 @@ export default class DocumentComposer {
 
     if (authentication.length !== 0) {
       didDocument.authentication = authentication;
+    }
+
+    if (assertionMethod.length !== 0) {
+      didDocument.assertionMethod = assertionMethod;
+    }
+
+    if (capabilityInvocation.length !== 0) {
+      didDocument.capabilityInvocation = capabilityInvocation;
+    }
+
+    if (capabilityDelegation.length !== 0) {
+      didDocument.capabilityDelegation = capabilityDelegation;
+    }
+
+    if (keyAgreement.length !== 0) {
+      didDocument.keyAgreement = keyAgreement;
+    }
+
+    if (service_endpoints.length !== 0) {
+      didDocument.service = service_endpoints;
     }
 
     const didResolutionResult: any = {
@@ -93,7 +136,7 @@ export default class DocumentComposer {
       },
     };
 
-    return didResolutionResult;
+    return JSON.parse(JSON.stringify(didResolutionResult));
   }
 
   /**
@@ -256,7 +299,7 @@ export default class DocumentComposer {
         );
       }
 
-      if (publicKey.purpose.length > 3) {
+      if (publicKey.purpose.length > Object.values(PublicKeyPurpose).length) {
         throw new SidetreeError(
           ErrorCode.DocumentComposerPublicKeyPurposeExceedsMaxLength
         );

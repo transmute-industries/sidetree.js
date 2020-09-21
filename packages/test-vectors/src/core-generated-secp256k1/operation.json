@@ -1,0 +1,176 @@
+{
+  "mnemonic": "common caught harvest brown under coconut depend vacuum drama clean tail crew",
+  "operation": [
+    {
+      "type": "create",
+      "shortFormDid": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
+      "longFormDid": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw?-elem-initial-state=eyJkZWx0YV9oYXNoIjoiRWlCVi1wUllUV21IYWxBRERmTFhuQ3pxSnpSR2JTV0h4UllWYXdaMjd4d0prZyIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUFDc1pHTEYyejMwTGNOSnAzSWFnSU1QR1VSUWxad2JZSDg0a0hxdC11QzlBIn0.eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpQmgxQlNKaWNHbGwxTENMMG50SlJwb05UZXBacFlVOVEzZ0dGbzhzb2dyWEEiLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5LTEiLCJ0eXBlIjoiSnNvbldlYktleTIwMjAiLCJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiOW1DV3ZQY3FwZnlIem5SVkRYRDZPMU5NeFNxUnFFcE45aklrdnkyekdKNCIsInkiOiJvWGtKdVJ1OThmMTA5ZjlpRlFIb1RnMk5CZ295cml6eEdhWWhqSGowOUhFIn0sInB1cnBvc2UiOlsiYXV0aCIsImdlbmVyYWwiXX1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siaWQiOiJzZXJ2aWNlRW5kcG9pbnRJZDEyMyIsInR5cGUiOiJzb21lVHlwZSIsImVuZHBvaW50IjoiaHR0cHM6Ly93d3cudXJsLmNvbSJ9XX19XX0",
+      "keypair": [
+        {
+          "id": "key-0",
+          "publicKeyJwk": {
+            "kty": "EC",
+            "crv": "secp256k1",
+            "x": "S394cutAwIcDsfPbD9lNRMhLFVYB4ouTTxpgmnjtX5M",
+            "y": "GMlRberOzJr5PPGSynFu6MiHxTitI4Ghf9QKqL8fCOQ"
+          },
+          "privateKeyJwk": {
+            "kty": "EC",
+            "crv": "secp256k1",
+            "d": "87PIwLP94_sBjfsxuQ4yaRDeHAvyQ743PstdNWxq_7o",
+            "x": "S394cutAwIcDsfPbD9lNRMhLFVYB4ouTTxpgmnjtX5M",
+            "y": "GMlRberOzJr5PPGSynFu6MiHxTitI4Ghf9QKqL8fCOQ"
+          }
+        },
+        {
+          "sidetreeInternalDataModelPublicKey": {
+            "id": "key-1",
+            "type": "JsonWebKey2020",
+            "jwk": {
+              "kty": "EC",
+              "crv": "secp256k1",
+              "x": "9mCWvPcqpfyHznRVDXD6O1NMxSqRqEpN9jIkvy2zGJ4",
+              "y": "oXkJuRu98f109f9iFQHoTg2NBgoyrizxGaYhjHj09HE"
+            },
+            "purpose": ["auth", "general"]
+          },
+          "privateKeyJwk": {
+            "kty": "EC",
+            "crv": "secp256k1",
+            "d": "OYO_HGUUh4nLPXkWboD2LMQ8H-vdX1SrLGpzvXoJrTk",
+            "x": "9mCWvPcqpfyHznRVDXD6O1NMxSqRqEpN9jIkvy2zGJ4",
+            "y": "oXkJuRu98f109f9iFQHoTg2NBgoyrizxGaYhjHj09HE"
+          }
+        }
+      ],
+      "request": {
+        "type": "create",
+        "suffix_data": "eyJkZWx0YV9oYXNoIjoiRWlCVi1wUllUV21IYWxBRERmTFhuQ3pxSnpSR2JTV0h4UllWYXdaMjd4d0prZyIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUFDc1pHTEYyejMwTGNOSnAzSWFnSU1QR1VSUWxad2JZSDg0a0hxdC11QzlBIn0",
+        "delta": "eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpQmgxQlNKaWNHbGwxTENMMG50SlJwb05UZXBacFlVOVEzZ0dGbzhzb2dyWEEiLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5LTEiLCJ0eXBlIjoiSnNvbldlYktleTIwMjAiLCJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiOW1DV3ZQY3FwZnlIem5SVkRYRDZPMU5NeFNxUnFFcE45aklrdnkyekdKNCIsInkiOiJvWGtKdVJ1OThmMTA5ZjlpRlFIb1RnMk5CZ295cml6eEdhWWhqSGowOUhFIn0sInB1cnBvc2UiOlsiYXV0aCIsImdlbmVyYWwiXX1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siaWQiOiJzZXJ2aWNlRW5kcG9pbnRJZDEyMyIsInR5cGUiOiJzb21lVHlwZSIsImVuZHBvaW50IjoiaHR0cHM6Ly93d3cudXJsLmNvbSJ9XX19XX0"
+      },
+      "response": {
+        "@context": "https://www.w3.org/ns/did-resolution/v1",
+        "didDocument": {
+          "id": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
+          "@context": [
+            "https://www.w3.org/ns/did/v1",
+            {
+              "@base": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw"
+            }
+          ],
+          "service": [
+            {
+              "id": "#serviceEndpointId123",
+              "serviceEndpoint": "https://www.url.com",
+              "type": "someType"
+            }
+          ],
+          "publicKey": [
+            {
+              "id": "#key-1",
+              "type": "JsonWebKey2020",
+              "controller": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
+              "publicKeyJwk": {
+                "kty": "EC",
+                "crv": "secp256k1",
+                "x": "9mCWvPcqpfyHznRVDXD6O1NMxSqRqEpN9jIkvy2zGJ4",
+                "y": "oXkJuRu98f109f9iFQHoTg2NBgoyrizxGaYhjHj09HE"
+              }
+            }
+          ],
+          "authentication": ["#key-1"]
+        },
+        "methodMetadata": {
+          "recoveryCommitment": "EiACsZGLF2z30LcNJp3IagIMPGURQlZwbYH84kHqt-uC9A",
+          "updateCommitment": "EiBh1BSJicGll1LCL0ntJRpoNTepZpYU9Q3gGFo8sogrXA"
+        }
+      }
+    },
+    {
+      "type": "update",
+      "additionalKeyPair": {
+        "publicKeyJwk": {
+          "kty": "EC",
+          "crv": "secp256k1",
+          "x": "JBXIiZzLvFuAXo93Wkp47qprju9-4hGh1qwMqoiQqp0",
+          "y": "4w0S22TknMeAG_-KQXabF_71BCEeFBqfFK81LhnHTOE"
+        },
+        "privateKeyJwk": {
+          "kty": "EC",
+          "crv": "secp256k1",
+          "d": "08MsyCnU9KfoxARZGvgtRzpMI09R7uqyt5Q3poWfgPE",
+          "x": "JBXIiZzLvFuAXo93Wkp47qprju9-4hGh1qwMqoiQqp0",
+          "y": "4w0S22TknMeAG_-KQXabF_71BCEeFBqfFK81LhnHTOE"
+        }
+      },
+      "request": {
+        "type": "update",
+        "did_suffix": "EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
+        "delta": "eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJhZGQtcHVibGljLWtleXMiLCJwdWJsaWNfa2V5cyI6W3siaWQiOiJhZGRpdGlvbmFsLWtleSIsInR5cGUiOiJKc29uV2ViS2V5MjAyMCIsImp3ayI6eyJrdHkiOiJFQyIsImNydiI6InNlY3AyNTZrMSIsIngiOiJKQlhJaVp6THZGdUFYbzkzV2twNDdxcHJqdTktNGhHaDFxd01xb2lRcXAwIiwieSI6IjR3MFMyMlRrbk1lQUdfLUtRWGFiRl83MUJDRWVGQnFmRks4MUxobkhUT0UifSwicHVycG9zZSI6WyJhdXRoIiwiZ2VuZXJhbCJdfV19XSwidXBkYXRlX2NvbW1pdG1lbnQiOiJFaUNKUjU1QmsxTS1vMFF3Rm1LbGF3YWd5YmxneWFMLVVHTENsd3RFN1c5M3BRIn0",
+        "signed_data": "eyJhbGciOiJFZERTQSJ9.eyJ1cGRhdGVfa2V5Ijp7Imt0eSI6IkVDIiwiY3J2Ijoic2VjcDI1NmsxIiwieCI6IjltQ1d2UGNxcGZ5SHpuUlZEWEQ2TzFOTXhTcVJxRXBOOWpJa3Z5MnpHSjQiLCJ5Ijoib1hrSnVSdTk4ZjEwOWY5aUZRSG9UZzJOQmdveXJpenhHYVloakhqMDlIRSJ9LCJkZWx0YV9oYXNoIjoiRWlBaFpvRTRHcFdnZVMyM2FRZVN3Ull0MzBwek5qblJIdHhvNF8wSzNkMkxYZyJ9.SNnIKr9ZXQTXaYpruvqQ0_ZFISW7rLmrpcpidPmwdKMAJtzgKzfRwH0IcNttXA0oDmFPmTdNqt7TVGP9uEEO_A"
+      }
+    },
+    {
+      "type": "recover",
+      "recoveryKeyPair": {
+        "publicKeyJwk": {
+          "kty": "EC",
+          "crv": "secp256k1",
+          "x": "f_eCE3VLuqVIIoquNDpqvDlsZuWd-O1ktfQzACw1vys",
+          "y": "lKAxcnCEsK2_TsvUYe2fZs79u59lnKN5au1MY3ZJIss"
+        },
+        "privateKeyJwk": {
+          "kty": "EC",
+          "crv": "secp256k1",
+          "d": "q6oc1zm0KTatwBCkdy2UQv6-eZMSRGdYBOcNuaf4WtE",
+          "x": "f_eCE3VLuqVIIoquNDpqvDlsZuWd-O1ktfQzACw1vys",
+          "y": "lKAxcnCEsK2_TsvUYe2fZs79u59lnKN5au1MY3ZJIss"
+        }
+      },
+      "signingKeyPair": {
+        "publicKeyJwk": {
+          "kty": "EC",
+          "crv": "secp256k1",
+          "x": "ZlhYC7qHsYQjMTaw8OXJI_F_AguKS1Ze7kAYOdKqzts",
+          "y": "vQRuZAgYbqd2CdPbrmkwWeYY2p-bM4llYL2Mut6_YZ8"
+        },
+        "privateKeyJwk": {
+          "kty": "EC",
+          "crv": "secp256k1",
+          "d": "fak79zsci5VLs1BAos63pvymHeA_eG2whiXao6yMMAI",
+          "x": "ZlhYC7qHsYQjMTaw8OXJI_F_AguKS1Ze7kAYOdKqzts",
+          "y": "vQRuZAgYbqd2CdPbrmkwWeYY2p-bM4llYL2Mut6_YZ8"
+        }
+      },
+      "additionalKeyPair": {
+        "publicKeyJwk": {
+          "kty": "EC",
+          "crv": "secp256k1",
+          "x": "ovcMKA7g531nPWuIRFidRnhu7bfJKWjSF8qYEyLeXqM",
+          "y": "GIQPtl2v01P9uUlz85bkuoZ_9dqJ-oTlfO90zAaT-Q0"
+        },
+        "privateKeyJwk": {
+          "kty": "EC",
+          "crv": "secp256k1",
+          "d": "1V9POEUMBPIHQXq-mOEXZZSvZjhTbMzXpSdJPcMwC08",
+          "x": "ovcMKA7g531nPWuIRFidRnhu7bfJKWjSF8qYEyLeXqM",
+          "y": "GIQPtl2v01P9uUlz85bkuoZ_9dqJ-oTlfO90zAaT-Q0"
+        }
+      },
+      "request": {
+        "type": "recover",
+        "did_suffix": "EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
+        "signed_data": "eyJhbGciOiJFZERTQSJ9.eyJkZWx0YV9oYXNoIjoiRWlCamRQZ1Q2dzlpQnh1UEZNM3poUFdoanFIdXY5QWpJNi1EUkw5MWNNSkZoQSIsInJlY292ZXJ5X2tleSI6eyJrdHkiOiJFQyIsImNydiI6InNlY3AyNTZrMSIsIngiOiJTMzk0Y3V0QXdJY0RzZlBiRDlsTlJNaExGVllCNG91VFR4cGdtbmp0WDVNIiwieSI6IkdNbFJiZXJPekpyNVBQR1N5bkZ1Nk1pSHhUaXRJNEdoZjlRS3FMOGZDT1EifSwicmVjb3ZlcnlfY29tbWl0bWVudCI6IkVpREIyejNOMm9rZFlsSXJEMWp0ZDUyZkRCZHBuY3paQlpjMV9XZ2R4RXhDR2cifQ.6hsgztFEBxQItKJhsxK2SUaVH5eh-Qd9qJk1WXlGBPJiayi52BysYrA84JQldmGUYiMQBSazyWbcUS53Tllj7Q",
+        "delta": "eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoibmV3S2V5IiwidHlwZSI6Ikpzb25XZWJLZXkyMDIwIiwiandrIjp7Imt0eSI6IkVDIiwiY3J2Ijoic2VjcDI1NmsxIiwieCI6Im92Y01LQTdnNTMxblBXdUlSRmlkUm5odTdiZkpLV2pTRjhxWUV5TGVYcU0iLCJ5IjoiR0lRUHRsMnYwMVA5dVVsejg1Ymt1b1pfOWRxSi1vVGxmTzkwekFhVC1RMCJ9LCJwdXJwb3NlIjpbImF1dGgiLCJnZW5lcmFsIl19XSwic2VydmljZV9lbmRwb2ludHMiOlt7ImlkIjoicmVjb3ZlcmVkU2VydmljZUVuZHBvaW50NDU2IiwidHlwZSI6InNvbWVUeXBlIiwiZW5kcG9pbnQiOiJodHRwczovL3d3dy51cmwuY29tIn1dfX1dLCJ1cGRhdGVfY29tbWl0bWVudCI6IkVpQUg2aWFDNFoyUFRvZGkzZHhGQzJMMzZBX1RTdVVXTjBZRzB1SFZZVmhBeWcifQ"
+      }
+    },
+    {
+      "type": "deactivate",
+      "request": {
+        "type": "deactivate",
+        "did_suffix": "EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
+        "signed_data": "eyJhbGciOiJFZERTQSJ9.eyJkaWRfc3VmZml4IjoiRWlBVkN5MVh0RkpjX2pGbnpmUUVmN21EVVNGTXdGOE5PQXZBdzIzWjI1NnJ6dyIsInJlY292ZXJ5X2tleSI6eyJrdHkiOiJFQyIsImNydiI6InNlY3AyNTZrMSIsIngiOiJmX2VDRTNWTHVxVklJb3F1TkRwcXZEbHNadVdkLU8xa3RmUXpBQ3cxdnlzIiwieSI6ImxLQXhjbkNFc0syX1RzdlVZZTJmWnM3OXU1OWxuS041YXUxTVkzWkpJc3MifX0.NKJmxiVEWgKhZYu86C3uvsb9Ap0x9l5xQzMR--l9HoVc4ljjpK5iBKYE-KUYDNDsEXaRl8PW8ftm8C5Mh5mUeg"
+      }
+    }
+  ]
+}

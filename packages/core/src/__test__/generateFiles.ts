@@ -45,5 +45,5 @@ export const generateFiles = async (createOperationRequest: any) => {
     ],
   };
 
-  return filesystem;
+  return JSON.parse(JSON.stringify(filesystem));
 };

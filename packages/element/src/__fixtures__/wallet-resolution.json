@@ -1,0 +1,76 @@
+{
+  "resolution": [
+    {
+      "afterCreate": {
+        "status": "succeeded",
+        "body": {
+          "@context": "https://www.w3.org/ns/did-resolution/v1",
+          "didDocument": {
+            "id": "did:elem:EiA0qPvCoAuSLJS8l7DJ9CDrkTJlE4lEmub-SjDdNSn86A",
+            "@context": [
+              "https://www.w3.org/ns/did/v1",
+              {
+                "@base": "did:elem:EiA0qPvCoAuSLJS8l7DJ9CDrkTJlE4lEmub-SjDdNSn86A"
+              }
+            ],
+            "publicKey": [
+              {
+                "id": "#zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN",
+                "controller": "did:elem:EiA0qPvCoAuSLJS8l7DJ9CDrkTJlE4lEmub-SjDdNSn86A",
+                "type": "JsonWebKey2020",
+                "publicKeyJwk": {
+                  "crv": "secp256k1",
+                  "kty": "EC",
+                  "x": "S394cutAwIcDsfPbD9lNRMhLFVYB4ouTTxpgmnjtX5M",
+                  "y": "GMlRberOzJr5PPGSynFu6MiHxTitI4Ghf9QKqL8fCOQ"
+                }
+              }
+            ],
+            "authentication": [
+              "#zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN"
+            ]
+          },
+          "methodMetadata": {
+            "recoveryCommitment": "EiACsZGLF2z30LcNJp3IagIMPGURQlZwbYH84kHqt-uC9A",
+            "updateCommitment": "EiACsZGLF2z30LcNJp3IagIMPGURQlZwbYH84kHqt-uC9A"
+          }
+        }
+      },
+      "afterRecover": {
+        "status": "succeeded",
+        "body": {
+          "@context": "https://www.w3.org/ns/did-resolution/v1",
+          "didDocument": {
+            "id": "did:elem:EiA0qPvCoAuSLJS8l7DJ9CDrkTJlE4lEmub-SjDdNSn86A",
+            "@context": [
+              "https://www.w3.org/ns/did/v1",
+              {
+                "@base": "did:elem:EiA0qPvCoAuSLJS8l7DJ9CDrkTJlE4lEmub-SjDdNSn86A"
+              }
+            ],
+            "publicKey": [
+              {
+                "id": "#zQ3shwDrqwV2V3P4i6HQysB6zmk5fRiuzUTw6sZAjvp8SdPSD",
+                "controller": "did:elem:EiA0qPvCoAuSLJS8l7DJ9CDrkTJlE4lEmub-SjDdNSn86A",
+                "type": "JsonWebKey2020",
+                "publicKeyJwk": {
+                  "crv": "secp256k1",
+                  "kty": "EC",
+                  "x": "9mCWvPcqpfyHznRVDXD6O1NMxSqRqEpN9jIkvy2zGJ4",
+                  "y": "oXkJuRu98f109f9iFQHoTg2NBgoyrizxGaYhjHj09HE"
+                }
+              }
+            ],
+            "authentication": [
+              "#zQ3shwDrqwV2V3P4i6HQysB6zmk5fRiuzUTw6sZAjvp8SdPSD"
+            ]
+          },
+          "methodMetadata": {
+            "recoveryCommitment": "EiBh1BSJicGll1LCL0ntJRpoNTepZpYU9Q3gGFo8sogrXA",
+            "updateCommitment": "EiBh1BSJicGll1LCL0ntJRpoNTepZpYU9Q3gGFo8sogrXA"
+          }
+        }
+      }
+    }
+  ]
+}

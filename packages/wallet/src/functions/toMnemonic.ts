@@ -1,11 +1,12 @@
 import * as bip39 from 'bip39';
 import { seedToId } from '@transmute/universal-wallet';
+import * as sidetreeCrypto from '@sidetree/crypto';
 import { Mnemonic } from '../types';
 import { UNIVERSAL_WALLET_CONTEXT_URL, placeHolderImage } from '../constants';
 
 export const toMnemonic = async (mnemonic?: string): Promise<Mnemonic> => {
   if (!mnemonic) {
-    mnemonic = await bip39.generateMnemonic();
+    mnemonic = await sidetreeCrypto.generateMnemonic();
   }
   const seed = await bip39.mnemonicToSeed(mnemonic);
   const id = await seedToId(seed);

@@ -1,0 +1,69 @@
+{
+  "mnemonic": "common caught harvest brown under coconut depend vacuum drama clean tail crew",
+  "keypair": [
+    {
+      "id": "key-0",
+      "publicKeyJwk": {
+        "kty": "EC",
+        "crv": "secp256k1",
+        "x": "S394cutAwIcDsfPbD9lNRMhLFVYB4ouTTxpgmnjtX5M",
+        "y": "GMlRberOzJr5PPGSynFu6MiHxTitI4Ghf9QKqL8fCOQ"
+      },
+      "privateKeyJwk": {
+        "kty": "EC",
+        "crv": "secp256k1",
+        "d": "87PIwLP94_sBjfsxuQ4yaRDeHAvyQ743PstdNWxq_7o",
+        "x": "S394cutAwIcDsfPbD9lNRMhLFVYB4ouTTxpgmnjtX5M",
+        "y": "GMlRberOzJr5PPGSynFu6MiHxTitI4Ghf9QKqL8fCOQ"
+      }
+    },
+    {
+      "id": "key-1",
+      "publicKeyJwk": {
+        "kty": "EC",
+        "crv": "secp256k1",
+        "x": "3gnI2ddJB1EMjUk-_-1K_fXKD_ImEm6BmlfrndhLkyE",
+        "y": "Kv1KWHLK4WfXi2uJgrip7u1XX_QGzKVCLO7i6-IM4Hk"
+      },
+      "privateKeyJwk": {
+        "kty": "EC",
+        "crv": "secp256k1",
+        "d": "5MWu_CYjzieHWAil_EmX5XAB1bqHNuczGW6hbTQ8Pr0",
+        "x": "3gnI2ddJB1EMjUk-_-1K_fXKD_ImEm6BmlfrndhLkyE",
+        "y": "Kv1KWHLK4WfXi2uJgrip7u1XX_QGzKVCLO7i6-IM4Hk"
+      }
+    },
+    {
+      "id": "key-2",
+      "publicKeyJwk": {
+        "kty": "EC",
+        "crv": "secp256k1",
+        "x": "JBXIiZzLvFuAXo93Wkp47qprju9-4hGh1qwMqoiQqp0",
+        "y": "4w0S22TknMeAG_-KQXabF_71BCEeFBqfFK81LhnHTOE"
+      },
+      "privateKeyJwk": {
+        "kty": "EC",
+        "crv": "secp256k1",
+        "d": "08MsyCnU9KfoxARZGvgtRzpMI09R7uqyt5Q3poWfgPE",
+        "x": "JBXIiZzLvFuAXo93Wkp47qprju9-4hGh1qwMqoiQqp0",
+        "y": "4w0S22TknMeAG_-KQXabF_71BCEeFBqfFK81LhnHTOE"
+      }
+    },
+    {
+      "id": "key-3",
+      "publicKeyJwk": {
+        "kty": "EC",
+        "crv": "secp256k1",
+        "x": "vxflFiAJXZpdQ1ICtdp30F7T36aS3DkDYolAqUUSE3k",
+        "y": "SuIYOJ6onErgvLP7g1_Vs5LEmBjOQtMPAoq1zgsgk1o"
+      },
+      "privateKeyJwk": {
+        "kty": "EC",
+        "crv": "secp256k1",
+        "d": "tV__dR44AlimUKhoLMaWy34zCSEXiThHNhQoE8cR8CI",
+        "x": "vxflFiAJXZpdQ1ICtdp30F7T36aS3DkDYolAqUUSE3k",
+        "y": "SuIYOJ6onErgvLP7g1_Vs5LEmBjOQtMPAoq1zgsgk1o"
+      }
+    }
+  ]
+}

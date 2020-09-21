@@ -1,7 +1,6 @@
 import canonicalize from 'canonicalize';
 import base64url from 'base64url';
 import { canonicalizeThenHashThenEncode } from './sidetreeEncoding';
-import { getSidetreeKeyPairRepresentations } from './getSidetreeKeyPairRepresentations';
 import { toKeyPair } from './toKeyPair';
 import { SidetreeCreateOperation, SidetreeReplaceOptions } from '../types';
 export const getCreateOperation = async (
@@ -9,24 +8,21 @@ export const getCreateOperation = async (
   index: number,
   options?: SidetreeReplaceOptions
 ): Promise<SidetreeCreateOperation> => {
-  const first_keypair = await toKeyPair(
-    mnemonic,
-    index,
-    'EcdsaSecp256k1Verification2018'
-  );
-  const first_key = await getSidetreeKeyPairRepresentations(first_keypair);
+  const first_keypair = await toKeyPair(mnemonic, index, 'secp256k1');
 
   const delta_object = {
-    update_commitment: canonicalizeThenHashThenEncode(first_key.publicKeyJwk),
+    update_commitment: canonicalizeThenHashThenEncode(
+      first_keypair.publicKeyJwk
+    ),
     patches: [
       {
         action: 'replace',
         document: {
           public_keys: [
             {
-              id: first_key.kid,
+              id: first_keypair.id.split('#').pop(),
               type: 'JsonWebKey2020',
-              jwk: first_key.publicKeyJwk,
+              jwk: first_keypair.publicKeyJwk,
               purpose: ['auth', 'general'],
             },
           ],
@@ -38,7 +34,9 @@ export const getCreateOperation = async (
   const delta = base64url.encode(canonicalize(delta_object));
   const canonical_suffix_data = canonicalize({
     delta_hash: canonicalizeThenHashThenEncode(delta_object),
-    recovery_commitment: canonicalizeThenHashThenEncode(first_key.publicKeyJwk),
+    recovery_commitment: canonicalizeThenHashThenEncode(
+      first_keypair.publicKeyJwk
+    ),
   });
   const suffix_data = base64url.encode(canonical_suffix_data);
   const createOperation: SidetreeCreateOperation = {

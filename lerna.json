@@ -2,6 +2,7 @@
   "packages": [
     "packages/cas",
     "packages/common",
+    "packages/crypto",
     "packages/core",
     "packages/db",
     "packages/element",
@@ -10,5 +11,5 @@
     "packages/test-vectors",
     "packages/wallet"
   ],
-  "version": "0.0.3-unstable.18"
+  "version": "0.0.3-unstable.19"
 }

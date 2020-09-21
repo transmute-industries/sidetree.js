@@ -1,0 +1,101 @@
+{
+  "resolution": [
+    {
+      "status": "succeeded",
+      "body": {
+        "@context": "https://www.w3.org/ns/did-resolution/v1",
+        "didDocument": {
+          "id": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
+          "@context": [
+            "https://www.w3.org/ns/did/v1",
+            {
+              "@base": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw"
+            }
+          ],
+          "service": [
+            {
+              "id": "#serviceEndpointId123",
+              "type": "someType",
+              "serviceEndpoint": "https://www.url.com"
+            }
+          ],
+          "publicKey": [
+            {
+              "id": "#key-1",
+              "controller": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
+              "type": "JsonWebKey2020",
+              "publicKeyJwk": {
+                "kty": "EC",
+                "crv": "secp256k1",
+                "x": "9mCWvPcqpfyHznRVDXD6O1NMxSqRqEpN9jIkvy2zGJ4",
+                "y": "oXkJuRu98f109f9iFQHoTg2NBgoyrizxGaYhjHj09HE"
+              }
+            },
+            {
+              "id": "#additional-key",
+              "controller": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
+              "type": "JsonWebKey2020",
+              "publicKeyJwk": {
+                "kty": "EC",
+                "crv": "secp256k1",
+                "x": "JBXIiZzLvFuAXo93Wkp47qprju9-4hGh1qwMqoiQqp0",
+                "y": "4w0S22TknMeAG_-KQXabF_71BCEeFBqfFK81LhnHTOE"
+              }
+            }
+          ],
+          "authentication": ["#key-1", "#additional-key"]
+        },
+        "methodMetadata": {
+          "recoveryCommitment": "EiACsZGLF2z30LcNJp3IagIMPGURQlZwbYH84kHqt-uC9A",
+          "updateCommitment": "EiCJR55Bk1M-o0QwFmKlawagyblgyaL-UGLClwtE7W93pQ"
+        }
+      }
+    },
+    {
+      "status": "succeeded",
+      "body": {
+        "@context": "https://www.w3.org/ns/did-resolution/v1",
+        "didDocument": {
+          "id": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
+          "@context": [
+            "https://www.w3.org/ns/did/v1",
+            {
+              "@base": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw"
+            }
+          ],
+          "service": [
+            {
+              "id": "#recoveredServiceEndpoint456",
+              "type": "someType",
+              "serviceEndpoint": "https://www.url.com"
+            }
+          ],
+          "publicKey": [
+            {
+              "id": "#newKey",
+              "controller": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
+              "type": "JsonWebKey2020",
+              "publicKeyJwk": {
+                "kty": "EC",
+                "crv": "secp256k1",
+                "x": "ovcMKA7g531nPWuIRFidRnhu7bfJKWjSF8qYEyLeXqM",
+                "y": "GIQPtl2v01P9uUlz85bkuoZ_9dqJ-oTlfO90zAaT-Q0"
+              }
+            }
+          ],
+          "authentication": ["#newKey"]
+        },
+        "methodMetadata": {
+          "recoveryCommitment": "EiDB2z3N2okdYlIrD1jtd52fDBdpnczZBZc1_WgdxExCGg",
+          "updateCommitment": "EiAH6iaC4Z2PTodi3dxFC2L36A_TSuUWN0YG0uHVYVhAyg"
+        }
+      }
+    },
+    {
+      "status": "succeeded",
+      "body": {
+        "status": "deactivated"
+      }
+    }
+  ]
+}

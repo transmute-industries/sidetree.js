@@ -3,7 +3,7 @@ This folder is intentionally empty.
 This folder can be filled with updated json files for:
 
 ```ts
-const { generated } = require('@sidetree/test-vectors');
+const { sidetreeCoreGeneratedSecp256k1 } = require('@sidetree/test-vectors');
 ```
 
 Set

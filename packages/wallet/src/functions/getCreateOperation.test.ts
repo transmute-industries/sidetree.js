@@ -4,15 +4,17 @@ import { getCreateOperation } from './getCreateOperation';
 
 it('can get create operation from mnemonic', async () => {
   const createOperation = await getCreateOperation(
-    fixtures.mnemonic_0.value,
+    fixtures.walletOperation.operation[0].mnemonic,
     0
   );
-  expect(createOperation).toEqual(fixtures.sidetree.keypair_0_create_operation);
+  expect(createOperation).toEqual(
+    fixtures.walletOperation.operation[0].createOperation
+  );
 });
 
 it('can get create operation with service endpoints', async () => {
-  const createOperation = await getCreateOperation(
-    fixtures.mnemonic_0.value,
+  const createOperationWithPatch = await getCreateOperation(
+    fixtures.walletOperation.operation[0].mnemonic,
     0,
     {
       service_endpoints: [
@@ -24,7 +26,7 @@ it('can get create operation with service endpoints', async () => {
       ],
     }
   );
-  expect(createOperation).toEqual(
-    fixtures.sidetree.keypair_0_crete_operation_with_service
+  expect(createOperationWithPatch).toEqual(
+    fixtures.walletOperation.operation[0].createOperationWithPatch
   );
 });
