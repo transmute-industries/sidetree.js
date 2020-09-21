@@ -36,7 +36,7 @@
     "tsdx": "^0.13.2"
   },
   "dependencies": {
-    "@sidetree/crypto": "^0.0.3-unstable.14",
+    "@sidetree/crypto": "^0.0.3-unstable.18",
     "@sidetree/common": "^0.0.3-unstable.18",
     "@transmute/did-key-ed25519": "^0.2.1-unstable.14",
     "@transmute/did-key-secp256k1": "^0.2.1-unstable.10",
