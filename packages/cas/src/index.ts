@@ -1,4 +1,5 @@
 import IpfsCas from './IpfsCas';
+import IpfsCasWithCache from './IpfsCasWithCache';
 import MockCas from './MockCas';
 
-export { IpfsCas, MockCas };
+export { IpfsCas, IpfsCasWithCache, MockCas };
