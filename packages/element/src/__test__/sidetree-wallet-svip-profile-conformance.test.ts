@@ -1,18 +1,17 @@
 import Element from '../Element';
-
-import {
-  getTestElement,
-  resetDatabase,
-  // writeFixture
-} from '../test/utils';
+import { walletSvipResolutions } from '../__fixtures__';
+import { getTestElement, resetDatabase, writeFixture } from '../test/utils';
 
 import { sidetreeUniversalWallet } from '@sidetree/test-vectors';
 
 const { walletSvipOperation } = sidetreeUniversalWallet;
-
+const WRITE_FIXTURE_TO_DISK = false;
 console.info = () => null;
 
 let element: Element;
+let fixture: any = {
+  operation: [],
+};
 
 beforeAll(async () => {
   await resetDatabase();
@@ -53,6 +52,11 @@ it('can create Ed25519 / X25519 + service endpoints', async () => {
       serviceEndpoint: 'https://example.com',
     },
   ]);
+  fixture.operation.push({
+    did,
+    create: walletSvipOperation.operation[0].createOperationWithPatch,
+    resolved: resolveRequest,
+  });
 });
 
 it('can recover did document', async () => {
@@ -77,6 +81,12 @@ it('can recover did document', async () => {
       serviceEndpoint: 'https://example.com',
     },
   ]);
+
+  fixture.operation.push({
+    did,
+    recover: walletSvipOperation.operation[0].recoverOperationWithPatch,
+    resolved: resolveRequest,
+  });
 });
 
 it('can recover did document again', async () => {
@@ -95,7 +105,6 @@ it('can recover did document again', async () => {
   const txns = await element.transactionStore.getTransactions();
   expect(txns.length).toBe(3);
   const resolveRequest = await element.handleResolveRequest(did);
-
   expect(resolveRequest.body.didDocument.service).toEqual([
     {
       id: '#resolver-2',
@@ -103,4 +112,19 @@ it('can recover did document again', async () => {
       serviceEndpoint: 'https://example.com',
     },
   ]);
+  fixture.operation.push({
+    did,
+    recover: walletSvipOperation.operation[0].recoverOperationWithPatch2,
+    resolved: resolveRequest,
+  });
+});
+
+it('write fixtures to disk', async () => {
+  // uncomment to debug
+  // console.log(JSON.stringify(fixture, null, 2));
+  expect(fixture).toEqual(walletSvipResolutions);
+
+  if (WRITE_FIXTURE_TO_DISK) {
+    writeFixture('wallet-svip-resolution.json', fixture);
+  }
 });
