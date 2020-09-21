@@ -9,7 +9,7 @@ const WRITE_FIXTURE_TO_DISK = false;
 console.info = () => null;
 
 let element: Element;
-let fixture: any = {
+const fixture: any = {
   operation: [],
 };
 
