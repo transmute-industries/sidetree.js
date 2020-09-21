@@ -167,6 +167,8 @@ export default class RecoverOperation implements OperationModel {
     const signedData = await JsonAsync.parse(signedDataJsonString);
 
     const properties = Object.keys(signedData);
+
+    // TODO: JSON Schema instead of property count type checking...
     if (properties.length !== 3) {
       throw new SidetreeError(
         ErrorCode.RecoverOperationSignedDataMissingOrUnknownProperty

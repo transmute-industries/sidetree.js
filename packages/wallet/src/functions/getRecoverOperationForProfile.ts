@@ -71,7 +71,7 @@ export const getRecoverOperationForProfile = async (
     ),
   };
 
-  const jws = await signer.sign(Buffer.from(JSON.stringify(jws_payload)));
+  const jws = await signer.sign(jws_payload as any);
 
   const encoded_delta = base64url.encode(canonicalize(deleta_object));
   const recoverOperation: SidetreeRecoverOperation = {
