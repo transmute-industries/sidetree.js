@@ -4,7 +4,7 @@ import {
   SidetreeError,
   QueuedOperationModel,
 } from '@sidetree/common';
-import { Binary, Collection, MongoClient, Db } from 'mongodb';
+import { Binary, Collection, MongoClient, Db, ObjectId } from 'mongodb';
 
 /**
  * Sidetree operation stored in MongoDb.
@@ -14,6 +14,7 @@ import { Binary, Collection, MongoClient, Db } from 'mongodb';
  * point comparison quirks.
  */
 interface IMongoQueuedOperation {
+  _id?: ObjectId;
   didUniqueSuffix: string;
   operationBufferBsonBinary: Binary;
 }
@@ -25,7 +26,7 @@ export default class MongoDbOperationQueue implements IOperationQueue {
   /** Collection name for queued operations. */
   public static readonly collectionName: string = 'queued-operations';
 
-  private collection: Collection<any> | undefined;
+  private collection: Collection<IMongoQueuedOperation> | undefined;
 
   /**
    * MongoDb database name where the operations are stored
@@ -42,14 +43,14 @@ export default class MongoDbOperationQueue implements IOperationQueue {
 
   private client: MongoClient | undefined;
 
-  public async close() {
+  public async close(): Promise<void> {
     return this.client!.close();
   }
 
   /**
    * Initialize the MongoDB operation store.
    */
-  public async initialize() {
+  public async initialize(): Promise<void> {
     this.client =
       this.client ||
       (await MongoClient.connect(this.serverUrl, {
@@ -62,7 +63,10 @@ export default class MongoDbOperationQueue implements IOperationQueue {
     );
   }
 
-  async enqueue(didUniqueSuffix: string, operationBuffer: Buffer) {
+  async enqueue(
+    didUniqueSuffix: string,
+    operationBuffer: Buffer
+  ): Promise<void> {
     try {
       const queuedOperation: IMongoQueuedOperation = {
         didUniqueSuffix,
@@ -126,7 +130,7 @@ export default class MongoDbOperationQueue implements IOperationQueue {
   /**
    * * Clears the unresolvable transaction store. Mainly used in tests.
    */
-  public async clearCollection() {
+  public async clearCollection(): Promise<void> {
     await this.collection!.drop();
     this.collection = await MongoDbOperationQueue.createCollectionIfNotExist(
       this.db!
