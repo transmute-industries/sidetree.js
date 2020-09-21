@@ -1,7 +1,7 @@
 import testSuite from './testSuite';
 import IpfsCas from '../IpfsCas';
-import { multiaddr } from './__fixtures__';
+import config from './config.json';
 
-const mock = new IpfsCas(multiaddr);
+const mock = new IpfsCas(config.contentAddressableStoreServiceUri);
 
 testSuite(mock);
