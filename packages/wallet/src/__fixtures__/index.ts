@@ -7,6 +7,7 @@ const {
   walletMnemonic,
   walletKeyPair,
   walletOperation,
+  walletSvipOperation,
 } = sidetreeUniversalWallet;
 
-export { walletMnemonic, walletKeyPair, walletOperation };
+export { walletMnemonic, walletKeyPair, walletOperation, walletSvipOperation };
