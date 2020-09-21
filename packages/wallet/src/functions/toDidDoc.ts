@@ -13,8 +13,6 @@ export const toDidDoc = async (
   index: number,
   didMethodName: string
 ): Promise<DidDocument> => {
-  console.warn('@sidetree.js does not support ed25519 currently.');
-
   const first_key = await toKeyPair(mnemonic, index, 'secp256k1');
   const createOperation = await getCreateOperation(mnemonic, index);
 

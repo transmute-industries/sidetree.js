@@ -1,26 +1,35 @@
 import canonicalize from 'canonicalize';
 import base64url from 'base64url';
+import { createJwsSigner } from '@sidetree/crypto';
 import { canonicalizeThenHashThenEncode } from './sidetreeEncoding';
 import { toKeyPair } from './toKeyPair';
-import { SidetreeCreateOperation, SidetreeReplaceOptions } from '../types';
 import { PublicKeyPurpose } from '@sidetree/common';
 
-export const getCreateOperationForProfile = async (
+import { SidetreeRecoverOperation, SidetreeReplaceOptions } from '../types';
+
+export const getRecoverOperationForProfile = async (
   mnemonic: string,
   index: number,
+  didUniqueSuffix: string,
   profile = 'SVIP',
   options: SidetreeReplaceOptions = {}
-): Promise<SidetreeCreateOperation> => {
+): Promise<SidetreeRecoverOperation> => {
   if (profile !== 'SVIP') {
     throw new Error('SVIP Profile is only supported profile');
   }
-  const signingKeyPair = await toKeyPair(mnemonic, index, 'Ed25519');
-  const keyAgreementKeyPair = await toKeyPair(mnemonic, index, 'X25519');
+  const currentRecoveryKeyPair = await toKeyPair(mnemonic, index, 'Ed25519');
+  const nextRecoveryKeyPair = await toKeyPair(mnemonic, index + 1, 'Ed25519');
 
-  const delta_object = {
+  const signingKeyPair = currentRecoveryKeyPair;
+  const keyAgreementKeyPair = await toKeyPair(mnemonic, index + 1, 'X25519');
+
+  const signer = await createJwsSigner(currentRecoveryKeyPair.privateKeyJwk);
+
+  const deleta_object = {
     update_commitment: canonicalizeThenHashThenEncode(
-      signingKeyPair.publicKeyJwk
+      nextRecoveryKeyPair.publicKeyJwk
     ),
+
     patches: [
       {
         action: 'replace',
@@ -53,19 +62,23 @@ export const getCreateOperationForProfile = async (
       },
     ],
   };
-  const delta = base64url.encode(canonicalize(delta_object));
-  const canonical_suffix_data = canonicalize({
-    delta_hash: canonicalizeThenHashThenEncode(delta_object),
+
+  const jws_payload = {
+    delta_hash: canonicalizeThenHashThenEncode(deleta_object),
+    recovery_key: JSON.parse(canonicalize(currentRecoveryKeyPair.publicKeyJwk)),
     recovery_commitment: canonicalizeThenHashThenEncode(
-      signingKeyPair.publicKeyJwk
+      nextRecoveryKeyPair.publicKeyJwk
     ),
-  });
-  const suffix_data = base64url.encode(canonical_suffix_data);
-  const createOperation: SidetreeCreateOperation = {
-    type: 'create',
-    suffix_data,
-    delta,
   };
 
-  return createOperation;
+  const jws = await signer.sign(jws_payload as any);
+
+  const encoded_delta = base64url.encode(canonicalize(deleta_object));
+  const recoverOperation: SidetreeRecoverOperation = {
+    type: 'recover',
+    did_suffix: didUniqueSuffix,
+    signed_data: jws,
+    delta: encoded_delta,
+  };
+  return recoverOperation;
 };
