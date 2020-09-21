@@ -3,6 +3,7 @@ import {
   TransactionModel,
 } from '@sidetree/common';
 import { Collection, Db, Long, MongoClient } from 'mongodb';
+import MongoDb from './MongoDb';
 
 interface IUnresolvableTransaction extends TransactionModel {
   firstFetchTime: number;
@@ -15,22 +16,19 @@ interface IUnresolvableTransaction extends TransactionModel {
  */
 export default class MongoDbUnresolvableTransactionStore
   implements IUnresolvableTransactionStore {
-  /** Default database name used if not specified in constructor. */
-  public static readonly defaultDatabaseName: string = 'sidetree';
-  /** Collection name for unresolvable transactions. */
-  public static readonly unresolvableTransactionCollectionName: string =
-    'unresolvable-transactions';
-  /** Database name used by this transaction store. */
-  public readonly databaseName: string;
+  public readonly collectionName: string = 'unresolvable-transactions';
 
   private exponentialDelayFactorInMilliseconds = 60000;
   private maximumUnresolvableTransactionReturnCount = 100;
+
+  private serverUrl: string;
+  private databaseName: string;
 
   private client: MongoClient | undefined;
   private db: Db | undefined;
   private unresolvableTransactionCollection: Collection<any> | undefined;
 
-  public async close() {
+  public async close(): Promise<void> {
     return this.client!.close();
   }
 
@@ -41,13 +39,12 @@ export default class MongoDbUnresolvableTransactionStore
    *   e.g. if it is set to 1 seconds, then the delays for retries will be 1 second, 2 seconds, 4 seconds... until the transaction can be resolved.
    */
   constructor(
-    private serverUrl: string,
-    databaseName?: string,
+    serverUrl: string,
+    databaseName: string,
     retryExponentialDelayFactor?: number
   ) {
-    this.databaseName = databaseName
-      ? databaseName
-      : MongoDbUnresolvableTransactionStore.defaultDatabaseName;
+    this.serverUrl = serverUrl;
+    this.databaseName = databaseName;
 
     if (retryExponentialDelayFactor !== undefined) {
       this.exponentialDelayFactorInMilliseconds = retryExponentialDelayFactor;
@@ -65,9 +62,17 @@ export default class MongoDbUnresolvableTransactionStore
         useUnifiedTopology: true,
       })); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
     this.db = this.client.db(this.databaseName);
-    this.unresolvableTransactionCollection = await MongoDbUnresolvableTransactionStore.createUnresolvableTransactionCollectionIfNotExist(
-      this.db
+    this.unresolvableTransactionCollection = await MongoDb.createCollectionIfNotExist(
+      this.db,
+      this.collectionName
     );
+    await this.unresolvableTransactionCollection.createIndex(
+      { transactionTime: 1, transactionNumber: 1 },
+      { unique: true }
+    );
+    await this.unresolvableTransactionCollection.createIndex({
+      nextRetryTime: 1,
+    });
   }
 
   /**
@@ -196,46 +201,5 @@ export default class MongoDbUnresolvableTransactionStore
       .sort({ transactionTime: 1, transactionNumber: 1 })
       .toArray();
     return transactions;
-  }
-
-  /**
-   * Creates the `unresolvable-transaction` collection with indexes if it does not exists.
-   * @returns The existing collection if exists, else the newly created collection.
-   */
-  public static async createUnresolvableTransactionCollectionIfNotExist(
-    db: Db
-  ): Promise<Collection<IUnresolvableTransaction>> {
-    const collections = await db.collections();
-    const collectionNames = collections.map(
-      collection => collection.collectionName
-    );
-
-    // If 'unresolvable transactions' collection exists, use it; else create it.
-    let unresolvableTransactionCollection;
-    if (
-      collectionNames.includes(
-        MongoDbUnresolvableTransactionStore.unresolvableTransactionCollectionName
-      )
-    ) {
-      console.info('Unresolvable transaction collection already exists.');
-      unresolvableTransactionCollection = db.collection(
-        MongoDbUnresolvableTransactionStore.unresolvableTransactionCollectionName
-      );
-    } else {
-      console.info(
-        'Unresolvable transaction collection does not exists, creating...'
-      );
-      unresolvableTransactionCollection = await db.createCollection(
-        MongoDbUnresolvableTransactionStore.unresolvableTransactionCollectionName
-      );
-      await unresolvableTransactionCollection.createIndex(
-        { transactionTime: 1, transactionNumber: 1 },
-        { unique: true }
-      );
-      await unresolvableTransactionCollection.createIndex({ nextRetryTime: 1 });
-      console.info('Unresolvable transaction collection created.');
-    }
-
-    return unresolvableTransactionCollection;
   }
 }
