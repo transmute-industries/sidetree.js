@@ -48,12 +48,16 @@ export default class Observer {
     this.throughputLimiter = new ThroughputLimiter(versionManager);
   }
 
+  public async refreshLastKnownTransaction() {
+    this.lastKnownTransaction = await this.transactionStore.getLastTransaction();
+  }
+
   /**
    * The method that starts the periodic polling and processing of Sidetree operations.
    */
   public async startPeriodicProcessing() {
     // Initialize the last known transaction before starting processing.
-    this.lastKnownTransaction = await this.transactionStore.getLastTransaction();
+    await this.refreshLastKnownTransaction();
 
     console.info(`Starting periodic transactions processing.`);
     setImmediate(async () => {
