@@ -128,6 +128,7 @@ export default class Element {
   public async triggerProcessTransactions(): Promise<void> {
     // By passing true, we force the observer to wait for all transactions
     // to be downloaded before returning. We need that for testing
+    await this.observer.refreshLastKnownTransaction();
     await this.observer.processTransactions(true);
   }
 

@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.0.3-unstable.20",
+  "version": "0.0.3-unstable.22",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -45,9 +45,9 @@
   "dependencies": {
     "@sidetree/cas": "^0.0.3-unstable.20",
     "@sidetree/common": "^0.0.3-unstable.20",
-    "@sidetree/core": "^0.0.3-unstable.20",
+    "@sidetree/core": "^0.0.3-unstable.22",
     "@sidetree/db": "^0.0.3-unstable.20",
-    "@sidetree/ethereum": "^0.0.3-unstable.20",
+    "@sidetree/ethereum": "^0.0.3-unstable.21",
     "web3": "^1.2.9"
   },
   "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d"
