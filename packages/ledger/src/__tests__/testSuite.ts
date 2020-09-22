@@ -74,6 +74,18 @@ const testSuite = (ledger: IBlockchain): void => {
         expect(readResult.transactions[0].anchorString).toBe(anchorString2);
         expect(readResult.transactions[1].anchorString).toBe(anchorString3);
       });
+
+      it('should return no transaction if the requested transactionNumber doesnt exist', async () => {
+        const readResult = await ledger.read(3);
+        expect(readResult.moreTransactions).toBeFalsy();
+        expect(readResult.transactions).toHaveLength(0);
+      });
+
+      it('should return no transaction if the requested transactionTimeHash doesnt exist', async () => {
+        const readResult = await ledger.read(undefined, '0x123');
+        expect(readResult.moreTransactions).toBeFalsy();
+        expect(readResult.transactions).toHaveLength(0);
+      });
     });
   });
 };
