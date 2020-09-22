@@ -16,7 +16,7 @@ import AnchorFile from '../../write/AnchorFile';
 
 jest.setTimeout(10 * 1000);
 
-console.info = () => null;
+console.info = (): null => null;
 
 describe('BatchWriter', () => {
   let blockchain: IBlockchain;

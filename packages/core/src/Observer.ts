@@ -48,14 +48,14 @@ export default class Observer {
     this.throughputLimiter = new ThroughputLimiter(versionManager);
   }
 
-  public async refreshLastKnownTransaction() {
+  public async refreshLastKnownTransaction(): Promise<void> {
     this.lastKnownTransaction = await this.transactionStore.getLastTransaction();
   }
 
   /**
    * The method that starts the periodic polling and processing of Sidetree operations.
    */
-  public async startPeriodicProcessing() {
+  public async startPeriodicProcessing(): Promise<void> {
     // Initialize the last known transaction before starting processing.
     await this.refreshLastKnownTransaction();
 
@@ -72,7 +72,7 @@ export default class Observer {
    * Stops periodic transaction processing.
    * Mainly used for test purposes.
    */
-  public stopPeriodicProcessing() {
+  public stopPeriodicProcessing(): void {
     console.info(`Stopped periodic transactions processing.`);
     this.continuePeriodicProcessing = false;
   }
@@ -81,7 +81,9 @@ export default class Observer {
    * Processes new transactions if any, then reprocess a set of unresolvable transactions if any,
    * then schedules the next round of processing unless `stopPeriodicProcessing()` is invoked.
    */
-  public async processTransactions(awaitTransactionProcessing = false) {
+  public async processTransactions(
+    awaitTransactionProcessing = false
+  ): Promise<void> {
     try {
       await this.storeConsecutiveTransactionsProcessed(); // Do this in multiple places
 
@@ -135,9 +137,14 @@ export default class Observer {
         let qualifiedTransactions = await this.throughputLimiter.getQualifiedTransactions(
           transactions
         );
-        qualifiedTransactions = qualifiedTransactions.sort((a: any, b: any) => {
-          return a.transactionNumber - b.transactionNumber;
-        });
+        qualifiedTransactions = qualifiedTransactions.sort(
+          (
+            a: { transactionNumber: number },
+            b: { transactionNumber: number }
+          ) => {
+            return a.transactionNumber - b.transactionNumber;
+          }
+        );
 
         // Queue parallel downloading and processing of chunk files.
         for (const transaction of qualifiedTransactions) {
@@ -226,7 +233,7 @@ export default class Observer {
 
   private async waitUntilCountOfTransactionsUnderProcessingIsLessOrEqualTo(
     count: number
-  ) {
+  ): Promise<void> {
     while (this.transactionsUnderProcessing.length > count) {
       // Store the consecutively processed transactions in the transaction store.
       await this.storeConsecutiveTransactionsProcessed();
@@ -244,7 +251,7 @@ export default class Observer {
    */
   private async processUnresolvableTransactions(
     awaitTransactionProcessing = false
-  ) {
+  ): Promise<void> {
     const endTimer = timeSpan();
     const unresolvableTransactions = await this.unresolvableTransactionStore.getUnresolvableTransactionsDueForRetry();
     console.info(
@@ -294,7 +301,7 @@ export default class Observer {
    * Goes through the `transactionsUnderProcessing` in chronological order, records each processed transaction
    * in the transaction store and remove it from `transactionsUnderProcessing` until a transaction that has not been processed yet is hit.
    */
-  private async storeConsecutiveTransactionsProcessed() {
+  private async storeConsecutiveTransactionsProcessed(): Promise<void> {
     let i = 0;
     while (
       i < this.transactionsUnderProcessing.length &&
@@ -319,7 +326,7 @@ export default class Observer {
   private async processTransaction(
     transaction: TransactionModel,
     transactionUnderProcessing: TransactionUnderProcessingModel
-  ) {
+  ): Promise<void> {
     let transactionProcessedSuccessfully;
 
     try {
@@ -364,7 +371,7 @@ export default class Observer {
   /**
    * Reverts invalid transactions. Used in the event of a block-reorganization.
    */
-  private async revertInvalidTransactions() {
+  private async revertInvalidTransactions(): Promise<void> {
     // Compute a list of exponentially-spaced transactions with their index, starting from the last transaction of the processed transactions.
     const exponentiallySpacedTransactions = await this.transactionStore.getExponentiallySpacedTransactions();
 
