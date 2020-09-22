@@ -158,11 +158,15 @@ export default class EthereumLedger implements IBlockchain {
       }
     } else if (transactionTimeHash) {
       const block = await utils.getBlock(this.web3, transactionTimeHash);
-      transactions = await this._getTransactions(
-        block.number,
-        block.number,
-        options
-      );
+      if (block && block.number) {
+        transactions = await this._getTransactions(
+          block.number,
+          block.number,
+          options
+        );
+      } else {
+        transactions = [];
+      }
     } else {
       transactions = await this._getTransactions(0, 'latest', options);
     }
