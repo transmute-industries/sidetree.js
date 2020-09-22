@@ -109,8 +109,12 @@ export default class Observer {
           console.info(
             'Fetching Sidetree transactions from blockchain service...'
           );
+          const nextTransactionNumber =
+            lastKnownTransactionNumber !== undefined
+              ? lastKnownTransactionNumber + 1
+              : undefined;
           readResult = await this.blockchain.read(
-            lastKnownTransactionNumber,
+            nextTransactionNumber,
             lastKnownTransactionTimeHash
           );
           console.info(
