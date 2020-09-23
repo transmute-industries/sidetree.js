@@ -8,7 +8,13 @@ import {
   ServiceVersionModel,
 } from '@sidetree/common';
 import Web3 from 'web3';
-import { EthereumBlock, ElementContract, ElementEventData } from './types';
+import {
+  ElementContract,
+  ElementEventData,
+  EthereumBlock,
+  EthereumFilter,
+} from './types';
+import { name, version } from '../package.json';
 
 const contract = require('@truffle/contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
@@ -109,7 +115,7 @@ export default class EthereumLedger implements IBlockchain {
   public _getTransactions = async (
     fromBlock: number | string,
     toBlock: number | string,
-    options?: { filter?: any; omitTimestamp?: boolean }
+    options?: { filter?: EthereumFilter; omitTimestamp?: boolean }
   ): Promise<TransactionModel[]> => {
     const instance = await this.getInstance();
     const logs = await instance.getPastEvents('Anchor', {

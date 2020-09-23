@@ -1,5 +1,4 @@
 import { filesystem } from '@sidetree/test-vectors';
-
 import { getWeb3 } from './web3';
 import { EthereumLedger } from '..';
 
