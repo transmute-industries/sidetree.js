@@ -27,9 +27,10 @@ export default class CasIpfs implements ICas {
   }
 
   public getServiceVersion: () => ServiceVersionModel = () => {
+    const { version } = require('../package.json');
     return {
-      name: '',
-      version: 'v0.0.1',
+      name: 'ipfs',
+      version,
     };
   };
 

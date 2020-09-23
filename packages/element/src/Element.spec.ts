@@ -29,9 +29,16 @@ describe('Element', () => {
   });
 
   it('should get versions', async () => {
-    const versions = await element.handleGetVersionRequest();
-    expect(versions.status).toBe('succeeded');
-    expect(JSON.parse(versions.body)).toHaveLength(3);
+    const response = await element.handleGetVersionRequest();
+    expect(response.status).toBe('succeeded');
+    const versions = JSON.parse(response.body);
+    expect(versions).toHaveLength(3);
+    expect(versions[0].name).toBe('core');
+    expect(versions[1].name).toBe('ethereum');
+    expect(versions[2].name).toBe('ipfs-with-cache');
+    expect(versions[0].version).toBeDefined();
+    expect(versions[1].version).toBeDefined();
+    expect(versions[2].version).toBeDefined();
   });
 
   it('should handle operation request', async () => {

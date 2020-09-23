@@ -1,4 +1,8 @@
-import { FetchResult, FetchResultCode } from '@sidetree/common';
+import {
+  FetchResult,
+  FetchResultCode,
+  ServiceVersionModel,
+} from '@sidetree/common';
 import IpfsCas from './IpfsCas';
 import { MongoDbCasCache } from '@sidetree/db';
 
@@ -37,4 +41,12 @@ export default class IpfsCasWithCache extends IpfsCas {
     }
     return result;
   }
+
+  public getServiceVersion: () => ServiceVersionModel = () => {
+    const { version } = require('../package.json');
+    return {
+      name: 'ipfs-with-cache',
+      version,
+    };
+  };
 }
