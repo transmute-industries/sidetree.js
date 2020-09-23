@@ -1,6 +1,13 @@
 # @sidetree/ethereum
 
-Ethereum specific sidetree tooling.
+This package contains an implementation of the Sidetree ledger interface on the Ethereum ledger. It passes the test suite defined in `@sidetree/ledger`.
+
+## Usage
+
+```
+npm install
+npm run test
+```
 
 ## Deploying the contract to live network (ropsten, mainnet, etc...)
 
