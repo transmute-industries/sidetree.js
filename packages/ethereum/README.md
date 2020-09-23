@@ -5,6 +5,12 @@ This package contains an implementation of the Sidetree ledger interface on the 
 ## Usage
 
 ```
+npm install --save @sidetree/ethereum
+```
+
+## Development
+
+```
 npm install
 npm run test
 ```

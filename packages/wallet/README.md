@@ -5,6 +5,12 @@ This package contains an implementation of the Universal Wallet spec for Sidetre
 ## Usage
 
 ```
+npm install --save @sidetree/wallet
+```
+
+## Development
+
+```
 npm install
 npm run test
 ```

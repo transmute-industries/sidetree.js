@@ -7,6 +7,12 @@ It currently contains only one implementation in MongoDB. Another implementation
 ## Usage
 
 ```
+npm install --save @sidetree/db
+```
+
+## Development
+
+```
 npm install
 npm run test
 ```

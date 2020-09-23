@@ -10,6 +10,12 @@ It contains:
 ## Usage
 
 ```
+npm install --save @sidetree/cas
+```
+
+## Development
+
+```
 npm install
 npm run test
 ```

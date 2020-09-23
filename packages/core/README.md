@@ -7,6 +7,12 @@ It also contains crypto dependencies and other backend dependencies that prevent
 ## Usage
 
 ```
+npm install --save @sidetree/core
+```
+
+## Development
+
+```
 npm install
 npm run test
 ```

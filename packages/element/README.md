@@ -5,6 +5,12 @@ This package contains an implementation of Sidetree Core, using Ethereum and IPF
 ## Usage
 
 ```
+npm install --save @sidetree/element
+```
+
+## Development
+
+```
 npm install
 npm run test
 ```
