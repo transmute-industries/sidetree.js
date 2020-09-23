@@ -1,14 +1,21 @@
-# TSDX Bootstrap
+# @sidetree/cas
 
-This project was bootstrapped with [TSDX](https://github.com/jaredpalmer/tsdx).
+This package contains several implementations of [Content Addressable Storage](https://en.wikipedia.org/wiki/Content-addressable_storage) used in Sidetree.
 
-### IPFS
+It contains:
+- `MockCas`: An in memory CAS interface for testing purposes
+- `IpfsCas`: A CAS interface for IPFS
+- `IpfsCasWithCache`: An efficient CAS interface that uses IPFS and a cache for faster read
 
-In order to access IPFS API from a browser, you will need to enable CORs.
-
-In order to do this on the docker container run the following and then restart the container:
+## Usage
 
 ```
-docker exec ipfs ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]'
-docker exec ipfs ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'
+npm install --save @sidetree/cas
+```
+
+## Development
+
+```
+npm install
+npm run test
 ```

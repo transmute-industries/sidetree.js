@@ -8,8 +8,14 @@ import {
   ServiceVersionModel,
 } from '@sidetree/common';
 import Web3 from 'web3';
-import { BlockTransactionString } from 'web3-eth';
+import {
+  ElementContract,
+  ElementEventData,
+  EthereumBlock,
+  EthereumFilter,
+} from './types';
 
+const { name, version } = require('../package.json');
 const contract = require('@truffle/contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
 
@@ -17,34 +23,9 @@ export default class EthereumLedger implements IBlockchain {
   /** Interval for refreshing the cached blockchain time. */
   static readonly cachedBlockchainTimeRefreshInSeconds = 60;
 
-  public async getFirstValidTransaction(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _transactions: TransactionModel[]
-  ): Promise<TransactionModel | undefined> {
-    return Promise.resolve(undefined);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getFee(_transactionTime: number): Promise<number> {
-    return Promise.resolve(0);
-  }
-
-  getValueTimeLock(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _lockIdentifier: string
-  ): Promise<ValueTimeLockModel | undefined> {
-    return Promise.resolve(undefined);
-  }
-
-  getWriterValueTimeLock(): Promise<ValueTimeLockModel | undefined> {
-    return Promise.resolve(undefined);
-  }
-
-  public anchorContractAddress?: string;
   private logger: Console;
   public anchorContract: any;
-  public resolving: Promise<any> | null = null;
-  public instance: any;
+  public instance: ElementContract | undefined;
   private cachedBlockchainTime: BlockchainTimeModel = { hash: '', time: 0 };
 
   constructor(
@@ -58,16 +39,27 @@ export default class EthereumLedger implements IBlockchain {
     this.anchorContract.defaults({
       gasPrice: '100000000000',
     });
-
-    if (contractAddress) {
-      this.anchorContractAddress = contractAddress;
-    } else {
-      this.resolving = this._createNewContract();
-    }
   }
 
   public initialize: VoidFunction = async () => {
-    await this._getInstance();
+    // Set primary address
+    const [primaryAddress] = await utils.getAccounts(this.web3);
+    // Set instance
+    if (!this.contractAddress) {
+      this.instance = await this.anchorContract.new({
+        from: primaryAddress,
+      });
+      this.contractAddress = this.instance!.address;
+      this.logger.info(
+        `Creating new Element contract at address ${this.contractAddress}`
+      );
+    } else {
+      this.logger.info(
+        `Using Element contract at address ${this.contractAddress}`
+      );
+    }
+    this.instance = await this.anchorContract.at(this.contractAddress);
+    // Refresh cached block time
     await this.getLatestTime();
   };
 
@@ -83,30 +75,34 @@ export default class EthereumLedger implements IBlockchain {
 
   public getServiceVersion: () => ServiceVersionModel = () => {
     return {
-      name: '',
-      version: 'v0.0.1',
+      name,
+      version,
     };
   };
 
-  public _getInstance = async (): Promise<any> => {
+  private getInstance(): ElementContract {
     if (!this.instance) {
-      this.instance = await this.anchorContract.at(this.anchorContractAddress);
+      throw new Error(
+        'Contract instance is undefined. Call .initialize() first'
+      );
     }
     return this.instance;
-  };
+  }
 
   public _getTransactions = async (
     fromBlock: number | string,
     toBlock: number | string,
-    options?: { filter?: any; omitTimestamp?: boolean }
+    options?: { filter?: EthereumFilter; omitTimestamp?: boolean }
   ): Promise<TransactionModel[]> => {
-    const instance = await this._getInstance();
+    const instance = await this.getInstance();
     const logs = await instance.getPastEvents('Anchor', {
       fromBlock,
       toBlock: toBlock || 'latest',
       filter: (options && options.filter) || undefined,
     });
-    const txns = logs.map(utils.eventLogToSidetreeTransaction);
+    const txns = logs.map(log =>
+      utils.eventLogToSidetreeTransaction(log as ElementEventData)
+    );
     if (options && options.omitTimestamp) {
       return txns;
     }
@@ -120,16 +116,6 @@ export default class EthereumLedger implements IBlockchain {
       this.web3,
       transactions
     );
-  };
-
-  public _createNewContract = async (fromAddress?: string): Promise<any> => {
-    const from = fromAddress || (await utils.getAccounts(this.web3))[0];
-    const instance = await this.anchorContract.new({
-      from,
-    });
-    this.anchorContractAddress = instance.address;
-    this.logger.info('_createNewContract', this.anchorContractAddress);
-    return instance;
   };
 
   public async read(
@@ -181,10 +167,7 @@ export default class EthereumLedger implements IBlockchain {
   }
 
   public async getLatestTime(): Promise<BlockchainTimeModel> {
-    const block: BlockTransactionString = await utils.getBlock(
-      this.web3,
-      'latest'
-    );
+    const block: EthereumBlock = await utils.getBlock(this.web3, 'latest');
     const blockchainTime: BlockchainTimeModel = {
       time: block.number,
       hash: block.hash,
@@ -195,9 +178,8 @@ export default class EthereumLedger implements IBlockchain {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public write = async (anchorString: string, _fee = 0): Promise<void> => {
-    await this.resolving;
     const [from] = await utils.getAccounts(this.web3);
-    const instance = await this._getInstance();
+    const instance = this.getInstance();
     const {
       anchorFileHash,
       numberOfOperations,
@@ -220,4 +202,27 @@ export default class EthereumLedger implements IBlockchain {
       this.logger.error(err.message);
     }
   };
+
+  public async getFirstValidTransaction(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _transactions: TransactionModel[]
+  ): Promise<TransactionModel | undefined> {
+    return Promise.resolve(undefined);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getFee(_transactionTime: number): Promise<number> {
+    return Promise.resolve(0);
+  }
+
+  getValueTimeLock(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _lockIdentifier: string
+  ): Promise<ValueTimeLockModel | undefined> {
+    return Promise.resolve(undefined);
+  }
+
+  getWriterValueTimeLock(): Promise<ValueTimeLockModel | undefined> {
+    return Promise.resolve(undefined);
+  }
 }

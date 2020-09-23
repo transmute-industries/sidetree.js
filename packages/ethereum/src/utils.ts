@@ -1,9 +1,7 @@
 import { TransactionModel, AnchoredDataSerializer } from '@sidetree/common';
 import multihashes from 'multihashes';
 import Web3 from 'web3';
-import { BlockTransactionString } from 'web3-eth';
-import { EventData } from 'web3-eth-contract';
-import BN from 'bn.js';
+import { EthereumBlock, ElementEventData } from './types';
 
 const getAccounts = (web3: Web3): Promise<Array<string>> =>
   new Promise((resolve, reject) => {
@@ -32,13 +30,6 @@ const base58EncodedMultihashToBytes32 = (
     .substring(4)}`;
 };
 
-interface ElementEventData extends EventData {
-  args: {
-    anchorFileHash: string;
-    numberOfOperations: string;
-    transactionNumber: BN;
-  };
-}
 const eventLogToSidetreeTransaction = (
   log: ElementEventData
 ): TransactionModel => {
@@ -64,11 +55,11 @@ const eventLogToSidetreeTransaction = (
 const getBlock = async (
   web3: Web3,
   blockHashOrBlockNumber: string | number
-): Promise<BlockTransactionString> => {
-  const block: BlockTransactionString = await new Promise((resolve, reject) => {
+): Promise<EthereumBlock> => {
+  const block: EthereumBlock = await new Promise((resolve, reject) => {
     web3.eth.getBlock(
       blockHashOrBlockNumber,
-      (err: Error, b: BlockTransactionString) => {
+      (err: Error, b: EthereumBlock) => {
         if (err) {
           reject(err);
         }
@@ -83,10 +74,7 @@ const getBlockchainTime = async (
   web3: Web3,
   blockHashOrBlockNumber: string | number
 ): Promise<string | number | null> => {
-  const block: BlockTransactionString = await getBlock(
-    web3,
-    blockHashOrBlockNumber
-  );
+  const block: EthereumBlock = await getBlock(web3, blockHashOrBlockNumber);
   if (block) {
     return block.timestamp;
   }

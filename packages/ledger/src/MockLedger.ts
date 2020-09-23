@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   BlockchainTimeModel,
   IBlockchain,
@@ -85,7 +86,7 @@ export default class MockLedger implements IBlockchain {
   /**
    * Hardcodes the latest time to be returned.
    */
-  public setLatestTime(time: BlockchainTimeModel) {
+  public setLatestTime(time: BlockchainTimeModel): void {
     this.latestTime = time;
   }
 }

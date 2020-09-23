@@ -1,5 +1,4 @@
 import { filesystem } from '@sidetree/test-vectors';
-
 import { getWeb3 } from './web3';
 import { EthereumLedger } from '..';
 
@@ -12,17 +11,19 @@ const w32 = getWeb3();
 jest.setTimeout(10 * 1000);
 
 describe('Concurrency', () => {
-  let anchorContractAddress: any;
+  let contractAddress: string | undefined;
 
   beforeAll(async () => {
     const ledger0 = new EthereumLedger(w31);
-    await ledger0._createNewContract();
-    anchorContractAddress = ledger0.anchorContractAddress;
+    await ledger0.initialize();
+    contractAddress = ledger0.contractAddress;
   });
 
   it('should be possible to write concurrently', async () => {
-    const ledger1 = new EthereumLedger(w31, anchorContractAddress, logger);
-    const ledger2 = new EthereumLedger(w32, anchorContractAddress, logger);
+    const ledger1 = new EthereumLedger(w31, contractAddress, logger);
+    await ledger1.initialize();
+    const ledger2 = new EthereumLedger(w32, contractAddress, logger);
+    await ledger2.initialize();
     expect(ledger1).toBeDefined();
     expect(ledger2).toBeDefined();
 

@@ -7,7 +7,6 @@ export default class Delta {
   _id?: string;
 
   @Column()
-  // FIXME: there shouldn't be any "any"s
   patches: any[];
 
   @Column()

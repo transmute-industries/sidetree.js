@@ -13,10 +13,7 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "paths": {
-      "*": ["src/*", "node_modules/*"]
-    },
-    "rootDir": "./src",
+    "paths": { "*": ["src/*", "node_modules/*"] },
     "sourceMap": true,
     "strict": true,
     "target": "es5",
