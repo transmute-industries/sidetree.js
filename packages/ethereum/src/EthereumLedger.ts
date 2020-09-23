@@ -48,7 +48,7 @@ export default class EthereumLedger implements IBlockchain {
 
   private logger: Console;
   public anchorContract: any;
-  public instance: any | undefined;
+  public instance: ElementContract | undefined;
   private cachedBlockchainTime: BlockchainTimeModel = { hash: '', time: 0 };
 
   constructor(

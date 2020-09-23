@@ -21,6 +21,7 @@ export interface ElementEventData extends EventData {
 }
 
 export interface ElementContract extends Contract {
+  address: string;
   anchorHash: (
     anchorFileHash: string,
     numberOfOperations: number,
