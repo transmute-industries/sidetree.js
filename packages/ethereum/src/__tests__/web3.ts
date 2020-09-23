@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 
-export const getWeb3 = (provider: any = 'http://localhost:8545') => {
+export const getWeb3 = (provider = 'http://localhost:8545'): Web3 => {
   return new Web3(provider);
 };
 
