@@ -14,8 +14,8 @@ import {
   EthereumBlock,
   EthereumFilter,
 } from './types';
-import { name, version } from '../package.json';
 
+const { name, version } = require('../package.json');
 const contract = require('@truffle/contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
 
@@ -98,8 +98,8 @@ export default class EthereumLedger implements IBlockchain {
 
   public getServiceVersion: () => ServiceVersionModel = () => {
     return {
-      name: '',
-      version: 'v0.0.1',
+      name,
+      version,
     };
   };
 
