@@ -135,7 +135,6 @@ export default class EthereumLedger implements IBlockchain {
     );
   };
 
-  // TODO: release
   public async read(
     sinceTransactionNumber?: number,
     transactionTimeHash?: string

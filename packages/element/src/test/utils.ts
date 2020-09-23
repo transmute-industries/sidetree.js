@@ -25,7 +25,6 @@ const resetDatabase = async () => {
 const getTestLedger = async () => {
   const web3 = new Web3(config.ethereumRpcUrl);
   const ledger = new EthereumLedger(web3, config.elementAnchorContract);
-  await ledger.resolving;
   return ledger;
 };
 
