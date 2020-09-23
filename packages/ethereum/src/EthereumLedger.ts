@@ -8,7 +8,7 @@ import {
   ServiceVersionModel,
 } from '@sidetree/common';
 import Web3 from 'web3';
-import { BlockTransactionString } from 'web3-eth';
+import { EthereumBlock, ElementContract, ElementEventData } from './types';
 
 const contract = require('@truffle/contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
@@ -44,7 +44,7 @@ export default class EthereumLedger implements IBlockchain {
   private logger: Console;
   public anchorContract: any;
   public resolving: Promise<any> | null = null;
-  public instance: any;
+  public instance: ElementContract | undefined;
   private cachedBlockchainTime: BlockchainTimeModel = { hash: '', time: 0 };
 
   constructor(
@@ -106,7 +106,9 @@ export default class EthereumLedger implements IBlockchain {
       toBlock: toBlock || 'latest',
       filter: (options && options.filter) || undefined,
     });
-    const txns = logs.map(utils.eventLogToSidetreeTransaction);
+    const txns = logs.map(log =>
+      utils.eventLogToSidetreeTransaction(log as ElementEventData)
+    );
     if (options && options.omitTimestamp) {
       return txns;
     }
@@ -181,10 +183,7 @@ export default class EthereumLedger implements IBlockchain {
   }
 
   public async getLatestTime(): Promise<BlockchainTimeModel> {
-    const block: BlockTransactionString = await utils.getBlock(
-      this.web3,
-      'latest'
-    );
+    const block: EthereumBlock = await utils.getBlock(this.web3, 'latest');
     const blockchainTime: BlockchainTimeModel = {
       time: block.number,
       hash: block.hash,

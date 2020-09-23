@@ -44,6 +44,7 @@
     "tsdx": "^0.13.2",
     "web3": "1.2.7",
     "web3-eth": "1.2.7",
+    "web3-core": "1.2.7",
     "web3-eth-contract": "1.2.7"
   },
   "dependencies": {
