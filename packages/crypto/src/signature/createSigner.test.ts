@@ -1,5 +1,3 @@
-// import { keypair } from '../__fixtures__';
-
 import { createSigner } from './createSigner';
 
 const temp = {

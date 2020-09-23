@@ -21,9 +21,6 @@ it('can generate test fixture', async () => {
     });
   }
 
-  // uncomment to debug
-  // console.log(JSON.stringify(fixture, null, 2));
-
   expect(fixture).toEqual(walletMnemonic);
 
   if (WRITE_FIXTURE_TO_DISK) {

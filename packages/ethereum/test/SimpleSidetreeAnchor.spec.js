@@ -12,7 +12,6 @@ contract('SimpleSidetreeAnchor', accounts => {
 
   it('contract is deployed', async () => {
     expect(instance);
-    // console.log(accounts)
   });
 
   it('can write anchor', async () => {

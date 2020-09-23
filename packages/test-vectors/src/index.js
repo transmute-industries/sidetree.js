@@ -6,10 +6,10 @@ const sidetreeCoreGeneratedSecp256k1 = require('./core-generated-secp256k1');
 const sidetreeCoreGeneratedEd25519 = require('./core-generated-ed25519');
 
 module.exports = {
-  testVectors, // OK
-  filesystem, // OK
-  crypto, // OK
-  sidetreeUniversalWallet, // Ok
-  sidetreeCoreGeneratedSecp256k1, // OK
-  sidetreeCoreGeneratedEd25519, // OK
+  testVectors,
+  filesystem,
+  crypto,
+  sidetreeUniversalWallet,
+  sidetreeCoreGeneratedSecp256k1,
+  sidetreeCoreGeneratedEd25519,
 };
