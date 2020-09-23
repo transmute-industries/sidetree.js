@@ -57,6 +57,8 @@ it('can generate test fixture', async () => {
     });
   }
 
+  expect(fixture).toEqual(walletOperation);
+
   if (WRITE_FIXTURE_TO_DISK) {
     writeFixture('wallet-operation.json', fixture);
   }
