@@ -23,29 +23,6 @@ export default class EthereumLedger implements IBlockchain {
   /** Interval for refreshing the cached blockchain time. */
   static readonly cachedBlockchainTimeRefreshInSeconds = 60;
 
-  public async getFirstValidTransaction(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _transactions: TransactionModel[]
-  ): Promise<TransactionModel | undefined> {
-    return Promise.resolve(undefined);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getFee(_transactionTime: number): Promise<number> {
-    return Promise.resolve(0);
-  }
-
-  getValueTimeLock(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _lockIdentifier: string
-  ): Promise<ValueTimeLockModel | undefined> {
-    return Promise.resolve(undefined);
-  }
-
-  getWriterValueTimeLock(): Promise<ValueTimeLockModel | undefined> {
-    return Promise.resolve(undefined);
-  }
-
   private logger: Console;
   public anchorContract: any;
   public instance: ElementContract | undefined;
@@ -225,4 +202,27 @@ export default class EthereumLedger implements IBlockchain {
       this.logger.error(err.message);
     }
   };
+
+  public async getFirstValidTransaction(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _transactions: TransactionModel[]
+  ): Promise<TransactionModel | undefined> {
+    return Promise.resolve(undefined);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getFee(_transactionTime: number): Promise<number> {
+    return Promise.resolve(0);
+  }
+
+  getValueTimeLock(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _lockIdentifier: string
+  ): Promise<ValueTimeLockModel | undefined> {
+    return Promise.resolve(undefined);
+  }
+
+  getWriterValueTimeLock(): Promise<ValueTimeLockModel | undefined> {
+    return Promise.resolve(undefined);
+  }
 }
