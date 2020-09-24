@@ -1,8 +1,37 @@
-# Sidetree.js
+# Sidetree.js [![npm version](https://badge.fury.io/js/sidetree.js.svg)](https://badge.fury.io/js/sidetree.js) ![Continuous Integration](https://github.com/transmute-industries/sidetree.js/workflows/CI/badge.svg)
 
-[![npm version](https://badge.fury.io/js/sidetree.js.svg)](https://badge.fury.io/js/sidetree.js)
+Sidetree.js is an implementation of the Sidetree protocol, implementation [v0.1.0 of the specification](https://web.archive.org/web/20200721150053/https://identity.foundation/sidetree/spec/v0.1.0/)
 
-![Continuous Integration](https://github.com/transmute-industries/sidetree.js/workflows/CI/badge.svg)
+This codebase is a [Lerna monorepo](https://github.com/lerna/lerna). Here is a list of the packages it currently contains: https://github.com/transmute-industries/sidetree.js/tree/master/packages
+
+## Usage
+
+To install all packages run
+
+```bash
+npm install
+```
+
+To run tests in every packages run
+
+```bash
+npm run test
+```
+
+To run tests in a specific package run
+```bash
+npm t -- --scope @sidetree/element
+```
+
+## Services
+
+We use docker-compose to setup the services used in tests, Namely:
+
+- ganache: for a local ethereum testnet
+- ipfs: for a local ipfs node
+- mongodb: for a local mongo DB
+
+Make sure you have `docker` and `docker-compose` installed before running the tests
 
 ## How to pull individual packages from the mono repo
 
