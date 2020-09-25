@@ -2,12 +2,13 @@
   "packages": [
     "packages/cas",
     "packages/common",
-    "packages/crypto",
     "packages/core",
+    "packages/crypto",
     "packages/db",
     "packages/element",
     "packages/ethereum",
     "packages/ledger",
+    "packages/ledger-qldb",
     "packages/test-vectors",
     "packages/wallet"
   ],
