@@ -31,10 +31,7 @@
   },
   "devDependencies": {
     "@sidetree/ledger": "0.1.1-unstable.0",
-    "eslint-config-airbnb-typescript": "^9.0.0",
-    "tsdx": "^0.13.2",
-    "tslib": "^1.11.2",
-    "typescript": "^3.8.3"
+    "tsdx": "^0.13.2"
   },
   "dependencies": {
     "@sidetree/common": "0.1.1-unstable.0",
