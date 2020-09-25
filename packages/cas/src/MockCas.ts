@@ -6,6 +6,7 @@ import {
 } from '@sidetree/common';
 import Unixfs from 'ipfs-unixfs';
 import { DAGNode } from 'ipld-dag-pb';
+const { version } = require('../package.json');
 
 /**
  * Implementation of a CAS class for testing.
@@ -23,16 +24,20 @@ export default class MockCas implements ICas {
       this.mockSecondsTakenForEachCasFetch = mockSecondsTakenForEachCasFetch;
     }
   }
-  getServiceVersion(): Promise<ServiceVersionModel> {
-    throw new Error('Method not implemented.');
+
+  async getServiceVersion(): Promise<ServiceVersionModel> {
+    return {
+      name: 'mock-cas',
+      version,
+    };
   }
 
-  initialize(): Promise<void> {
-    throw new Error('Method not implemented.');
+  async initialize(): Promise<void> {
+    return;
   }
 
-  close(): Promise<void> {
-    throw new Error('Method not implemented.');
+  async close(): Promise<void> {
+    return;
   }
 
   /**

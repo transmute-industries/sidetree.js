@@ -6,6 +6,7 @@ import {
 } from '@sidetree/common';
 import ipfsClient from 'ipfs-http-client';
 import concat from 'it-concat';
+const { version } = require('../package.json');
 
 export default class CasIpfs implements ICas {
   private ipfs: any;
@@ -34,7 +35,6 @@ export default class CasIpfs implements ICas {
   }
 
   public getServiceVersion: () => ServiceVersionModel = () => {
-    const { version } = require('../package.json');
     return {
       name: 'ipfs',
       version,

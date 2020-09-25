@@ -10,15 +10,10 @@ const ipfsCasWithCache = new IpfsCasWithCache(
 );
 
 beforeAll(async () => {
-  await ipfsCasWithCache.initialize();
   await MongoDb.resetDatabase(
     config.mongoDbConnectionString,
     config.databaseName
   );
-});
-
-afterAll(async () => {
-  await ipfsCasWithCache.close();
 });
 
 testSuite(ipfsCasWithCache);

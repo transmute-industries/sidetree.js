@@ -10,9 +10,27 @@ import {
   testBufferMultihash,
   notFoundMultihash,
 } from './__fixtures__';
+const { version } = require('../../package.json');
 
 const testSuite = (cas: ICas): void => {
   describe(cas.constructor.name, () => {
+    beforeAll(async () => {
+      await cas.initialize();
+    });
+
+    afterAll(async () => {
+      await cas.close();
+    });
+
+    describe('getServiceVersion', () => {
+      it('should get service version', async () => {
+        const serviceVersion = await cas.getServiceVersion();
+        expect(serviceVersion).toBeDefined();
+        expect(serviceVersion.name).toBeDefined();
+        expect(serviceVersion.version).toBe(version);
+      });
+    });
+
     describe('write', () => {
       it('should write a JSON and return content id', async () => {
         const cid = await cas.write(Buffer.from(JSON.stringify(testObj)));
