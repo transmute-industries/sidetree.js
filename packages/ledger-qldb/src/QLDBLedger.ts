@@ -5,10 +5,12 @@ import {
   AnchoredDataSerializer,
   BlockchainTimeModel,
   IBlockchain,
+  ServiceVersionModel,
   TransactionModel,
   ValueTimeLockModel,
 } from '@sidetree/common';
 import { Timestamp } from 'aws-sdk/clients/apigateway';
+const { version } = require('../package.json');
 
 interface ValueWithCount extends dom.Value {
   transactionCount: number;
@@ -52,6 +54,13 @@ export default class QLDBLedger implements IBlockchain {
     );
     this.transactionTable = tableName;
   }
+
+  public getServiceVersion: () => ServiceVersionModel = () => {
+    return {
+      name: 'qldb',
+      version,
+    };
+  };
 
   private async execute(query: string, args?: object): Promise<Result> {
     const params = args ? [args] : [];
