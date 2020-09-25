@@ -15,7 +15,7 @@ const shortFormDid = elemShortFormDid.replace('elem', 'photon');
 const resolveBody = replaceMethod(elemResolveBody);
 const createOperationBuffer = Buffer.from(JSON.stringify(createOperation));
 
-console.info = () => null;
+console.info = (): null => null;
 
 jest.setTimeout(60 * 1000);
 

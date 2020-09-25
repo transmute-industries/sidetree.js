@@ -98,7 +98,10 @@ export default class Photon {
    * The initialization method that must be called before consumption of this core object.
    * The method starts the Observer and Batch Writer.
    */
-  public async initialize(startObserver = true, startBatchWriter = true) {
+  public async initialize(
+    startObserver = true,
+    startBatchWriter = true
+  ): Promise<void> {
     await this.transactionStore.initialize();
     await this.unresolvableTransactionStore.initialize();
     await this.operationStore.initialize();
@@ -124,22 +127,22 @@ export default class Photon {
     this.downloadManager.start();
   }
 
-  public async triggerBatchWriting() {
+  public async triggerBatchWriting(): Promise<void> {
     await this.batchScheduler.writeOperationBatch();
   }
 
-  public async triggerProcessTransactions() {
+  public async triggerProcessTransactions(): Promise<void> {
     // By passing true, we force the observer to wait for all transactions
     // to be downloaded before returning. We need that for testing
     await this.observer.processTransactions(true);
   }
 
-  public async triggerBatchAndObserve() {
+  public async triggerBatchAndObserve(): Promise<void> {
     await this.triggerBatchWriting();
     await this.triggerProcessTransactions();
   }
 
-  public async close() {
+  public async close(): Promise<void> {
     const currentTime = this.blockchain.approximateTime;
     const operationQueue = this.versionManager.getOperationQueue(
       currentTime.time
