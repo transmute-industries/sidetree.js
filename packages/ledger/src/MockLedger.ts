@@ -2,6 +2,7 @@
 import {
   BlockchainTimeModel,
   IBlockchain,
+  ServiceVersionModel,
   TransactionModel,
   ValueTimeLockModel,
 } from '@sidetree/common';
@@ -10,6 +11,12 @@ import {
  * Mock Blockchain class for testing.
  */
 export default class MockLedger implements IBlockchain {
+  getServiceVersion(): ServiceVersionModel {
+    throw new Error('Method not implemented.');
+  }
+  initialize(): Promise<void> {
+    return Promise.resolve();
+  }
   getFee(_transactionTime: number): Promise<number> {
     throw new Error('Method not implemented.');
   }
@@ -72,12 +79,12 @@ export default class MockLedger implements IBlockchain {
     hash: '',
   };
 
-  public getLatestTime = (): BlockchainTimeModel => {
+  public getLatestTime = (): Promise<BlockchainTimeModel> => {
     this.latestTime = {
       time: 500000,
       hash: 'dummyHash',
     };
-    return this.latestTime;
+    return Promise.resolve(this.latestTime);
   };
 
   public get approximateTime(): BlockchainTimeModel {
