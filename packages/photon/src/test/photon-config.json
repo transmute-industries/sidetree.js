@@ -1,0 +1,17 @@
+{
+  "contentAddressableStoreServiceUri": "/ip4/127.0.0.1/tcp/5001",
+  "databaseName": "photon-test",
+  "qldbLedger": "photon-test",
+  "qldbLedgerTable": "Test",
+  "mongoDbConnectionString": "mongodb://localhost:27017/",
+  "didMethodName": "photon",
+  "batchingIntervalInSeconds": 5,
+  "observingIntervalInSeconds": 5,
+  "maxConcurrentDownloads": 20,
+  "versions": [
+    {
+      "startingBlockchainTime": 0,
+      "version": "latest"
+    }
+  ]
+}
