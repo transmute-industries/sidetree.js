@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable class-methods-use-this */
 import { QldbDriver, RetryConfig } from 'amazon-qldb-driver-nodejs';
 import {
   AnchoredDataSerializer,
@@ -8,6 +7,8 @@ import {
   TransactionModel,
   ValueTimeLockModel,
 } from '@sidetree/common';
+
+type QLDBQueryResponse = any;
 
 export default class QLDBLedger implements IBlockchain {
   public qldbDriver: QldbDriver;
@@ -18,8 +19,8 @@ export default class QLDBLedger implements IBlockchain {
     const serviceConfigurationOptions = {
       region: 'us-east-1',
     };
-    const maxConcurrentTransactions: number = 10;
-    const retryLimit: number = 4;
+    const maxConcurrentTransactions = 10;
+    const retryLimit = 4;
 
     // Use driver's default backoff function for this example (so, no second parameter provided to RetryConfig)
     const retryConfig: RetryConfig = new RetryConfig(retryLimit);
@@ -33,30 +34,33 @@ export default class QLDBLedger implements IBlockchain {
     this.transactionTable = tableName;
   }
 
-  private async execute(query: string, args?: object) {
+  private async execute(
+    query: string,
+    args?: object
+  ): Promise<QLDBQueryResponse> {
     const params = args ? [args] : [];
     return this.qldbDriver.executeLambda(async txn =>
       txn.execute(query, ...params)
     );
   }
 
-  private async executeWithoutError(query: string) {
+  private async executeWithoutError(query: string): Promise<QLDBQueryResponse> {
     return this.execute(query).catch(err => err.message);
   }
 
-  public async reset() {
+  public async reset(): Promise<void> {
     console.log('resetting', this.transactionTable);
     await this.execute(`DELETE FROM ${this.transactionTable}`);
   }
 
-  public async initialize() {
+  public async initialize(): Promise<void> {
     await this.executeWithoutError(`CREATE TABLE ${this.transactionTable}`);
     await this.executeWithoutError(
       `CREATE INDEX ON ${this.transactionTable} (transactionNumber)`
     );
   }
 
-  private async getTransactionCount() {
+  private async getTransactionCount(): Promise<number> {
     const result = await this.execute(
       `SELECT COUNT(*) AS transactionCount FROM ${this.transactionTable}`
     );
@@ -76,7 +80,7 @@ export default class QLDBLedger implements IBlockchain {
     });
   }
 
-  private toSidetreeTransaction(qldbResult: any) {
+  private toSidetreeTransaction(qldbResult: any): TransactionModel {
     const { blockAddress, data, metadata } = qldbResult;
     // Block information
     const transactionTime = Number(blockAddress.sequenceNo);
@@ -94,6 +98,7 @@ export default class QLDBLedger implements IBlockchain {
     return {
       transactionNumber,
       transactionTime,
+      transactionHash: transactionTimeHash,
       transactionTimeHash,
       transactionTimestamp,
       anchorString,
@@ -110,7 +115,7 @@ export default class QLDBLedger implements IBlockchain {
     moreTransactions: boolean;
     transactions: TransactionModel[];
   }> {
-    let result: any;
+    let result: QLDBQueryResponse;
     if (sinceTransactionNumber) {
       result = await this.execute(
         `SELECT * FROM _ql_committed_${this.transactionTable} as R WHERE R.data.transactionNumber >= ${sinceTransactionNumber}`
