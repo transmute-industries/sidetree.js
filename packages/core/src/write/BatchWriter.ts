@@ -33,7 +33,7 @@ export default class BatchWriter implements IBatchWriter {
     private versionMetadataFetcher: IVersionMetadataFetcher
   ) {}
 
-  public async write() {
+  public async write(): Promise<void> {
     const normalizedFee = await this.blockchain.getFee(
       this.blockchain.approximateTime.time
     );
