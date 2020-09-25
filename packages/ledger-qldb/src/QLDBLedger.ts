@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { QldbDriver, RetryConfig } from 'amazon-qldb-driver-nodejs';
+import { QldbDriver, RetryConfig, Result } from 'amazon-qldb-driver-nodejs';
+import { dom } from 'ion-js';
 import {
   AnchoredDataSerializer,
   BlockchainTimeModel,
@@ -7,8 +8,26 @@ import {
   TransactionModel,
   ValueTimeLockModel,
 } from '@sidetree/common';
+import { Timestamp } from 'aws-sdk/clients/apigateway';
 
-type QLDBQueryResponse = any;
+interface ValueWithCount extends dom.Value {
+  transactionCount: number;
+}
+
+interface ValueWithMetaData extends dom.Value {
+  blockAddress: {
+    sequenceNo: number;
+  };
+  data: {
+    transactionNumber: number;
+    numberOfOperations: number;
+    anchorFileHash: string;
+  };
+  metadata: {
+    txTime: Timestamp;
+    txId: string;
+  };
+}
 
 export default class QLDBLedger implements IBlockchain {
   public qldbDriver: QldbDriver;
@@ -34,17 +53,14 @@ export default class QLDBLedger implements IBlockchain {
     this.transactionTable = tableName;
   }
 
-  private async execute(
-    query: string,
-    args?: object
-  ): Promise<QLDBQueryResponse> {
+  private async execute(query: string, args?: object): Promise<Result> {
     const params = args ? [args] : [];
     return this.qldbDriver.executeLambda(async txn =>
       txn.execute(query, ...params)
     );
   }
 
-  private async executeWithoutError(query: string): Promise<QLDBQueryResponse> {
+  private async executeWithoutError(query: string): Promise<Result> {
     return this.execute(query).catch(err => err.message);
   }
 
@@ -65,7 +81,9 @@ export default class QLDBLedger implements IBlockchain {
       `SELECT COUNT(*) AS transactionCount FROM ${this.transactionTable}`
     );
     const resultList = result.getResultList();
-    const transactionCount = Number(resultList[0].transactionCount);
+    const transactionCount = Number(
+      (resultList[0] as ValueWithCount).transactionCount
+    );
     return transactionCount;
   }
 
@@ -80,7 +98,9 @@ export default class QLDBLedger implements IBlockchain {
     });
   }
 
-  private toSidetreeTransaction(qldbResult: any): TransactionModel {
+  private toSidetreeTransaction(
+    qldbResult: ValueWithMetaData
+  ): TransactionModel {
     const { blockAddress, data, metadata } = qldbResult;
     // Block information
     const transactionTime = Number(blockAddress.sequenceNo);
@@ -115,7 +135,7 @@ export default class QLDBLedger implements IBlockchain {
     moreTransactions: boolean;
     transactions: TransactionModel[];
   }> {
-    let result: QLDBQueryResponse;
+    let result: Result;
     if (sinceTransactionNumber) {
       result = await this.execute(
         `SELECT * FROM _ql_committed_${this.transactionTable} as R WHERE R.data.transactionNumber >= ${sinceTransactionNumber}`
@@ -129,8 +149,8 @@ export default class QLDBLedger implements IBlockchain {
         `SELECT * FROM _ql_committed_${this.transactionTable}`
       );
     }
-    const resultList = result.getResultList();
-    const transactions: TransactionModel[] = resultList.map(
+    const resultList: unknown[] = result.getResultList();
+    const transactions: TransactionModel[] = (resultList as ValueWithMetaData[]).map(
       this.toSidetreeTransaction
     );
     // Sort by increasing order of transaction number
