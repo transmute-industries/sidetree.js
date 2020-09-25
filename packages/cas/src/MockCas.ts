@@ -1,4 +1,9 @@
-import { FetchResultCode, ICas, FetchResult } from '@sidetree/common';
+import {
+  FetchResultCode,
+  ICas,
+  FetchResult,
+  ServiceVersionModel,
+} from '@sidetree/common';
 import Unixfs from 'ipfs-unixfs';
 import { DAGNode } from 'ipld-dag-pb';
 
@@ -17,6 +22,17 @@ export default class MockCas implements ICas {
     if (mockSecondsTakenForEachCasFetch !== undefined) {
       this.mockSecondsTakenForEachCasFetch = mockSecondsTakenForEachCasFetch;
     }
+  }
+  getServiceVersion(): Promise<ServiceVersionModel> {
+    throw new Error('Method not implemented.');
+  }
+
+  initialize(): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+
+  close(): Promise<void> {
+    throw new Error('Method not implemented.');
   }
 
   /**

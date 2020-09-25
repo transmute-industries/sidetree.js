@@ -3,6 +3,7 @@ import {
   ResponseModel,
   ResponseStatus,
   ProtocolVersionModel,
+  IBlockchain,
 } from '@sidetree/common';
 import {
   BatchScheduler,
@@ -12,7 +13,6 @@ import {
   ServiceInfo,
   VersionManager,
 } from '@sidetree/core';
-import QLDBLedger from '@sidetree/qldb';
 import { IpfsCas as Cas } from '@sidetree/cas';
 import {
   OperationStore as MongoDbOperationStore,
@@ -33,7 +33,7 @@ export default class Photon {
 
   private versionManager: VersionManager;
 
-  public blockchain: QLDBLedger;
+  public blockchain: IBlockchain;
 
   private cas: Cas;
 
@@ -53,7 +53,7 @@ export default class Photon {
   public constructor(
     config: Config,
     protocolVersions: ProtocolVersionModel[],
-    blockchain: QLDBLedger
+    blockchain: IBlockchain
   ) {
     // Component dependency construction & injection.
     this.versionManager = new VersionManager(config, protocolVersions); // `VersionManager` is first constructed component.

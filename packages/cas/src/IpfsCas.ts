@@ -25,6 +25,13 @@ export default class CasIpfs implements ICas {
       });
     }
   }
+  public async initialize(): Promise<void> {
+    return;
+  }
+
+  public async close(): Promise<void> {
+    return;
+  }
 
   public getServiceVersion: () => ServiceVersionModel = () => {
     const { version } = require('../package.json');

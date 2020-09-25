@@ -3,6 +3,7 @@ import {
   ResponseModel,
   ResponseStatus,
   ProtocolVersionModel,
+  IBlockchain,
 } from '@sidetree/common';
 import {
   BatchScheduler,
@@ -12,7 +13,6 @@ import {
   ServiceInfo,
   VersionManager,
 } from '@sidetree/core';
-import { EthereumLedger } from '@sidetree/ethereum';
 import { IpfsCasWithCache as Cas } from '@sidetree/cas';
 import {
   OperationStore as MongoDbOperationStore,
@@ -29,7 +29,7 @@ export default class Element {
   private unresolvableTransactionStore: MongoDbUnresolvableTransactionStore;
   public operationStore: MongoDbOperationStore;
   private versionManager: VersionManager;
-  public blockchain: EthereumLedger;
+  public blockchain: IBlockchain;
   private cas: Cas;
   private downloadManager: DownloadManager;
   private observer: Observer;
@@ -43,7 +43,7 @@ export default class Element {
   public constructor(
     config: Config,
     protocolVersions: ProtocolVersionModel[],
-    blockchain: EthereumLedger
+    blockchain: IBlockchain
   ) {
     // Component dependency construction & injection.
     this.versionManager = new VersionManager(config, protocolVersions); // `VersionManager` is first constructed component.

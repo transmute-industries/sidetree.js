@@ -38,7 +38,7 @@ export default class EthereumLedger implements IBlockchain {
     });
   }
 
-  public initialize: VoidFunction = async () => {
+  public async initialize(): Promise<void> {
     // Set primary address
     const [primaryAddress] = await utils.getAccounts(this.web3);
     // Set instance
@@ -58,7 +58,7 @@ export default class EthereumLedger implements IBlockchain {
     this.instance = await this.anchorContract.at(this.contractAddress);
     // Refresh cached block time
     await this.getLatestTime();
-  };
+  }
 
   public getServiceVersion: () => ServiceVersionModel = () => {
     return {
