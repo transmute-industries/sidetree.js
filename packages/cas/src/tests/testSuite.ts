@@ -10,7 +10,6 @@ import {
   testBufferMultihash,
   notFoundMultihash,
 } from './__fixtures__';
-const { version } = require('../../package.json');
 
 const testSuite = (cas: ICas): void => {
   describe(cas.constructor.name, () => {
@@ -27,7 +26,7 @@ const testSuite = (cas: ICas): void => {
         const serviceVersion = await cas.getServiceVersion();
         expect(serviceVersion).toBeDefined();
         expect(serviceVersion.name).toBeDefined();
-        expect(serviceVersion.version).toBe(version);
+        expect(serviceVersion.version).toBeDefined();
       });
     });
 

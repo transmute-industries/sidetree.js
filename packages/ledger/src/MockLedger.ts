@@ -6,13 +6,17 @@ import {
   TransactionModel,
   ValueTimeLockModel,
 } from '@sidetree/common';
+const { version } = require('../package.json');
 
 /**
  * Mock Blockchain class for testing.
  */
 export default class MockLedger implements IBlockchain {
-  getServiceVersion(): ServiceVersionModel {
-    throw new Error('Method not implemented.');
+  async getServiceVersion(): Promise<ServiceVersionModel> {
+    return {
+      name: 'mock-ledger',
+      version,
+    };
   }
   initialize(): Promise<void> {
     return Promise.resolve();
