@@ -1,17 +1,19 @@
 import QLDBLedger from '@sidetree/qldb';
-import { generatedTestVectors } from '@sidetree/test-vectors';
+import { sidetreeCoreGeneratedEd25519 } from '@sidetree/test-vectors';
 import { resetDatabase, getTestLedger, replaceMethod } from './utils';
 import Photon from '../Photon';
 import config from './photon-config.json';
 
+const create = sidetreeCoreGeneratedEd25519.operation.operation[0];
 const {
   shortFormDid: elemShortFormDid,
-  createOperationBuffer,
-  resolveBody: elemResolveBody,
-} = generatedTestVectors;
+  request: createOperation,
+  response: elemResolveBody,
+} = create;
 
 const shortFormDid = elemShortFormDid.replace('elem', 'photon');
 const resolveBody = replaceMethod(elemResolveBody);
+const createOperationBuffer = Buffer.from(JSON.stringify(createOperation));
 
 console.info = () => null;
 
