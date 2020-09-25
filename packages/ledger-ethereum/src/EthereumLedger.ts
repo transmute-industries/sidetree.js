@@ -20,9 +20,6 @@ const contract = require('@truffle/contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
 
 export default class EthereumLedger implements IBlockchain {
-  /** Interval for refreshing the cached blockchain time. */
-  static readonly cachedBlockchainTimeRefreshInSeconds = 60;
-
   private logger: Console;
   public anchorContract: any;
   public instance: ElementContract | undefined;
@@ -61,16 +58,6 @@ export default class EthereumLedger implements IBlockchain {
     this.instance = await this.anchorContract.at(this.contractAddress);
     // Refresh cached block time
     await this.getLatestTime();
-  };
-
-  /**
-   * The function that starts periodically anchoring operation batches to blockchain.
-   */
-  public startPeriodicCachedBlockchainTimeRefresh: VoidFunction = () => {
-    setInterval(
-      async () => this.getLatestTime(),
-      EthereumLedger.cachedBlockchainTimeRefreshInSeconds * 1000
-    );
   };
 
   public getServiceVersion: () => ServiceVersionModel = () => {

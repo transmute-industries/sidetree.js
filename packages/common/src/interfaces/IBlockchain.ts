@@ -1,3 +1,4 @@
+import { ServiceVersionModel } from 'models';
 import BlockchainTimeModel from '../models/BlockchainTimeModel';
 import TransactionModel from '../models/TransactionModel';
 import ValueTimeLockModel from '../models/ValueTimeLockModel';
@@ -7,6 +8,9 @@ import ValueTimeLockModel from '../models/ValueTimeLockModel';
  * This interface is mainly useful for creating a mock Blockchain for testing purposes.
  */
 export default interface IBlockchain {
+  getServiceVersion(): ServiceVersionModel;
+  getLatestTime(): Promise<BlockchainTimeModel>;
+  initialize(): Promise<void>;
   /**
    * Writes a Sidtree transaction with the given anchor string to blockchain.
    * @param anchorString Data to write to the blockchain.

@@ -117,7 +117,8 @@ export default class Element {
     if (startBatchWriter) {
       this.batchScheduler.startPeriodicBatchWriting();
     }
-    this.blockchain.startPeriodicCachedBlockchainTimeRefresh();
+    // FIXME
+    // this.blockchain.startPeriodicCachedBlockchainTimeRefresh();
     this.downloadManager.start();
   }
 
