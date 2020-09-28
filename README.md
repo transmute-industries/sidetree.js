@@ -79,28 +79,15 @@ You may find it useful to prune all docker data:
 docker system prune
 ```
 
+## Commercial Support
+
+Commercial support for these libraries is available upon request from
+Transmute: [support at transmute dot industries](mailto:support@transmute.industries)
+
+## Security Policy
+
+Please see our [security policy](./SECURITY.md) for additional details about responsible disclosure of security related issues.
+
 ## License
 
-Some portions of this software have been copied from [decentralized-identity/sidetree](https://github.com/decentralized-identity/sidetree).
-
-In some cases no changes were made, in others, substantial changes were made to support modularity, independent versioning, seperation of concerns, and incremental security upgrades.
-
-For more information see [decentralized-identity/sidetree LICENSE](https://github.com/decentralized-identity/sidetree/blob/master/LICENSE).
-
-Unless otherwise noted the following license applies:
-
-```
-Copyright 2020 - Transmute Industries Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```
+[Apache-2.0](./LICENSE) © Transmute Industries Inc.
