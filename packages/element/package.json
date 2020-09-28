@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.1.1-unstable.1",
+  "version": "0.1.1-unstable.2",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -35,17 +35,17 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
-    "@sidetree/test-vectors": "^0.1.1-unstable.0",
-    "@sidetree/wallet": "^0.1.1-unstable.1",
+    "@sidetree/test-vectors": "^0.1.1-unstable.2",
+    "@sidetree/wallet": "^0.1.1-unstable.2",
     "tsdx": "^0.13.2"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.1.1-unstable.1",
-    "@sidetree/common": "^0.1.1-unstable.1",
-    "@sidetree/core": "^0.1.1-unstable.1",
-    "@sidetree/db": "^0.1.1-unstable.1",
-    "@sidetree/did-method": "^0.1.1-unstable.1",
-    "@sidetree/ethereum": "^0.1.1-unstable.1",
+    "@sidetree/cas": "^0.1.1-unstable.2",
+    "@sidetree/common": "^0.1.1-unstable.2",
+    "@sidetree/core": "^0.1.1-unstable.2",
+    "@sidetree/db": "^0.1.1-unstable.2",
+    "@sidetree/did-method": "^0.1.1-unstable.2",
+    "@sidetree/ethereum": "^0.1.1-unstable.2",
     "web3": "^1.2.9"
   },
   "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d"
