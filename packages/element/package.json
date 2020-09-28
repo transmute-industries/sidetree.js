@@ -47,6 +47,7 @@
     "@sidetree/common": "^0.1.1-unstable.0",
     "@sidetree/core": "^0.1.1-unstable.0",
     "@sidetree/db": "^0.1.1-unstable.0",
+    "@sidetree/did-method": "^0.1.1-unstable.0",
     "@sidetree/ethereum": "^0.1.1-unstable.0",
     "web3": "^1.2.9"
   },

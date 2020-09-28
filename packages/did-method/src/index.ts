@@ -1,3 +1,3 @@
-import Core from './Core';
+import DidMethod from './DidMethod';
 
-export { Core };
+export { DidMethod };

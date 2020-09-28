@@ -24,7 +24,7 @@ import {
 /**
  * The core class that is instantiated when running a Sidetree node.
  */
-export default class Core {
+export default class DidMethod {
   public transactionStore: MongoDbTransactionStore;
   private unresolvableTransactionStore: MongoDbUnresolvableTransactionStore;
   public operationStore: MongoDbOperationStore;
@@ -37,9 +37,6 @@ export default class Core {
   private resolver: Resolver;
   private serviceInfo: ServiceInfo;
 
-  /**
-   * Core constructor.
-   */
   public constructor(
     config: Config,
     protocolVersions: ProtocolVersionModel[],
