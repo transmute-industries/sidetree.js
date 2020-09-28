@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/sidetree-cas-ipfs.esm.js",
-  "version": "0.1.1-unstable.3",
+  "version": "0.1.1-unstable.4",
   "license": "https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -35,8 +35,8 @@
     "tsdx": "^0.13.2"
   },
   "dependencies": {
-    "@sidetree/common": "^0.1.1-unstable.3",
-    "@sidetree/db": "^0.1.1-unstable.3",
+    "@sidetree/common": "^0.1.1-unstable.4",
+    "@sidetree/db": "^0.1.1-unstable.4",
     "@types/node-fetch": "^2.5.7",
     "ipfs-http-client": "42.0.0",
     "ipfs-unixfs": "^2.0.3",
