@@ -36,6 +36,3 @@ jobs:
 
       - name: Test
         run: npm run test -- --since origin/master
-
-      - name: Build
-        run: npm run build -- --since origin/master
