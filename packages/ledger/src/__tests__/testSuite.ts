@@ -7,6 +7,19 @@ jest.setTimeout(10 * 1000);
 
 const testSuite = (ledger: IBlockchain): void => {
   describe(ledger.constructor.name, () => {
+    beforeAll(async () => {
+      await ledger.initialize();
+    });
+
+    describe('getServiceVersion', () => {
+      it('should get service version', async () => {
+        const serviceVersion = await ledger.getServiceVersion();
+        expect(serviceVersion).toBeDefined();
+        expect(serviceVersion.name).toBeDefined();
+        expect(serviceVersion.version).toBeDefined();
+      });
+    });
+
     describe('write', () => {
       it('should write to the ledger', async () => {
         await ledger.write(anchorString, 0);

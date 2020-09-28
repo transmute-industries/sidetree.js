@@ -25,7 +25,7 @@ import OperationGenerator from './generators/OperationGenerator';
 import TransactionSelector from '../TransactionSelector';
 import TransactionProcessor from '../TransactionProcessor';
 
-console.info = () => null;
+console.info = (): null => null;
 
 describe('Observer', () => {
   const config = require('./config-test.json');
@@ -37,15 +37,14 @@ describe('Observer', () => {
   let blockchain: MockLedger;
   let versionManager: IVersionManager;
 
-  const originalDefaultTestTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-
   beforeAll(async () => {
     jest.setTimeout(20000); // These asynchronous tests can take a bit longer than normal.
 
     casClient = new MockCas();
 
     // Setting the CAS to always return 404.
-    spyOn(casClient, 'read').and.returnValue(
+    const readSpy = jest.spyOn(casClient, 'read');
+    readSpy.mockReturnValue(
       Promise.resolve({ code: FetchResultCode.NotFound })
     );
 
@@ -60,9 +59,8 @@ describe('Observer', () => {
     const versionMetadataFetcher = {} as any;
 
     // Mock the blockchain to return an empty lock
-    spyOn(blockchain, 'getValueTimeLock').and.returnValue(
-      Promise.resolve(undefined)
-    );
+    const valueSpy = jest.spyOn(blockchain, 'getValueTimeLock');
+    valueSpy.mockReturnValue(Promise.resolve(undefined));
 
     const transactionProcessor = new TransactionProcessor(
       downloadManager,
@@ -73,16 +71,16 @@ describe('Observer', () => {
     const transactionSelector = new TransactionSelector(transactionStore);
     versionManager = new MockVersionManager();
 
-    spyOn(versionManager, 'getTransactionProcessor').and.returnValue(
-      transactionProcessor
+    const transactionProcessorSpy = jest.spyOn(
+      versionManager,
+      'getTransactionProcessor'
     );
-    spyOn(versionManager, 'getTransactionSelector').and.returnValue(
-      transactionSelector
+    transactionProcessorSpy.mockReturnValue(transactionProcessor);
+    const transactionSelectorSpy = jest.spyOn(
+      versionManager,
+      'getTransactionSelector'
     );
-  });
-
-  afterAll(() => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalDefaultTestTimeout;
+    transactionSelectorSpy.mockReturnValue(transactionSelector);
   });
 
   beforeEach(() => {
@@ -98,6 +96,7 @@ describe('Observer', () => {
           transactionNumber: 1,
           transactionTime: 1000,
           transactionTimeHash: '1000',
+          transactionHash: '1000',
           anchorString: '1stTransaction',
           transactionFeePaid: 1,
           normalizedTransactionFee: 1,
@@ -107,6 +106,7 @@ describe('Observer', () => {
           transactionNumber: 2,
           transactionTime: 1000,
           transactionTimeHash: '1000',
+          transactionHash: '1000',
           anchorString: '2ndTransaction',
           transactionFeePaid: 2,
           normalizedTransactionFee: 2,
@@ -122,7 +122,10 @@ describe('Observer', () => {
     const blockchainClient = new MockLedger();
 
     let readInvocationCount = 0;
-    const mockReadFunction = async () => {
+    const mockReadFunction = async (): Promise<{
+      moreTransactions: boolean;
+      transactions: TransactionModel[];
+    }> => {
       readInvocationCount++;
       if (readInvocationCount === 1) {
         return initialTransactionFetchResponseBody;
@@ -130,7 +133,8 @@ describe('Observer', () => {
         return subsequentTransactionFetchResponseBody;
       }
     };
-    spyOn(blockchainClient, 'read').and.callFake(mockReadFunction);
+    const readSpy = jest.spyOn(blockchainClient, 'read');
+    readSpy.mockImplementation(mockReadFunction);
 
     // Start the Observer.
     const observer = new Observer(
@@ -144,10 +148,11 @@ describe('Observer', () => {
     );
 
     // mocking throughput limiter to make testing easier
-    spyOn(
+    const throughputspy = jest.spyOn(
       observer['throughputLimiter'],
       'getQualifiedTransactions'
-    ).and.callFake((transactions: TransactionModel[]) => {
+    );
+    throughputspy.mockImplementation((transactions: TransactionModel[]) => {
       return new Promise(resolve => {
         resolve(transactions);
       });
@@ -158,7 +163,7 @@ describe('Observer', () => {
 
     // Monitor the processed transactions list until change is detected or max retries is reached.
     await retry(
-      async _bail => {
+      async () => {
         const processedTransactionCount = transactionStore.getTransactions()
           .length;
         if (processedTransactionCount === 2) {
@@ -238,7 +243,7 @@ describe('Observer', () => {
     );
 
     // Prepare the mock fetch results from the `DownloadManager.download()`.
-    const mockDownloadFunction = async (hash: string) => {
+    const mockDownloadFunction = async (hash: string): Promise<FetchResult> => {
       if (hash === mockAnchorFilehash) {
         return mockAnchoreFileFetchResult;
       } else if (hash === mockMapFileHash) {
@@ -249,7 +254,8 @@ describe('Observer', () => {
         throw new Error('Test failed, unexpected hash given');
       }
     };
-    spyOn(downloadManager, 'download').and.callFake(mockDownloadFunction);
+    const downloadSpy = jest.spyOn(downloadManager, 'download');
+    downloadSpy.mockImplementation(mockDownloadFunction);
 
     const blockchainClient = new MockLedger();
     const observer = new Observer(
@@ -316,19 +322,21 @@ describe('Observer', () => {
         1
       );
 
-      spyOn(downloadManager, 'download').and.returnValue(
+      const downloadSpy = jest.spyOn(downloadManager, 'download');
+      downloadSpy.mockReturnValue(
         Promise.resolve({ code: mockFetchReturnCode as FetchResultCode })
       );
 
       let expectedConsoleLogDetected = false;
-      spyOn(global.console, 'info').and.callFake((message: string) => {
+      const consoleSpy = jest.spyOn(global.console, 'info');
+      consoleSpy.mockImplementation((message: string) => {
         if (message.includes(expectedConsoleLogSubstring)) {
           expectedConsoleLogDetected = true;
         }
       });
 
-      spyOn(transactionStore, 'removeUnresolvableTransaction');
-      spyOn(transactionStore, 'recordUnresolvableTransactionFetchAttempt');
+      jest.spyOn(transactionStore, 'removeUnresolvableTransaction');
+      jest.spyOn(transactionStore, 'recordUnresolvableTransactionFetchAttempt');
 
       const anchoredData = AnchoredDataSerializer.serialize({
         anchorFileHash: 'EiA_psBVqsuGjoYXMIRrcW_mPUG1yDXbh84VPXOuVQ5oqw',
@@ -370,6 +378,7 @@ describe('Observer', () => {
           transactionNumber: 1,
           transactionTime: 1000,
           transactionTimeHash: '1000',
+          transactionHash: '1000',
           anchorString: '1stTransaction',
           transactionFeePaid: 1,
           normalizedTransactionFee: 1,
@@ -379,6 +388,7 @@ describe('Observer', () => {
           transactionNumber: 2,
           transactionTime: 2000,
           transactionTimeHash: '2000',
+          transactionHash: '2000',
           anchorString: '2ndTransaction',
           transactionFeePaid: 1,
           normalizedTransactionFee: 1,
@@ -388,6 +398,7 @@ describe('Observer', () => {
           transactionNumber: 3,
           transactionTime: 3000,
           transactionTimeHash: '3000',
+          transactionHash: '3000',
           anchorString: '3rdTransaction',
           transactionFeePaid: 1,
           normalizedTransactionFee: 1,
@@ -403,6 +414,7 @@ describe('Observer', () => {
           transactionNumber: 2,
           transactionTime: 2001,
           transactionTimeHash: '2001',
+          transactionHash: '2001',
           anchorString: '2ndTransactionNew',
           transactionFeePaid: 1,
           normalizedTransactionFee: 1,
@@ -412,6 +424,7 @@ describe('Observer', () => {
           transactionNumber: 3,
           transactionTime: 3001,
           transactionTimeHash: '3000',
+          transactionHash: '3001',
           anchorString: '3rdTransactionNew',
           transactionFeePaid: 1,
           normalizedTransactionFee: 1,
@@ -421,6 +434,7 @@ describe('Observer', () => {
           transactionNumber: 4,
           transactionTime: 4000,
           transactionTimeHash: '4000',
+          transactionHash: '4000',
           anchorString: '4thTransaction',
           transactionFeePaid: 1,
           normalizedTransactionFee: 1,
@@ -443,7 +457,10 @@ describe('Observer', () => {
     };
 
     let readInvocationCount = 0;
-    const mockReadFunction = async () => {
+    const mockReadFunction = async (): Promise<{
+      moreTransactions: boolean;
+      transactions: TransactionModel[];
+    }> => {
       readInvocationCount++;
       if (readInvocationCount === 1) {
         // 1st call returns initial set of transactions.
@@ -462,10 +479,15 @@ describe('Observer', () => {
         return subsequentTransactionFetchResponseBody;
       }
     };
-    spyOn(blockchainClient, 'read').and.callFake(mockReadFunction);
+    const readSpy = jest.spyOn(blockchainClient, 'read');
+    readSpy.mockImplementation(mockReadFunction);
 
     // Make the `getFirstValidTransaction` call return the first transaction as the most recent knwon valid transactions.
-    spyOn(blockchainClient, 'getFirstValidTransaction').and.returnValue(
+    const getTransactionSpy = jest.spyOn(
+      blockchainClient,
+      'getFirstValidTransaction'
+    );
+    getTransactionSpy.mockReturnValue(
       Promise.resolve(initialTransactionFetchResponseBody.transactions[0])
     );
 
@@ -481,10 +503,11 @@ describe('Observer', () => {
     );
 
     // mocking throughput limiter to make testing easier
-    spyOn(
+    const transactionSpy = jest.spyOn(
       observer['throughputLimiter'],
       'getQualifiedTransactions'
-    ).and.callFake((transactions: TransactionModel[]) => {
+    );
+    transactionSpy.mockImplementation((transactions: TransactionModel[]) => {
       return new Promise(resolve => {
         resolve(transactions);
       });
@@ -495,7 +518,7 @@ describe('Observer', () => {
     // Monitor the processed transactions list until the expected count or max retries is reached.
     const processedTransactions = transactionStore.getTransactions();
     await retry(
-      async _bail => {
+      async () => {
         const processedTransactionCount = processedTransactions.length;
         if (processedTransactionCount === 4) {
           return;
@@ -540,30 +563,34 @@ describe('Observer', () => {
     const blockchainClient = new MockLedger();
 
     // Always return a blockchain time less than the last transaction known by core to simulate blockchain service being behind core service.
-    spyOn(blockchainClient, 'getLatestTime').and.returnValue(
-      Promise.resolve({ time: 500, hash: '500' })
-    );
+    const timeSpy = jest.spyOn(blockchainClient, 'getLatestTime');
+    timeSpy.mockReturnValue(Promise.resolve({ time: 500, hash: '500' }));
 
     // Simulate the read response when blockchain service blockchain time is behind core service's.
     let readInvocationCount = 0;
     const mockReadFunction = async (
       sinceTransactionNumber?: number,
       transactionTimeHash?: string
-    ) => {
+    ): Promise<{
+      moreTransactions: boolean;
+      transactions: TransactionModel[];
+    }> => {
       readInvocationCount++;
-      expect(sinceTransactionNumber).toEqual(1);
+      expect(sinceTransactionNumber).toEqual(2);
       expect(transactionTimeHash).toEqual('1000');
       throw new SidetreeError(
         SharedErrorCode.InvalidTransactionNumberOrTimeHash
       );
     };
-    spyOn(blockchainClient, 'read').and.callFake(mockReadFunction);
+    const readSpy = jest.spyOn(blockchainClient, 'read');
+    readSpy.mockImplementation(mockReadFunction);
 
     // NOTE: it is irrelvant what getFirstValidTransaction() returns because it is expected to be not called at all.
-    const getFirstValidTransactionSpy = spyOn(
+    const getFirstValidTransactionSpy = jest.spyOn(
       blockchainClient,
       'getFirstValidTransaction'
-    ).and.returnValue(Promise.resolve(undefined));
+    );
+    getFirstValidTransactionSpy.mockReturnValue(Promise.resolve(undefined));
 
     // Process first set of transactions.
     const observer = new Observer(
@@ -576,16 +603,17 @@ describe('Observer', () => {
       1
     );
 
-    const revertInvalidTransactionsSpy = spyOn(
+    const revertInvalidTransactionsSpy = jest.spyOn(
       observer as any,
       'revertInvalidTransactions'
-    ).and.returnValue(Promise.resolve(undefined));
+    );
+    revertInvalidTransactionsSpy.mockReturnValue(Promise.resolve(undefined));
 
     await observer.startPeriodicProcessing(); // Asynchronously triggers Observer to start processing transactions immediately.
 
     // Monitor the Observer until at two processing cycle has lapsed.
     await retry(
-      async _bail => {
+      async () => {
         if (readInvocationCount >= 2) {
           return;
         }

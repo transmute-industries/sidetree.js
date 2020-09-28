@@ -66,7 +66,7 @@ export default class VersionManager
     operationStore: IOperationStore,
     resolver: Resolver,
     transactionStore: ITransactionStore
-  ) {
+  ): Promise<void> {
     // Instantiate rest of the protocol components.
     // NOTE: In principal each version of the interface implemtnations can have different constructors,
     // but we currently keep the constructor signature the same as much as possible for simple instance construction,

@@ -2,14 +2,17 @@
   "packages": [
     "packages/cas",
     "packages/common",
-    "packages/crypto",
     "packages/core",
+    "packages/crypto",
+    "packages/did-method",
     "packages/db",
     "packages/element",
     "packages/ethereum",
     "packages/ledger",
+    "packages/ledger-qldb",
+    "packages/photon",
     "packages/test-vectors",
     "packages/wallet"
   ],
-  "version": "0.1.1-unstable.0"
+  "version": "0.1.1-unstable.1"
 }
