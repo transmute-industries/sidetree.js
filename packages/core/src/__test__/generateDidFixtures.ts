@@ -6,8 +6,6 @@ import { KeyGenerator } from './KeyGenerator';
 
 let createOperation: any;
 
-const config = require('../../../element/src/test/element-config.json');
-
 export const generateDidFixtures = async () => {
   // note that this resets the counter.
   const keyGenerator = new KeyGenerator();
@@ -31,7 +29,7 @@ export const generateDidFixtures = async () => {
 
   createOperation = await CreateOperation.parse(createOperationBuffer);
 
-  const didMethodName = config.didMethodName;
+  const didMethodName = 'elem';
   const didUniqueSuffix = createOperation.didUniqueSuffix;
   const shortFormDid = `did:${didMethodName}:${didUniqueSuffix}`;
 

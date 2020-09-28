@@ -1,10 +1,9 @@
+import { sidetreeCoreGeneratedEd25519 } from '@sidetree/test-vectors';
 import { generateKeyFixtures } from './generateKeyFixtures';
 import { generateDidFixtures } from './generateDidFixtures';
 import { generateFiles } from './generateFiles';
 
 import { FileWriter } from './FileWriter';
-
-const { sidetreeCoreGeneratedEd25519 } = require('@sidetree/test-vectors');
 
 const WRITE_FIXTURES_TO_DISK = false;
 
