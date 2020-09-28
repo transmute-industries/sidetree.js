@@ -4,6 +4,7 @@
     "packages/common",
     "packages/core",
     "packages/crypto",
+    "packages/did-method",
     "packages/db",
     "packages/element",
     "packages/ethereum",
