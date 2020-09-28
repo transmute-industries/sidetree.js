@@ -17,7 +17,10 @@ import multihashes from 'multihashes';
 import canonicalize from 'canonicalize';
 
 export const sha256 = (data: Buffer): Buffer => {
-  return crypto.createHash('sha256').update(data).digest();
+  return crypto
+    .createHash('sha256') // may need to change in the future.
+    .update(data)
+    .digest();
 };
 
 export const hashThenEncode = (data: Buffer): string => {
