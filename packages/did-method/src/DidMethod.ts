@@ -25,6 +25,7 @@ import {
  * The core class that is instantiated when running a Sidetree node.
  */
 export default class DidMethod {
+  static readonly cachedBlockchainTimeRefreshInSeconds = 60;
   public transactionStore: MongoDbTransactionStore;
   private unresolvableTransactionStore: MongoDbUnresolvableTransactionStore;
   public operationStore: MongoDbOperationStore;
@@ -114,10 +115,19 @@ export default class DidMethod {
     if (startBatchWriter) {
       this.batchScheduler.startPeriodicBatchWriting();
     }
-    // FIXME
-    // this.blockchain.startPeriodicCachedBlockchainTimeRefresh();
+    this.startPeriodicCachedBlockchainTimeRefresh();
     this.downloadManager.start();
   }
+
+  /**
+   * The function that starts periodically anchoring operation batches to blockchain.
+   */
+  public startPeriodicCachedBlockchainTimeRefresh: VoidFunction = () => {
+    setInterval(
+      async () => this.blockchain.getLatestTime(),
+      DidMethod.cachedBlockchainTimeRefreshInSeconds * 1000
+    );
+  };
 
   public async triggerBatchWriting(): Promise<void> {
     await this.batchScheduler.writeOperationBatch();
