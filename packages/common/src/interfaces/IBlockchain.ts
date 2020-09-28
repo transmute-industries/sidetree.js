@@ -10,7 +10,7 @@ import ValueTimeLockModel from '../models/ValueTimeLockModel';
 export default interface IBlockchain {
   getServiceVersion(): ServiceVersionModel;
   getLatestTime(): Promise<BlockchainTimeModel>;
-  initialize(): Promise<void>;
+  initialize(): void;
   /**
    * Writes a Sidtree transaction with the given anchor string to blockchain.
    * @param anchorString Data to write to the blockchain.
