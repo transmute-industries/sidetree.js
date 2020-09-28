@@ -576,7 +576,7 @@ describe('Observer', () => {
       transactions: TransactionModel[];
     }> => {
       readInvocationCount++;
-      expect(sinceTransactionNumber).toEqual(1);
+      expect(sinceTransactionNumber).toEqual(2);
       expect(transactionTimeHash).toEqual('1000');
       throw new SidetreeError(
         SharedErrorCode.InvalidTransactionNumberOrTimeHash
