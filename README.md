@@ -1,4 +1,6 @@
-# Sidetree.js [![npm version](https://badge.fury.io/js/sidetree.js.svg)](https://badge.fury.io/js/sidetree.js) ![Continuous Integration](https://github.com/transmute-industries/sidetree.js/workflows/CI/badge.svg)
+# sidetree.js
+
+[![npm version](https://badge.fury.io/js/sidetree.js.svg)](https://badge.fury.io/js/sidetree.js) ![Continuous Integration](https://github.com/transmute-industries/sidetree.js/workflows/CI/badge.svg)
 
 Sidetree.js is an implementation of the Sidetree protocol, implementation [v0.1.0 of the specification](https://web.archive.org/web/20200721150053/https://identity.foundation/sidetree/spec/v0.1.0/)
 
@@ -19,8 +21,9 @@ npm run test
 ```
 
 To run tests in a specific package run
+
 ```bash
-npm t -- --scope @sidetree/element
+npm t -- --scope @sidetree/did-method-element
 ```
 
 ## Services
@@ -58,7 +61,6 @@ Stable releases are triggered by a dev locally
   - `npm run publish:stable:minor` for a minor version increment
   - `npm run publish:stable:major` for a major version increment
 
-
 ### Example
 
 - Current version is v0.1.0
@@ -77,12 +79,15 @@ You may find it useful to prune all docker data:
 docker system prune
 ```
 
+## Commercial Support
+
+Commercial support for these libraries is available upon request from
+Transmute: [support at transmute dot industries](mailto:support@transmute.industries)
+
+## Security Policy
+
+Please see our [security policy](./SECURITY.md) for additional details about responsible disclosure of security related issues.
+
 ## License
 
-Substantial portions of this software have been copied from [decentralized-identity/sidetree](https://github.com/decentralized-identity/sidetree). In some cases no changes were made, in others, substantial changes were made to support modularity, independent versioning, seperation of concerns, and incremental security upgrades.
-
-For more information see [decentralized-identity/sidetree LICENSE](https://github.com/decentralized-identity/sidetree/blob/master/LICENSE).
-
-All documents in this Repository are licensed by contributors
-under the
-[W3C Software and Document License](https://www.w3.org/Consortium/Legal/copyright-software).
+[Apache-2.0](./LICENSE) © Transmute Industries Inc.
