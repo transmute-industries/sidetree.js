@@ -1,3 +1,22 @@
+/*
+ * The code in this file originated from
+ * @see https://github.com/decentralized-identity/sidetree
+ * For the list of changes that was made to the original code
+ * @see https://github.com/transmute-industries/sidetree.js/blob/master/reference-implementation-changes.md
+ *
+ * Copyright 2020 - Transmute Industries Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import {
   AnchoredData,
   AnchoredDataSerializer,
@@ -57,21 +76,21 @@ export default class BatchWriter implements IBatchWriter {
     );
 
     const operationModels = await Promise.all(
-      queuedOperations.map(async queuedOperation =>
+      queuedOperations.map(async (queuedOperation) =>
         Operation.parse(queuedOperation.operationBuffer)
       )
     );
     const createOperations = operationModels.filter(
-      operation => operation.type === OperationType.Create
+      (operation) => operation.type === OperationType.Create
     ) as CreateOperation[];
     const recoverOperations = operationModels.filter(
-      operation => operation.type === OperationType.Recover
+      (operation) => operation.type === OperationType.Recover
     ) as RecoverOperation[];
     const updateOperations = operationModels.filter(
-      operation => operation.type === OperationType.Update
+      (operation) => operation.type === OperationType.Update
     ) as UpdateOperation[];
     const deactivateOperations = operationModels.filter(
-      operation => operation.type === OperationType.Deactivate
+      (operation) => operation.type === OperationType.Deactivate
     ) as DeactivateOperation[];
 
     // Create the chunk file buffer from the operation models.

@@ -1,3 +1,22 @@
+/*
+ * The code in this file originated from
+ * @see https://github.com/decentralized-identity/sidetree
+ * For the list of changes that was made to the original code
+ * @see https://github.com/transmute-industries/sidetree.js/blob/master/reference-implementation-changes.md
+ *
+ * Copyright 2020 - Transmute Industries Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { ITransactionStore, TransactionModel } from '@sidetree/common';
 import MongoDb from '../MongoDb';
 import { MongoClient } from 'mongodb';
@@ -86,7 +105,7 @@ describe('MongoDbTransactionStore', () => {
     console.info(`Verify collections no longer exist.`);
     let collections = await db.collections();
     let collectionNames = collections.map(
-      collection => collection.collectionName
+      (collection) => collection.collectionName
     );
     expect(collectionNames.includes(collectionName)).toBeFalsy();
 
@@ -95,7 +114,9 @@ describe('MongoDbTransactionStore', () => {
 
     console.info(`Verify collection exists now.`);
     collections = await db.collections();
-    collectionNames = collections.map(collection => collection.collectionName);
+    collectionNames = collections.map(
+      (collection) => collection.collectionName
+    );
     expect(collectionNames.includes(collectionName)).toBeTruthy();
     await client.close();
   });
@@ -218,7 +239,7 @@ describe('MongoDbTransactionStore', () => {
     const remainingTransactions = await transactionStore.getTransactions();
     expect(remainingTransactions.length).toEqual(5);
     const remainingTransactionNumbers = remainingTransactions.map(
-      transaction => transaction.transactionNumber
+      (transaction) => transaction.transactionNumber
     );
     expect(remainingTransactionNumbers.includes(1)).toBeTruthy();
     expect(remainingTransactionNumbers.includes(2)).toBeTruthy();
