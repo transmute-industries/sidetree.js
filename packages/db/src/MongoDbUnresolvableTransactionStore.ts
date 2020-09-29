@@ -33,6 +33,7 @@ interface IUnresolvableTransaction extends TransactionModel {
 /**
  * Implementation of `IIUnresolvableTransactionStore` that stores the transaction data in a MongoDB database.
  */
+
 export default class MongoDbUnresolvableTransactionStore extends MongoDbBase
   implements IUnresolvableTransactionStore {
   public readonly collectionName: string = 'unresolvable-transactions';

@@ -1,8 +1,9 @@
 {
-    "editor.formatOnSave": true,
-    "eslint.workingDirectories": [
-        {
-            "pattern": "packages/*"
-        }
-    ]
+  "prettier.enable": false,
+  "editor.formatOnSave": false,
+  "eslint.workingDirectories": [
+    {
+      "pattern": "packages/*"
+    }
+  ]
 }
