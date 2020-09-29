@@ -40,13 +40,13 @@ export default class MockOperationQueue implements IOperationQueue {
     const sortedEntries = Array.from(this.operations.entries()).sort(
       (a, b) => a[1][0] - b[1][0]
     );
-    const sortedQueuedOperations = sortedEntries.map((entry) => {
+    const sortedQueuedOperations = sortedEntries.map(entry => {
       return { didUniqueSuffix: entry[0], operationBuffer: entry[1][1] };
     });
 
-    const sortedKeys = sortedEntries.map((entry) => entry[0]);
+    const sortedKeys = sortedEntries.map(entry => entry[0]);
     const keyBatch = sortedKeys.slice(0, count);
-    keyBatch.forEach((key) => this.operations.delete(key));
+    keyBatch.forEach(key => this.operations.delete(key));
 
     const operationBatch = sortedQueuedOperations.slice(0, count);
     return operationBatch;
@@ -57,7 +57,7 @@ export default class MockOperationQueue implements IOperationQueue {
     const sortedEntries = Array.from(this.operations.entries()).sort(
       (a, b) => a[1][0] - b[1][0]
     );
-    const sortedQueuedOperations = sortedEntries.map((entry) => {
+    const sortedQueuedOperations = sortedEntries.map(entry => {
       return { didUniqueSuffix: entry[0], operationBuffer: entry[1][1] };
     });
 

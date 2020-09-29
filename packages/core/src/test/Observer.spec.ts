@@ -172,7 +172,7 @@ describe('Observer', () => {
       'getQualifiedTransactions'
     );
     throughputspy.mockImplementation((transactions: TransactionModel[]) => {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         resolve(transactions);
       });
     });
@@ -311,7 +311,7 @@ describe('Observer', () => {
     );
 
     const didUniqueSuffixes = createOperations.map(
-      (operation) => operation.didUniqueSuffix
+      operation => operation.didUniqueSuffix
     );
     for (const didUniqueSuffix of didUniqueSuffixes) {
       const operationArray = await operationStore.get(didUniqueSuffix);
@@ -527,7 +527,7 @@ describe('Observer', () => {
       'getQualifiedTransactions'
     );
     transactionSpy.mockImplementation((transactions: TransactionModel[]) => {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         resolve(transactions);
       });
     });

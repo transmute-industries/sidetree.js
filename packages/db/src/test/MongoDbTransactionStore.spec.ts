@@ -105,7 +105,7 @@ describe('MongoDbTransactionStore', () => {
     console.info(`Verify collections no longer exist.`);
     let collections = await db.collections();
     let collectionNames = collections.map(
-      (collection) => collection.collectionName
+      collection => collection.collectionName
     );
     expect(collectionNames.includes(collectionName)).toBeFalsy();
 
@@ -114,9 +114,7 @@ describe('MongoDbTransactionStore', () => {
 
     console.info(`Verify collection exists now.`);
     collections = await db.collections();
-    collectionNames = collections.map(
-      (collection) => collection.collectionName
-    );
+    collectionNames = collections.map(collection => collection.collectionName);
     expect(collectionNames.includes(collectionName)).toBeTruthy();
     await client.close();
   });
@@ -239,7 +237,7 @@ describe('MongoDbTransactionStore', () => {
     const remainingTransactions = await transactionStore.getTransactions();
     expect(remainingTransactions.length).toEqual(5);
     const remainingTransactionNumbers = remainingTransactions.map(
-      (transaction) => transaction.transactionNumber
+      transaction => transaction.transactionNumber
     );
     expect(remainingTransactionNumbers.includes(1)).toBeTruthy();
     expect(remainingTransactionNumbers.includes(2)).toBeTruthy();

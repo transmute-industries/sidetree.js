@@ -42,8 +42,7 @@ interface IMongoQueuedOperation {
 /**
  * Operation queue used by the Batch Writer implemented using MongoDB.
  */
-export default class MongoDbOperationQueue
-  extends MongoDbBase
+export default class MongoDbOperationQueue extends MongoDbBase
   implements IOperationQueue {
   readonly collectionName = 'queued-operations';
 
@@ -88,7 +87,7 @@ export default class MongoDbOperationQueue
     const lastOperation = queuedOperations[queuedOperations.length - 1];
     await this.collection!.deleteMany({ _id: { $lte: lastOperation._id } });
 
-    return queuedOperations.map((operation) =>
+    return queuedOperations.map(operation =>
       MongoDbOperationQueue.convertToQueuedOperationModel(operation)
     );
   }
@@ -104,7 +103,7 @@ export default class MongoDbOperationQueue
       .limit(count)
       .toArray();
 
-    return queuedOperations.map((operation) =>
+    return queuedOperations.map(operation =>
       MongoDbOperationQueue.convertToQueuedOperationModel(operation)
     );
   }

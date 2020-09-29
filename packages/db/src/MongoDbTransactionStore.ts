@@ -24,8 +24,7 @@ import MongoDbBase from './MongoDbBase';
 /**
  * Implementation of ITransactionStore that stores the transaction data in a MongoDB database.
  */
-export default class MongoDbTransactionStore
-  extends MongoDbBase
+export default class MongoDbTransactionStore extends MongoDbBase
   implements ITransactionStore {
   readonly collectionName = 'transactions';
 

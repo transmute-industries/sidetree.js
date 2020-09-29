@@ -26,7 +26,7 @@ export default class TransactionSelector implements ITransactionSelector {
   public selectQualifiedTransactions(
     _transactions: TransactionModel[]
   ): Promise<TransactionModel[]> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       resolve([]);
     });
   }

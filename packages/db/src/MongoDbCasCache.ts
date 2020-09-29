@@ -29,7 +29,9 @@ export default class MongoDbCasCache extends MongoDbBase {
   }
 
   async read(hash: string): Promise<FetchResult> {
-    const operations = await this.collection!.find({ hash }).limit(1).toArray();
+    const operations = await this.collection!.find({ hash })
+      .limit(1)
+      .toArray();
     if (operations.length === 1) {
       const operation = operations.pop();
       return {

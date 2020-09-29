@@ -21,7 +21,7 @@ import { createConnection, Connection, getMongoRepository } from 'typeorm';
 import 'reflect-metadata';
 import fixtures from './__fixtures__';
 
-fixtures.forEach((fixture) =>
+fixtures.forEach(fixture =>
   describe(fixture.name, () => {
     let connection: Connection;
     let _id: string;

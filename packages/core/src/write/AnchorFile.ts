@@ -195,20 +195,20 @@ export default class AnchorFile {
     recoverOperationArray: RecoverOperation[],
     deactivateOperationArray: DeactivateOperation[]
   ): Promise<AnchorFileModel> {
-    const createOperations = createOperationArray.map((operation) => {
+    const createOperations = createOperationArray.map(operation => {
       return {
         suffix_data: operation.encodedSuffixData,
       };
     });
 
-    const recoverOperations = recoverOperationArray.map((operation) => {
+    const recoverOperations = recoverOperationArray.map(operation => {
       return {
         did_suffix: operation.didUniqueSuffix,
         signed_data: operation.signedDataJws.toCompactJws(),
       };
     });
 
-    const deactivateOperations = deactivateOperationArray.map((operation) => {
+    const deactivateOperations = deactivateOperationArray.map(operation => {
       return {
         did_suffix: operation.didUniqueSuffix,
         signed_data: operation.signedDataJws.toCompactJws(),

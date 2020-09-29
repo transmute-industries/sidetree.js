@@ -30,9 +30,9 @@ describe('ThroughputLimiter', () => {
   beforeEach(() => {
     transactionSelector = new TransactionSelector(new MockTransactionStore());
     spyOn(transactionSelector, 'selectQualifiedTransactions').and.callFake(
-      (transactions) => {
+      transactions => {
         // mock selecting the first one
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
           resolve([transactions[0]]);
         });
       }
