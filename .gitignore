@@ -2,3 +2,5 @@ node_modules
 
 **/mongo-data/*
 **/!mongo-data/.keep
+
+lerna-debug.log
