@@ -31,6 +31,7 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
+    "aws-sdk": "^2.763.0",
     "tsdx": "^0.13.2"
   },
   "dependencies": {

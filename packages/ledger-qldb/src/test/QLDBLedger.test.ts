@@ -14,19 +14,31 @@
 
 import { testSuite } from '@sidetree/ledger';
 import QLDBLedger from '..';
+import AWS from 'aws-sdk';
 
 jest.setTimeout(10 * 1000);
 
-const ledger = new QLDBLedger('photon-test', 'Test');
+const config = new AWS.Config();
+if (!config.credentials) {
+  console.warn(
+    'No AWS credentials found in ~/.aws/credentials, skipping QLDB tests...'
+  );
+  // eslint-disable-next-line no-global-assign
+  describe = describe.skip;
+}
 
-beforeAll(async () => {
-  await ledger.reset();
+describe('QLDB tests', () => {
+  const ledger = new QLDBLedger('photon-test', 'Test');
+
+  beforeAll(async () => {
+    await ledger.reset();
+  });
+
+  it('should initialize the ledger', async () => {
+    await ledger.initialize();
+    const tableNames = await ledger.qldbDriver.getTableNames();
+    expect(tableNames.includes(ledger.transactionTable)).toBeTruthy();
+  });
+
+  testSuite(ledger);
 });
-
-it('should initialize the ledger', async () => {
-  await ledger.initialize();
-  const tableNames = await ledger.qldbDriver.getTableNames();
-  expect(tableNames.includes(ledger.transactionTable)).toBeTruthy();
-});
-
-testSuite(ledger);
