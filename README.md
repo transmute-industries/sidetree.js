@@ -4,7 +4,7 @@
 
 Sidetree.js is an implementation of the Sidetree protocol, implementation [v0.1.0 of the specification](https://web.archive.org/web/20200721150053/https://identity.foundation/sidetree/spec/v0.1.0/)
 
-This codebase is a [Lerna monorepo](https://github.com/lerna/lerna). Here is a list of the packages it currently contains: https://github.com/transmute-industries/sidetree.js/tree/master/packages
+This codebase is a [Lerna monorepo](https://github.com/lerna/lerna). See [./packages/](https://github.com/transmute-industries/sidetree.js/tree/master/packages) for all modules in this repository.
 
 ## Usage
 
