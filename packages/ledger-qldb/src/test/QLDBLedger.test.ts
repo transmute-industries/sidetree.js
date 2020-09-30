@@ -20,7 +20,9 @@ jest.setTimeout(10 * 1000);
 
 const config = new AWS.Config();
 if (!config.credentials) {
-  console.warn('No AWS credentials found in ~/.aws/credentials, skipping QLDB tests...');
+  console.warn(
+    'No AWS credentials found in ~/.aws/credentials, skipping QLDB tests...'
+  );
   // eslint-disable-next-line no-global-assign
   describe = describe.skip;
 }
