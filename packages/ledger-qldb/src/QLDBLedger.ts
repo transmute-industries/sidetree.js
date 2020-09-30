@@ -64,13 +64,13 @@ export default class QLDBLedger implements IBlockchain {
 
   private async execute(query: string, args?: object): Promise<Result> {
     const params = args ? [args] : [];
-    return this.qldbDriver.executeLambda(async txn =>
+    return this.qldbDriver.executeLambda(async (txn) =>
       txn.execute(query, ...params)
     );
   }
 
   private async executeWithoutError(query: string): Promise<Result> {
-    return this.execute(query).catch(err => err.message);
+    return this.execute(query).catch((err) => err.message);
   }
 
   public async reset(): Promise<void> {

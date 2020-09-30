@@ -321,7 +321,7 @@ describe('OperationProcessor', () => {
       const permutation = getPermutation(numberOfOps, i);
       operationStore = new MockOperationStore();
       resolver = new Resolver(versionManager, operationStore);
-      const permutedOps = permutation.map(i => ops[i]);
+      const permutedOps = permutation.map((i) => ops[i]);
       await operationStore.put(permutedOps);
       const didState = await resolver.resolve(didUniqueSuffix);
       expect(didState).toBeDefined();
