@@ -625,10 +625,6 @@ describe('OperationProcessor', () => {
         { transactionTime: 2, transactionNumber: 2, operationIndex: 2 }
       );
 
-      const spy = jest.spyOn(console, 'debug');
-      spy.mockImplementation(() => {
-        throw new Error('An error message.');
-      });
       const newDidState = await operationProcessor.apply(
         createOperationData.anchoredOperationModel,
         didState
