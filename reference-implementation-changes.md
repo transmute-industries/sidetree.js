@@ -3,7 +3,7 @@
 - Refactor single module into multiple modules (supporting mono repo structure).
 - Centralize types and utilities into common
 - Replace nondeterministic crypto with deterministic crypto
-- Repalce node only dependencies with js dependencies that can run in the browser
+- Replace node only dependencies with js dependencies that can run in the browser
 - Add more unit tests
 - Add intergration tests
 - Add support for universal wallet
