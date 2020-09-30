@@ -101,7 +101,7 @@ export default class EthereumLedger implements IBlockchain {
       toBlock: toBlock || 'latest',
       filter: (options && options.filter) || undefined,
     });
-    const txns = logs.map(log =>
+    const txns = logs.map((log) =>
       utils.eventLogToSidetreeTransaction(log as ElementEventData)
     );
     if (options && options.omitTimestamp) {

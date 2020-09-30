@@ -24,12 +24,6 @@
     "lint:fix": "tsdx lint src --fix",
     "prepare": "tsdx build"
   },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
   "devDependencies": {
     "@sidetree/test-vectors": "^0.1.1-unstable.7",
     "@types/base64url": "^2.0.0",

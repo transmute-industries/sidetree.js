@@ -103,7 +103,7 @@ describe('MongoDbUnresolvableTransactionStore', () => {
     console.info(`Verify collections no longer exist.`);
     let collections = await db.collections();
     let collectionNames = collections.map(
-      collection => collection.collectionName
+      (collection) => collection.collectionName
     );
     expect(collectionNames.includes(collectionName)).toBeFalsy();
 
@@ -112,7 +112,9 @@ describe('MongoDbUnresolvableTransactionStore', () => {
 
     console.info(`Verify collection exists now.`);
     collections = await db.collections();
-    collectionNames = collections.map(collection => collection.collectionName);
+    collectionNames = collections.map(
+      (collection) => collection.collectionName
+    );
     expect(collectionNames.includes(collectionName)).toBeTruthy();
     await client.close();
   });
@@ -152,7 +154,7 @@ describe('MongoDbUnresolvableTransactionStore', () => {
     expect(unresolvableTransactions.length).toEqual(2);
     // Expect that we can no longer find the originally 2nd unresolvable transaction.
     const unresolvableTransactionNumbers = unresolvableTransactions.map(
-      transaction => transaction.transactionNumber
+      (transaction) => transaction.transactionNumber
     );
     expect(unresolvableTransactionNumbers.includes(2)).toBeFalsy();
   });
@@ -210,7 +212,7 @@ describe('MongoDbUnresolvableTransactionStore', () => {
     const unresolvableTransactions = await store.getUnresolvableTransactions();
     expect(unresolvableTransactions.length).toEqual(2);
     const unresolvableTransactionNumbers = unresolvableTransactions.map(
-      transaction => transaction.transactionNumber
+      (transaction) => transaction.transactionNumber
     );
     expect(unresolvableTransactionNumbers.includes(4)).toBeTruthy();
     expect(unresolvableTransactionNumbers.includes(5)).toBeTruthy();

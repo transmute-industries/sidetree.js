@@ -58,7 +58,7 @@ export default class OperationStore implements IOperationStore {
     const operationsWithoutDuplicates = operations.reduce(
       (opsWithoutDuplicates: AnchoredOperationModel[], operation) => {
         const exists = opsWithoutDuplicates.find(
-          op => op.operationIndex === operation.operationIndex
+          (op) => op.operationIndex === operation.operationIndex
         );
         if (exists) {
           return opsWithoutDuplicates;
@@ -74,7 +74,7 @@ export default class OperationStore implements IOperationStore {
       const anchoredOperation: AnchoredOperationModel = operation;
       const res = await this.get(anchoredOperation.didUniqueSuffix);
       const isDuplicated = res.find(
-        op =>
+        (op) =>
           op.operationIndex === anchoredOperation.operationIndex &&
           op.transactionNumber === anchoredOperation.transactionNumber
       );

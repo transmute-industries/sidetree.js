@@ -102,9 +102,15 @@ export default class ChunkFile {
     updateOperations: UpdateOperation[]
   ) {
     const deltas = [];
-    deltas.push(...createOperations.map(operation => operation.encodedDelta!));
-    deltas.push(...recoverOperations.map(operation => operation.encodedDelta!));
-    deltas.push(...updateOperations.map(operation => operation.encodedDelta!));
+    deltas.push(
+      ...createOperations.map((operation) => operation.encodedDelta!)
+    );
+    deltas.push(
+      ...recoverOperations.map((operation) => operation.encodedDelta!)
+    );
+    deltas.push(
+      ...updateOperations.map((operation) => operation.encodedDelta!)
+    );
 
     const chunkFileModel = {
       deltas,

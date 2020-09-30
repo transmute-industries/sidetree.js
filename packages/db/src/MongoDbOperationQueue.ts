@@ -87,7 +87,7 @@ export default class MongoDbOperationQueue extends MongoDbBase
     const lastOperation = queuedOperations[queuedOperations.length - 1];
     await this.collection!.deleteMany({ _id: { $lte: lastOperation._id } });
 
-    return queuedOperations.map(operation =>
+    return queuedOperations.map((operation) =>
       MongoDbOperationQueue.convertToQueuedOperationModel(operation)
     );
   }
@@ -103,7 +103,7 @@ export default class MongoDbOperationQueue extends MongoDbBase
       .limit(count)
       .toArray();
 
-    return queuedOperations.map(operation =>
+    return queuedOperations.map((operation) =>
       MongoDbOperationQueue.convertToQueuedOperationModel(operation)
     );
   }
