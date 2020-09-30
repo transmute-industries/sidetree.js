@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.1.1-unstable.8",
+  "version": "0.1.1-unstable.9",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -29,17 +29,17 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/test-vectors": "^0.1.1-unstable.8",
-    "@sidetree/wallet": "^0.1.1-unstable.8",
+    "@sidetree/test-vectors": "^0.1.1-unstable.9",
+    "@sidetree/wallet": "^0.1.1-unstable.9",
     "tsdx": "^0.13.2"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.1.1-unstable.8",
-    "@sidetree/common": "^0.1.1-unstable.8",
-    "@sidetree/core": "^0.1.1-unstable.8",
-    "@sidetree/db": "^0.1.1-unstable.8",
-    "@sidetree/did-method": "^0.1.1-unstable.8",
-    "@sidetree/ethereum": "^0.1.1-unstable.8",
+    "@sidetree/cas": "^0.1.1-unstable.9",
+    "@sidetree/common": "^0.1.1-unstable.9",
+    "@sidetree/core": "^0.1.1-unstable.9",
+    "@sidetree/db": "^0.1.1-unstable.9",
+    "@sidetree/did-method": "^0.1.1-unstable.9",
+    "@sidetree/ethereum": "^0.1.1-unstable.9",
     "web3": "^1.2.9"
   },
   "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d"
