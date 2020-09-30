@@ -17,6 +17,14 @@ import { sidetreeCoreGeneratedEd25519 } from '@sidetree/test-vectors';
 import { resetDatabase, getTestLedger, replaceMethod } from './utils';
 import Photon from '../Photon';
 import config from './photon-config.json';
+import AWS from 'aws-sdk';
+
+const awsConfig = new AWS.Config();
+if (!awsConfig.credentials) {
+  console.warn('No AWS credentials found in ~/.aws/credentials, skipping Photon tests...');
+  // eslint-disable-next-line no-global-assign
+  describe = describe.skip;
+}
 
 const create = sidetreeCoreGeneratedEd25519.operation.operation[0];
 const {
