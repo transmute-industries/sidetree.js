@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.1.1-unstable.10",
+  "version": "0.1.1-unstable.11",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -29,13 +29,13 @@
     "tsdx": "^0.13.2"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.1.1-unstable.10",
-    "@sidetree/common": "^0.1.1-unstable.10",
-    "@sidetree/core": "^0.1.1-unstable.10",
-    "@sidetree/db": "^0.1.1-unstable.10",
-    "@sidetree/did-method": "^0.1.1-unstable.10",
-    "@sidetree/qldb": "^0.1.1-unstable.10",
-    "@sidetree/test-vectors": "^0.1.1-unstable.10",
+    "@sidetree/cas": "^0.1.1-unstable.11",
+    "@sidetree/common": "^0.1.1-unstable.11",
+    "@sidetree/core": "^0.1.1-unstable.11",
+    "@sidetree/db": "^0.1.1-unstable.11",
+    "@sidetree/did-method": "^0.1.1-unstable.11",
+    "@sidetree/qldb": "^0.1.1-unstable.11",
+    "@sidetree/test-vectors": "^0.1.1-unstable.11",
     "base64url-universal": "^1.1.0",
     "web-streams-polyfill": "^3.0.0"
   }
