@@ -76,21 +76,21 @@ export default class BatchWriter implements IBatchWriter {
     );
 
     const operationModels = await Promise.all(
-      queuedOperations.map(async queuedOperation =>
+      queuedOperations.map(async (queuedOperation) =>
         Operation.parse(queuedOperation.operationBuffer)
       )
     );
     const createOperations = operationModels.filter(
-      operation => operation.type === OperationType.Create
+      (operation) => operation.type === OperationType.Create
     ) as CreateOperation[];
     const recoverOperations = operationModels.filter(
-      operation => operation.type === OperationType.Recover
+      (operation) => operation.type === OperationType.Recover
     ) as RecoverOperation[];
     const updateOperations = operationModels.filter(
-      operation => operation.type === OperationType.Update
+      (operation) => operation.type === OperationType.Update
     ) as UpdateOperation[];
     const deactivateOperations = operationModels.filter(
-      operation => operation.type === OperationType.Deactivate
+      (operation) => operation.type === OperationType.Deactivate
     ) as DeactivateOperation[];
 
     // Create the chunk file buffer from the operation models.

@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.1.1-unstable.7",
+  "version": "0.1.1-unstable.9",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -28,14 +28,8 @@
     "lint:fix": "tsdx lint src --fix",
     "prepare": "tsdx build"
   },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
   "devDependencies": {
-    "@sidetree/test-vectors": "^0.1.1-unstable.7",
+    "@sidetree/test-vectors": "^0.1.1-unstable.9",
     "@types/async-retry": "^1.4.2",
     "@types/hdkey": "^0.7.1",
     "async-retry": "^1.3.1",
@@ -43,11 +37,11 @@
     "tsdx": "^0.13.2"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.1.1-unstable.7",
-    "@sidetree/common": "^0.1.1-unstable.7",
-    "@sidetree/crypto": "^0.1.1-unstable.7",
-    "@sidetree/db": "^0.1.1-unstable.7",
-    "@sidetree/ledger": "^0.1.1-unstable.7",
+    "@sidetree/cas": "^0.1.1-unstable.9",
+    "@sidetree/common": "^0.1.1-unstable.9",
+    "@sidetree/crypto": "^0.1.1-unstable.9",
+    "@sidetree/db": "^0.1.1-unstable.9",
+    "@sidetree/ledger": "^0.1.1-unstable.9",
     "@transmute/did-key-ed25519": "^0.2.1-unstable.18",
     "@transmute/did-key-secp256k1": "^0.2.1-unstable.11",
     "@trust/keyto": "^1.0.1",

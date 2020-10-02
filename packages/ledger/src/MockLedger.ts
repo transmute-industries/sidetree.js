@@ -72,11 +72,11 @@ export default class MockLedger implements IBlockchain {
     }));
     if (sinceTransactionNumber) {
       transactions = transactions.filter(
-        t => t.transactionNumber >= sinceTransactionNumber
+        (t) => t.transactionNumber >= sinceTransactionNumber
       );
     } else if (_transactionTimeHash) {
       transactions = transactions.filter(
-        t => t.transactionTimeHash === _transactionTimeHash
+        (t) => t.transactionTimeHash === _transactionTimeHash
       );
     }
 

@@ -1,4 +1,6 @@
 version: '3'
+# Each package in the mono repo only starts the docker services that it needs
+# for testing using the "pretest" npm command.
 services:
   ganache:
     image: trufflesuite/ganache-cli:latest

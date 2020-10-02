@@ -149,7 +149,7 @@ export default class DownloadManager {
     maxSizeInBytes: number
   ): Promise<FetchResult> {
     const handle = crypto.randomBytes(32);
-    const fetchPromise = new Promise(resolve => {
+    const fetchPromise = new Promise((resolve) => {
       const downloadInfo = {
         handle,
         contentHash,

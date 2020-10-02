@@ -66,9 +66,9 @@ export default class MongoDb {
     // Get the names of existing collections.
     const collections = await db.collections();
     const collectionNames = collections.map(
-      collection => collection.collectionName
+      (collection) => collection.collectionName
     );
-    const collectionExists = collectionNames.find(c => c === collectionName);
+    const collectionExists = collectionNames.find((c) => c === collectionName);
 
     // If the collection exists, use it; else create it then use it.
     let collection;
