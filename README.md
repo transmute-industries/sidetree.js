@@ -2,11 +2,11 @@
 
 [![npm version](https://badge.fury.io/js/sidetree.js.svg)](https://badge.fury.io/js/@sidetree/core.js) ![Continuous Integration](https://github.com/transmute-industries/sidetree.js/workflows/CI/badge.svg)
 
-Sidetree.js is an implementation of the Sidetree protocol.
+Sidetree.js is an implementation of [v0.1.0 of the sidetree specification](https://web.archive.org/web/20200721150053/https://identity.foundation/sidetree/spec/v0.1.0/)
 
-Supporting [v0.1.0 of the specification](https://web.archive.org/web/20200721150053/https://identity.foundation/sidetree/spec/v0.1.0/)
+This codebase is a [Lerna monorepo](https://github.com/lerna/lerna). 
 
-This codebase is a [Lerna monorepo](https://github.com/lerna/lerna). See [./packages/](https://github.com/transmute-industries/sidetree.js/tree/master/packages) for all modules in this repository.
+See [./packages/](https://github.com/transmute-industries/sidetree.js/tree/master/packages) for all modules in this repository.
 
 ## Usage
 
