@@ -17,15 +17,13 @@
           "publicKeyJwk": {
             "crv": "Ed25519",
             "x": "BnamLr9mV2goDx4gfFzaBCBXWy2Bpa64cNNhVMIe4vc",
-            "kty": "OKP",
-            "kid": "DrUSp0MnN8txc0J-odEXDRu-QRRDpOP9c2awKGW2Ozk"
+            "kty": "OKP"
           },
           "privateKeyJwk": {
             "crv": "Ed25519",
             "d": "87PIwLP94_sBjfsxuQ4yaRDeHAvyQ743PstdNWxq_7o",
             "x": "BnamLr9mV2goDx4gfFzaBCBXWy2Bpa64cNNhVMIe4vc",
-            "kty": "OKP",
-            "kid": "DrUSp0MnN8txc0J-odEXDRu-QRRDpOP9c2awKGW2Ozk"
+            "kty": "OKP"
           }
         }
       ],
@@ -99,15 +97,13 @@
           "publicKeyJwk": {
             "crv": "Ed25519",
             "x": "XYWbcZRhlAGbTBQmMIVWc4Gv9Eqb7D3hTAW3zhcEByU",
-            "kty": "OKP",
-            "kid": "wZjF37je1QdaHTdzcGDWT__R_RqH_VBNZV8FavFxGdw"
+            "kty": "OKP"
           },
           "privateKeyJwk": {
             "crv": "Ed25519",
             "d": "VWIFdVPOUIeiRVP4Z5JyAeIPQYmIUQmtT5G28aK4FDY",
             "x": "XYWbcZRhlAGbTBQmMIVWc4Gv9Eqb7D3hTAW3zhcEByU",
-            "kty": "OKP",
-            "kid": "wZjF37je1QdaHTdzcGDWT__R_RqH_VBNZV8FavFxGdw"
+            "kty": "OKP"
           }
         }
       ],
@@ -181,15 +177,13 @@
           "publicKeyJwk": {
             "crv": "Ed25519",
             "x": "uu3efnpAtZ2Xp_MqKfrTBzE2Brd8NBxCvL3npUo7Y3c",
-            "kty": "OKP",
-            "kid": "_wOUHNBToYS4Q4RbKZNSLg7fpUbxlinubJvR4v5bulo"
+            "kty": "OKP"
           },
           "privateKeyJwk": {
             "crv": "Ed25519",
             "d": "ys2OXU8D2jHouda9pcyoc7Q_ucPXydL8fEIpqe1RIUM",
             "x": "uu3efnpAtZ2Xp_MqKfrTBzE2Brd8NBxCvL3npUo7Y3c",
-            "kty": "OKP",
-            "kid": "_wOUHNBToYS4Q4RbKZNSLg7fpUbxlinubJvR4v5bulo"
+            "kty": "OKP"
           }
         }
       ],
@@ -263,15 +257,13 @@
           "publicKeyJwk": {
             "crv": "Ed25519",
             "x": "Vrx9-sxa5WLwf5uxqyrpjjFRcooKcSRYPnF640LxEcs",
-            "kty": "OKP",
-            "kid": "-_nPbsan_ofmTQ4pOnEt0CEnMClGBW0uSGmpUDf8IL8"
+            "kty": "OKP"
           },
           "privateKeyJwk": {
             "crv": "Ed25519",
             "d": "Z3tuvOFi4qoS2QBTkMRAeM-B23thFmlSgYrJrFiaw08",
             "x": "Vrx9-sxa5WLwf5uxqyrpjjFRcooKcSRYPnF640LxEcs",
-            "kty": "OKP",
-            "kid": "-_nPbsan_ofmTQ4pOnEt0CEnMClGBW0uSGmpUDf8IL8"
+            "kty": "OKP"
           }
         }
       ],
@@ -345,15 +337,13 @@
           "publicKeyJwk": {
             "crv": "Ed25519",
             "x": "ALhP5S5SHbNt0ioIL5y5LSLCb6BVyC3PlPRviq0T03U",
-            "kty": "OKP",
-            "kid": "3LUEaO-i186qWowiV7Ld0V8NOhAD1JfEQkYfstB0zv0"
+            "kty": "OKP"
           },
           "privateKeyJwk": {
             "crv": "Ed25519",
             "d": "oF59dWe4NYmvhIdyCYcM3AdC_q9vTckUohKOISQjaMg",
             "x": "ALhP5S5SHbNt0ioIL5y5LSLCb6BVyC3PlPRviq0T03U",
-            "kty": "OKP",
-            "kid": "3LUEaO-i186qWowiV7Ld0V8NOhAD1JfEQkYfstB0zv0"
+            "kty": "OKP"
           }
         }
       ],

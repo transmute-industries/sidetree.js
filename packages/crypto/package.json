@@ -26,8 +26,8 @@
     "tsdx": "^0.13.2"
   },
   "dependencies": {
-    "@transmute/did-key-ed25519": "^0.2.1-unstable.20",
-    "@transmute/did-key-secp256k1": "^0.2.1-unstable.20",
+    "@transmute/did-key-ed25519": "^0.2.1-unstable.23",
+    "@transmute/did-key-secp256k1": "^0.2.1-unstable.23",
     "base64url": "^3.0.1",
     "bip39": "^3.0.2",
     "canonicalize": "^1.0.3",
