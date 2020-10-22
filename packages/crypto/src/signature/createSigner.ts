@@ -15,7 +15,7 @@
 import { Secp256k1KeyPair } from '@transmute/did-key-secp256k1';
 import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
 
-export const createSigner = async (privateKeyJwk: any):Promise<any> => {
+export const createSigner = async (privateKeyJwk: any): Promise<any> => {
   let key: any;
 
   switch (privateKeyJwk.crv) {

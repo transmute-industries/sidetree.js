@@ -39,7 +39,7 @@ it('can generate test fixture', async () => {
     const k1Base58 = k1.toKeyPair(true);
     const k1Jwk = k1.toJsonWebKeyPair(true);
     const k2Base58 = k2.toKeyPair(true);
-    const k2Jwk = k2.toJsonWebKeyPair(true)
+    const k2Jwk = k2.toJsonWebKeyPair(true);
     fixture.keypair.push({
       mnemonic: m0,
       Ed25519: [k0Base58, k0Jwk],
