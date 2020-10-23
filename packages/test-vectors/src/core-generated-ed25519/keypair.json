@@ -6,15 +6,13 @@
       "publicKeyJwk": {
         "crv": "Ed25519",
         "x": "BnamLr9mV2goDx4gfFzaBCBXWy2Bpa64cNNhVMIe4vc",
-        "kty": "OKP",
-        "kid": "DrUSp0MnN8txc0J-odEXDRu-QRRDpOP9c2awKGW2Ozk"
+        "kty": "OKP"
       },
       "privateKeyJwk": {
         "crv": "Ed25519",
         "d": "87PIwLP94_sBjfsxuQ4yaRDeHAvyQ743PstdNWxq_7o",
         "x": "BnamLr9mV2goDx4gfFzaBCBXWy2Bpa64cNNhVMIe4vc",
-        "kty": "OKP",
-        "kid": "DrUSp0MnN8txc0J-odEXDRu-QRRDpOP9c2awKGW2Ozk"
+        "kty": "OKP"
       }
     },
     {
@@ -22,15 +20,13 @@
       "publicKeyJwk": {
         "crv": "Ed25519",
         "x": "-9hb27YBfzlhd_vMV-EohyYKF1O58UQIITcRlBRU94E",
-        "kty": "OKP",
-        "kid": "anMxA2Gr2_Ib5Y7USRnF2jBzNqs5ydX6cGHrojME0LM"
+        "kty": "OKP"
       },
       "privateKeyJwk": {
         "crv": "Ed25519",
         "d": "5MWu_CYjzieHWAil_EmX5XAB1bqHNuczGW6hbTQ8Pr0",
         "x": "-9hb27YBfzlhd_vMV-EohyYKF1O58UQIITcRlBRU94E",
-        "kty": "OKP",
-        "kid": "anMxA2Gr2_Ib5Y7USRnF2jBzNqs5ydX6cGHrojME0LM"
+        "kty": "OKP"
       }
     },
     {
@@ -38,15 +34,13 @@
       "publicKeyJwk": {
         "crv": "Ed25519",
         "x": "tUXOTSIeVvVrckMjtFsXE2kdCfTzl1dp1nsGUUg2CMU",
-        "kty": "OKP",
-        "kid": "7CMEOD9OFORXgaESfJKtQSS5P0ZQvERIrvBo4ITj0tg"
+        "kty": "OKP"
       },
       "privateKeyJwk": {
         "crv": "Ed25519",
         "d": "08MsyCnU9KfoxARZGvgtRzpMI09R7uqyt5Q3poWfgPE",
         "x": "tUXOTSIeVvVrckMjtFsXE2kdCfTzl1dp1nsGUUg2CMU",
-        "kty": "OKP",
-        "kid": "7CMEOD9OFORXgaESfJKtQSS5P0ZQvERIrvBo4ITj0tg"
+        "kty": "OKP"
       }
     },
     {
@@ -54,15 +48,13 @@
       "publicKeyJwk": {
         "crv": "Ed25519",
         "x": "q_D1Sek0YJkDi5GqiK-wCJ1TC-WMMNj058k0LUJqTBs",
-        "kty": "OKP",
-        "kid": "Lqid7PrALhEOAobUPgK3Wodd6c1zSxTIeMGXL8sRddY"
+        "kty": "OKP"
       },
       "privateKeyJwk": {
         "crv": "Ed25519",
         "d": "tV__dR44AlimUKhoLMaWy34zCSEXiThHNhQoE8cR8CI",
         "x": "q_D1Sek0YJkDi5GqiK-wCJ1TC-WMMNj058k0LUJqTBs",
-        "kty": "OKP",
-        "kid": "Lqid7PrALhEOAobUPgK3Wodd6c1zSxTIeMGXL8sRddY"
+        "kty": "OKP"
       }
     }
   ]

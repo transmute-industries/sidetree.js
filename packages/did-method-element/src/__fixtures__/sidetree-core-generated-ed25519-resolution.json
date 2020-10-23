@@ -27,8 +27,7 @@
               "publicKeyJwk": {
                 "crv": "Ed25519",
                 "x": "YdhXF2sPMUo99gS4MVIcRym1A5Z1hlDh6DKt0PrYt_0",
-                "kty": "OKP",
-                "kid": "t4eYY6yMOPw6XktMxeGY7kP-7B0HBLjmExvbzafS7i0"
+                "kty": "OKP"
               }
             },
             {
@@ -38,8 +37,7 @@
               "publicKeyJwk": {
                 "crv": "Ed25519",
                 "x": "tUXOTSIeVvVrckMjtFsXE2kdCfTzl1dp1nsGUUg2CMU",
-                "kty": "OKP",
-                "kid": "7CMEOD9OFORXgaESfJKtQSS5P0ZQvERIrvBo4ITj0tg"
+                "kty": "OKP"
               }
             }
           ],
@@ -78,8 +76,7 @@
               "publicKeyJwk": {
                 "crv": "Ed25519",
                 "x": "3OKY5Om3215hnfHgEKCaklCRvnT6gpZWr0VQiQEgU2I",
-                "kty": "OKP",
-                "kid": "sQNj2dd8cisO80i24MN9fC8z4cC6gPI5Lquf7W1j-dM"
+                "kty": "OKP"
               }
             }
           ],

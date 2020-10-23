@@ -26,7 +26,6 @@
                 "type": "JsonWebKey2020",
                 "publicKeyJwk": {
                   "crv": "Ed25519",
-                  "kid": "DrUSp0MnN8txc0J-odEXDRu-QRRDpOP9c2awKGW2Ozk",
                   "kty": "OKP",
                   "x": "BnamLr9mV2goDx4gfFzaBCBXWy2Bpa64cNNhVMIe4vc"
                 }
@@ -99,7 +98,6 @@
                 "type": "JsonWebKey2020",
                 "publicKeyJwk": {
                   "crv": "Ed25519",
-                  "kid": "DrUSp0MnN8txc0J-odEXDRu-QRRDpOP9c2awKGW2Ozk",
                   "kty": "OKP",
                   "x": "BnamLr9mV2goDx4gfFzaBCBXWy2Bpa64cNNhVMIe4vc"
                 }
