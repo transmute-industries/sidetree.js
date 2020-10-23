@@ -5,11 +5,11 @@
       "body": {
         "@context": "https://www.w3.org/ns/did-resolution/v1",
         "didDocument": {
-          "id": "did:elem:EiBWal7rDTFHAG53JcghIz4m4tla-NsIP5GZ5yI7HLHdbw",
+          "id": "did:elem:EiDjQYg7Q2pwgj4BQCEnq7yZrY9YEWbg6toqbQQPPW6jaA",
           "@context": [
             "https://www.w3.org/ns/did/v1",
             {
-              "@base": "did:elem:EiBWal7rDTFHAG53JcghIz4m4tla-NsIP5GZ5yI7HLHdbw"
+              "@base": "did:elem:EiDjQYg7Q2pwgj4BQCEnq7yZrY9YEWbg6toqbQQPPW6jaA"
             }
           ],
           "service": [
@@ -22,7 +22,7 @@
           "publicKey": [
             {
               "id": "#key-1",
-              "controller": "did:elem:EiBWal7rDTFHAG53JcghIz4m4tla-NsIP5GZ5yI7HLHdbw",
+              "controller": "did:elem:EiDjQYg7Q2pwgj4BQCEnq7yZrY9YEWbg6toqbQQPPW6jaA",
               "type": "JsonWebKey2020",
               "publicKeyJwk": {
                 "crv": "Ed25519",
@@ -32,7 +32,7 @@
             },
             {
               "id": "#additional-key",
-              "controller": "did:elem:EiBWal7rDTFHAG53JcghIz4m4tla-NsIP5GZ5yI7HLHdbw",
+              "controller": "did:elem:EiDjQYg7Q2pwgj4BQCEnq7yZrY9YEWbg6toqbQQPPW6jaA",
               "type": "JsonWebKey2020",
               "publicKeyJwk": {
                 "crv": "Ed25519",
@@ -44,8 +44,8 @@
           "authentication": ["#key-1", "#additional-key"]
         },
         "methodMetadata": {
-          "recoveryCommitment": "EiBhbkgJVMuLGAfxF6GHBZ8aDpOvPYN1cI9mRer_i6MKew",
-          "updateCommitment": "EiBo-1kp5zcl5l9FNDhmF69LzrzmeWL0qrXmsqAd88bfFg"
+          "recoveryCommitment": "EiAOtRKnQyc3y3FzQn6h0RcNG75BFEOk4_1zZrAoZbY7OQ",
+          "updateCommitment": "EiDsIwQ4P04U5FeBoRJ8kq1BJLk_RlC8REiu8GjghOPS2A"
         }
       }
     },
@@ -54,11 +54,11 @@
       "body": {
         "@context": "https://www.w3.org/ns/did-resolution/v1",
         "didDocument": {
-          "id": "did:elem:EiBWal7rDTFHAG53JcghIz4m4tla-NsIP5GZ5yI7HLHdbw",
+          "id": "did:elem:EiDjQYg7Q2pwgj4BQCEnq7yZrY9YEWbg6toqbQQPPW6jaA",
           "@context": [
             "https://www.w3.org/ns/did/v1",
             {
-              "@base": "did:elem:EiBWal7rDTFHAG53JcghIz4m4tla-NsIP5GZ5yI7HLHdbw"
+              "@base": "did:elem:EiDjQYg7Q2pwgj4BQCEnq7yZrY9YEWbg6toqbQQPPW6jaA"
             }
           ],
           "service": [
@@ -71,7 +71,7 @@
           "publicKey": [
             {
               "id": "#newKey",
-              "controller": "did:elem:EiBWal7rDTFHAG53JcghIz4m4tla-NsIP5GZ5yI7HLHdbw",
+              "controller": "did:elem:EiDjQYg7Q2pwgj4BQCEnq7yZrY9YEWbg6toqbQQPPW6jaA",
               "type": "JsonWebKey2020",
               "publicKeyJwk": {
                 "crv": "Ed25519",
@@ -83,8 +83,8 @@
           "authentication": ["#newKey"]
         },
         "methodMetadata": {
-          "recoveryCommitment": "EiDDBBjG0iDBGbnXuPtmS06fB855Nt3zkYpMX0Lf3Ji-qw",
-          "updateCommitment": "EiBJdT-nNzNcBp5FApEZ5ViDriiYXHBfPm7rsP-thi0Fww"
+          "recoveryCommitment": "EiBDLBZSe8LkUcNlUWvPZafj2FU29TbV7IWu5bfaFRo-mw",
+          "updateCommitment": "EiBqKyksiHilk-fj_Rgm4tT6V0JU32Q1QZ7ivweMB0BhVA"
         }
       }
     },
