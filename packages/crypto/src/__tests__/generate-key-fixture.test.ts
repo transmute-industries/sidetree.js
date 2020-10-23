@@ -33,11 +33,18 @@ it('can generate test fixture', async () => {
     expect(k0).toBeDefined();
     expect(k1).toBeDefined();
     expect(k2).toBeDefined();
+
+    const k0Base58 = k0.toKeyPair(true);
+    const k0Jwk = k0.toJsonWebKeyPair(true);
+    const k1Base58 = k1.toKeyPair(true);
+    const k1Jwk = k1.toJsonWebKeyPair(true);
+    const k2Base58 = k2.toKeyPair(true);
+    const k2Jwk = k2.toJsonWebKeyPair(true);
     fixture.keypair.push({
       mnemonic: m0,
-      Ed25519: [k0.toKeyPair(true), k0.toJsonWebKeyPair(true)],
-      X25519: [k1.toKeyPair(true), k1.toJsonWebKeyPair(true)],
-      secp256k1: [k2.toKeyPair(true), k2.toJsonWebKeyPair(true)],
+      Ed25519: [k0Base58, k0Jwk],
+      X25519: [k1Base58, k1Jwk],
+      secp256k1: [k2Base58, k2Jwk],
     });
   }
 

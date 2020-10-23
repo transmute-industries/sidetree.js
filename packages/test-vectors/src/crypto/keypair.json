@@ -17,15 +17,13 @@
           "publicKeyJwk": {
             "crv": "Ed25519",
             "x": "BnamLr9mV2goDx4gfFzaBCBXWy2Bpa64cNNhVMIe4vc",
-            "kty": "OKP",
-            "kid": "DrUSp0MnN8txc0J-odEXDRu-QRRDpOP9c2awKGW2Ozk"
+            "kty": "OKP"
           },
           "privateKeyJwk": {
             "crv": "Ed25519",
             "d": "87PIwLP94_sBjfsxuQ4yaRDeHAvyQ743PstdNWxq_7o",
             "x": "BnamLr9mV2goDx4gfFzaBCBXWy2Bpa64cNNhVMIe4vc",
-            "kty": "OKP",
-            "kid": "DrUSp0MnN8txc0J-odEXDRu-QRRDpOP9c2awKGW2Ozk"
+            "kty": "OKP"
           }
         }
       ],

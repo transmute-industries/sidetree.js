@@ -1,5 +1,6 @@
 /*
  * Copyright 2020 - Transmute Industries Inc.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -11,17 +12,16 @@
  * limitations under the License.
  */
 
-import { toDidDoc } from './toDidDoc';
+const walletResolution = require('./wallet-resolution.json');
 
-import { walletOperation } from '../__fixtures__';
+const sidetreeCoreGeneratedSecp256k1Resolutions = require('./sidetree-core-generated-secp256k1-resolution.json');
 
-it('can generate did doc', async () => {
-  const content = await toDidDoc(
-    walletOperation.operation[0].mnemonic,
-    0,
-    'elem'
-  );
-  expect(content).toEqual(
-    walletOperation.operation[0].createOperationWalletDidDoc
-  );
-});
+const sidetreeCoreGeneratedEd25519Resolutions = require('./sidetree-core-generated-ed25519-resolution.json');
+const walletSvipResolutions = require('./wallet-svip-resolution.json');
+
+module.exports = {
+  walletResolution,
+  sidetreeCoreGeneratedSecp256k1Resolutions,
+  sidetreeCoreGeneratedEd25519Resolutions,
+  walletSvipResolutions,
+};

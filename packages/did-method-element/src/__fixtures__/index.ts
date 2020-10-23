@@ -12,12 +12,14 @@
  * limitations under the License.
  */
 
-const walletResolution = require('./wallet-resolution.json');
+import { didMethodElement } from '@sidetree/test-vectors';
 
-const sidetreeCoreGeneratedSecp256k1Resolutions = require('./sidetree-core-generated-secp256k1-resolution.json');
-
-const sidetreeCoreGeneratedEd25519Resolutions = require('./sidetree-core-generated-ed25519-resolution.json');
-const walletSvipResolutions = require('./wallet-svip-resolution.json');
+const {
+  walletResolution,
+  sidetreeCoreGeneratedSecp256k1Resolutions,
+  sidetreeCoreGeneratedEd25519Resolutions,
+  walletSvipResolutions,
+} = didMethodElement;
 
 export {
   walletResolution,

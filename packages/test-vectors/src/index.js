@@ -18,6 +18,7 @@ const crypto = require('./crypto');
 const sidetreeUniversalWallet = require('./sidetree-universal-wallet');
 const sidetreeCoreGeneratedSecp256k1 = require('./core-generated-secp256k1');
 const sidetreeCoreGeneratedEd25519 = require('./core-generated-ed25519');
+const didMethodElement = require('./did-method-element');
 
 module.exports = {
   testVectors,
@@ -26,4 +27,5 @@ module.exports = {
   sidetreeUniversalWallet,
   sidetreeCoreGeneratedSecp256k1,
   sidetreeCoreGeneratedEd25519,
+  didMethodElement,
 };

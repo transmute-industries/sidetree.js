@@ -27,24 +27,6 @@ export interface SidetreePlugin {
     index: number,
     type?: string
   ) => Promise<KeyPair>;
-  // vanilla secp256k1
-  toDidDoc: (
-    mnemonic: string,
-    index: number,
-    didMethodName: string
-  ) => Promise<DidDocument>;
-  getCreateOperation: (
-    mnemonic: string,
-    index: number,
-    options?: SidetreeReplaceOptions
-  ) => Promise<SidetreeCreateOperation>;
-  getRecoverOperation: (
-    mnemonic: string,
-    index: number,
-    didUniqueSuffix: string,
-    options?: SidetreeReplaceOptions
-  ) => Promise<SidetreeRecoverOperation>;
-
   // svip interop profile
   toDidDocForProfile: (
     mnemonic: string,

@@ -1,0 +1,219 @@
+{
+  "operation": [
+    {
+      "did": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA",
+      "create": {
+        "type": "create",
+        "suffix_data": "eyJkZWx0YV9oYXNoIjoiRWlBOXBuZFhyS2Y0eFV6dm5Vc1NLTmFUX0VYOFpJTFUzaFU1QXNYUTRNdXc4USIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUFPdFJLblF5YzN5M0Z6UW42aDBSY05HNzVCRkVPazRfMXpackFvWmJZN09RIn0",
+        "delta": "eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoiejZNa2V0VlJkdGp0UGtudDFmZmJieDdLWEJqR0w5RVJIdUpIS3p5Mjh5dXltSFFhIiwiandrIjp7ImNydiI6IkVkMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoiQm5hbUxyOW1WMmdvRHg0Z2ZGemFCQ0JYV3kyQnBhNjRjTk5oVk1JZTR2YyJ9LCJwdXJwb3NlIjpbImdlbmVyYWwiLCJhdXRoIiwiYXNzZXJ0aW9uIiwiaW52b2NhdGlvbiIsImRlbGVnYXRpb24iXSwidHlwZSI6Ikpzb25XZWJLZXkyMDIwIn0seyJpZCI6Ino2TFNxdzVKdVZTMmFVZmJaQ1l5WjlHS1JnUlM2Rjg1TGt4b1hVbnZLdWRyUjh5bSIsImp3ayI6eyJjcnYiOiJYMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoiMDlTMVV4QzZLaGZMWWVvbjZmVmU3SDdNaXlZaUQ4ODI4ekJITmYzLWpDZyJ9LCJwdXJwb3NlIjpbImdlbmVyYWwiLCJhZ3JlZW1lbnQiXSwidHlwZSI6Ikpzb25XZWJLZXkyMDIwIn1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siZW5kcG9pbnQiOiJodHRwczovL2V4YW1wbGUuY29tIiwiaWQiOiJyZXNvbHZlci0wIiwidHlwZSI6IlJlc29sdmVyIn1dfX1dLCJ1cGRhdGVfY29tbWl0bWVudCI6IkVpQU90UktuUXljM3kzRnpRbjZoMFJjTkc3NUJGRU9rNF8xelpyQW9aYlk3T1EifQ"
+      },
+      "resolved": {
+        "status": "succeeded",
+        "body": {
+          "@context": "https://www.w3.org/ns/did-resolution/v1",
+          "didDocument": {
+            "id": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA",
+            "@context": [
+              "https://www.w3.org/ns/did/v1",
+              {
+                "@base": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA"
+              }
+            ],
+            "publicKey": [
+              {
+                "id": "#z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa",
+                "controller": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA",
+                "type": "JsonWebKey2020",
+                "publicKeyJwk": {
+                  "crv": "Ed25519",
+                  "kty": "OKP",
+                  "x": "BnamLr9mV2goDx4gfFzaBCBXWy2Bpa64cNNhVMIe4vc"
+                }
+              },
+              {
+                "id": "#z6LSqw5JuVS2aUfbZCYyZ9GKRgRS6F85LkxoXUnvKudrR8ym",
+                "controller": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA",
+                "type": "JsonWebKey2020",
+                "publicKeyJwk": {
+                  "crv": "X25519",
+                  "kty": "OKP",
+                  "x": "09S1UxC6KhfLYeon6fVe7H7MiyYiD8828zBHNf3-jCg"
+                }
+              }
+            ],
+            "authentication": [
+              "#z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa"
+            ],
+            "assertionMethod": [
+              "#z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa"
+            ],
+            "capabilityInvocation": [
+              "#z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa"
+            ],
+            "capabilityDelegation": [
+              "#z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa"
+            ],
+            "keyAgreement": [
+              "#z6LSqw5JuVS2aUfbZCYyZ9GKRgRS6F85LkxoXUnvKudrR8ym"
+            ],
+            "service": [
+              {
+                "id": "#resolver-0",
+                "type": "Resolver",
+                "serviceEndpoint": "https://example.com"
+              }
+            ]
+          },
+          "methodMetadata": {
+            "recoveryCommitment": "EiAOtRKnQyc3y3FzQn6h0RcNG75BFEOk4_1zZrAoZbY7OQ",
+            "updateCommitment": "EiAOtRKnQyc3y3FzQn6h0RcNG75BFEOk4_1zZrAoZbY7OQ"
+          }
+        }
+      }
+    },
+    {
+      "did": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA",
+      "recover": {
+        "type": "recover",
+        "did_suffix": "EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA",
+        "signed_data": "eyJhbGciOiJFZERTQSJ9.eyJkZWx0YV9oYXNoIjoiRWlBQjVOTzR1dzA1eWtDUUVGeEROSkJsTmpTbjhnckxrclg2blJZNVh6NEgtQSIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaUMzaDVoanJJdzRfRHBlUzB6RjRaanVRXzdzSFFjRXVPWVRHOXZOcDlMdUxRIiwicmVjb3Zlcnlfa2V5Ijp7ImNydiI6IkVkMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoiQm5hbUxyOW1WMmdvRHg0Z2ZGemFCQ0JYV3kyQnBhNjRjTk5oVk1JZTR2YyJ9fQ.VTZhjwtRuboCZoUVs-oVJn7zLuD5b9hipHdQGQhWyk-SGHijkbb1j1lB5muJBF92yWSLM07vsWxnwBTc8m1OBg",
+        "delta": "eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoiejZNa2V0VlJkdGp0UGtudDFmZmJieDdLWEJqR0w5RVJIdUpIS3p5Mjh5dXltSFFhIiwiandrIjp7ImNydiI6IkVkMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoiQm5hbUxyOW1WMmdvRHg0Z2ZGemFCQ0JYV3kyQnBhNjRjTk5oVk1JZTR2YyJ9LCJwdXJwb3NlIjpbImdlbmVyYWwiLCJhdXRoIiwiYXNzZXJ0aW9uIiwiaW52b2NhdGlvbiIsImRlbGVnYXRpb24iXSwidHlwZSI6Ikpzb25XZWJLZXkyMDIwIn0seyJpZCI6Ino2TFNoYkZua0NmM0cyaDVHeXl1RHhLMmJCUHZzcjZEbml0UERCazNXQmhkQ0tTTiIsImp3ayI6eyJjcnYiOiJYMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoiVi1OeVRGSnByVW1JVUN5YzFGQS1qRlpUWHVQZkVpRHMzMjZ5YkY3VVFEOCJ9LCJwdXJwb3NlIjpbImdlbmVyYWwiLCJhZ3JlZW1lbnQiXSwidHlwZSI6Ikpzb25XZWJLZXkyMDIwIn1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siZW5kcG9pbnQiOiJodHRwczovL2V4YW1wbGUuY29tIiwiaWQiOiJyZXNvbHZlci0xIiwidHlwZSI6IlJlc29sdmVyIn1dfX1dLCJ1cGRhdGVfY29tbWl0bWVudCI6IkVpQzNoNWhqckl3NF9EcGVTMHpGNFpqdVFfN3NIUWNFdU9ZVEc5dk5wOUx1TFEifQ"
+      },
+      "resolved": {
+        "status": "succeeded",
+        "body": {
+          "@context": "https://www.w3.org/ns/did-resolution/v1",
+          "didDocument": {
+            "id": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA",
+            "@context": [
+              "https://www.w3.org/ns/did/v1",
+              {
+                "@base": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA"
+              }
+            ],
+            "publicKey": [
+              {
+                "id": "#z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa",
+                "controller": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA",
+                "type": "JsonWebKey2020",
+                "publicKeyJwk": {
+                  "crv": "Ed25519",
+                  "kty": "OKP",
+                  "x": "BnamLr9mV2goDx4gfFzaBCBXWy2Bpa64cNNhVMIe4vc"
+                }
+              },
+              {
+                "id": "#z6LShbFnkCf3G2h5GyyuDxK2bBPvsr6DnitPDBk3WBhdCKSN",
+                "controller": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA",
+                "type": "JsonWebKey2020",
+                "publicKeyJwk": {
+                  "crv": "X25519",
+                  "kty": "OKP",
+                  "x": "V-NyTFJprUmIUCyc1FA-jFZTXuPfEiDs326ybF7UQD8"
+                }
+              }
+            ],
+            "authentication": [
+              "#z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa"
+            ],
+            "assertionMethod": [
+              "#z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa"
+            ],
+            "capabilityInvocation": [
+              "#z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa"
+            ],
+            "capabilityDelegation": [
+              "#z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa"
+            ],
+            "keyAgreement": [
+              "#z6LShbFnkCf3G2h5GyyuDxK2bBPvsr6DnitPDBk3WBhdCKSN"
+            ],
+            "service": [
+              {
+                "id": "#resolver-1",
+                "type": "Resolver",
+                "serviceEndpoint": "https://example.com"
+              }
+            ]
+          },
+          "methodMetadata": {
+            "recoveryCommitment": "EiC3h5hjrIw4_DpeS0zF4ZjuQ_7sHQcEuOYTG9vNp9LuLQ",
+            "updateCommitment": "EiC3h5hjrIw4_DpeS0zF4ZjuQ_7sHQcEuOYTG9vNp9LuLQ"
+          }
+        }
+      }
+    },
+    {
+      "did": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA",
+      "recover": {
+        "type": "recover",
+        "did_suffix": "EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA",
+        "signed_data": "eyJhbGciOiJFZERTQSJ9.eyJkZWx0YV9oYXNoIjoiRWlDblhmRlZEUHFhUGVmNEd3c1VqOUIwV2l4MWFvRmhGVG51OU5LX3lheWRZZyIsInJlY292ZXJ5X2NvbW1pdG1lbnQiOiJFaURzSXdRNFAwNFU1RmVCb1JKOGtxMUJKTGtfUmxDOFJFaXU4R2pnaE9QUzJBIiwicmVjb3Zlcnlfa2V5Ijp7ImNydiI6IkVkMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoiWWRoWEYyc1BNVW85OWdTNE1WSWNSeW0xQTVaMWhsRGg2REt0MFByWXRfMCJ9fQ.OCWCEABzdI_4GICcszw8kK4Ui7GcEQCHgDUn3jWKNbLmjUZJpwVxPiYC3rGH2fE671luorZ1L-GxVvFut7coCw",
+        "delta": "eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoiejZNa20zQ3ZhUDdjRG9RRTRTd0V2ajNMMTJzZHBQYnl5WjE2ZlhvR1NvWUFzS0N4IiwiandrIjp7ImNydiI6IkVkMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoiWWRoWEYyc1BNVW85OWdTNE1WSWNSeW0xQTVaMWhsRGg2REt0MFByWXRfMCJ9LCJwdXJwb3NlIjpbImdlbmVyYWwiLCJhdXRoIiwiYXNzZXJ0aW9uIiwiaW52b2NhdGlvbiIsImRlbGVnYXRpb24iXSwidHlwZSI6Ikpzb25XZWJLZXkyMDIwIn0seyJpZCI6Ino2TFNwVU45WmlYbjdqSFFxTDZ5ZkhMZnl0UVNTUHNaZjdlWlIzNnA0M21QQ2ZjcyIsImp3ayI6eyJjcnYiOiJYMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoidmlGaEg1VU43dWZDUU9GZ0ZGdlNDSXBza1ZMaTlZWENXX0V6V2Z0a3R4QSJ9LCJwdXJwb3NlIjpbImdlbmVyYWwiLCJhZ3JlZW1lbnQiXSwidHlwZSI6Ikpzb25XZWJLZXkyMDIwIn1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siZW5kcG9pbnQiOiJodHRwczovL2V4YW1wbGUuY29tIiwiaWQiOiJyZXNvbHZlci0yIiwidHlwZSI6IlJlc29sdmVyIn1dfX1dLCJ1cGRhdGVfY29tbWl0bWVudCI6IkVpRHNJd1E0UDA0VTVGZUJvUko4a3ExQkpMa19SbEM4UkVpdThHamdoT1BTMkEifQ"
+      },
+      "resolved": {
+        "status": "succeeded",
+        "body": {
+          "@context": "https://www.w3.org/ns/did-resolution/v1",
+          "didDocument": {
+            "id": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA",
+            "@context": [
+              "https://www.w3.org/ns/did/v1",
+              {
+                "@base": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA"
+              }
+            ],
+            "publicKey": [
+              {
+                "id": "#z6Mkm3CvaP7cDoQE4SwEvj3L12sdpPbyyZ16fXoGSoYAsKCx",
+                "controller": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA",
+                "type": "JsonWebKey2020",
+                "publicKeyJwk": {
+                  "crv": "Ed25519",
+                  "kty": "OKP",
+                  "x": "YdhXF2sPMUo99gS4MVIcRym1A5Z1hlDh6DKt0PrYt_0"
+                }
+              },
+              {
+                "id": "#z6LSpUN9ZiXn7jHQqL6yfHLfytQSSPsZf7eZR36p43mPCfcs",
+                "controller": "did:elem:EiB1DQeMfODla83wF3K0APxGK99afDwl_bgKZFo2VSQNYA",
+                "type": "JsonWebKey2020",
+                "publicKeyJwk": {
+                  "crv": "X25519",
+                  "kty": "OKP",
+                  "x": "viFhH5UN7ufCQOFgFFvSCIpskVLi9YXCW_EzWftktxA"
+                }
+              }
+            ],
+            "authentication": [
+              "#z6Mkm3CvaP7cDoQE4SwEvj3L12sdpPbyyZ16fXoGSoYAsKCx"
+            ],
+            "assertionMethod": [
+              "#z6Mkm3CvaP7cDoQE4SwEvj3L12sdpPbyyZ16fXoGSoYAsKCx"
+            ],
+            "capabilityInvocation": [
+              "#z6Mkm3CvaP7cDoQE4SwEvj3L12sdpPbyyZ16fXoGSoYAsKCx"
+            ],
+            "capabilityDelegation": [
+              "#z6Mkm3CvaP7cDoQE4SwEvj3L12sdpPbyyZ16fXoGSoYAsKCx"
+            ],
+            "keyAgreement": [
+              "#z6LSpUN9ZiXn7jHQqL6yfHLfytQSSPsZf7eZR36p43mPCfcs"
+            ],
+            "service": [
+              {
+                "id": "#resolver-2",
+                "type": "Resolver",
+                "serviceEndpoint": "https://example.com"
+              }
+            ]
+          },
+          "methodMetadata": {
+            "recoveryCommitment": "EiDsIwQ4P04U5FeBoRJ8kq1BJLk_RlC8REiu8GjghOPS2A",
+            "updateCommitment": "EiDsIwQ4P04U5FeBoRJ8kq1BJLk_RlC8REiu8GjghOPS2A"
+          }
+        }
+      }
+    }
+  ]
+}

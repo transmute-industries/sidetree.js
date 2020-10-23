@@ -32,9 +32,7 @@
   "dependencies": {
     "@sidetree/common": "^0.1.1-unstable.13",
     "@sidetree/crypto": "^0.1.1-unstable.13",
-    "@transmute/did-key-ed25519": "^0.2.1-unstable.14",
-    "@transmute/did-key-secp256k1": "^0.2.1-unstable.10",
-    "@transmute/universal-wallet": "^0.3.0-alpha.0",
+    "@transmute/universal-wallet": "^0.4.1",
     "base64url": "^3.0.1",
     "bip39": "^3.0.2",
     "canonicalize": "^1.0.3",
