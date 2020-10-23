@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-import { didMethodElement } from  '@sidetree/test-vectors'
+import { didMethodElement } from '@sidetree/test-vectors';
 
 const {
   walletResolution,
