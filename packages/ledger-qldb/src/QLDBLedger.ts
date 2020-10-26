@@ -69,13 +69,29 @@ export default class QLDBLedger implements IBlockchain {
     );
   }
 
+  private async executeWithRetry(
+    query: string,
+    args?: object,
+    retryCount = 0
+  ): Promise<Result | void> {
+    return this.execute(query, args).catch((err) => {
+      if (err.message.includes('No open transaction') && retryCount < 1) {
+        // Transaction failed and was rolled back.
+        console.log(`retrying with count ${retryCount}`);
+        return this.executeWithRetry(query, args, retryCount + 1);
+      } else {
+        throw new Error(err.message);
+      }
+    });
+  }
+
   private async executeWithoutError(query: string): Promise<Result> {
     return this.execute(query).catch((err) => err.message);
   }
 
   public async reset(): Promise<void> {
     console.log('resetting', this.transactionTable);
-    await this.execute(`DELETE FROM ${this.transactionTable}`);
+    await this.executeWithRetry(`DELETE FROM ${this.transactionTable}`);
   }
 
   public async initialize(): Promise<void> {
@@ -86,10 +102,10 @@ export default class QLDBLedger implements IBlockchain {
   }
 
   private async getTransactionCount(): Promise<number> {
-    const result = await this.execute(
+    const result = await this.executeWithRetry(
       `SELECT COUNT(*) AS transactionCount FROM ${this.transactionTable}`
     );
-    const resultList = result.getResultList();
+    const resultList = (result as Result).getResultList();
     const transactionCount = Number(
       (resultList[0] as ValueWithCount).transactionCount
     );
@@ -101,7 +117,7 @@ export default class QLDBLedger implements IBlockchain {
     // Need to figure out auto increment indexes on QLDB
     const transactionNumber = await this.getTransactionCount();
     const anchorData = AnchoredDataSerializer.deserialize(anchorString);
-    await this.execute(`INSERT INTO ${this.transactionTable} ?`, {
+    await this.executeWithRetry(`INSERT INTO ${this.transactionTable} ?`, {
       ...anchorData,
       transactionNumber,
     });
@@ -144,21 +160,21 @@ export default class QLDBLedger implements IBlockchain {
     moreTransactions: boolean;
     transactions: TransactionModel[];
   }> {
-    let result: Result;
+    let result;
     if (sinceTransactionNumber) {
-      result = await this.execute(
+      result = await this.executeWithRetry(
         `SELECT * FROM _ql_committed_${this.transactionTable} as R WHERE R.data.transactionNumber >= ${sinceTransactionNumber}`
       );
     } else if (transactionTimeHash) {
-      result = await this.execute(
+      result = await this.executeWithRetry(
         `SELECT * FROM _ql_committed_${this.transactionTable} as R WHERE R.metadata.txId IN ('${transactionTimeHash}')`
       );
     } else {
-      result = await this.execute(
+      result = await this.executeWithRetry(
         `SELECT * FROM _ql_committed_${this.transactionTable}`
       );
     }
-    const resultList: unknown[] = result.getResultList();
+    const resultList: unknown[] = (result as Result).getResultList();
     const transactions: TransactionModel[] = (resultList as ValueWithMetaData[]).map(
       this.toSidetreeTransaction
     );
