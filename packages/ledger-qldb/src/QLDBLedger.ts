@@ -77,7 +77,7 @@ export default class QLDBLedger implements IBlockchain {
     return this.execute(query, args).catch((err) => {
       if (err.message.includes('No open transaction') && retryCount < 1) {
         // Transaction failed and was rolled back.
-        console.log(`retrying with count ${retryCount}`);
+        console.log(`retrying query ${query} with count ${retryCount}`);
         return this.executeWithRetry(query, args, retryCount + 1);
       } else {
         throw new Error(err.message);
