@@ -34,8 +34,7 @@ describe('QLDB tests', () => {
     await ledger.reset();
   });
 
-  it('should initialize the ledger', async () => {
-    await ledger.initialize();
+  it('should have the right table names', async () => {
     const tableNames = await ledger.qldbDriver.getTableNames();
     expect(tableNames.includes(ledger.transactionTable)).toBeTruthy();
   });
