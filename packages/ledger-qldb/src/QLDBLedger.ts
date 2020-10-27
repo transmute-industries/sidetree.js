@@ -86,7 +86,7 @@ export default class QLDBLedger implements IBlockchain {
   }
 
   private async executeWithoutError(query: string): Promise<Result> {
-    return this.execute(query).catch((err) => err.message);
+    return this.executeWithRetry(query).catch((err) => err.message);
   }
 
   public async reset(): Promise<void> {
