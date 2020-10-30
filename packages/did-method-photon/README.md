@@ -85,4 +85,15 @@ https://web.archive.org/web/20200721150053/https://identity.foundation/sidetree/
 
 ## Security and privacy considerations
 
-TODO
+### QLDB
+
+- Contrary to public ledgers, write access to QLDB requires [IAM credentials](https://aws.amazon.com/iam/), hence only authorized actors can create and update DIDs
+- The [security of the QLDB ledger](https://docs.aws.amazon.com/qldb/latest/developerguide/security.html) relies on the [shared responsibility model](https://aws.amazon.com/compliance/shared-responsibility-model/) which means
+  - AWS is responsible for operating, managing and controlling the components from the host operating system and virtualization layer down to the physical security of the facilities in which the service operates.
+  - We are responsible for security of keys associated with the IAM credentials
+- QLDB uses a Merkle Tree with the SHA256 hash function to build its immutable ledger capabilities, which is part of FIPS's Secure Hash Standard. See https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf
+- "[Data in transit is encrypted using TLS](https://docs.aws.amazon.com/qldb/latest/developerguide/data-protection.html)"
+
+### IPFS
+
+- With Sidetree, data integrity is guaranteed with the use of [Content-addressable storage](https://docs.ipfs.io/concepts/content-addressing/#identifier-formats). IPFS is a popular CAS solution to store immutable objects. An immutable object is an object whose state cannot be altered or modified once created. Once a file is added to the IPFS network, the content of that file cannot be changed without altering the content identifier (CID) of the file.
