@@ -85,4 +85,4 @@ https://web.archive.org/web/20200721150053/https://identity.foundation/sidetree/
 
 ## Security and privacy considerations
 
-A Sidetree did document need not contain a `proof` property. Indeed, all operations are authenticated with the `signature` field of the payload sent to the Sidetree node. This signature is generaged using a key specified in the corresponding DID Document.
+TODO
