@@ -1,7 +1,7 @@
 # Photon DID Method Spec
 
 <p align="center">
-  <img width="200" height="200" src="./photon-logo.png">
+  <img width="300" height="300" src="./photon-logo.png">
 </p>
 
 ## Abstract
