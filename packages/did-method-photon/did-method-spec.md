@@ -1,5 +1,9 @@
 # Photon DID Method Spec
 
+<p align="center">
+  <img width="200" height="200" src="./photon-logo.png">
+</p>
+
 ## Abstract
 
 Photon is an implementation of [version v0.1.0 of the Sidetree protocol](https://web.archive.org/web/20200721150053/https://identity.foundation/sidetree/spec/v0.1.0/). It uses
