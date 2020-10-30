@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.1.1-unstable.16",
+  "version": "0.1.1-unstable.17",
   "license": "Apache-2.0",
   "main": "src/index.js",
   "types": "typings.d.ts",
