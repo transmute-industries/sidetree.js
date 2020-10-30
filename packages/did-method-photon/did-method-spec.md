@@ -1,4 +1,4 @@
-# Photon Did Method Spec
+# Photon DID Method Spec
 
 ## Abstract
 
@@ -17,7 +17,14 @@ Photon is meant for production application, that require speed, scalability, rel
 
 As opposed to most public permissionless ledgers, AWS QLDB is centralized and fully managed. At the cost of having Amazon as a root of trust, hence not being decentralized, QLDB gets significant speed, reliability and scalability benefits, while retaining all the cryptographic properties like immutability that an append only ledger provides.
 
-These properties of AWS QLDB combined with the use of [FIPS 140-2](https://en.wikipedia.org/wiki/FIPS_140-2) compliant cryptography make Photon more suitable for government use cases than did method based on public ledgers like Bitcoin and Ethereum which are powered by the not (yet) NIST approved secp256k1 elliptic curve.
+These properties of AWS QLDB combined with the use of [FIPS 140-2](https://en.wikipedia.org/wiki/FIPS_140-2) compliant cryptography make Photon more suitable for government use cases than DID method based on public ledgers like Bitcoin and Ethereum which are powered by the not (yet) NIST approved secp256k1 elliptic curve.
+
+## Performance
+
+TODO: Benchmark comparing the capacity (measured in anchored DIDs per second) of several Sidetree based DID methods:
+- Element
+- Ion
+- Photon
 
 ## Method syntax
 
