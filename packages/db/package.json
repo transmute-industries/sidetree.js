@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.1.1-unstable.15",
+  "version": "0.1.1-unstable.16",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -32,7 +32,7 @@
     "tsdx": "^0.13.2"
   },
   "dependencies": {
-    "@sidetree/common": "^0.1.1-unstable.15",
+    "@sidetree/common": "^0.1.1-unstable.16",
     "@types/mongodb": "^3.5.20",
     "mongodb": "^3.5.8",
     "reflect-metadata": "^0.1.10",
