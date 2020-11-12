@@ -8,6 +8,15 @@ This codebase is a [Lerna monorepo](https://github.com/lerna/lerna).
 
  For a list of all modules in this repository, see [packages](https://github.com/transmute-industries/sidetree.js/tree/master/packages).
 
+### Sidetree Based DID Methods
+
+| Method  | Spec  | Ledger  |
+|---|---|---|
+| did:ion  | [spec](https://github.com/decentralized-identity/ion) | Bitcoin  |
+| did:elem  | [spec](https://github.com/transmute-industries/sidetree.js/tree/master/packages/did-method-element) | Ethereum  |
+| did:photon  | [spec](https://github.com/transmute-industries/sidetree.js/tree/master/packages/did-method-photon) | Ethereum  |
+| did:trustbloc  | [spec](https://github.com/trustbloc/trustbloc-did-method) | Hyperledger Fabric  |
+
 ## Usage
 
 To install all packages run

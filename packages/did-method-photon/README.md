@@ -101,7 +101,7 @@ https://web.archive.org/web/20200721150053/https://identity.foundation/sidetree/
 ### What can we do to make a stronger case for DID Photon FIPS 140-2 compliance
 
 - Use AWS KMS for keys -> https://aws.amazon.com/kms/ "AWS KMS is a secure and resilient service that uses hardware security modules that have been validated under FIPS 140-2, or are in the process of being validated, to protect your keys."
-- Use an official FIPS compliant signature algorithm like P-256. ed25119 is [still is draft phase](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5-draft.pdf), however Anil said it was fine.
+- Use an official FIPS compliant signature algorithm like P-256. ed25119 is [still is draft phase](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5-draft.pdf).
 -  Use GovCloud: https://aws.amazon.com/govcloud-us
     - We can run an IPFS node in EC2 govcloud
     - We can run a DynamoDB cache running in govcloud
