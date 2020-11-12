@@ -29,3 +29,24 @@ npm install --save @sidetree/qldb
 npm install
 npm run test
 ```
+
+## QLDB FIPS Compliance
+
+FIPS compliance for QLDB is unclear at this point mainly because we cannot know how AWS's internal crypto is used.
+
+- QLDB uses a Merkle Tree with the SHA256 hash function to build its immutable ledger capabilities, which is part of FIPS's Secure Hash Standard. See [FIPS-180-4](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf).
+
+- [AWS Documentation on QLDB compliance](https://docs.aws.amazon.com/qldb/latest/developerguide/qldb-compliance.html)
+
+- "[Data in transit is encrypted using TLS](https://docs.aws.amazon.com/qldb/latest/developerguide/data-protection.html)". AWS uses two implementations of TLS. 
+
+Both have FIPS mode and non FIPS mode. 
+It's not clear which is used or whether FIPS mode is on for QLDB
+    - OpenSSL: The open source standard implementation
+    - s2n: Amazon's own lightweight implementation
+
+- "[Data at rest is encrypted using AWS owned keys](https://docs.aws.amazon.com/qldb/latest/developerguide/data-protection.html)"
+- QLDB is not in the list of services that have a [FIPS compliant endpoints](https://aws.amazon.com/compliance/fips/?nc1=h_ls)
+
+
+

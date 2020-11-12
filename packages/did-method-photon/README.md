@@ -97,3 +97,21 @@ https://web.archive.org/web/20200721150053/https://identity.foundation/sidetree/
 ### IPFS
 
 - With Sidetree, data integrity is guaranteed with the use of [Content-addressable storage](https://docs.ipfs.io/concepts/content-addressing/#identifier-formats). IPFS is a popular CAS solution to store immutable objects. An immutable object is an object whose state cannot be altered or modified once created. Once a file is added to the IPFS network, the content of that file cannot be changed without altering the content identifier (CID) of the file.
+
+### DID Photon FIPS Compliance
+
+Regarding FIPS Compliance, we have the following recommendations:
+
+Use [AWS KMS](https://aws.amazon.com/kms/) for keys:
+
+"AWS KMS is a secure and resilient service that uses hardware security modules that have been validated under FIPS 140-2, or are in the process of being validated, to protect your keys."
+
+Use an official FIPS compliant signature algorithm like ES256 ES384. 
+
+EdDSA with Ed25519 is [still in draft phase](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5-draft.pdf).
+
+Possible to run core compomnents in [GovCloud](https://aws.amazon.com/govcloud-us):
+- IPFS node in EC2 
+- DynamoDB cache 
+- KMS  
+
