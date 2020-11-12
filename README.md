@@ -14,8 +14,8 @@ This codebase is a [Lerna monorepo](https://github.com/lerna/lerna).
 |---|---|---|
 | did:ion  | [spec](https://github.com/decentralized-identity/ion) | Bitcoin  |
 | did:elem  | [spec](https://github.com/transmute-industries/sidetree.js/tree/master/packages/did-method-element) | Ethereum  |
-| did:photon  | [spec](https://github.com/transmute-industries/sidetree.js/tree/master/packages/did-method-photon) | Ethereum  |
-| did:trustbloc  | [spec](https://github.com/trustbloc/trustbloc-did-method) | Hyperledger Fabric  |
+| did:photon  | [spec](https://github.com/transmute-industries/sidetree.js/tree/master/packages/did-method-photon#photon-did-method-spec) | Amazon QLDB  |
+| did:trustbloc  | [spec](https://github.com/trustbloc/trustbloc-did-method/blob/master/docs/spec/trustbloc-did-method.md) | Hyperledger Fabric  |
 
 ## Usage
 
