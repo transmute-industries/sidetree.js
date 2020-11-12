@@ -32,6 +32,8 @@ npm run test
 
 ## QLDB FIPS Compliance
 
+FIPS compliance for QLDB is unclear at this point mainly because we cannot know how AWS's internal crypto is used.
+
 - QLDB uses a Merkle Tree with the SHA256 hash function to build its immutable ledger capabilities, which is part of FIPS's Secure Hash Standard. See [FIPS-180-4](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf).
 
 - [AWS Documentation on QLDB compliance](https://docs.aws.amazon.com/qldb/latest/developerguide/qldb-compliance.html)
