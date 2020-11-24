@@ -26,7 +26,7 @@ const { version } = require('../package.json');
  * Mock Blockchain class for testing.
  */
 export default class MockLedger implements IBlockchain {
-  async getServiceVersion(): Promise<ServiceVersionModel> {
+  getServiceVersion(): ServiceVersionModel {
     return {
       name: 'mock-ledger',
       version,

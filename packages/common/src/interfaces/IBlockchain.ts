@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { ServiceVersionModel } from 'models';
+import ServiceVersionModel from '../models/ServiceVersionModel';
 import BlockchainTimeModel from '../models/BlockchainTimeModel';
 import TransactionModel from '../models/TransactionModel';
 import ValueTimeLockModel from '../models/ValueTimeLockModel';
