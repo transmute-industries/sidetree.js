@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 
-import { ServiceVersionModel } from 'models';
+import ServiceVersionModel from '../models/ServiceVersionModel';
 import FetchResult from '../models/FetchResult';
+
 /**
  * Interface for accessing the underlying CAS (Content Addressable Store).
  * This interface is mainly useful for creating a mock CAS for testing purposes.

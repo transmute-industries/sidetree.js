@@ -44,7 +44,7 @@ export default class MockCas implements ICas {
     }
   }
 
-  async getServiceVersion(): Promise<ServiceVersionModel> {
+  getServiceVersion(): ServiceVersionModel {
     return {
       name: 'mock-cas',
       version,
