@@ -40,6 +40,7 @@ export default class EthereumLedger implements IBlockchain {
   public anchorContract: ElementContract;
   private cachedBlockchainTime: BlockchainTimeModel = { hash: '', time: 0 };
   private from = '';
+  private networkId = 0;
 
   constructor(
     public web3: Web3,
@@ -63,6 +64,7 @@ export default class EthereumLedger implements IBlockchain {
     // Set primary address
     const [from] = await utils.getAccounts(this.web3);
     this.from = from;
+    this.networkId = await this.web3.eth.net.getId();
     // Set contract
     if (!this.contractAddress) {
       const deployContract = await this.anchorContract.deploy({
@@ -201,9 +203,21 @@ export default class EthereumLedger implements IBlockchain {
         from: this.from,
         gas,
       });
-      this.logger.info(
-        `Ethereum transaction successful: https://ropsten.etherscan.io/tx/${txn.tx}`
-      );
+      switch (this.networkId) {
+        // Ropsten
+        case 3:
+          this.logger.info(
+            `Ethereum transaction successful: https://ropsten.etherscan.io/tx/${txn.transactionHash}`
+          );
+          break;
+        // Ganache
+        case 13370:
+          this.logger.info(
+            `Ethereum transaction successful: ${txn.transactionHash}`
+          );
+          break;
+        default:
+      }
     } catch (err) {
       this.logger.error(err.message);
     }
