@@ -39,6 +39,7 @@ export default class EthereumLedger implements IBlockchain {
   private logger: Console;
   public anchorContract: ElementContract;
   private cachedBlockchainTime: BlockchainTimeModel = { hash: '', time: 0 };
+  private from = '';
 
   constructor(
     public web3: Web3,
@@ -60,7 +61,8 @@ export default class EthereumLedger implements IBlockchain {
 
   public async initialize(): Promise<void> {
     // Set primary address
-    const [primaryAddress] = await utils.getAccounts(this.web3);
+    const [from] = await utils.getAccounts(this.web3);
+    this.from = from;
     // Set contract
     if (!this.contractAddress) {
       const deployContract = await this.anchorContract.deploy({
@@ -68,7 +70,7 @@ export default class EthereumLedger implements IBlockchain {
       });
       const gas = await deployContract.estimateGas();
       const instance = (await deployContract.send({
-        from: primaryAddress,
+        from,
         gas,
       })) as ElementContract;
       this.contractAddress = instance!.options.address;
@@ -181,7 +183,6 @@ export default class EthereumLedger implements IBlockchain {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public write = async (anchorString: string, _fee = 0): Promise<void> => {
-    const [from] = await utils.getAccounts(this.web3);
     const contract = await this.getAnchorContract();
     const {
       anchorFileHash,
@@ -197,7 +198,7 @@ export default class EthereumLedger implements IBlockchain {
       );
       const gas = await methodCall.estimateGas();
       const txn = await methodCall.send({
-        from,
+        from: this.from,
         gas,
       });
       this.logger.info(
