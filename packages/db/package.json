@@ -36,7 +36,7 @@
     "@types/mongodb": "^3.5.20",
     "mongodb": "^3.5.8",
     "reflect-metadata": "^0.1.10",
-    "typeorm": "^0.2.24"
+    "typeorm": "^0.2.29"
   },
   "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d"
 }
