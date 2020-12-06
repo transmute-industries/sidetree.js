@@ -37,7 +37,7 @@ const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.
 
 export default class EthereumLedger implements IBlockchain {
   private logger: Console;
-  public anchorContract: any;
+  public anchorContract: ElementContract;
   public instance: ElementContract | undefined;
   private cachedBlockchainTime: BlockchainTimeModel = { hash: '', time: 0 };
 
@@ -61,10 +61,10 @@ export default class EthereumLedger implements IBlockchain {
         data: anchorContractArtifact.bytecode,
       });
       const gas = await deployContract.estimateGas();
-      this.instance = await deployContract.send({
+      this.instance = (await deployContract.send({
         from: primaryAddress,
         gas,
-      });
+      })) as ElementContract;
       this.contractAddress = this.instance!.options.address;
       this.logger.info(
         `Creating new Element contract at address ${this.contractAddress}`
@@ -73,9 +73,9 @@ export default class EthereumLedger implements IBlockchain {
       this.logger.info(
         `Using Element contract at address ${this.contractAddress}`
       );
-      this.anchorContract.options.address = this.contractAddress;
-      this.instance = this.anchorContract;
     }
+    this.anchorContract.options.address = this.contractAddress;
+    this.instance = this.anchorContract;
     // Refresh cached block time
     await this.getLatestTime();
   }
@@ -186,7 +186,7 @@ export default class EthereumLedger implements IBlockchain {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public write = async (anchorString: string, _fee = 0): Promise<void> => {
     const [from] = await utils.getAccounts(this.web3);
-    const instance = this.getInstance();
+    // const instance = this.getInstance();
     const {
       anchorFileHash,
       numberOfOperations,
@@ -195,13 +195,15 @@ export default class EthereumLedger implements IBlockchain {
       anchorFileHash
     );
     try {
-      const txn = await instance.anchorHash(
+      const methodCall = this.anchorContract.methods.anchorHash(
         bytes32AnchorFileHash,
-        numberOfOperations,
-        {
-          from,
-        }
+        numberOfOperations
       );
+      const gas = await methodCall.estimateGas();
+      const txn = await methodCall.send({
+        from,
+        gas,
+      });
       this.logger.info(
         `Ethereum transaction successful: https://ropsten.etherscan.io/tx/${txn.tx}`
       );
