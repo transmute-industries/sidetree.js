@@ -35,14 +35,14 @@
     "@truffle/hdwallet-provider": "^1.0.35",
     "dotenv": "^8.2.0",
     "truffle": "^5.1.25",
-    "tsdx": "^0.13.2",
+    "tsdx": "^0.14.1",
     "web3": "1.2.7",
     "web3-core": "1.2.7"
   },
   "dependencies": {
     "@sidetree/common": "^0.1.1-unstable.20",
     "@sidetree/ledger": "^0.1.1-unstable.20",
-    "@truffle/contract": "^4.2.4",
+    "@truffle/contract": "^4.3.1",
     "multihashes": "^0.4.19"
   },
   "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d"

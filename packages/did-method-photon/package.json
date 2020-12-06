@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "aws-sdk": "^2.763.0",
-    "tsdx": "^0.13.2"
+    "tsdx": "^0.14.1"
   },
   "dependencies": {
     "@sidetree/cas": "^0.1.1-unstable.20",
