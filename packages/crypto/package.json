@@ -23,7 +23,7 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "tsdx": "^0.13.2"
+    "tsdx": "^0.13.3"
   },
   "dependencies": {
     "@transmute/did-key-ed25519": "^0.2.1-unstable.23",
