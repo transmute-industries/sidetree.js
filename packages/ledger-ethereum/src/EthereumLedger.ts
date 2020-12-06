@@ -87,22 +87,21 @@ export default class EthereumLedger implements IBlockchain {
     };
   };
 
-  private getInstance(): ElementContract {
-    if (!this.instance) {
-      throw new Error(
-        'Contract instance is undefined. Call .initialize() first'
-      );
-    }
-    return this.instance;
-  }
+  // private getInstance(): ElementContract {
+  //   if (!this.instance) {
+  //     throw new Error(
+  //       'Contract instance is undefined. Call .initialize() first'
+  //     );
+  //   }
+  //   return this.instance;
+  // }
 
   public _getTransactions = async (
     fromBlock: number | string,
     toBlock: number | string,
     options?: { filter?: EthereumFilter; omitTimestamp?: boolean }
   ): Promise<TransactionModel[]> => {
-    const instance = await this.getInstance();
-    const logs = await instance.getPastEvents('Anchor', {
+    const logs = await this.anchorContract.getPastEvents('Anchor', {
       fromBlock,
       toBlock: toBlock || 'latest',
       filter: (options && options.filter) || undefined,

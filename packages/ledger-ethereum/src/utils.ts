@@ -49,13 +49,13 @@ const eventLogToSidetreeTransaction = (
 ): TransactionModel => {
   const anchoredData = {
     anchorFileHash: bytes32EnodedMultihashToBase58EncodedMultihash(
-      log.args.anchorFileHash
+      log.returnValues.anchorFileHash
     ),
-    numberOfOperations: Number.parseInt(log.args.numberOfOperations),
+    numberOfOperations: Number.parseInt(log.returnValues.numberOfOperations),
   };
   const anchorString = AnchoredDataSerializer.serialize(anchoredData);
   return {
-    transactionNumber: log.args.transactionNumber.toNumber(),
+    transactionNumber: Number.parseInt(log.returnValues.transactionNumber, 10),
     transactionTime: log.blockNumber,
     transactionHash: log.transactionHash,
     transactionTimeHash: log.blockHash,
