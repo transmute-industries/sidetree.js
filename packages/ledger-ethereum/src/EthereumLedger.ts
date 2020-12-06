@@ -30,6 +30,8 @@ import {
 } from './types';
 
 const { version } = require('../package.json');
+// Web3 has bad types so we have to import the lib through require()
+// See https://github.com/ethereum/web3.js/issues/3734
 const Contract = require('web3-eth-contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
 
