@@ -30,7 +30,7 @@ import {
 } from './types';
 
 const { version } = require('../package.json');
-const contract = require('@truffle/contract');
+const Contract = require('web3-eth-contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
 
 export default class EthereumLedger implements IBlockchain {
@@ -45,11 +45,9 @@ export default class EthereumLedger implements IBlockchain {
     logger?: Console
   ) {
     this.logger = logger || console;
-    this.anchorContract = contract(anchorContractArtifact);
+    this.anchorContract = new Contract(anchorContractArtifact.abi);
     this.anchorContract.setProvider(this.web3.currentProvider);
-    this.anchorContract.defaults({
-      gasPrice: '100000000000',
-    });
+    this.anchorContract.options.gasPrice = '100000000000';
   }
 
   public async initialize(): Promise<void> {
@@ -57,10 +55,15 @@ export default class EthereumLedger implements IBlockchain {
     const [primaryAddress] = await utils.getAccounts(this.web3);
     // Set instance
     if (!this.contractAddress) {
-      this.instance = await this.anchorContract.new({
-        from: primaryAddress,
+      const deployContract = await this.anchorContract.deploy({
+        data: anchorContractArtifact.bytecode,
       });
-      this.contractAddress = this.instance!.address;
+      const gas = await deployContract.estimateGas();
+      this.instance = await deployContract.send({
+        from: primaryAddress,
+        gas,
+      });
+      this.contractAddress = this.instance!.options.address;
       this.logger.info(
         `Creating new Element contract at address ${this.contractAddress}`
       );
@@ -68,8 +71,9 @@ export default class EthereumLedger implements IBlockchain {
       this.logger.info(
         `Using Element contract at address ${this.contractAddress}`
       );
+      this.anchorContract.options.address = this.contractAddress;
+      this.instance = this.anchorContract;
     }
-    this.instance = await this.anchorContract.at(this.contractAddress);
     // Refresh cached block time
     await this.getLatestTime();
   }
