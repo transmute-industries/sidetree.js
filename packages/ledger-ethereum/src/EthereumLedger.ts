@@ -30,14 +30,17 @@ import {
 } from './types';
 
 const { version } = require('../package.json');
-const contract = require('@truffle/contract');
+// Web3 has bad types so we have to import the lib through require()
+// See https://github.com/ethereum/web3.js/issues/3734
+const Contract = require('web3-eth-contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
 
 export default class EthereumLedger implements IBlockchain {
   private logger: Console;
-  public anchorContract: any;
-  public instance: ElementContract | undefined;
+  public anchorContract: ElementContract;
   private cachedBlockchainTime: BlockchainTimeModel = { hash: '', time: 0 };
+  private from = '';
+  private networkId = 0;
 
   constructor(
     public web3: Web3,
@@ -45,22 +48,34 @@ export default class EthereumLedger implements IBlockchain {
     logger?: Console
   ) {
     this.logger = logger || console;
-    this.anchorContract = contract(anchorContractArtifact);
+    this.anchorContract = new Contract(anchorContractArtifact.abi);
     this.anchorContract.setProvider(this.web3.currentProvider);
-    this.anchorContract.defaults({
-      gasPrice: '100000000000',
-    });
+    this.anchorContract.options.gasPrice = '100000000000';
+  }
+
+  private async getAnchorContract(): Promise<ElementContract> {
+    if (!this.contractAddress) {
+      await this.initialize();
+    }
+    return this.anchorContract;
   }
 
   public async initialize(): Promise<void> {
     // Set primary address
-    const [primaryAddress] = await utils.getAccounts(this.web3);
-    // Set instance
+    const [from] = await utils.getAccounts(this.web3);
+    this.from = from;
+    this.networkId = await this.web3.eth.net.getId();
+    // Set contract
     if (!this.contractAddress) {
-      this.instance = await this.anchorContract.new({
-        from: primaryAddress,
+      const deployContract = await this.anchorContract.deploy({
+        data: anchorContractArtifact.bytecode,
       });
-      this.contractAddress = this.instance!.address;
+      const gas = await deployContract.estimateGas();
+      const instance = (await deployContract.send({
+        from,
+        gas,
+      })) as ElementContract;
+      this.contractAddress = instance!.options.address;
       this.logger.info(
         `Creating new Element contract at address ${this.contractAddress}`
       );
@@ -69,7 +84,7 @@ export default class EthereumLedger implements IBlockchain {
         `Using Element contract at address ${this.contractAddress}`
       );
     }
-    this.instance = await this.anchorContract.at(this.contractAddress);
+    this.anchorContract.options.address = this.contractAddress;
     // Refresh cached block time
     await this.getLatestTime();
   }
@@ -81,22 +96,13 @@ export default class EthereumLedger implements IBlockchain {
     };
   };
 
-  private getInstance(): ElementContract {
-    if (!this.instance) {
-      throw new Error(
-        'Contract instance is undefined. Call .initialize() first'
-      );
-    }
-    return this.instance;
-  }
-
   public _getTransactions = async (
     fromBlock: number | string,
     toBlock: number | string,
     options?: { filter?: EthereumFilter; omitTimestamp?: boolean }
   ): Promise<TransactionModel[]> => {
-    const instance = await this.getInstance();
-    const logs = await instance.getPastEvents('Anchor', {
+    const contract = await this.getAnchorContract();
+    const logs = await contract.getPastEvents('Anchor', {
       fromBlock,
       toBlock: toBlock || 'latest',
       filter: (options && options.filter) || undefined,
@@ -179,8 +185,7 @@ export default class EthereumLedger implements IBlockchain {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public write = async (anchorString: string, _fee = 0): Promise<void> => {
-    const [from] = await utils.getAccounts(this.web3);
-    const instance = this.getInstance();
+    const contract = await this.getAnchorContract();
     const {
       anchorFileHash,
       numberOfOperations,
@@ -189,16 +194,30 @@ export default class EthereumLedger implements IBlockchain {
       anchorFileHash
     );
     try {
-      const txn = await instance.anchorHash(
+      const methodCall = contract.methods.anchorHash(
         bytes32AnchorFileHash,
-        numberOfOperations,
-        {
-          from,
-        }
+        numberOfOperations
       );
-      this.logger.info(
-        `Ethereum transaction successful: https://ropsten.etherscan.io/tx/${txn.tx}`
-      );
+      const gas = await methodCall.estimateGas();
+      const txn = await methodCall.send({
+        from: this.from,
+        gas,
+      });
+      switch (this.networkId) {
+        // Ropsten
+        case 3:
+          this.logger.info(
+            `Ethereum transaction successful: https://ropsten.etherscan.io/tx/${txn.transactionHash}`
+          );
+          break;
+        // Ganache
+        case 13370:
+          this.logger.info(
+            `Ethereum transaction successful: ${txn.transactionHash}`
+          );
+          break;
+        default:
+      }
     } catch (err) {
       this.logger.error(err.message);
     }
