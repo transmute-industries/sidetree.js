@@ -26,13 +26,16 @@
   },
   "devDependencies": {
     "@sidetree/test-vectors": "^0.1.1-unstable.23",
+    "@transmute/universal-wallet": "^0.4.1",
     "@types/base64url": "^2.0.0",
     "tsdx": "^0.13.3"
+  },
+  "peerDependencies": {
+    "@transmute/universal-wallet": "^0.4.1"
   },
   "dependencies": {
     "@sidetree/common": "^0.1.1-unstable.23",
     "@sidetree/crypto": "^0.1.1-unstable.23",
-    "@transmute/universal-wallet": "^0.4.1",
     "base64url": "^3.0.1",
     "bip39": "^3.0.2",
     "canonicalize": "^1.0.3",
