@@ -18,6 +18,7 @@ import {
   ResponseStatus,
   ProtocolVersionModel,
   IBlockchain,
+  ICas,
 } from '@sidetree/common';
 import {
   BatchScheduler,
@@ -27,7 +28,6 @@ import {
   ServiceInfo,
   VersionManager,
 } from '@sidetree/core';
-import { IpfsCasWithCache as Cas } from '@sidetree/cas-ipfs';
 import {
   OperationStore as MongoDbOperationStore,
   MongoDbOperationQueue,
@@ -45,7 +45,7 @@ export default class DidMethod {
   public operationStore: MongoDbOperationStore;
   private versionManager: VersionManager;
   public blockchain: IBlockchain;
-  private cas: Cas;
+  private cas: ICas;
   private downloadManager: DownloadManager;
   private observer: Observer;
   private batchScheduler: BatchScheduler;
@@ -55,7 +55,8 @@ export default class DidMethod {
   public constructor(
     config: Config,
     protocolVersions: ProtocolVersionModel[],
-    blockchain: IBlockchain
+    blockchain: IBlockchain,
+    cas: ICas
   ) {
     // Component dependency construction & injection.
     this.versionManager = new VersionManager(config, protocolVersions); // `VersionManager` is first constructed component.
@@ -64,11 +65,7 @@ export default class DidMethod {
       config.databaseName
     );
     this.blockchain = blockchain;
-    this.cas = new Cas(
-      config.contentAddressableStoreServiceUri,
-      config.mongoDbConnectionString,
-      config.databaseName
-    );
+    this.cas = cas;
     this.downloadManager = new DownloadManager(
       config.maxConcurrentDownloads,
       this.cas
