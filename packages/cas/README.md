@@ -1,11 +1,6 @@
 # @sidetree/cas
 
-This package contains several implementations of [Content Addressable Storage](https://en.wikipedia.org/wiki/Content-addressable_storage) used in Sidetree.
-
-It contains:
-- `MockCas`: An in memory CAS interface for testing purposes
-- `IpfsCas`: A CAS interface for IPFS
-- `IpfsCasWithCache`: An efficient CAS interface that uses IPFS and a cache for faster read
+This package contains a mock implementation of [Content Addressable Storage](https://en.wikipedia.org/wiki/Content-addressable_storage) used in Sidetree, and a test suite to measure other CAS implementation against
 
 ## Usage
 
