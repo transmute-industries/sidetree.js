@@ -13,8 +13,14 @@
  */
 
 import QLDBLedger from '@sidetree/qldb';
+import { ICas } from '@sidetree/common';
 import { sidetreeCoreGeneratedEd25519 } from '@sidetree/test-vectors';
-import { resetDatabase, getTestLedger, replaceMethod } from './utils';
+import {
+  resetDatabase,
+  getTestLedger,
+  getTestCas,
+  replaceMethod,
+} from './utils';
 import Photon from '../Photon';
 import config from './photon-config.json';
 import AWS from 'aws-sdk';
@@ -46,10 +52,12 @@ jest.setTimeout(60 * 1000);
 describe('Photon', () => {
   let ledger: QLDBLedger;
   let photon: Photon;
+  let cas: ICas;
 
   beforeAll(async () => {
     await resetDatabase();
     ledger = await getTestLedger();
+    cas = await getTestCas();
     await ledger.reset();
   });
 
@@ -58,7 +66,7 @@ describe('Photon', () => {
   });
 
   it('should create the Photon class', async () => {
-    photon = new Photon(config, config.versions, ledger);
+    photon = new Photon(config, config.versions, ledger, cas);
     expect(photon).toBeDefined();
   });
 
