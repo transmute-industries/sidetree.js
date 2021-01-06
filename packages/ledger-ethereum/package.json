@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.1.1-unstable.24",
+  "version": "0.1.1-unstable.25",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -31,15 +31,15 @@
     "web3": ">=1.2.7"
   },
   "devDependencies": {
-    "@sidetree/test-vectors": "^0.1.1-unstable.24",
+    "@sidetree/test-vectors": "^0.1.1-unstable.25",
     "@truffle/hdwallet-provider": "^1.0.35",
     "dotenv": "^8.2.0",
     "truffle": "^5.1.25",
     "tsdx": "^0.13.3"
   },
   "dependencies": {
-    "@sidetree/common": "^0.1.1-unstable.24",
-    "@sidetree/ledger": "^0.1.1-unstable.24",
+    "@sidetree/common": "^0.1.1-unstable.25",
+    "@sidetree/ledger": "^0.1.1-unstable.25",
     "multihashes": "^0.4.19",
     "web3": "1.3.0",
     "web3-eth-contract": "1.3.0"
