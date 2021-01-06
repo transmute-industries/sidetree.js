@@ -13,20 +13,23 @@
  */
 
 import Element from './Element';
+import { ICas } from '@sidetree/common';
 import { EthereumLedger } from '@sidetree/ethereum';
 import { testVectors } from '@sidetree/test-vectors';
-import { resetDatabase, getTestLedger } from './test/utils';
+import { resetDatabase, getTestLedger, getTestCas } from './test/utils';
 import config from './test/element-config.json';
 
 console.info = () => null;
 
 describe('Element', () => {
   let ledger: EthereumLedger;
+  let cas: ICas;
   let element: Element;
 
   beforeAll(async () => {
     await resetDatabase();
     ledger = await getTestLedger();
+    cas = await getTestCas();
   });
 
   afterAll(async () => {
@@ -34,7 +37,7 @@ describe('Element', () => {
   });
 
   it('should create the element class', async () => {
-    element = new Element(config, config.versions, ledger);
+    element = new Element(config, config.versions, ledger, cas);
     expect(element).toBeDefined();
   });
 
