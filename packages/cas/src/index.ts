@@ -17,8 +17,7 @@
  * limitations under the License.
  */
 
-import IpfsCas from './IpfsCas';
-import IpfsCasWithCache from './IpfsCasWithCache';
 import MockCas from './MockCas';
+import testSuite from './tests/testSuite';
 
-export { IpfsCas, IpfsCasWithCache, MockCas };
+export { MockCas, testSuite };

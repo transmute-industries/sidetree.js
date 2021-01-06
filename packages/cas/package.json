@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "module": "dist/sidetree-cas-ipfs.esm.js",
+  "module": "dist/cas.esm.js",
   "version": "0.1.1-unstable.24",
   "license": "Apache-2.0",
   "main": "dist/index.js",
@@ -19,7 +19,6 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "pretest": "docker-compose up -d ipfs mongo",
     "test": "tsdx test",
     "lint": "tsdx lint src",
     "lint:fix": "tsdx lint src --fix",
@@ -30,12 +29,8 @@
   },
   "dependencies": {
     "@sidetree/common": "^0.1.1-unstable.24",
-    "@sidetree/db": "^0.1.1-unstable.24",
-    "@types/node-fetch": "^2.5.7",
-    "ipfs-http-client": "42.0.0",
     "ipfs-unixfs": "^2.0.3",
-    "ipld-dag-pb": "^0.20.0",
-    "it-concat": "^1.0.0"
+    "ipld-dag-pb": "^0.20.0"
   },
   "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d"
 }
