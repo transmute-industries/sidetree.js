@@ -31,7 +31,7 @@
     "tsdx": "^0.13.3"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.1.1-unstable.24",
+    "@sidetree/cas-ipfs": "^0.1.1-unstable.24",
     "@sidetree/common": "^0.1.1-unstable.24",
     "@sidetree/core": "^0.1.1-unstable.24",
     "@sidetree/db": "^0.1.1-unstable.24"

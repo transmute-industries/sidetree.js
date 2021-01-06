@@ -27,7 +27,7 @@ import {
   ServiceInfo,
   VersionManager,
 } from '@sidetree/core';
-import { IpfsCasWithCache as Cas } from '@sidetree/cas';
+import { IpfsCasWithCache as Cas } from '@sidetree/cas-ipfs';
 import {
   OperationStore as MongoDbOperationStore,
   MongoDbOperationQueue,
