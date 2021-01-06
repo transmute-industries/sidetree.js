@@ -14,6 +14,7 @@
 
 import { MongoDb } from '@sidetree/db';
 import QLDBLedger from '@sidetree/qldb';
+import { MockCas } from '@sidetree/cas';
 import Photon from '../Photon';
 import config from './photon-config.json';
 
@@ -29,10 +30,16 @@ const getTestLedger = async (): Promise<QLDBLedger> => {
   return ledger;
 };
 
+const getTestCas = async () => {
+  const cas = new MockCas();
+  return cas;
+};
+
 const getTestPhoton = async (): Promise<Photon> => {
   await resetDatabase();
   const ledger = await getTestLedger();
-  const photon = new Photon(config, config.versions, ledger);
+  const cas = await getTestCas();
+  const photon = new Photon(config, config.versions, ledger, cas);
   await photon.initialize(false, false);
   return photon;
 };
@@ -51,4 +58,10 @@ const replaceMethod = (
   return updateResult;
 };
 
-export { resetDatabase, getTestLedger, getTestPhoton, replaceMethod };
+export {
+  resetDatabase,
+  getTestLedger,
+  getTestCas,
+  getTestPhoton,
+  replaceMethod,
+};

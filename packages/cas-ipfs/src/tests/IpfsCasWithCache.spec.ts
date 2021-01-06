@@ -18,7 +18,7 @@
  */
 
 import { MongoDb } from '@sidetree/db';
-import testSuite from './testSuite';
+import { testSuite } from '@sidetree/cas';
 import IpfsCasWithCache from '../IpfsCasWithCache';
 import config from './config.json';
 

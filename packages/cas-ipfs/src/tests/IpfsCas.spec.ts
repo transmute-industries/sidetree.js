@@ -17,7 +17,10 @@
  * limitations under the License.
  */
 
-import MockCas from './MockCas';
-import testSuite from './tests/testSuite';
+import { testSuite } from '@sidetree/cas';
+import IpfsCas from '../IpfsCas';
+import config from './config.json';
 
-export { MockCas, testSuite };
+const cas = new IpfsCas(config.contentAddressableStoreServiceUri);
+
+testSuite(cas);

@@ -18,6 +18,7 @@ import path from 'path';
 import { MongoDb } from '@sidetree/db';
 import Web3 from 'web3';
 import { EthereumLedger } from '@sidetree/ethereum';
+import { IpfsCasWithCache } from '@sidetree/cas-ipfs';
 import Element from '../Element';
 
 const config: any = require('./element-config.json');
@@ -42,11 +43,21 @@ const getTestLedger = async () => {
   return ledger;
 };
 
+const getTestCas = async () => {
+  const cas = new IpfsCasWithCache(
+    config.contentAddressableStoreServiceUri,
+    config.mongoDbConnectionString,
+    config.databaseName
+  );
+  return cas;
+};
+
 const getTestElement = async () => {
   await resetDatabase();
   const ledger = await getTestLedger();
+  const cas = await getTestCas();
 
-  const element = new Element(config, config.versions, ledger);
+  const element = new Element(config, config.versions, ledger, cas);
   await element.initialize(false, false);
   return element;
 };
@@ -76,6 +87,7 @@ const replaceMethod = (
 export {
   resetDatabase,
   getTestLedger,
+  getTestCas,
   getTestElement,
   replaceMethod,
   writeFixture,

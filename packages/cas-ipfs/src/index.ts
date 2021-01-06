@@ -17,10 +17,7 @@
  * limitations under the License.
  */
 
-import testSuite from './testSuite';
-import IpfsCas from '../IpfsCas';
-import config from './config.json';
+import IpfsCas from './IpfsCas';
+import IpfsCasWithCache from './IpfsCasWithCache';
 
-const cas = new IpfsCas(config.contentAddressableStoreServiceUri);
-
-testSuite(cas);
+export { IpfsCas, IpfsCasWithCache };

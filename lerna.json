@@ -1,6 +1,7 @@
 {
   "packages": [
     "packages/cas",
+    "packages/cas-ipfs",
     "packages/common",
     "packages/core",
     "packages/crypto",
