@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@sidetree/cas": "0.1.1-unstable.24",
+    "@sidetree/common": "0.1.1-unstable.24",
     "@sidetree/db": "^0.1.1-unstable.24",
     "@sidetree/did-method": "^0.1.1-unstable.24",
     "@sidetree/qldb": "^0.1.1-unstable.24",
