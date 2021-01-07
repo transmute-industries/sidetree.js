@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.1.1-unstable.25",
+  "version": "0.1.1-unstable.26",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -29,18 +29,18 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/test-vectors": "^0.1.1-unstable.25",
-    "@sidetree/wallet": "^0.1.1-unstable.25",
+    "@sidetree/test-vectors": "^0.1.1-unstable.26",
+    "@sidetree/wallet": "^0.1.1-unstable.26",
     "tsdx": "^0.13.3"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.1.1-unstable.25",
-    "@sidetree/cas-ipfs": "^0.1.1-unstable.25",
-    "@sidetree/common": "^0.1.1-unstable.25",
-    "@sidetree/core": "^0.1.1-unstable.25",
-    "@sidetree/db": "^0.1.1-unstable.25",
-    "@sidetree/did-method": "^0.1.1-unstable.25",
-    "@sidetree/ethereum": "^0.1.1-unstable.25",
+    "@sidetree/cas": "^0.1.1-unstable.26",
+    "@sidetree/cas-ipfs": "^0.1.1-unstable.26",
+    "@sidetree/common": "^0.1.1-unstable.26",
+    "@sidetree/core": "^0.1.1-unstable.26",
+    "@sidetree/db": "^0.1.1-unstable.26",
+    "@sidetree/did-method": "^0.1.1-unstable.26",
+    "@sidetree/ethereum": "^0.1.1-unstable.26",
     "web3": "^1.2.9"
   },
   "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d"
