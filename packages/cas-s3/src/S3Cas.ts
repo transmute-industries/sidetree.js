@@ -25,34 +25,28 @@ import {
 } from '@sidetree/common';
 import Unixfs from 'ipfs-unixfs';
 import { DAGNode } from 'ipld-dag-pb';
+import AWS from 'aws-sdk';
 const { version } = require('../package.json');
+
+const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
 
 /**
  * Implementation of a CAS class for testing.
  * Simply using a hash map to store all the content by hash.
  */
-export default class MockCas implements ICas {
-  /** A Map that stores the given content. */
-  private storage: Map<string, Buffer> = new Map();
-
-  /** Time taken in seconds for each mock fetch. */
-  private mockSecondsTakenForEachCasFetch = 0;
-
-  constructor(mockSecondsTakenForEachCasFetch?: number) {
-    if (mockSecondsTakenForEachCasFetch !== undefined) {
-      this.mockSecondsTakenForEachCasFetch = mockSecondsTakenForEachCasFetch;
-    }
-  }
-
+export default class S3Cas implements ICas {
   getServiceVersion(): ServiceVersionModel {
     return {
-      name: 'mock-cas',
+      name: 'cas-s3',
       version,
     };
   }
 
   async initialize(): Promise<void> {
-    return;
+    const bucketParams = {
+      Bucket: 'sidetree-cas-s3-test',
+    };
+    await s3.createBucket(bucketParams).promise();
   }
 
   async close(): Promise<void> {
@@ -73,17 +67,26 @@ export default class MockCas implements ICas {
   }
 
   public async write(content: Buffer): Promise<string> {
-    const encodedHash = await MockCas.getAddress(content);
-    this.storage.set(encodedHash, content);
-    return encodedHash;
+    const encodedHash = await S3Cas.getAddress(content);
+    const writeResult = await s3
+      .upload({
+        Bucket: 'sidetree-cas-s3-test',
+        Key: encodedHash,
+        Body: content,
+      })
+      .promise();
+    const key = writeResult.Key;
+    return key;
   }
 
   public async read(address: string): Promise<FetchResult> {
-    // Wait for configured time before returning.
-    await new Promise((resolve) =>
-      setTimeout(resolve, this.mockSecondsTakenForEachCasFetch * 1000)
-    );
-    const content = this.storage.get(address);
+    const readResult = await s3
+      .getObject({
+        Bucket: 'sidetree-cas-s3-test',
+        Key: address,
+      })
+      .promise();
+    const content = readResult.Body as Buffer;
     if (content === undefined) {
       return {
         code: FetchResultCode.NotFound,

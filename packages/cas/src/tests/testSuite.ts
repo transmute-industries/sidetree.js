@@ -50,7 +50,7 @@ const testSuite = (cas: ICas): void => {
     });
 
     describe('write', () => {
-      it('should write a JSON and return content id', async () => {
+      it.only('should write a JSON and return content id', async () => {
         const cid = await cas.write(Buffer.from(JSON.stringify(testObj)));
         expect(cid).toBe(testObjMultihash);
       });
@@ -72,7 +72,7 @@ const testSuite = (cas: ICas): void => {
     });
 
     describe('read', () => {
-      it('should read a JSON', async () => {
+      it.only('should read a JSON', async () => {
         const fetchResult = await cas.read(testObjMultihash);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(JSON.parse(fetchResult.content!.toString())).toEqual(testObj);

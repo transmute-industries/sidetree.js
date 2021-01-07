@@ -28,8 +28,9 @@
     "tsdx": "^0.13.3"
   },
   "dependencies": {
-    "@sidetree/common": "^0.1.1-unstable.25",
     "@sidetree/cas": "^0.1.1-unstable.25",
+    "@sidetree/common": "^0.1.1-unstable.25",
+    "aws-sdk": "^2.823.0",
     "ipfs-unixfs": "^2.0.3",
     "ipld-dag-pb": "^0.20.0"
   },
