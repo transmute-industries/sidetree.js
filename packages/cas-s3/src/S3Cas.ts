@@ -87,22 +87,22 @@ export default class S3Cas implements ICas {
   }
 
   public async read(address: string): Promise<FetchResult> {
-    const readResult = await s3
-      .getObject({
-        Bucket: 'sidetree-cas-s3-test',
-        Key: address,
-      })
-      .promise();
-    const content = readResult.Body as Buffer;
-    if (content === undefined) {
+    try {
+      const readResult = await s3
+        .getObject({
+          Bucket: 'sidetree-cas-s3-test',
+          Key: address,
+        })
+        .promise();
+      const content = readResult.Body as Buffer;
+      return {
+        code: FetchResultCode.Success,
+        content,
+      };
+    } catch (err) {
       return {
         code: FetchResultCode.NotFound,
       };
     }
-
-    return {
-      code: FetchResultCode.Success,
-      content,
-    };
   }
 }
