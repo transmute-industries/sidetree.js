@@ -35,6 +35,12 @@ const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
  * Simply using a hash map to store all the content by hash.
  */
 export default class S3Cas implements ICas {
+  constructor(private bucketName: string) {
+    if (!this.bucketName) {
+      throw new Error('You must specify a bucketName');
+    }
+  }
+
   getServiceVersion(): ServiceVersionModel {
     return {
       name: 'cas-s3',
@@ -44,7 +50,7 @@ export default class S3Cas implements ICas {
 
   async initialize(): Promise<void> {
     const bucketParams = {
-      Bucket: 'sidetree-cas-s3-test',
+      Bucket: this.bucketName,
     };
     await s3.createBucket(bucketParams).promise();
   }
@@ -70,7 +76,7 @@ export default class S3Cas implements ICas {
     const encodedHash = await S3Cas.getAddress(content);
     const writeResult = await s3
       .upload({
-        Bucket: 'sidetree-cas-s3-test',
+        Bucket: this.bucketName,
         Key: encodedHash,
         Body: content,
       })

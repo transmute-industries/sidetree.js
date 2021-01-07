@@ -20,6 +20,6 @@
 import { testSuite } from '@sidetree/cas';
 import S3Cas from './S3Cas';
 
-const cas = new S3Cas();
+const cas = new S3Cas('sidetree-cas-s3-test');
 
 testSuite(cas);
