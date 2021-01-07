@@ -18,7 +18,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "pretest": "docker-compose up -d mongo ipfs",
+    "pretest": "docker-compose up -d mongo",
     "test": "tsdx test --runInBand",
     "lint": "tsdx lint src",
     "lint:fix": "tsdx lint src --fix",
@@ -29,7 +29,6 @@
     "tsdx": "^0.13.3"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.1.1-unstable.25",
     "@sidetree/cas-s3": "0.1.1-unstable.25",
     "@sidetree/common": "^0.1.1-unstable.25",
     "@sidetree/db": "^0.1.1-unstable.25",
