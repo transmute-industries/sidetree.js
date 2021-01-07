@@ -76,6 +76,7 @@ export default class S3Cas implements ICas {
       })
       .promise();
     const key = writeResult.Key;
+    console.assert(key === encodedHash, `${key} should match ${encodedHash}`);
     return key;
   }
 
