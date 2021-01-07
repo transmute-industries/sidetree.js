@@ -14,7 +14,7 @@
 
 import { MongoDb } from '@sidetree/db';
 import QLDBLedger from '@sidetree/qldb';
-import { MockCas } from '@sidetree/cas';
+import { S3Cas } from '@sidetree/cas-s3';
 import Photon from '../Photon';
 import config from './photon-config.json';
 
@@ -31,7 +31,7 @@ const getTestLedger = async (): Promise<QLDBLedger> => {
 };
 
 const getTestCas = async () => {
-  const cas = new MockCas();
+  const cas = new S3Cas(config.s3BucketName);
   return cas;
 };
 

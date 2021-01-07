@@ -2,6 +2,7 @@
   "packages": [
     "packages/cas",
     "packages/cas-ipfs",
+    "packages/cas-s3",
     "packages/common",
     "packages/core",
     "packages/crypto",

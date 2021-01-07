@@ -1,5 +1,5 @@
 {
-  "name": "@sidetree/photon",
+  "name": "@sidetree/cas-s3",
   "publishConfig": {
     "access": "public"
   },
@@ -8,6 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
+  "module": "dist/cas-s3.esm.js",
   "version": "0.1.1-unstable.25",
   "license": "Apache-2.0",
   "main": "dist/index.js",
@@ -18,22 +19,20 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "pretest": "docker-compose up -d mongo",
-    "test": "tsdx test --runInBand",
+    "test": "tsdx test",
     "lint": "tsdx lint src",
     "lint:fix": "tsdx lint src --fix",
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "aws-sdk": "^2.763.0",
     "tsdx": "^0.13.3"
   },
   "dependencies": {
-    "@sidetree/cas-s3": "0.1.1-unstable.25",
+    "@sidetree/cas": "^0.1.1-unstable.25",
     "@sidetree/common": "^0.1.1-unstable.25",
-    "@sidetree/db": "^0.1.1-unstable.25",
-    "@sidetree/did-method": "^0.1.1-unstable.25",
-    "@sidetree/qldb": "^0.1.1-unstable.25",
-    "@sidetree/test-vectors": "^0.1.1-unstable.25"
-  }
+    "aws-sdk": "^2.823.0",
+    "ipfs-unixfs": "^2.0.3",
+    "ipld-dag-pb": "^0.20.0"
+  },
+  "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d"
 }
