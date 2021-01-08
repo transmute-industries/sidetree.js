@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.1.1-unstable.26",
+  "version": "0.2.0",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -24,11 +24,11 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/ledger": "^0.1.1-unstable.26",
+    "@sidetree/ledger": "^0.2.0",
     "tsdx": "^0.13.3"
   },
   "dependencies": {
-    "@sidetree/common": "^0.1.1-unstable.26",
+    "@sidetree/common": "^0.2.0",
     "amazon-qldb-driver-nodejs": "^2.0.0",
     "aws-sdk": "^2.751.0",
     "ion-js": "^4.0.1",
