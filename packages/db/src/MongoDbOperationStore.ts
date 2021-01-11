@@ -30,7 +30,7 @@ export default class MongoDbOperationStore extends MongoDbBase
 
   public async initialize(): Promise<void> {
     await super.initialize();
-    // await this.collection!.createIndex({ hash: 1 }, { unique: true });
+    await this.collection!.createIndex({ didUniqueSuffix: 1 });
   }
 
   public async put(operations: AnchoredOperationModel[]): Promise<void> {
