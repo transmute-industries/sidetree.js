@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.2.0",
+  "version": "0.2.1-unstable.0",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -30,17 +30,17 @@
   },
   "devDependencies": {
     "@sidetree/test-vectors": "^0.2.0",
-    "@sidetree/wallet": "^0.2.0",
+    "@sidetree/wallet": "^0.2.1-unstable.0",
     "tsdx": "^0.13.3"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.2.0",
-    "@sidetree/cas-ipfs": "^0.2.0",
-    "@sidetree/common": "^0.2.0",
-    "@sidetree/core": "^0.2.0",
-    "@sidetree/db": "^0.2.0",
-    "@sidetree/did-method": "^0.2.0",
-    "@sidetree/ethereum": "^0.2.0",
+    "@sidetree/cas": "^0.2.1-unstable.0",
+    "@sidetree/cas-ipfs": "^0.2.1-unstable.0",
+    "@sidetree/common": "^0.2.1-unstable.0",
+    "@sidetree/core": "^0.2.1-unstable.0",
+    "@sidetree/db": "^0.2.1-unstable.0",
+    "@sidetree/did-method": "^0.2.1-unstable.0",
+    "@sidetree/ethereum": "^0.2.1-unstable.0",
     "web3": "^1.2.9"
   },
   "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d"
