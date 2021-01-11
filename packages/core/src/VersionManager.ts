@@ -38,6 +38,13 @@ import {
 } from '@sidetree/common';
 import DownloadManager from './DownloadManager';
 import Resolver from './Resolver';
+import { MongoDbOperationQueue } from '@sidetree/db';
+import TransactionProcessor from './TransactionProcessor';
+import TransactionSelector from './TransactionSelector';
+import BatchWriter from './write/BatchWriter';
+import OperationProcessor from './OperationProcessor';
+import RequestHandler from './RequestHandler';
+import VersionMetadata from './VersionMetadata';
 
 /**
  * The class that handles the loading of different versions of protocol codebase.
@@ -309,19 +316,19 @@ export default class VersionManager
     if (version === 'latest') {
       switch (className) {
         case 'MongoDbOperationQueue':
-          return (await import('@sidetree/db')).MongoDbOperationQueue;
+          return MongoDbOperationQueue;
         case 'TransactionProcessor':
-          return (await import('./TransactionProcessor')).default;
+          return TransactionProcessor;
         case 'TransactionSelector':
-          return (await import('./TransactionSelector')).default;
+          return TransactionSelector;
         case 'BatchWriter':
-          return (await import('./write/BatchWriter')).default;
+          return BatchWriter;
         case 'OperationProcessor':
-          return (await import('./OperationProcessor')).default;
+          return OperationProcessor;
         case 'RequestHandler':
-          return (await import('./RequestHandler')).default;
+          return RequestHandler;
         case 'VersionMetadata':
-          return (await import('./VersionMetadata')).default;
+          return VersionMetadata;
         default:
           return;
       }

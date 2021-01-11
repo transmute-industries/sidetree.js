@@ -24,13 +24,13 @@ import {
   Multihash,
   PrivateKeyJwk,
 } from '@sidetree/common';
-import { OperationStore } from '@sidetree/db';
+import { MongoDbOperationStore } from '@sidetree/db';
 import UpdateOperation from '../UpdateOperation';
 import OperationGenerator from './generators/OperationGenerator';
 import config from './config-test.json';
 
 async function createOperationStore(): Promise<IOperationStore> {
-  const operationStore = new OperationStore(
+  const operationStore = new MongoDbOperationStore(
     config.mongoDbConnectionString,
     config.databaseName
   );

@@ -18,39 +18,19 @@
  */
 
 import {
-  IOperationStore,
   AnchoredOperationModel,
+  IOperationStore,
   OperationType,
 } from '@sidetree/common';
-import { createConnection, MongoRepository, Connection } from 'typeorm';
-import Operation from './entity/Operation';
+import MongoDbBase from './MongoDbBase';
 
-export default class OperationStore implements IOperationStore {
-  private connection: Connection | undefined;
-  private repo: MongoRepository<Operation> | undefined;
-
-  private readonly databaseName: string;
-
-  constructor(private serverUrl: string, databaseName?: string) {
-    this.databaseName = databaseName ? databaseName : 'sidetree';
-  }
+export default class MongoDbOperationStore extends MongoDbBase
+  implements IOperationStore {
+  readonly collectionName = 'operation';
 
   public async initialize(): Promise<void> {
-    const connection = await createConnection({
-      // Typeorm does not allow two connections to have the same name
-      // So we use a different name everytime in order to have parallel connections
-      name: `${Date.now()}`,
-      type: 'mongodb',
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      url: `${this.serverUrl}${this.databaseName}`,
-      entities: [Operation],
-    });
-    this.connection = connection;
-    this.repo = connection.getMongoRepository(Operation);
-  }
-  public async close(): Promise<void> {
-    return this.connection!.close();
+    await super.initialize();
+    await this.collection!.createIndex({ didUniqueSuffix: 1 });
   }
 
   public async put(operations: AnchoredOperationModel[]): Promise<void> {
@@ -83,12 +63,14 @@ export default class OperationStore implements IOperationStore {
       }
     }
     if (onlyNewElements.length > 0) {
-      await this.repo!.insertMany(onlyNewElements);
+      await this.collection!.insertMany(onlyNewElements);
     }
   }
 
   public async get(didUniqueSuffix: string): Promise<AnchoredOperationModel[]> {
-    const results = await this.repo!.find({ didUniqueSuffix });
+    const results = await this.collection!.find({
+      didUniqueSuffix,
+    }).toArray();
     // Ensure operations are sorted by increasing order of operationIndex
     results.sort((op1, op2) => op1.operationIndex - op2.operationIndex);
     return results;
@@ -96,11 +78,11 @@ export default class OperationStore implements IOperationStore {
 
   public async delete(transactionNumber?: number): Promise<void> {
     if (transactionNumber) {
-      await this.repo!.deleteMany({
+      await this.collection!.deleteMany({
         transactionNumber: { $gt: transactionNumber },
       });
     } else {
-      await this.repo!.deleteMany({});
+      await this.collection!.deleteMany({});
     }
   }
 
@@ -109,7 +91,7 @@ export default class OperationStore implements IOperationStore {
     transactionNumber: number,
     operationIndex: number
   ): Promise<void> {
-    await this.repo!.deleteMany({
+    await this.collection!.deleteMany({
       $or: [
         {
           didUniqueSuffix,

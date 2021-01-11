@@ -22,7 +22,7 @@ import MongoDbCasCache from './MongoDbCasCache';
 import MongoDbOperationQueue from './MongoDbOperationQueue';
 import MongoDbTransactionStore from './MongoDbTransactionStore';
 import MongoDbUnresolvableTransactionStore from './MongoDbUnresolvableTransactionStore';
-import OperationStore from './OperationStore';
+import MongoDbOperationStore from './MongoDbOperationStore';
 
 export {
   MongoDb,
@@ -30,5 +30,5 @@ export {
   MongoDbOperationQueue,
   MongoDbTransactionStore,
   MongoDbUnresolvableTransactionStore,
-  OperationStore,
+  MongoDbOperationStore,
 };

@@ -22,7 +22,8 @@
  */
 export default interface Config {
   batchingIntervalInSeconds: number;
-  contentAddressableStoreServiceUri: string;
+  s3BucketName?: string;
+  contentAddressableStoreServiceUri?: string;
   didMethodName: string;
   maxConcurrentDownloads: number;
   observingIntervalInSeconds: number;

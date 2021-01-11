@@ -29,7 +29,7 @@ import {
   VersionManager,
 } from '@sidetree/core';
 import {
-  OperationStore as MongoDbOperationStore,
+  MongoDbOperationStore,
   MongoDbOperationQueue,
   MongoDbTransactionStore,
   MongoDbUnresolvableTransactionStore,

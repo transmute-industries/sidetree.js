@@ -13,6 +13,7 @@
  */
 
 import { MongoDb } from '@sidetree/db';
+import { ICas } from '@sidetree/common';
 import QLDBLedger from '@sidetree/qldb';
 import { S3Cas } from '@sidetree/cas-s3';
 import Photon from '../Photon';
@@ -30,7 +31,7 @@ const getTestLedger = async (): Promise<QLDBLedger> => {
   return ledger;
 };
 
-const getTestCas = async () => {
+const getTestCas = (): ICas => {
   const cas = new S3Cas(config.s3BucketName);
   return cas;
 };

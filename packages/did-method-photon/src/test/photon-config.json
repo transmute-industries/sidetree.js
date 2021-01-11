@@ -1,6 +1,5 @@
 {
   "s3BucketName": "sidetree-cas-s3-test",
-  "contentAddressableStoreServiceUri": "/ip4/127.0.0.1/tcp/5001",
   "databaseName": "photon-test",
   "qldbLedger": "photon-test",
   "qldbLedgerTable": "Test",
