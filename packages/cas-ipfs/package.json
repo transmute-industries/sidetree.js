@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "module": "dist/sidetree-cas-ipfs.esm.js",
+  "module": "dist/cas-ipfs.esm.js",
   "version": "0.2.1-unstable.0",
   "license": "Apache-2.0",
   "main": "dist/index.js",
