@@ -2,6 +2,9 @@ name: CD
 
 on:
   push:
+    # release unstable wont run if the commit is already a stable release (tagged commit)
+    tags-ignore:
+      - "v*"
     branches:
       - master
 
