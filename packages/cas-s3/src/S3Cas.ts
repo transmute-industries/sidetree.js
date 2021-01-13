@@ -26,18 +26,25 @@ import {
 import Unixfs from 'ipfs-unixfs';
 import { DAGNode } from 'ipld-dag-pb';
 import AWS from 'aws-sdk';
+import { CredentialsOptions } from 'aws-sdk/lib/credentials';
 const { version } = require('../package.json');
-
-const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
 
 /**
  * Implementation of a CAS class for testing.
  * Simply using a hash map to store all the content by hash.
  */
 export default class S3Cas implements ICas {
-  constructor(private bucketName: string) {
+  private s3: AWS.S3;
+
+  constructor(private bucketName: string, config?: CredentialsOptions) {
     if (!this.bucketName) {
       throw new Error('You must specify a bucketName');
+    }
+    if (config) {
+      this.s3 = new AWS.S3({ ...config });
+    } else {
+      // Load AWS credentials from ~/.aws/credentials file
+      this.s3 = new AWS.S3();
     }
   }
 
@@ -52,7 +59,7 @@ export default class S3Cas implements ICas {
     const bucketParams = {
       Bucket: this.bucketName,
     };
-    await s3.createBucket(bucketParams).promise();
+    await this.s3.createBucket(bucketParams).promise();
   }
 
   async close(): Promise<void> {
@@ -74,7 +81,7 @@ export default class S3Cas implements ICas {
 
   public async write(content: Buffer): Promise<string> {
     const encodedHash = await S3Cas.getAddress(content);
-    const writeResult = await s3
+    const writeResult = await this.s3
       .upload({
         Bucket: this.bucketName,
         Key: encodedHash,
@@ -88,7 +95,7 @@ export default class S3Cas implements ICas {
 
   public async read(address: string): Promise<FetchResult> {
     try {
-      const readResult = await s3
+      const readResult = await this.s3
         .getObject({
           Bucket: 'sidetree-cas-s3-test',
           Key: address,

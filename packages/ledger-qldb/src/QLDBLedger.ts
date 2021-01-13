@@ -10,6 +10,7 @@ import {
   ValueTimeLockModel,
 } from '@sidetree/common';
 import { Timestamp } from 'aws-sdk/clients/apigateway';
+import QLDBSession from 'aws-sdk/clients/qldbsession';
 const { version } = require('../package.json');
 
 interface ValueWithCount extends dom.Value {
@@ -36,19 +37,29 @@ export default class QLDBLedger implements IBlockchain {
 
   public transactionTable: string;
 
-  constructor(ledgerName: string, tableName: string) {
-    const serviceConfigurationOptions = {
-      region: 'us-east-1',
-    };
+  constructor(
+    ledgerName: string,
+    tableName: string,
+    config?: QLDBSession.ClientConfiguration
+  ) {
+    let qldbConfig: QLDBSession.ClientConfiguration;
+    if (config) {
+      qldbConfig = config;
+    } else {
+      // Load AWS credentials from ~/.aws/credentials file
+      process.env.AWS_SDK_LOAD_CONFIG = '1';
+      qldbConfig = {
+        region: 'us-east-1',
+      };
+    }
     const maxConcurrentTransactions = 10;
     const retryLimit = 4;
 
     // Use driver's default backoff function for this example (so, no second parameter provided to RetryConfig)
     const retryConfig: RetryConfig = new RetryConfig(retryLimit);
-    process.env.AWS_SDK_LOAD_CONFIG = '1';
     this.qldbDriver = new QldbDriver(
       ledgerName,
-      serviceConfigurationOptions,
+      qldbConfig,
       maxConcurrentTransactions,
       retryConfig
     );

@@ -19,6 +19,16 @@
 
 import { testSuite } from '@sidetree/cas';
 import S3Cas from './S3Cas';
+import AWS from 'aws-sdk';
+
+const config = new AWS.Config();
+if (!config.credentials) {
+  console.warn(
+    'No AWS credentials found in ~/.aws/credentials, skipping QLDB tests...'
+  );
+  // eslint-disable-next-line no-global-assign
+  describe = describe.skip;
+}
 
 const cas = new S3Cas('sidetree-cas-s3-test');
 
