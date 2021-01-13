@@ -43,6 +43,7 @@ export default class S3Cas implements ICas {
     if (config) {
       this.s3 = new AWS.S3({ ...config });
     } else {
+      // Load AWS credentials from ~/.aws/credentials file
       this.s3 = new AWS.S3();
     }
   }
