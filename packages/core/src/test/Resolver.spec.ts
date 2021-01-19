@@ -2,7 +2,7 @@
  * The code in this file originated from
  * @see https://github.com/decentralized-identity/sidetree
  * For the list of changes that was made to the original code
- * @see https://github.com/transmute-industries/sidetree.js/blob/master/reference-implementation-changes.md
+ * @see https://github.com/transmute-industries/sidetree.js/blob/main/reference-implementation-changes.md
  *
  * Copyright 2020 - Transmute Industries Inc.
  *
