@@ -156,10 +156,16 @@ export default class QLDBLedger implements IBlockchain {
   }> {
     let result;
     if (sinceTransactionNumber) {
+      console.warn(
+        'reading since transactionNumber is a costly operation (full table scan), use with caution'
+      );
       result = await this.executeWithRetry(
         `SELECT * FROM _ql_committed_${this.transactionTable} as R WHERE R.blockAddress.sequenceNo >= ${sinceTransactionNumber}`
       );
     } else if (transactionTimeHash) {
+      console.warn(
+        'reading all transactions is a costly operation (full table scan), use with caution'
+      );
       result = await this.executeWithRetry(
         `SELECT * FROM _ql_committed_${this.transactionTable} BY doc_id WHERE doc_id = '${transactionTimeHash}'`
       );
@@ -196,6 +202,9 @@ export default class QLDBLedger implements IBlockchain {
 
   // Getting the latest block is a very costly operation in QLDB
   public async getLatestTime(): Promise<BlockchainTimeModel> {
+    console.warn(
+      'getLatestTime is a costly operation (full table scan), use with caution'
+    );
     const currentDate = moment().format();
     const result = await this.executeWithRetry(
       `SELECT blockAddress, id FROM history(${this.transactionTable}, \`${currentDate}\`) AS h BY id`
