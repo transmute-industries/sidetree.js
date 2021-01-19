@@ -23,7 +23,7 @@ import {
 } from './utils';
 import Photon from '../Photon';
 import config from './photon-config.json';
-import AWS from 'aws-sdk';
+import AWS from 'aws-sdk/global';
 
 const awsConfig = new AWS.Config();
 if (!awsConfig.credentials) {
