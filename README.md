@@ -25,16 +25,22 @@ To install all packages run
 npm install
 ```
 
+To install a specific package (and its dependencies) run
+
+```bash
+npm run install:only @sidetree/photon
+```
+
 To run tests in every packages run
 
 ```bash
 npm run test
 ```
 
-To run tests in a specific package run
+To test a specific package run
 
 ```bash
-npm t -- --scope @sidetree/did-method-element
+npm run test:only @sidetree/photon
 ```
 
 ## Services
