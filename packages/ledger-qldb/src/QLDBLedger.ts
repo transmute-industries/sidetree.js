@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { QldbDriver, RetryConfig, Result } from 'amazon-qldb-driver-nodejs';
-import { dom } from 'ion-js';
 import {
   AnchoredDataSerializer,
   BlockchainTimeModel,
@@ -13,11 +12,7 @@ import { Timestamp } from 'aws-sdk/clients/apigateway';
 import QLDBSession from 'aws-sdk/clients/qldbsession';
 const { version } = require('../package.json');
 
-interface ValueWithCount extends dom.Value {
-  transactionCount: number;
-}
-
-interface ValueWithMetaData extends dom.Value {
+interface ValueWithMetaData {
   blockAddress: {
     sequenceNo: number;
   };
@@ -117,9 +112,7 @@ export default class QLDBLedger implements IBlockchain {
       `SELECT COUNT(*) AS transactionCount FROM ${this.transactionTable}`
     );
     const resultList = (result as Result).getResultList();
-    const transactionCount = Number(
-      (resultList[0] as ValueWithCount).transactionCount
-    );
+    const transactionCount = Number((resultList[0] as any).transactionCount);
     return transactionCount;
   }
 
