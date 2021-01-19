@@ -22,6 +22,7 @@ interface ValueWithMetaData {
     anchorFileHash: string;
   };
   metadata: {
+    id: string;
     txTime: Timestamp;
     txId: string;
   };
@@ -133,7 +134,12 @@ export default class QLDBLedger implements IBlockchain {
     const { blockAddress, data, metadata } = qldbResult;
     // Block information
     const transactionTime = Number(blockAddress.sequenceNo);
-    const transactionTimeHash = metadata.txId.toString();
+    // Using the document id as the transactionTimeHash allows us to perform
+    // efficient queries when searching a transaction by transactionTimeHash
+    // Indeed querying by document id does not result in a full table scan
+    // (similar to querying by an indexed field)
+    // See https://docs.aws.amazon.com/qldb/latest/developerguide/working.optimize.html
+    const transactionTimeHash = metadata.id.toString();
     // Transaction information
     const transactionNumber = Number(data.transactionNumber);
     const transactionTimestamp = metadata.txTime.getTime();
@@ -171,7 +177,7 @@ export default class QLDBLedger implements IBlockchain {
       );
     } else if (transactionTimeHash) {
       result = await this.executeWithRetry(
-        `SELECT * FROM _ql_committed_${this.transactionTable} as R WHERE R.metadata.txId IN ('${transactionTimeHash}')`
+        `SELECT * FROM _ql_committed_${this.transactionTable} BY doc_id WHERE doc_id = '${transactionTimeHash}'`
       );
     } else {
       result = await this.executeWithRetry(
