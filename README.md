@@ -4,17 +4,17 @@
 
 Sidetree.js is an implementation of [v0.1.0 of the sidetree specification](https://web.archive.org/web/20200721150053/https://identity.foundation/sidetree/spec/v0.1.0/)
 
-This codebase is a [Lerna monorepo](https://github.com/lerna/lerna). 
+This codebase is a [Lerna monorepo](https://github.com/lerna/lerna).
 
- For a list of all modules in this repository, see [packages](https://github.com/transmute-industries/sidetree.js/tree/master/packages).
+ For a list of all modules in this repository, see [packages](https://github.com/transmute-industries/sidetree.js/tree/main/packages).
 
 ### Sidetree Based DID Methods
 
 | Method  | Spec  | Ledger  |
 |---|---|---|
 | did:ion  | [spec](https://github.com/decentralized-identity/ion) | Bitcoin  |
-| did:elem  | [spec](https://github.com/transmute-industries/sidetree.js/tree/master/packages/did-method-element#element-did-method-specification) | Ethereum  |
-| did:photon  | [spec](https://github.com/transmute-industries/sidetree.js/tree/master/packages/did-method-photon#photon-did-method-spec) | Amazon QLDB  |
+| did:elem  | [spec](https://github.com/transmute-industries/sidetree.js/tree/main/packages/did-method-element#element-did-method-specification) | Ethereum  |
+| did:photon  | [spec](https://github.com/transmute-industries/sidetree.js/tree/main/packages/did-method-photon#photon-did-method-spec) | Amazon QLDB  |
 | did:trustbloc  | [spec](https://github.com/trustbloc/trustbloc-did-method/blob/master/docs/spec/trustbloc-did-method.md) | Hyperledger Fabric  |
 
 ## Usage
@@ -58,7 +58,7 @@ Make sure you have `docker` and `docker-compose` installed before running the te
 
 Unstable releases are automatic, from CD:
 
-- On every commit to master an unstable release is pushed. An unstable release is a release with a tag of the form: vA.B.C-unstable.X. Everytime a PR is merged, X is incremented.
+- On every commit to main an unstable release is pushed. An unstable release is a release with a tag of the form: vA.B.C-unstable.X. Everytime a PR is merged, X is incremented.
 - If "skip-ci" is present in the commit message, the aforementioned behavior is skipped
 
 ### Stable releases

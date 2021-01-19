@@ -14,7 +14,7 @@
     "lint:fix": "lerna run lint:fix --stream",
     "test": "lerna run test --stream --concurrency 1",
     "build": "lerna run build --stream",
-    "install:ci": "npm install --ignore-scripts && lerna link && lerna bootstrap --since origin/master --include-dependencies",
+    "install:ci": "npm install --ignore-scripts && lerna link && lerna bootstrap --since origin/main --include-dependencies",
     "install:clean": "npx lerna clean -y && rm -rf node_modules && npm i",
     "publish:stable:patch": "lerna publish patch",
     "publish:stable:minor": "lerna publish minor",
@@ -24,7 +24,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-push": "lerna run lint --since origin/master --exclude-dependents"
+      "pre-push": "lerna run lint --since origin/main --exclude-dependents"
     }
   },
   "devDependencies": {
