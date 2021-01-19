@@ -17,7 +17,6 @@ interface ValueWithMetaData {
     sequenceNo: number;
   };
   data: {
-    transactionNumber: number;
     numberOfOperations: number;
     anchorFileHash: string;
   };
@@ -105,24 +104,12 @@ export default class QLDBLedger implements IBlockchain {
     await this.executeWithoutError(`CREATE TABLE ${this.transactionTable}`);
   }
 
-  private async getTransactionCount(): Promise<number> {
-    const result = await this.executeWithRetry(
-      `SELECT COUNT(*) AS transactionCount FROM ${this.transactionTable}`
-    );
-    const resultList = (result as Result).getResultList();
-    const transactionCount = Number((resultList[0] as any).transactionCount);
-    return transactionCount;
-  }
-
   public async write(anchorString: string): Promise<void> {
-    // FIXME: there is a race condition here
-    // Need to figure out auto increment indexes on QLDB
-    const transactionNumber = await this.getTransactionCount();
     const anchorData = AnchoredDataSerializer.deserialize(anchorString);
-    await this.executeWithRetry(`INSERT INTO ${this.transactionTable} ?`, {
-      ...anchorData,
-      transactionNumber,
-    });
+    await this.executeWithRetry(
+      `INSERT INTO ${this.transactionTable} ?`,
+      anchorData
+    );
   }
 
   private toSidetreeTransaction(
@@ -130,7 +117,6 @@ export default class QLDBLedger implements IBlockchain {
   ): TransactionModel {
     const { blockAddress, data, metadata } = qldbResult;
     // Block information
-    const transactionTime = Number(blockAddress.sequenceNo);
     // Using the document id as the transactionTimeHash allows us to perform
     // efficient queries when searching a transaction by transactionTimeHash
     // Indeed querying by document id does not result in a full table scan
@@ -138,7 +124,7 @@ export default class QLDBLedger implements IBlockchain {
     // See https://docs.aws.amazon.com/qldb/latest/developerguide/working.optimize.html
     const transactionTimeHash = metadata.id.toString();
     // Transaction information
-    const transactionNumber = Number(data.transactionNumber);
+    const transactionTime = Number(blockAddress.sequenceNo);
     const transactionTimestamp = metadata.txTime.getTime();
     // Anchor file information
     const { anchorFileHash } = data;
@@ -148,8 +134,8 @@ export default class QLDBLedger implements IBlockchain {
       numberOfOperations,
     });
     return {
-      transactionNumber,
       transactionTime,
+      transactionNumber: transactionTime,
       transactionHash: transactionTimeHash,
       transactionTimeHash,
       transactionTimestamp,
@@ -170,7 +156,7 @@ export default class QLDBLedger implements IBlockchain {
     let result;
     if (sinceTransactionNumber) {
       result = await this.executeWithRetry(
-        `SELECT * FROM _ql_committed_${this.transactionTable} as R WHERE R.data.transactionNumber >= ${sinceTransactionNumber}`
+        `SELECT * FROM _ql_committed_${this.transactionTable} as R WHERE R.blockAddress.sequenceNo >= ${sinceTransactionNumber}`
       );
     } else if (transactionTimeHash) {
       result = await this.executeWithRetry(
