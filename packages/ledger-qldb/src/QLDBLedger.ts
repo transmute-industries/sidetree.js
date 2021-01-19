@@ -207,12 +207,12 @@ export default class QLDBLedger implements IBlockchain {
     hash: '',
   };
 
+  // Getting the latest block is a very costly operation in QLDB (requires a full table scan)
+  // Moreover getLatestTime is only used in VersionManager and to detect block reorgs
+  // Currently we only support one version in VersionManager, and there is no block reorgs in QLDB
+  // Therefore we can get away with only returning the initial approximate time
   public async getLatestTime(): Promise<BlockchainTimeModel> {
-    const transactionCount = await this.getTransactionCount();
-    if (transactionCount > 0) {
-      const latestTime = transactionCount - 1;
-      this.approximateTime.time = latestTime;
-    }
+    console.warn('getLatestTime is not implemented in QLDB');
     return this.approximateTime;
   }
 
