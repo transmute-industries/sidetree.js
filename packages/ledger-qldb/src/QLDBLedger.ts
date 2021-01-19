@@ -10,6 +10,7 @@ import {
 } from '@sidetree/common';
 import { Timestamp } from 'aws-sdk/clients/apigateway';
 import QLDBSession from 'aws-sdk/clients/qldbsession';
+import moment from 'moment';
 const { version } = require('../package.json');
 
 interface ValueWithMetaData {
@@ -193,12 +194,27 @@ export default class QLDBLedger implements IBlockchain {
     hash: '',
   };
 
-  // Getting the latest block is a very costly operation in QLDB (requires a full table scan)
-  // Moreover getLatestTime is only used in VersionManager and to detect block reorgs
-  // Currently we only support one version in VersionManager, and there is no block reorgs in QLDB
-  // Therefore we can get away with only returning the initial approximate time
+  // Getting the latest block is a very costly operation in QLDB
   public async getLatestTime(): Promise<BlockchainTimeModel> {
-    console.warn('getLatestTime is not implemented in QLDB');
+    const currentDate = moment().format();
+    const result = await this.executeWithRetry(
+      `SELECT blockAddress, id FROM history(${this.transactionTable}, \`${currentDate}\`) AS h BY id`
+    );
+    const resultList: any[] = (result as Result).getResultList();
+    if (resultList.length > 0) {
+      const sequenceNumbers: number[] = resultList
+        .map((result) => result.blockAddress.sequenceNo.toString())
+        .map((sequenceNo) => Number(sequenceNo));
+      const time = Math.max(...sequenceNumbers);
+      const latestBlock = resultList.find(
+        (result) => Number(result.blockAddress.sequenceNo) === time
+      );
+      const hash = latestBlock.id.toString();
+      this.approximateTime = {
+        time,
+        hash,
+      };
+    }
     return this.approximateTime;
   }
 

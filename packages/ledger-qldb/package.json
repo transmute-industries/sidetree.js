@@ -33,6 +33,7 @@
     "amazon-qldb-driver-nodejs": "^2.1.0",
     "aws-sdk": "^2.828.0",
     "ion-js": "^4.1.0",
-    "jsbi": "^3.1.4"
+    "jsbi": "^3.1.4",
+    "moment": "^2.29.1"
   }
 }
