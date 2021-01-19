@@ -103,9 +103,6 @@ export default class QLDBLedger implements IBlockchain {
 
   public async initialize(): Promise<void> {
     await this.executeWithoutError(`CREATE TABLE ${this.transactionTable}`);
-    await this.executeWithoutError(
-      `CREATE INDEX ON ${this.transactionTable} (transactionNumber)`
-    );
   }
 
   private async getTransactionCount(): Promise<number> {
