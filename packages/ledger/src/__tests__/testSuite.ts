@@ -57,7 +57,7 @@ const testSuite = (ledger: IBlockchain): void => {
         const readResult = await ledger.read();
         expect(readResult.moreTransactions).toBeFalsy();
         expect(readResult.transactions).toHaveLength(1);
-        expect(readResult.transactions[0].transactionNumber).toBe(0);
+        expect(readResult.transactions[0].transactionNumber).toBeDefined();
         expect(readResult.transactions[0].transactionTime).toBeDefined();
         expect(readResult.transactions[0].transactionTimeHash).toBeDefined();
         expect(readResult.transactions[0].anchorString).toBe(anchorString);
@@ -88,18 +88,18 @@ const testSuite = (ledger: IBlockchain): void => {
         const readResult = await ledger.read(sinceTransactionNumber);
         expect(readResult.moreTransactions).toBeFalsy();
         expect(readResult.transactions).toHaveLength(2);
-        expect(readResult.transactions[0].transactionNumber).toBe(
-          sinceTransactionNumber
-        );
-        expect(readResult.transactions[1].transactionNumber).toBe(
-          sinceTransactionNumber + 1
-        );
+        expect(
+          readResult.transactions[0].transactionNumber
+        ).toBeGreaterThanOrEqual(sinceTransactionNumber);
+        expect(
+          readResult.transactions[1].transactionNumber
+        ).toBeGreaterThanOrEqual(readResult.transactions[0].transactionNumber);
         expect(readResult.transactions[0].anchorString).toBe(anchorString2);
         expect(readResult.transactions[1].anchorString).toBe(anchorString3);
       });
 
-      it('should return no transaction if the requested transactionNumber doesnt exist', async () => {
-        const readResult = await ledger.read(3);
+      it('should return no transaction if the requested transactionNumber has not been reached', async () => {
+        const readResult = await ledger.read(Number.MAX_SAFE_INTEGER);
         expect(readResult.moreTransactions).toBeFalsy();
         expect(readResult.transactions).toHaveLength(0);
       });
