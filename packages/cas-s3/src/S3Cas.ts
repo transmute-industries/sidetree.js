@@ -25,7 +25,7 @@ import {
 } from '@sidetree/common';
 import Unixfs from 'ipfs-unixfs';
 import { DAGNode } from 'ipld-dag-pb';
-import AWS from 'aws-sdk';
+import S3 from 'aws-sdk/clients/s3';
 import { CredentialsOptions } from 'aws-sdk/lib/credentials';
 const { version } = require('../package.json');
 
@@ -34,17 +34,17 @@ const { version } = require('../package.json');
  * Simply using a hash map to store all the content by hash.
  */
 export default class S3Cas implements ICas {
-  private s3: AWS.S3;
+  private s3: S3;
 
   constructor(private bucketName: string, config?: CredentialsOptions) {
     if (!this.bucketName) {
       throw new Error('You must specify a bucketName');
     }
     if (config) {
-      this.s3 = new AWS.S3({ ...config });
+      this.s3 = new S3({ ...config });
     } else {
       // Load AWS credentials from ~/.aws/credentials file
-      this.s3 = new AWS.S3();
+      this.s3 = new S3();
     }
   }
 

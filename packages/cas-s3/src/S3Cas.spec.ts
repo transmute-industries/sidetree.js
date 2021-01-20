@@ -19,7 +19,8 @@
 
 import { testSuite } from '@sidetree/cas';
 import S3Cas from './S3Cas';
-import AWS from 'aws-sdk';
+// import AWS object without services
+import AWS from 'aws-sdk/global';
 
 const config = new AWS.Config();
 if (!config.credentials) {

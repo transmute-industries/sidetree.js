@@ -14,7 +14,7 @@
 
 import { testSuite } from '@sidetree/ledger';
 import QLDBLedger from '..';
-import AWS from 'aws-sdk';
+import AWS from 'aws-sdk/global';
 
 jest.setTimeout(10 * 1000);
 

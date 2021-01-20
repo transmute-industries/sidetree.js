@@ -30,9 +30,10 @@
   },
   "dependencies": {
     "@sidetree/common": "^0.2.2-unstable.0",
-    "amazon-qldb-driver-nodejs": "^2.0.0",
-    "aws-sdk": "^2.751.0",
-    "ion-js": "^4.0.1",
-    "jsbi": "^3.1.4"
+    "amazon-qldb-driver-nodejs": "^2.1.0",
+    "aws-sdk": "^2.828.0",
+    "ion-js": "^4.1.0",
+    "jsbi": "^3.1.4",
+    "moment": "^2.29.1"
   }
 }

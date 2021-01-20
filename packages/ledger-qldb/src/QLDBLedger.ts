@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { QldbDriver, RetryConfig, Result } from 'amazon-qldb-driver-nodejs';
-import { dom } from 'ion-js';
 import {
   AnchoredDataSerializer,
   BlockchainTimeModel,
@@ -11,22 +10,19 @@ import {
 } from '@sidetree/common';
 import { Timestamp } from 'aws-sdk/clients/apigateway';
 import QLDBSession from 'aws-sdk/clients/qldbsession';
+import moment from 'moment';
 const { version } = require('../package.json');
 
-interface ValueWithCount extends dom.Value {
-  transactionCount: number;
-}
-
-interface ValueWithMetaData extends dom.Value {
+interface ValueWithMetaData {
   blockAddress: {
     sequenceNo: number;
   };
   data: {
-    transactionNumber: number;
     numberOfOperations: number;
     anchorFileHash: string;
   };
   metadata: {
+    id: string;
     txTime: Timestamp;
     txId: string;
   };
@@ -107,31 +103,14 @@ export default class QLDBLedger implements IBlockchain {
 
   public async initialize(): Promise<void> {
     await this.executeWithoutError(`CREATE TABLE ${this.transactionTable}`);
-    await this.executeWithoutError(
-      `CREATE INDEX ON ${this.transactionTable} (transactionNumber)`
-    );
-  }
-
-  private async getTransactionCount(): Promise<number> {
-    const result = await this.executeWithRetry(
-      `SELECT COUNT(*) AS transactionCount FROM ${this.transactionTable}`
-    );
-    const resultList = (result as Result).getResultList();
-    const transactionCount = Number(
-      (resultList[0] as ValueWithCount).transactionCount
-    );
-    return transactionCount;
   }
 
   public async write(anchorString: string): Promise<void> {
-    // FIXME: there is a race condition here
-    // Need to figure out auto increment indexes on QLDB
-    const transactionNumber = await this.getTransactionCount();
     const anchorData = AnchoredDataSerializer.deserialize(anchorString);
-    await this.executeWithRetry(`INSERT INTO ${this.transactionTable} ?`, {
-      ...anchorData,
-      transactionNumber,
-    });
+    await this.executeWithRetry(
+      `INSERT INTO ${this.transactionTable} ?`,
+      anchorData
+    );
   }
 
   private toSidetreeTransaction(
@@ -139,10 +118,14 @@ export default class QLDBLedger implements IBlockchain {
   ): TransactionModel {
     const { blockAddress, data, metadata } = qldbResult;
     // Block information
-    const transactionTime = Number(blockAddress.sequenceNo);
-    const transactionTimeHash = metadata.txId.toString();
+    // Using the document id as the transactionTimeHash allows us to perform
+    // efficient queries when searching a transaction by transactionTimeHash
+    // Indeed querying by document id does not result in a full table scan
+    // (similar to querying by an indexed field)
+    // See https://docs.aws.amazon.com/qldb/latest/developerguide/working.optimize.html
+    const transactionTimeHash = metadata.id.toString();
     // Transaction information
-    const transactionNumber = Number(data.transactionNumber);
+    const transactionTime = Number(blockAddress.sequenceNo);
     const transactionTimestamp = metadata.txTime.getTime();
     // Anchor file information
     const { anchorFileHash } = data;
@@ -152,8 +135,8 @@ export default class QLDBLedger implements IBlockchain {
       numberOfOperations,
     });
     return {
-      transactionNumber,
       transactionTime,
+      transactionNumber: transactionTime,
       transactionHash: transactionTimeHash,
       transactionTimeHash,
       transactionTimestamp,
@@ -173,12 +156,18 @@ export default class QLDBLedger implements IBlockchain {
   }> {
     let result;
     if (sinceTransactionNumber) {
+      console.warn(
+        'reading since transactionNumber is a costly operation (full table scan), use with caution'
+      );
       result = await this.executeWithRetry(
-        `SELECT * FROM _ql_committed_${this.transactionTable} as R WHERE R.data.transactionNumber >= ${sinceTransactionNumber}`
+        `SELECT * FROM _ql_committed_${this.transactionTable} as R WHERE R.blockAddress.sequenceNo >= ${sinceTransactionNumber}`
       );
     } else if (transactionTimeHash) {
+      console.warn(
+        'reading all transactions is a costly operation (full table scan), use with caution'
+      );
       result = await this.executeWithRetry(
-        `SELECT * FROM _ql_committed_${this.transactionTable} as R WHERE R.metadata.txId IN ('${transactionTimeHash}')`
+        `SELECT * FROM _ql_committed_${this.transactionTable} BY doc_id WHERE doc_id = '${transactionTimeHash}'`
       );
     } else {
       result = await this.executeWithRetry(
@@ -189,8 +178,8 @@ export default class QLDBLedger implements IBlockchain {
     const transactions: TransactionModel[] = (resultList as ValueWithMetaData[]).map(
       this.toSidetreeTransaction
     );
-    // Sort by increasing order of transaction number
-    // TODO: Sort with PartiQL ?
+    // PartiQL does not support returning sorted data
+    // so we have to sort in javascript
     transactions.sort((t1, t2) => {
       return t1.transactionNumber - t2.transactionNumber;
     });
@@ -211,11 +200,29 @@ export default class QLDBLedger implements IBlockchain {
     hash: '',
   };
 
+  // Getting the latest block is a very costly operation in QLDB
   public async getLatestTime(): Promise<BlockchainTimeModel> {
-    const transactionCount = await this.getTransactionCount();
-    if (transactionCount > 0) {
-      const latestTime = transactionCount - 1;
-      this.approximateTime.time = latestTime;
+    console.warn(
+      'getLatestTime is a costly operation (full table scan), use with caution'
+    );
+    const currentDate = moment().format();
+    const result = await this.executeWithRetry(
+      `SELECT blockAddress, id FROM history(${this.transactionTable}, \`${currentDate}\`) AS h BY id`
+    );
+    const resultList: any[] = (result as Result).getResultList();
+    if (resultList.length > 0) {
+      const sequenceNumbers: number[] = resultList
+        .map((result) => result.blockAddress.sequenceNo.toString())
+        .map((sequenceNo) => Number(sequenceNo));
+      const time = Math.max(...sequenceNumbers);
+      const latestBlock = resultList.find(
+        (result) => Number(result.blockAddress.sequenceNo) === time
+      );
+      const hash = latestBlock.id.toString();
+      this.approximateTime = {
+        time,
+        hash,
+      };
     }
     return this.approximateTime;
   }
