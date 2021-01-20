@@ -178,8 +178,8 @@ export default class QLDBLedger implements IBlockchain {
     const transactions: TransactionModel[] = (resultList as ValueWithMetaData[]).map(
       this.toSidetreeTransaction
     );
-    // Sort by increasing order of transaction number
-    // TODO: Sort with PartiQL ?
+    // PartiQL does not support returning sorted data
+    // so we have to sort in javascript
     transactions.sort((t1, t2) => {
       return t1.transactionNumber - t2.transactionNumber;
     });
