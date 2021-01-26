@@ -28,7 +28,7 @@ const protocolParameters: ProtocolParameters = {
   maxChunkFileSizeInBytes: 20000000,
   maxDeltaSizeInBytes: 1000,
   maxMapFileSizeInBytes: 1000000,
-  maxNumberOfOperationsForNoValueTimeLock: 100,
+  maxNumberOfOperationsForNoValueTimeLock: 10000,
   maxNumberOfOperationsPerTransactionTime: 600000,
   maxNumberOfTransactionsPerTransactionTime: 300,
   maxOperationsPerBatch: 10000,
