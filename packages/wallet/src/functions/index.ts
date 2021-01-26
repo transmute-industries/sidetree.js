@@ -17,4 +17,5 @@ export * from './toKeyPair';
 // svip interop profile
 export * from './toDidDocForProfile';
 export * from './getCreateOperationForProfile';
+export * from './getCreatePayloadFromDocumentModel';
 export * from './getRecoverOperationForProfile';
