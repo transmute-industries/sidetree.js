@@ -14,6 +14,7 @@
 
 import { methods } from '@sidetree/wallet';
 import { crypto } from '@sidetree/test-vectors';
+import { MongoDbOperationQueue } from '@sidetree/db';
 import { getTestPhoton } from './utils';
 import Photon from '../Photon';
 import AWS from 'aws-sdk/global';
@@ -33,9 +34,14 @@ jest.setTimeout(30 * 1000);
 
 describe('Photon', () => {
   let photon: Photon;
+  let operationQueue: MongoDbOperationQueue;
 
   beforeAll(async () => {
     photon = await getTestPhoton();
+    const { versionManager } = photon as any;
+    operationQueue = versionManager.getOperationQueue(
+      photon.blockchain.approximateTime.time
+    );
   });
 
   afterAll(async () => {
@@ -67,5 +73,13 @@ describe('Photon', () => {
       const { didDocument } = operation.body;
       expect(didDocument).toBeDefined();
     }
+    const queue = await operationQueue.peek(batchSize + 1);
+    expect(queue).toHaveLength(batchSize);
+  });
+
+  it('should create a batch', async () => {
+    await photon.triggerBatchWriting();
+    const queue = await operationQueue.peek(batchSize + 1);
+    expect(queue).toHaveLength(0);
   });
 });
