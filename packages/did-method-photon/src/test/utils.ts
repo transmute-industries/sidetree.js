@@ -28,6 +28,7 @@ const resetDatabase = async (): Promise<void> => {
 
 const getTestLedger = async (): Promise<QLDBLedger> => {
   const ledger = new QLDBLedger(config.qldbLedger, config.qldbLedgerTable);
+  await ledger.reset();
   return ledger;
 };
 
