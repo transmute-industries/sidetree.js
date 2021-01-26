@@ -19,7 +19,7 @@ import { testVectors } from '@sidetree/test-vectors';
 import { resetDatabase, getTestLedger, getTestCas } from './test/utils';
 import config from './test/element-config.json';
 
-console.info = () => null;
+console.info = (): null => null;
 
 describe('Element', () => {
   let ledger: EthereumLedger;

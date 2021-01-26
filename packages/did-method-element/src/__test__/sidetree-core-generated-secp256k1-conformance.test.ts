@@ -13,13 +13,11 @@
  */
 
 import Element from '../Element';
-
 import { sidetreeCoreGeneratedSecp256k1Resolutions } from '../__fixtures__';
 import { sidetreeCoreGeneratedSecp256k1 } from '@sidetree/test-vectors';
-
 import { getTestElement } from '../test/utils';
 
-console.info = () => null;
+console.info = (): null => null;
 
 let element: Element;
 
