@@ -50,6 +50,7 @@ describe('Photon', () => {
 
   const batchSize = 10;
   const batch: any[] = [];
+  const didDocuments: any = {};
 
   it(`should generate a batch of ${batchSize} credentials`, async () => {
     const mnemonic = crypto.mnemonic.mnemonic[0];
@@ -72,6 +73,8 @@ describe('Photon', () => {
       expect(operation.body).toBeDefined();
       const { didDocument } = operation.body;
       expect(didDocument).toBeDefined();
+      expect(didDocument.id).toBeDefined();
+      didDocuments[didDocument.id] = didDocument;
     }
     const queue = await operationQueue.peek(batchSize + 1);
     expect(queue).toHaveLength(batchSize);
@@ -81,5 +84,19 @@ describe('Photon', () => {
     await photon.triggerBatchWriting();
     const queue = await operationQueue.peek(batchSize + 1);
     expect(queue).toHaveLength(0);
+  });
+
+  it('should trigger the observer', async () => {
+    await photon.triggerProcessTransactions();
+  });
+
+  it('should resolve the created DIDs', async () => {
+    const dids = Object.keys(didDocuments);
+    for (let i = 0; i < batchSize; i++) {
+      const did = dids[i];
+      const resolveResponse = await photon.handleResolveRequest(did);
+      expect(resolveResponse.status).toBe('succeeded');
+      expect(resolveResponse.body.didDocument).toEqual(didDocuments[did]);
+    }
   });
 });
