@@ -43,7 +43,7 @@ export default class DidMethod {
   public transactionStore: MongoDbTransactionStore;
   private unresolvableTransactionStore: MongoDbUnresolvableTransactionStore;
   public operationStore: MongoDbOperationStore;
-  private versionManager: VersionManager;
+  public versionManager: VersionManager;
   public blockchain: IBlockchain;
   private cas: ICas;
   private downloadManager: DownloadManager;

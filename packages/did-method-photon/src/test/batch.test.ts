@@ -14,10 +14,10 @@
 
 import { methods } from '@sidetree/wallet';
 import { crypto } from '@sidetree/test-vectors';
-import { MongoDbOperationQueue } from '@sidetree/db';
 import { getTestPhoton } from './utils';
 import Photon from '../Photon';
 import AWS from 'aws-sdk/global';
+import { IOperationQueue } from '@sidetree/common';
 
 const awsConfig = new AWS.Config();
 if (!awsConfig.credentials) {
@@ -34,11 +34,11 @@ jest.setTimeout(10 * 1000);
 
 describe('Photon', () => {
   let photon: Photon;
-  let operationQueue: MongoDbOperationQueue;
+  let operationQueue: IOperationQueue;
 
   beforeAll(async () => {
     photon = await getTestPhoton();
-    const { versionManager } = photon as any;
+    const { versionManager } = photon;
     operationQueue = versionManager.getOperationQueue(
       photon.blockchain.approximateTime.time
     );
