@@ -30,7 +30,7 @@ if (!awsConfig.credentials) {
 
 console.info = (): null => null;
 
-jest.setTimeout(30 * 1000);
+jest.setTimeout(10 * 1000);
 
 describe('Photon', () => {
   let photon: Photon;
@@ -106,4 +106,9 @@ describe('Photon', () => {
   runBatchingTestWithSize(1);
   runBatchingTestWithSize(10);
   runBatchingTestWithSize(100);
+  // Running a batch of size 1000 and 10000 works but the first test that
+  // generates the batch times out.
+  // Uncomment and increase the jest.setTimeout value to find out
+  // runBatchingTestWithSize(1000);
+  // runBatchingTestWithSize(10000);
 });
