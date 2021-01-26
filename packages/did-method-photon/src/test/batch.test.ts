@@ -43,10 +43,10 @@ describe('Photon', () => {
   });
 
   const batchSize = 10;
+  const batch: any[] = [];
 
   it(`should generate a batch of ${batchSize} credentials`, async () => {
     const mnemonic = crypto.mnemonic.mnemonic[0];
-    const batch = [];
     for (let i = 0; i < batchSize; i++) {
       const createOperation = await methods.getCreateOperationForProfile(
         mnemonic,
@@ -55,5 +55,17 @@ describe('Photon', () => {
       batch.push(createOperation);
     }
     expect(batch).toHaveLength(batchSize);
+  });
+
+  it('should submit these operations to the queue', async () => {
+    for (let i = 0; i < batchSize; i++) {
+      const operation = await photon.handleOperationRequest(
+        Buffer.from(JSON.stringify(batch[i]))
+      );
+      expect(operation.status).toBe('succeeded');
+      expect(operation.body).toBeDefined();
+      const { didDocument } = operation.body;
+      expect(didDocument).toBeDefined();
+    }
   });
 });
