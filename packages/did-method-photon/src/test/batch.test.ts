@@ -17,7 +17,7 @@ import { crypto } from '@sidetree/test-vectors';
 import { getTestPhoton } from './utils';
 import Photon from '../Photon';
 import AWS from 'aws-sdk/global';
-import { IOperationQueue } from '@sidetree/common';
+import { IOperationQueue, PublicKeyPurpose } from '@sidetree/common';
 
 const awsConfig = new AWS.Config();
 if (!awsConfig.credentials) {
@@ -32,7 +32,7 @@ console.info = (): null => null;
 
 jest.setTimeout(10 * 1000);
 
-describe('Photon', () => {
+describe('Test Batching', () => {
   let photon: Photon;
   let operationQueue: IOperationQueue;
 
@@ -55,10 +55,24 @@ describe('Photon', () => {
 
       it('should generate a batch of credentials', async () => {
         const mnemonic = crypto.mnemonic.mnemonic[0];
+        const keyPair = await methods.toKeyPair(mnemonic, 0, 'Ed25519');
+        const publicKey = keyPair.publicKeyJwk;
+
         for (let i = 0; i < batchSize; i++) {
-          const createOperation = await methods.getCreateOperationForProfile(
-            mnemonic,
-            i
+          const documentModel = {
+            public_keys: [
+              {
+                id: Math.random(), // so that each id is different (and each did) is different
+                type: 'JsonWebKey2020',
+                jwk: publicKey,
+                purpose: [PublicKeyPurpose.General],
+              },
+            ],
+          };
+          const createOperation = await methods.getCreatePayloadFromDocumentModel(
+            documentModel,
+            publicKey,
+            publicKey
           );
           batch.push(createOperation);
         }
@@ -106,11 +120,8 @@ describe('Photon', () => {
   runBatchingTestWithSize(1);
   runBatchingTestWithSize(10);
   runBatchingTestWithSize(100);
-  // Running a batch of size 1000 and 10000 works but the first test that
-  // generates the batch times out. However the "trigger batch" and
-  // "resolve dids" tests are passing under 10 seconds which is what we wanted
-  // to know.
+  runBatchingTestWithSize(1000);
+  // Running a batch of size 10000 works but is slow
   // Uncomment and increase the jest.setTimeout value to find out
-  // runBatchingTestWithSize(1000);
   // runBatchingTestWithSize(10000);
 });

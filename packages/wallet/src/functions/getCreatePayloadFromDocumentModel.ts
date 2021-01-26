@@ -24,7 +24,6 @@ export const getCreatePayloadFromDocumentModel = async (
       patches: jsonpatch.compare({}, documentModel),
     },
   ];
-  console.log(patches[0].patches);
 
   const delta = {
     update_commitment: Multihash.canonicalizeThenHashThenEncode(
