@@ -48,55 +48,62 @@ describe('Photon', () => {
     await photon.close();
   });
 
-  const batchSize = 10;
-  const batch: any[] = [];
-  const didDocuments: any = {};
+  const runBatchingTestWithSize = (batchSize: number): void => {
+    describe(`Batch size: ${batchSize}`, () => {
+      const batch: any[] = [];
+      const didDocuments: any = {};
 
-  it(`should generate a batch of ${batchSize} credentials`, async () => {
-    const mnemonic = crypto.mnemonic.mnemonic[0];
-    for (let i = 0; i < batchSize; i++) {
-      const createOperation = await methods.getCreateOperationForProfile(
-        mnemonic,
-        i
-      );
-      batch.push(createOperation);
-    }
-    expect(batch).toHaveLength(batchSize);
-  });
+      it('should generate a batch of credentials', async () => {
+        const mnemonic = crypto.mnemonic.mnemonic[0];
+        for (let i = 0; i < batchSize; i++) {
+          const createOperation = await methods.getCreateOperationForProfile(
+            mnemonic,
+            i
+          );
+          batch.push(createOperation);
+        }
+        expect(batch).toHaveLength(batchSize);
+      });
 
-  it('should submit these operations to the queue', async () => {
-    for (let i = 0; i < batchSize; i++) {
-      const operation = await photon.handleOperationRequest(
-        Buffer.from(JSON.stringify(batch[i]))
-      );
-      expect(operation.status).toBe('succeeded');
-      expect(operation.body).toBeDefined();
-      const { didDocument } = operation.body;
-      expect(didDocument).toBeDefined();
-      expect(didDocument.id).toBeDefined();
-      didDocuments[didDocument.id] = didDocument;
-    }
-    const queue = await operationQueue.peek(batchSize + 1);
-    expect(queue).toHaveLength(batchSize);
-  });
+      it('should submit these operations to the queue', async () => {
+        for (let i = 0; i < batchSize; i++) {
+          const operation = await photon.handleOperationRequest(
+            Buffer.from(JSON.stringify(batch[i]))
+          );
+          expect(operation.status).toBe('succeeded');
+          expect(operation.body).toBeDefined();
+          const { didDocument } = operation.body;
+          expect(didDocument).toBeDefined();
+          expect(didDocument.id).toBeDefined();
+          didDocuments[didDocument.id] = didDocument;
+        }
+        const queue = await operationQueue.peek(batchSize + 1);
+        expect(queue).toHaveLength(batchSize);
+      });
 
-  it('should create a batch', async () => {
-    await photon.triggerBatchWriting();
-    const queue = await operationQueue.peek(batchSize + 1);
-    expect(queue).toHaveLength(0);
-  });
+      it('should create a batch', async () => {
+        await photon.triggerBatchWriting();
+        const queue = await operationQueue.peek(batchSize + 1);
+        expect(queue).toHaveLength(0);
+      });
 
-  it('should trigger the observer', async () => {
-    await photon.triggerProcessTransactions();
-  });
+      it('should trigger the observer', async () => {
+        await photon.triggerProcessTransactions();
+      });
 
-  it('should resolve the created DIDs', async () => {
-    const dids = Object.keys(didDocuments);
-    for (let i = 0; i < batchSize; i++) {
-      const did = dids[i];
-      const resolveResponse = await photon.handleResolveRequest(did);
-      expect(resolveResponse.status).toBe('succeeded');
-      expect(resolveResponse.body.didDocument).toEqual(didDocuments[did]);
-    }
-  });
+      it('should resolve the created DIDs', async () => {
+        const dids = Object.keys(didDocuments);
+        for (let i = 0; i < batchSize; i++) {
+          const did = dids[i];
+          const resolveResponse = await photon.handleResolveRequest(did);
+          expect(resolveResponse.status).toBe('succeeded');
+          expect(resolveResponse.body.didDocument).toEqual(didDocuments[did]);
+        }
+      });
+    });
+  };
+
+  runBatchingTestWithSize(1);
+  runBatchingTestWithSize(10);
+  runBatchingTestWithSize(100);
 });
