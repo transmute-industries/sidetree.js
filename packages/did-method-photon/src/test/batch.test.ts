@@ -107,7 +107,9 @@ describe('Photon', () => {
   runBatchingTestWithSize(10);
   runBatchingTestWithSize(100);
   // Running a batch of size 1000 and 10000 works but the first test that
-  // generates the batch times out.
+  // generates the batch times out. However the "trigger batch" and
+  // "resolve dids" tests are passing under 10 seconds which is what we wanted
+  // to know.
   // Uncomment and increase the jest.setTimeout value to find out
   // runBatchingTestWithSize(1000);
   // runBatchingTestWithSize(10000);
