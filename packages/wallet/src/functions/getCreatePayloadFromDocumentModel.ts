@@ -10,7 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Multihash, Encoder, OperationType } from '@sidetree/common';
+// import { Multihash, Encoder, OperationType } from '@sidetree/common';
+import canonicalize from 'canonicalize';
+import base64url from 'base64url';
+import { canonicalizeThenHashThenEncode } from './sidetreeEncoding';
+import { SidetreeCreateOperation } from '../types';
 
 export const getCreatePayloadFromDocumentModel = async (
   documentModel: any,
@@ -24,28 +28,26 @@ export const getCreatePayloadFromDocumentModel = async (
     },
   ];
 
-  const delta = {
-    update_commitment: Multihash.canonicalizeThenHashThenEncode(
-      updatePublicKey
-    ),
-    patches,
+  const delta_object = {
+    update_commitment: canonicalizeThenHashThenEncode(updatePublicKey),
+    patches: [
+      {
+        action: 'replace',
+        document: documentModel,
+      },
+    ],
+  };
+  const delta = base64url.encode(canonicalize(delta_object));
+  const canonical_suffix_data = canonicalize({
+    delta_hash: canonicalizeThenHashThenEncode(delta_object),
+    recovery_commitment: canonicalizeThenHashThenEncode(recoveryPublicKey),
+  });
+  const suffix_data = base64url.encode(canonical_suffix_data);
+  const createOperation: SidetreeCreateOperation = {
+    type: 'create',
+    suffix_data,
+    delta,
   };
 
-  const deltaBuffer = Buffer.from(JSON.stringify(delta));
-  const deltaHash = Encoder.encode(Multihash.hash(deltaBuffer));
-  const suffixData = {
-    delta_hash: deltaHash,
-    recovery_commitment: Multihash.canonicalizeThenHashThenEncode(
-      recoveryPublicKey
-    ),
-  };
-
-  const suffixDataEncodedString = Encoder.encode(JSON.stringify(suffixData));
-  const deltaEncodedString = Encoder.encode(deltaBuffer);
-  const createOperationRequest = {
-    type: OperationType.Create,
-    suffix_data: suffixDataEncodedString,
-    delta: deltaEncodedString,
-  };
-  return createOperationRequest;
+  return createOperation;
 };
