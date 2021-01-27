@@ -27,15 +27,9 @@ export const getCreatePayloadFromDocumentModel = async (
       document: documentModel,
     },
   ];
-
   const delta_object = {
     update_commitment: canonicalizeThenHashThenEncode(updatePublicKey),
-    patches: [
-      {
-        action: 'replace',
-        document: documentModel,
-      },
-    ],
+    patches,
   };
   const delta = base64url.encode(canonicalize(delta_object));
   const canonical_suffix_data = canonicalize({
