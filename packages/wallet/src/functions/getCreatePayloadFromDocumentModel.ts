@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// import { Multihash, Encoder, OperationType } from '@sidetree/common';
 import canonicalize from 'canonicalize';
 import base64url from 'base64url';
 import { canonicalizeThenHashThenEncode } from './sidetreeEncoding';
