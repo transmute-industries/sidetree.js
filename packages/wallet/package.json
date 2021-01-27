@@ -40,7 +40,6 @@
     "bip39": "^3.0.2",
     "canonicalize": "^1.0.3",
     "factory.ts": "^0.5.1",
-    "fast-json-patch": "^3.0.0-1",
     "hdkey": "^2.0.1",
     "multihashes": "^3.0.1"
   },

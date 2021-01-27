@@ -11,7 +11,6 @@
  * limitations under the License.
  */
 import { Multihash, Encoder, OperationType } from '@sidetree/common';
-import jsonpatch from 'fast-json-patch';
 
 export const getCreatePayloadFromDocumentModel = async (
   documentModel: any,
@@ -20,8 +19,8 @@ export const getCreatePayloadFromDocumentModel = async (
 ): Promise<any> => {
   const patches = [
     {
-      action: 'ietf-json-patch',
-      patches: jsonpatch.compare({}, documentModel),
+      action: 'replace',
+      document: documentModel,
     },
   ];
 
