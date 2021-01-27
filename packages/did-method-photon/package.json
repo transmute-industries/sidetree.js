@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/photon.esm.js",
-  "version": "0.2.2",
+  "version": "0.2.3-unstable.0",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -26,16 +26,16 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/wallet": "^0.2.2",
+    "@sidetree/wallet": "^0.2.3-unstable.0",
     "aws-sdk": "^2.763.0",
     "tsdx": "^0.13.3"
   },
   "dependencies": {
-    "@sidetree/cas-s3": "^0.2.2",
-    "@sidetree/common": "^0.2.2",
-    "@sidetree/db": "^0.2.2",
-    "@sidetree/did-method": "^0.2.2",
-    "@sidetree/qldb": "^0.2.2",
-    "@sidetree/test-vectors": "^0.2.2"
+    "@sidetree/cas-s3": "^0.2.3-unstable.0",
+    "@sidetree/common": "^0.2.3-unstable.0",
+    "@sidetree/db": "^0.2.3-unstable.0",
+    "@sidetree/did-method": "^0.2.3-unstable.0",
+    "@sidetree/qldb": "^0.2.3-unstable.0",
+    "@sidetree/test-vectors": "^0.2.3-unstable.0"
   }
 }
