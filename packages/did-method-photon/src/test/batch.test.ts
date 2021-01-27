@@ -14,10 +14,10 @@
 
 import { methods } from '@sidetree/wallet';
 import { crypto } from '@sidetree/test-vectors';
-import { getTestPhoton } from './utils';
+import { getTestPhoton, generateCreateOperation } from './utils';
 import Photon from '../Photon';
 import AWS from 'aws-sdk/global';
-import { IOperationQueue, PublicKeyPurpose } from '@sidetree/common';
+import { IOperationQueue } from '@sidetree/common';
 
 const awsConfig = new AWS.Config();
 if (!awsConfig.credentials) {
@@ -47,39 +47,6 @@ describe('Test Batching', () => {
   afterAll(async () => {
     await photon.close();
   });
-
-  const generateCreateOperation = async (publicKey: any): Promise<any> => {
-    // We could generate the create operation like this
-    /*
-    const mnemonic = crypto.mnemonic.mnemonic[0];
-    const createOperation = await methods.getCreateOperationForProfile(
-      mnemonic,
-      i
-    );
-    */
-    // However this is too slow because it generates new keys for every create
-    // operation which cause the tests to timeout for batch size larger than 1000
-
-    // Therefore for the purpose of showing the we can process large batches
-    // we will generate create operation for did documents that share the same key
-    const documentModel = {
-      public_keys: [
-        {
-          // id is random so that each id (and therefore each did) is different
-          id: Math.random(),
-          type: 'JsonWebKey2020',
-          jwk: publicKey,
-          purpose: [PublicKeyPurpose.General],
-        },
-      ],
-    };
-    const createOperation = await methods.getCreatePayloadFromDocumentModel(
-      documentModel,
-      publicKey,
-      publicKey
-    );
-    return createOperation;
-  };
 
   const runBatchingTestWithSize = (batchSize: number): void => {
     describe(`Batch size: ${batchSize}`, () => {
