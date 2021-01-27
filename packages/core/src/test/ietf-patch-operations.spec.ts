@@ -29,7 +29,7 @@ import Resolver from '../Resolver';
 import MockOperationStore from './mocks/MockOperationStore';
 import MockVersionManager from './mocks/MockVersionManager';
 
-console.info = () => null;
+console.info = (): null => null;
 
 describe('IETF Patch operations', () => {
   let resolver: Resolver;

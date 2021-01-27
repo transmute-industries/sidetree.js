@@ -61,7 +61,7 @@ const util = require('util');
 
 describe('RequestHandler', () => {
   // Surpress console logging during dtesting so we get a compact test summary in console.
-  console.info = () => null;
+  console.info = (): null => null;
   console.error = () => null;
   console.debug = () => null;
 

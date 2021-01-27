@@ -44,7 +44,7 @@ import config from './config-test.json';
 
 jest.setTimeout(10 * 1000);
 
-console.info = () => null;
+console.info = (): null => null;
 
 describe('TransactionProcessor', () => {
   let casClient: MockCas;

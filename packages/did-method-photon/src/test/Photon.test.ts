@@ -58,7 +58,6 @@ describe('Photon', () => {
     await resetDatabase();
     ledger = await getTestLedger();
     cas = await getTestCas();
-    await ledger.reset();
   });
 
   afterAll(async () => {

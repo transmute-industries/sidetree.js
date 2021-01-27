@@ -193,7 +193,7 @@ describe('ValueTimeLockVerifier', () => {
     });
 
     it('should throw if the lock amount is less than the required amount.', () => {
-      const mockMaxNumOfOps = 234;
+      const mockMaxNumOfOps = 2340;
       spyOn(
         ValueTimeLockVerifier,
         'calculateMaxNumberOfOperationsAllowed'

@@ -12,7 +12,6 @@
  */
 
 import { walletSvipOperation } from '../__fixtures__';
-
 import { getCreateOperationForProfile } from './getCreateOperationForProfile';
 
 it('can get create operation from mnemonic', async () => {

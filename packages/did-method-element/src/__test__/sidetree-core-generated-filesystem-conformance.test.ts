@@ -15,12 +15,10 @@
 import { MockCas } from '@sidetree/cas';
 import { AnchorFile, ChunkFile, MapFile } from '@sidetree/core';
 import Element from '../Element';
-
 import { getTestElement } from '../test/utils';
-
 import { sidetreeCoreGeneratedSecp256k1 } from '@sidetree/test-vectors';
 
-console.info = () => null;
+console.info = (): null => null;
 
 let element: Element;
 

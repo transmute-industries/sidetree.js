@@ -15,12 +15,11 @@
 import Element from '../Element';
 import { walletSvipResolutions } from '../__fixtures__';
 import { getTestElement, resetDatabase, writeFixture } from '../test/utils';
-
 import { sidetreeUniversalWallet } from '@sidetree/test-vectors';
 
 const { walletSvipOperation } = sidetreeUniversalWallet;
 const WRITE_FIXTURE_TO_DISK = false;
-console.info = () => null;
+console.info = (): null => null;
 
 let element: Element;
 const fixture: any = {

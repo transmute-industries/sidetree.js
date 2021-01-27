@@ -13,13 +13,11 @@
  */
 
 import Element from '../Element';
-
 import { sidetreeCoreGeneratedEd25519Resolutions } from '../__fixtures__';
 import { sidetreeCoreGeneratedEd25519 } from '@sidetree/test-vectors';
-
 import { getTestElement } from '../test/utils';
 
-console.info = () => null;
+console.info = (): null => null;
 
 let element: Element;
 

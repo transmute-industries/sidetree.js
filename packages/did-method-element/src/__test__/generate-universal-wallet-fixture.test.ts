@@ -13,14 +13,11 @@
  */
 
 import { sidetreeUniversalWallet } from '@sidetree/test-vectors';
-
 import Element from '../Element';
-
 import { getTestElement, resetDatabase, writeFixture } from '../test/utils';
-
 import { walletResolution } from '../__fixtures__';
 
-console.info = () => null;
+console.info = (): null => null;
 
 const { walletOperation } = sidetreeUniversalWallet;
 

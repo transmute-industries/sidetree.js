@@ -12,21 +12,14 @@
  */
 
 import { PublicKeyPurpose } from '@sidetree/common';
-import { toKeyPair } from './toKeyPair';
-import { SidetreeCreateOperation, SidetreeReplaceOptions } from '../types';
+import { walletSvipOperation } from '../__fixtures__';
 import { getCreatePayloadFromDocumentModel } from './getCreatePayloadFromDocumentModel';
+import { toKeyPair } from './toKeyPair';
 
-export const getCreateOperationForProfile = async (
-  mnemonic: string,
-  index: number,
-  profile = 'SVIP',
-  options: SidetreeReplaceOptions = {}
-): Promise<SidetreeCreateOperation> => {
-  if (profile !== 'SVIP') {
-    throw new Error('SVIP Profile is only supported profile');
-  }
-  const signingKeyPair = await toKeyPair(mnemonic, index, 'Ed25519');
-  const keyAgreementKeyPair = await toKeyPair(mnemonic, index, 'X25519');
+it('can get create operation from mnemonic', async () => {
+  const mnemonic = walletSvipOperation.operation[0].mnemonic;
+  const signingKeyPair = await toKeyPair(mnemonic, 0, 'Ed25519');
+  const keyAgreementKeyPair = await toKeyPair(mnemonic, 0, 'X25519');
   const documentModel = {
     public_keys: [
       {
@@ -48,13 +41,13 @@ export const getCreateOperationForProfile = async (
         purpose: [PublicKeyPurpose.General, PublicKeyPurpose.KeyAgreement],
       },
     ],
-    ...options,
   };
   const createOperation = await getCreatePayloadFromDocumentModel(
     documentModel,
     signingKeyPair.publicKeyJwk,
     signingKeyPair.publicKeyJwk
   );
-
-  return createOperation;
-};
+  expect(createOperation).toEqual(
+    walletSvipOperation.operation[0].createOperation
+  );
+});
