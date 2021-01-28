@@ -75,6 +75,7 @@ describe('Test Batching', () => {
           const { didDocument } = operation.body;
           expect(didDocument).toBeDefined();
           expect(didDocument.id).toBeDefined();
+          expect(didDocument.publicKey).toHaveLength(1);
           didDocuments[didDocument.id] = didDocument;
         }
         const queue = await operationQueue.peek(batchSize + 1);
