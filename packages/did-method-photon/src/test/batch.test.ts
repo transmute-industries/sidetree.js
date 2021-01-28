@@ -75,6 +75,7 @@ describe('Test Batching', () => {
           const { didDocument } = operation.body;
           expect(didDocument).toBeDefined();
           expect(didDocument.id).toBeDefined();
+          expect(didDocument.publicKey).toHaveLength(1);
           didDocuments[didDocument.id] = didDocument;
         }
         const queue = await operationQueue.peek(batchSize + 1);
@@ -106,8 +107,8 @@ describe('Test Batching', () => {
   runBatchingTestWithSize(1);
   runBatchingTestWithSize(10);
   runBatchingTestWithSize(100);
-  runBatchingTestWithSize(1000);
-  // Running a batch of size 10000 works but is slow
+  // Running a batch of size 1000 or 10000 works but is slow
   // Uncomment and increase the jest.setTimeout value to 100 * 1000 to find out
+  // runBatchingTestWithSize(1000);
   // runBatchingTestWithSize(10000);
 });

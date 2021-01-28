@@ -14,7 +14,7 @@
 
 import { MongoDb } from '@sidetree/db';
 import { methods } from '@sidetree/wallet';
-import { ICas, PublicKeyPurpose } from '@sidetree/common';
+import { ICas, PublicKeyPurpose, Encoder } from '@sidetree/common';
 import QLDBLedger from '@sidetree/qldb';
 import { S3Cas } from '@sidetree/cas-s3';
 import Photon from '../Photon';
@@ -79,7 +79,8 @@ export const generateCreateOperation = async (publicKey: any): Promise<any> => {
     public_keys: [
       {
         // id is random so that each id (and therefore each did) is different
-        id: Math.random(),
+        // id needs to be base64url encoded
+        id: Encoder.encode(Math.random().toString()),
         type: 'JsonWebKey2020',
         jwk: publicKey,
         purpose: [PublicKeyPurpose.General],
