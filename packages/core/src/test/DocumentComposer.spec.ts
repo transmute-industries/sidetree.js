@@ -54,9 +54,7 @@ describe('DocumentComposer', () => {
         'did:method:suffix'
       );
 
-      expect(result['@context']).toEqual(
-        'https://w3id.org/did-resolution/v1'
-      );
+      expect(result['@context']).toEqual('https://w3id.org/did-resolution/v1');
       expect(result.methodMetadata).toEqual({
         recoveryCommitment: 'anyCommitmentHash',
         updateCommitment: 'anyCommitmentHash',
