@@ -149,7 +149,7 @@ export default class DocumentComposer {
     const didResolutionResult: any = {
       '@context': 'https://w3id.org/did-resolution/v1',
       didDocument: didDocument,
-      methodMetadata: {
+      didDocumentMetadata: {
         recoveryCommitment: didState.nextRecoveryCommitmentHash,
         updateCommitment: didState.nextUpdateCommitmentHash,
       },

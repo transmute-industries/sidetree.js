@@ -82,7 +82,7 @@ export const generateDidFixtures = async () => {
         `#${signingKeyPair0.sidetreeInternalDataModelPublicKey.id}`,
       ],
     },
-    methodMetadata: {
+    didDocumentMetadata: {
       recoveryCommitment: createOperation.suffixData.recovery_commitment,
       updateCommitment: createOperation.delta.update_commitment,
     },

@@ -80,7 +80,7 @@
           ],
           "authentication": ["#key-1"]
         },
-        "methodMetadata": {
+        "didDocumentMetadata": {
           "recoveryCommitment": "EiACsZGLF2z30LcNJp3IagIMPGURQlZwbYH84kHqt-uC9A",
           "updateCommitment": "EiBh1BSJicGll1LCL0ntJRpoNTepZpYU9Q3gGFo8sogrXA"
         }

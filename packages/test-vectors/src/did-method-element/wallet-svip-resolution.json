@@ -64,7 +64,7 @@
               }
             ]
           },
-          "methodMetadata": {
+          "didDocumentMetadata": {
             "recoveryCommitment": "EiAOtRKnQyc3y3FzQn6h0RcNG75BFEOk4_1zZrAoZbY7OQ",
             "updateCommitment": "EiAOtRKnQyc3y3FzQn6h0RcNG75BFEOk4_1zZrAoZbY7OQ"
           }
@@ -136,7 +136,7 @@
               }
             ]
           },
-          "methodMetadata": {
+          "didDocumentMetadata": {
             "recoveryCommitment": "EiC3h5hjrIw4_DpeS0zF4ZjuQ_7sHQcEuOYTG9vNp9LuLQ",
             "updateCommitment": "EiC3h5hjrIw4_DpeS0zF4ZjuQ_7sHQcEuOYTG9vNp9LuLQ"
           }
@@ -208,7 +208,7 @@
               }
             ]
           },
-          "methodMetadata": {
+          "didDocumentMetadata": {
             "recoveryCommitment": "EiDsIwQ4P04U5FeBoRJ8kq1BJLk_RlC8REiu8GjghOPS2A",
             "updateCommitment": "EiDsIwQ4P04U5FeBoRJ8kq1BJLk_RlC8REiu8GjghOPS2A"
           }

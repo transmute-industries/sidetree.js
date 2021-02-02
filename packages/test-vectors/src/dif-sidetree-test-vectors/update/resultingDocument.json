@@ -41,7 +41,7 @@
     ],
     "authentication": ["#key2", "#new-key1"]
   },
-  "methodMetadata": {
+  "didDocumentMetadata": {
     "recoveryCommitment": "EiC_iix1uVmVminsKXR60qN7BndYGVzqQPjylR22GwGmzg",
     "updateCommitment": "EiBc3mku8EsI3ToZr_46Vj3JF2Gmpb4Mawz7YmSJtpIEPA"
   }

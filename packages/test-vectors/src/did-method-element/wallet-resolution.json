@@ -30,7 +30,7 @@
               "#zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN"
             ]
           },
-          "methodMetadata": {
+          "didDocumentMetadata": {
             "recoveryCommitment": "EiACsZGLF2z30LcNJp3IagIMPGURQlZwbYH84kHqt-uC9A",
             "updateCommitment": "EiACsZGLF2z30LcNJp3IagIMPGURQlZwbYH84kHqt-uC9A"
           }
@@ -65,7 +65,7 @@
               "#zQ3shwDrqwV2V3P4i6HQysB6zmk5fRiuzUTw6sZAjvp8SdPSD"
             ]
           },
-          "methodMetadata": {
+          "didDocumentMetadata": {
             "recoveryCommitment": "EiBh1BSJicGll1LCL0ntJRpoNTepZpYU9Q3gGFo8sogrXA",
             "updateCommitment": "EiBh1BSJicGll1LCL0ntJRpoNTepZpYU9Q3gGFo8sogrXA"
           }
