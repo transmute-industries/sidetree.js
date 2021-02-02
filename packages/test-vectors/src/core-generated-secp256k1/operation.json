@@ -49,7 +49,7 @@
         "delta": "eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpQmgxQlNKaWNHbGwxTENMMG50SlJwb05UZXBacFlVOVEzZ0dGbzhzb2dyWEEiLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5LTEiLCJ0eXBlIjoiSnNvbldlYktleTIwMjAiLCJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiOW1DV3ZQY3FwZnlIem5SVkRYRDZPMU5NeFNxUnFFcE45aklrdnkyekdKNCIsInkiOiJvWGtKdVJ1OThmMTA5ZjlpRlFIb1RnMk5CZ295cml6eEdhWWhqSGowOUhFIn0sInB1cnBvc2UiOlsiYXV0aCIsImdlbmVyYWwiXX1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siaWQiOiJzZXJ2aWNlRW5kcG9pbnRJZDEyMyIsInR5cGUiOiJzb21lVHlwZSIsImVuZHBvaW50IjoiaHR0cHM6Ly93d3cudXJsLmNvbSJ9XX19XX0"
       },
       "response": {
-        "@context": "https://www.w3.org/ns/did-resolution/v1",
+        "@context": "https://w3id.org/did-resolution/v1",
         "didDocument": {
           "id": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
           "@context": [
@@ -80,7 +80,7 @@
           ],
           "authentication": ["#key-1"]
         },
-        "methodMetadata": {
+        "didDocumentMetadata": {
           "recoveryCommitment": "EiACsZGLF2z30LcNJp3IagIMPGURQlZwbYH84kHqt-uC9A",
           "updateCommitment": "EiBh1BSJicGll1LCL0ntJRpoNTepZpYU9Q3gGFo8sogrXA"
         }

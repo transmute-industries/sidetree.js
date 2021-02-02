@@ -3,7 +3,7 @@
     {
       "status": "succeeded",
       "body": {
-        "@context": "https://www.w3.org/ns/did-resolution/v1",
+        "@context": "https://w3id.org/did-resolution/v1",
         "didDocument": {
           "id": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
           "@context": [
@@ -45,7 +45,7 @@
           ],
           "authentication": ["#key-1", "#additional-key"]
         },
-        "methodMetadata": {
+        "didDocumentMetadata": {
           "recoveryCommitment": "EiACsZGLF2z30LcNJp3IagIMPGURQlZwbYH84kHqt-uC9A",
           "updateCommitment": "EiCJR55Bk1M-o0QwFmKlawagyblgyaL-UGLClwtE7W93pQ"
         }
@@ -54,7 +54,7 @@
     {
       "status": "succeeded",
       "body": {
-        "@context": "https://www.w3.org/ns/did-resolution/v1",
+        "@context": "https://w3id.org/did-resolution/v1",
         "didDocument": {
           "id": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
           "@context": [
@@ -85,7 +85,7 @@
           ],
           "authentication": ["#newKey"]
         },
-        "methodMetadata": {
+        "didDocumentMetadata": {
           "recoveryCommitment": "EiDB2z3N2okdYlIrD1jtd52fDBdpnczZBZc1_WgdxExCGg",
           "updateCommitment": "EiAH6iaC4Z2PTodi3dxFC2L36A_TSuUWN0YG0uHVYVhAyg"
         }

@@ -1,5 +1,5 @@
 {
-  "@context": "https://www.w3.org/ns/did-resolution/v1",
+  "@context": "https://w3id.org/did-resolution/v1",
   "didDocument": {
     "id": "did:sidetree:EiAdHUPfyqtr9d-NBYwwMHCzryLaTYVAyZl4Hu9GvrupYQ",
     "@context": [
@@ -30,7 +30,7 @@
     ],
     "authentication": ["#newKey"]
   },
-  "methodMetadata": {
+  "didDocumentMetadata": {
     "recoveryCommitment": "EiDmNGrlFH0fe8uGzlyCyF1uIF1eZtSUb5LdhKzR_8T-5Q",
     "updateCommitment": "EiB-KmuNII4gZeHWHuUsjH8W_jhWd_Ig4QU80Lgb-LiLPQ"
   }
