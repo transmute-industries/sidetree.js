@@ -55,7 +55,7 @@ describe('DocumentComposer', () => {
       );
 
       expect(result['@context']).toEqual(
-        'https://www.w3.org/ns/did-resolution/v1'
+        'https://w3id.org/did-resolution/v1'
       );
       expect(result.methodMetadata).toEqual({
         recoveryCommitment: 'anyCommitmentHash',

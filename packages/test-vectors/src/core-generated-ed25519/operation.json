@@ -48,7 +48,7 @@
         "delta": "eyJ1cGRhdGVfY29tbWl0bWVudCI6IkVpQzNoNWhqckl3NF9EcGVTMHpGNFpqdVFfN3NIUWNFdU9ZVEc5dk5wOUx1TFEiLCJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljX2tleXMiOlt7ImlkIjoia2V5LTEiLCJ0eXBlIjoiSnNvbldlYktleTIwMjAiLCJqd2siOnsiY3J2IjoiRWQyNTUxOSIsIngiOiJZZGhYRjJzUE1Vbzk5Z1M0TVZJY1J5bTFBNVoxaGxEaDZES3QwUHJZdF8wIiwia3R5IjoiT0tQIn0sInB1cnBvc2UiOlsiYXV0aCIsImdlbmVyYWwiXX1dLCJzZXJ2aWNlX2VuZHBvaW50cyI6W3siaWQiOiJzZXJ2aWNlRW5kcG9pbnRJZDEyMyIsInR5cGUiOiJzb21lVHlwZSIsImVuZHBvaW50IjoiaHR0cHM6Ly93d3cudXJsLmNvbSJ9XX19XX0"
       },
       "response": {
-        "@context": "https://www.w3.org/ns/did-resolution/v1",
+        "@context": "https://w3id.org/did-resolution/v1",
         "didDocument": {
           "id": "did:elem:EiDjQYg7Q2pwgj4BQCEnq7yZrY9YEWbg6toqbQQPPW6jaA",
           "@context": [

@@ -3,7 +3,7 @@
     {
       "status": "succeeded",
       "body": {
-        "@context": "https://www.w3.org/ns/did-resolution/v1",
+        "@context": "https://w3id.org/did-resolution/v1",
         "didDocument": {
           "id": "did:elem:EiDjQYg7Q2pwgj4BQCEnq7yZrY9YEWbg6toqbQQPPW6jaA",
           "@context": [
@@ -52,7 +52,7 @@
     {
       "status": "succeeded",
       "body": {
-        "@context": "https://www.w3.org/ns/did-resolution/v1",
+        "@context": "https://w3id.org/did-resolution/v1",
         "didDocument": {
           "id": "did:elem:EiDjQYg7Q2pwgj4BQCEnq7yZrY9YEWbg6toqbQQPPW6jaA",
           "@context": [

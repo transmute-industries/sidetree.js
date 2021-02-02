@@ -67,7 +67,7 @@ export const generateDidFixtures = async () => {
     },
   ];
   const resolveBody = {
-    '@context': 'https://www.w3.org/ns/did-resolution/v1',
+    '@context': 'https://w3id.org/did-resolution/v1',
     didDocument: {
       id: shortFormDid,
       '@context': [
