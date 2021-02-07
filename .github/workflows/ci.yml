@@ -25,7 +25,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Install
-        run: npm run install:only -- @sidetree/cas-ipfs
+        run: npm install --ignore-scripts && npm run install:only -- @sidetree/cas-ipfs
 
       - name: Test
         run: npm run test:only -- @sidetree/cas-ipfs
