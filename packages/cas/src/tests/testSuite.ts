@@ -40,7 +40,8 @@ const testSuite = (cas: ICas): void => {
       await cas.close();
     });
 
-    describe('getServiceVersion', () => {
+    // eslint-disable-next-line jest/no-focused-tests
+    describe.only('getServiceVersion', () => {
       it('should get service version', async () => {
         const serviceVersion = await cas.getServiceVersion();
         expect(serviceVersion).toBeDefined();
