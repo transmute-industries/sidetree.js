@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-focused-tests */
 /*
  * The code in this file originated from
  * @see https://github.com/decentralized-identity/sidetree
@@ -40,7 +41,6 @@ const testSuite = (cas: ICas): void => {
       await cas.close();
     });
 
-    // eslint-disable-next-line jest/no-focused-tests
     describe.only('getServiceVersion', () => {
       it('should get service version', async () => {
         const serviceVersion = await cas.getServiceVersion();
@@ -51,7 +51,7 @@ const testSuite = (cas: ICas): void => {
     });
 
     describe('write', () => {
-      it('should write a JSON and return content id', async () => {
+      it.only('should write a JSON and return content id', async () => {
         const cid = await cas.write(Buffer.from(JSON.stringify(testObj)));
         expect(cid).toBe(testObjMultihash);
       });
