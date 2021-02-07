@@ -25,10 +25,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Install
-        run: npm run install:ci
-
-      - name: Lint
-        run: npm run lint -- --since origin/main
+        run: npm run install:only -- @sidetree/cas-ipfs
 
       - name: Test
-        run: npm run test -- --since origin/main
+        run: npm run test:only -- @sidetree/cas-ipfs
