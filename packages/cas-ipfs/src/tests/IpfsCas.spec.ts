@@ -17,10 +17,21 @@
  * limitations under the License.
  */
 
-import { testSuite } from '@sidetree/cas';
 import IpfsCas from '../IpfsCas';
 import config from './config.json';
 
 const cas = new IpfsCas(config.contentAddressableStoreServiceUri);
 
-testSuite(cas);
+const testObj = {
+  hello: 'world',
+};
+
+it('should', async () => {
+  console.log(config.contentAddressableStoreServiceUri);
+  const serviceVersion = await cas.getServiceVersion();
+  console.log({ serviceVersion });
+  const obj = Buffer.from(JSON.stringify(testObj));
+  console.log({ testObj, obj });
+  const cid = await cas.write(obj);
+  console.log({ cid });
+});
