@@ -28,7 +28,7 @@ it('should', async () => {
   const ipfs = ipfsClient(config.contentAddressableStoreServiceUri);
   const text = JSON.stringify(testObj);
   try {
-    const source = await ipfs.add(text);
+    const source = await ipfs.add([text], { recursive: true });
     console.log({ source });
   } catch (err) {
     console.warn({ err });
