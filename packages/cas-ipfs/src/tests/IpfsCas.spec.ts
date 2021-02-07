@@ -17,17 +17,18 @@
  * limitations under the License.
  */
 
-import createClient from 'ipfs-http-client';
+import ipfsClient from 'ipfs-http-client';
+import config from './config.json';
 
 const testObj = {
   hello: 'world',
 };
 
 it('should', async () => {
-  const ipfs = createClient('http://127.0.0.1:5001');
-  const buffer = Buffer.from(JSON.stringify(testObj));
+  const ipfs = ipfsClient(config.contentAddressableStoreServiceUri);
+  const text = JSON.stringify(testObj);
   try {
-    const source = await ipfs.add(buffer);
+    const source = await ipfs.add(text);
     console.log({ source });
   } catch (err) {
     console.warn({ err });
