@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 
+import ipfsClient from 'ipfs-http-client';
 import IpfsCas from '../IpfsCas';
 import config from './config.json';
 
@@ -27,11 +28,12 @@ const testObj = {
 };
 
 it('should', async () => {
-  console.log(config.contentAddressableStoreServiceUri);
-  const serviceVersion = await cas.getServiceVersion();
-  console.log({ serviceVersion });
-  const obj = Buffer.from(JSON.stringify(testObj));
-  console.log({ testObj, obj });
-  const cid = await cas.write(obj);
-  console.log({ cid });
+  const multiaddr = config.contentAddressableStoreServiceUri;
+  const parts = multiaddr.split('/');
+  console.log({ parts });
+  const ipfs = ipfsClient({ host: parts[2], port: parts[4] });
+  const buffer = Buffer.from(JSON.stringify(testObj));
+  console.log(ipfs);
+  const source = await ipfs.add(buffer);
+  console.log({ source });
 });
