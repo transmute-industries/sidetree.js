@@ -41,7 +41,7 @@ const testSuite = (cas: ICas): void => {
       await cas.close();
     });
 
-    describe.only('getServiceVersion', () => {
+    describe('getServiceVersion', () => {
       it('should get service version', async () => {
         const serviceVersion = await cas.getServiceVersion();
         expect(serviceVersion).toBeDefined();
@@ -51,7 +51,7 @@ const testSuite = (cas: ICas): void => {
     });
 
     describe('write', () => {
-      it.only('should write a JSON and return content id', async () => {
+      it('should write a JSON and return content id', async () => {
         const cid = await cas.write(Buffer.from(JSON.stringify(testObj)));
         expect(cid).toBe(testObjMultihash);
       });

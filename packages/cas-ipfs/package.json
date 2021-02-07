@@ -32,8 +32,8 @@
     "@sidetree/cas": "^0.2.3-unstable.2",
     "@sidetree/common": "^0.2.3-unstable.2",
     "@sidetree/db": "^0.2.3-unstable.2",
-    "ipfs-http-client": "42.0.0",
-    "it-concat": "^1.0.0"
+    "ipfs-http-client": "^49.0.1",
+    "it-concat": "^1.0.2"
   },
   "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d"
 }
