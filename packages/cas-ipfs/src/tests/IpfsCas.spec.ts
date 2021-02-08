@@ -23,11 +23,14 @@ import config from './config.json';
 const testObj = {
   hello: 'world',
 };
+const testObjMultihash = 'QmNrEidQrAbxx3FzxNt9E6qjEDZrtvzxUVh47BXm55Zuen';
 
 it('should', async () => {
   const ipfs = ipfsClient(config.contentAddressableStoreServiceUri);
   const text = JSON.stringify(testObj);
   try {
+    const fetchResult = await ipfs.read(testObjMultihash);
+    console.log({ fetchResult });
     const source = await ipfs.add([text], { recursive: true });
     console.log({ source });
   } catch (err) {
