@@ -19,6 +19,7 @@
 
 import ipfsClient from 'ipfs-http-client';
 import concat from 'it-concat';
+import fetch from 'node-fetch';
 import config from './config.json';
 
 const testObj = {
@@ -26,7 +27,15 @@ const testObj = {
 };
 const testObjMultihash = 'QmNrEidQrAbxx3FzxNt9E6qjEDZrtvzxUVh47BXm55Zuen';
 
-it('should', async () => {
+it('lol', async () => {
+  const hi = await fetch(
+    'http://127.0.0.1:5001/api/v0/get?timeout=2000ms&arg=QmNrEidQrAbxx3FzxNt9E6qjEDZrtvzxUVh47BXm55Zuen',
+    { method: 'POST' }
+  ).then((res: any) => res.text());
+  console.log(hi);
+});
+
+it.skip('should', async () => {
   const ipfs = ipfsClient(config.contentAddressableStoreServiceUri);
   const text = JSON.stringify(testObj);
   const source1 = await ipfs.get(testObjMultihash, { timeout: 2000 });
