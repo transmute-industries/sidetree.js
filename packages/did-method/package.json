@@ -35,5 +35,11 @@
     "@sidetree/common": "^0.2.3-unstable.2",
     "@sidetree/core": "^0.2.3-unstable.2",
     "@sidetree/db": "^0.2.3-unstable.2"
+  },
+  "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/did-method",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/transmute-industries/sidetree.js.git",
+    "directory": "packages/did-method"
   }
 }

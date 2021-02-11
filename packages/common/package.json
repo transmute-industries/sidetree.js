@@ -33,5 +33,11 @@
     "multihashes": "^0.4.19",
     "node-fetch": "^2.6.1"
   },
-  "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d"
+  "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d",
+  "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/common",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/transmute-industries/sidetree.js.git",
+    "directory": "packages/common"
+  }
 }
