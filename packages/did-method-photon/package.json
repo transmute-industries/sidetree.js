@@ -37,5 +37,11 @@
     "@sidetree/did-method": "^0.2.3-unstable.2",
     "@sidetree/qldb": "^0.2.3-unstable.2",
     "@sidetree/test-vectors": "^0.2.3-unstable.2"
+  },
+  "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/did-method-photon",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/transmute-industries/sidetree.js.git",
+    "directory": "packages/did-method-photon"
   }
 }

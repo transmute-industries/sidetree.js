@@ -35,5 +35,11 @@
     "ion-js": "^4.1.0",
     "jsbi": "^3.1.4",
     "moment": "^2.29.1"
+  },
+  "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/ledger-qldb",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/transmute-industries/sidetree.js.git",
+    "directory": "packages/ledger-qldb"
   }
 }
