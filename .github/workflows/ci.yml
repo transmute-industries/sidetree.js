@@ -27,7 +27,7 @@ jobs:
       - name: Install
         run: npm install --ignore-scripts && npm run install:only -- @sidetree/cas-ipfs
 
-      - run: ifconfig
-
       - name: Test
         run: npm run test:only -- @sidetree/cas-ipfs
+
+      - run: docker-compose logs ipfs

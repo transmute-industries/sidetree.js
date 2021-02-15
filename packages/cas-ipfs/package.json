@@ -21,7 +21,6 @@
     "build": "tsdx build",
     "pretest": "docker-compose up -d ipfs mongo",
     "test": "tsdx test",
-    "posttest": "docker-compose logs ipfs",
     "lint": "tsdx lint src",
     "lint:fix": "tsdx lint src --fix",
     "prepare": "tsdx build"
