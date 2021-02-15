@@ -19,8 +19,8 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "pretest": "docker-compose up -d ipfs",
-    "test": "node src/index.js",
+    "pretest": "docker-compose up -d ipfs mongo",
+    "test": "tsdx test",
     "lint": "tsdx lint src",
     "lint:fix": "tsdx lint src --fix",
     "prepare": "tsdx build"
