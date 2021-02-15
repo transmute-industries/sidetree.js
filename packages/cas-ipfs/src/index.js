@@ -1,9 +1,9 @@
-import fetch from 'node-fetch';
+const fetch = require('node-fetch');
 
 (async () => {
   const data = await fetch(
     'http://localhost:5001/api/v0/get?timeout=2000ms&arg=QmNrEidQrAbxx3FzxNt9E6qjEDZrtvzxUVh47BXm55Zuen',
     { method: 'POST' }
-  ).then((res: any) => res.text());
+  ).then((res) => res.text());
   console.log(data);
 })();
