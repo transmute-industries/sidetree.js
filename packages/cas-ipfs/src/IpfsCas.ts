@@ -61,7 +61,9 @@ export default class CasIpfs implements ICas {
   };
 
   public async write(content: Buffer): Promise<string> {
+    console.log({ content });
     const source = await this.ipfs.add(content);
+    console.log({ source });
     return source.path;
   }
 
