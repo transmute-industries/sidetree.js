@@ -4,6 +4,7 @@ jobs:
   ci:
     if: "! contains(github.event.head_commit.message, 'skip ci')"
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Begin CI...
         uses: actions/checkout@v2
