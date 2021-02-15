@@ -35,4 +35,4 @@ beforeAll(async () => {
   );
 });
 
-testSuite(ipfsCasWithCache);
+console.log(Boolean(ipfsCasWithCache));
