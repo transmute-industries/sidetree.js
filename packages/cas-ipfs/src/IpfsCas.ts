@@ -46,7 +46,7 @@ export default class CasIpfs implements ICas {
     }
   }
   public async initialize(): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 10000));
+    await new Promise((resolve) => setTimeout(resolve, 12000));
   }
 
   public async close(): Promise<void> {
