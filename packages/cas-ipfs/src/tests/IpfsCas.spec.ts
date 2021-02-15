@@ -23,4 +23,6 @@ import config from './config.json';
 
 const cas = new IpfsCas(config.contentAddressableStoreServiceUri);
 
+jest.setTimeout(20 * 1000);
+
 testSuite(cas);
