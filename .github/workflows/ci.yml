@@ -12,10 +12,10 @@ jobs:
       - run: |
           git fetch --no-tags --prune --depth=1 origin +refs/heads/main:refs/remotes/origin/main
 
-      - name: Use Node 12
+      - name: Use Node 14
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 14.x
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -25,10 +25,9 @@ jobs:
           aws-region: us-east-1
 
       - name: Install
-        run: npm run install:ci
+        run: npm install --ignore-scripts && npm run install:only -- @sidetree/cas-ipfs
 
-      - name: Lint
-        run: npm run lint -- --since origin/main
+      - run: ifconfig
 
       - name: Test
-        run: npm run test -- --since origin/main
+        run: npm run test:only -- @sidetree/cas-ipfs
