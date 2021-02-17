@@ -28,13 +28,15 @@ const ipfsCasWithCache = new IpfsCasWithCache(
   config.databaseName
 );
 
+jest.setTimeout(10 * 1000);
+
 beforeAll(async () => {
+  // Need to wait so that ipfs has the time to be initialized
+  await new Promise((resolve) => setTimeout(resolve, 5000));
   await MongoDb.resetDatabase(
     config.mongoDbConnectionString,
     config.databaseName
   );
 });
-
-jest.setTimeout(20 * 1000);
 
 testSuite(ipfsCasWithCache);
