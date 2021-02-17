@@ -12,7 +12,7 @@ services:
       - --mnemonic=${MNEMONIC}
       - --networkId='13370'
   ipfs:
-    image: ipfs/go-ipfs:v0.6.0
+    image: ipfs/go-ipfs:master-2021-01-14-fb0a9ac
     ports:
       - '8080:8080'
       - '5001:5001'
