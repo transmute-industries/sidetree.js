@@ -31,6 +31,7 @@ export default class IpfsCasWithCache extends IpfsCas {
 
   constructor(casUrl: string, dbUrl: string, dbName: string) {
     super(casUrl);
+    console.log('ipfswithcache init');
     this.cache = new MongoDbCasCache(dbUrl, dbName);
   }
 
