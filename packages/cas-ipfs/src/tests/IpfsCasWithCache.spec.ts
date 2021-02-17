@@ -35,4 +35,6 @@ beforeAll(async () => {
   );
 });
 
+jest.setTimeout(20 * 1000);
+
 testSuite(ipfsCasWithCache);
