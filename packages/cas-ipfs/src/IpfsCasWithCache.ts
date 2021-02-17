@@ -35,6 +35,7 @@ export default class IpfsCasWithCache extends IpfsCas {
   }
 
   public async initialize(): Promise<void> {
+    await super.initialize();
     await this.cache.initialize();
   }
 
