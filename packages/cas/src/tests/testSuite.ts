@@ -50,7 +50,7 @@ const testSuite = (cas: ICas): void => {
     });
 
     describe('write', () => {
-      it.only('should write a JSON and return content id', async () => {
+      it('should write a JSON and return content id', async () => {
         const cid = await cas.write(Buffer.from(JSON.stringify(testObj)));
         console.log({ cid });
         expect(cid).toBe(testObjMultihash);
