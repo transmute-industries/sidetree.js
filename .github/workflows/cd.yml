@@ -7,7 +7,6 @@ on:
       - "v*"
     branches:
       - main
-      - fix-cd
 
 jobs:
   release-unstable:
