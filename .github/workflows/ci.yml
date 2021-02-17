@@ -25,16 +25,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - run: |
-          docker ps -q | xargs -n 1 -P 8 -I {} docker stop {}
-          docker system prune -a
-          docker volume prune
-
       - name: Install
         run: npm install --ignore-scripts && npm run install:only -- @sidetree/cas-ipfs
 
       - name: Test
         run: npm run test:only -- @sidetree/cas-ipfs
-
-      - run: docker-compose logs ipfs
-        if: always()
