@@ -23,4 +23,11 @@ import config from './config.json';
 
 const cas = new IpfsCas(config.contentAddressableStoreServiceUri);
 
+jest.setTimeout(10 * 1000);
+
+beforeAll(async () => {
+  // Need to wait so that ipfs has the time to be initialized
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+});
+
 testSuite(cas);

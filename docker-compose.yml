@@ -12,7 +12,7 @@ services:
       - --mnemonic=${MNEMONIC}
       - --networkId='13370'
   ipfs:
-    image: ipfs/go-ipfs:release
+    image: ipfs/go-ipfs:v0.7.0
     ports:
       - '8080:8080'
       - '5001:5001'
@@ -22,5 +22,3 @@ services:
     restart: always
     ports:
      - '27017:27017'
-    volumes:
-     - './mongo-data:/data/db'
