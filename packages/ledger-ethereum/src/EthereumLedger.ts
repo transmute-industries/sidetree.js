@@ -21,7 +21,6 @@ import {
   ValueTimeLockModel,
   ServiceVersionModel,
 } from '@sidetree/common';
-import Web3 from 'web3';
 import {
   ElementContract,
   ElementEventData,
@@ -43,7 +42,7 @@ export default class EthereumLedger implements IBlockchain {
   private networkId = 0;
 
   constructor(
-    public web3: Web3,
+    public web3: any,
     public contractAddress?: string,
     logger?: Console
   ) {
