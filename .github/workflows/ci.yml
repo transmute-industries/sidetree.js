@@ -1,5 +1,10 @@
 name: CI
-on: [push]
+
+# Run on every push but not on tags
+on:
+  push:
+    tags-ignore:
+      - '**'
 jobs:
   ci:
     if: "! contains(github.event.head_commit.message, 'skip ci')"
