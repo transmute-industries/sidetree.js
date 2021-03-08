@@ -18,7 +18,7 @@
     "build": "lerna run build --stream",
     "install:ci": "npm install --ignore-scripts && lerna link && lerna bootstrap --since origin/main --include-dependencies",
     "install:clean": "npx lerna clean -y && rm -rf node_modules && npm i",
-    "publish:stable:patch": "lerna publish patch",
+    "publish:stable:patch": "lerna publish patch --force-publish",
     "publish:stable:minor": "lerna publish minor",
     "publish:stable:major": "lerna publish major",
     "publish:unstable": "lerna publish prerelease --preid unstable --yes"
