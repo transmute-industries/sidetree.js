@@ -18,7 +18,8 @@ import path from 'path';
 import { MongoDb } from '@sidetree/db';
 import Web3 from 'web3';
 import { EthereumLedger } from '@sidetree/ethereum';
-import { IpfsCasWithCache } from '@sidetree/cas-ipfs';
+// import { IpfsCasWithCache } from '@sidetree/cas-ipfs';
+import { MockCas } from '@sidetree/cas';
 import Element from '../Element';
 
 const config: any = require('./element-config.json');
@@ -44,11 +45,13 @@ const getTestLedger = async () => {
 };
 
 const getTestCas = async () => {
-  const cas = new IpfsCasWithCache(
-    config.contentAddressableStoreServiceUri,
-    config.mongoDbConnectionString,
-    config.databaseName
-  );
+  // FIXME: IPFS has intermittent failures in tests so we will use MockCas until it's fixed
+  // const cas = new IpfsCasWithCache(
+  //   config.contentAddressableStoreServiceUri,
+  //   config.mongoDbConnectionString,
+  //   config.databaseName
+  // );
+  const cas = new MockCas();
   return cas;
 };
 
