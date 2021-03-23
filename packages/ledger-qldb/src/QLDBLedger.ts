@@ -107,10 +107,12 @@ export default class QLDBLedger implements IBlockchain {
 
   public async write(anchorString: string): Promise<void> {
     const anchorData = AnchoredDataSerializer.deserialize(anchorString);
-    await this.executeWithRetry(
-      `INSERT INTO ${this.transactionTable} ?`,
-      anchorData
-    );
+    const now = new Date();
+    await this.executeWithRetry(`INSERT INTO ${this.transactionTable} ?`, {
+      ...anchorData,
+      created: now.getTime(),
+      createdHumanReadable: now.toISOString(),
+    });
   }
 
   private toSidetreeTransaction(
