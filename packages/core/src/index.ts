@@ -20,6 +20,7 @@
 import AnchorFile from './write/AnchorFile';
 import BatchScheduler from './write/BatchScheduler';
 import ChunkFile from './write/ChunkFile';
+import Compressor from './util/Compressor';
 import CreateOperation from './CreateOperation';
 import DeactivateOperation from './DeactivateOperation';
 import DownloadManager from './DownloadManager';
@@ -39,6 +40,7 @@ export {
   AnchorFile,
   BatchScheduler,
   ChunkFile,
+  Compressor,
   CreateOperation,
   DeactivateOperation,
   DownloadManager,
