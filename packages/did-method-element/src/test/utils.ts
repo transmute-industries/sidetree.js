@@ -46,6 +46,7 @@ const getTestLedger = async () => {
 
 const getTestCas = async () => {
   // FIXME: IPFS has intermittent failures in tests so we will use MockCas until it's fixed
+  // See: https://github.com/transmute-industries/sidetree.js/runs/2178633982#step:8:178
   // const cas = new IpfsCasWithCache(
   //   config.contentAddressableStoreServiceUri,
   //   config.mongoDbConnectionString,
