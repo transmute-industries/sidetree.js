@@ -97,7 +97,7 @@ export default class S3Cas implements ICas {
     try {
       const readResult = await this.s3
         .getObject({
-          Bucket: 'sidetree-cas-s3-test',
+          Bucket: this.bucketName,
           Key: address,
         })
         .promise();

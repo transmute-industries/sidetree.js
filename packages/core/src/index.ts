@@ -20,9 +20,11 @@
 import AnchorFile from './write/AnchorFile';
 import BatchScheduler from './write/BatchScheduler';
 import ChunkFile from './write/ChunkFile';
+import Compressor from './util/Compressor';
 import CreateOperation from './CreateOperation';
 import DeactivateOperation from './DeactivateOperation';
 import DownloadManager from './DownloadManager';
+import JsonAsync from './util/JsonAsync';
 import Jwk from './util/Jwk';
 import Jws from './util/Jws';
 import MapFile from './write/MapFile';
@@ -39,9 +41,11 @@ export {
   AnchorFile,
   BatchScheduler,
   ChunkFile,
+  Compressor,
   CreateOperation,
   DeactivateOperation,
   DownloadManager,
+  JsonAsync,
   Jwk,
   Jws,
   MapFile,

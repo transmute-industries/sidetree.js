@@ -19,6 +19,7 @@
 
 import { testSuite } from '@sidetree/cas';
 import S3Cas from './S3Cas';
+import casConfig from './cas-config.json';
 // import AWS object without services
 import AWS from 'aws-sdk/global';
 
@@ -31,6 +32,6 @@ if (!config.credentials) {
   describe = describe.skip;
 }
 
-const cas = new S3Cas('sidetree-cas-s3-test');
+const cas = new S3Cas(casConfig.s3BucketName);
 
 testSuite(cas);

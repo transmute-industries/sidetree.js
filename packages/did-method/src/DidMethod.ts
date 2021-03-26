@@ -103,7 +103,8 @@ export default class DidMethod {
    */
   public async initialize(
     startObserver = true,
-    startBatchWriter = true
+    startBatchWriter = true,
+    startPeriodicCachedBlockchainTimeRefresh = false
   ): Promise<void> {
     await this.transactionStore.initialize();
     await this.unresolvableTransactionStore.initialize();
@@ -126,7 +127,9 @@ export default class DidMethod {
     if (startBatchWriter) {
       this.batchScheduler.startPeriodicBatchWriting();
     }
-    this.startPeriodicCachedBlockchainTimeRefresh();
+    if (startPeriodicCachedBlockchainTimeRefresh) {
+      this.startPeriodicCachedBlockchainTimeRefresh();
+    }
     this.downloadManager.start();
   }
 
