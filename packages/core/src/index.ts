@@ -34,6 +34,7 @@ import OperationGenerator from './test/generators/OperationGenerator';
 import RecoverOperation from './RecoverOperation';
 import Resolver from './Resolver';
 import ServiceInfo from './ServiceInfoProvider';
+import TransactionProcessor from './TransactionProcessor';
 import UpdateOperation from './UpdateOperation';
 import VersionManager from './VersionManager';
 
@@ -55,6 +56,7 @@ export {
   RecoverOperation,
   Resolver,
   ServiceInfo,
+  TransactionProcessor,
   UpdateOperation,
   VersionManager,
 };
