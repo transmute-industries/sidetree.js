@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/did-method.esm.js",
-  "version": "0.2.4-unstable.9",
+  "version": "0.2.4-unstable.10",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -33,8 +33,8 @@
   },
   "dependencies": {
     "@sidetree/common": "^0.2.4-unstable.9",
-    "@sidetree/core": "^0.2.4-unstable.9",
-    "@sidetree/db": "^0.2.4-unstable.9"
+    "@sidetree/core": "^0.2.4-unstable.10",
+    "@sidetree/db": "^0.2.4-unstable.10"
   },
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/did-method",
   "repository": {

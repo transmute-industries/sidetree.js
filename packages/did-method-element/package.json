@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/element.esm.js",
-  "version": "0.2.4-unstable.9",
+  "version": "0.2.4-unstable.10",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -36,12 +36,12 @@
   },
   "dependencies": {
     "@sidetree/cas": "^0.2.4-unstable.9",
-    "@sidetree/cas-ipfs": "^0.2.4-unstable.9",
+    "@sidetree/cas-ipfs": "^0.2.4-unstable.10",
     "@sidetree/common": "^0.2.4-unstable.9",
-    "@sidetree/core": "^0.2.4-unstable.9",
-    "@sidetree/db": "^0.2.4-unstable.9",
-    "@sidetree/did-method": "^0.2.4-unstable.9",
-    "@sidetree/ethereum": "^0.2.4-unstable.9",
+    "@sidetree/core": "^0.2.4-unstable.10",
+    "@sidetree/db": "^0.2.4-unstable.10",
+    "@sidetree/did-method": "^0.2.4-unstable.10",
+    "@sidetree/ethereum": "^0.2.4-unstable.10",
     "web3": "^1.2.9"
   },
   "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d",

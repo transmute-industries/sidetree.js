@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/photon.esm.js",
-  "version": "0.2.4-unstable.9",
+  "version": "0.2.4-unstable.10",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -33,8 +33,8 @@
   "dependencies": {
     "@sidetree/cas-s3": "^0.2.4-unstable.9",
     "@sidetree/common": "^0.2.4-unstable.9",
-    "@sidetree/db": "^0.2.4-unstable.9",
-    "@sidetree/did-method": "^0.2.4-unstable.9",
+    "@sidetree/db": "^0.2.4-unstable.10",
+    "@sidetree/did-method": "^0.2.4-unstable.10",
     "@sidetree/qldb": "^0.2.4-unstable.9",
     "@sidetree/test-vectors": "^0.2.4-unstable.9"
   },
