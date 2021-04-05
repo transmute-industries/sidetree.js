@@ -2,6 +2,7 @@ name: CI
 
 # Run on every push but not on tags
 on:
+  workflow_dispatch:
   push:
     branches:
       - '**'
