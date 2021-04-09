@@ -56,10 +56,12 @@ export default class S3Cas implements ICas {
   }
 
   async initialize(): Promise<void> {
-    const bucketParams = {
-      Bucket: this.bucketName,
-    };
-    await this.s3.createBucket(bucketParams).promise();
+    if (this.s3.config.credentials) {
+      const bucketParams = {
+        Bucket: this.bucketName,
+      };
+      await this.s3.createBucket(bucketParams).promise();
+    }
   }
 
   async close(): Promise<void> {
