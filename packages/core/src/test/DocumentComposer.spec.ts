@@ -64,6 +64,7 @@ describe('DocumentComposer', () => {
         id: 'did:method:suffix',
         '@context': [
           'https://www.w3.org/ns/did/v1',
+          'https://ns.did.ai/transmute/v1',
           { '@base': 'did:method:suffix' },
         ],
         publicKey: [

@@ -4,6 +4,7 @@
     "id": "did:sidetree:EiAdHUPfyqtr9d-NBYwwMHCzryLaTYVAyZl4Hu9GvrupYQ",
     "@context": [
       "https://www.w3.org/ns/did/v1",
+      "https://ns.did.ai/transmute/v1",
       {
         "@base": "did:sidetree:EiAdHUPfyqtr9d-NBYwwMHCzryLaTYVAyZl4Hu9GvrupYQ"
       }

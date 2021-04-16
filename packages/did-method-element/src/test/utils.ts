@@ -82,9 +82,9 @@ const replaceMethod = (
   if (_result.didDocument.publicKey[1]) {
     _result.didDocument.publicKey[1].controller = '';
   }
-  _result.didDocument['@context'][1]['@base'] = _result.didDocument[
+  _result.didDocument['@context'][2]['@base'] = _result.didDocument[
     '@context'
-  ][1]['@base'].replace(specificMethod, defaultMethod);
+  ][2]['@base'].replace(specificMethod, defaultMethod);
   return _result;
 };
 

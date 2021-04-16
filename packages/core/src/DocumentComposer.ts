@@ -115,7 +115,11 @@ export default class DocumentComposer {
 
     const didDocument: any = {
       id: shortFormDid,
-      '@context': ['https://www.w3.org/ns/did/v1', { '@base': shortFormDid }],
+      '@context': [
+        'https://www.w3.org/ns/did/v1',
+        'https://ns.did.ai/transmute/v1',
+        { '@base': shortFormDid },
+      ],
     };
 
     if (public_keys.length !== 0) {
