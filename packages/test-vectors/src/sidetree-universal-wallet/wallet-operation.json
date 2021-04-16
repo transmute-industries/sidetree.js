@@ -25,6 +25,7 @@
         "didDocument": {
           "@context": [
             "https://www.w3.org/ns/did/v1",
+            "https://ns.did.ai/transmute/v1",
             {
               "@base": "did:elem:EiA0qPvCoAuSLJS8l7DJ9CDrkTJlE4lEmub-SjDdNSn86A"
             }
@@ -86,6 +87,7 @@
         "didDocument": {
           "@context": [
             "https://www.w3.org/ns/did/v1",
+            "https://ns.did.ai/transmute/v1",
             {
               "@base": "did:elem:EiAZnR334SViKXLshcAXfPJk2Fl8Ib39ix7y7jq0UkBLxw"
             }
@@ -147,6 +149,7 @@
         "didDocument": {
           "@context": [
             "https://www.w3.org/ns/did/v1",
+            "https://ns.did.ai/transmute/v1",
             {
               "@base": "did:elem:EiBDF2oFb57LVAggfUKvxFByXC_x5kDpIOWNapobets1EA"
             }
@@ -208,6 +211,7 @@
         "didDocument": {
           "@context": [
             "https://www.w3.org/ns/did/v1",
+            "https://ns.did.ai/transmute/v1",
             {
               "@base": "did:elem:EiDAi7lHHHgoAsgdrgaNXIOMsK3GuthHf86vQo56FchtTQ"
             }
@@ -269,6 +273,7 @@
         "didDocument": {
           "@context": [
             "https://www.w3.org/ns/did/v1",
+            "https://ns.did.ai/transmute/v1",
             {
               "@base": "did:elem:EiCnXNjSoxZTKm2OIy-NqcRQ7SWwlARR0s2lfrNdQchu8Q"
             }

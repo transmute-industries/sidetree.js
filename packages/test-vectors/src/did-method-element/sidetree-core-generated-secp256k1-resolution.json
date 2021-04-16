@@ -8,6 +8,7 @@
           "id": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
           "@context": [
             "https://www.w3.org/ns/did/v1",
+            "https://ns.did.ai/transmute/v1",
             {
               "@base": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw"
             }
@@ -59,6 +60,7 @@
           "id": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw",
           "@context": [
             "https://www.w3.org/ns/did/v1",
+            "https://ns.did.ai/transmute/v1",
             {
               "@base": "did:elem:EiAVCy1XtFJc_jFnzfQEf7mDUSFMwF8NOAvAw23Z256rzw"
             }
