@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/cas-ipfs.esm.js",
-  "version": "0.2.5-unstable.0",
+  "version": "0.2.5-unstable.1",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -29,9 +29,9 @@
     "tsdx": "^0.13.3"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.2.5-unstable.0",
-    "@sidetree/common": "^0.2.5-unstable.0",
-    "@sidetree/db": "^0.2.5-unstable.0",
+    "@sidetree/cas": "^0.2.5-unstable.1",
+    "@sidetree/common": "^0.2.5-unstable.1",
+    "@sidetree/db": "^0.2.5-unstable.1",
     "ipfs-http-client": "^49.0.2",
     "it-concat": "^1.0.0"
   },
