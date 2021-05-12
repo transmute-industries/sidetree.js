@@ -27,7 +27,7 @@
   "devDependencies": {
     "@sidetree/ledger": "^0.2.5-unstable.4",
     "aws-sdk": "^2.828.0",
-    "tsdx": "^0.13.3"
+    "tsdx": "^0.14.1"
   },
   "peerDependencies": {
     "aws-sdk": "^2.828.0"

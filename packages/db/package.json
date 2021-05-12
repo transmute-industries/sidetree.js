@@ -30,7 +30,7 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "tsdx": "^0.13.3"
+    "tsdx": "^0.14.1"
   },
   "dependencies": {
     "@sidetree/common": "^0.2.5-unstable.4",
