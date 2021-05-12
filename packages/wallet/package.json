@@ -26,9 +26,9 @@
   },
   "devDependencies": {
     "@sidetree/test-vectors": "^0.2.5-unstable.4",
-    "@transmute/universal-wallet": "^0.4.1",
+    "@transmute/universal-wallet": "^0.6.0",
     "@types/base64url": "^2.0.0",
-    "tsdx": "^0.13.3"
+    "tsdx": "^0.14.1"
   },
   "peerDependencies": {
     "@transmute/universal-wallet": "^0.4.1"
