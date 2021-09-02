@@ -63,6 +63,7 @@ export default class DownloadManager {
   private pendingDownloads: DownloadInfo[] = [];
   private activeDownloads: Map<Buffer, DownloadInfo> = new Map();
   private completedDownloads: Map<Buffer, FetchResult> = new Map();
+  private timeoutsList: NodeJS.Timeout[] = [];
 
   /**
    * Constructs the download manager.
@@ -136,8 +137,17 @@ export default class DownloadManager {
         `Encountered unhandled/unexpected error in DownloadManager, must investigate and fix: ${error}`
       );
     } finally {
-      setTimeout(async () => this.start(), 1000);
+      this.timeoutsList.push(setTimeout(async () => this.start(), 1000));
     }
+  }
+
+  /**
+   * Stop processing the pending downloads
+   */
+  public stop(): void {
+    this.timeoutsList.forEach((timeoutHanler) => {
+      clearTimeout(timeoutHanler);
+    });
   }
 
   /**
