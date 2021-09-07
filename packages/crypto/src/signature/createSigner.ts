@@ -18,17 +18,22 @@ import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
 export const createSigner = async (privateKeyJwk: any): Promise<any> => {
   let key: any;
 
+  const  publicKeyJwk = { ...privateKeyJwk };
+  delete publicKeyJwk.d;
+
   switch (privateKeyJwk.crv) {
     case 'Ed25519': {
       key = await Ed25519KeyPair.from({
-        publicKeyJwk: privateKeyJwk,
+        type:'JsonWebKey2020',
+        publicKeyJwk,
         privateKeyJwk,
       } as any);
       break;
     }
     case 'secp256k1': {
       key = await Secp256k1KeyPair.from({
-        publicKeyJwk: privateKeyJwk,
+        type:'JsonWebKey2020',
+        publicKeyJwk,
         privateKeyJwk,
       } as any);
       break;
@@ -36,7 +41,7 @@ export const createSigner = async (privateKeyJwk: any): Promise<any> => {
   }
 
   if (!key) {
-    throw new Error('Unsupported crv ' + privateKeyJwk.crv);
+    throw new Error('Unsupported crv ' + publicKeyJwk.crv);
   }
 
   const signer = key.signer();

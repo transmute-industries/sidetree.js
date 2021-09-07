@@ -21,12 +21,14 @@ export const createVerifier = async (publicKeyJwk: any): Promise<any> => {
   switch (publicKeyJwk.crv) {
     case 'Ed25519': {
       key = await Ed25519KeyPair.from({
+        type: 'JsonWebKey2020',
         publicKeyJwk: publicKeyJwk,
       } as any);
       break;
     }
     case 'secp256k1': {
       key = await Secp256k1KeyPair.from({
+        type: 'JsonWebKey2020',
         publicKeyJwk: publicKeyJwk,
       } as any);
       break;

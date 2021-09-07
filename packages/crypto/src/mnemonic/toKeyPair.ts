@@ -46,7 +46,7 @@ export const toKeyPair = async (
           return addrNode._privateKey;
         },
       });
-      keypair = keypair.toX25519KeyPair(true);
+      keypair = await Ed25519KeyPair.toX25519KeyPair(keypair);
       break;
     }
     case 'Ed25519':

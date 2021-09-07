@@ -4,14 +4,14 @@
       "mnemonic": "common caught harvest brown under coconut depend vacuum drama clean tail crew",
       "Ed25519": [
         {
-          "id": "#z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa",
+          "id": "did:key:z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa#z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa",
           "type": "Ed25519VerificationKey2018",
           "controller": "did:key:z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa",
           "publicKeyBase58": "SEP3eVT4DJQuAptvP9Ug6BGWZxZt23vdz46Jhwxr4dC",
           "privateKeyBase58": "5sbibiwj1vJWEECn4nCAQpup3W3H7yvSDEwErebA87ww3cbyAGBqtJmwpYTK9dit541Kkm6wYHKVAzBd4rETzvPY"
         },
         {
-          "id": "#z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa",
+          "id": "did:key:z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa#z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa",
           "type": "JsonWebKey2020",
           "controller": "did:key:z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa",
           "publicKeyJwk": {
@@ -29,14 +29,14 @@
       ],
       "X25519": [
         {
-          "id": "#z6LSqw5JuVS2aUfbZCYyZ9GKRgRS6F85LkxoXUnvKudrR8ym",
+          "id": "did:key:z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa#z6LSqw5JuVS2aUfbZCYyZ9GKRgRS6F85LkxoXUnvKudrR8ym",
           "type": "X25519KeyAgreementKey2019",
           "controller": "did:key:z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa",
           "publicKeyBase58": "FFu9PBdAV1wrTpBD2VkN76CxF6axe9neeW5EqSzKhmD1",
           "privateKeyBase58": "7VYsQae4ZV2LtvwzE3FinoGQAwDTsnNk15PT6U5U1nRf"
         },
         {
-          "id": "#z6LSqw5JuVS2aUfbZCYyZ9GKRgRS6F85LkxoXUnvKudrR8ym",
+          "id": "did:key:z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa#z6LSqw5JuVS2aUfbZCYyZ9GKRgRS6F85LkxoXUnvKudrR8ym",
           "type": "JsonWebKey2020",
           "controller": "did:key:z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa",
           "publicKeyJwk": {
@@ -54,14 +54,14 @@
       ],
       "secp256k1": [
         {
-          "id": "#zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN",
+          "id": "did:key:zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN#zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN",
           "type": "EcdsaSecp256k1VerificationKey2019",
           "controller": "did:key:zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN",
           "publicKeyBase58": "gYM499QpLGHN7Koo49Vyu9UUioqMBUvkMwkewggYrBLe",
           "privateKeyBase58": "HQK5DFBWWVfr9iNEdn92cSojVBPu2ub1CXh6o7yqtBpu"
         },
         {
-          "id": "#zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN",
+          "id": "did:key:zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN#zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN",
           "type": "JsonWebKey2020",
           "controller": "did:key:zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN",
           "publicKeyJwk": {
@@ -84,14 +84,14 @@
       "mnemonic": "fish palm fall kick undo fine match welcome early three once unfair",
       "Ed25519": [
         {
-          "id": "#z6MkkkL8AFrxkwkiqCeEkjAboFoQ5zj7XAsz38uH5CQ3LmSL",
+          "id": "did:key:z6MkkkL8AFrxkwkiqCeEkjAboFoQ5zj7XAsz38uH5CQ3LmSL#z6MkkkL8AFrxkwkiqCeEkjAboFoQ5zj7XAsz38uH5CQ3LmSL",
           "type": "Ed25519VerificationKey2018",
           "controller": "did:key:z6MkkkL8AFrxkwkiqCeEkjAboFoQ5zj7XAsz38uH5CQ3LmSL",
           "publicKeyBase58": "7J55a1cXRQGFihoY5ACkxAFQGRTG7HddM7zMEvS2RYex",
           "privateKeyBase58": "2i1cKRzpWcfDSvEBg4omCskc6SsY59pTqgTMMzXM6AqzqBTaUWrJxPmf8WAKxtWMqadysLVNUbYQwybebWNz4sSC"
         },
         {
-          "id": "#z6MkkkL8AFrxkwkiqCeEkjAboFoQ5zj7XAsz38uH5CQ3LmSL",
+          "id": "did:key:z6MkkkL8AFrxkwkiqCeEkjAboFoQ5zj7XAsz38uH5CQ3LmSL#z6MkkkL8AFrxkwkiqCeEkjAboFoQ5zj7XAsz38uH5CQ3LmSL",
           "type": "JsonWebKey2020",
           "controller": "did:key:z6MkkkL8AFrxkwkiqCeEkjAboFoQ5zj7XAsz38uH5CQ3LmSL",
           "publicKeyJwk": {
@@ -109,14 +109,14 @@
       ],
       "X25519": [
         {
-          "id": "#z6LSnpfsdpUW3i28AFBR4Q1xSJGLTi1BKJxW5W37Q6niHdx1",
+          "id": "did:key:z6MkkkL8AFrxkwkiqCeEkjAboFoQ5zj7XAsz38uH5CQ3LmSL#z6LSnpfsdpUW3i28AFBR4Q1xSJGLTi1BKJxW5W37Q6niHdx1",
           "type": "X25519KeyAgreementKey2019",
           "controller": "did:key:z6MkkkL8AFrxkwkiqCeEkjAboFoQ5zj7XAsz38uH5CQ3LmSL",
           "publicKeyBase58": "C9Vi7WfdxFJP4roeXkW17i3rcZU4chnMCXKRue9BaGBF",
           "privateKeyBase58": "HCVvCnwrZjpBGMNL88NPbR5rcWT7fUFEAk2WJpmJbTML"
         },
         {
-          "id": "#z6LSnpfsdpUW3i28AFBR4Q1xSJGLTi1BKJxW5W37Q6niHdx1",
+          "id": "did:key:z6MkkkL8AFrxkwkiqCeEkjAboFoQ5zj7XAsz38uH5CQ3LmSL#z6LSnpfsdpUW3i28AFBR4Q1xSJGLTi1BKJxW5W37Q6niHdx1",
           "type": "JsonWebKey2020",
           "controller": "did:key:z6MkkkL8AFrxkwkiqCeEkjAboFoQ5zj7XAsz38uH5CQ3LmSL",
           "publicKeyJwk": {
@@ -134,14 +134,14 @@
       ],
       "secp256k1": [
         {
-          "id": "#zQ3shv622xNFtxSWJUk9jLHTkUSiCSXuvDEqH5F674jNo2qJV",
+          "id": "did:key:zQ3shv622xNFtxSWJUk9jLHTkUSiCSXuvDEqH5F674jNo2qJV#zQ3shv622xNFtxSWJUk9jLHTkUSiCSXuvDEqH5F674jNo2qJV",
           "type": "EcdsaSecp256k1VerificationKey2019",
           "controller": "did:key:zQ3shv622xNFtxSWJUk9jLHTkUSiCSXuvDEqH5F674jNo2qJV",
           "publicKeyBase58": "2A8s27DnRdoHREeUJxCaherLknmiwvgnk9KLJmPhfpMSm",
           "privateKeyBase58": "6kJM17ywAszfcFrGpM99j17amnRFwvy5Cmpz1omdqhpq"
         },
         {
-          "id": "#zQ3shv622xNFtxSWJUk9jLHTkUSiCSXuvDEqH5F674jNo2qJV",
+          "id": "did:key:zQ3shv622xNFtxSWJUk9jLHTkUSiCSXuvDEqH5F674jNo2qJV#zQ3shv622xNFtxSWJUk9jLHTkUSiCSXuvDEqH5F674jNo2qJV",
           "type": "JsonWebKey2020",
           "controller": "did:key:zQ3shv622xNFtxSWJUk9jLHTkUSiCSXuvDEqH5F674jNo2qJV",
           "publicKeyJwk": {
@@ -164,14 +164,14 @@
       "mnemonic": "mirror melody desk pulp flip hub actress globe robust return infant dress",
       "Ed25519": [
         {
-          "id": "#z6Mks2xFSyLQ2R1tH4cDqygfHYudMGyee5rsUeAd39FkiuUr",
+          "id": "did:key:z6Mks2xFSyLQ2R1tH4cDqygfHYudMGyee5rsUeAd39FkiuUr#z6Mks2xFSyLQ2R1tH4cDqygfHYudMGyee5rsUeAd39FkiuUr",
           "type": "Ed25519VerificationKey2018",
           "controller": "did:key:z6Mks2xFSyLQ2R1tH4cDqygfHYudMGyee5rsUeAd39FkiuUr",
           "publicKeyBase58": "DahCrj5xgsXRAZmXAQipSTMdXhhoECcWndFhCsHjoghU",
           "privateKeyBase58": "54Awqv1swCFapRTQVCRSkFcti76jbbLXhDwXmZqbKjKyQrFcudbchJ5YG2tdAs7QZqm37DvrhbvsvnNBSKAjNhnW"
         },
         {
-          "id": "#z6Mks2xFSyLQ2R1tH4cDqygfHYudMGyee5rsUeAd39FkiuUr",
+          "id": "did:key:z6Mks2xFSyLQ2R1tH4cDqygfHYudMGyee5rsUeAd39FkiuUr#z6Mks2xFSyLQ2R1tH4cDqygfHYudMGyee5rsUeAd39FkiuUr",
           "type": "JsonWebKey2020",
           "controller": "did:key:z6Mks2xFSyLQ2R1tH4cDqygfHYudMGyee5rsUeAd39FkiuUr",
           "publicKeyJwk": {
@@ -189,14 +189,14 @@
       ],
       "X25519": [
         {
-          "id": "#z6LSfKwxVMW3aRhCBMMeeDPu8YXySmAEtPQqCFjBgDGPSRsv",
+          "id": "did:key:z6Mks2xFSyLQ2R1tH4cDqygfHYudMGyee5rsUeAd39FkiuUr#z6LSfKwxVMW3aRhCBMMeeDPu8YXySmAEtPQqCFjBgDGPSRsv",
           "type": "X25519KeyAgreementKey2019",
           "controller": "did:key:z6Mks2xFSyLQ2R1tH4cDqygfHYudMGyee5rsUeAd39FkiuUr",
           "publicKeyBase58": "4emny3hBUxyT5xyt7ZswoxKVbcd8BnEgKH1WBkcrj47A",
           "privateKeyBase58": "26NiEvHpGXnsSWeuDrPkX5WSSYa8r5gpFsf7oaosS6D3"
         },
         {
-          "id": "#z6LSfKwxVMW3aRhCBMMeeDPu8YXySmAEtPQqCFjBgDGPSRsv",
+          "id": "did:key:z6Mks2xFSyLQ2R1tH4cDqygfHYudMGyee5rsUeAd39FkiuUr#z6LSfKwxVMW3aRhCBMMeeDPu8YXySmAEtPQqCFjBgDGPSRsv",
           "type": "JsonWebKey2020",
           "controller": "did:key:z6Mks2xFSyLQ2R1tH4cDqygfHYudMGyee5rsUeAd39FkiuUr",
           "publicKeyJwk": {
@@ -214,14 +214,14 @@
       ],
       "secp256k1": [
         {
-          "id": "#zQ3shf71Z8RVQgpZEcGjWMt7N6x1sPwd2xRnLrkv35PrtBHzE",
+          "id": "did:key:zQ3shf71Z8RVQgpZEcGjWMt7N6x1sPwd2xRnLrkv35PrtBHzE#zQ3shf71Z8RVQgpZEcGjWMt7N6x1sPwd2xRnLrkv35PrtBHzE",
           "type": "EcdsaSecp256k1VerificationKey2019",
           "controller": "did:key:zQ3shf71Z8RVQgpZEcGjWMt7N6x1sPwd2xRnLrkv35PrtBHzE",
           "publicKeyBase58": "u9rYHH1wNBLMNB45yoEKHMeRkBS4fsjovqAEn4Bkxp8W",
           "privateKeyBase58": "Eef9gyddkq4ATxh3zhyYQF5rQNry7Cd6x4rb1k9CpxbC"
         },
         {
-          "id": "#zQ3shf71Z8RVQgpZEcGjWMt7N6x1sPwd2xRnLrkv35PrtBHzE",
+          "id": "did:key:zQ3shf71Z8RVQgpZEcGjWMt7N6x1sPwd2xRnLrkv35PrtBHzE#zQ3shf71Z8RVQgpZEcGjWMt7N6x1sPwd2xRnLrkv35PrtBHzE",
           "type": "JsonWebKey2020",
           "controller": "did:key:zQ3shf71Z8RVQgpZEcGjWMt7N6x1sPwd2xRnLrkv35PrtBHzE",
           "publicKeyJwk": {
@@ -244,14 +244,14 @@
       "mnemonic": "such emerge bargain left need together glory oval add unusual pear abstract",
       "Ed25519": [
         {
-          "id": "#z6MkkHqoyzk18Zj9hqHqAQ5VD6shoD8aEzdW56G47aEgdf14",
+          "id": "did:key:z6MkkHqoyzk18Zj9hqHqAQ5VD6shoD8aEzdW56G47aEgdf14#z6MkkHqoyzk18Zj9hqHqAQ5VD6shoD8aEzdW56G47aEgdf14",
           "type": "Ed25519VerificationKey2018",
           "controller": "did:key:z6MkkHqoyzk18Zj9hqHqAQ5VD6shoD8aEzdW56G47aEgdf14",
           "publicKeyBase58": "6qamPkVZo2EgbLT8Uq7eN1Khydriq7P9P5M8HJGfiSDg",
           "privateKeyBase58": "34zuywFHi7assBWUgA61imJSs3ZBoKqpeejgzZbPDR83uvp8VW1p2Fw67TGNktMVkshu8Hku58SmhZjdrGnpTh4W"
         },
         {
-          "id": "#z6MkkHqoyzk18Zj9hqHqAQ5VD6shoD8aEzdW56G47aEgdf14",
+          "id": "did:key:z6MkkHqoyzk18Zj9hqHqAQ5VD6shoD8aEzdW56G47aEgdf14#z6MkkHqoyzk18Zj9hqHqAQ5VD6shoD8aEzdW56G47aEgdf14",
           "type": "JsonWebKey2020",
           "controller": "did:key:z6MkkHqoyzk18Zj9hqHqAQ5VD6shoD8aEzdW56G47aEgdf14",
           "publicKeyJwk": {
@@ -269,14 +269,14 @@
       ],
       "X25519": [
         {
-          "id": "#z6LSebwx3TcoeKB7vd1fne4rEYjPcs2eXogxeLsyy9hWFGUm",
+          "id": "did:key:z6MkkHqoyzk18Zj9hqHqAQ5VD6shoD8aEzdW56G47aEgdf14#z6LSebwx3TcoeKB7vd1fne4rEYjPcs2eXogxeLsyy9hWFGUm",
           "type": "X25519KeyAgreementKey2019",
           "controller": "did:key:z6MkkHqoyzk18Zj9hqHqAQ5VD6shoD8aEzdW56G47aEgdf14",
           "publicKeyBase58": "3vmnX9owYrTNqEduFzYtuxWumiVXqCWomNAJUh3yXti1",
           "privateKeyBase58": "4HR8WMyyCqJrka8Pt1oqHiv7qgvioUYngqN4th6zzFBF"
         },
         {
-          "id": "#z6LSebwx3TcoeKB7vd1fne4rEYjPcs2eXogxeLsyy9hWFGUm",
+          "id": "did:key:z6MkkHqoyzk18Zj9hqHqAQ5VD6shoD8aEzdW56G47aEgdf14#z6LSebwx3TcoeKB7vd1fne4rEYjPcs2eXogxeLsyy9hWFGUm",
           "type": "JsonWebKey2020",
           "controller": "did:key:z6MkkHqoyzk18Zj9hqHqAQ5VD6shoD8aEzdW56G47aEgdf14",
           "publicKeyJwk": {
@@ -294,14 +294,14 @@
       ],
       "secp256k1": [
         {
-          "id": "#zQ3shbSCbfsXeDkMQ3DjKCepSyX4VKeGc67Ae2mdjzwjo7PfK",
+          "id": "did:key:zQ3shbSCbfsXeDkMQ3DjKCepSyX4VKeGc67Ae2mdjzwjo7PfK#zQ3shbSCbfsXeDkMQ3DjKCepSyX4VKeGc67Ae2mdjzwjo7PfK",
           "type": "EcdsaSecp256k1VerificationKey2019",
           "controller": "did:key:zQ3shbSCbfsXeDkMQ3DjKCepSyX4VKeGc67Ae2mdjzwjo7PfK",
           "publicKeyBase58": "qV3apj4Au78Wo83tpZwQ9vh3ft5doZ876qswhc4ftuob",
           "privateKeyBase58": "7xxA82FWaaMFTF7Ac5eUr5cFnmY2MJLhqzMcRGdpDn54"
         },
         {
-          "id": "#zQ3shbSCbfsXeDkMQ3DjKCepSyX4VKeGc67Ae2mdjzwjo7PfK",
+          "id": "did:key:zQ3shbSCbfsXeDkMQ3DjKCepSyX4VKeGc67Ae2mdjzwjo7PfK#zQ3shbSCbfsXeDkMQ3DjKCepSyX4VKeGc67Ae2mdjzwjo7PfK",
           "type": "JsonWebKey2020",
           "controller": "did:key:zQ3shbSCbfsXeDkMQ3DjKCepSyX4VKeGc67Ae2mdjzwjo7PfK",
           "publicKeyJwk": {
@@ -324,14 +324,14 @@
       "mnemonic": "thing donate sunny bring license phrase utility tumble feed mad inform absorb",
       "Ed25519": [
         {
-          "id": "#z6MkeW53yGjP9fUgZxkqbBjXjAb4183eCcd3vH3Eft82hiZ2",
+          "id": "did:key:z6MkeW53yGjP9fUgZxkqbBjXjAb4183eCcd3vH3Eft82hiZ2#z6MkeW53yGjP9fUgZxkqbBjXjAb4183eCcd3vH3Eft82hiZ2",
           "type": "Ed25519VerificationKey2018",
           "controller": "did:key:z6MkeW53yGjP9fUgZxkqbBjXjAb4183eCcd3vH3Eft82hiZ2",
           "publicKeyBase58": "13p1P2Uwp7zDTTv8ucmgt534BYmnnjNhEG8JqcA1nVme",
           "privateKeyBase58": "4Cxy3cEfx4vH3ScVz3QPzLVDgx5EhUqrMNWFnApYJLbgf9U7vGGxyeiVfRjg42f7ZJEkWhd1MBi1fTuqibW9p7fA"
         },
         {
-          "id": "#z6MkeW53yGjP9fUgZxkqbBjXjAb4183eCcd3vH3Eft82hiZ2",
+          "id": "did:key:z6MkeW53yGjP9fUgZxkqbBjXjAb4183eCcd3vH3Eft82hiZ2#z6MkeW53yGjP9fUgZxkqbBjXjAb4183eCcd3vH3Eft82hiZ2",
           "type": "JsonWebKey2020",
           "controller": "did:key:z6MkeW53yGjP9fUgZxkqbBjXjAb4183eCcd3vH3Eft82hiZ2",
           "publicKeyJwk": {
@@ -349,14 +349,14 @@
       ],
       "X25519": [
         {
-          "id": "#z6LSn8493hvQX5RL541M2Ej99t2Mz7Fu2BDDz5scDEEiDM9E",
+          "id": "did:key:z6MkeW53yGjP9fUgZxkqbBjXjAb4183eCcd3vH3Eft82hiZ2#z6LSn8493hvQX5RL541M2Ej99t2Mz7Fu2BDDz5scDEEiDM9E",
           "type": "X25519KeyAgreementKey2019",
           "controller": "did:key:z6MkeW53yGjP9fUgZxkqbBjXjAb4183eCcd3vH3Eft82hiZ2",
           "publicKeyBase58": "BSsyXQ7YRchayfdaVbDBqHot8xinKa35779vimbBVyNU",
           "privateKeyBase58": "DPyXfFNeCD4tGrmmqf3VtoTFNRGJMwBomWJSf8H2eavK"
         },
         {
-          "id": "#z6LSn8493hvQX5RL541M2Ej99t2Mz7Fu2BDDz5scDEEiDM9E",
+          "id": "did:key:z6MkeW53yGjP9fUgZxkqbBjXjAb4183eCcd3vH3Eft82hiZ2#z6LSn8493hvQX5RL541M2Ej99t2Mz7Fu2BDDz5scDEEiDM9E",
           "type": "JsonWebKey2020",
           "controller": "did:key:z6MkeW53yGjP9fUgZxkqbBjXjAb4183eCcd3vH3Eft82hiZ2",
           "publicKeyJwk": {
@@ -374,14 +374,14 @@
       ],
       "secp256k1": [
         {
-          "id": "#zQ3shNCcNUwmM1VC86UciycJahcFstygo9KQcX6tsDUtw92Mh",
+          "id": "did:key:zQ3shNCcNUwmM1VC86UciycJahcFstygo9KQcX6tsDUtw92Mh#zQ3shNCcNUwmM1VC86UciycJahcFstygo9KQcX6tsDUtw92Mh",
           "type": "EcdsaSecp256k1VerificationKey2019",
           "controller": "did:key:zQ3shNCcNUwmM1VC86UciycJahcFstygo9KQcX6tsDUtw92Mh",
           "publicKeyBase58": "cFTMdoHsgqyErNwJbXRXt1tSFDVprmN5bB94v9DovYVy",
           "privateKeyBase58": "Bo1oMK2BktFiWejwoopZqxbEnowfcuXg3XxqFMHJVmKM"
         },
         {
-          "id": "#zQ3shNCcNUwmM1VC86UciycJahcFstygo9KQcX6tsDUtw92Mh",
+          "id": "did:key:zQ3shNCcNUwmM1VC86UciycJahcFstygo9KQcX6tsDUtw92Mh#zQ3shNCcNUwmM1VC86UciycJahcFstygo9KQcX6tsDUtw92Mh",
           "type": "JsonWebKey2020",
           "controller": "did:key:zQ3shNCcNUwmM1VC86UciycJahcFstygo9KQcX6tsDUtw92Mh",
           "publicKeyJwk": {
