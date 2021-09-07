@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/core.esm.js",
-  "version": "0.2.6-unstable.1",
+  "version": "0.2.6-unstable.2",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -30,18 +30,18 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/test-vectors": "^0.2.6-unstable.1",
+    "@sidetree/test-vectors": "^0.2.6-unstable.2",
     "@types/async-retry": "^1.4.2",
     "@types/hdkey": "^0.7.1",
     "async-retry": "^1.3.1",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.2.6-unstable.1",
-    "@sidetree/common": "^0.2.6-unstable.1",
-    "@sidetree/crypto": "^0.2.6-unstable.1",
-    "@sidetree/db": "^0.2.6-unstable.1",
-    "@sidetree/ledger": "^0.2.6-unstable.1",
+    "@sidetree/cas": "^0.2.6-unstable.2",
+    "@sidetree/common": "^0.2.6-unstable.2",
+    "@sidetree/crypto": "^0.2.6-unstable.2",
+    "@sidetree/db": "^0.2.6-unstable.2",
+    "@sidetree/ledger": "^0.2.6-unstable.2",
     "@transmute/did-key-ed25519": "^0.2.1-unstable.18",
     "@transmute/did-key-secp256k1": "^0.2.1-unstable.11",
     "@trust/keyto": "^1.0.1",
