@@ -18,13 +18,13 @@ import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
 export const createSigner = async (privateKeyJwk: any): Promise<any> => {
   let key: any;
 
-  const  publicKeyJwk = { ...privateKeyJwk };
+  const publicKeyJwk = { ...privateKeyJwk };
   delete publicKeyJwk.d;
 
   switch (privateKeyJwk.crv) {
     case 'Ed25519': {
       key = await Ed25519KeyPair.from({
-        type:'JsonWebKey2020',
+        type: 'JsonWebKey2020',
         publicKeyJwk,
         privateKeyJwk,
       } as any);
@@ -32,7 +32,7 @@ export const createSigner = async (privateKeyJwk: any): Promise<any> => {
     }
     case 'secp256k1': {
       key = await Secp256k1KeyPair.from({
-        type:'JsonWebKey2020',
+        type: 'JsonWebKey2020',
         publicKeyJwk,
         privateKeyJwk,
       } as any);

@@ -34,13 +34,22 @@ it('can generate test fixture', async () => {
     expect(k1).toBeDefined();
     expect(k2).toBeDefined();
 
-    const k0Base58 = await k0.export({ type: 'Ed25519VerificationKey2018', privateKey:true});
-    const k0Jwk = await k0.export({ type: 'JsonWebKey2020', privateKey:true});
-    const k1Base58 = await k1.export({ type: 'X25519KeyAgreementKey2019', privateKey:true});
-    const k1Jwk = await k1.export({ type: 'JsonWebKey2020', privateKey:true});
-    const k2Base58 = await k2.export({ type: 'EcdsaSecp256k1VerificationKey2019', privateKey:true});
-    const k2Jwk = await k2.export({ type: 'JsonWebKey2020', privateKey:true});
-    
+    const k0Base58 = await k0.export({
+      type: 'Ed25519VerificationKey2018',
+      privateKey: true,
+    });
+    const k0Jwk = await k0.export({ type: 'JsonWebKey2020', privateKey: true });
+    const k1Base58 = await k1.export({
+      type: 'X25519KeyAgreementKey2019',
+      privateKey: true,
+    });
+    const k1Jwk = await k1.export({ type: 'JsonWebKey2020', privateKey: true });
+    const k2Base58 = await k2.export({
+      type: 'EcdsaSecp256k1VerificationKey2019',
+      privateKey: true,
+    });
+    const k2Jwk = await k2.export({ type: 'JsonWebKey2020', privateKey: true });
+
     fixture.keypair.push({
       mnemonic: m0,
       Ed25519: [k0Base58, k0Jwk],

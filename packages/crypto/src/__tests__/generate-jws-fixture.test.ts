@@ -31,7 +31,7 @@ it('can generate test fixture', async () => {
     const edDsaJws = await edDsaSigner.sign(message);
     const edDsaVerifier = await createJwsVerifier(kps.Ed25519[1].publicKeyJwk);
     const edDsaJwsVerified = await edDsaVerifier.verify(edDsaJws);
-    
+
     const es256kSigner = await createJwsSigner(kps.secp256k1[1].privateKeyJwk);
     const es256kJws = await es256kSigner.sign(message);
     const es256kVerifier = await createJwsVerifier(
