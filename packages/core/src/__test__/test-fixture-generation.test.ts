@@ -55,4 +55,4 @@ it('write files to disk', async () => {
     FileWriter.write('operation.json', JSON.stringify(operation, null, 2));
     FileWriter.write('filesystem.json', JSON.stringify(filesystem, null, 2));
   }
-})
+});
