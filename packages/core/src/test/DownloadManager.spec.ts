@@ -40,6 +40,7 @@ describe('DownloadManager', () => {
   });
 
   afterAll(() => {
+    downloadManager.stop();
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalDefaultTestTimeout;
   });
 

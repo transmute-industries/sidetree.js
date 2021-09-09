@@ -62,6 +62,8 @@ describe('TransactionProcessor', () => {
     },
   };
 
+  
+
   beforeEach(() => {
     casClient = new MockCas();
     operationStore = new MockOperationStore();
@@ -77,6 +79,10 @@ describe('TransactionProcessor', () => {
       blockchain,
       versionMetadataFetcher
     );
+  });
+
+  afterEach(async () => {
+    downloadManager.stop();
   });
 
   describe('prcoessTransaction', () => {

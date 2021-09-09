@@ -106,6 +106,10 @@ describe('Observer', () => {
     transactionStore = new MockTransactionStore();
   });
 
+  afterAll(() => {
+    downloadManager.stop();
+  })
+
   it('should record transactions processed with expected outcome.', async () => {
     // Prepare the mock response from blockchain service.
     const initialTransactionFetchResponseBody = {
@@ -201,6 +205,7 @@ describe('Observer', () => {
       }
     );
 
+    
     observer.stopPeriodicProcessing(); // Asynchronously stops Observer from processing more transactions after the initial processing cycle.
 
     // throughput limiter applies logic to filter out some transactions
@@ -558,6 +563,8 @@ describe('Observer', () => {
     expect(processedTransactions[1].anchorString).toEqual('2ndTransactionNew');
     expect(processedTransactions[2].anchorString).toEqual('3rdTransactionNew');
     expect(processedTransactions[3].anchorString).toEqual('4thTransaction');
+
+    await observer.stopPeriodicProcessing();
   });
 
   it('should not rollback if blockchain time in bitcoin service is behind core service.', async () => {
@@ -628,7 +635,7 @@ describe('Observer', () => {
     );
     revertInvalidTransactionsSpy.mockReturnValue(Promise.resolve(undefined));
 
-    await observer.startPeriodicProcessing(); // Asynchronously triggers Observer to start processing transactions immediately.
+    observer.startPeriodicProcessing(); // Asynchronously triggers Observer to start processing transactions immediately.
 
     // Monitor the Observer until at two processing cycle has lapsed.
     await retry(
@@ -651,5 +658,7 @@ describe('Observer', () => {
 
     expect(revertInvalidTransactionsSpy).toHaveBeenCalledTimes(0);
     expect(getFirstValidTransactionSpy).toHaveBeenCalledTimes(0);
+
+    observer.stopPeriodicProcessing();
   });
 });
