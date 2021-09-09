@@ -13,7 +13,7 @@
     "install:only": "lerna bootstrap --include-dependencies --scope",
     "lint": "lerna run lint --stream",
     "lint:fix": "lerna run lint:fix --stream",
-    "test": "lerna run test --stream --concurrency 1 -- --detectOpenHandles",
+    "test": "lerna run test --stream --concurrency 1",
     "test:only": "npm t -- --scope",
     "build": "lerna run build --stream",
     "install:ci": "npm install --ignore-scripts && lerna link && lerna bootstrap --since origin/main --include-dependencies",
