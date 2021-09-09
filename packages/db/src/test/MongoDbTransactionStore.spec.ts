@@ -18,7 +18,6 @@
  */
 
 import { ITransactionStore, TransactionModel } from '@sidetree/common';
-import MongoDb from '../MongoDb';
 import { MongoClient } from 'mongodb';
 import MongoDbTransactionStore from '../MongoDbTransactionStore';
 import config from './config-test.json';
@@ -70,19 +69,14 @@ async function generateAndStoreTransactions(
 }
 
 describe('MongoDbTransactionStore', () => {
-  let mongoServiceAvailable: boolean | undefined;
   let transactionStore: MongoDbTransactionStore;
   const collectionName = 'transactions';
   beforeAll(async () => {
-    mongoServiceAvailable = await MongoDb.isServerAvailable(
-      config.mongoDbConnectionString
+    transactionStore = await createTransactionStore(
+      config.mongoDbConnectionString,
+      config.databaseName
     );
-    if (mongoServiceAvailable) {
-      transactionStore = await createTransactionStore(
-        config.mongoDbConnectionString,
-        config.databaseName
-      );
-    }
+    await transactionStore.clearCollection();
   });
 
   beforeEach(async () => {
