@@ -34,7 +34,10 @@ export class KeyGenerator {
     let publicKeyJwk = undefined;
     let privateKeyJwk = undefined;
     const keypair = await toKeyPair(mnemonic, index, type);
-    ({ publicKeyJwk, privateKeyJwk } = await keypair.toJsonWebKeyPair(true));
+    ({ publicKeyJwk, privateKeyJwk } = await keypair.export({
+      type: 'JsonWebKey2020',
+      privateKey: true,
+    }));
     this.counter++;
 
     // TODO: fix this when generating better test vectors.
