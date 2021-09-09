@@ -162,6 +162,10 @@ describe('OperationProcessor', () => {
   let signingPrivateKey: PrivateKeyJwk;
   let didUniqueSuffix: string;
 
+  afterAll(async () => {
+    await operationStore.close();
+  });
+
   beforeEach(async () => {
     operationStore = new MockOperationStore();
     operationProcessor = new OperationProcessor();

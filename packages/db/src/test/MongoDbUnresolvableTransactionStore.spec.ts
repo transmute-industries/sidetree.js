@@ -98,7 +98,11 @@ describe('MongoDbUnresolvableTransactionStore', () => {
       useUnifiedTopology: true,
     });
     const db = client.db(config.databaseName);
-    await db.dropCollection(collectionName);
+    try {
+      await db.dropCollection(collectionName);
+    } catch (e) {
+      //
+    }
 
     console.info(`Verify collections no longer exist.`);
     let collections = await db.collections();

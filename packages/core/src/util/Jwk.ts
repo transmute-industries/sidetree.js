@@ -70,15 +70,14 @@ export default class Jwk {
   ): Promise<[PublicKeyJwkEd25519, PrivateKeyJwkEd25519]> {
     const privateKeyBuffer = await Jwk.getBufferAtIndex(mnemonic, index);
     const keyPair = await Ed25519KeyPair.generate({
-      seed: privateKeyBuffer,
+      secureRandom: () => {
+        return privateKeyBuffer;
+      },
     });
-    const ed25519KeyPair = new Ed25519KeyPair(keyPair);
-    const publicKeyJwk = (await ed25519KeyPair.toJwk(
-      false
-    )) as PublicKeyJwkEd25519;
-    const privateKeyJwk = (await ed25519KeyPair.toJwk(
-      true
-    )) as PrivateKeyJwkEd25519;
+    const { publicKeyJwk, privateKeyJwk } = (await keyPair.export({
+      type: 'JsonWebKey2020',
+      privateKey: true,
+    })) as any;
     return [publicKeyJwk, privateKeyJwk];
   }
 
@@ -172,7 +171,7 @@ export default class Jwk {
   public static getCurve25519PublicKey(
     privateKey: PrivateKeyJwkEd25519
   ): PublicKeyJwkEd25519 {
-    const keyCopy = Object.assign({}, privateKey);
+    const keyCopy: any = Object.assign({}, privateKey);
 
     // Delete the private key portion.
     delete keyCopy.d;

@@ -37,10 +37,19 @@ it('can generate files', async () => {
   filesystem = await generateFiles(operation.operation[0].request);
 });
 
-it('compare and write files to disk', async () => {
+it('compare keys', async () => {
   expect(keypair).toEqual(sidetreeCoreGeneratedEd25519.keypair);
+});
+
+it('compare operations', async () => {
   expect(operation).toEqual(sidetreeCoreGeneratedEd25519.operation);
+});
+
+it('compare filesystem', async () => {
   expect(filesystem).toEqual(sidetreeCoreGeneratedEd25519.filesystem);
+});
+
+it('write files to disk', async () => {
   if (WRITE_FIXTURES_TO_DISK) {
     FileWriter.write(`keypair.json`, JSON.stringify(keypair, null, 2));
     FileWriter.write('operation.json', JSON.stringify(operation, null, 2));

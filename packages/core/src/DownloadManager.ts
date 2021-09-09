@@ -145,8 +145,8 @@ export default class DownloadManager {
    * Stop processing the pending downloads
    */
   public stop(): void {
-    this.timeoutsList.forEach((timeoutHanler) => {
-      clearTimeout(timeoutHanler);
+    this.timeoutsList.forEach((timeoutHandler) => {
+      clearTimeout(timeoutHandler);
     });
   }
 

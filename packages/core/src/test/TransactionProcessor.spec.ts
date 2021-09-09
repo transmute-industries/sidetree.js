@@ -79,6 +79,10 @@ describe('TransactionProcessor', () => {
     );
   });
 
+  afterEach(async () => {
+    downloadManager.stop();
+  });
+
   describe('prcoessTransaction', () => {
     it('should ignore error and return true when AnchoredDataSerializer throws a sidetree error', async () => {
       const anchoredData = 'Bad Format';

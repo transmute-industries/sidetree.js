@@ -24,8 +24,75 @@ import {
   PublicKeyJwk,
   PrivateKeyJwk,
 } from '@sidetree/common';
-import { EdDSA } from '@transmute/did-key-ed25519';
-import { ES256K } from '@transmute/did-key-secp256k1';
+
+import { Secp256k1KeyPair } from '@transmute/secp256k1-key-pair';
+import { Ed25519KeyPair } from '@transmute/ed25519-key-pair';
+import canonicalize from 'canonicalize';
+import { JWS } from '@transmute/jose-ld';
+
+const sign = async (payload: any, privateKeyJwk: any, header: any) => {
+  let signer: any;
+
+  const publicKeyJwk = { ...privateKeyJwk };
+  delete publicKeyJwk.d;
+
+  if (privateKeyJwk.crv === 'secp256k1') {
+    const k = await Secp256k1KeyPair.from({
+      type: 'JsonWebKey2020',
+      publicKeyJwk,
+      privateKeyJwk,
+    } as any);
+    signer = JWS.createSigner(k.signer(), 'ES256K', {
+      detached: false,
+      header,
+    });
+  }
+
+  if (privateKeyJwk.crv === 'Ed25519') {
+    const k = await Ed25519KeyPair.from({
+      type: 'JsonWebKey2020',
+      publicKeyJwk,
+      privateKeyJwk,
+    } as any);
+    signer = JWS.createSigner(k.signer(), 'EdDSA', { detached: false, header });
+  }
+  if (!signer) {
+    throw new Error(
+      'Unable to parse ' + JSON.stringify(privateKeyJwk, null, 2)
+    );
+  }
+
+  const message = Uint8Array.from(Buffer.from(canonicalize(payload)));
+  const signature = await signer.sign({ data: message });
+  return signature;
+};
+
+const verify = async (compactJws: any, publicKeyJwk: any) => {
+  let verifier: any;
+
+  if (publicKeyJwk.crv === 'secp256k1') {
+    const k = await Secp256k1KeyPair.from({
+      type: 'JsonWebKey2020',
+      publicKeyJwk,
+    } as any);
+    verifier = JWS.createVerifier(k.verifier(), 'ES256K', {
+      detached: false,
+    });
+  }
+  if (publicKeyJwk.crv === 'Ed25519') {
+    const k = await Ed25519KeyPair.from({
+      type: 'JsonWebKey2020',
+      publicKeyJwk,
+    } as any);
+    verifier = JWS.createVerifier(k.verifier(), 'EdDSA', { detached: false });
+  }
+  if (!verifier) {
+    throw new Error('Unable to parse ' + JSON.stringify(publicKeyJwk, null, 2));
+  }
+
+  const verified = await verifier.verify({ signature: compactJws });
+  return verified;
+};
 
 /**
  * Class containing reusable JWS operations.
@@ -143,14 +210,8 @@ export default class Jws {
     jwk: PublicKeyJwk
   ): Promise<boolean> {
     try {
-      if (jwk.crv === 'Ed25519') {
-        await EdDSA.verify(compactJws, jwk);
-      } else if (jwk.crv === 'secp256k1') {
-        await ES256K.verify(compactJws, jwk as any);
-      } else {
-        return false;
-      }
-      return true;
+      const result = await verify(compactJws, jwk);
+      return result;
     } catch (error) {
       console.log(
         `Input '${compactJws}' failed signature verification: ${SidetreeError.createFromError(
@@ -185,10 +246,7 @@ export default class Jws {
       ...protectedHeader,
       alg,
     };
-    if (privateKey.crv === 'secp256k1') {
-      return await ES256K.sign(payload, privateKey as any, header);
-    }
-    return await EdDSA.sign(payload, privateKey, header);
+    return await sign(payload, privateKey, header);
   }
 
   /**
