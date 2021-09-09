@@ -62,8 +62,6 @@ describe('TransactionProcessor', () => {
     },
   };
 
-  
-
   beforeEach(() => {
     casClient = new MockCas();
     operationStore = new MockOperationStore();

@@ -108,7 +108,7 @@ describe('Observer', () => {
 
   afterAll(() => {
     downloadManager.stop();
-  })
+  });
 
   it('should record transactions processed with expected outcome.', async () => {
     // Prepare the mock response from blockchain service.
@@ -205,7 +205,6 @@ describe('Observer', () => {
       }
     );
 
-    
     observer.stopPeriodicProcessing(); // Asynchronously stops Observer from processing more transactions after the initial processing cycle.
 
     // throughput limiter applies logic to filter out some transactions
