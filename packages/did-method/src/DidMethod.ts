@@ -172,6 +172,7 @@ export default class DidMethod {
     await this.operationStore.close();
     await this.observer.stopPeriodicProcessing();
     await this.cas.close();
+    this.downloadManager.stop();
     this.batchScheduler.stopPeriodicBatchWriting();
   }
 

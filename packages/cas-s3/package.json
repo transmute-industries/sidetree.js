@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/cas-s3.esm.js",
-  "version": "0.2.6-unstable.1",
+  "version": "0.2.6-unstable.2",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -32,8 +32,8 @@
     "aws-sdk": "^2.823.0"
   },
   "dependencies": {
-    "@sidetree/cas": "^0.2.6-unstable.1",
-    "@sidetree/common": "^0.2.6-unstable.1",
+    "@sidetree/cas": "^0.2.6-unstable.2",
+    "@sidetree/common": "^0.2.6-unstable.2",
     "ipfs-unixfs": "^2.0.3",
     "ipld-dag-pb": "^0.20.0"
   },

@@ -42,7 +42,7 @@ export class KeyGenerator {
       crv: publicKeyJwk.crv,
       x: publicKeyJwk.x,
       kty: publicKeyJwk.kty,
-    };
+    } as any;
     return {
       id: keypairId,
       publicKeyJwk,

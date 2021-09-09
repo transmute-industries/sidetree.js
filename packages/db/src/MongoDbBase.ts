@@ -38,7 +38,11 @@ export default abstract class MongoDbBase {
   }
 
   public async clearCollection(): Promise<void> {
-    await this.collection!.deleteMany({});
+    try {
+      await this.collection!.deleteMany({});
+    } catch (e) {
+      // do nothing.
+    }
   }
 
   public async initialize(): Promise<void> {

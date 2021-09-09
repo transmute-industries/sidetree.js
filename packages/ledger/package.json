@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/ledger.esm.js",
-  "version": "0.2.6-unstable.1",
+  "version": "0.2.6-unstable.2",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -25,11 +25,11 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/test-vectors": "^0.2.6-unstable.1",
+    "@sidetree/test-vectors": "^0.2.6-unstable.2",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@sidetree/common": "^0.2.6-unstable.1"
+    "@sidetree/common": "^0.2.6-unstable.2"
   },
   "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d",
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/ledger",

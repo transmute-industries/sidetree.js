@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/qldb.esm.js",
-  "version": "0.2.6-unstable.1",
+  "version": "0.2.6-unstable.2",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -25,7 +25,7 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/ledger": "^0.2.6-unstable.1",
+    "@sidetree/ledger": "^0.2.6-unstable.2",
     "aws-sdk": "^2.828.0",
     "tsdx": "^0.14.1"
   },
@@ -33,7 +33,7 @@
     "aws-sdk": "^2.828.0"
   },
   "dependencies": {
-    "@sidetree/common": "^0.2.6-unstable.1",
+    "@sidetree/common": "^0.2.6-unstable.2",
     "amazon-qldb-driver-nodejs": "^2.2.0",
     "ion-js": "^4.1.0",
     "jsbi": "^3.1.4",

@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/photon.esm.js",
-  "version": "0.2.6-unstable.1",
+  "version": "0.2.6-unstable.2",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -26,17 +26,17 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/wallet": "^0.2.6-unstable.1",
+    "@sidetree/wallet": "^0.2.6-unstable.2",
     "aws-sdk": "^2.763.0",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@sidetree/cas-s3": "^0.2.6-unstable.1",
-    "@sidetree/common": "^0.2.6-unstable.1",
-    "@sidetree/db": "^0.2.6-unstable.1",
-    "@sidetree/did-method": "^0.2.6-unstable.1",
-    "@sidetree/qldb": "^0.2.6-unstable.1",
-    "@sidetree/test-vectors": "^0.2.6-unstable.1"
+    "@sidetree/cas-s3": "^0.2.6-unstable.2",
+    "@sidetree/common": "^0.2.6-unstable.2",
+    "@sidetree/db": "^0.2.6-unstable.2",
+    "@sidetree/did-method": "^0.2.6-unstable.2",
+    "@sidetree/qldb": "^0.2.6-unstable.2",
+    "@sidetree/test-vectors": "^0.2.6-unstable.2"
   },
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/did-method-photon",
   "repository": {
