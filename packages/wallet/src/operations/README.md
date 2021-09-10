@@ -1,0 +1,3 @@
+For now, we are wrapping ION-SDK...
+
+When we update how operation signatures work to match ION, we will need to generate all new test vectors.

@@ -26,16 +26,16 @@
   },
   "devDependencies": {
     "@sidetree/test-vectors": "^0.2.6-unstable.4",
-    "@transmute/universal-wallet": "^0.6.0",
     "@types/base64url": "^2.0.0",
+    "ts-jest": "^27.0.5",
     "tsdx": "^0.14.1"
   },
-  "peerDependencies": {
-    "@transmute/universal-wallet": "^0.4.1"
-  },
   "dependencies": {
+    "@decentralized-identity/ion-sdk": "^0.5.0",
     "@sidetree/common": "^0.2.6-unstable.4",
     "@sidetree/crypto": "^0.2.6-unstable.4",
+    "@transmute/jose-ld": "^0.7.0-unstable.7",
+    "@transmute/universal-wallet": "^0.6.0",
     "base64url": "^3.0.1",
     "bip39": "^3.0.2",
     "canonicalize": "^1.0.3",
