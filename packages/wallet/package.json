@@ -5,7 +5,7 @@
   },
   "author": "Orie Steele",
   "module": "dist/wallet.esm.js",
-  "version": "0.2.6-unstable.4",
+  "version": "0.2.6-unstable.5",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -25,15 +25,15 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/test-vectors": "^0.2.6-unstable.4",
+    "@sidetree/test-vectors": "^0.2.6-unstable.5",
     "@types/base64url": "^2.0.0",
     "ts-jest": "^27.0.5",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
     "@decentralized-identity/ion-sdk": "^0.5.0",
-    "@sidetree/common": "^0.2.6-unstable.4",
-    "@sidetree/crypto": "^0.2.6-unstable.4",
+    "@sidetree/common": "^0.2.6-unstable.5",
+    "@sidetree/crypto": "^0.2.6-unstable.5",
     "@transmute/ed25519-key-pair": "^0.7.0-unstable.7",
     "@transmute/jose-ld": "^0.7.0-unstable.7",
     "@transmute/secp256k1-key-pair": "^0.7.0-unstable.7",
