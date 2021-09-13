@@ -76,11 +76,14 @@ describe('MongoDbTransactionStore', () => {
       config.mongoDbConnectionString,
       config.databaseName
     );
-    await transactionStore.clearCollection();
   });
 
   beforeEach(async () => {
-    await transactionStore.clearCollection();
+    try {
+      await transactionStore.clearCollection();
+    } catch (e) {
+      //
+    }
   });
 
   afterAll(async () => {
