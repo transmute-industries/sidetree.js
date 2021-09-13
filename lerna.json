@@ -10,6 +10,7 @@
     "packages/did-method",
     "packages/did-method-element",
     "packages/did-method-photon",
+    "packages/did-method-ion",
     "packages/ledger",
     "packages/ledger-ethereum",
     "packages/ledger-qldb",

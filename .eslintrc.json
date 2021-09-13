@@ -19,11 +19,13 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/no-var-requires": "warn",
     "jest/expect-expect": "off"
   },
   "env": {

@@ -75,6 +75,52 @@ export default class Multihash {
   }
 
   /**
+   * Hashes the content using the hashing algorithm specified as a generic (non-multihash) hash.
+   * @param hashAlgorithmInMultihashCode The hashing algorithm to use.
+   * @returns A multihash buffer.
+   */
+  public static hashAsNonMultihashBuffer(
+    content: Buffer,
+    hashAlgorithmInMultihashCode: number
+  ): Buffer {
+    let hash;
+    switch (hashAlgorithmInMultihashCode) {
+      case 18: // SHA256
+        hash = crypto
+          .createHash('sha256')
+          .update(content)
+          .digest();
+        break;
+      case 22: // SHA3-256
+        hash = crypto
+          .createHash('sha3-256')
+          .update(content)
+          .digest();
+        break;
+      default:
+        throw new SidetreeError(ErrorCode.MultihashUnsupportedHashAlgorithm);
+    }
+
+    return hash;
+  }
+
+  public static canonicalizeThenDoubleHashThenEncode(content: object) {
+    const contentBuffer = JsonCanonicalizer.canonicalizeAsBuffer(content);
+
+    // Double hash.
+    const hashAlgorithmInMultihashCode = 18; // Default to SHA256.
+    const intermediateHashBuffer = Multihash.hashAsNonMultihashBuffer(
+      contentBuffer,
+      hashAlgorithmInMultihashCode
+    );
+    const multihashEncodedString = Multihash.hashThenEncode(
+      intermediateHashBuffer,
+      hashAlgorithmInMultihashCode
+    );
+    return multihashEncodedString;
+  }
+
+  /**
    * Hashes the content using the hashing algorithm specified then codes the multihash buffer.
    * @param hashAlgorithmInMultihashCode The hashing algorithm to use.
    */

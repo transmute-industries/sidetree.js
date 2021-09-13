@@ -12,7 +12,7 @@
  */
 
 import crypto from 'crypto';
-import { Multihash } from '@sidetree/common';
+import { Multihash, Encoder } from '@sidetree/common';
 
 const sha256AlgorithmMultihashCode = 18;
 
@@ -29,4 +29,12 @@ export const hashThenEncode = (data: Buffer): string => {
 
 export const canonicalizeThenHashThenEncode = (data: object): string => {
   return Multihash.canonicalizeThenHashThenEncode(data);
+};
+
+export const canonicalizeThenDoubleHashThenEncode = (data: object): string => {
+  return Multihash.canonicalizeThenDoubleHashThenEncode(data);
+};
+
+export const encode = (data: Buffer | string): string => {
+  return Encoder.encode(data);
 };

@@ -13,6 +13,7 @@
 
 export * from './toMnemonic';
 export * from './toKeyPair';
+export * from './sidetreeEncoding';
 
 // svip interop profile
 export * from './toDidDocForProfile';

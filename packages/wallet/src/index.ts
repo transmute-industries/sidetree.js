@@ -12,5 +12,6 @@
  */
 
 import * as methods from './functions';
+import * as operations from './operations';
 import * as pluginFactory from './pluginFactory';
-export { methods, pluginFactory };
+export { methods, pluginFactory, operations };

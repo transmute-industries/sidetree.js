@@ -1,0 +1,29 @@
+{
+  "type": "create",
+  "suffixData": {
+    "deltaHash": "EiC1LGfh47ZBXjFRXELtonJ8pCbg6c9BbtHXAgA25vPSTg",
+    "recoveryCommitment": "EiC3M_2dIVUBou36U9fKTBN6Mz9xA2xxRR1gsHkC0789Sw"
+  },
+  "delta": {
+    "updateCommitment": "EiAOZiRrOJmqZS1j30UXUPGMwWuzriB4FMBMWBT82mm5Cw",
+    "patches": [
+      {
+        "action": "replace",
+        "document": {
+          "publicKeys": [
+            {
+              "id": "signing-key",
+              "type": "EcdsaSecp256k1VerificationKey2019",
+              "publicKeyJwk": {
+                "kty": "EC",
+                "crv": "secp256k1",
+                "x": "qp0Ezzc4YhA196COYKa-RHrCom-0LgFtAf8FqvcntN0",
+                "y": "zWcbbbg9w1m-DNOszvM68TD0_vFBtWyc18S06c8cULU"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
