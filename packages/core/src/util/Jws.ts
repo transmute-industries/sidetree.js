@@ -165,7 +165,6 @@ export default class Jws {
     privateKey: PrivateKeyJwk,
     protectedHeader: any = {}
   ): Promise<string> {
-
     return await sign(protectedHeader, payload, privateKey);
   }
 

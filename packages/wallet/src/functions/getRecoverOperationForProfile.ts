@@ -36,7 +36,6 @@ export const getRecoverOperationForProfile = async (
   const signingKeyPair = currentRecoveryKeyPair;
   const keyAgreementKeyPair = await toKeyPair(mnemonic, index + 1, 'X25519');
 
-
   const deleta_object = {
     update_commitment: canonicalizeThenHashThenEncode(
       nextRecoveryKeyPair.publicKeyJwk
