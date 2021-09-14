@@ -14,8 +14,8 @@
 
 import * as bip39 from 'bip39';
 import hdkey from 'hdkey';
-import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
-import { Secp256k1KeyPair } from '@transmute/did-key-secp256k1';
+import { Ed25519KeyPair } from '@transmute/ed25519-key-pair';
+import { JsonWebKey } from '@transmute/json-web-signature';
 import { SIDETREE_BIP44_COIN_TYPE } from '../constants';
 
 // See https://www.iana.org/assignments/jose/jose.xhtml#web-key-elliptic-curve
@@ -33,7 +33,9 @@ export const toKeyPair = async (
 
   switch (type) {
     case 'secp256k1': {
-      keypair = await Secp256k1KeyPair.generate({
+      keypair = await JsonWebKey.generate({
+        kty: 'EC',
+        crv: type,
         secureRandom: () => {
           return addrNode._privateKey;
         },
@@ -41,17 +43,21 @@ export const toKeyPair = async (
       break;
     }
     case 'X25519': {
-      keypair = await Ed25519KeyPair.generate({
+      keypair = await JsonWebKey.generate({
+        kty: 'OKP',
+        crv: 'Ed25519', // TODO: change this to 'X25519' based on SRI recommendations for did core.
         secureRandom: () => {
           return addrNode._privateKey;
         },
       });
-      keypair = await Ed25519KeyPair.toX25519KeyPair(keypair);
+      keypair = await Ed25519KeyPair.toX25519KeyPair(keypair as any);
       break;
     }
     case 'Ed25519':
     default: {
-      keypair = await Ed25519KeyPair.generate({
+      keypair = await JsonWebKey.generate({
+        kty: 'OKP',
+        crv: type,
         secureRandom: () => {
           return addrNode._privateKey;
         },
