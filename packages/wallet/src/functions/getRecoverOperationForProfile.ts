@@ -13,7 +13,7 @@
 
 import canonicalize from 'canonicalize';
 import base64url from 'base64url';
-import { createJwsSigner } from '@sidetree/crypto';
+import { sign } from '@sidetree/crypto';
 import { canonicalizeThenHashThenEncode } from './sidetreeEncoding';
 import { toKeyPair } from './toKeyPair';
 import { PublicKeyPurpose } from '@sidetree/common';
@@ -35,8 +35,6 @@ export const getRecoverOperationForProfile = async (
 
   const signingKeyPair = currentRecoveryKeyPair;
   const keyAgreementKeyPair = await toKeyPair(mnemonic, index + 1, 'X25519');
-
-  const signer = await createJwsSigner(currentRecoveryKeyPair.privateKeyJwk);
 
   const deleta_object = {
     update_commitment: canonicalizeThenHashThenEncode(
@@ -84,7 +82,11 @@ export const getRecoverOperationForProfile = async (
     ),
   };
 
-  const jws = await signer.sign(jws_payload as any);
+  const jws = await sign(
+    {},
+    jws_payload as any,
+    currentRecoveryKeyPair.privateKeyJwk
+  );
 
   const encoded_delta = base64url.encode(canonicalize(deleta_object));
   const recoverOperation: SidetreeRecoverOperation = {

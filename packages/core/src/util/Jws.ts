@@ -25,74 +25,7 @@ import {
   PrivateKeyJwk,
 } from '@sidetree/common';
 
-import { Secp256k1KeyPair } from '@transmute/secp256k1-key-pair';
-import { Ed25519KeyPair } from '@transmute/ed25519-key-pair';
-import canonicalize from 'canonicalize';
-import { JWS } from '@transmute/jose-ld';
-
-const sign = async (payload: any, privateKeyJwk: any, header: any) => {
-  let signer: any;
-
-  const publicKeyJwk = { ...privateKeyJwk };
-  delete publicKeyJwk.d;
-
-  if (privateKeyJwk.crv === 'secp256k1') {
-    const k = await Secp256k1KeyPair.from({
-      type: 'JsonWebKey2020',
-      publicKeyJwk,
-      privateKeyJwk,
-    } as any);
-    signer = JWS.createSigner(k.signer(), 'ES256K', {
-      detached: false,
-      header,
-    });
-  }
-
-  if (privateKeyJwk.crv === 'Ed25519') {
-    const k = await Ed25519KeyPair.from({
-      type: 'JsonWebKey2020',
-      publicKeyJwk,
-      privateKeyJwk,
-    } as any);
-    signer = JWS.createSigner(k.signer(), 'EdDSA', { detached: false, header });
-  }
-  if (!signer) {
-    throw new Error(
-      'Unable to parse ' + JSON.stringify(privateKeyJwk, null, 2)
-    );
-  }
-
-  const message = Uint8Array.from(Buffer.from(canonicalize(payload)));
-  const signature = await signer.sign({ data: message });
-  return signature;
-};
-
-const verify = async (compactJws: any, publicKeyJwk: any) => {
-  let verifier: any;
-
-  if (publicKeyJwk.crv === 'secp256k1') {
-    const k = await Secp256k1KeyPair.from({
-      type: 'JsonWebKey2020',
-      publicKeyJwk,
-    } as any);
-    verifier = JWS.createVerifier(k.verifier(), 'ES256K', {
-      detached: false,
-    });
-  }
-  if (publicKeyJwk.crv === 'Ed25519') {
-    const k = await Ed25519KeyPair.from({
-      type: 'JsonWebKey2020',
-      publicKeyJwk,
-    } as any);
-    verifier = JWS.createVerifier(k.verifier(), 'EdDSA', { detached: false });
-  }
-  if (!verifier) {
-    throw new Error('Unable to parse ' + JSON.stringify(publicKeyJwk, null, 2));
-  }
-
-  const verified = await verifier.verify({ signature: compactJws });
-  return verified;
-};
+import { sign, verify } from '@sidetree/crypto';
 
 /**
  * Class containing reusable JWS operations.
@@ -230,23 +163,9 @@ export default class Jws {
   public static async signAsCompactJws(
     payload: object,
     privateKey: PrivateKeyJwk,
-    protectedHeader?: any
+    protectedHeader: any = {}
   ): Promise<string> {
-    let alg;
-    if (protectedHeader && protectedHeader.alg) {
-      alg = protectedHeader.alg;
-    } else {
-      if (privateKey.crv === 'Ed25519') {
-        alg = 'EdDSA';
-      } else {
-        alg = 'ES256K';
-      }
-    }
-    const header = {
-      ...protectedHeader,
-      alg,
-    };
-    return await sign(payload, privateKey, header);
+    return await sign(protectedHeader, payload, privateKey);
   }
 
   /**

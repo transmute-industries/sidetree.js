@@ -3,7 +3,7 @@ import { ISigner } from '@decentralized-identity/ion-sdk';
 import { OperationKeyType } from './types';
 import InputValidator from './InputValidator';
 
-import { sign } from './JWS';
+import { sign } from '@sidetree/crypto';
 
 type PrivateKeyJwk = any;
 

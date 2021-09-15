@@ -17,8 +17,3 @@
 // '1' === Test Net (all coins)
 
 export const SIDETREE_BIP44_COIN_TYPE = '1';
-
-export const crvToJwsAlg: any = {
-  secp256k1: 'ES256K',
-  Ed25519: 'EdDSA',
-};
