@@ -1,6 +1,6 @@
 {
   "name": "@sidetree/did-method-ion",
-  "version": "0.2.6-unstable.5",
+  "version": "0.2.6-unstable.6",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "jest": "^27.1.0"
   },
   "dependencies": {
-    "@sidetree/wallet": "^0.2.6-unstable.5",
+    "@sidetree/wallet": "^0.2.6-unstable.6",
     "@transmute/universal-wallet": "^0.7.0-unstable.7"
   }
 }
