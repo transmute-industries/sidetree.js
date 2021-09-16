@@ -14,20 +14,50 @@
 
 import * as Factory from 'factory.ts';
 
+import { Mnemonic, KeyPair } from './types';
+
 import {
   toMnemonic,
   toKeyPair,
+  createLongFormDid,
+  computeDidUniqueSuffix,
+  LocalSigner,
   operations,
 } from './operations';
 
-import { SidetreePlugin } from './types';
+import { SidetreeDocumentModel, Jwk } from './operations/types';
+
+interface SidetreePlugin {
+  toMnemonic: (mnemonic?: string) => Promise<Mnemonic>;
+  toKeyPair: (
+    mnemonic: string,
+    index: number,
+    type?: string
+  ) => Promise<KeyPair>;
+  operations: any;
+  createLongFormDid: (input: {
+    method: string;
+    network: string;
+    document: SidetreeDocumentModel;
+    updateKey: Jwk;
+    recoveryKey: Jwk;
+  }) => string;
+  computeDidUniqueSuffix: any;
+  LocalSigner: any;
+}
 
 const factoryDefaults = {
   toMnemonic,
   toKeyPair,
-  operations
+  operations,
+
+  createLongFormDid,
+  computeDidUniqueSuffix,
+  LocalSigner,
 };
 
-const SidetreeWalletPlugin = Factory.Sync.makeFactory<SidetreePlugin>(factoryDefaults);
+const SidetreeWalletPlugin = Factory.Sync.makeFactory<SidetreePlugin>(
+  factoryDefaults
+);
 
 export { SidetreePlugin, factoryDefaults, SidetreeWalletPlugin };

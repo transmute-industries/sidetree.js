@@ -13,7 +13,6 @@ export const operations = {
 export * from './createLongFormDid';
 export * from './computeDidUniqueSuffix';
 export * from './LocalSigner';
-
 export * from './toMnemonic';
 export * from './toKeyPair';
 

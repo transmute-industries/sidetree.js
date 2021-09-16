@@ -13,7 +13,9 @@
 
 import { WalletContentWithMeta } from './WalletContentWithMeta';
 
+import { Jwk } from '../operations/types';
+
 export interface KeyPair extends WalletContentWithMeta {
-  publicKeyBase58: string;
-  privateKeyBase58: string;
+  publicKeyJwk: Jwk;
+  privateKeyJwk: Jwk;
 }

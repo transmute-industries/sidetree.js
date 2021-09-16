@@ -13,17 +13,6 @@
 
 import { Wallet } from '@transmute/universal-wallet';
 
-import { Mnemonic } from './Mnemonic';
-import { KeyPair } from './KeyPair';
 
-export interface SidetreePlugin {
-  toMnemonic: (mnemonic?: string) => Promise<Mnemonic>;
-  toKeyPair: (
-    mnemonic: string,
-    index: number,
-    type?: string
-  ) => Promise<KeyPair>;
-  operations: any;
-}
 
 export interface SidetreeWallet extends Wallet, SidetreePlugin {}
