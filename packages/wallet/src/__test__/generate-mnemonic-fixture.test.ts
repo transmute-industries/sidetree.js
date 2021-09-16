@@ -14,9 +14,9 @@
 import { crypto } from '@sidetree/test-vectors';
 
 import { writeFixture } from '../test/util';
-import { toMnemonic } from '../functions/toMnemonic';
+import { toMnemonic } from '..';
 
-import { walletMnemonic } from '../__fixtures__';
+import { wallet } from '@sidetree/test-vectors';
 
 const WRITE_FIXTURE_TO_DISK = false;
 
@@ -34,9 +34,9 @@ it('can generate test fixture', async () => {
     });
   }
 
-  expect(fixture).toEqual(walletMnemonic);
+  expect(fixture.mnemonic).toEqual(wallet.mnemonic);
 
   if (WRITE_FIXTURE_TO_DISK) {
-    writeFixture('wallet-mnemonic.json', fixture);
+    writeFixture('v1-mnemonic.json', fixture);
   }
 });

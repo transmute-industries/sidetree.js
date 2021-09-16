@@ -1,0 +1,724 @@
+{
+  "operations": [
+    {
+      "mnemonic": "common caught harvest brown under coconut depend vacuum drama clean tail crew",
+      "didUniqueSuffix": "EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA",
+      "op0": {
+        "type": "create",
+        "suffixData": {
+          "deltaHash": "EiDJ11FPryF_VQtj1XzbDMpB6IWGAQpkoG7XVSef_9Qafg",
+          "recoveryCommitment": "EiBxTTdM630RHKVT6ZqS6mwipgnm9cEd11tRdF1cCV8rmg"
+        },
+        "delta": {
+          "updateCommitment": "EiBMAjSA_AJasp6C2g0m4qyTEg5IRUAWRlWQ3vU_XjC1hQ",
+          "patches": [
+            {
+              "action": "replace",
+              "document": {
+                "publicKeys": [
+                  {
+                    "id": "zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN",
+                    "type": "JsonWebKey2020",
+                    "publicKeyJwk": {
+                      "kty": "EC",
+                      "crv": "secp256k1",
+                      "x": "S394cutAwIcDsfPbD9lNRMhLFVYB4ouTTxpgmnjtX5M",
+                      "y": "GMlRberOzJr5PPGSynFu6MiHxTitI4Ghf9QKqL8fCOQ"
+                    },
+                    "purposes": [
+                      "authentication",
+                      "assertionMethod",
+                      "keyAgreement"
+                    ]
+                  }
+                ],
+                "services": [
+                  {
+                    "id": "example-service",
+                    "type": "ExampleService",
+                    "serviceEndpoint": "https://example.com"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "op1": {
+        "type": "update",
+        "didSuffix": "EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA",
+        "revealValue": "EiCJR55Bk1M-o0QwFmKlawagyblgyaL-UGLClwtE7W93pQ",
+        "delta": {
+          "patches": [
+            {
+              "action": "add-services",
+              "services": [
+                {
+                  "id": "example-service-2",
+                  "type": "ExampleService",
+                  "serviceEndpoint": "https://2.example.com"
+                }
+              ]
+            },
+            {
+              "action": "remove-services",
+              "ids": [
+                "example-service"
+              ]
+            },
+            {
+              "action": "add-public-keys",
+              "publicKeys": [
+                {
+                  "id": "zQ3shoFdoVMbM51pQQyBM8nK9mCgpqupq6qpSPcvA7UhRz4tA",
+                  "type": "JsonWebKey2020",
+                  "publicKeyJwk": {
+                    "kty": "EC",
+                    "crv": "secp256k1",
+                    "x": "f_eCE3VLuqVIIoquNDpqvDlsZuWd-O1ktfQzACw1vys",
+                    "y": "lKAxcnCEsK2_TsvUYe2fZs79u59lnKN5au1MY3ZJIss"
+                  },
+                  "purposes": [
+                    "authentication",
+                    "assertionMethod",
+                    "keyAgreement"
+                  ]
+                }
+              ]
+            },
+            {
+              "action": "remove-public-keys",
+              "ids": [
+                "zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN"
+              ]
+            }
+          ],
+          "updateCommitment": "EiDkxKT87OuPUbB3BXWZLyq1-0gaPSkZ7jqCoWa34w1EhA"
+        },
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJ1cGRhdGVLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiSkJYSWlaekx2RnVBWG85M1drcDQ3cXByanU5LTRoR2gxcXdNcW9pUXFwMCIsInkiOiI0dzBTMjJUa25NZUFHXy1LUVhhYkZfNzFCQ0VlRkJxZkZLODFMaG5IVE9FIn0sImRlbHRhSGFzaCI6IkVpREt5dFZPQWN2SlBRaFhwUXREMk5rdnhNS0RpN1hjTEdmdzgxVUl2ajdmb2cifQ.eIjGJ-b2zEYBcxin9OakoPzV6L--FTG9Un3MMSrv4-wLabhehTm-EmYO4iGnW0gPy4ei5kErdZstb0-nvMqLNg"
+      },
+      "op2": {
+        "type": "recover",
+        "didSuffix": "EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA",
+        "revealValue": "EiBh1BSJicGll1LCL0ntJRpoNTepZpYU9Q3gGFo8sogrXA",
+        "delta": {
+          "patches": [
+            {
+              "action": "replace",
+              "document": {
+                "publicKeys": [
+                  {
+                    "id": "zQ3shgsfFviVh2hDYPMNot8QsfsrTXnGEkoCesddENjJrsu8U",
+                    "type": "JsonWebKey2020",
+                    "publicKeyJwk": {
+                      "kty": "EC",
+                      "crv": "secp256k1",
+                      "x": "ITBBPZ6B1Xz5b5TwrWUCv3qRtZzJYu4GvAl6Fe5U4IE",
+                      "y": "XmmOM9tyego93rkf2md5-z6Pny9mTbrgCK5bCe3vQGU"
+                    },
+                    "purposes": [
+                      "authentication",
+                      "assertionMethod",
+                      "keyAgreement"
+                    ]
+                  }
+                ],
+                "services": [
+                  {
+                    "id": "example-service-3",
+                    "type": "ExampleService",
+                    "serviceEndpoint": "https://3.example.com"
+                  }
+                ]
+              }
+            }
+          ],
+          "updateCommitment": "EiAbYB6IxVJLAFHutsRvbXCSuoKMp7kOqsDLahruLRf5Fw"
+        },
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJyZWNvdmVyeUNvbW1pdG1lbnQiOiJFaUNnbUJTdlg4aHlOdzZDYWZia19IQmQwM0FmdWZVcFE3aVU1dHV3MlNRWUxBIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiOW1DV3ZQY3FwZnlIem5SVkRYRDZPMU5NeFNxUnFFcE45aklrdnkyekdKNCIsInkiOiJvWGtKdVJ1OThmMTA5ZjlpRlFIb1RnMk5CZ295cml6eEdhWWhqSGowOUhFIn0sImRlbHRhSGFzaCI6IkVpRE9wNkRVMGoyQnI0cjhUcDE4ZkZyTDVOVWJUQ1RER1hudzI5QzhuQVBVU0EifQ.YeAnjJvjHKZ42pk71b6NlXnuoJFKl3m-LgNS9UXcljMRzbTJmO-pcg3FIWPwACtNDqOVb_X1crcrw610rZ79ow"
+      },
+      "op3": {
+        "type": "deactivate",
+        "didSuffix": "EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA",
+        "revealValue": "EiD2nyPzWJGuJMiWLw3lNDnpLC3Ga7Wqhh3LDG6iQkX_EA",
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJkaWRTdWZmaXgiOiJFaUQzNTF5WTBYcW5iQ0pOMk1hWlNRSk1nRy1icW1nRk1EUkdLYXdmdTZfbVpBIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4Ijoib3ZjTUtBN2c1MzFuUFd1SVJGaWRSbmh1N2JmSktXalNGOHFZRXlMZVhxTSIsInkiOiJHSVFQdGwydjAxUDl1VWx6ODVia3VvWl85ZHFKLW9UbGZPOTB6QWFULVEwIn19._mbGgfFgAVpDUhRcEOAzFB30xd8kKNPs1A8Yh6UT06EZDGxT2t1lddYW6DG9OTR5J2PQO4J1Kwn81qm0MU47TQ"
+      }
+    },
+    {
+      "mnemonic": "fish palm fall kick undo fine match welcome early three once unfair",
+      "didUniqueSuffix": "EiCY02YLSdPmBQgp14tMkU8LNxw4a5dmpWlp6_duGhT4YQ",
+      "op0": {
+        "type": "create",
+        "suffixData": {
+          "deltaHash": "EiBm7gAx9hAyRdEm2E60HSRlP-mmXxuitKct1SrXaqgZHQ",
+          "recoveryCommitment": "EiC_yUuuMcpXfzmc5tgM6BzXgiDbGO9owL-PHWLrRjA1jQ"
+        },
+        "delta": {
+          "updateCommitment": "EiDTCPu5ivkAMi9LItAnQYY9cKOQ0tPosKcSQaibclflaQ",
+          "patches": [
+            {
+              "action": "replace",
+              "document": {
+                "publicKeys": [
+                  {
+                    "id": "zQ3shv622xNFtxSWJUk9jLHTkUSiCSXuvDEqH5F674jNo2qJV",
+                    "type": "JsonWebKey2020",
+                    "publicKeyJwk": {
+                      "kty": "EC",
+                      "crv": "secp256k1",
+                      "x": "5YKlgLMsR-gn6MTlZqzFD26pK_wV25LIg-IB2HjJOd4",
+                      "y": "rk10M9vfdzBDm2RP7YzK647ZpfFHvSakrBMqRzfO740"
+                    },
+                    "purposes": [
+                      "authentication",
+                      "assertionMethod",
+                      "keyAgreement"
+                    ]
+                  }
+                ],
+                "services": [
+                  {
+                    "id": "example-service",
+                    "type": "ExampleService",
+                    "serviceEndpoint": "https://example.com"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "op1": {
+        "type": "update",
+        "didSuffix": "EiCY02YLSdPmBQgp14tMkU8LNxw4a5dmpWlp6_duGhT4YQ",
+        "revealValue": "EiAKP8GHKhic9Pqbpv66r-zTfVGEIOlrK7mxazpKZjiPAw",
+        "delta": {
+          "patches": [
+            {
+              "action": "add-services",
+              "services": [
+                {
+                  "id": "example-service-2",
+                  "type": "ExampleService",
+                  "serviceEndpoint": "https://2.example.com"
+                }
+              ]
+            },
+            {
+              "action": "remove-services",
+              "ids": [
+                "example-service"
+              ]
+            },
+            {
+              "action": "add-public-keys",
+              "publicKeys": [
+                {
+                  "id": "zQ3shRPb59Yx9PWN5BPavzyL2cNGSQwPGhSxZ72WuuKvpyGpj",
+                  "type": "JsonWebKey2020",
+                  "publicKeyJwk": {
+                    "kty": "EC",
+                    "crv": "secp256k1",
+                    "x": "Ox_0kgXEn5hQfeXHbQXARKB3ImUdbucy9D7bWFlmdTw",
+                    "y": "M1GTpB0Ii8FCTPsRkUyHKSOtB37SApv05NMA2JlbgRw"
+                  },
+                  "purposes": [
+                    "authentication",
+                    "assertionMethod",
+                    "keyAgreement"
+                  ]
+                }
+              ]
+            },
+            {
+              "action": "remove-public-keys",
+              "ids": [
+                "zQ3shv622xNFtxSWJUk9jLHTkUSiCSXuvDEqH5F674jNo2qJV"
+              ]
+            }
+          ],
+          "updateCommitment": "EiCLroTTl3cfedDxWk3ImehsnTQavqZRD9h5gVCJ70ywRQ"
+        },
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJ1cGRhdGVLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoieE1JMHZFSnVwYnVTb3VaRlFKRDdGUDViZ2JvRmd1TlVDWWdfZnZaNjVqcyIsInkiOiJiTWdBeXIxcWZkODZDUkZITlR3YUIxaEJMVC0xYVNYRFJpOWZtblB2dVVnIn0sImRlbHRhSGFzaCI6IkVpQ3ZWMVd3aGdhVGgxTHVxckdUTVY5dVZDNG96SExKenpQR29TNXdyZExtZWcifQ.TjOFNI-_neHZBJ8IhCcWx1_D9VgAkbIXMmcGQqOh815xgvJExbFKR6V6Dr3PzLCgT-9xlxV62tNs5boEdHrECg"
+      },
+      "op2": {
+        "type": "recover",
+        "didSuffix": "EiCY02YLSdPmBQgp14tMkU8LNxw4a5dmpWlp6_duGhT4YQ",
+        "revealValue": "EiCeVpQZQ_Ai6Xo72ODmuyd-HHo1gY0Uz_A5bvlX4DM-xQ",
+        "delta": {
+          "patches": [
+            {
+              "action": "replace",
+              "document": {
+                "publicKeys": [
+                  {
+                    "id": "zQ3shPnADkHi2M9wsLRryQiQjHsjCjsTXR5C2dZM2xKXChnbD",
+                    "type": "JsonWebKey2020",
+                    "publicKeyJwk": {
+                      "kty": "EC",
+                      "crv": "secp256k1",
+                      "x": "IzDXFFSTegP4Yh-3A8aqplkI2tkwoAgeznTd2QpasMQ",
+                      "y": "cIWmwb81ceqa4vYKo-KgwjfOBoV5rgg2NKiuUZPVyTQ"
+                    },
+                    "purposes": [
+                      "authentication",
+                      "assertionMethod",
+                      "keyAgreement"
+                    ]
+                  }
+                ],
+                "services": [
+                  {
+                    "id": "example-service-3",
+                    "type": "ExampleService",
+                    "serviceEndpoint": "https://3.example.com"
+                  }
+                ]
+              }
+            }
+          ],
+          "updateCommitment": "EiCgNxiLKem8hDhW2SU14ImgvMgdJnxWtzaYTxvNiF7csw"
+        },
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJyZWNvdmVyeUNvbW1pdG1lbnQiOiJFaURmZGVFRGNPcUJidDBlQ1ZlRWlNV3VFc3hRTnpQXzVxeG5fRlJUbTVWUEV3IiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiSF8ycG5UXzdTWk5RTFA1MkNxSnNqRVEwTHRZVzY3VklXUVk0MTRzb3dDbyIsInkiOiJxay1CNk5fVE9PaXNJWjkwdEUyVnUxaTh4Z0hwQWY2blFPUDlKRWRCaVM0In0sImRlbHRhSGFzaCI6IkVpQ2N5NklPSmI3cHhXTFhxM1RIR1E1dG5pUmFUMUlpQUNyQTRiTnR1U1ZKQ2cifQ.ZHCQde5JqszYZLQSr1sfpN0v66n_lxHDSkExEk5jlbUm4mKUhBt_kgddB-LekCEbs8Ut1PuebxPcyZyoJB-E6Q"
+      },
+      "op3": {
+        "type": "deactivate",
+        "didSuffix": "EiCY02YLSdPmBQgp14tMkU8LNxw4a5dmpWlp6_duGhT4YQ",
+        "revealValue": "EiCjeOaFxUjk6yG9C3FOzT1zWPf_3fOBRZ8rZ442KLrWXA",
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJkaWRTdWZmaXgiOiJFaUNZMDJZTFNkUG1CUWdwMTR0TWtVOExOeHc0YTVkbXBXbHA2X2R1R2hUNFlRIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiX1lBRWpSYThhd1A2Wmw2VlJVcHJMYllkNWRhRWNrYVlnYUItSXQyNzZiWSIsInkiOiJfNGlET1ZWaVRnT0REbHFJU1RrOE55QmdkYzh0QzJ4UTVvMHdMMElwZXlRIn19.c36c-rfbP4ZNtrhPYNSLsG9k5qdcOsjwkRz7v7Hv-8916s-LZNLcPuV9hvc7VsdPmNtZkca9tnX622J96JmInA"
+      }
+    },
+    {
+      "mnemonic": "mirror melody desk pulp flip hub actress globe robust return infant dress",
+      "didUniqueSuffix": "EiBdSX7Wktxk5ntG4iPsevFH_zHk9YlVVdw3_H9ZBrSj8Q",
+      "op0": {
+        "type": "create",
+        "suffixData": {
+          "deltaHash": "EiAHugdOtZcYT0DB4wE5WTls9T_xRbeblZcR83yciyl2hA",
+          "recoveryCommitment": "EiDp8KFMFhw6mkA4BxjB3vWW8KMXwQawjovGBdp-wr4Zow"
+        },
+        "delta": {
+          "updateCommitment": "EiDQELwHKt6iB-SBRaLrw2A_FYpF2pI0tZXQFqAYUW1rOg",
+          "patches": [
+            {
+              "action": "replace",
+              "document": {
+                "publicKeys": [
+                  {
+                    "id": "zQ3shf71Z8RVQgpZEcGjWMt7N6x1sPwd2xRnLrkv35PrtBHzE",
+                    "type": "JsonWebKey2020",
+                    "publicKeyJwk": {
+                      "kty": "EC",
+                      "crv": "secp256k1",
+                      "x": "BuRhhMACSIY_h0ilFxpEeIsPi2-yBWFYdEYU6_aV3hc",
+                      "y": "Xafrs7IXzXMoqCbNck7iSWPUIUOh3pOT5_820VrNE28"
+                    },
+                    "purposes": [
+                      "authentication",
+                      "assertionMethod",
+                      "keyAgreement"
+                    ]
+                  }
+                ],
+                "services": [
+                  {
+                    "id": "example-service",
+                    "type": "ExampleService",
+                    "serviceEndpoint": "https://example.com"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "op1": {
+        "type": "update",
+        "didSuffix": "EiBdSX7Wktxk5ntG4iPsevFH_zHk9YlVVdw3_H9ZBrSj8Q",
+        "revealValue": "EiAqytnYYvKjUnZTvnuaay0PiEvEkzlbtVY6pGYnacMTaQ",
+        "delta": {
+          "patches": [
+            {
+              "action": "add-services",
+              "services": [
+                {
+                  "id": "example-service-2",
+                  "type": "ExampleService",
+                  "serviceEndpoint": "https://2.example.com"
+                }
+              ]
+            },
+            {
+              "action": "remove-services",
+              "ids": [
+                "example-service"
+              ]
+            },
+            {
+              "action": "add-public-keys",
+              "publicKeys": [
+                {
+                  "id": "zQ3shRhCN4tqbvsJxMtKE5hhfEzn5JTgqiAwzRGW8q2i7EBHa",
+                  "type": "JsonWebKey2020",
+                  "publicKeyJwk": {
+                    "kty": "EC",
+                    "crv": "secp256k1",
+                    "x": "P6K7y_zBep1gNsybHcpoCGgYUJuD-_Cu50-i1j7io3E",
+                    "y": "9d1l5G4BDHLQttzAvtVyeeHT2OhEIWbH9eiwM2NIcMg"
+                  },
+                  "purposes": [
+                    "authentication",
+                    "assertionMethod",
+                    "keyAgreement"
+                  ]
+                }
+              ]
+            },
+            {
+              "action": "remove-public-keys",
+              "ids": [
+                "zQ3shf71Z8RVQgpZEcGjWMt7N6x1sPwd2xRnLrkv35PrtBHzE"
+              ]
+            }
+          ],
+          "updateCommitment": "EiAuqkGorKsNCfoukP-SjN_OD2ZZVMB06JBOO6OcWKrpzQ"
+        },
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJ1cGRhdGVLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiN3Y5Q3RtWVJOUmlkN05neXpJVE5raFFhMHltOC0wR1U5Rjl1NU9mT2tuTSIsInkiOiJEY1Nfc2w4OS05RDFNbUNRcUtjQUlaaF81TEctZjVEbTNDeHFzVm1NaWpJIn0sImRlbHRhSGFzaCI6IkVpRE1mVFE2dzBqNGFpaDZNcS1XODJhSXhOSmlpY1ZRMjRnY3EwTDNuMnNkb0EifQ.KgXFEPGFObUGhVWfEkodgXFuQpAk-Bkwb3bcEWEyU7Flx2zh3QDaT9ecNvSNQqOw_4DXSxJARxBXXcNNrWx0Aw"
+      },
+      "op2": {
+        "type": "recover",
+        "didSuffix": "EiBdSX7Wktxk5ntG4iPsevFH_zHk9YlVVdw3_H9ZBrSj8Q",
+        "revealValue": "EiDv-IGUL_oyjVYyHUsaVEJ_Qy1Wm9B6zw_ytT8KbChz0w",
+        "delta": {
+          "patches": [
+            {
+              "action": "replace",
+              "document": {
+                "publicKeys": [
+                  {
+                    "id": "zQ3shVAV743ujgw9cJrnE2jHagyrNtAYwibgcL7N7dRwnXDFQ",
+                    "type": "JsonWebKey2020",
+                    "publicKeyJwk": {
+                      "kty": "EC",
+                      "crv": "secp256k1",
+                      "x": "czNnzDbyKPR_HvorW-O_tBsKH1CGpKv09fBkr2xSZTM",
+                      "y": "2gRITdEMk5sF9OqphpFTiKeEnLhkQTmv6XNfbFMNxbQ"
+                    },
+                    "purposes": [
+                      "authentication",
+                      "assertionMethod",
+                      "keyAgreement"
+                    ]
+                  }
+                ],
+                "services": [
+                  {
+                    "id": "example-service-3",
+                    "type": "ExampleService",
+                    "serviceEndpoint": "https://3.example.com"
+                  }
+                ]
+              }
+            }
+          ],
+          "updateCommitment": "EiDcB760M_uhh3Ha-XoK7vbL1LoHi6Le3uNrqrEljZTO5w"
+        },
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJyZWNvdmVyeUNvbW1pdG1lbnQiOiJFaUFCdng2OHgwN1lScUsxaUNDZ1FtbFhOdG83WkVoaW8tMzBUaERIVHEtSnl3IiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiOFg3b3BCVU16QXRGMG9rWUtSdmFSU1VvZG9MaDg2RmlRa1o1VjRlbGJSZyIsInkiOiJqZWVsWDBkbEt1b0JNRkhlMmJIU2RhY3piWFBmcFpRdDk5Q3B2ekhXT0owIn0sImRlbHRhSGFzaCI6IkVpQWxOMEhfNlB4ckFKMHdVTEVBVWFXX3V5MTBYVDhkNEEwamhXSFJVTEFnTncifQ.5GBgld_HnJV5hx5nA-2_i-aeH6KPfBmCOfANu2L2CcUqWS7sSYz97Rq2AYx6RYYaIiQomwf9qAtXrWEin88jGQ"
+      },
+      "op3": {
+        "type": "deactivate",
+        "didSuffix": "EiBdSX7Wktxk5ntG4iPsevFH_zHk9YlVVdw3_H9ZBrSj8Q",
+        "revealValue": "EiAMs8YS5AMgqn_N_eL8On7hqXwv7y_YJGE24QqGTxTyKw",
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJkaWRTdWZmaXgiOiJFaUJkU1g3V2t0eGs1bnRHNGlQc2V2RkhfekhrOVlsVlZkdzNfSDlaQnJTajhRIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiTDlGb3NfMkpZSVFnY0ZJelJ5dzd0NzItTWo5STdnaEtRdDA4VGszQi1McyIsInkiOiJ2TFZsVXRjc2s3VHdocTkzSUtob3oxaUJPU2w0MmVXTkFRY1BqS3pPMWFBIn19.nf03m9pzIP_rAAYe8Dwo2nyjEMIKBnHXXbnS5FLhySNZIkADobfeVIqMT9AjSs-GX2hFXWPbmX4RkvvNByoYbA"
+      }
+    },
+    {
+      "mnemonic": "such emerge bargain left need together glory oval add unusual pear abstract",
+      "didUniqueSuffix": "EiCgg8aglP9fJFoOnToI4UOBTxu1uV4wPATXcjV73mLBvA",
+      "op0": {
+        "type": "create",
+        "suffixData": {
+          "deltaHash": "EiDgdm4NQgxG2WQ_CyiXwRUiHsVeLYWa_CaxQMmeVHZGkA",
+          "recoveryCommitment": "EiDw4l4iBHVgFsYBu3vLhoo-7Ti_42y9bxazYlZBDBzA7w"
+        },
+        "delta": {
+          "updateCommitment": "EiDlYlWT5exfD0nqNWccmMHiWWj4zVlYyDewzOrpzqHSRA",
+          "patches": [
+            {
+              "action": "replace",
+              "document": {
+                "publicKeys": [
+                  {
+                    "id": "zQ3shbSCbfsXeDkMQ3DjKCepSyX4VKeGc67Ae2mdjzwjo7PfK",
+                    "type": "JsonWebKey2020",
+                    "publicKeyJwk": {
+                      "kty": "EC",
+                      "crv": "secp256k1",
+                      "x": "0GAn6P04oUcApzGnoxj12-9eL7AbQnoZtcF9q7hszdY",
+                      "y": "kMATXWE_KNOPViq7-B5Gr0d9MUeOdG5JpYWfyEew20Q"
+                    },
+                    "purposes": [
+                      "authentication",
+                      "assertionMethod",
+                      "keyAgreement"
+                    ]
+                  }
+                ],
+                "services": [
+                  {
+                    "id": "example-service",
+                    "type": "ExampleService",
+                    "serviceEndpoint": "https://example.com"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "op1": {
+        "type": "update",
+        "didSuffix": "EiCgg8aglP9fJFoOnToI4UOBTxu1uV4wPATXcjV73mLBvA",
+        "revealValue": "EiDe4C_1n27VIKrJ_vsGaX7HpO1TBorVUk5LGJAX8jX5wg",
+        "delta": {
+          "patches": [
+            {
+              "action": "add-services",
+              "services": [
+                {
+                  "id": "example-service-2",
+                  "type": "ExampleService",
+                  "serviceEndpoint": "https://2.example.com"
+                }
+              ]
+            },
+            {
+              "action": "remove-services",
+              "ids": [
+                "example-service"
+              ]
+            },
+            {
+              "action": "add-public-keys",
+              "publicKeys": [
+                {
+                  "id": "zQ3shwJicVdj2F9r7XFKRbhM2QuhtdeiJNkgaTWyytTA8jZEM",
+                  "type": "JsonWebKey2020",
+                  "publicKeyJwk": {
+                    "kty": "EC",
+                    "crv": "secp256k1",
+                    "x": "958vY7VVVzJk90EnUTWIfw3Tj0_6v-MChhXb2YhwZiY",
+                    "y": "YTAqdOIesus4r0uwgU7NgaspYARwepStmtgT8gN3IdM"
+                  },
+                  "purposes": [
+                    "authentication",
+                    "assertionMethod",
+                    "keyAgreement"
+                  ]
+                }
+              ]
+            },
+            {
+              "action": "remove-public-keys",
+              "ids": [
+                "zQ3shbSCbfsXeDkMQ3DjKCepSyX4VKeGc67Ae2mdjzwjo7PfK"
+              ]
+            }
+          ],
+          "updateCommitment": "EiAo8dqWtTCoGa9dJbrQw-1vlTKF76NWWVYdgDI2j9sS0Q"
+        },
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJ1cGRhdGVLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiTFpSZGtfNUVPYXVoMVpaR29fdHhaYlhQSGNERG12djhLLXZ0SHJNXzFXTSIsInkiOiJ0TEZXSHJydVc2T2xHb1pzQlJoU2xqVnlaa0pqOXF0Wld6Vkw1UF9zSTgwIn0sImRlbHRhSGFzaCI6IkVpQWx3dlRfUHVodW1lMlpVMU83ZTFLTnZQemJzemR1dG5ZVzF1T2lZZjRicGcifQ.192-2PzSI9Z0cJc1k93r14ZGp8ijh30oDIyBCS9CDwpYp5ddwrk0Wvbuc-8esVqMKEYC_VEwj62HrCCxtqpHqg"
+      },
+      "op2": {
+        "type": "recover",
+        "didSuffix": "EiCgg8aglP9fJFoOnToI4UOBTxu1uV4wPATXcjV73mLBvA",
+        "revealValue": "EiDhIVnggZ_DKJ4Uq9IHGf10itfxty6JckGjYs71GwmKzQ",
+        "delta": {
+          "patches": [
+            {
+              "action": "replace",
+              "document": {
+                "publicKeys": [
+                  {
+                    "id": "zQ3shfHrGTP8A3ViWFkizuYM8L8hgiExFn3oC1pD5ZgmCuqtA",
+                    "type": "JsonWebKey2020",
+                    "publicKeyJwk": {
+                      "kty": "EC",
+                      "crv": "secp256k1",
+                      "x": "CatEubTYjUAH_VhGOckGhSlhwggryWXeZgqcYdG_5Wc",
+                      "y": "YXBq7agk5mLnJ_ZJRM3yfKJ0W3-1EDiuThhJh5Ivo-8"
+                    },
+                    "purposes": [
+                      "authentication",
+                      "assertionMethod",
+                      "keyAgreement"
+                    ]
+                  }
+                ],
+                "services": [
+                  {
+                    "id": "example-service-3",
+                    "type": "ExampleService",
+                    "serviceEndpoint": "https://3.example.com"
+                  }
+                ]
+              }
+            }
+          ],
+          "updateCommitment": "EiBhwLcTHRKz7KoQ088RM4ntx2ros7b3QTSTbZybfMf0bw"
+        },
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJyZWNvdmVyeUNvbW1pdG1lbnQiOiJFaUFnS21YUHhKMzdyRzRucWRhd2E4MTlnbmRyQmd6UHRNTGZ1bzM3NjQ0bWNRIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoieUdqZjhQWHZ2T2tqaTFPNGlpbWs5NUxPcmNmSm9kcXFiZExsTTFxNFpycyIsInkiOiJKTTBaeGFwcnU2MU1RWlBvZ2k4WGNGM050ZC1KNWc4WGRRbnhSUFRaaHM0In0sImRlbHRhSGFzaCI6IkVpQXhHUnRnajBOTjB3TnlZeDlEOVFwX2EtbTJzV1RQbHhCaUs1RTVIc2xFZlEifQ.qP55DqXI1dHKTGeOHWy-ETM44XrbV70SiiReRdpSFUQ-A9G3952Xv4MkLdKYw8Nonk04Id66-xxMEytmnVNVZQ"
+      },
+      "op3": {
+        "type": "deactivate",
+        "didSuffix": "EiCgg8aglP9fJFoOnToI4UOBTxu1uV4wPATXcjV73mLBvA",
+        "revealValue": "EiCBKTyBC9Jdb49oDIhw9RwAaPKaMet5e_g2v-QLPxKGRw",
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJkaWRTdWZmaXgiOiJFaUNnZzhhZ2xQOWZKRm9PblRvSTRVT0JUeHUxdVY0d1BBVFhjalY3M21MQnZBIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiZ1JjVWprNnEzVFo5SG15SnI3VVc4YThCMUdYZmU4aVdXVFdYbHRtU2hfTSIsInkiOiJoXy05Vk8ybXFtcmpJME9MOHA5M1UtN1JZVGpMdHZGUUx1b2dNYWpGTzhzIn19.jxHQtzfJO5gtHUx-1MgD9_5GF5orp0nehJ1rxELTGIFQFirsjypa0x6xRloJtoz3txntC7lw9G2f_J2HUbgb7g"
+      }
+    },
+    {
+      "mnemonic": "thing donate sunny bring license phrase utility tumble feed mad inform absorb",
+      "didUniqueSuffix": "EiD3nZ9yQxImvbpvjrbUUDoPPJUcUBmpOYh9Uch6u83ozA",
+      "op0": {
+        "type": "create",
+        "suffixData": {
+          "deltaHash": "EiCmfYQcjp8s5JDqjeH1CTUNA11HqCX9E_YEiGXVgCHesw",
+          "recoveryCommitment": "EiAL5fYt4lMSF-FI0ZygxdGcLQp3K0fJ6ww_RdpVlXUvdQ"
+        },
+        "delta": {
+          "updateCommitment": "EiC9fhPePLvsmW5rJJZVXuW3oGRWjdXjHQ3aEdU894mWWw",
+          "patches": [
+            {
+              "action": "replace",
+              "document": {
+                "publicKeys": [
+                  {
+                    "id": "zQ3shNCcNUwmM1VC86UciycJahcFstygo9KQcX6tsDUtw92Mh",
+                    "type": "JsonWebKey2020",
+                    "publicKeyJwk": {
+                      "kty": "EC",
+                      "crv": "secp256k1",
+                      "x": "C7z5bFfxuVdpNG0azmUdpm4fqj4Ium4VT1kKtJ5vzhQ",
+                      "y": "iRdnlvaK1jx6mqGkmR6J9VH_DHuNTfQfF6dUoMUsYZ4"
+                    },
+                    "purposes": [
+                      "authentication",
+                      "assertionMethod",
+                      "keyAgreement"
+                    ]
+                  }
+                ],
+                "services": [
+                  {
+                    "id": "example-service",
+                    "type": "ExampleService",
+                    "serviceEndpoint": "https://example.com"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "op1": {
+        "type": "update",
+        "didSuffix": "EiD3nZ9yQxImvbpvjrbUUDoPPJUcUBmpOYh9Uch6u83ozA",
+        "revealValue": "EiAI04vIiGRislVxekWlIqLJ19PsJk5WTXPj-1HByj8_1g",
+        "delta": {
+          "patches": [
+            {
+              "action": "add-services",
+              "services": [
+                {
+                  "id": "example-service-2",
+                  "type": "ExampleService",
+                  "serviceEndpoint": "https://2.example.com"
+                }
+              ]
+            },
+            {
+              "action": "remove-services",
+              "ids": [
+                "example-service"
+              ]
+            },
+            {
+              "action": "add-public-keys",
+              "publicKeys": [
+                {
+                  "id": "zQ3shWrDzU8ximV5UQzeFPKArtCWqL6SYcjuLXeGHaDDice14",
+                  "type": "JsonWebKey2020",
+                  "publicKeyJwk": {
+                    "kty": "EC",
+                    "crv": "secp256k1",
+                    "x": "jD08Xyh6FVZ1v39nB9bY1EIAvZr6ptiGY8Kbj9_IZD8",
+                    "y": "TKEEd0oiW3pQJU8XDirjeTI41NHrh-JzALYLe9aAq8Q"
+                  },
+                  "purposes": [
+                    "authentication",
+                    "assertionMethod",
+                    "keyAgreement"
+                  ]
+                }
+              ]
+            },
+            {
+              "action": "remove-public-keys",
+              "ids": [
+                "zQ3shNCcNUwmM1VC86UciycJahcFstygo9KQcX6tsDUtw92Mh"
+              ]
+            }
+          ],
+          "updateCommitment": "EiB2Fg_wMKwSck6Evbbe2qD-hwQwmp0-FCUECrbje9522Q"
+        },
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJ1cGRhdGVLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiX3o0LUIzN28tVEVZY1ptdGpTcWRsYk9wVW1IMFIxR2Y5OVJMMzU3N1ZtTSIsInkiOiJaNUNQellrdDFucU4zaTZRQUtfa2ZDMmtFWE95dUpFdE9ibnd6YTc3Wmx3In0sImRlbHRhSGFzaCI6IkVpQzNNZ0dPaEF0UWl1ZzRNZGoybXg2RHVqMlBjVUgwa1ZydGtuZ09WejU3d2cifQ.Gjjynw07Comq33UASLlXyV8C5tWLbACV-pNx014L6a1jFQQ1Iw3M223XB0NXC_Offm612CrLAOJZBqWgDOeglw"
+      },
+      "op2": {
+        "type": "recover",
+        "didSuffix": "EiD3nZ9yQxImvbpvjrbUUDoPPJUcUBmpOYh9Uch6u83ozA",
+        "revealValue": "EiADPd_KzPbkaVSOWfG3Rk5Kl4XDaMeD44MOmdJ3mbWCvQ",
+        "delta": {
+          "patches": [
+            {
+              "action": "replace",
+              "document": {
+                "publicKeys": [
+                  {
+                    "id": "zQ3sha3cforT5tkzwWDwxjWBgkJFxxyue9sm69ziSAYiigWpo",
+                    "type": "JsonWebKey2020",
+                    "publicKeyJwk": {
+                      "kty": "EC",
+                      "crv": "secp256k1",
+                      "x": "u7tT8hQf27SSgQi3p_W5pSMVZFYk0qEB0o12kD6_6XA",
+                      "y": "R-ErrAF7iKnRALqJjRBU8bk4UkuoKwKdDtY-5XFVhAg"
+                    },
+                    "purposes": [
+                      "authentication",
+                      "assertionMethod",
+                      "keyAgreement"
+                    ]
+                  }
+                ],
+                "services": [
+                  {
+                    "id": "example-service-3",
+                    "type": "ExampleService",
+                    "serviceEndpoint": "https://3.example.com"
+                  }
+                ]
+              }
+            }
+          ],
+          "updateCommitment": "EiAnzbNFcDC_lGF92D_zkHGpvsn3HhPWSoJW7zCgJr7WNQ"
+        },
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJyZWNvdmVyeUNvbW1pdG1lbnQiOiJFaUNraHNQLTZOY1NXRkgxV1o0M3ZTcHR5bmJjbEhMNldtS0J3WGhzNTdLQmx3IiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4Ijoia1pES0RYR1oyV05aYm1nV1RLOG5tenZvMVh0OWJhTk56MGxrOE5tTjQ4OCIsInkiOiJnTFJKOUNNUFhoMXFFc0RhbkNTOFJtY3I0RHRaRFBmZTZEZno3NVJYWWVZIn0sImRlbHRhSGFzaCI6IkVpQUh5YkE2c2J1ZXB4TV92Mm1Dc0ZjNlo5ZkxyeUpwbUdQTmFNOU9SLVVudGcifQ.5CWvCpuVakO4V2oJx0y45-uIjwpWrnpMnY-_hBrUSr9c_q0MPg24pS5Ze5khcmJTPl0QrcxcdYzZc3_z8-nkvA"
+      },
+      "op3": {
+        "type": "deactivate",
+        "didSuffix": "EiD3nZ9yQxImvbpvjrbUUDoPPJUcUBmpOYh9Uch6u83ozA",
+        "revealValue": "EiCNbl6UEnuz5zmz4aoHzJuQGCwp4q1xde2EHbPaB9XMLg",
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJkaWRTdWZmaXgiOiJFaUQzblo5eVF4SW12YnB2anJiVVVEb1BQSlVjVUJtcE9ZaDlVY2g2dTgzb3pBIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4Ijoic1pMRXdkanFsQS04NG5VUk1KSy1YVThBM3ZiT21ReHhWVHhiVlUwNHJNdyIsInkiOiI4cFBmVjI3Wlplc3J5cDZHVmhHdGtwZkMtNU1uN2VvOFlGWHFKYVAzem5zIn19.YPmwjdUQaZs3WuA5unRwQ8u7alR0muJs_TnVYgWTZ8IKtFU59OOVLAe4XuCb2SCqZBlowJqCfglSOEWsE7ML-Q"
+      }
+    }
+  ]
+}

@@ -17,25 +17,17 @@ import * as Factory from 'factory.ts';
 import {
   toMnemonic,
   toKeyPair,
-  // svip interop profile
-  toDidDocForProfile,
-  getCreateOperationForProfile,
-  getRecoverOperationForProfile,
-} from './functions';
+  operations,
+} from './operations';
 
 import { SidetreePlugin } from './types';
 
 const factoryDefaults = {
   toMnemonic,
   toKeyPair,
-  // svip interop profile
-  toDidDocForProfile,
-  getCreateOperationForProfile,
-  getRecoverOperationForProfile,
+  operations
 };
 
-const pluginFactory = Factory.Sync.makeFactory<SidetreePlugin>(factoryDefaults);
+const SidetreeWalletPlugin = Factory.Sync.makeFactory<SidetreePlugin>(factoryDefaults);
 
-const plugin = pluginFactory.build();
-
-export { SidetreePlugin, pluginFactory, factoryDefaults, plugin };
+export { SidetreePlugin, factoryDefaults, SidetreeWalletPlugin };

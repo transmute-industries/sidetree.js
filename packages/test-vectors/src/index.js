@@ -20,7 +20,14 @@ const sidetreeCoreGeneratedSecp256k1 = require('./core-generated-secp256k1');
 const sidetreeCoreGeneratedEd25519 = require('./core-generated-ed25519');
 const didMethodElement = require('./did-method-element');
 
+const wallet = {
+  mnemonic: require('./wallet/v1-mnemonic.json').mnemonic,
+  keypair: require('./wallet/v1-keypair.json').keypair,
+  operations: require('./wallet/v1-secp256k1-operations.json').operations,
+};
+
 module.exports = {
+  wallet,
   testVectors,
   filesystem,
   crypto,

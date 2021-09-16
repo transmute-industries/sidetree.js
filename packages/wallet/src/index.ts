@@ -11,7 +11,5 @@
  * limitations under the License.
  */
 
-import * as methods from './functions';
-import * as operations from './operations';
-import * as pluginFactory from './pluginFactory';
-export { methods, pluginFactory, operations };
+export * from './operations';
+export * from './pluginFactory';

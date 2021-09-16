@@ -10,7 +10,7 @@ type PrivateKeyJwk = any;
 /**
  * An ISigner implementation that uses a given local private key.
  */
-export default class LocalSigner implements ISigner {
+export class LocalSigner implements ISigner {
   /**
    * Creates a new local signer using the given private key.
    */

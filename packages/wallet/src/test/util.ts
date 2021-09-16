@@ -16,7 +16,7 @@ import path from 'path';
 
 export const writeFixture = (filename: string, object: any) => {
   fs.writeFileSync(
-    path.resolve(__dirname, '../__fixtures__/', filename),
+    path.resolve(__dirname, '../../../test-vectors/src/wallet/', filename),
     JSON.stringify(object, null, 2)
   );
 };

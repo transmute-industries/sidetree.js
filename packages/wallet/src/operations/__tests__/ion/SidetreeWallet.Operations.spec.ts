@@ -2,8 +2,8 @@
 // https://github.com/decentralized-identity/ion-sdk/blob/main/tests/operations.spec.ts
 
 import { OperationType, SidetreeDocumentModel } from '../../types';
-import LocalSigner from '../../LocalSigner';
-import * as operations from '../../index';
+import { LocalSigner, operations } from '../../index';
+
 
 describe('SidetreeWallet.operations', () => {
   describe('createCreateRequest', () => {
