@@ -66,33 +66,10 @@ const getTestElement = async () => {
   return element;
 };
 
-const replaceMethod = (
-  result: any,
-  defaultMethod = 'sidetree',
-  specificMethod = 'elem'
-) => {
-  // prevent mutation
-  const _result = JSON.parse(JSON.stringify(result));
-  _result.didDocument.id = _result.didDocument.id.replace(
-    specificMethod,
-    defaultMethod
-  );
-  // upstream sidetree sets controller incorrectly.
-  _result.didDocument.publicKey[0].controller = '';
-  if (_result.didDocument.publicKey[1]) {
-    _result.didDocument.publicKey[1].controller = '';
-  }
-  _result.didDocument['@context'][2]['@base'] = _result.didDocument[
-    '@context'
-  ][2]['@base'].replace(specificMethod, defaultMethod);
-  return _result;
-};
-
 export {
   resetDatabase,
   getTestLedger,
   getTestCas,
   getTestElement,
-  replaceMethod,
   writeFixture,
 };

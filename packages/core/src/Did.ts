@@ -91,6 +91,8 @@ export default class Did {
       const suffixDataJcsBuffer = JsonCanonicalizer.canonicalizeAsBuffer(createOperation.suffixData);
       const suffixDataHashMatchesUniqueSuffix = Multihash.verifyEncodedMultihashForContent(suffixDataJcsBuffer, did.uniqueSuffix);
 
+
+    
       // If the computed suffix data hash is not the same as the unique suffix given in the DID string, the DID is not valid.
       if (!suffixDataHashMatchesUniqueSuffix) {
         throw new SidetreeError(ErrorCode.DidUniqueSuffixFromInitialStateMismatch);

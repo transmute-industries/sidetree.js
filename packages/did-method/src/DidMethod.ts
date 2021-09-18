@@ -25,7 +25,7 @@ import {
   DownloadManager,
   Observer,
   Resolver,
-  ServiceInfo,
+  // ServiceInfo,
   VersionManager,
 } from '@sidetree/core';
 import {
@@ -50,7 +50,7 @@ export default class DidMethod {
   private observer: Observer;
   private batchScheduler: BatchScheduler;
   private resolver: Resolver;
-  private serviceInfo: ServiceInfo;
+  // private serviceInfo: ServiceInfo;
 
   public constructor(
     config: Config,
@@ -94,7 +94,7 @@ export default class DidMethod {
       config.observingIntervalInSeconds
     );
 
-    this.serviceInfo = new ServiceInfo('core');
+    // this.serviceInfo = new ServiceInfo('core');
   }
 
   /**
@@ -109,7 +109,7 @@ export default class DidMethod {
     await this.transactionStore.initialize();
     await this.unresolvableTransactionStore.initialize();
     await this.operationStore.initialize();
-    await this.blockchain.initialize();
+    await (this.blockchain as any).initialize();
     await this.cas.initialize();
     await this.versionManager.initialize(
       this.blockchain,
@@ -150,8 +150,8 @@ export default class DidMethod {
   public async triggerProcessTransactions(): Promise<void> {
     // By passing true, we force the observer to wait for all transactions
     // to be downloaded before returning. We need that for testing
-    await this.observer.refreshLastKnownTransaction();
-    await this.observer.processTransactions(true);
+    // await this.observer.refreshLastKnownTransaction();
+    // await this.observer.processTransactions(true);
   }
 
   public async triggerBatchAndObserve(): Promise<void> {
@@ -160,7 +160,7 @@ export default class DidMethod {
   }
 
   public async close(): Promise<void> {
-    const currentTime = this.blockchain.approximateTime;
+    const currentTime = (this.blockchain as any).approximateTime;
     const operationQueue = this.versionManager.getOperationQueue(
       currentTime.time
     );
@@ -180,7 +180,7 @@ export default class DidMethod {
    * Handles an operation request.
    */
   public async handleOperationRequest(request: Buffer): Promise<ResponseModel> {
-    const currentTime = this.blockchain.approximateTime;
+    const currentTime = (this.blockchain as any).approximateTime;
     const requestHandler = this.versionManager.getRequestHandler(
       currentTime.time
     );
@@ -197,7 +197,7 @@ export default class DidMethod {
   public async handleResolveRequest(
     didOrDidDocument: string
   ): Promise<ResponseModel> {
-    const currentTime = this.blockchain.approximateTime;
+    const currentTime = (this.blockchain as any).approximateTime;
     const requestHandler = this.versionManager.getRequestHandler(
       currentTime.time
     );
@@ -211,9 +211,12 @@ export default class DidMethod {
    */
   public async handleGetVersionRequest(): Promise<ResponseModel> {
     const responses = [
-      this.serviceInfo.getServiceVersion(),
-      await this.blockchain.getServiceVersion(),
-      await this.cas.getServiceVersion(),
+      'unstable',
+      'unstable',
+      'unstable',
+      // this.serviceInfo.getServiceVersion(),
+      // await this.blockchain.getServiceVersion(),
+      // await this.cas.getServiceVersion(),
     ];
 
     return {

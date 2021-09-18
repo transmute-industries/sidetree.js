@@ -15,6 +15,15 @@ export default class DocumentComposer {
 
   private static resolutionObjectContextUrl = 'https://w3id.org/did-resolution/v1';
   private static didDocumentContextUrl = 'https://www.w3.org/ns/did/v1';
+  private static jwsContextUrl = 'https://w3id.org/security/suites/jws-2020/v1';
+
+  private static didDocumentContext = [
+    DocumentComposer.didDocumentContextUrl, 
+    DocumentComposer.jwsContextUrl,
+    // This last one disables JSON-LD Processing errors related to undefined terms
+    // By assuming they are registered.
+    { '@vocab': 'https://www.w3.org/ns/did#' }
+  ];
 
   /**
    * Transforms the given DID state into a DID Document.
@@ -77,10 +86,9 @@ export default class DocumentComposer {
     }
 
     const baseId = did.isShortForm ? did.shortForm : did.longForm;
-    const didDocument: any = {
-      id: baseId,
-      '@context': [DocumentComposer.didDocumentContextUrl, { '@base': baseId }],
-      service: services
+    let didDocument: any = {
+      '@context': DocumentComposer.didDocumentContext,
+      id: baseId
     };
 
     if (verificationMethod.length !== 0) {
@@ -91,6 +99,11 @@ export default class DocumentComposer {
       didDocument[key] = value;
     });
 
+
+    if (services && services.length){
+      didDocument.service = services;
+    }
+   
     const didResolutionResult: any = {
       '@context': DocumentComposer.resolutionObjectContextUrl,
       didDocument: didDocument,
@@ -119,7 +132,7 @@ export default class DocumentComposer {
   private static createDeactivatedResolutionResult (did: string, published: boolean) {
     const didDocument = {
       id: did,
-      '@context': [DocumentComposer.didDocumentContextUrl, { '@base': did }]
+      '@context': DocumentComposer.didDocumentContext
     };
     const didDocumentMetadata = {
       method: {

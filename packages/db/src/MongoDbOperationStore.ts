@@ -24,6 +24,26 @@ import {
 } from '@sidetree/common';
 import MongoDbBase from './MongoDbBase';
 
+
+import { Binary, Long } from 'mongodb';
+
+
+/**
+ * Sidetree operation stored in MongoDb.
+ * Note: We use shorter property names such as "opIndex" instead of "operationIndex" to ensure unique index compatibility between MongoDB implementations.
+ * Note: We represent txnNumber as long instead of number (double) to ensure large number compatibility
+ *       (avoid floating point comparison quirks) between MongoDB implementations.
+ */
+ interface IMongoOperation {
+  didSuffix: string;
+  operationBufferBsonBinary: Binary;
+  opIndex: number;
+  txnNumber: Long;
+  txnTime: number;
+  type: string;
+}
+
+
 export default class MongoDbOperationStore extends MongoDbBase
   implements IOperationStore {
   readonly collectionName = 'operation';
@@ -31,6 +51,34 @@ export default class MongoDbOperationStore extends MongoDbBase
   public async initialize(): Promise<void> {
     await super.initialize();
     await this.collection!.createIndex({ didUniqueSuffix: 1 });
+  }
+
+  private static convertToMongoOperation (operation: AnchoredOperationModel): IMongoOperation {
+    return {
+      type: operation.type,
+      didSuffix: operation.didUniqueSuffix,
+      operationBufferBsonBinary: new Binary(operation.operationBuffer),
+      opIndex: operation.operationIndex,
+      txnNumber: Long.fromNumber(operation.transactionNumber),
+      txnTime: operation.transactionTime
+    };
+  }
+
+  public async insertOrReplace (operations: AnchoredOperationModel[]): Promise<void> {
+    const bulkOperations = this.collection!.initializeUnorderedBulkOp();
+
+    for (const operation of operations) {
+      const mongoOperation = MongoDbOperationStore.convertToMongoOperation(operation);
+
+      bulkOperations.find({
+        didSuffix: operation.didUniqueSuffix,
+        txnNumber: operation.transactionNumber,
+        opIndex: operation.operationIndex,
+        type: operation.type
+      }).upsert().replaceOne(mongoOperation);
+    }
+
+    await bulkOperations.execute();
   }
 
   public async put(operations: AnchoredOperationModel[]): Promise<void> {
