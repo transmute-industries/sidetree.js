@@ -126,42 +126,8 @@ export default class Jwk {
    * Validates the given key is a public key in JWK format allowed by Sidetree.
    * @throws SidetreeError if given object is not a key in JWK format allowed by Sidetree.
    */
-  public static validatePublicJwk(jwk: any): void {
-    if (jwk === undefined) {
-      throw new SidetreeError(ErrorCode.JwkUndefined);
-    }
-
-    // TODO: Check validity with JSON schema...
-    const allowedProperties = new Set(['kty', 'crv', 'x', 'y', 'kid']);
-    for (const property in jwk) {
-      if (!allowedProperties.has(property)) {
-        throw new SidetreeError(ErrorCode.JwkHasUnknownProperty);
-      }
-    }
-
-    switch (jwk.crv) {
-      case 'Ed25519':
-        if (jwk.kty !== 'OKP') {
-          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidKty);
-        }
-        if (typeof jwk.x !== 'string') {
-          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeX);
-        }
-        break;
-      case 'secp256k1':
-        if (jwk.kty !== 'EC') {
-          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidKty);
-        }
-        if (typeof jwk.x !== 'string') {
-          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeX);
-        }
-        if (typeof jwk.y !== 'string') {
-          throw new SidetreeError(ErrorCode.JwkMissingOrInvalidTypeY);
-        }
-        break;
-      default:
-        throw new SidetreeError(ErrorCode.JwkMissingOrInvalidCrv);
-    }
+  public static validatePublicJwk(publicKeyJwk: any): void {
+    console.warn('actually validate with a schema....', publicKeyJwk);
   }
 
   /**
@@ -177,5 +143,47 @@ export default class Jwk {
     delete keyCopy.d;
 
     return keyCopy;
+  }
+
+  /**
+   * Validates the given key is a SECP256K1 public key in JWK format allowed by Sidetree.
+   * @throws SidetreeError if given object is not a SECP256K1 public key in JWK format allowed by Sidetree.
+   */
+   public static validateJwkEs256k (publicKeyJwk: any) {
+    if (publicKeyJwk === undefined) {
+      throw new SidetreeError(ErrorCode.JwkEs256kUndefined);
+    }
+
+    const allowedProperties = new Set(['kty', 'crv', 'x', 'y']);
+    for (const property in publicKeyJwk) {
+      if (!allowedProperties.has(property)) {
+        throw new SidetreeError(ErrorCode.JwkEs256kHasUnknownProperty);
+      }
+    }
+
+    if (publicKeyJwk.kty !== 'EC') {
+      throw new SidetreeError(ErrorCode.JwkEs256kMissingOrInvalidKty);
+    }
+
+    if (publicKeyJwk.crv !== 'secp256k1') {
+      throw new SidetreeError(ErrorCode.JwkEs256kMissingOrInvalidCrv);
+    }
+
+    if (typeof publicKeyJwk.x !== 'string') {
+      throw new SidetreeError(ErrorCode.JwkEs256kMissingOrInvalidTypeX);
+    }
+
+    if (typeof publicKeyJwk.y !== 'string') {
+      throw new SidetreeError(ErrorCode.JwkEs256kMissingOrInvalidTypeY);
+    }
+
+    // `x` and `y` need 43 Base64URL encoded bytes to contain 256 bits.
+    if (publicKeyJwk.x.length !== 43) {
+      throw new SidetreeError(ErrorCode.JwkEs256kHasIncorrectLengthOfX, `SECP256K1 JWK 'x' property must be 43 bytes.`);
+    }
+
+    if (publicKeyJwk.y.length !== 43) {
+      throw new SidetreeError(ErrorCode.JwkEs256kHasIncorrectLengthOfY, `SECP256K1 JWK 'y' property must be 43 bytes.`);
+    }
   }
 }

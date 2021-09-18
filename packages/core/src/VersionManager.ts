@@ -41,7 +41,7 @@ import Resolver from './Resolver';
 import { MongoDbOperationQueue } from '@sidetree/db';
 import TransactionProcessor from './TransactionProcessor';
 import TransactionSelector from './TransactionSelector';
-import BatchWriter from './write/BatchWriter';
+import BatchWriter from './BatchWriter';
 import OperationProcessor from './OperationProcessor';
 import RequestHandler from './RequestHandler';
 import VersionMetadata from './VersionMetadata';

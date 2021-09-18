@@ -25,6 +25,6 @@ import PublicKeyPurpose from '../enums/PublicKeyPurpose';
 export default interface PublicKeyModel {
   id: string;
   type: string;
-  jwk: any;
-  purpose: PublicKeyPurpose[];
+  publicKeyJwk: any;
+  purposes: PublicKeyPurpose[];
 }

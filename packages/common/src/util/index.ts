@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 
-import AnchoredDataSerializer from './AnchoredDataSerializer';
 import Encoder from './Encoder';
 import JsonCanonicalizer from './JsonCanonicalizer';
 import Multihash from './Multihash';
@@ -26,7 +25,6 @@ import SortedArray from './SortedArray';
 import protocolParameters from './parameters';
 
 export {
-  AnchoredDataSerializer,
   Encoder,
   JsonCanonicalizer,
   Multihash,
