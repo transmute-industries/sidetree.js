@@ -13,14 +13,17 @@
  */
 
 import utils from './utils';
+
+import { AnchoredDataSerializer } from '@sidetree/core';
+
 import {
   BlockchainTimeModel,
   IBlockchain,
   TransactionModel,
-  AnchoredDataSerializer,
   ValueTimeLockModel,
   ServiceVersionModel,
 } from '@sidetree/common';
+
 import {
   ElementContract,
   ElementEventData,
@@ -185,12 +188,13 @@ export default class EthereumLedger implements IBlockchain {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public write = async (anchorString: string, _fee = 0): Promise<void> => {
     const contract = await this.getAnchorContract();
+    const anchorObject = AnchoredDataSerializer.deserialize(anchorString);
     const {
-      anchorFileHash,
+      coreIndexFileUri,
       numberOfOperations,
-    } = AnchoredDataSerializer.deserialize(anchorString);
+    } = anchorObject;
     const bytes32AnchorFileHash = utils.base58EncodedMultihashToBytes32(
-      anchorFileHash
+      coreIndexFileUri
     );
     try {
       const methodCall = contract.methods.anchorHash(

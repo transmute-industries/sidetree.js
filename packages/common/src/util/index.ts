@@ -23,7 +23,8 @@ import Multihash from './Multihash';
 import ReadableStream from './ReadableStream';
 import SortedArray from './SortedArray';
 import protocolParameters from './parameters';
-
+import Logger from './Logger';
+import LogColor from './LogColor';
 export {
   Encoder,
   JsonCanonicalizer,
@@ -31,4 +32,6 @@ export {
   ReadableStream,
   SortedArray,
   protocolParameters,
+  Logger,
+  LogColor,
 };

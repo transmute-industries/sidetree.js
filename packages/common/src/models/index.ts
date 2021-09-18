@@ -44,9 +44,7 @@ import PublicKeyModel from './PublicKeyModel';
 import QueuedOperationModel from './QueuedOperationModel';
 import ServiceVersionModel from './ServiceVersionModel';
 import TransactionModel from './TransactionModel';
-import TransactionUnderProcessingModel, {
-  TransactionProcessingStatus,
-} from './TransactionUnderProcessingModel';
+import TransactionUnderProcessingModel from './TransactionUnderProcessingModel';
 import ValueTimeLockModel from './ValueTimeLockModel';
 
 import DeactivateSignedDataModel from './DeactivateSignedDataModel';
@@ -60,9 +58,12 @@ import SuffixDataModel from './SuffixDataModel';
 import CoreIndexFileModel from './CoreIndexFileModel';
 import ResponseStatus from './ResponseStatus';
 import ResponseModel from './ResponseModel';
-
+import VersionModel from './VersionModel';
+import UnresolvableTransactionModel from './UnresolvableTransactionModel';
 
 export {
+  UnresolvableTransactionModel,
+  
   AnchorFileModel,
   AnchoredData,
   AnchoredOperationModel,
@@ -90,7 +91,6 @@ export {
   ServiceVersionModel,
   TransactionModel,
   TransactionUnderProcessingModel,
-  TransactionProcessingStatus,
   ValueTimeLockModel,
 
   //
@@ -106,4 +106,5 @@ export {
   CoreIndexFileModel,
   ResponseStatus,
   ResponseModel,
+  VersionModel,
 };

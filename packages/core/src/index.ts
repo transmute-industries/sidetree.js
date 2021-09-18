@@ -36,8 +36,27 @@ import ServiceInfo from './ServiceInfoProvider';
 import TransactionProcessor from './TransactionProcessor';
 import UpdateOperation from './UpdateOperation';
 import VersionManager from './VersionManager';
+import AnchoredDataSerializer from './AnchoredDataSerializer';
+
+import Config from './Config';
+import SidetreeError from './SidetreeError';
+import ServiceStateModel from './ServiceStateModel';
+import ServiceInfoProvider from './ServiceInfoProvider';
+
+import EventEmitter from './EventEmitter';
+import ErrorCode from './ErrorCode';
+
+import BlockchainClock from './BlockchainClock';
 
 export {
+  SidetreeError,
+  ServiceStateModel,
+  ServiceInfoProvider,
+  EventEmitter,
+  ErrorCode,
+  BlockchainClock, //move to ledger...
+
+  //
   BatchScheduler,
   ChunkFile,
   Compressor,
@@ -55,4 +74,6 @@ export {
   TransactionProcessor,
   UpdateOperation,
   VersionManager,
+  AnchoredDataSerializer,
+  Config,
 };

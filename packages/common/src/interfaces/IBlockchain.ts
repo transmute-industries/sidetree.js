@@ -1,12 +1,18 @@
 import BlockchainTimeModel from '../models/BlockchainTimeModel';
 import TransactionModel from '../models/TransactionModel';
 import ValueTimeLockModel from '../models/ValueTimeLockModel';
-
+import ServiceVersionModel from '../models/ServiceVersionModel';
 /**
  * Interface to access the underlying blockchain.
  * This interface is mainly useful for creating a mock Blockchain for testing purposes.
  */
 export default interface IBlockchain {
+
+  /**
+   * Gets the version of the LEDGER service.
+   */
+  getServiceVersion(): Promise<ServiceVersionModel>;
+
   /**
    * Writes a Sidetree transaction with the given anchor string to blockchain.
    * @param anchorString Data to write to the blockchain.

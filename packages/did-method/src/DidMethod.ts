@@ -30,7 +30,6 @@ import {
 } from '@sidetree/core';
 import {
   MongoDbOperationStore,
-  MongoDbOperationQueue,
   MongoDbTransactionStore,
   MongoDbUnresolvableTransactionStore,
 } from '@sidetree/db';
@@ -148,10 +147,7 @@ export default class DidMethod {
   }
 
   public async triggerProcessTransactions(): Promise<void> {
-    // By passing true, we force the observer to wait for all transactions
-    // to be downloaded before returning. We need that for testing
-    // await this.observer.refreshLastKnownTransaction();
-    // await this.observer.processTransactions(true);
+    await this.observer.processTransactions();
   }
 
   public async triggerBatchAndObserve(): Promise<void> {
@@ -160,13 +156,13 @@ export default class DidMethod {
   }
 
   public async close(): Promise<void> {
-    const currentTime = (this.blockchain as any).approximateTime;
-    const operationQueue = this.versionManager.getOperationQueue(
-      currentTime.time
-    );
-    if (operationQueue) {
-      await (operationQueue as MongoDbOperationQueue).close();
-    }
+    // const currentTime = (this.blockchain as any).approximateTime;
+    // const operationQueue = this.versionManager.getOperationQueue(
+    //   currentTime.time
+    // );
+    // if (operationQueue) {
+    //   await (operationQueue as MongoDbOperationQueue).close();
+    // }
     await this.transactionStore.close();
     await this.unresolvableTransactionStore.close();
     await this.operationStore.close();

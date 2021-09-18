@@ -13,6 +13,10 @@
  */
 
 import MockLedger from './MockLedger';
-import testSuite from './__tests__/testSuite';
 
-export { MockLedger, testSuite };
+// import testSuite from './__tests__/testSuite';
+
+export { 
+    MockLedger, 
+    // testSuite 
+};

@@ -29,12 +29,15 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
+    "@sidetree/test-vectors": "^0.2.6-unstable.6",
+    "@types/semver": "7.3.5",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
     "@sidetree/common": "^0.2.6-unstable.6",
     "@sidetree/core": "^0.2.6-unstable.6",
-    "@sidetree/db": "^0.2.6-unstable.6"
+    "@sidetree/db": "^0.2.6-unstable.6",
+    "semver": "^7.3.5"
   },
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/did-method",
   "repository": {

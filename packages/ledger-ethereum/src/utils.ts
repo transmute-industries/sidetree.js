@@ -12,7 +12,8 @@
  * limitations under the License.
  */
 
-import { TransactionModel, AnchoredDataSerializer } from '@sidetree/common';
+import { TransactionModel } from '@sidetree/common';
+import { AnchoredDataSerializer } from '@sidetree/core';
 import multihashes from 'multihashes';
 import Web3 from 'web3';
 import { EthereumBlock, ElementEventData } from './types';
@@ -47,17 +48,16 @@ const base58EncodedMultihashToBytes32 = (
 const eventLogToSidetreeTransaction = (
   log: ElementEventData
 ): TransactionModel => {
-  const anchoredData = {
-    anchorFileHash: bytes32EnodedMultihashToBase58EncodedMultihash(
+  const anchorObject = {
+    coreIndexFileUri: bytes32EnodedMultihashToBase58EncodedMultihash(
       log.returnValues.anchorFileHash
     ),
     numberOfOperations: Number.parseInt(log.returnValues.numberOfOperations),
   };
-  const anchorString = AnchoredDataSerializer.serialize(anchoredData);
+  const anchorString = AnchoredDataSerializer.serialize(anchorObject);
   return {
     transactionNumber: Number.parseInt(log.returnValues.transactionNumber, 10),
     transactionTime: log.blockNumber,
-    transactionHash: log.transactionHash,
     transactionTimeHash: log.blockHash,
     anchorString,
     transactionFeePaid: 0,

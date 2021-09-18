@@ -20,8 +20,6 @@ import { longFormResolutionResponse } from './__fixtures__';
 
 import { SidetreeWalletPlugin } from '@sidetree/wallet';
 
-console.info = (): null => null;
-
 let element: Element;
 
 // const WRITE_FIXTURE_TO_DISK = false;
@@ -87,17 +85,25 @@ describe('CRUD', () => {
       expect(operation1).toEqual(longFormResolutionResponse);
     });
 
-    // it('can register and resolve short form did', async () => {
-    //   const operation0 = await element.handleOperationRequest(
-    //     Buffer.from(JSON.stringify(vectors.wallet.operations[0].op0))
-    //   );
-    //   expect(operation0.status).toBe('succeeded');
-    //   expect(operation0.body).toBeDefined();
-    //   await element.triggerBatchAndObserve();
-    //   const did = `did:elem:ropsten:${uniqueSuffix}`;
-    //   const operation1 = await element.handleResolveRequest(did);
-    //   expect(operation1.status).toBe('succeeded');
-    //   expect(operation1.body.didDocument.id).toEqual(did);
-    // });
+    it('can register and resolve short form did', async () => {
+      const operation0 = await element.handleOperationRequest(
+        Buffer.from(JSON.stringify(vectors.wallet.operations[0].op0))
+      );
+      expect(operation0.status).toBe('succeeded');
+      expect(operation0.body).toBeDefined();
+
+      await element.triggerBatchAndObserve();
+      await new Promise((resolve) => {
+        setTimeout(resolve, 20 * 1000);
+      });
+
+      const datas = await element.transactionStore.getTransactions();
+      console.log(datas);
+
+      // const did = `did:elem:ropsten:${uniqueSuffix}`;
+      // const operation1 = await element.handleResolveRequest(did);
+      // expect(operation1.status).toBe('succeeded');
+      // expect(operation1.body.didDocument.id).toEqual(did);
+    });
   });
 });
