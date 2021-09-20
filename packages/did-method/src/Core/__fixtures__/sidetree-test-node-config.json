@@ -1,0 +1,4 @@
+{
+    "observingIntervalInSeconds": 1, 
+    "mongoDbConnectionString": "mongodb://localhost:27017/"
+}

@@ -19,6 +19,7 @@ export default class BlockchainClock {
    */
   private blockchainTimePullIntervalInSeconds = 60;
   private cachedApproximateTime?: number;
+  private timeoutsList: NodeJS.Timeout[] = [];
 
   /**
    *
@@ -57,8 +58,14 @@ export default class BlockchainClock {
     }
 
     if (this.continuePulling) {
-      setTimeout(async () => this.startPeriodicPullLatestBlockchainTime(), this.blockchainTimePullIntervalInSeconds * 1000);
+      this.timeoutsList.push(setTimeout(async () => this.startPeriodicPullLatestBlockchainTime(), this.blockchainTimePullIntervalInSeconds * 1000));
     }
+  }
+
+  public async stopPeriodicPullLatestBlockchainTime () {
+    this.timeoutsList.forEach((timeoutHandler) => {
+      clearTimeout(timeoutHandler);
+    });
   }
 
   /**

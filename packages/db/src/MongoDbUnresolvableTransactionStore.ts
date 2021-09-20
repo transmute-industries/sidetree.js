@@ -15,6 +15,7 @@ export default class MongoDbUnresolvableTransactionStore implements IUnresolvabl
   /** Collection name for unresolvable transactions. */
   public static readonly unresolvableTransactionCollectionName: string = 'unresolvable-transactions';
 
+  private client?: MongoClient;
   private exponentialDelayFactorInMilliseconds = 60000;
   private maximumUnresolvableTransactionReturnCount = 100;
 
@@ -38,8 +39,13 @@ export default class MongoDbUnresolvableTransactionStore implements IUnresolvabl
    */
   public async initialize (): Promise<void> {
     const client = await MongoClient.connect(this.serverUrl, { useNewUrlParser: true }); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
+    this.client = client;
     this.db = client.db(this.databaseName);
     this.unresolvableTransactionCollection = await MongoDbUnresolvableTransactionStore.createUnresolvableTransactionCollectionIfNotExist(this.db);
+  }
+
+  public async stop(): Promise<void> {
+    return this.client!.close();
   }
 
   /**

@@ -192,8 +192,8 @@ export default class DownloadManager {
       contentHash = downloadInfo.contentHash;
 
       const fetchResult = await this.cas.read(
-        contentHash
-        // downloadInfo.maxSizeInBytes
+        contentHash,
+        downloadInfo.maxSizeInBytes
       );
 
       downloadInfo.fetchResult = fetchResult;

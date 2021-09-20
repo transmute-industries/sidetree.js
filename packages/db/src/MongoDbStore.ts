@@ -8,6 +8,7 @@ export default class MongoDbStore {
 
   public static readonly defaultQueryTimeoutInMilliseconds = 10000;
 
+  private client?: MongoClient;
   /** MondoDB instance. */
   protected db: Db | undefined;
   /** MongoDB collection */
@@ -23,8 +24,13 @@ export default class MongoDbStore {
    */
   public async initialize (): Promise<void> {
     const client = await MongoClient.connect(this.serverUrl, { useNewUrlParser: true }); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
+    this.client = client;
     this.db = client.db(this.databaseName);
     await this.createCollectionIfNotExist(this.db);
+  }
+
+  public async stop(): Promise<void> {
+    return this.client!.close();
   }
 
   /**
@@ -63,4 +69,6 @@ export default class MongoDbStore {
    */
   public async createIndex (): Promise<void> {
   }
+
+  
 }

@@ -25,6 +25,8 @@ import SortedArray from './SortedArray';
 import protocolParameters from './parameters';
 import Logger from './Logger';
 import LogColor from './LogColor';
+
+import ConsoleLogger from './ConsoleLogger';
 export {
   Encoder,
   JsonCanonicalizer,
@@ -34,4 +36,5 @@ export {
   protocolParameters,
   Logger,
   LogColor,
+  ConsoleLogger,
 };

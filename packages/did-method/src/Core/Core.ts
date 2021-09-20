@@ -95,6 +95,7 @@ export default class Core {
    * The method starts the Observer and Batch Writer.
    */
   public async initialize (customLogger?: ILogger, customEventEmitter?: IEventEmitter) {
+  
     Logger.initialize(customLogger);
     EventEmitter.initialize(customEventEmitter);
 
@@ -119,19 +120,30 @@ export default class Core {
     } else {
       Logger.warn(LogColor.yellow(`Transaction observer is disabled.`));
     }
-
+ 
     // Only pull real blockchain time when observer is enabled, else only read from db.
     await this.blockchainClock.startPeriodicPullLatestBlockchainTime();
-
+ 
     if (this.config.batchingIntervalInSeconds > 0) {
       this.batchScheduler.startPeriodicBatchWriting();
     } else {
       Logger.warn(LogColor.yellow(`Batch writing is disabled.`));
     }
-
+ 
     this.downloadManager.start();
+     
+  }
 
-    // await this.monitor.initialize(this.config, this.versionManager, this.blockchain);
+  public async shutdown(){
+    await this.serviceStateStore.stop();
+    await this.transactionStore.stop();
+    await this.unresolvableTransactionStore.stop();
+    await this.operationStore.stop();
+    this.batchScheduler.stopPeriodicBatchWriting();
+    this.blockchainClock.stopPeriodicPullLatestBlockchainTime();
+    this.observer.stopPeriodicProcessing();
+    this.downloadManager.stop();
+
   }
 
   /**
@@ -152,6 +164,8 @@ export default class Core {
    */
   public async handleResolveRequest (didOrDidDocument: string): Promise<ResponseModel> {
     const currentTime = this.blockchainClock.getTime()!;
+
+    console.log(currentTime)
     const requestHandler = this.versionManager.getRequestHandler(currentTime);
     const response = requestHandler.handleResolveRequest(didOrDidDocument);
     return response;
