@@ -1,5 +1,6 @@
 
 import Core from '../Core';
+import {  MongoClient  } from 'mongodb';
 
 import { ConsoleLogger }  from '@sidetree/common';
 
@@ -30,4 +31,16 @@ export const getTestSidetreeNodeInstance = async () => {
     );
     await sidetreeNodeInstance.initialize(new ConsoleLogger())
     return sidetreeNodeInstance;
+}
+
+export const clearCollection = async (collectionName: string)=>{
+    const client = await MongoClient.connect(sidetreeTestNodeCoreConfig.mongoDbConnectionString, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+      });
+      const db = await client.db(sidetreeTestNodeCoreConfig.databaseName);
+      const collection = db.collection(collectionName)
+    //   const documents = await collection.find({}).toArray();
+    await collection.deleteMany({ }); 
+    await client.close();
 }
