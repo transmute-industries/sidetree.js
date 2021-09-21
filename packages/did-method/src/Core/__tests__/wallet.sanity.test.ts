@@ -1,0 +1,40 @@
+import vectors from '@sidetree/test-vectors';
+import { SidetreeWalletPlugin } from '@sidetree/wallet';
+const wallet = SidetreeWalletPlugin.build();
+
+const methodName = 'example';
+const methodNetwork = 'sidetree.testnet';
+
+const fixture: any = {};
+
+const removeExtraneousProperties = (key: any) => {
+    const { id, type, controller, publicKeyJwk, privateKeyJwk } = key;
+    return { id, type, controller, publicKeyJwk, privateKeyJwk };
+}
+
+describe('wallet', () => {
+  it('create operation and long form did', async () => {
+    const { mnemonic, op0 } = vectors.wallet.operations[0]
+    const { delta } = op0;
+    const keyType = 'secp256k1';
+    const key1 = await wallet.toKeyPair(mnemonic, 1, keyType);
+    const key2 = await wallet.toKeyPair(mnemonic, 2, keyType);
+    const longFormDid = await wallet.createLongFormDid({
+        method: methodName,
+        network: methodNetwork,
+        document: delta.patches[0].document as any,
+        updateKey: key2.publicKeyJwk,
+        recoveryKey: key1.publicKeyJwk,
+    });
+    fixture['create'] = { 
+        longFormDid, 
+        operation: op0, 
+        updateKey: removeExtraneousProperties(key2), 
+        recoveryKey: removeExtraneousProperties(key1) 
+    };
+    expect(fixture['create']).toEqual(vectors.didMethod.operations['create']);
+  });
+  it.todo('update operation and resolve updated document');
+  it.todo('recover operation and resolve recovered document');
+  it.todo('deactivate operation and resolve deactivated document');
+});

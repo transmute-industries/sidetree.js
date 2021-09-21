@@ -26,8 +26,16 @@ const wallet = {
   operations: require('./wallet/v1-secp256k1-operations.json').operations,
 };
 
+const didMethod = {
+  operations: require('./did-method/v1-did-method-secp256k1-operations.json'),
+};
+
 module.exports = {
   wallet,
+  didMethod,
+
+  //older  / stale
+
   testVectors,
   filesystem,
   crypto,

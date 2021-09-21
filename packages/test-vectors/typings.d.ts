@@ -1,6 +1,9 @@
 export {
-  testVectors,
   wallet,
+  didMethod,
+
+  // older / stale
+  testVectors,
   filesystem,
   crypto,
   sidetreeUniversalWallet,

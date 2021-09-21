@@ -2,5 +2,5 @@
     "observingIntervalInSeconds": 1, 
     "mongoDbConnectionString": "mongodb://localhost:27017/",
     "databaseName": "testMongodbName",
-    "didMethodName": "elem:ropsten"
+    "didMethodName": "example:sidetree.testnet"
 }
