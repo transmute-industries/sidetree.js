@@ -1,4 +1,3 @@
-
 import Config from './Config';
 import CoreErrorCode from './ErrorCode';
 import DownloadManager from './DownloadManager';
@@ -7,10 +6,10 @@ import Resolver from './Resolver';
 import SidetreeError from './SidetreeError';
 
 import {
-  VersionModel, 
-  IVersionMetadataFetcher, 
-  IVersionManager, 
-  ITransactionStore,  
+  VersionModel,
+  IVersionMetadataFetcher,
+  IVersionManager,
+  ITransactionStore,
   ITransactionSelector,
   ITransactionProcessor,
   IRequestHandler,
@@ -19,9 +18,11 @@ import {
   ICas,
   IBlockchain,
   IBatchWriter,
-  AbstractVersionMetadata
+  AbstractVersionMetadata,
 
  } from '@sidetree/common'
+
+import { versions } from './versions';
 
 /**
  * The class that handles code versioning.
@@ -36,13 +37,14 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
   private transactionProcessors: Map<string, ITransactionProcessor>;
   private transactionSelectors: Map<string, ITransactionSelector>;
   private versionMetadatas: Map<string, AbstractVersionMetadata>;
+  private references: any[];
 
   public constructor (
     private config: Config,
-    versions: VersionModel[]
+    sidetreeCoreVersions: VersionModel[]
   ) {
     // Reverse sort versions.
-    this.versionsReverseSorted = versions.sort((a, b) => b.startingBlockchainTime - a.startingBlockchainTime);
+    this.versionsReverseSorted = sidetreeCoreVersions.sort((a, b) => b.startingBlockchainTime - a.startingBlockchainTime);
 
     this.batchWriters = new Map();
     this.operationProcessors = new Map();
@@ -50,6 +52,8 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
     this.transactionProcessors = new Map();
     this.transactionSelectors = new Map();
     this.versionMetadatas = new Map();
+
+    this.references = [];
   }
 
   /**
@@ -72,22 +76,30 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
       const MongoDbOperationQueue = await this.loadDefaultExportsForVersion(version, 'MongoDbOperationQueue');
       const operationQueue = new MongoDbOperationQueue();
       await operationQueue.initialize(this.config.mongoDbConnectionString, this.config.databaseName);
+      this.references.push(operationQueue);
 
+  
       const TransactionProcessor = await this.loadDefaultExportsForVersion(version, 'TransactionProcessor');
       const transactionProcessor = new TransactionProcessor(downloadManager, operationStore, blockchain, this);
       this.transactionProcessors.set(version, transactionProcessor);
+      this.references.push(transactionProcessor);
 
       const TransactionSelector = await this.loadDefaultExportsForVersion(version, 'TransactionSelector');
       const transactionSelector = new TransactionSelector(transactionStore);
       this.transactionSelectors.set(version, transactionSelector);
 
+
       const BatchWriter = await this.loadDefaultExportsForVersion(version, 'BatchWriter');
       const batchWriter = new BatchWriter(operationQueue, blockchain, cas, this);
       this.batchWriters.set(version, batchWriter);
+      this.references.push(batchWriter);
+
+
 
       const OperationProcessor = await this.loadDefaultExportsForVersion(version, 'OperationProcessor');
       const operationProcessor = new OperationProcessor();
       this.operationProcessors.set(version, operationProcessor);
+      this.references.push(operationProcessor);
 
       const RequestHandler = await this.loadDefaultExportsForVersion(version, 'RequestHandler');
       const requestHandler = new RequestHandler(resolver, operationQueue, this.config.didMethodName);
@@ -100,6 +112,15 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
           `make sure VersionMetaData is properly implemented for version ${version}`);
       }
       this.versionMetadatas.set(version, versionMetadata);
+    }
+
+  }
+
+  public async stop(): Promise<void>{
+    for (const value of this.references) {
+      if (value.stop){
+        await value.stop();
+      }
     }
   }
 
@@ -170,8 +191,7 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
   }
 
   private async loadDefaultExportsForVersion (version: string, className: string): Promise<any> {
-    const defaults = (await import(`./versions/${version}/${className}`)).default;
-
-    return defaults;
+    const SidetreeClassForVersion = versions[version][className];
+    return SidetreeClassForVersion;
   }
 }

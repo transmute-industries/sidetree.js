@@ -115,6 +115,7 @@ export default class Core {
       this.transactionStore
     ); // `VersionManager` is last initialized component as it needs many shared/common components to be ready first.
 
+   
     if (this.config.observingIntervalInSeconds > 0) {
       await this.observer.startPeriodicProcessing();
     } else {
@@ -135,14 +136,19 @@ export default class Core {
   }
 
   public async shutdown(){
+
+    this.observer.stopPeriodicProcessing();
+    this.batchScheduler.stopPeriodicBatchWriting();
+    this.blockchainClock.stopPeriodicPullLatestBlockchainTime();
+
+    this.downloadManager.stop();
+  
     await this.serviceStateStore.stop();
     await this.transactionStore.stop();
     await this.unresolvableTransactionStore.stop();
     await this.operationStore.stop();
-    this.batchScheduler.stopPeriodicBatchWriting();
-    this.blockchainClock.stopPeriodicPullLatestBlockchainTime();
-    this.observer.stopPeriodicProcessing();
-    this.downloadManager.stop();
+
+    await this.versionManager.stop();
 
   }
 
@@ -164,8 +170,6 @@ export default class Core {
    */
   public async handleResolveRequest (didOrDidDocument: string): Promise<ResponseModel> {
     const currentTime = this.blockchainClock.getTime()!;
-
-    console.log(currentTime)
     const requestHandler = this.versionManager.getRequestHandler(currentTime);
     const response = requestHandler.handleResolveRequest(didOrDidDocument);
     return response;
@@ -219,9 +223,7 @@ export default class Core {
     await this.operationStore.delete();
     await this.transactionStore.clearCollection();
     await this.unresolvableTransactionStore.clearCollection();
-
     await this.operationStore.createIndex();
-
     await this.serviceStateStore.put({ databaseVersion: expectedDbVersion });
 
     Logger.warn(LogColor.yellow(`DB upgraded in: ${LogColor.green(timer.rounded())} ms.`));

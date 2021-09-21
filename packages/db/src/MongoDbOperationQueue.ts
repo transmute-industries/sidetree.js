@@ -36,10 +36,8 @@ export default class MongoDbOperationQueue implements IOperationQueue {
     this.collection = await MongoDbOperationQueue.createCollectionIfNotExist(this.db);
   }
 
-  public async close(): Promise<void> {
-    if (this.client){
-      this.client.close();
-    }
+  public async stop(): Promise<void> {
+    return this.client!.close();
   }
 
   async enqueue (didUniqueSuffix: string, operationBuffer: Buffer) {
