@@ -400,5 +400,29 @@
         }
       }
     }
+  },
+  "deactivate": {
+    "operation": {
+      "type": "deactivate",
+      "didSuffix": "EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA",
+      "revealValue": "EiD2nyPzWJGuJMiWLw3lNDnpLC3Ga7Wqhh3LDG6iQkX_EA",
+      "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJkaWRTdWZmaXgiOiJFaUQzNTF5WTBYcW5iQ0pOMk1hWlNRSk1nRy1icW1nRk1EUkdLYXdmdTZfbVpBIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4Ijoib3ZjTUtBN2c1MzFuUFd1SVJGaWRSbmh1N2JmSktXalNGOHFZRXlMZVhxTSIsInkiOiJHSVFQdGwydjAxUDl1VWx6ODVia3VvWl85ZHFKLW9UbGZPOTB6QWFULVEwIn19._mbGgfFgAVpDUhRcEOAzFB30xd8kKNPs1A8Yh6UT06EZDGxT2t1lddYW6DG9OTR5J2PQO4J1Kwn81qm0MU47TQ"
+    },
+    "resolve": {
+      "status": "deactivated",
+      "body": {
+        "@context": "https://w3id.org/did-resolution/v1",
+        "didDocument": {
+          "@context": "https://www.w3.org/ns/did/v1",
+          "id": "did:example:sidetree.testnet:EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA"
+        },
+        "didDocumentMetadata": {
+          "method": {
+            "published": true
+          },
+          "canonicalId": "did:example:sidetree.testnet:EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA"
+        }
+      }
+    }
   }
 }

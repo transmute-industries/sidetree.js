@@ -64,5 +64,13 @@ describe('wallet', () => {
     expect(resolve).toBeDefined();
     expect(fixture['recover']).toEqual(expected);
   });
-  it.todo('deactivate operation and resolve deactivated document');
+  it('deactivate operation and resolve deactivated document', async () => {
+    const { op3 } = vectors.wallet.operations[0];
+    fixture['deactivate'] = {
+      operation: op3,
+    };
+    const { resolve, ...expected } = vectors.didMethod.operations['deactivate'];
+    expect(resolve).toBeDefined();
+    expect(fixture['deactivate']).toEqual(expected);
+  });
 });

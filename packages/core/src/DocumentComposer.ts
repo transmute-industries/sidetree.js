@@ -146,8 +146,8 @@ export default class DocumentComposer {
     published: boolean
   ) {
     const didDocument = {
+      '@context': DocumentComposer.didDocumentContextUrl,
       id: did,
-      '@context': DocumentComposer.didDocumentContext,
     };
     const didDocumentMetadata = {
       method: {

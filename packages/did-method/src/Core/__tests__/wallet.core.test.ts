@@ -62,3 +62,14 @@ it('can submit recover operation and resolve', async () => {
   const result2 = await sidetreeNodeInstance.handleResolveRequest(did);
   expect(result2).toEqual(resolve);
 });
+
+it('can submit deactivate operation and resolve', async () => {
+  const { operation, resolve } = vectors.didMethod.operations.deactivate;
+  const result1 = await sidetreeNodeInstance.handleOperationRequest(
+    Buffer.from(JSON.stringify(operation))
+  );
+  expect(result1.status).toBe('succeeded');
+  await waitSeconds(5);
+  const result2 = await sidetreeNodeInstance.handleResolveRequest(did);
+  expect(result2).toEqual(resolve);
+});
