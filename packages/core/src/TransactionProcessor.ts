@@ -42,6 +42,7 @@ export default class TransactionProcessor implements ITransactionProcessor {
 
   public async processTransaction (transaction: TransactionModel): Promise<boolean> {
 
+  
     // Download the core (index and proof) files.
     let anchoredData: AnchoredData;
     let coreIndexFile: CoreIndexFile;
@@ -59,6 +60,7 @@ export default class TransactionProcessor implements ITransactionProcessor {
       // Download and verify core proof file.
       coreProofFile = await this.downloadAndVerifyCoreProofFile(coreIndexFile);
     } catch (error) {
+      console.log(error)
       let retryNeeded = true;
       if (error instanceof SidetreeError) {
         // If error is related to CAS network connectivity issues, we need to retry later.
@@ -79,6 +81,7 @@ export default class TransactionProcessor implements ITransactionProcessor {
       return transactionProcessedCompletely;
     }
 
+
     // Once code reaches here, it means core files are valid. In order to be compatible with the future data-pruning feature,
     // the operations referenced in core index file must be retained regardless of the validity of provisional and chunk files.
 
@@ -88,17 +91,19 @@ export default class TransactionProcessor implements ITransactionProcessor {
     let provisionalProofFile: ProvisionalProofFile | undefined;
     let chunkFileModel: ChunkFileModel | undefined;
     try {
+      console.log('🔥 before', coreIndexFile, anchoredData)
       // Download and verify provisional index file.
       provisionalIndexFile = await this.downloadAndVerifyProvisionalIndexFile(coreIndexFile, anchoredData.numberOfOperations);
-
+      console.log('🔥 after')
       // Download and verify provisional proof file.
       provisionalProofFile = await this.downloadAndVerifyProvisionalProofFile(provisionalIndexFile);
-
+      console.log('🔥')
       // Download and verify chunk file.
       chunkFileModel = await this.downloadAndVerifyChunkFile(coreIndexFile, provisionalIndexFile);
-
+      console.log('🔥')
       retryNeeded = false;
     } catch (error) {
+      console.error(error)
       // If we encounter any error, regardless of whether the transaction should be retried for processing,
       // we set all the provisional/chunk files to be `undefined`,
       // this is because chunk file would not be available/valid for its deltas to be used during resolutions,
@@ -127,10 +132,14 @@ export default class TransactionProcessor implements ITransactionProcessor {
     // Once code reaches here, it means all the files that are not `undefined` (and their relationships) are validated,
     // there is no need to perform any more validations at this point, we just need to compose the anchored operations and store them.
 
+    console.log('here...');
+
     // Compose using files downloaded into anchored operations.
     const operations = await this.composeAnchoredOperationModels(
       transaction, coreIndexFile, provisionalIndexFile, coreProofFile, provisionalProofFile, chunkFileModel
     );
+
+    console.log({operations});
 
     await this.operationStore.insertOrReplace(operations);
 
@@ -239,8 +248,9 @@ export default class TransactionProcessor implements ITransactionProcessor {
     );
 
     const fileBuffer = await this.downloadFileFromCas(provisionalIndexFileUri, ProtocolParameters.maxProvisionalIndexFileSizeInBytes);
+    console.log({fileBuffer})
     const provisionalIndexFile = await ProvisionalIndexFile.parse(fileBuffer);
-
+    console.log({provisionalIndexFile})
     // Calculate the max paid update operation count.
     const operationCountInCoreIndexFile = coreIndexFile.didUniqueSuffixes.length;
     const maxPaidUpdateOperationCount = paidOperationCount - operationCountInCoreIndexFile;
@@ -519,7 +529,7 @@ export default class TransactionProcessor implements ITransactionProcessor {
     Logger.info(`Downloading file '${fileUri}', max size limit ${maxFileSizeInBytes}...`);
 
     const fileFetchResult = await this.downloadManager.download(fileUri, maxFileSizeInBytes);
-
+    console.log('after: ', fileUri, fileFetchResult);
     if (fileFetchResult.code === FetchResultCode.InvalidHash) {
       throw new SidetreeError(ErrorCode.CasFileUriNotValid, `File hash '${fileUri}' is not a valid hash.`);
     }

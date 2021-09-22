@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { FetchResultCode, ICas } from '@sidetree/common';
+import { FetchResultCode } from '@sidetree/common';
 import {
   testObj,
   testObjMultihash,
@@ -30,7 +30,7 @@ import {
   notFoundMultihash,
 } from './__fixtures__';
 
-const testSuite = (cas: ICas): void => {
+const testSuite = (cas: any): void => {
   describe(cas.constructor.name, () => {
     beforeAll(async () => {
       await cas.initialize();

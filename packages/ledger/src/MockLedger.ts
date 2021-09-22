@@ -22,10 +22,16 @@ import {
 } from '@sidetree/common';
 const { version } = require('../package.json');
 
+
+const startingBlockchainTime = 500000;
 /**
  * Mock Blockchain class for testing.
  */
 export default class MockLedger implements IBlockchain {
+
+  public hashes: [string, number][] = [];
+
+
   getServiceVersion(): Promise<ServiceVersionModel> {
     return Promise.resolve({
       name: 'mock-ledger',
@@ -36,56 +42,56 @@ export default class MockLedger implements IBlockchain {
     return Promise.resolve();
   }
   getFee(_transactionTime: number): Promise<number> {
-    throw new Error('Method not implemented.');
+    return Promise.resolve(0);
   }
 
   getValueTimeLock(
     _lockIdentifier: string
   ): Promise<ValueTimeLockModel | undefined> {
-    throw new Error('Method not implemented.');
+    return Promise.resolve(undefined);
   }
 
   getWriterValueTimeLock(): Promise<ValueTimeLockModel | undefined> {
-    throw new Error('Method not implemented.');
+    // throw new Error('Method not implemented.');
+    return Promise.resolve(undefined);
   }
 
-  /** Stores each hash given in write() method. */
-  hashes: [string][] = [];
-
-  public async write(anchorString: string, _fee = 0): Promise<void> {
-    this.hashes.push([anchorString]);
+  public async write(anchorString: string, fee = 0): Promise<void> {
+    this.hashes.push([anchorString, fee]);
   }
 
-  public async read(
-    sinceTransactionNumber?: number,
-    _transactionTimeHash?: string
-  ): Promise<{ moreTransactions: boolean; transactions: TransactionModel[] }> {
-    let transactions: TransactionModel[] = this.hashes.map((hash, index) => ({
-      transactionNumber: index,
-      transactionTime: index,
-      transactionHash: hash[0],
-      transactionTimeHash: hash[0],
-      anchorString: hash[0],
-      writer: 'writer',
-      transactionFeePaid: 0,
-      normalizedTransactionFee: 0,
-    }));
-    if (sinceTransactionNumber) {
-      transactions = transactions.filter(
-        (t) => t.transactionNumber >= sinceTransactionNumber
-      );
-    } else if (_transactionTimeHash) {
-      transactions = transactions.filter(
-        (t) => t.transactionTimeHash === _transactionTimeHash
-      );
+  public async read (sinceTransactionNumber?: number, _transactionTimeHash?: string): Promise<{ moreTransactions: boolean, transactions: TransactionModel[] }> {
+    if (sinceTransactionNumber === undefined) {
+      sinceTransactionNumber = -1;
+    }
+
+    let moreTransactions = false;
+    if (this.hashes.length > 0 &&
+      sinceTransactionNumber < this.hashes.length - 2) {
+      moreTransactions = true;
+    }
+
+    const transactions: TransactionModel[] = [];
+    if (this.hashes.length > 0 &&
+      sinceTransactionNumber < this.hashes.length - 1) {
+      const hashIndex = sinceTransactionNumber + 1;
+      const transaction = {
+        transactionNumber: hashIndex,
+        transactionTime: startingBlockchainTime + hashIndex,
+        transactionTimeHash: this.hashes[hashIndex][0],
+        anchorString: this.hashes[hashIndex][0],
+        transactionFeePaid: this.hashes[hashIndex][1],
+        normalizedTransactionFee: this.hashes[hashIndex][1],
+        writer: 'writer'
+      };
+      transactions.push(transaction);
     }
 
     return {
-      moreTransactions: false,
-      transactions: transactions,
+      moreTransactions: moreTransactions,
+      transactions: transactions
     };
   }
-
   public async getFirstValidTransaction(
     _transactions: TransactionModel[]
   ): Promise<TransactionModel | undefined> {
@@ -93,13 +99,13 @@ export default class MockLedger implements IBlockchain {
   }
 
   private latestTime?: BlockchainTimeModel = {
-    time: 0,
+    time: startingBlockchainTime,
     hash: '',
   };
 
   public getLatestTime = (): Promise<BlockchainTimeModel> => {
     this.latestTime = {
-      time: 500000,
+      time: startingBlockchainTime + this.hashes.length,
       hash: 'dummyHash',
     };
     return Promise.resolve(this.latestTime);

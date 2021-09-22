@@ -120,6 +120,7 @@ export default class Observer {
         const transactions = readResult ? readResult.transactions : [];
         moreTransactions = readResult ? readResult.moreTransactions : false;
 
+        // console.log({transactions});
         // Set the cursor for fetching of next transaction batch in the next loop.
         if (transactions.length > 0) {
           this.cursorTransaction = transactions[transactions.length - 1];
@@ -127,6 +128,8 @@ export default class Observer {
 
         // Queue parallel downloading and processing of chunk files.
         let qualifiedTransactions = await this.throughputLimiter.getQualifiedTransactions(transactions);
+
+        // console.log({qualifiedTransactions});
         qualifiedTransactions = qualifiedTransactions.sort((a, b) => { return a.transactionNumber - b.transactionNumber; });
         for (const transaction of qualifiedTransactions) {
           const transactionUnderProcessing = {
