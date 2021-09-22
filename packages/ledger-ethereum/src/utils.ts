@@ -12,9 +12,8 @@
  * limitations under the License.
  */
 
-import { TransactionModel } from '@sidetree/common';
+import { TransactionModel, Encoder } from '@sidetree/common';
 import { AnchoredDataSerializer } from '@sidetree/core';
-import multihashes from 'multihashes';
 import Web3 from 'web3';
 import { EthereumBlock, ElementEventData } from './types';
 
@@ -28,30 +27,17 @@ const getAccounts = (web3: Web3): Promise<Array<string>> =>
     });
   });
 
-const bytes32EnodedMultihashToBase58EncodedMultihash = (
-  bytes32EncodedMultihash: string
-): string =>
-  multihashes.toB58String(
-    multihashes.fromHexString(
-      `1220${bytes32EncodedMultihash.replace('0x', '')}`
-    )
-  );
-
-const base58EncodedMultihashToBytes32 = (
-  base58EncodedMultihash: string
-): string => {
-  return `0x${multihashes
-    .toHexString(multihashes.fromB58String(base58EncodedMultihash))
-    .substring(4)}`;
-};
-
 const eventLogToSidetreeTransaction = (
   log: ElementEventData
 ): TransactionModel => {
+  const coreIndexFileUri = Encoder.encode(
+    Buffer.from(
+      '1220' + log.returnValues.anchorFileHash.replace('0x', ''),
+      'hex'
+    )
+  );
   const anchorObject = {
-    coreIndexFileUri: bytes32EnodedMultihashToBase58EncodedMultihash(
-      log.returnValues.anchorFileHash
-    ),
+    coreIndexFileUri,
     numberOfOperations: Number.parseInt(log.returnValues.numberOfOperations),
   };
   const anchorString = AnchoredDataSerializer.serialize(anchorObject);
@@ -114,8 +100,6 @@ const extendSidetreeTransactionWithTimestamp = async (
 };
 
 export default {
-  base58EncodedMultihashToBytes32,
-  bytes32EnodedMultihashToBase58EncodedMultihash,
   eventLogToSidetreeTransaction,
   extendSidetreeTransactionWithTimestamp,
   getAccounts,

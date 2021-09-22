@@ -1,20 +1,6 @@
-/*
- * Copyright 2020 - Transmute Industries Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import vectors from '@sidetree/test-vectors';
 import Element from '../../Element';
-import { getTestElement, resetDatabase } from '../../test/utils';
+import { getTestElement } from '../../test/utils';
 
 import { longFormResolutionResponse } from './__fixtures__';
 
@@ -25,12 +11,11 @@ let element: Element;
 // const WRITE_FIXTURE_TO_DISK = false;
 
 beforeAll(async () => {
-  await resetDatabase();
   element = await getTestElement();
 });
 
 afterAll(async () => {
-  await element.close();
+  await element.shutdown();
 });
 
 jest.setTimeout(60 * 1000);
@@ -38,7 +23,7 @@ jest.setTimeout(60 * 1000);
 const wallet = SidetreeWalletPlugin.build();
 
 const uniqueSuffix = 'EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA';
-const longFormDid = `did:elem:ropsten:${uniqueSuffix}:eyJkZWx0YSI6eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljS2V5cyI6W3siaWQiOiJ6UTNzaFNWVzR6SHRIZXVXRk1SVkRTRVAyaWpxdk5hMktVMnlISHNXVEYyTWc0ZkNOIiwicHVibGljS2V5SndrIjp7ImNydiI6InNlY3AyNTZrMSIsImt0eSI6IkVDIiwieCI6IlMzOTRjdXRBd0ljRHNmUGJEOWxOUk1oTEZWWUI0b3VUVHhwZ21uanRYNU0iLCJ5IjoiR01sUmJlck96SnI1UFBHU3luRnU2TWlIeFRpdEk0R2hmOVFLcUw4ZkNPUSJ9LCJwdXJwb3NlcyI6WyJhdXRoZW50aWNhdGlvbiIsImFzc2VydGlvbk1ldGhvZCIsImtleUFncmVlbWVudCJdLCJ0eXBlIjoiSnNvbldlYktleTIwMjAifV0sInNlcnZpY2VzIjpbeyJpZCI6ImV4YW1wbGUtc2VydmljZSIsInNlcnZpY2VFbmRwb2ludCI6Imh0dHBzOi8vZXhhbXBsZS5jb20iLCJ0eXBlIjoiRXhhbXBsZVNlcnZpY2UifV19fV0sInVwZGF0ZUNvbW1pdG1lbnQiOiJFaUJNQWpTQV9BSmFzcDZDMmcwbTRxeVRFZzVJUlVBV1JsV1EzdlVfWGpDMWhRIn0sInN1ZmZpeERhdGEiOnsiZGVsdGFIYXNoIjoiRWlESjExRlByeUZfVlF0ajFYemJETXBCNklXR0FRcGtvRzdYVlNlZl85UWFmZyIsInJlY292ZXJ5Q29tbWl0bWVudCI6IkVpQnhUVGRNNjMwUkhLVlQ2WnFTNm13aXBnbm05Y0VkMTF0UmRGMWNDVjhybWcifX0`
+const longFormDid = `did:elem:ganache:${uniqueSuffix}:eyJkZWx0YSI6eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljS2V5cyI6W3siaWQiOiJ6UTNzaFNWVzR6SHRIZXVXRk1SVkRTRVAyaWpxdk5hMktVMnlISHNXVEYyTWc0ZkNOIiwicHVibGljS2V5SndrIjp7ImNydiI6InNlY3AyNTZrMSIsImt0eSI6IkVDIiwieCI6IlMzOTRjdXRBd0ljRHNmUGJEOWxOUk1oTEZWWUI0b3VUVHhwZ21uanRYNU0iLCJ5IjoiR01sUmJlck96SnI1UFBHU3luRnU2TWlIeFRpdEk0R2hmOVFLcUw4ZkNPUSJ9LCJwdXJwb3NlcyI6WyJhdXRoZW50aWNhdGlvbiIsImFzc2VydGlvbk1ldGhvZCIsImtleUFncmVlbWVudCJdLCJ0eXBlIjoiSnNvbldlYktleTIwMjAifV0sInNlcnZpY2VzIjpbeyJpZCI6ImV4YW1wbGUtc2VydmljZSIsInNlcnZpY2VFbmRwb2ludCI6Imh0dHBzOi8vZXhhbXBsZS5jb20iLCJ0eXBlIjoiRXhhbXBsZVNlcnZpY2UifV19fV0sInVwZGF0ZUNvbW1pdG1lbnQiOiJFaUJNQWpTQV9BSmFzcDZDMmcwbTRxeVRFZzVJUlVBV1JsV1EzdlVfWGpDMWhRIn0sInN1ZmZpeERhdGEiOnsiZGVsdGFIYXNoIjoiRWlESjExRlByeUZfVlF0ajFYemJETXBCNklXR0FRcGtvRzdYVlNlZl85UWFmZyIsInJlY292ZXJ5Q29tbWl0bWVudCI6IkVpQnhUVGRNNjMwUkhLVlQ2WnFTNm13aXBnbm05Y0VkMTF0UmRGMWNDVjhybWcifX0`;
 
 describe('CRUD', () => {
   describe('create', () => {
@@ -65,13 +50,11 @@ describe('CRUD', () => {
           },
         ],
       } as any;
-
       const recoveryKey = key1.publicKeyJwk;
       const updateKey = key2.publicKeyJwk;
-
       const longFormDid2 = await wallet.createLongFormDid({
         method: 'elem',
-        network: 'ropsten',
+        network: 'ganache',
         document,
         updateKey,
         recoveryKey,
@@ -93,18 +76,14 @@ describe('CRUD', () => {
       expect(operation0.status).toBe('succeeded');
       expect(operation0.body).toBeDefined();
 
-      await element.triggerBatchAndObserve();
       await new Promise((resolve) => {
-        setTimeout(resolve, 20 * 1000);
+        setTimeout(resolve, 2 * 1000);
       });
 
-      const datas = await element.transactionStore.getTransactions();
-      console.log(datas);
-
-      // const did = `did:elem:ropsten:${uniqueSuffix}`;
-      // const operation1 = await element.handleResolveRequest(did);
-      // expect(operation1.status).toBe('succeeded');
-      // expect(operation1.body.didDocument.id).toEqual(did);
+      const did = `did:elem:ganache:${uniqueSuffix}`;
+      const operation1 = await element.handleResolveRequest(did);
+      expect(operation1.status).toBe('succeeded');
+      expect(operation1.body.didDocument.id).toEqual(did);
     });
   });
 });
