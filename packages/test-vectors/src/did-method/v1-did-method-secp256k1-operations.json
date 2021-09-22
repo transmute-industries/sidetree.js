@@ -269,5 +269,136 @@
         }
       }
     }
+  },
+  "recover": {
+    "operation": {
+      "type": "recover",
+      "didSuffix": "EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA",
+      "revealValue": "EiBh1BSJicGll1LCL0ntJRpoNTepZpYU9Q3gGFo8sogrXA",
+      "delta": {
+        "patches": [
+          {
+            "action": "replace",
+            "document": {
+              "publicKeys": [
+                {
+                  "id": "zQ3shgsfFviVh2hDYPMNot8QsfsrTXnGEkoCesddENjJrsu8U",
+                  "type": "JsonWebKey2020",
+                  "publicKeyJwk": {
+                    "kty": "EC",
+                    "crv": "secp256k1",
+                    "x": "ITBBPZ6B1Xz5b5TwrWUCv3qRtZzJYu4GvAl6Fe5U4IE",
+                    "y": "XmmOM9tyego93rkf2md5-z6Pny9mTbrgCK5bCe3vQGU"
+                  },
+                  "purposes": [
+                    "authentication",
+                    "assertionMethod",
+                    "keyAgreement"
+                  ]
+                }
+              ],
+              "services": [
+                {
+                  "id": "example-service-3",
+                  "type": "ExampleService",
+                  "serviceEndpoint": "https://3.example.com"
+                }
+              ]
+            }
+          }
+        ],
+        "updateCommitment": "EiAbYB6IxVJLAFHutsRvbXCSuoKMp7kOqsDLahruLRf5Fw"
+      },
+      "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJyZWNvdmVyeUNvbW1pdG1lbnQiOiJFaUNnbUJTdlg4aHlOdzZDYWZia19IQmQwM0FmdWZVcFE3aVU1dHV3MlNRWUxBIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiOW1DV3ZQY3FwZnlIem5SVkRYRDZPMU5NeFNxUnFFcE45aklrdnkyekdKNCIsInkiOiJvWGtKdVJ1OThmMTA5ZjlpRlFIb1RnMk5CZ295cml6eEdhWWhqSGowOUhFIn0sImRlbHRhSGFzaCI6IkVpRE9wNkRVMGoyQnI0cjhUcDE4ZkZyTDVOVWJUQ1RER1hudzI5QzhuQVBVU0EifQ.YeAnjJvjHKZ42pk71b6NlXnuoJFKl3m-LgNS9UXcljMRzbTJmO-pcg3FIWPwACtNDqOVb_X1crcrw610rZ79ow"
+    },
+    "updateKey": {
+      "id": "did:key:zQ3shbx8qCLoZrpevVm6PzzEeFEauwRBjPhVeizjbjmGirL9R#zQ3shbx8qCLoZrpevVm6PzzEeFEauwRBjPhVeizjbjmGirL9R",
+      "type": "JsonWebKey2020",
+      "controller": "did:key:zQ3shbx8qCLoZrpevVm6PzzEeFEauwRBjPhVeizjbjmGirL9R",
+      "publicKeyJwk": {
+        "kty": "EC",
+        "crv": "secp256k1",
+        "x": "2AtSLyWcyMUMlWWOx6Q26xTrU10GpaLBLe4UGJgRZyw",
+        "y": "904j5XW4Jgobefa22zCCwwocazgJ9efrWi7c-kln5zg"
+      },
+      "privateKeyJwk": {
+        "kty": "EC",
+        "crv": "secp256k1",
+        "x": "2AtSLyWcyMUMlWWOx6Q26xTrU10GpaLBLe4UGJgRZyw",
+        "y": "904j5XW4Jgobefa22zCCwwocazgJ9efrWi7c-kln5zg",
+        "d": "c_e7c6xpc4D-gCndUssmO9CHJUw7kl_bCmh1DBz9Xn0"
+      }
+    },
+    "recoveryKey": {
+      "id": "did:key:zQ3shqcFfVGkq1vTHfm5kopye5LpSXfu4NeFA1BPT9Am35ynJ#zQ3shqcFfVGkq1vTHfm5kopye5LpSXfu4NeFA1BPT9Am35ynJ",
+      "type": "JsonWebKey2020",
+      "controller": "did:key:zQ3shqcFfVGkq1vTHfm5kopye5LpSXfu4NeFA1BPT9Am35ynJ",
+      "publicKeyJwk": {
+        "kty": "EC",
+        "crv": "secp256k1",
+        "x": "ovcMKA7g531nPWuIRFidRnhu7bfJKWjSF8qYEyLeXqM",
+        "y": "GIQPtl2v01P9uUlz85bkuoZ_9dqJ-oTlfO90zAaT-Q0"
+      },
+      "privateKeyJwk": {
+        "kty": "EC",
+        "crv": "secp256k1",
+        "x": "ovcMKA7g531nPWuIRFidRnhu7bfJKWjSF8qYEyLeXqM",
+        "y": "GIQPtl2v01P9uUlz85bkuoZ_9dqJ-oTlfO90zAaT-Q0",
+        "d": "1V9POEUMBPIHQXq-mOEXZZSvZjhTbMzXpSdJPcMwC08"
+      }
+    },
+    "resolve": {
+      "status": "succeeded",
+      "body": {
+        "@context": "https://w3id.org/did-resolution/v1",
+        "didDocument": {
+          "@context": [
+            "https://www.w3.org/ns/did/v1",
+            "https://w3id.org/security/suites/jws-2020/v1",
+            {
+              "@vocab": "https://www.w3.org/ns/did#"
+            }
+          ],
+          "id": "did:example:sidetree.testnet:EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA",
+          "verificationMethod": [
+            {
+              "id": "#zQ3shgsfFviVh2hDYPMNot8QsfsrTXnGEkoCesddENjJrsu8U",
+              "controller": "did:example:sidetree.testnet:EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA",
+              "type": "JsonWebKey2020",
+              "publicKeyJwk": {
+                "kty": "EC",
+                "crv": "secp256k1",
+                "x": "ITBBPZ6B1Xz5b5TwrWUCv3qRtZzJYu4GvAl6Fe5U4IE",
+                "y": "XmmOM9tyego93rkf2md5-z6Pny9mTbrgCK5bCe3vQGU"
+              }
+            }
+          ],
+          "authentication": [
+            "#zQ3shgsfFviVh2hDYPMNot8QsfsrTXnGEkoCesddENjJrsu8U"
+          ],
+          "assertionMethod": [
+            "#zQ3shgsfFviVh2hDYPMNot8QsfsrTXnGEkoCesddENjJrsu8U"
+          ],
+          "keyAgreement": [
+            "#zQ3shgsfFviVh2hDYPMNot8QsfsrTXnGEkoCesddENjJrsu8U"
+          ],
+          "service": [
+            {
+              "id": "#example-service-3",
+              "type": "ExampleService",
+              "serviceEndpoint": "https://3.example.com"
+            }
+          ]
+        },
+        "didDocumentMetadata": {
+          "method": {
+            "published": true,
+            "recoveryCommitment": "EiCgmBSvX8hyNw6Cafbk_HBd03AfufUpQ7iU5tuw2SQYLA",
+            "updateCommitment": "EiAbYB6IxVJLAFHutsRvbXCSuoKMp7kOqsDLahruLRf5Fw"
+          },
+          "canonicalId": "did:example:sidetree.testnet:EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA"
+        }
+      }
+    }
   }
 }

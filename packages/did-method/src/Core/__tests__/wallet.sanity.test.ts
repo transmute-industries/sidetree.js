@@ -51,6 +51,18 @@ describe('wallet', () => {
     expect(resolve).toBeDefined();
     expect(fixture['update']).toEqual(expected);
   });
-  it.todo('recover operation and resolve recovered document');
+  it('recover operation and resolve recovered document', async () => {
+    const { mnemonic, op2 } = vectors.wallet.operations[0];
+    const key5 = await wallet.toKeyPair(mnemonic, 5, keyType);
+    const key6 = await wallet.toKeyPair(mnemonic, 6, keyType);
+    fixture['recover'] = {
+      operation: op2,
+      updateKey: removeExtraneousProperties(key6),
+      recoveryKey: removeExtraneousProperties(key5),
+    };
+    const { resolve, ...expected } = vectors.didMethod.operations['recover'];
+    expect(resolve).toBeDefined();
+    expect(fixture['recover']).toEqual(expected);
+  });
   it.todo('deactivate operation and resolve deactivated document');
 });
