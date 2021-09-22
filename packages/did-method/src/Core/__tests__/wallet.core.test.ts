@@ -7,12 +7,16 @@ import {
   clearCollection,
 } from '../__fixtures__/help';
 
+let did: any;
 let sidetreeNodeInstance: Core;
 
 jest.setTimeout(10 * 1000);
 
 beforeAll(async () => {
   sidetreeNodeInstance = await getTestSidetreeNodeInstance();
+  await clearCollection('service');
+  await clearCollection('operations');
+  await clearCollection('transactions');
   await clearCollection('queued-operations');
 });
 
@@ -31,9 +35,19 @@ it('can submit create operation and resolve', async () => {
   const result1 = await sidetreeNodeInstance.handleOperationRequest(
     Buffer.from(JSON.stringify(operation))
   );
-  await waitSeconds(2);
-  const result2 = await sidetreeNodeInstance.handleResolveRequest(
-    result1.body.didDocument.id
+  did = result1.body.didDocument.id;
+  await waitSeconds(5);
+  const result2 = await sidetreeNodeInstance.handleResolveRequest(did);
+  expect(result2).toEqual(resolve);
+});
+
+it('can submit update operation and resolve', async () => {
+  const { operation, resolve } = vectors.didMethod.operations.update;
+  const result1 = await sidetreeNodeInstance.handleOperationRequest(
+    Buffer.from(JSON.stringify(operation))
   );
+  expect(result1.status).toBe('succeeded');
+  await waitSeconds(5);
+  const result2 = await sidetreeNodeInstance.handleResolveRequest(did);
   expect(result2).toEqual(resolve);
 });

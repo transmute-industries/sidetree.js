@@ -1,38 +1,34 @@
 import semver from 'semver';
 import timeSpan from 'time-span';
 
-import { 
-  MongoDbOperationStore, 
-  MongoDbUnresolvableTransactionStore, 
-  MongoDbTransactionStore, 
-  MongoDbServiceStateStore  
+import {
+  MongoDbOperationStore,
+  MongoDbUnresolvableTransactionStore,
+  MongoDbTransactionStore,
+  MongoDbServiceStateStore,
 } from '@sidetree/db';
 
-import { 
-  VersionManager, 
-  SidetreeError, 
-  ServiceStateModel, 
-  ServiceInfoProvider, 
-  Resolver, 
+import {
+  VersionManager,
+  SidetreeError,
+  ServiceStateModel,
+  ServiceInfoProvider,
+  Resolver,
   Observer,
-
   EventEmitter,
   ErrorCode,
   DownloadManager,
   Config,
-  
   BatchScheduler,
-
-  BlockchainClock
+  BlockchainClock,
 } from '@sidetree/core';
 
-
-import { 
-  VersionModel, 
-  ResponseStatus, 
-  ResponseModel, 
-  ICas, 
-  IEventEmitter, 
+import {
+  VersionModel,
+  ResponseStatus,
+  ResponseModel,
+  ICas,
+  IEventEmitter,
   ILogger,
   IBlockchain,
   Logger,
@@ -44,7 +40,7 @@ import {
  */
 export default class Core {
   /** Monitor of the running Core service. */
-//   public monitor: Monitor;
+  //   public monitor: Monitor;
 
   private serviceStateStore: MongoDbServiceStateStore<ServiceStateModel>;
   private transactionStore: MongoDbTransactionStore;
@@ -61,22 +57,47 @@ export default class Core {
   /**
    * Core constructor.
    */
-  public constructor (private config: Config, versionModels: VersionModel[], private cas: ICas, private blockchain:IBlockchain) {
+  public constructor(
+    private config: Config,
+    versionModels: VersionModel[],
+    private cas: ICas,
+    private blockchain: IBlockchain
+  ) {
     // Component dependency construction & injection.
     this.versionManager = new VersionManager(config, versionModels); // `VersionManager` is first constructed component as multiple components depend on it.
     this.serviceInfo = new ServiceInfoProvider('core');
-    this.serviceStateStore = new MongoDbServiceStateStore(this.config.mongoDbConnectionString, this.config.databaseName);
-    this.operationStore = new MongoDbOperationStore(config.mongoDbConnectionString, config.databaseName);
-    this.downloadManager = new DownloadManager(config.maxConcurrentDownloads, this.cas);
+    this.serviceStateStore = new MongoDbServiceStateStore(
+      this.config.mongoDbConnectionString,
+      this.config.databaseName
+    );
+    this.operationStore = new MongoDbOperationStore(
+      config.mongoDbConnectionString,
+      config.databaseName
+    );
+    this.downloadManager = new DownloadManager(
+      config.maxConcurrentDownloads,
+      this.cas
+    );
     this.resolver = new Resolver(this.versionManager, this.operationStore);
     this.transactionStore = new MongoDbTransactionStore();
-    this.unresolvableTransactionStore = new MongoDbUnresolvableTransactionStore(config.mongoDbConnectionString, config.databaseName);
+    this.unresolvableTransactionStore = new MongoDbUnresolvableTransactionStore(
+      config.mongoDbConnectionString,
+      config.databaseName
+    );
 
     // Only enable real blockchain time pull if observer is enabled
     const enableRealBlockchainTimePull = config.observingIntervalInSeconds > 0;
-    this.blockchainClock = new BlockchainClock(this.blockchain, this.serviceStateStore, enableRealBlockchainTimePull);
+    this.blockchainClock = new BlockchainClock(
+      this.blockchain,
+      this.serviceStateStore,
+      enableRealBlockchainTimePull
+    );
 
-    this.batchScheduler = new BatchScheduler(this.versionManager, this.blockchain, config.batchingIntervalInSeconds);
+    this.batchScheduler = new BatchScheduler(
+      this.versionManager,
+      this.blockchain,
+      config.batchingIntervalInSeconds
+    );
     this.observer = new Observer(
       this.versionManager,
       this.blockchain,
@@ -94,14 +115,19 @@ export default class Core {
    * The initialization method that must be called before consumption of this core object.
    * The method starts the Observer and Batch Writer.
    */
-  public async initialize (customLogger?: ILogger, customEventEmitter?: IEventEmitter) {
-  
+  public async initialize(
+    customLogger?: ILogger,
+    customEventEmitter?: IEventEmitter
+  ) {
     Logger.initialize(customLogger);
     EventEmitter.initialize(customEventEmitter);
 
     // DB initializations.
     await this.serviceStateStore.initialize();
-    await this.transactionStore.initialize(this.config.mongoDbConnectionString, this.config.databaseName);
+    await this.transactionStore.initialize(
+      this.config.mongoDbConnectionString,
+      this.config.databaseName
+    );
     await this.unresolvableTransactionStore.initialize();
     await this.operationStore.initialize();
     await this.upgradeDatabaseIfNeeded();
@@ -115,34 +141,35 @@ export default class Core {
       this.transactionStore
     ); // `VersionManager` is last initialized component as it needs many shared/common components to be ready first.
 
-   
     if (this.config.observingIntervalInSeconds > 0) {
       await this.observer.startPeriodicProcessing();
     } else {
       Logger.warn(LogColor.yellow(`Transaction observer is disabled.`));
     }
- 
+
     // Only pull real blockchain time when observer is enabled, else only read from db.
     await this.blockchainClock.startPeriodicPullLatestBlockchainTime();
- 
+
     if (this.config.batchingIntervalInSeconds > 0) {
       this.batchScheduler.startPeriodicBatchWriting();
     } else {
       Logger.warn(LogColor.yellow(`Batch writing is disabled.`));
     }
- 
+
     this.downloadManager.start();
-     
   }
 
-  public async shutdown(){
-
+  public async shutdown() {
     this.observer.stopPeriodicProcessing();
     this.batchScheduler.stopPeriodicBatchWriting();
     this.blockchainClock.stopPeriodicPullLatestBlockchainTime();
 
+    await new Promise((resolve) => {
+      setTimeout(resolve, this.config.observingIntervalInSeconds * 1000);
+    });
+
     this.downloadManager.stop();
-  
+
     await this.serviceStateStore.stop();
     await this.transactionStore.stop();
     await this.unresolvableTransactionStore.stop();
@@ -150,12 +177,15 @@ export default class Core {
 
     await this.versionManager.stop();
 
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1 * 1000);
+    });
   }
 
   /**
    * Handles an operation request.
    */
-  public async handleOperationRequest (request: Buffer): Promise<ResponseModel> {
+  public async handleOperationRequest(request: Buffer): Promise<ResponseModel> {
     const currentTime = this.blockchainClock.getTime()!;
     const requestHandler = this.versionManager.getRequestHandler(currentTime);
     const response = requestHandler.handleOperationRequest(request);
@@ -168,7 +198,9 @@ export default class Core {
    *   1. Fully qualified DID. e.g. 'did:sidetree:abc' or
    *   2. An encoded DID Document prefixed by the DID method name. e.g. 'did:sidetree:<encoded-DID-Document>'.
    */
-  public async handleResolveRequest (didOrDidDocument: string): Promise<ResponseModel> {
+  public async handleResolveRequest(
+    didOrDidDocument: string
+  ): Promise<ResponseModel> {
     const currentTime = this.blockchainClock.getTime()!;
     const requestHandler = this.versionManager.getRequestHandler(currentTime);
     const response = requestHandler.handleResolveRequest(didOrDidDocument);
@@ -179,19 +211,19 @@ export default class Core {
    * Handles the get version request. It gets the versions from the dependent services
    * as well.
    */
-  public async handleGetVersionRequest (): Promise<ResponseModel> {
+  public async handleGetVersionRequest(): Promise<ResponseModel> {
     const responses = [
       this.serviceInfo.getServiceVersion(),
-      await this.blockchain.getServiceVersion()
+      await this.blockchain.getServiceVersion(),
     ];
 
     return {
       status: ResponseStatus.Succeeded,
-      body: JSON.stringify(responses)
+      body: JSON.stringify(responses),
     };
   }
 
-  private async upgradeDatabaseIfNeeded () {
+  private async upgradeDatabaseIfNeeded() {
     // If this node is not the active Observer node, do not perform DB upgrade.
     // Since only one active Observer is supported, this ensures only one node is performing the DB upgrade.
     if (this.config.observingIntervalInSeconds === 0) {
@@ -207,16 +239,29 @@ export default class Core {
     }
 
     // Throw if attempting to downgrade.
-    if (actualDbVersion !== undefined && semver.lt(expectedDbVersion, actualDbVersion)) {
+    if (
+      actualDbVersion !== undefined &&
+      semver.lt(expectedDbVersion, actualDbVersion)
+    ) {
       Logger.error(
-        LogColor.red(`Downgrading DB from version ${LogColor.green(actualDbVersion)} to  ${LogColor.green(expectedDbVersion)} is not allowed.`)
+        LogColor.red(
+          `Downgrading DB from version ${LogColor.green(
+            actualDbVersion
+          )} to  ${LogColor.green(expectedDbVersion)} is not allowed.`
+        )
       );
       throw new SidetreeError(ErrorCode.DatabaseDowngradeNotAllowed);
     }
 
     // Add DB upgrade code below.
 
-    Logger.warn(LogColor.yellow(`Upgrading DB from version ${LogColor.green(actualDbVersion)} to ${LogColor.green(expectedDbVersion)}...`));
+    Logger.warn(
+      LogColor.yellow(
+        `Upgrading DB from version ${LogColor.green(
+          actualDbVersion
+        )} to ${LogColor.green(expectedDbVersion)}...`
+      )
+    );
 
     // Current upgrade action is simply clearing/deleting existing DB such that initial sync can occur from genesis block.
     const timer = timeSpan();
@@ -226,6 +271,8 @@ export default class Core {
     await this.operationStore.createIndex();
     await this.serviceStateStore.put({ databaseVersion: expectedDbVersion });
 
-    Logger.warn(LogColor.yellow(`DB upgraded in: ${LogColor.green(timer.rounded())} ms.`));
+    Logger.warn(
+      LogColor.yellow(`DB upgraded in: ${LogColor.green(timer.rounded())} ms.`)
+    );
   }
 }
