@@ -17,15 +17,13 @@
  * limitations under the License.
  */
 
-import { MongoDb } from '@sidetree/db';
 import { testSuite } from '@sidetree/cas';
 import IpfsCasWithCache from '../IpfsCasWithCache';
 import config from './config.json';
 
 const ipfsCasWithCache = new IpfsCasWithCache(
   config.contentAddressableStoreServiceUri,
-  config.mongoDbConnectionString,
-  config.databaseName
+  config.mongoDbConnectionString
 );
 
 jest.setTimeout(10 * 1000);
@@ -33,10 +31,10 @@ jest.setTimeout(10 * 1000);
 beforeAll(async () => {
   // Need to wait so that ipfs has the time to be initialized
   await new Promise((resolve) => setTimeout(resolve, 5000));
-  await MongoDb.resetDatabase(
-    config.mongoDbConnectionString,
-    config.databaseName
-  );
 });
 
 testSuite(ipfsCasWithCache);
+
+afterAll(async () => {
+  await ipfsCasWithCache.stop();
+});
