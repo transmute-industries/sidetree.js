@@ -11,12 +11,10 @@
  * limitations under the License.
  */
 
-import { crypto } from '@sidetree/test-vectors';
-
 import { writeFixture } from '../test/util';
-import { toKeyPair } from '../functions/toKeyPair';
+import { toKeyPair } from '..';
 
-import { walletKeyPair } from '../__fixtures__';
+import { wallet } from '@sidetree/test-vectors';
 
 const WRITE_FIXTURE_TO_DISK = false;
 
@@ -25,8 +23,8 @@ it('can generate test fixture', async () => {
     keypair: [],
   };
 
-  for (let i = 0; i < crypto.mnemonic.mnemonic.length; i++) {
-    const mnemonic = crypto.mnemonic.mnemonic[i];
+  for (let i = 0; i < wallet.mnemonic.length; i++) {
+    const { mnemonic } = wallet.mnemonic[i];
     const kp0 = await toKeyPair(mnemonic, 0, 'Ed25519');
     const kp1 = await toKeyPair(mnemonic, 0, 'X25519');
     const kp2 = await toKeyPair(mnemonic, 0, 'secp256k1');
@@ -38,9 +36,9 @@ it('can generate test fixture', async () => {
     });
   }
 
-  expect(fixture).toEqual(walletKeyPair);
+  expect(fixture.keypair).toEqual(wallet.keypair);
 
   if (WRITE_FIXTURE_TO_DISK) {
-    writeFixture('wallet-keypair.json', fixture);
+    writeFixture('v1-keypair.json', fixture);
   }
 });

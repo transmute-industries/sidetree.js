@@ -1,89 +1,65 @@
-/*
- * The code in this file originated from
- * @see https://github.com/decentralized-identity/sidetree
- * For the list of changes that was made to the original code
- * @see https://github.com/transmute-industries/sidetree.js/blob/main/reference-implementation-changes.md
- *
- * Copyright 2020 - Transmute Industries Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+import Config from './Config';
+import CoreErrorCode from './ErrorCode';
+import DownloadManager from './DownloadManager';
+
+import Resolver from './Resolver';
+import SidetreeError from './SidetreeError';
 
 import {
-  AbstractVersionMetadata,
-  Config,
-  CoreErrorCode,
-  IBatchWriter,
-  IBlockchain,
-  ICas,
-  IOperationProcessor,
-  IOperationStore,
-  IRequestHandler,
-  ITransactionProcessor,
-  ITransactionSelector,
-  ITransactionStore,
-  IVersionManager,
+  VersionModel,
   IVersionMetadataFetcher,
-  ProtocolVersionModel,
-  SidetreeError,
-  IOperationQueue,
+  IVersionManager,
+  ITransactionStore,
+  ITransactionSelector,
+  ITransactionProcessor,
+  IRequestHandler,
+  IOperationStore,
+  IOperationProcessor,
+  ICas,
+  IBlockchain,
+  IBatchWriter,
+  AbstractVersionMetadata,
 } from '@sidetree/common';
-import DownloadManager from './DownloadManager';
-import Resolver from './Resolver';
-import { MongoDbOperationQueue } from '@sidetree/db';
-import TransactionProcessor from './TransactionProcessor';
-import TransactionSelector from './TransactionSelector';
-import BatchWriter from './write/BatchWriter';
-import OperationProcessor from './OperationProcessor';
-import RequestHandler from './RequestHandler';
-import VersionMetadata from './VersionMetadata';
+
+import { versions } from './versions';
 
 /**
- * The class that handles the loading of different versions of protocol codebase.
+ * The class that handles code versioning.
  */
 export default class VersionManager
   implements IVersionManager, IVersionMetadataFetcher {
-  public allSupportedHashAlgorithms: number[] = [];
-
-  // Reverse sorted protocol versions. ie. latest version first.
-  private protocolVersionsReverseSorted: ProtocolVersionModel[];
+  // Reverse sorted implementation versions. ie. latest version first.
+  private versionsReverseSorted: VersionModel[];
 
   private batchWriters: Map<string, IBatchWriter>;
   private operationProcessors: Map<string, IOperationProcessor>;
-  private operationQueues: Map<string, IOperationQueue>;
   private requestHandlers: Map<string, IRequestHandler>;
   private transactionProcessors: Map<string, ITransactionProcessor>;
   private transactionSelectors: Map<string, ITransactionSelector>;
   private versionMetadatas: Map<string, AbstractVersionMetadata>;
+  private references: any[];
 
   public constructor(
     private config: Config,
-    protocolVersions: ProtocolVersionModel[]
+    sidetreeCoreVersions: VersionModel[]
   ) {
-    // Reverse sort protocol versions.
-    this.protocolVersionsReverseSorted = protocolVersions.sort(
+    // Reverse sort versions.
+    this.versionsReverseSorted = sidetreeCoreVersions.sort(
       (a, b) => b.startingBlockchainTime - a.startingBlockchainTime
     );
 
     this.batchWriters = new Map();
     this.operationProcessors = new Map();
-    this.operationQueues = new Map();
     this.requestHandlers = new Map();
     this.transactionProcessors = new Map();
     this.transactionSelectors = new Map();
     this.versionMetadatas = new Map();
+
+    this.references = [];
   }
 
   /**
-   * Loads all the versions of the protocol codebase.
+   * Loads all the implementation versions.
    */
   public async initialize(
     blockchain: IBlockchain,
@@ -92,27 +68,24 @@ export default class VersionManager
     operationStore: IOperationStore,
     resolver: Resolver,
     transactionStore: ITransactionStore
-  ): Promise<void> {
-    // Instantiate rest of the protocol components.
-    // NOTE: In principal each version of the interface implemtnations can have different constructors,
+  ) {
+    // NOTE: In principal each version of the interface implementations can have different constructors,
     // but we currently keep the constructor signature the same as much as possible for simple instance construction,
     // but it is not inherently "bad" if we have to have conditional constructions for each if we have to.
-    for (const protocolVersion of this.protocolVersionsReverseSorted) {
-      const version = protocolVersion.version;
+    for (const versionModel of this.versionsReverseSorted) {
+      const version = versionModel.version;
 
-      /* tslint:disable-next-line */
       const MongoDbOperationQueue = await this.loadDefaultExportsForVersion(
         version,
         'MongoDbOperationQueue'
       );
-      const operationQueue = new MongoDbOperationQueue(
+      const operationQueue = new MongoDbOperationQueue();
+      await operationQueue.initialize(
         this.config.mongoDbConnectionString,
         this.config.databaseName
       );
-      await operationQueue.initialize();
-      this.operationQueues.set(version, operationQueue);
+      this.references.push(operationQueue);
 
-      /* tslint:disable-next-line */
       const TransactionProcessor = await this.loadDefaultExportsForVersion(
         version,
         'TransactionProcessor'
@@ -124,8 +97,8 @@ export default class VersionManager
         this
       );
       this.transactionProcessors.set(version, transactionProcessor);
+      this.references.push(transactionProcessor);
 
-      /* tslint:disable-next-line */
       const TransactionSelector = await this.loadDefaultExportsForVersion(
         version,
         'TransactionSelector'
@@ -133,7 +106,6 @@ export default class VersionManager
       const transactionSelector = new TransactionSelector(transactionStore);
       this.transactionSelectors.set(version, transactionSelector);
 
-      /* tslint:disable-next-line */
       const BatchWriter = await this.loadDefaultExportsForVersion(
         version,
         'BatchWriter'
@@ -145,16 +117,16 @@ export default class VersionManager
         this
       );
       this.batchWriters.set(version, batchWriter);
+      this.references.push(batchWriter);
 
-      /* tslint:disable-next-line */
       const OperationProcessor = await this.loadDefaultExportsForVersion(
         version,
         'OperationProcessor'
       );
       const operationProcessor = new OperationProcessor();
       this.operationProcessors.set(version, operationProcessor);
+      this.references.push(operationProcessor);
 
-      /* tslint:disable-next-line */
       const RequestHandler = await this.loadDefaultExportsForVersion(
         version,
         'RequestHandler'
@@ -166,7 +138,6 @@ export default class VersionManager
       );
       this.requestHandlers.set(version, requestHandler);
 
-      /* tslint:disable-next-line */
       const VersionMetadata = await this.loadDefaultExportsForVersion(
         version,
         'VersionMetadata'
@@ -180,15 +151,14 @@ export default class VersionManager
       }
       this.versionMetadatas.set(version, versionMetadata);
     }
+  }
 
-    // Get and cache supported hash algorithms.
-    const hashAlgorithmsWithDuplicates = Array.from(
-      this.versionMetadatas.values(),
-      (value) => value.hashAlgorithmInMultihashCode
-    );
-    this.allSupportedHashAlgorithms = Array.from(
-      new Set(hashAlgorithmsWithDuplicates)
-    ); // This line removes duplicates.
+  public async stop(): Promise<void> {
+    for (const value of this.references) {
+      if (value.stop) {
+        await value.stop();
+      }
+    }
   }
 
   /**
@@ -196,15 +166,7 @@ export default class VersionManager
    */
   public getBatchWriter(blockchainTime: number): IBatchWriter {
     const version = this.getVersionString(blockchainTime);
-    const batchWriter = this.batchWriters.get(version);
-
-    if (batchWriter === undefined) {
-      throw new SidetreeError(
-        CoreErrorCode.VersionManagerBatchWriterNotFound,
-        `Batch writer for blockchain time ${blockchainTime} not found.`
-      );
-    }
-
+    const batchWriter = this.batchWriters.get(version)!;
     return batchWriter;
   }
 
@@ -213,15 +175,7 @@ export default class VersionManager
    */
   public getOperationProcessor(blockchainTime: number): IOperationProcessor {
     const version = this.getVersionString(blockchainTime);
-    const operationProcessor = this.operationProcessors.get(version);
-
-    if (operationProcessor === undefined) {
-      throw new SidetreeError(
-        CoreErrorCode.VersionManagerOperationProcessorNotFound,
-        `Operation processor for blockchain time ${blockchainTime} not found.`
-      );
-    }
-
+    const operationProcessor = this.operationProcessors.get(version)!;
     return operationProcessor;
   }
 
@@ -230,15 +184,7 @@ export default class VersionManager
    */
   public getRequestHandler(blockchainTime: number): IRequestHandler {
     const version = this.getVersionString(blockchainTime);
-    const requestHandler = this.requestHandlers.get(version);
-
-    if (requestHandler === undefined) {
-      throw new SidetreeError(
-        CoreErrorCode.VersionManagerRequestHandlerNotFound,
-        `Request handler for blockchain time ${blockchainTime} not found.`
-      );
-    }
-
+    const requestHandler = this.requestHandlers.get(version)!;
     return requestHandler;
   }
 
@@ -249,15 +195,7 @@ export default class VersionManager
     blockchainTime: number
   ): ITransactionProcessor {
     const version = this.getVersionString(blockchainTime);
-    const transactionProcessor = this.transactionProcessors.get(version);
-
-    if (transactionProcessor === undefined) {
-      throw new SidetreeError(
-        CoreErrorCode.VersionManagerTransactionProcessorNotFound,
-        `Transaction processor for blockchain time ${blockchainTime} not found.`
-      );
-    }
-
+    const transactionProcessor = this.transactionProcessors.get(version)!;
     return transactionProcessor;
   }
 
@@ -266,15 +204,7 @@ export default class VersionManager
    */
   public getTransactionSelector(blockchainTime: number): ITransactionSelector {
     const version = this.getVersionString(blockchainTime);
-    const transactionSelector = this.transactionSelectors.get(version);
-
-    if (transactionSelector === undefined) {
-      throw new SidetreeError(
-        CoreErrorCode.VersionManagerTransactionSelectorNotFound,
-        `Transaction selector for blockchain time ${blockchainTime} not found.`
-      );
-    }
-
+    const transactionSelector = this.transactionSelectors.get(version)!;
     return transactionSelector;
   }
 
@@ -285,21 +215,14 @@ export default class VersionManager
     return versionMetadata!;
   }
 
-  public getOperationQueue(blockchainTime: number): IOperationQueue {
-    const versionString = this.getVersionString(blockchainTime);
-    const operationQueue = this.operationQueues.get(versionString);
-    // this is always be defined because if blockchain time is found, version will be defined
-    return operationQueue!;
-  }
-
   /**
-   * Gets the corresponding protocol version string given the blockchain time.
+   * Gets the corresponding implementation version string given the blockchain time.
    */
   private getVersionString(blockchainTime: number): string {
     // Iterate through each version to find the right version.
-    for (const protocolVersion of this.protocolVersionsReverseSorted) {
-      if (blockchainTime >= protocolVersion.startingBlockchainTime) {
-        return protocolVersion.version;
+    for (const versionModel of this.versionsReverseSorted) {
+      if (blockchainTime >= versionModel.startingBlockchainTime) {
+        return versionModel.version;
       }
     }
 
@@ -313,26 +236,7 @@ export default class VersionManager
     version: string,
     className: string
   ): Promise<any> {
-    if (version === 'latest') {
-      switch (className) {
-        case 'MongoDbOperationQueue':
-          return MongoDbOperationQueue;
-        case 'TransactionProcessor':
-          return TransactionProcessor;
-        case 'TransactionSelector':
-          return TransactionSelector;
-        case 'BatchWriter':
-          return BatchWriter;
-        case 'OperationProcessor':
-          return OperationProcessor;
-        case 'RequestHandler':
-          return RequestHandler;
-        case 'VersionMetadata':
-          return VersionMetadata;
-        default:
-          return;
-      }
-    }
-    return (await import(`./versions/${version}/${className}`)).default;
+    const SidetreeClassForVersion = versions[version][className];
+    return SidetreeClassForVersion;
   }
 }

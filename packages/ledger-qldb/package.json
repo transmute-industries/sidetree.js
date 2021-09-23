@@ -19,7 +19,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test",
+    "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint src",
     "lint:fix": "tsdx lint src --fix",
     "prepare": "tsdx build"
@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@sidetree/common": "^0.2.6-unstable.6",
+    "@sidetree/core": "^0.2.6-unstable.6",
     "amazon-qldb-driver-nodejs": "^2.2.0",
     "ion-js": "^4.1.0",
     "jsbi": "^3.1.4",

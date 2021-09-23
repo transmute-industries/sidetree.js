@@ -12,6 +12,6 @@
  * limitations under the License.
  */
 
-import { DidMethod } from '@sidetree/did-method';
+import { Core } from '@sidetree/did-method';
 
-export default class Element extends DidMethod {}
+export default class Element extends Core {}

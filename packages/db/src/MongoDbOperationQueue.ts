@@ -1,40 +1,20 @@
-/*
- * The code in this file originated from
- * @see https://github.com/decentralized-identity/sidetree
- * For the list of changes that was made to the original code
- * @see https://github.com/transmute-industries/sidetree.js/blob/main/reference-implementation-changes.md
- *
- * Copyright 2020 - Transmute Industries Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+import { Binary, Collection, Db, MongoClient } from 'mongodb';
 
 import {
   ErrorCode,
   IOperationQueue,
-  SidetreeError,
   QueuedOperationModel,
+  SidetreeError,
 } from '@sidetree/common';
-import { Binary, ObjectId } from 'mongodb';
-import MongoDbBase from './MongoDbBase';
 
 /**
  * Sidetree operation stored in MongoDb.
- * Note: we use the shorter property name "opIndex" instead of "operationIndex" due to a constraint imposed by CosmosDB/MongoDB:
+ * Note: we use the shorter property name "opIndex" instead of "operationIndex" due to a constraint imposed by some MongoDB service such as CosmosDB 3.2:
  * the sum of property names of a unique index keys need to be less than 40 characters.
  * Note: We represent opIndex, transactionNumber, and transactionTime as long instead of number (double) to avoid some floating
  * point comparison quirks.
  */
 interface IMongoQueuedOperation {
-  _id?: ObjectId;
   didUniqueSuffix: string;
   operationBufferBsonBinary: Binary;
 }
@@ -42,22 +22,31 @@ interface IMongoQueuedOperation {
 /**
  * Operation queue used by the Batch Writer implemented using MongoDB.
  */
-export default class MongoDbOperationQueue extends MongoDbBase
-  implements IOperationQueue {
-  readonly collectionName = 'queued-operations';
+export default class MongoDbOperationQueue implements IOperationQueue {
+  /** Collection name for queued operations. */
+  public static readonly collectionName: string = 'queued-operations';
 
-  public async initialize(): Promise<void> {
-    await super.initialize();
-    await this.collection!.createIndex(
-      { didUniqueSuffix: 1 },
-      { unique: true }
+  private collection: Collection<any> | undefined;
+  private client?: MongoClient;
+  private db: Db | undefined;
+
+  /**
+   * Initialize the MongoDB operation store.
+   */
+  public async initialize(serverUrl: string, databaseName: string) {
+    const client = await MongoClient.connect(serverUrl);
+    this.client = client;
+    this.db = client.db(databaseName);
+    this.collection = await MongoDbOperationQueue.createCollectionIfNotExist(
+      this.db
     );
   }
 
-  async enqueue(
-    didUniqueSuffix: string,
-    operationBuffer: Buffer
-  ): Promise<void> {
+  public async stop(): Promise<void> {
+    return this.client!.close();
+  }
+
+  async enqueue(didUniqueSuffix: string, operationBuffer: Buffer) {
     try {
       const queuedOperation: IMongoQueuedOperation = {
         didUniqueSuffix,
@@ -116,6 +105,48 @@ export default class MongoDbOperationQueue extends MongoDbBase
       .limit(1)
       .toArray();
     return operations.length > 0;
+  }
+
+  async getSize(): Promise<number> {
+    const size = await this.collection!.estimatedDocumentCount();
+    return size;
+  }
+
+  /**
+   * * Clears the unresolvable transaction store. Mainly used in tests.
+   */
+  public async clearCollection() {
+    await this.collection!.drop();
+    this.collection = await MongoDbOperationQueue.createCollectionIfNotExist(
+      this.db!
+    );
+  }
+
+  /**
+   * Creates the queued operation collection with indexes if it does not exists.
+   * @returns The existing collection if exists, else the newly created collection.
+   */
+  private static async createCollectionIfNotExist(
+    db: Db
+  ): Promise<Collection<IMongoQueuedOperation>> {
+    // Get the names of existing collections.
+    const collections = await db.collections();
+    const collectionNames = collections.map(
+      (collection) => collection.collectionName
+    );
+
+    // If the queued operation collection exists, use it; else create it then use it.
+    let collection;
+    if (collectionNames.includes(this.collectionName)) {
+      collection = db.collection(this.collectionName);
+    } else {
+      collection = await db.createCollection(this.collectionName);
+      // Create an index on didUniqueSuffix make `contains()` operations more efficient.
+      // This is an unique index, so duplicate inserts are rejected.
+      await collection.createIndex({ didUniqueSuffix: 1 }, { unique: true });
+    }
+
+    return collection;
   }
 
   private static convertToQueuedOperationModel(

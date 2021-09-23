@@ -11,15 +11,11 @@
  * limitations under the License.
  */
 
-import { pluginFactory } from './pluginFactory';
+import { SidetreeWalletPlugin } from './pluginFactory';
 
 it('can plugin sidetree from factory', () => {
-  const plugin = pluginFactory.build();
+  const plugin = SidetreeWalletPlugin.build();
   expect(plugin.toMnemonic).toBeDefined();
   expect(plugin.toKeyPair).toBeDefined();
-
-  // support svip
-  expect(plugin.toDidDocForProfile).toBeDefined();
-  expect(plugin.getCreateOperationForProfile).toBeDefined();
-  expect(plugin.getRecoverOperationForProfile).toBeDefined();
+  expect(plugin.operations).toBeDefined();
 });

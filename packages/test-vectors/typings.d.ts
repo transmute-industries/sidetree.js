@@ -1,10 +1,13 @@
 export {
-  testVectors,
   wallet,
+  didMethod,
+
+  // older / stale
+  testVectors,
   filesystem,
   crypto,
   sidetreeUniversalWallet,
   sidetreeCoreGeneratedSecp256k1,
   sidetreeCoreGeneratedEd25519,
-  didMethodElement
+  didMethodElement,
 } from './src/index.js';

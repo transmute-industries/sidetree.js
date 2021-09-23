@@ -17,20 +17,24 @@
  * limitations under the License.
  */
 
-import AnchoredDataSerializer from './AnchoredDataSerializer';
 import Encoder from './Encoder';
 import JsonCanonicalizer from './JsonCanonicalizer';
 import Multihash from './Multihash';
 import ReadableStream from './ReadableStream';
 import SortedArray from './SortedArray';
 import protocolParameters from './parameters';
+import Logger from './Logger';
+import LogColor from './LogColor';
 
+import ConsoleLogger from './ConsoleLogger';
 export {
-  AnchoredDataSerializer,
   Encoder,
   JsonCanonicalizer,
   Multihash,
   ReadableStream,
   SortedArray,
   protocolParameters,
+  Logger,
+  LogColor,
+  ConsoleLogger,
 };

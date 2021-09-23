@@ -1,0 +1,9 @@
+{
+    "batchingIntervalInSeconds": 1,
+    "observingIntervalInSeconds": 1, 
+    "mongoDbConnectionString": "mongodb://localhost:27017/",
+    "databaseName": "testMongodbName",
+    "didMethodName": "example:sidetree.testnet",
+    "maxConcurrentDownloads": 20,
+    "port": 3000
+}

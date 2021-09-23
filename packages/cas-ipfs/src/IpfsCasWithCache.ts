@@ -28,19 +28,25 @@ const { version } = require('../package.json');
 
 export default class IpfsCasWithCache extends IpfsCas {
   private cache: MongoDbCasCache;
+  public static readonly collectionName: string = 'cas-cache-ipfs';
+  private serverUrl: string;
 
-  constructor(casUrl: string, dbUrl: string, dbName: string) {
+  constructor(casUrl: string, serverUrl: string) {
     super(casUrl);
-    this.cache = new MongoDbCasCache(dbUrl, dbName);
+    this.serverUrl = serverUrl;
+    this.cache = new MongoDbCasCache();
   }
 
   public async initialize(): Promise<void> {
     await super.initialize();
-    await this.cache.initialize();
+    await this.cache.initialize(
+      this.serverUrl,
+      IpfsCasWithCache.collectionName
+    );
   }
 
-  public async close(): Promise<void> {
-    await this.cache.close();
+  public async stop(): Promise<void> {
+    await this.cache.stop();
   }
 
   public async write(content: Buffer): Promise<string> {

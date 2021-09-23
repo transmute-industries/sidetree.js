@@ -18,7 +18,6 @@
  */
 
 import {
-  AnchoredDataSerializer,
   ErrorCode,
   ITransactionSelector,
   ITransactionStore,
@@ -26,6 +25,7 @@ import {
   TransactionModel,
   protocolParameters,
 } from '@sidetree/common';
+import AnchoredDataSerializer from './AnchoredDataSerializer';
 import PriorityQueue from 'priorityqueue';
 
 /**

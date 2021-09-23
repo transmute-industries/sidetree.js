@@ -1,44 +1,33 @@
-/*
- * The code in this file originated from
- * @see https://github.com/decentralized-identity/sidetree
- * For the list of changes that was made to the original code
- * @see https://github.com/transmute-industries/sidetree.js/blob/main/reference-implementation-changes.md
- *
- * Copyright 2020 - Transmute Industries Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+import AnchoredDataSerializer from './AnchoredDataSerializer';
+import ArrayMethods from './util/ArrayMethods';
+import ChunkFile from './ChunkFile';
+import CoreIndexFile from './CoreIndexFile';
+import CoreProofFile from './CoreProofFile';
+
+import DownloadManager from './DownloadManager';
+import ErrorCode from './ErrorCode';
+import FeeManager from './FeeManager';
+import LogColor from './LogColor';
+import Logger from './Logger';
+
+import ProtocolParameters from './ProtocolParameters';
+import ProvisionalIndexFile from './ProvisionalIndexFile';
+import ProvisionalProofFile from './ProvisionalProofFile';
+import SidetreeError from './SidetreeError';
+import ValueTimeLockVerifier from './ValueTimeLockVerifier';
 
 import {
-  AnchoredDataSerializer,
-  AnchoredOperationModel,
-  ChunkFileModel,
-  ErrorCode,
-  FetchResultCode,
-  IBlockchain,
-  IOperationStore,
   ITransactionProcessor,
-  IVersionMetadataFetcher,
-  protocolParameters,
-  SidetreeError,
   TransactionModel,
+  OperationType,
+  IVersionMetadataFetcher,
+  IOperationStore,
+  IBlockchain,
+  FetchResultCode,
+  ChunkFileModel,
+  AnchoredOperationModel,
+  AnchoredData,
 } from '@sidetree/common';
-import AnchorFile from './write/AnchorFile';
-import ArrayMethods from './util/ArrayMethods';
-import ChunkFile from './write/ChunkFile';
-import DownloadManager from './DownloadManager';
-import FeeManager from './FeeManager';
-import JsonAsync from './util/JsonAsync';
-import MapFile from './write/MapFile';
-import ValueTimeLockVerifier from './ValueTimeLockVerifier';
 
 /**
  * Implementation of the `ITransactionProcessor`.
@@ -54,9 +43,13 @@ export default class TransactionProcessor implements ITransactionProcessor {
   public async processTransaction(
     transaction: TransactionModel
   ): Promise<boolean> {
+    // Download the core (index and proof) files.
+    let anchoredData: AnchoredData;
+    let coreIndexFile: CoreIndexFile;
+    let coreProofFile: CoreProofFile | undefined;
     try {
       // Decode the anchor string.
-      const anchoredData = AnchoredDataSerializer.deserialize(
+      anchoredData = AnchoredDataSerializer.deserialize(
         transaction.anchorString
       );
 
@@ -64,95 +57,182 @@ export default class TransactionProcessor implements ITransactionProcessor {
       FeeManager.verifyTransactionFeeAndThrowOnError(
         transaction.transactionFeePaid,
         anchoredData.numberOfOperations,
-        transaction.normalizedTransactionFee
+        transaction.normalizedTransactionFee!
       );
 
-      // Download and verify anchor file.
-      const anchorFile = await this.downloadAndVerifyAnchorFile(
+      // Download and verify core index file.
+      coreIndexFile = await this.downloadAndVerifyCoreIndexFile(
         transaction,
-        anchoredData.anchorFileHash,
+        anchoredData.coreIndexFileUri,
         anchoredData.numberOfOperations
       );
 
-      // Download and verify map file.
-      const mapFile = await this.downloadAndVerifyMapFile(
-        anchorFile,
-        anchoredData.numberOfOperations
-      );
-
-      // Download and verify chunk file.
-      const chunkFileModel = await this.downloadAndVerifyChunkFile(mapFile);
-
-      // Compose into operations from all the files downloaded.
-      const operations = await this.composeAnchoredOperationModels(
-        transaction,
-        anchorFile,
-        mapFile,
-        chunkFileModel
-      );
-
-      // If the code reaches here, it means that the batch of operations is valid, store the operations.
-      await this.operationStore.put(operations);
-
-      return true;
+      // Download and verify core proof file.
+      coreProofFile = await this.downloadAndVerifyCoreProofFile(coreIndexFile);
     } catch (error) {
+      let retryNeeded = true;
       if (error instanceof SidetreeError) {
-        // If error is potentially related to CAS network connectivity issues, we need to return false to retry later.
+        // If error is related to CAS network connectivity issues, we need to retry later.
         if (
           error.code === ErrorCode.CasNotReachable ||
           error.code === ErrorCode.CasFileNotFound
         ) {
-          return false;
+          retryNeeded = true;
+        } else {
+          // eslint-disable-next-line max-len
+          Logger.info(
+            LogColor.lightBlue(
+              `Invalid core file found for anchor string '${LogColor.green(
+                transaction.anchorString
+              )}', the entire batch is discarded. Error: ${LogColor.yellow(
+                error.message
+              )}`
+            )
+          );
+          retryNeeded = false;
         }
-
-        console.info(`Ignoring error: ${error.message}`);
-        return true;
       } else {
-        console.error(
-          `Unexpected error processing transaction, MUST investigate and fix: ${error.message}`
+        Logger.error(
+          LogColor.red(
+            `Unexpected error while fetching and downloading core files, MUST investigate and fix: ${error.message}`
+          )
         );
-        return false;
+        retryNeeded = true;
+      }
+
+      const transactionProcessedCompletely = !retryNeeded;
+      return transactionProcessedCompletely;
+    }
+
+    // Once code reaches here, it means core files are valid. In order to be compatible with the future data-pruning feature,
+    // the operations referenced in core index file must be retained regardless of the validity of provisional and chunk files.
+
+    // Download provisional and chunk files.
+    let retryNeeded: boolean;
+    let provisionalIndexFile: ProvisionalIndexFile | undefined;
+    let provisionalProofFile: ProvisionalProofFile | undefined;
+    let chunkFileModel: ChunkFileModel | undefined;
+    try {
+      // Download and verify provisional index file.
+      provisionalIndexFile = await this.downloadAndVerifyProvisionalIndexFile(
+        coreIndexFile,
+        anchoredData.numberOfOperations
+      );
+
+      // Download and verify provisional proof file.
+      provisionalProofFile = await this.downloadAndVerifyProvisionalProofFile(
+        provisionalIndexFile
+      );
+
+      // Download and verify chunk file.
+      chunkFileModel = await this.downloadAndVerifyChunkFile(
+        coreIndexFile,
+        provisionalIndexFile
+      );
+
+      retryNeeded = false;
+    } catch (error) {
+      // If we encounter any error, regardless of whether the transaction should be retried for processing,
+      // we set all the provisional/chunk files to be `undefined`,
+      // this is because chunk file would not be available/valid for its deltas to be used during resolutions,
+      // thus no need to store the operation references found in the provisional index file.
+      provisionalIndexFile = undefined;
+      provisionalProofFile = undefined;
+      chunkFileModel = undefined;
+
+      // Now we decide if we should try to process this transaction again in the future.
+      if (error instanceof SidetreeError) {
+        // If error is related to CAS network connectivity issues, we need to retry later.
+        if (
+          error.code === ErrorCode.CasNotReachable ||
+          error.code === ErrorCode.CasFileNotFound
+        ) {
+          retryNeeded = true;
+        } else {
+          // eslint-disable-next-line max-len
+          Logger.info(
+            LogColor.lightBlue(
+              `Invalid provisional/chunk file found for anchor string '${LogColor.green(
+                transaction.anchorString
+              )}', the entire batch is discarded. Error: ${LogColor.yellow(
+                error.message
+              )}`
+            )
+          );
+          retryNeeded = false;
+        }
+      } else {
+        Logger.error(
+          LogColor.red(
+            `Unexpected error while fetching and downloading provisional files, MUST investigate and fix: ${error.message}`
+          )
+        );
+        retryNeeded = true;
       }
     }
+
+    // Once code reaches here, it means all the files that are not `undefined` (and their relationships) are validated,
+    // there is no need to perform any more validations at this point, we just need to compose the anchored operations and store them.
+
+    // Compose using files downloaded into anchored operations.
+    const operations = await this.composeAnchoredOperationModels(
+      transaction,
+      coreIndexFile,
+      provisionalIndexFile,
+      coreProofFile,
+      provisionalProofFile,
+      chunkFileModel
+    );
+
+    await this.operationStore.insertOrReplace(operations);
+
+    Logger.info(
+      LogColor.lightBlue(
+        `Processed ${LogColor.green(
+          operations.length
+        )} operations. Retry needed: ${LogColor.green(retryNeeded)}`
+      )
+    );
+
+    const transactionProcessedCompletely = !retryNeeded;
+    return transactionProcessedCompletely;
   }
 
-  /**
-   * @param batchSize The size of the batch in number of operations.
-   */
-  private async downloadAndVerifyAnchorFile(
+  private async downloadAndVerifyCoreIndexFile(
     transaction: TransactionModel,
-    anchorFileHash: string,
+    coreIndexFileUri: string,
     paidOperationCount: number
-  ): Promise<AnchorFile> {
+  ): Promise<CoreIndexFile> {
     // Verify the number of paid operations does not exceed the maximum allowed limit.
-    if (paidOperationCount > protocolParameters.maxOperationsPerBatch) {
+    if (paidOperationCount > ProtocolParameters.maxOperationsPerBatch) {
       throw new SidetreeError(
         ErrorCode.TransactionProcessorPaidOperationCountExceedsLimit,
-        `Paid batch size of ${paidOperationCount} operations exceeds the allowed limit of ${protocolParameters.maxOperationsPerBatch}.`
+        `Paid batch size of ${paidOperationCount} operations exceeds the allowed limit of ${ProtocolParameters.maxOperationsPerBatch}.`
       );
     }
 
-    console.info(
-      `Downloading anchor file '${anchorFileHash}', max file size limit ${protocolParameters.maxAnchorFileSizeInBytes} bytes...`
+    Logger.info(
+      `Downloading core index file '${coreIndexFileUri}', max file size limit ${ProtocolParameters.maxCoreIndexFileSizeInBytes} bytes...`
     );
 
     const fileBuffer = await this.downloadFileFromCas(
-      anchorFileHash,
-      protocolParameters.maxAnchorFileSizeInBytes
+      coreIndexFileUri,
+      ProtocolParameters.maxCoreIndexFileSizeInBytes
     );
-    const anchorFile = await AnchorFile.parse(fileBuffer);
+    const coreIndexFile = await CoreIndexFile.parse(fileBuffer);
 
-    const operationCountInAnchorFile = anchorFile.didUniqueSuffixes.length;
-    if (operationCountInAnchorFile > paidOperationCount) {
+    const operationCountInCoreIndexFile =
+      coreIndexFile.didUniqueSuffixes.length;
+    if (operationCountInCoreIndexFile > paidOperationCount) {
       throw new SidetreeError(
-        ErrorCode.AnchorFileOperationCountExceededPaidLimit,
-        `Operation count ${operationCountInAnchorFile} in anchor file exceeded limit of : ${paidOperationCount}`
+        ErrorCode.CoreIndexFileOperationCountExceededPaidLimit,
+        `Operation count ${operationCountInCoreIndexFile} in core index file exceeded limit of : ${paidOperationCount}`
       );
     }
 
     // Verify required lock if one was needed.
-    const valueTimeLock = anchorFile.model.writer_lock_id
-      ? await this.blockchain.getValueTimeLock(anchorFile.model.writer_lock_id)
+    const valueTimeLock = coreIndexFile.model.writerLockId
+      ? await this.blockchain.getValueTimeLock(coreIndexFile.model.writerLockId)
       : undefined;
     ValueTimeLockVerifier.verifyLockAmountAndThrowOnError(
       valueTimeLock,
@@ -162,202 +242,256 @@ export default class TransactionProcessor implements ITransactionProcessor {
       this.versionMetadataFetcher
     );
 
-    return anchorFile;
+    return coreIndexFile;
   }
 
-  /**
-   * NOTE: In order to be forward-compatable with data-pruning feature,
-   * we must continue to process the operations declared in the anchor file even if the map/chunk file is invalid.
-   * This means that this method MUST ONLY throw errors that are retryable (e.g. network or file not found errors),
-   * It is a design choice to hide the complexity of map file downloading and construction within this method,
-   * instead of throwing errors and letting the caller handle them.
-   * @returns `MapFile` if downloaded file is valid; `undefined` otherwise.
-   * @throws SidetreeErrors that are retryable.
-   */
-  private async downloadAndVerifyMapFile(
-    anchorFile: AnchorFile,
-    paidOperationCount: number
-  ): Promise<MapFile | undefined> {
-    try {
-      const anchorFileModel = anchorFile.model;
-      console.info(
-        `Downloading map file '${anchorFileModel.map_file_uri}', max file size limit ${protocolParameters.maxMapFileSizeInBytes}...`
-      );
-
-      const fileBuffer = await this.downloadFileFromCas(
-        anchorFileModel.map_file_uri,
-        protocolParameters.maxMapFileSizeInBytes
-      );
-      const mapFile = await MapFile.parse(fileBuffer);
-
-      // Calulate the max paid update operation count.
-      const operationCountInAnchorFile = anchorFile.didUniqueSuffixes.length;
-      const maxPaidUpdateOperationCount =
-        paidOperationCount - operationCountInAnchorFile;
-
-      // If the actual update operation count is greater than the max paid update operation count, the map file is invalid.
-      const updateOperationCount = mapFile.updateOperations
-        ? mapFile.updateOperations.length
-        : 0;
-      if (updateOperationCount > maxPaidUpdateOperationCount) {
-        return undefined;
-      }
-
-      // If we find operations for the same DID between anchor and map files, the map file is invalid.
-      if (
-        !ArrayMethods.areMutuallyExclusive(
-          anchorFile.didUniqueSuffixes,
-          mapFile.didUniqueSuffixes
-        )
-      ) {
-        return undefined;
-      }
-
-      return mapFile;
-    } catch (error) {
-      if (error instanceof SidetreeError) {
-        // If error is related to CAS network issues, we will surface them so retry can happen.
-        if (
-          error.code === ErrorCode.CasNotReachable ||
-          error.code === ErrorCode.CasFileNotFound
-        ) {
-          throw error;
-        }
-
-        return undefined;
-      } else {
-        console.error(
-          `Unexpected error fetching map file ${
-            anchorFile.model.map_file_uri
-          }, MUST investigate and fix: ${SidetreeError.stringify(error)}`
-        );
-        return undefined;
-      }
+  private async downloadAndVerifyCoreProofFile(
+    coreIndexFile: CoreIndexFile
+  ): Promise<CoreProofFile | undefined> {
+    const coreProofFileUri = coreIndexFile.model.coreProofFileUri;
+    if (coreProofFileUri === undefined) {
+      return;
     }
+
+    Logger.info(
+      `Downloading core proof file '${coreProofFileUri}', max file size limit ${ProtocolParameters.maxProofFileSizeInBytes}...`
+    );
+
+    const fileBuffer = await this.downloadFileFromCas(
+      coreProofFileUri,
+      ProtocolParameters.maxProofFileSizeInBytes
+    );
+    const coreProofFile = await CoreProofFile.parse(
+      fileBuffer,
+      coreIndexFile.deactivateDidSuffixes
+    );
+
+    const recoverAndDeactivateCount =
+      coreIndexFile.deactivateDidSuffixes.length +
+      coreIndexFile.recoverDidSuffixes.length;
+    const proofCountInCoreProofFile =
+      coreProofFile.deactivateProofs.length +
+      coreProofFile.recoverProofs.length;
+    if (recoverAndDeactivateCount !== proofCountInCoreProofFile) {
+      throw new SidetreeError(
+        ErrorCode.CoreProofFileProofCountNotTheSameAsOperationCountInCoreIndexFile,
+        `Proof count of ${proofCountInCoreProofFile} in core proof file different to ` +
+          `recover + deactivate count of ${recoverAndDeactivateCount} in core index file.`
+      );
+    }
+
+    return coreProofFile;
   }
 
-  /**
-   * NOTE: In order to be forward-compatable with data-pruning feature,
-   * we must continue to process the operations declared in the anchor file even if the map/chunk file is invalid.
-   * This means that this method MUST ONLY throw errors that are retryable (e.g. network or file not found errors),
-   * It is a design choice to hide the complexity of chunk file downloading and construction within this method,
-   * instead of throwing errors and letting the caller handle them.
-   * @returns `ChunkFileModel` if downloaded file is valid; `undefined` otherwise.
-   * @throws SidetreeErrors that are retryable.
-   */
-  private async downloadAndVerifyChunkFile(
-    mapFile: MapFile | undefined
-  ): Promise<ChunkFileModel | undefined> {
-    // Can't download chunk file if map file is not given.
-    if (mapFile === undefined) {
+  private async downloadAndVerifyProvisionalProofFile(
+    provisionalIndexFile: ProvisionalIndexFile | undefined
+  ): Promise<ProvisionalProofFile | undefined> {
+    // If there is no provisional proof file to download, just return.
+    if (
+      provisionalIndexFile === undefined ||
+      provisionalIndexFile.model.provisionalProofFileUri === undefined
+    ) {
+      return;
+    }
+
+    const provisionalProofFileUri =
+      provisionalIndexFile.model.provisionalProofFileUri;
+    Logger.info(
+      `Downloading provisional proof file '${provisionalProofFileUri}', max file size limit ${ProtocolParameters.maxProofFileSizeInBytes}...`
+    );
+
+    const fileBuffer = await this.downloadFileFromCas(
+      provisionalProofFileUri,
+      ProtocolParameters.maxProofFileSizeInBytes
+    );
+    const provisionalProofFile = await ProvisionalProofFile.parse(fileBuffer);
+
+    const operationCountInProvisionalIndexFile =
+      provisionalIndexFile.didUniqueSuffixes.length;
+    const proofCountInProvisionalProofFile =
+      provisionalProofFile.updateProofs.length;
+    if (
+      operationCountInProvisionalIndexFile !== proofCountInProvisionalProofFile
+    ) {
+      throw new SidetreeError(
+        ErrorCode.ProvisionalProofFileProofCountNotTheSameAsOperationCountInProvisionalIndexFile,
+        `Proof count ${proofCountInProvisionalProofFile} in provisional proof file is different from ` +
+          `operation count ${operationCountInProvisionalIndexFile} in provisional index file.`
+      );
+    }
+
+    return provisionalProofFile;
+  }
+
+  private async downloadAndVerifyProvisionalIndexFile(
+    coreIndexFile: CoreIndexFile,
+    paidOperationCount: number
+  ): Promise<ProvisionalIndexFile | undefined> {
+    const coreIndexFileModel = coreIndexFile.model;
+
+    // If no provisional index file URI is defined (legitimate case when there is only deactivates in the operation batch),
+    // then no provisional index file to download.
+    const provisionalIndexFileUri = coreIndexFileModel.provisionalIndexFileUri;
+    if (provisionalIndexFileUri === undefined) {
       return undefined;
     }
 
-    let chunkFileHash;
-    try {
-      chunkFileHash = mapFile.model.chunks[0].chunk_file_uri;
-      console.info(
-        `Downloading chunk file '${chunkFileHash}', max size limit ${protocolParameters.maxChunkFileSizeInBytes}...`
+    Logger.info(
+      `Downloading provisional index file '${provisionalIndexFileUri}', max file size limit ${ProtocolParameters.maxProvisionalIndexFileSizeInBytes}...`
+    );
+
+    const fileBuffer = await this.downloadFileFromCas(
+      provisionalIndexFileUri,
+      ProtocolParameters.maxProvisionalIndexFileSizeInBytes
+    );
+    const provisionalIndexFile = await ProvisionalIndexFile.parse(fileBuffer);
+    // Calculate the max paid update operation count.
+    const operationCountInCoreIndexFile =
+      coreIndexFile.didUniqueSuffixes.length;
+    const maxPaidUpdateOperationCount =
+      paidOperationCount - operationCountInCoreIndexFile;
+
+    const updateOperationCount = provisionalIndexFile.didUniqueSuffixes.length;
+    if (updateOperationCount > maxPaidUpdateOperationCount) {
+      throw new SidetreeError(
+        ErrorCode.ProvisionalIndexFileUpdateOperationCountGreaterThanMaxPaidCount,
+        `Update operation count of ${updateOperationCount} in provisional index file is greater than max paid count of ${maxPaidUpdateOperationCount}.`
       );
-
-      const fileBuffer = await this.downloadFileFromCas(
-        chunkFileHash,
-        protocolParameters.maxChunkFileSizeInBytes
-      );
-      const chunkFileModel = await ChunkFile.parse(fileBuffer);
-
-      return chunkFileModel;
-    } catch (error) {
-      if (error instanceof SidetreeError) {
-        // If error is related to CAS network issues, we will surface them so retry can happen.
-        if (
-          error.code === ErrorCode.CasNotReachable ||
-          error.code === ErrorCode.CasFileNotFound
-        ) {
-          throw error;
-        }
-
-        return undefined;
-      } else {
-        console.error(
-          `Unexpected error fetching chunk file ${chunkFileHash}, MUST investigate and fix: ${SidetreeError.stringify(
-            error
-          )}`
-        );
-        return undefined;
-      }
     }
+
+    // If we find operations for the same DID between anchor and provisional index files,
+    // we will penalize the writer by not accepting any updates.
+    if (
+      !ArrayMethods.areMutuallyExclusive(
+        coreIndexFile.didUniqueSuffixes,
+        provisionalIndexFile.didUniqueSuffixes
+      )
+    ) {
+      throw new SidetreeError(
+        ErrorCode.ProvisionalIndexFileDidReferenceDuplicatedWithCoreIndexFile,
+        `Provisional index file has at least one DID reference duplicated with core index file.`
+      );
+    }
+
+    return provisionalIndexFile;
+  }
+
+  private async downloadAndVerifyChunkFile(
+    coreIndexFile: CoreIndexFile,
+    provisionalIndexFile: ProvisionalIndexFile | undefined
+  ): Promise<ChunkFileModel | undefined> {
+    // Can't download chunk file if provisional index file is not given.
+    if (provisionalIndexFile === undefined) {
+      return undefined;
+    }
+
+    const chunkFileUri = provisionalIndexFile.model.chunks[0].chunkFileUri;
+    Logger.info(
+      `Downloading chunk file '${chunkFileUri}', max size limit ${ProtocolParameters.maxChunkFileSizeInBytes}...`
+    );
+
+    const fileBuffer = await this.downloadFileFromCas(
+      chunkFileUri,
+      ProtocolParameters.maxChunkFileSizeInBytes
+    );
+    const chunkFileModel = await ChunkFile.parse(fileBuffer);
+
+    const totalCountOfOperationsWithDelta =
+      coreIndexFile.createDidSuffixes.length +
+      coreIndexFile.recoverDidSuffixes.length +
+      provisionalIndexFile.didUniqueSuffixes.length;
+
+    if (chunkFileModel.deltas.length !== totalCountOfOperationsWithDelta) {
+      throw new SidetreeError(
+        ErrorCode.ChunkFileDeltaCountIncorrect,
+        `Delta array length ${chunkFileModel.deltas.length} is not the same as the count of ${totalCountOfOperationsWithDelta} operations with delta.`
+      );
+    }
+
+    return chunkFileModel;
   }
 
   private async composeAnchoredOperationModels(
     transaction: TransactionModel,
-    anchorFile: AnchorFile,
-    mapFile: MapFile | undefined,
+    coreIndexFile: CoreIndexFile,
+    provisionalIndexFile: ProvisionalIndexFile | undefined,
+    coreProofFile: CoreProofFile | undefined,
+    provisionalProofFile: ProvisionalProofFile | undefined,
     chunkFile: ChunkFileModel | undefined
   ): Promise<AnchoredOperationModel[]> {
-    const createOperations = anchorFile.createOperations;
-    const recoverOperations = anchorFile.recoverOperations;
-    const deactivateOperations = anchorFile.deactivateOperations;
-    const updateOperations =
-      mapFile && mapFile.updateOperations ? mapFile.updateOperations : [];
+    const anchoredCreateOperationModels = TransactionProcessor.composeAnchoredCreateOperationModels(
+      transaction,
+      coreIndexFile,
+      chunkFile
+    );
 
-    // Add the operations in the following order of types: create, recover, update, deactivate.
-    const operations = [];
-    operations.push(...createOperations);
-    operations.push(...recoverOperations);
-    operations.push(...updateOperations);
-    operations.push(...deactivateOperations);
+    const anchoredRecoverOperationModels = TransactionProcessor.composeAnchoredRecoverOperationModels(
+      transaction,
+      coreIndexFile,
+      coreProofFile!,
+      chunkFile
+    );
 
-    // If chunk file is found/given, we need to add `type` and `delta` from chunk file to each operation.
-    // NOTE: there is no delta for deactivate operations.
-    const patchedOperationBuffers: Buffer[] = [];
-    if (chunkFile !== undefined) {
-      // TODO: https://github.com/decentralized-identity/sidetree/issues/442
-      // Use actual operation request object instead of buffer.
+    const anchoredDeactivateOperationModels = TransactionProcessor.composeAnchoredDeactivateOperationModels(
+      transaction,
+      coreIndexFile,
+      coreProofFile!
+    );
 
-      const operationCountExcludingDeactivates =
-        createOperations.length +
-        recoverOperations.length +
-        updateOperations.length;
-      for (
-        let i = 0;
-        i < operationCountExcludingDeactivates && i < chunkFile.deltas.length;
-        i++
-      ) {
-        const operation = operations[i];
-        const operationJsonString = operation.operationBuffer.toString();
-        const operationObject = await JsonAsync.parse(operationJsonString);
-        operationObject.type = operation.type;
-        operationObject.delta = chunkFile.deltas[i];
+    const anchoredUpdateOperationModels = TransactionProcessor.composeAnchoredUpdateOperationModels(
+      transaction,
+      coreIndexFile,
+      provisionalIndexFile,
+      provisionalProofFile,
+      chunkFile
+    );
 
-        const patchedOperationBuffer = Buffer.from(
-          JSON.stringify(operationObject)
-        );
-        patchedOperationBuffers.push(patchedOperationBuffer);
-      }
-    }
-
-    for (let i = 0; i < deactivateOperations.length; i++) {
-      const operation = deactivateOperations[i];
-      const operationJsonString = operation.operationBuffer.toString();
-      const operationObject = await JsonAsync.parse(operationJsonString);
-      operationObject.type = operation.type;
-
-      const patchedOperationBuffer = Buffer.from(
-        JSON.stringify(operationObject)
-      );
-      patchedOperationBuffers.push(patchedOperationBuffer);
-    }
-
-    // Add anchored timestamp to each operation.
     const anchoredOperationModels = [];
-    for (let i = 0; i < operations.length; i++) {
-      const operation = operations[i];
+    anchoredOperationModels.push(...anchoredCreateOperationModels);
+    anchoredOperationModels.push(...anchoredRecoverOperationModels);
+    anchoredOperationModels.push(...anchoredDeactivateOperationModels);
+    anchoredOperationModels.push(...anchoredUpdateOperationModels);
+    return anchoredOperationModels;
+  }
+
+  private static composeAnchoredCreateOperationModels(
+    transaction: TransactionModel,
+    coreIndexFile: CoreIndexFile,
+    chunkFile: ChunkFileModel | undefined
+  ): AnchoredOperationModel[] {
+    if (coreIndexFile.createDidSuffixes.length === 0) {
+      return [];
+    }
+
+    let createDeltas;
+    if (chunkFile !== undefined) {
+      createDeltas = chunkFile.deltas.slice(
+        0,
+        coreIndexFile.createDidSuffixes.length
+      );
+    }
+
+    const createDidSuffixes = coreIndexFile.createDidSuffixes;
+
+    const anchoredOperationModels = [];
+    for (let i = 0; i < createDidSuffixes.length; i++) {
+      const suffixData = coreIndexFile.model.operations!.create![i].suffixData;
+
+      // Compose the original operation request from the files.
+      const composedRequest = {
+        type: OperationType.Create,
+        suffixData: suffixData,
+        delta: createDeltas?.[i], // Add `delta` property if chunk file found.
+      };
+
+      // TODO: Issue 442 - https://github.com/decentralized-identity/sidetree/issues/442
+      // Use actual operation request object instead of buffer.
+      const operationBuffer = Buffer.from(JSON.stringify(composedRequest));
 
       const anchoredOperationModel: AnchoredOperationModel = {
-        didUniqueSuffix: operation.didUniqueSuffix,
-        type: operation.type,
-        operationBuffer: patchedOperationBuffers[i],
+        didUniqueSuffix: createDidSuffixes[i],
+        type: OperationType.Create,
+        operationBuffer,
         operationIndex: i,
         transactionNumber: transaction.transactionNumber,
         transactionTime: transaction.transactionTime,
@@ -365,61 +499,223 @@ export default class TransactionProcessor implements ITransactionProcessor {
 
       anchoredOperationModels.push(anchoredOperationModel);
     }
+
+    return anchoredOperationModels;
+  }
+
+  private static composeAnchoredRecoverOperationModels(
+    transaction: TransactionModel,
+    coreIndexFile: CoreIndexFile,
+    coreProofFile: CoreProofFile,
+    chunkFile: ChunkFileModel | undefined
+  ): AnchoredOperationModel[] {
+    if (coreIndexFile.recoverDidSuffixes.length === 0) {
+      return [];
+    }
+
+    let recoverDeltas;
+    if (chunkFile !== undefined) {
+      const recoverDeltaStartIndex = coreIndexFile.createDidSuffixes.length;
+      const recoverDeltaEndIndexExclusive =
+        recoverDeltaStartIndex + coreIndexFile.recoverDidSuffixes.length;
+      recoverDeltas = chunkFile.deltas.slice(
+        recoverDeltaStartIndex,
+        recoverDeltaEndIndexExclusive
+      );
+    }
+
+    const recoverDidSuffixes = coreIndexFile.recoverDidSuffixes;
+    const recoverProofs = coreProofFile.recoverProofs.map((proof) =>
+      proof.signedDataJws.toCompactJws()
+    );
+
+    const anchoredOperationModels = [];
+    for (let i = 0; i < recoverDidSuffixes.length; i++) {
+      // Compose the original operation request from the files.
+      const composedRequest = {
+        type: OperationType.Recover,
+        didSuffix: recoverDidSuffixes[i],
+        revealValue: coreIndexFile.model!.operations!.recover![i].revealValue,
+        signedData: recoverProofs[i],
+        delta: recoverDeltas?.[i], // Add `delta` property if chunk file found.
+      };
+
+      // TODO: Issue 442 - https://github.com/decentralized-identity/sidetree/issues/442
+      // Use actual operation request object instead of buffer.
+      const operationBuffer = Buffer.from(JSON.stringify(composedRequest));
+
+      const anchoredOperationModel: AnchoredOperationModel = {
+        didUniqueSuffix: recoverDidSuffixes[i],
+        type: OperationType.Recover,
+        operationBuffer,
+        operationIndex: coreIndexFile.createDidSuffixes.length + i,
+        transactionNumber: transaction.transactionNumber,
+        transactionTime: transaction.transactionTime,
+      };
+
+      anchoredOperationModels.push(anchoredOperationModel);
+    }
+
+    return anchoredOperationModels;
+  }
+
+  private static composeAnchoredDeactivateOperationModels(
+    transaction: TransactionModel,
+    coreIndexFile: CoreIndexFile,
+    coreProofFile: CoreProofFile
+  ): AnchoredOperationModel[] {
+    if (coreIndexFile.deactivateDidSuffixes.length === 0) {
+      return [];
+    }
+
+    const deactivateDidSuffixes = coreIndexFile.didUniqueSuffixes;
+    const deactivateProofs = coreProofFile.deactivateProofs.map((proof) =>
+      proof.signedDataJws.toCompactJws()
+    );
+
+    const anchoredOperationModels = [];
+    for (let i = 0; i < deactivateDidSuffixes.length; i++) {
+      // Compose the original operation request from the files.
+      const composedRequest = {
+        type: OperationType.Deactivate,
+        didSuffix: deactivateDidSuffixes[i],
+        revealValue: coreIndexFile.model!.operations!.deactivate![i]
+          .revealValue,
+        signedData: deactivateProofs[i],
+      };
+
+      // TODO: Issue 442 - https://github.com/decentralized-identity/sidetree/issues/442
+      // Use actual operation request object instead of buffer.
+      const operationBuffer = Buffer.from(JSON.stringify(composedRequest));
+
+      const anchoredOperationModel: AnchoredOperationModel = {
+        didUniqueSuffix: deactivateDidSuffixes[i],
+        type: OperationType.Deactivate,
+        operationBuffer,
+        operationIndex:
+          coreIndexFile.createDidSuffixes.length +
+          coreIndexFile.recoverDidSuffixes.length +
+          i,
+        transactionNumber: transaction.transactionNumber,
+        transactionTime: transaction.transactionTime,
+      };
+
+      anchoredOperationModels.push(anchoredOperationModel);
+    }
+
+    return anchoredOperationModels;
+  }
+
+  private static composeAnchoredUpdateOperationModels(
+    transaction: TransactionModel,
+    coreIndexFile: CoreIndexFile,
+    provisionalIndexFile: ProvisionalIndexFile | undefined,
+    provisionalProofFile: ProvisionalProofFile | undefined,
+    chunkFile: ChunkFileModel | undefined
+  ): AnchoredOperationModel[] {
+    // If provisional index file is undefined (in the case of batch containing only deactivates) or
+    // if provisional index file's update operation reference count is zero (in the case of batch containing creates and/or recovers).
+    if (
+      provisionalIndexFile === undefined ||
+      provisionalIndexFile.didUniqueSuffixes.length === 0
+    ) {
+      return [];
+    }
+
+    let updateDeltas;
+    if (chunkFile !== undefined) {
+      const updateDeltaStartIndex =
+        coreIndexFile.createDidSuffixes.length +
+        coreIndexFile.recoverDidSuffixes.length;
+      updateDeltas = chunkFile!.deltas.slice(updateDeltaStartIndex);
+    }
+
+    const updateDidSuffixes = provisionalIndexFile.didUniqueSuffixes;
+    const updateProofs = provisionalProofFile!.updateProofs.map((proof) =>
+      proof.signedDataJws.toCompactJws()
+    );
+
+    const anchoredOperationModels = [];
+    for (let i = 0; i < updateDidSuffixes.length; i++) {
+      // Compose the original operation request from the files.
+      const composedRequest = {
+        type: OperationType.Update,
+        didSuffix: updateDidSuffixes[i],
+        revealValue: provisionalIndexFile.model!.operations!.update[i]
+          .revealValue,
+        signedData: updateProofs[i],
+        delta: updateDeltas?.[i], // Add `delta` property if chunk file found.
+      };
+
+      // TODO: Issue 442 - https://github.com/decentralized-identity/sidetree/issues/442
+      // Use actual operation request object instead of buffer.
+      const operationBuffer = Buffer.from(JSON.stringify(composedRequest));
+
+      const anchoredOperationModel: AnchoredOperationModel = {
+        didUniqueSuffix: updateDidSuffixes[i],
+        type: OperationType.Update,
+        operationBuffer,
+        operationIndex: coreIndexFile.didUniqueSuffixes.length + i,
+        transactionNumber: transaction.transactionNumber,
+        transactionTime: transaction.transactionTime,
+      };
+
+      anchoredOperationModels.push(anchoredOperationModel);
+    }
+
     return anchoredOperationModels;
   }
 
   private async downloadFileFromCas(
-    fileHash: string,
+    fileUri: string,
     maxFileSizeInBytes: number
   ): Promise<Buffer> {
-    console.info(
-      `Downloading file '${fileHash}', max size limit ${maxFileSizeInBytes}...`
+    Logger.info(
+      `Downloading file '${fileUri}', max size limit ${maxFileSizeInBytes}...`
     );
 
     const fileFetchResult = await this.downloadManager.download(
-      fileHash,
+      fileUri,
       maxFileSizeInBytes
     );
 
     if (fileFetchResult.code === FetchResultCode.InvalidHash) {
       throw new SidetreeError(
-        ErrorCode.CasFileHashNotValid,
-        `File hash '${fileHash}' is not a valid hash.`
+        ErrorCode.CasFileUriNotValid,
+        `File hash '${fileUri}' is not a valid hash.`
       );
     }
 
     if (fileFetchResult.code === FetchResultCode.MaxSizeExceeded) {
       throw new SidetreeError(
         ErrorCode.CasFileTooLarge,
-        `File '${fileHash}' exceeded max size limit of ${maxFileSizeInBytes} bytes.`
+        `File '${fileUri}' exceeded max size limit of ${maxFileSizeInBytes} bytes.`
       );
     }
 
     if (fileFetchResult.code === FetchResultCode.NotAFile) {
       throw new SidetreeError(
         ErrorCode.CasFileNotAFile,
-        `File hash '${fileHash}' points to a content that is not a file.`
+        `File hash '${fileUri}' points to a content that is not a file.`
       );
     }
 
     if (fileFetchResult.code === FetchResultCode.CasNotReachable) {
       throw new SidetreeError(
         ErrorCode.CasNotReachable,
-        `CAS not reachable for file '${fileHash}'.`
+        `CAS not reachable for file '${fileUri}'.`
       );
     }
 
     if (fileFetchResult.code === FetchResultCode.NotFound) {
       throw new SidetreeError(
         ErrorCode.CasFileNotFound,
-        `File '${fileHash}' not found.`
+        `File '${fileUri}' not found.`
       );
     }
 
-    console.info(
-      `File '${fileHash}' of size ${
-        fileFetchResult.content!.length
-      } downloaded.`
+    Logger.info(
+      `File '${fileUri}' of size ${fileFetchResult.content!.length} downloaded.`
     );
 
     return fileFetchResult.content!;

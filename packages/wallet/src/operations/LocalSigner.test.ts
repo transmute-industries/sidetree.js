@@ -1,4 +1,4 @@
-import LocalSigner from './LocalSigner';
+import { LocalSigner } from './LocalSigner';
 
 it('can sign with ES256K', async () => {
   const signer = LocalSigner.create(

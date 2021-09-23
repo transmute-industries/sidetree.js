@@ -1,43 +1,71 @@
-/*
- * The code in this file originated from
- * @see https://github.com/decentralized-identity/sidetree
- * For the list of changes that was made to the original code
- * @see https://github.com/transmute-industries/sidetree.js/blob/main/reference-implementation-changes.md
- *
- * Copyright 2020 - Transmute Industries Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+import ErrorCode from '../ErrorCode';
+import SidetreeError from '../SidetreeError';
 
-const pako = require('pako');
+const util = require('util');
+const zlib = require('zlib');
 
 /**
  * Encapsulates functionality to compress/decompress data.
  */
 export default class Compressor {
+  /** The estimated ratio/multiplier of decompressed Sidetree CAS file size compared against the compressed file size. */
+  public static readonly estimatedDecompressionMultiplier = 3;
+
+  private static readonly gzipAsync = util.promisify(zlib.gzip);
+
   /**
-   * Compresses the data in gzip and return it as buffer.
+   * Compresses teh data in gzip and return it as buffer.
    * @param inputAsBuffer The input string to be compressed.
    */
   public static async compress(inputAsBuffer: Buffer): Promise<Buffer> {
-    const result = pako.deflate(Buffer.from(inputAsBuffer));
-    return Buffer.from(result);
+    const result = await Compressor.gzipAsync(inputAsBuffer);
+
+    // Casting result to Buffer as that's what is returned by gzip
+    return result as Buffer;
   }
 
   /**
    * Decompresses the input and returns it as buffer.
-   * @param inputAsBuffer The gzip compressed data.
    */
-  public static async decompress(inputAsBuffer: Buffer): Promise<Buffer> {
-    const result = pako.inflate(inputAsBuffer);
-    return Buffer.from(result);
+  public static async decompress(
+    inputAsBuffer: Buffer,
+    maxAllowedDecompressedSizeInBytes: number
+  ): Promise<Buffer> {
+    // Create a gunzip transform object.
+    const gunzip = zlib.createGunzip();
+
+    let content = Buffer.alloc(0);
+
+    // Handle the data chunks that are decompressed as they come in.
+    gunzip.on('data', (chunk: Buffer) => {
+      const currentContentLength = content.length + chunk.length;
+
+      // If decompressed data exceeded max allowed size, terminate gunzip and throw error.
+      if (currentContentLength > maxAllowedDecompressedSizeInBytes) {
+        const error = new SidetreeError(
+          ErrorCode.CompressorMaxAllowedDecompressedDataSizeExceeded,
+          `Max data size allowed: ${maxAllowedDecompressedSizeInBytes} bytes, aborted decompression at ${currentContentLength} bytes.`
+        );
+
+        gunzip.destroy(error);
+        return;
+      }
+
+      content = Buffer.concat([content, chunk]);
+    });
+
+    // Create a promise to wrap the successful/failed decompress events.
+    const readBody = new Promise((resolve, reject) => {
+      gunzip.on('end', resolve);
+      gunzip.on('error', reject);
+    });
+
+    // Now that we have setup all the call backs, we pass the buffer to be decoded to the writable stream of gunzip Transform.
+    gunzip.end(inputAsBuffer);
+
+    // Wait until the read is completed.
+    await readBody;
+
+    return content;
   }
 }

@@ -1,14 +1,15 @@
 const {
-    recoverPrivateKeyJwk,
-    updatePrivateKeyJwk,
-    signingPrivateKeyJwk,
-    longFormDid
-  } = require('../__fixtures__');
-  
-  const { operations } = require('@sidetree/wallet');
+  recoverPrivateKeyJwk,
+  updatePrivateKeyJwk,
+  signingPrivateKeyJwk,
+  longFormDid,
+} = require('../__fixtures__');
 
-it('can create LONG_FORM_DID from keys needed for create operation', ()=>{
+const { SidetreeWalletPlugin } = require('@sidetree/wallet');
 
+const wallet = SidetreeWalletPlugin.build();
+
+it('can create LONG_FORM_DID from keys needed for create operation', () => {
   const signingPublicKeyJwk = { ...signingPrivateKeyJwk };
   delete signingPublicKeyJwk.d;
 
@@ -18,21 +19,21 @@ it('can create LONG_FORM_DID from keys needed for create operation', ()=>{
   const updatePublicKeyJwk = { ...updatePrivateKeyJwk };
   delete updatePublicKeyJwk.d;
 
-  const longForm = operations.createLongFormDid({
-    method:'ion',
+  const longForm = wallet.createLongFormDid({
+    method: 'ion',
     network: 'mainnet',
     document: {
-      "publicKeys": [
+      publicKeys: [
         {
-          "id": "signing-key",
-          "type": "EcdsaSecp256k1VerificationKey2019",
-          "publicKeyJwk": signingPublicKeyJwk
-        }
-      ]
+          id: 'signing-key',
+          type: 'EcdsaSecp256k1VerificationKey2019',
+          publicKeyJwk: signingPublicKeyJwk,
+        },
+      ],
     },
     recoveryKey: recoverPublicKeyJwk,
-    updateKey: updatePublicKeyJwk
-  })
+    updateKey: updatePublicKeyJwk,
+  });
 
-expect(longForm).toEqual(longFormDid.longFormDid)
+  expect(longForm).toEqual(longFormDid.longFormDid);
 });

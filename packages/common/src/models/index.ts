@@ -42,14 +42,27 @@ import ProtocolParameters from './ProtocolParameters';
 import ProtocolVersionModel from './ProtocolVersionModel';
 import PublicKeyModel from './PublicKeyModel';
 import QueuedOperationModel from './QueuedOperationModel';
-import ResponseModel from './ResponseModel';
-import ServiceEndpointModel from './ServiceEndpointModel';
 import ServiceVersionModel from './ServiceVersionModel';
 import TransactionModel from './TransactionModel';
 import TransactionUnderProcessingModel from './TransactionUnderProcessingModel';
 import ValueTimeLockModel from './ValueTimeLockModel';
 
+import DeactivateSignedDataModel from './DeactivateSignedDataModel';
+import UpdateSignedDataModel from './UpdateSignedDataModel';
+import RecoverSignedDataModel from './RecoverSignedDataModel';
+import ProvisionalIndexFileModel from './ProvisionalIndexFileModel';
+import ProvisionalProofFileModel from './ProvisionalProofFileModel';
+import OperationReferenceModel from './OperationReferenceModel';
+import CoreProofFileModel from './CoreProofFileModel';
+import SuffixDataModel from './SuffixDataModel';
+import CoreIndexFileModel from './CoreIndexFileModel';
+import ResponseStatus from './ResponseStatus';
+import ResponseModel from './ResponseModel';
+import VersionModel from './VersionModel';
+import UnresolvableTransactionModel from './UnresolvableTransactionModel';
+
 export {
+  UnresolvableTransactionModel,
   AnchorFileModel,
   AnchoredData,
   AnchoredOperationModel,
@@ -73,10 +86,22 @@ export {
   PublicKeyJwkEd25519,
   PublicKeyModel,
   QueuedOperationModel,
-  ResponseModel,
-  ServiceEndpointModel,
   ServiceVersionModel,
   TransactionModel,
   TransactionUnderProcessingModel,
   ValueTimeLockModel,
+  //
+
+  DeactivateSignedDataModel,
+  UpdateSignedDataModel,
+  RecoverSignedDataModel,
+  ProvisionalIndexFileModel,
+  ProvisionalProofFileModel,
+  OperationReferenceModel,
+  CoreProofFileModel,
+  SuffixDataModel,
+  CoreIndexFileModel,
+  ResponseStatus,
+  ResponseModel,
+  VersionModel,
 };

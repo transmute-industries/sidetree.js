@@ -14,27 +14,20 @@
 
 import fs from 'fs';
 import path from 'path';
+import { MongoClient } from 'mongodb';
 
-import { MongoDb } from '@sidetree/db';
 import Web3 from 'web3';
 import { EthereumLedger } from '@sidetree/ethereum';
 // import { IpfsCasWithCache } from '@sidetree/cas-ipfs';
 import { MockCas } from '@sidetree/cas';
 import Element from '../Element';
 
-const config: any = require('./element-config.json');
+const config: any = require('./element-ganache-config.json');
 
 const writeFixture = (filename: string, object: any) => {
   fs.writeFileSync(
     path.resolve(__dirname, '../__fixtures__/', filename),
     JSON.stringify(object, null, 2)
-  );
-};
-
-const resetDatabase = async () => {
-  await MongoDb.resetDatabase(
-    config.mongoDbConnectionString,
-    config.databaseName!
   );
 };
 
@@ -57,42 +50,32 @@ const getTestCas = async () => {
 };
 
 const getTestElement = async () => {
-  await resetDatabase();
   const ledger = await getTestLedger();
   const cas = await getTestCas();
-
-  const element = new Element(config, config.versions, ledger, cas);
-  await element.initialize(false, false);
+  const element = new Element(config, config.versions, cas, ledger);
+  await element.initialize();
   return element;
 };
 
-const replaceMethod = (
-  result: any,
-  defaultMethod = 'sidetree',
-  specificMethod = 'elem'
-) => {
-  // prevent mutation
-  const _result = JSON.parse(JSON.stringify(result));
-  _result.didDocument.id = _result.didDocument.id.replace(
-    specificMethod,
-    defaultMethod
+const clearCollection = async (collectionName: string) => {
+  const client: any = await MongoClient.connect(
+    config.mongoDbConnectionString,
+    {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    } as any
   );
-  // upstream sidetree sets controller incorrectly.
-  _result.didDocument.publicKey[0].controller = '';
-  if (_result.didDocument.publicKey[1]) {
-    _result.didDocument.publicKey[1].controller = '';
-  }
-  _result.didDocument['@context'][2]['@base'] = _result.didDocument[
-    '@context'
-  ][2]['@base'].replace(specificMethod, defaultMethod);
-  return _result;
+  const db = await client.db(config.databaseName);
+  const collection = db.collection(collectionName);
+  //   const documents = await collection.find({}).toArray();
+  await collection.deleteMany({});
+  await client.close();
 };
 
 export {
-  resetDatabase,
   getTestLedger,
   getTestCas,
   getTestElement,
-  replaceMethod,
   writeFixture,
+  clearCollection,
 };

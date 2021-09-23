@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /*
  * The code in this file originated from
  * @see https://github.com/decentralized-identity/sidetree
@@ -18,20 +19,51 @@
  */
 
 import { FetchResult, FetchResultCode } from '@sidetree/common';
-import MongoDbBase from './MongoDbBase';
+import { MongoClient, Collection, Db } from 'mongodb';
 
-export default class MongoDbCasCache extends MongoDbBase {
-  readonly collectionName = 'cas-cache';
+export default class MongoDbCasCache {
+  public static readonly collectionName: string = 'cas-cache';
 
-  public async initialize(): Promise<void> {
-    await super.initialize();
-    await this.collection!.createIndex({ hash: 1 }, { unique: true });
+  private collection: Collection<any> | undefined;
+  private client?: MongoClient;
+  private db: Db | undefined;
+
+  private static async createCollectionIfNotExist(
+    db: Db
+  ): Promise<Collection<any>> {
+    // Get the names of existing collections.
+    const collections = await db.collections();
+    const collectionNames = collections.map(
+      (collection) => collection.collectionName
+    );
+
+    // If the queued operation collection exists, use it; else create it then use it.
+    let collection;
+    if (collectionNames.includes(this.collectionName)) {
+      collection = db.collection(this.collectionName);
+    } else {
+      collection = await db.createCollection(this.collectionName);
+      // Create an index on didUniqueSuffix make `contains()` operations more efficient.
+      // This is an unique index, so duplicate inserts are rejected.
+      await collection.createIndex({ didUniqueSuffix: 1 }, { unique: true });
+    }
+
+    return collection;
+  }
+
+  public async initialize(serverUrl: string, databaseName: string) {
+    const client = await MongoClient.connect(serverUrl);
+    this.client = client;
+    this.db = client.db(databaseName);
+    this.collection = await MongoDbCasCache.createCollectionIfNotExist(this.db);
+  }
+
+  public async stop(): Promise<void> {
+    return this.client!.close();
   }
 
   async read(hash: string): Promise<FetchResult> {
-    const operations = await this.collection!.find({ hash })
-      .limit(1)
-      .toArray();
+    const operations = await this.collection!.find({ hash }).limit(1).toArray();
     if (operations.length === 1) {
       const operation = operations.pop();
       return {
@@ -49,7 +81,7 @@ export default class MongoDbCasCache extends MongoDbBase {
       await this.collection!.insertOne({ hash, content });
     } catch (error) {
       // Duplicate insert errors (error code 11000).
-      if (error.code !== 11000) {
+      if ((error as any).code !== 11000) {
         throw error;
       }
     }

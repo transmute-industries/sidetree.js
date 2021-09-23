@@ -1,30 +1,12 @@
-/*
- * The code in this file originated from
- * @see https://github.com/decentralized-identity/sidetree
- * For the list of changes that was made to the original code
- * @see https://github.com/transmute-industries/sidetree.js/blob/main/reference-implementation-changes.md
- *
- * Copyright 2020 - Transmute Industries Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import * as crypto from 'crypto';
 import Encoder from './Encoder';
 import ErrorCode from '../errors/ErrorCode';
 import JsonCanonicalizer from './JsonCanonicalizer';
-import ProtocolParameters from './parameters';
 import SidetreeError from '../errors/SidetreeError';
 
 const multihashes = require('multihashes');
+
+const Logger = console;
 
 /**
  * Class that performs hashing operations using the multihash format.
@@ -32,46 +14,22 @@ const multihashes = require('multihashes');
 export default class Multihash {
   /**
    * Hashes the content using the hashing algorithm specified.
-   * @param hashAlgorithmInMultihashCode The hashing algorithm to use. If not given, latest supported hashing algorithm will be used.
+   * @param hashAlgorithmInMultihashCode The hashing algorithm to use.
+   * @returns A multihash buffer.
    */
   public static hash(
     content: Buffer,
-    hashAlgorithmInMultihashCode?: number
+    hashAlgorithmInMultihashCode: number
   ): Buffer {
-    if (hashAlgorithmInMultihashCode === undefined) {
-      hashAlgorithmInMultihashCode =
-        ProtocolParameters.hashAlgorithmInMultihashCode;
-    }
-
-    let hash;
-    switch (hashAlgorithmInMultihashCode) {
-      case 18: // SHA256
-        hash = crypto
-          .createHash('sha256') // SHA256
-          .update(content)
-          .digest();
-        break;
-      default:
-        throw new SidetreeError(ErrorCode.MultihashUnsupportedHashAlgorithm);
-    }
-
-    const hashAlgorithmName = multihashes.codes[hashAlgorithmInMultihashCode];
-    const multihash = multihashes.encode(hash, hashAlgorithmName);
-
-    return multihash;
-  }
-
-  /**
-   * Canonicalize the given content, then multihashes the result using the lastest supported hash algorithm, then encodes the multihash.
-   * Mainly used for testing purposes.
-   */
-  public static canonicalizeThenHashThenEncode(content: object) {
-    const contentBuffer = JsonCanonicalizer.canonicalizeAsBuffer(content);
-    const multihashEncodedString = Multihash.hashThenEncode(
-      contentBuffer,
-      ProtocolParameters.hashAlgorithmInMultihashCode
+    const conventionalHash = this.hashAsNonMultihashBuffer(
+      content,
+      hashAlgorithmInMultihashCode
     );
-    return multihashEncodedString;
+    const multihash = multihashes.encode(
+      conventionalHash,
+      hashAlgorithmInMultihashCode
+    );
+    return multihash;
   }
 
   /**
@@ -104,6 +62,33 @@ export default class Multihash {
     return hash;
   }
 
+  /**
+   * Canonicalize the given content, then double hashes the result using the latest supported hash algorithm, then encodes the multihash.
+   * Mainly used for testing purposes.
+   */
+  public static canonicalizeThenHashThenEncode(
+    content: object,
+    hashAlgorithmInMultihashCode?: number
+  ) {
+    const canonicalizedStringBuffer = JsonCanonicalizer.canonicalizeAsBuffer(
+      content
+    );
+
+    if (hashAlgorithmInMultihashCode === undefined) {
+      hashAlgorithmInMultihashCode = 18; // Default to SHA256.
+    }
+
+    const multihashEncodedString = Multihash.hashThenEncode(
+      canonicalizedStringBuffer,
+      hashAlgorithmInMultihashCode
+    );
+    return multihashEncodedString;
+  }
+
+  /**
+   * Canonicalize the given content, then double hashes the result using the latest supported hash algorithm, then encodes the multihash.
+   * Mainly used for testing purposes.
+   */
   public static canonicalizeThenDoubleHashThenEncode(content: object) {
     const contentBuffer = JsonCanonicalizer.canonicalizeAsBuffer(content);
 
@@ -137,50 +122,47 @@ export default class Multihash {
   }
 
   /**
-   * Given a multihash, returns the code of the hash algorithm used.
+   * Given a multihash, returns the code of the hash algorithm, and digest buffer.
+   * @returns [hash algorithm code, digest buffer]
    * @throws `SidetreeError` if hash algorithm used for the given multihash is unsupported.
    */
-  public static getHashAlgorithmCode(multihashBuffer: Buffer): number {
+  public static decode(
+    multihashBuffer: Buffer
+  ): { algorithm: number; hash: Buffer } {
     const multihash = multihashes.decode(multihashBuffer);
 
-    // Hash algorithm must be SHA-256.
-    if (multihash.code !== 18) {
-      throw new SidetreeError(ErrorCode.MultihashUnsupportedHashAlgorithm);
-    }
-
-    return multihash.code;
+    return {
+      algorithm: multihash.code,
+      hash: multihash.digest,
+    };
   }
 
   /**
-   * Verifies that the given hash is a multihash computed using the latest supported hash algorithm known to this version of code.
-   * @throws `SidetreeError` if the given hash is not a multihash computed using the latest supported hash algorithm.
+   * Checks if the given hash is a multihash computed using one of the supported hash algorithms.
+   * @param inputContextForErrorLogging This string is used for error logging purposes only. e.g. 'document', or 'suffix data'.
    */
-  public static verifyHashComputedUsingLatestSupportedAlgorithm(hash: Buffer) {
-    const latestSupportedHashAlgorithmCode = 18;
-    const isLatestSupportedHashFormat = Multihash.isComputedUsingHashAlgorithm(
-      hash,
-      latestSupportedHashAlgorithmCode
-    ); // SHA-256.
+  public static validateHashComputedUsingSupportedHashAlgorithm(
+    encodedMultihash: string,
+    supportedHashAlgorithmsInMultihashCode: number[],
+    inputContextForErrorLogging: string
+  ) {
+    const multihashBuffer = Encoder.decodeAsBuffer(encodedMultihash);
 
-    if (!isLatestSupportedHashFormat) {
+    let multihash;
+    try {
+      multihash = multihashes.decode(multihashBuffer);
+    } catch {
       throw new SidetreeError(
-        ErrorCode.MultihashNotLatestSupportedHashAlgorithm
+        ErrorCode.MultihashStringNotAMultihash,
+        `Given ${inputContextForErrorLogging} string '${encodedMultihash}' is not a multihash.`
       );
     }
-  }
 
-  /**
-   * Checks if the given hash is a multihash with the expected hashing algorithm.
-   */
-  public static isComputedUsingHashAlgorithm(
-    hash: Buffer,
-    expectedHashAlgorithmInMultihashCode: number
-  ): boolean {
-    try {
-      const multihash = multihashes.decode(hash);
-      return multihash.code === expectedHashAlgorithmInMultihashCode;
-    } catch {
-      return false;
+    if (!supportedHashAlgorithmsInMultihashCode.includes(multihash.code)) {
+      throw new SidetreeError(
+        ErrorCode.MultihashNotSupported,
+        `Given ${inputContextForErrorLogging} uses unsupported multihash algorithm with code ${multihash.code}.`
+      );
     }
   }
 
@@ -197,17 +179,44 @@ export default class Multihash {
 
     try {
       const contentBuffer = Encoder.decodeAsBuffer(encodedContent);
-      return Multihash.verify(contentBuffer, encodedMultihash);
+      return Multihash.verifyEncodedMultihashForContent(
+        contentBuffer,
+        encodedMultihash
+      );
     } catch (error) {
-      console.log(error);
+      Logger.info(error);
       return false;
     }
   }
 
   /**
-   * Canonicalizes the given content object, then verifies the multihash against the canonicalized string as a UTF8 buffer.
+   * Canonicalizes the given content object, then validates the multihash of the canonicalized UTF8 object buffer against the expected multihash.
+   * @param inputContextForErrorLogging This string is used for error logging purposes only. e.g. 'document', or 'suffix data'.
    */
-  public static canonicalizeAndVerify(
+  public static validateCanonicalizeObjectHash(
+    content: object,
+    expectedEncodedMultihash: string,
+    inputContextForErrorLogging: string
+  ) {
+    const contentBuffer = JsonCanonicalizer.canonicalizeAsBuffer(content);
+    const validHash = Multihash.verifyEncodedMultihashForContent(
+      contentBuffer,
+      expectedEncodedMultihash
+    );
+
+    if (!validHash) {
+      throw new SidetreeError(
+        ErrorCode.CanonicalizedObjectHashMismatch,
+        `Canonicalized ${inputContextForErrorLogging} object hash does not match expected hash '${expectedEncodedMultihash}'.`
+      );
+    }
+  }
+
+  /**
+   * Canonicalizes the given content object, then verifies the multihash as a "double hash"
+   * (ie. the given multihash is the hash of a hash) against the canonicalized string as a UTF8 buffer.
+   */
+  public static canonicalizeAndVerifyDoubleHash(
     content: object | undefined,
     encodedMultihash: string
   ): boolean {
@@ -218,9 +227,40 @@ export default class Multihash {
     try {
       const contentBuffer = JsonCanonicalizer.canonicalizeAsBuffer(content);
 
-      return Multihash.verify(contentBuffer, encodedMultihash);
+      return Multihash.verifyDoubleHash(contentBuffer, encodedMultihash);
     } catch (error) {
-      console.log(error);
+      Logger.info(error);
+      return false;
+    }
+  }
+
+  /**
+   * Verifies the multihash as a "double hash" (ie. the given multihash is a hash of a hash) against the content `Buffer`.
+   * Note that the intermediate hash is required to be a non-multihash hash by the same hash algorithm as the final multihash.
+   */
+  private static verifyDoubleHash(
+    content: Buffer,
+    encodedMultihash: string
+  ): boolean {
+    try {
+      const expectedMultihashBuffer = Encoder.decodeAsBuffer(encodedMultihash);
+      const hashAlgorithmCode = Multihash.decode(expectedMultihashBuffer)
+        .algorithm;
+
+      const intermediateHashBuffer = Multihash.hashAsNonMultihashBuffer(
+        content,
+        hashAlgorithmCode
+      );
+      const actualMultihashBuffer = Multihash.hash(
+        intermediateHashBuffer,
+        hashAlgorithmCode
+      );
+
+      return (
+        Buffer.compare(actualMultihashBuffer, expectedMultihashBuffer) === 0
+      );
+    } catch (error) {
+      Logger.info(error);
       return false;
     }
   }
@@ -228,20 +268,24 @@ export default class Multihash {
   /**
    * Verifies the multihash against the content `Buffer`.
    */
-  private static verify(content: Buffer, encodedMultihash: string): boolean {
+  public static verifyEncodedMultihashForContent(
+    content: Buffer,
+    encodedMultihash: string
+  ): boolean {
     try {
-      const multihashBuffer = Encoder.decodeAsBuffer(encodedMultihash);
+      const expectedMultihashBuffer = Encoder.decodeAsBuffer(encodedMultihash);
+      const hashAlgorithmCode = Multihash.decode(expectedMultihashBuffer)
+        .algorithm;
 
-      const hashAlgorithmCode = Multihash.getHashAlgorithmCode(multihashBuffer);
-      const actualHashBuffer = Multihash.hash(content, hashAlgorithmCode);
+      const actualMultihashBuffer = Multihash.hash(content, hashAlgorithmCode);
 
-      if (Buffer.compare(actualHashBuffer, multihashBuffer) !== 0) {
-        return false;
-      }
-
-      return true;
+      // Compare the strings instead of buffers, because encoding schemes such as base64URL can allow two distinct strings to decode into the same buffer.
+      // e.g. 'EiAJID5-y7rbEs7I3PPiMtwVf28LTkPFD4BWIZPCtb6AMg' and
+      //      'EiAJID5-y7rbEs7I3PPiMtwVf28LTkPFD4BWIZPCtb6AMv' would decode into the same buffer.
+      const actualMultihashString = Encoder.encode(actualMultihashBuffer);
+      return actualMultihashString === encodedMultihash;
     } catch (error) {
-      console.log(error);
+      Logger.info(error);
       return false;
     }
   }

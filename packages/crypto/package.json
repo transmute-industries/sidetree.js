@@ -27,7 +27,7 @@
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@transmute/ed25519-key-pair": "^0.7.0-unstable.7",
+    "@transmute/ed25519-key-pair": "^0.7.0-unstable.8",
     "@transmute/json-web-signature": "^0.7.0-unstable.8",
     "bip39": "^3.0.2",
     "hdkey": "^2.0.1"

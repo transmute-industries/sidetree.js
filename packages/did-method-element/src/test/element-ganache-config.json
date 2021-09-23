@@ -1,0 +1,16 @@
+{
+  "contentAddressableStoreServiceUri": "/ip4/127.0.0.1/tcp/5001",
+  "databaseName": "element-test",
+  "didMethodName": "elem:ganache",
+  "ethereumRpcUrl": "http://localhost:8545",
+  "mongoDbConnectionString": "mongodb://localhost:27017/",
+  "batchingIntervalInSeconds": 1,
+  "observingIntervalInSeconds": 1,
+  "maxConcurrentDownloads": 20,
+  "versions": [
+    {
+      "startingBlockchainTime": 0,
+      "version": "latest"
+    }
+  ]
+}

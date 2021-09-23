@@ -13,14 +13,18 @@
  */
 
 import utils from './utils';
+
+import { AnchoredDataSerializer } from '@sidetree/core';
+
 import {
   BlockchainTimeModel,
   IBlockchain,
   TransactionModel,
-  AnchoredDataSerializer,
   ValueTimeLockModel,
   ServiceVersionModel,
+  Encoder,
 } from '@sidetree/common';
+
 import {
   ElementContract,
   ElementEventData,
@@ -50,6 +54,13 @@ export default class EthereumLedger implements IBlockchain {
     this.anchorContract = new Contract(anchorContractArtifact.abi);
     this.anchorContract.setProvider(this.web3.currentProvider);
     this.anchorContract.options.gasPrice = '100000000000';
+  }
+
+  getServiceVersion(): Promise<ServiceVersionModel> {
+    return Promise.resolve({
+      name: 'eth',
+      version,
+    });
   }
 
   private async getAnchorContract(): Promise<ElementContract> {
@@ -87,13 +98,6 @@ export default class EthereumLedger implements IBlockchain {
     // Refresh cached block time
     await this.getLatestTime();
   }
-
-  public getServiceVersion: () => ServiceVersionModel = () => {
-    return {
-      name: 'ethereum',
-      version,
-    };
-  };
 
   public _getTransactions = async (
     fromBlock: number | string,
@@ -185,16 +189,14 @@ export default class EthereumLedger implements IBlockchain {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public write = async (anchorString: string, _fee = 0): Promise<void> => {
     const contract = await this.getAnchorContract();
-    const {
-      anchorFileHash,
-      numberOfOperations,
-    } = AnchoredDataSerializer.deserialize(anchorString);
-    const bytes32AnchorFileHash = utils.base58EncodedMultihashToBytes32(
-      anchorFileHash
-    );
+    const anchorObject = AnchoredDataSerializer.deserialize(anchorString);
+    const { coreIndexFileUri, numberOfOperations } = anchorObject;
+
+    const value = Encoder.decodeAsBuffer(coreIndexFileUri);
+
     try {
       const methodCall = contract.methods.anchorHash(
-        bytes32AnchorFileHash,
+        '0x' + value.toString('hex').substring(4),
         numberOfOperations
       );
       const gas = await methodCall.estimateGas();

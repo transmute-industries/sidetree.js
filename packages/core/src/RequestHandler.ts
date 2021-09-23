@@ -1,40 +1,23 @@
-/*
- * The code in this file originated from
- * @see https://github.com/decentralized-identity/sidetree
- * For the list of changes that was made to the original code
- * @see https://github.com/transmute-industries/sidetree.js/blob/main/reference-implementation-changes.md
- *
- * Copyright 2020 - Transmute Industries Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-import {
-  DidState,
-  ErrorCode,
-  IOperationQueue,
-  IRequestHandler,
-  OperationModel,
-  OperationType,
-  protocolParameters,
-  ResponseModel,
-  ResponseStatus,
-  SidetreeError,
-} from '@sidetree/common';
+import Delta from './Delta';
 import Did from './Did';
 import DocumentComposer from './DocumentComposer';
+import ErrorCode from './ErrorCode';
 import JsonAsync from './util/JsonAsync';
+import Logger from './Logger';
 import Operation from './Operation';
 import OperationProcessor from './OperationProcessor';
 import Resolver from './Resolver';
+import SidetreeError from './SidetreeError';
+
+import {
+  ResponseStatus,
+  ResponseModel,
+  OperationType,
+  OperationModel,
+  IRequestHandler,
+  IOperationQueue,
+  DidState,
+} from '@sidetree/common';
 
 /**
  * Sidetree operation request handler.
@@ -54,7 +37,7 @@ export default class RequestHandler implements IRequestHandler {
    * Handles an operation request.
    */
   public async handleOperationRequest(request: Buffer): Promise<ResponseModel> {
-    console.info(
+    Logger.info(
       `Handling operation request of size ${request.length} bytes...`
     );
 
@@ -69,15 +52,7 @@ export default class RequestHandler implements IRequestHandler {
         operationRequest.type === OperationType.Recover ||
         operationRequest.type === OperationType.Update
       ) {
-        const deltaBuffer = Buffer.from(operationRequest.delta);
-        if (deltaBuffer.length > protocolParameters.maxDeltaSizeInBytes) {
-          const errorMessage = `operationDdata byte size of ${deltaBuffer.length} exceeded limit of ${protocolParameters.maxDeltaSizeInBytes}`;
-          console.info(errorMessage);
-          throw new SidetreeError(
-            ErrorCode.RequestHandlerDeltaExceedsMaximumSize,
-            errorMessage
-          );
-        }
+        Delta.validateDelta(operationRequest.delta);
       }
 
       operationModel = await Operation.parse(request);
@@ -93,8 +68,8 @@ export default class RequestHandler implements IRequestHandler {
     } catch (error) {
       // Give meaningful/specific error code and message when possible.
       if (error instanceof SidetreeError) {
-        console.info(`Bad request: ${error.code}`);
-        console.info(`Error message: ${error.message}`);
+        Logger.info(`Bad request: ${error.code}`);
+        Logger.info(`Error message: ${error.message}`);
         return {
           status: ResponseStatus.BadRequest,
           body: { code: error.code, message: error.message },
@@ -102,14 +77,14 @@ export default class RequestHandler implements IRequestHandler {
       }
 
       // Else we give a generic bad request response.
-      console.info(`Bad request: ${error}`);
+      Logger.info(`Bad request: ${error}`);
       return {
         status: ResponseStatus.BadRequest,
       };
     }
 
     try {
-      console.info(
+      Logger.info(
         `Operation type: '${operationModel.type}', DID unique suffix: '${operationModel.didUniqueSuffix}'`
       );
 
@@ -150,14 +125,14 @@ export default class RequestHandler implements IRequestHandler {
     } catch (error) {
       // Give meaningful/specific error code and message when possible.
       if (error instanceof SidetreeError) {
-        console.info(`Sidetree error: ${error.code} ${error.message}`);
+        Logger.info(`Sidetree error: ${error.code} ${error.message}`);
         return {
           status: ResponseStatus.BadRequest,
           body: { code: error.code, message: error.message },
         };
       }
 
-      console.info(`Unexpected error: ${error}`);
+      Logger.info(`Unexpected error: ${error}`);
       return {
         status: ResponseStatus.ServerError,
       };
@@ -177,10 +152,13 @@ export default class RequestHandler implements IRequestHandler {
       };
     }
 
-    const did = `did:${this.didMethodName}:${operationModel.didUniqueSuffix}`;
+    const didString = `did:${this.didMethodName}:${operationModel.didUniqueSuffix}`;
+    const published = false;
+    const did = await Did.create(didString, this.didMethodName);
     const document = DocumentComposer.transformToExternalDocument(
       didState,
-      did
+      did,
+      published
     );
 
     return {
@@ -193,48 +171,69 @@ export default class RequestHandler implements IRequestHandler {
    * Handles resolve operation.
    * @param shortOrLongFormDid Can either be:
    *   1. A short-form DID. e.g. 'did:<methodName>:abc' or
-   *   2. A long-form DID. e.g. 'did:<methodName>:<unique-portion>?-<methodName>-initial-state=<encoded-original-did-document>'.
+   *   2. A long-form DID. e.g. 'did:<methodName>:<unique-portion>:Base64url(JCS({suffix-data, delta}))'
    */
   public async handleResolveRequest(
     shortOrLongFormDid: string
   ): Promise<ResponseModel> {
     try {
-      console.info(`Handling resolution request for: ${shortOrLongFormDid}...`);
+      Logger.info(`Handling resolution request for: ${shortOrLongFormDid}...`);
 
       const did = await Did.create(shortOrLongFormDid, this.didMethodName);
 
       let didState: DidState | undefined;
+      let published = false;
       if (did.isShortForm) {
         didState = await this.resolver.resolve(did.uniqueSuffix);
+
+        if (didState !== undefined) {
+          published = true;
+        }
       } else {
-        didState = await this.resolveLongFormDid(did);
+        [didState, published] = await this.resolveLongFormDid(did);
       }
 
       if (didState === undefined) {
+        Logger.info(`DID not found for DID '${shortOrLongFormDid}'...`);
         return {
           status: ResponseStatus.NotFound,
+          body: { code: ErrorCode.DidNotFound, message: 'DID Not Found' },
         };
       }
 
+      // We reach here it means there is a DID Document to return.
+
+      // If DID is published, use the short-form DID; else use long-form DID in document.
       const document = DocumentComposer.transformToExternalDocument(
         didState,
-        shortOrLongFormDid
+        did,
+        published
       );
 
+      // Status is different if DID is deactivated.
+      const didDeactivated = didState.nextRecoveryCommitmentHash === undefined;
+      const status = didDeactivated
+        ? ResponseStatus.Deactivated
+        : ResponseStatus.Succeeded;
+
+      Logger.info(`DID Document found for DID '${shortOrLongFormDid}'...`);
       return {
-        status: ResponseStatus.Succeeded,
+        status,
         body: document,
       };
     } catch (error) {
       // Give meaningful/specific error code and message when possible.
       if (error instanceof SidetreeError) {
+        Logger.info(
+          `Bad request. Code: ${error.code}. Message: ${error.message}`
+        );
         return {
           status: ResponseStatus.BadRequest,
           body: { code: error.code, message: error.message },
         };
       }
 
-      console.info(`Unexpected error: ${error}`);
+      Logger.info(`Unexpected error: ${error}`);
       return {
         status: ResponseStatus.ServerError,
       };
@@ -243,22 +242,30 @@ export default class RequestHandler implements IRequestHandler {
 
   /**
    * Resolves the given long-form DID by resolving using operations found over the network first;
-   * if no operations found, the given create operation will is used to construct the DID state.
+   * if no operations found, the given create operation will be used to construct the DID state.
+   *
+   * @returns [DID state, published]
    */
-  private async resolveLongFormDid(did: Did): Promise<DidState | undefined> {
+  private async resolveLongFormDid(
+    did: Did
+  ): Promise<[DidState | undefined, boolean]> {
+    Logger.info(
+      `Handling long-form DID resolution of DID '${did.longForm}'...`
+    );
+
     // Attempt to resolve the DID by using operations found from the network first.
     let didState = await this.resolver.resolve(did.uniqueSuffix);
 
     // If DID state found then return it.
     if (didState !== undefined) {
-      return didState;
+      return [didState, true];
     }
 
     // The code reaches here if this DID is not registered on the ledger.
 
     didState = await this.applyCreateOperation(did.createOperation!);
 
-    return didState;
+    return [didState, false];
   }
 
   private async applyCreateOperation(

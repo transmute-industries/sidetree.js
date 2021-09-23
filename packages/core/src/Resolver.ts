@@ -1,30 +1,14 @@
-/*
- * The code in this file originated from
- * @see https://github.com/decentralized-identity/sidetree
- * For the list of changes that was made to the original code
- * @see https://github.com/transmute-industries/sidetree.js/blob/main/reference-implementation-changes.md
- *
- * Copyright 2020 - Transmute Industries Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+import Logger from './Logger';
+
+import SidetreeError from './SidetreeError';
 
 import {
-  AnchoredOperationModel,
-  DidState,
-  IOperationStore,
-  IVersionManager,
-  Multihash,
   OperationType,
-  SidetreeError,
+  Multihash,
+  IVersionManager,
+  IOperationStore,
+  DidState,
+  AnchoredOperationModel,
 } from '@sidetree/common';
 
 /**
@@ -42,7 +26,7 @@ export default class Resolver {
    * @returns Final DID state of the DID. Undefined if the unique suffix of the DID is not found or the DID state is not constructable.
    */
   public async resolve(didUniqueSuffix: string): Promise<DidState | undefined> {
-    console.info(`Resolving DID unique suffix '${didUniqueSuffix}'...`);
+    Logger.info(`Resolving DID unique suffix '${didUniqueSuffix}'...`);
 
     const operations = await this.operationStore.get(didUniqueSuffix);
     const operationsByType = Resolver.categorizeOperationsByType(operations);
@@ -239,16 +223,15 @@ export default class Resolver {
       const operationProcessor = this.versionManager.getOperationProcessor(
         operation.transactionTime
       );
-
       appliedDidState = await operationProcessor.apply(
         operation,
         appliedDidState
       );
     } catch (error) {
-      console.log(
+      Logger.info(
         `Skipped bad operation for DID ${operation.didUniqueSuffix} at time ${
           operation.transactionTime
-        }. Error: ${SidetreeError.stringify(error as any)}`
+        }. Error: ${SidetreeError.stringify(error)}`
       );
     }
 
@@ -277,13 +260,13 @@ export default class Resolver {
       }
     }
 
+    // TODO: Issue 981 this can probably return old did state. https://github.com/decentralized-identity/sidetree/issues/981
     // Else we reach the end of operations without being able to apply any of them.
     return undefined;
   }
 
   /**
-   * Constructs a single commit value -> operation lookup map by looping through each supported hash algorithm,
-   * hashing each operations as key, then adding the result to a map.
+   * Constructs a single commit value -> operation lookup map by hashing each operation's reveal value as key, then adding the result to a map.
    */
   private async constructCommitValueToOperationLookupMap(
     nonCreateOperations: AnchoredOperationModel[]
@@ -293,28 +276,24 @@ export default class Resolver {
       AnchoredOperationModel[]
     >();
 
-    // Loop through each supported algorithm and hash each operation.
-    const allSupportedHashAlgorithms = this.versionManager
-      .allSupportedHashAlgorithms;
-    for (const hashAlgorithm of allSupportedHashAlgorithms) {
-      for (const operation of nonCreateOperations) {
-        const operationProcessor = this.versionManager.getOperationProcessor(
-          operation.transactionTime
-        );
-        const revealValueBuffer = await operationProcessor.getRevealValue(
-          operation
-        );
+    // Loop through each operation and add an entry to the commit value -> operations map.
+    for (const operation of nonCreateOperations) {
+      const operationProcessor = this.versionManager.getOperationProcessor(
+        operation.transactionTime
+      );
+      const multihashRevealValueBuffer = await operationProcessor.getMultihashRevealValue(
+        operation
+      );
+      const multihashRevealValue = Multihash.decode(multihashRevealValueBuffer);
+      const commitValue = Multihash.hashThenEncode(
+        multihashRevealValue.hash,
+        multihashRevealValue.algorithm
+      );
 
-        const hashOfRevealValue = Multihash.hashThenEncode(
-          revealValueBuffer,
-          hashAlgorithm
-        );
-
-        if (commitValueToOperationMap.has(hashOfRevealValue)) {
-          commitValueToOperationMap.get(hashOfRevealValue)!.push(operation);
-        } else {
-          commitValueToOperationMap.set(hashOfRevealValue, [operation]);
-        }
+      if (commitValueToOperationMap.has(commitValue)) {
+        commitValueToOperationMap.get(commitValue)!.push(operation);
+      } else {
+        commitValueToOperationMap.set(commitValue, [operation]);
       }
     }
 

@@ -30,6 +30,9 @@ import ITransactionStore from './ITransactionStore';
 import IUnresolvableTransactionStore from './IUnresolvableTransactionStore';
 import IVersionManager from './IVersionManager';
 import IVersionMetadataFetcher from './IVersionMetadataFetcher';
+import IEventEmitter from './IEventEmitter';
+import IServiceStateStore from './IServiceStateStore';
+import ILogger from './ILogger';
 
 export {
   IBatchWriter,
@@ -45,4 +48,7 @@ export {
   IUnresolvableTransactionStore,
   IVersionManager,
   IVersionMetadataFetcher,
+  IEventEmitter,
+  IServiceStateStore,
+  ILogger,
 };
