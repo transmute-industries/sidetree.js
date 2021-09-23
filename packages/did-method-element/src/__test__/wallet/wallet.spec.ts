@@ -1,6 +1,6 @@
 import vectors from '@sidetree/test-vectors';
 import Element from '../../Element';
-import { getTestElement } from '../../test/utils';
+import { getTestElement, clearCollection } from '../../test/utils';
 
 import { longFormResolutionResponse } from './__fixtures__';
 
@@ -12,6 +12,10 @@ let element: Element;
 
 beforeAll(async () => {
   element = await getTestElement();
+  await clearCollection('service');
+  await clearCollection('operations');
+  await clearCollection('transactions');
+  await clearCollection('queued-operations');
 });
 
 afterAll(async () => {

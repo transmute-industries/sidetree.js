@@ -14,8 +14,8 @@
 
 import fs from 'fs';
 import path from 'path';
+import { MongoClient } from 'mongodb';
 
-import { MongoDb } from '@sidetree/db';
 import Web3 from 'web3';
 import { EthereumLedger } from '@sidetree/ethereum';
 // import { IpfsCasWithCache } from '@sidetree/cas-ipfs';
@@ -28,13 +28,6 @@ const writeFixture = (filename: string, object: any) => {
   fs.writeFileSync(
     path.resolve(__dirname, '../__fixtures__/', filename),
     JSON.stringify(object, null, 2)
-  );
-};
-
-const resetDatabase = async () => {
-  await MongoDb.resetDatabase(
-    config.mongoDbConnectionString,
-    config.databaseName!
   );
 };
 
@@ -57,19 +50,29 @@ const getTestCas = async () => {
 };
 
 const getTestElement = async () => {
-  await resetDatabase();
   const ledger = await getTestLedger();
   const cas = await getTestCas();
-
   const element = new Element(config, config.versions, cas, ledger);
   await element.initialize();
   return element;
 };
 
+const clearCollection = async (collectionName: string) => {
+  const client = await MongoClient.connect(config.mongoDbConnectionString, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  });
+  const db = await client.db(config.databaseName);
+  const collection = db.collection(collectionName);
+  //   const documents = await collection.find({}).toArray();
+  await collection.deleteMany({});
+  await client.close();
+};
+
 export {
-  resetDatabase,
   getTestLedger,
   getTestCas,
   getTestElement,
   writeFixture,
+  clearCollection,
 };

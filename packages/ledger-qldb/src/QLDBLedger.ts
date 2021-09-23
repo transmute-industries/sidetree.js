@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { QldbDriver, RetryConfig, Result } from 'amazon-qldb-driver-nodejs';
 import {
-  AnchoredDataSerializer,
   BlockchainTimeModel,
   IBlockchain,
   ServiceVersionModel,
   TransactionModel,
   ValueTimeLockModel,
 } from '@sidetree/common';
+
+import { AnchoredDataSerializer } from '@sidetree/core';
+
 import { Timestamp } from 'aws-sdk/clients/apigateway';
 import QLDBSession from 'aws-sdk/clients/qldbsession';
 import moment from 'moment';
@@ -62,12 +64,12 @@ export default class QLDBLedger implements IBlockchain {
     this.transactionTable = tableName;
   }
 
-  public getServiceVersion: () => ServiceVersionModel = () => {
-    return {
+  public getServiceVersion(): Promise<ServiceVersionModel> {
+    return Promise.resolve({
       name: 'qldb',
       version,
-    };
-  };
+    });
+  }
 
   private async execute(query: string, args?: object): Promise<Result> {
     const params = args ? [args] : [];
@@ -106,10 +108,17 @@ export default class QLDBLedger implements IBlockchain {
   }
 
   public async write(anchorString: string): Promise<void> {
-    const anchorData = AnchoredDataSerializer.deserialize(anchorString);
+    // TODO: fix use coreIndexFileUri instead.... of anchorFileHash
+    const {
+      coreIndexFileUri,
+      numberOfOperations,
+    } = AnchoredDataSerializer.deserialize(anchorString);
     const now = new Date();
     await this.executeWithRetry(`INSERT INTO ${this.transactionTable} ?`, {
-      ...anchorData,
+      ...{
+        anchorFileHash: coreIndexFileUri,
+        numberOfOperations,
+      },
       created: now.getTime(),
       createdHumanReadable: now.toISOString(),
     });
@@ -130,23 +139,23 @@ export default class QLDBLedger implements IBlockchain {
     const transactionTime = Number(blockAddress.sequenceNo);
     const transactionTimestamp = metadata.txTime.getTime();
     // Anchor file information
+    // TODO: fix use coreIndexFileUri instead.... of anchorFileHash
     const { anchorFileHash } = data;
     const numberOfOperations = Number(data.numberOfOperations);
     const anchorString = AnchoredDataSerializer.serialize({
-      anchorFileHash,
+      coreIndexFileUri: anchorFileHash,
       numberOfOperations,
     });
     return {
       transactionTime,
       transactionNumber: transactionTime,
-      transactionHash: transactionTimeHash,
       transactionTimeHash,
       transactionTimestamp,
       anchorString,
       transactionFeePaid: 0,
       normalizedTransactionFee: 0,
       writer: 'writer',
-    };
+    } as any;
   }
 
   public async read(

@@ -58,7 +58,7 @@ export default class EthereumLedger implements IBlockchain {
 
   getServiceVersion(): Promise<ServiceVersionModel> {
     return Promise.resolve({
-      name: 'EthereumLedger',
+      name: 'eth',
       version,
     });
   }
