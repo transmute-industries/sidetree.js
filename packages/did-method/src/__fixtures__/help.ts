@@ -32,12 +32,12 @@ export const getTestSidetreeNodeInstance = async () => {
 };
 
 export const clearCollection = async (collectionName: string) => {
-  const client = await MongoClient.connect(
+  const client: any = await MongoClient.connect(
     sidetreeTestNodeCoreConfig.mongoDbConnectionString,
     {
       useUnifiedTopology: true,
       useNewUrlParser: true,
-    }
+    } as any
   );
   const db = await client.db(sidetreeTestNodeCoreConfig.databaseName);
   const collection = db.collection(collectionName);

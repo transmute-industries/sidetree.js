@@ -42,6 +42,7 @@
     "@sidetree/db": "^0.2.6-unstable.6",
     "@sidetree/did-method": "^0.2.6-unstable.6",
     "@sidetree/ethereum": "^0.2.6-unstable.6",
+    "mongodb": "^4.1.2",
     "web3": "^1.2.9"
   },
   "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d",

@@ -58,10 +58,13 @@ const getTestElement = async () => {
 };
 
 const clearCollection = async (collectionName: string) => {
-  const client = await MongoClient.connect(config.mongoDbConnectionString, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-  });
+  const client: any = await MongoClient.connect(
+    config.mongoDbConnectionString,
+    {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    } as any
+  );
   const db = await client.db(config.databaseName);
   const collection = db.collection(collectionName);
   //   const documents = await collection.find({}).toArray();

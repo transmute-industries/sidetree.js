@@ -38,8 +38,11 @@
   "dependencies": {
     "@sidetree/common": "^0.2.6-unstable.6",
     "@sidetree/core": "^0.2.6-unstable.6",
+    "@sidetree/cas": "^0.2.6-unstable.6",
     "@sidetree/db": "^0.2.6-unstable.6",
-    "semver": "^7.3.5"
+    "mongodb": "^4.1.2",
+    "semver": "^7.3.5",
+    "time-span": "3.1.0"
   },
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/did-method",
   "repository": {
