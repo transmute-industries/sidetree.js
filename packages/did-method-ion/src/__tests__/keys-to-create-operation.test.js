@@ -5,11 +5,13 @@ const {
   createOperation,
 } = require('../__fixtures__');
 
-const { methods, operations } = require('@sidetree/wallet');
+const { SidetreeWalletPlugin } = require('@sidetree/wallet');
+
+const { Multihash } = require('@sidetree/common');
+
+const wallet = SidetreeWalletPlugin.build();
 
 it('create operation can match ION SDK', () => {
-
-
   const recoverPublicKeyJwk = { ...recoverPrivateKeyJwk };
   delete recoverPublicKeyJwk.d;
 
@@ -17,25 +19,26 @@ it('create operation can match ION SDK', () => {
   delete updatePublicKeyJwk.d;
 
   const document = {
-    "publicKeys": [
+    publicKeys: [
       {
-        "id": "signing-key",
-        "type": "EcdsaSecp256k1VerificationKey2019",
-        "publicKeyJwk": {
-          "kty": "EC",
-          "crv": "secp256k1",
-          "x": "qp0Ezzc4YhA196COYKa-RHrCom-0LgFtAf8FqvcntN0",
-          "y": "zWcbbbg9w1m-DNOszvM68TD0_vFBtWyc18S06c8cULU"
-        }
-      }
-    ]}
-  const op = operations.create({
-    document, 
-    updateKey: updatePublicKeyJwk, 
-    recoveryKey: recoverPublicKeyJwk 
-  })
+        id: 'signing-key',
+        type: 'EcdsaSecp256k1VerificationKey2019',
+        publicKeyJwk: {
+          kty: 'EC',
+          crv: 'secp256k1',
+          x: 'qp0Ezzc4YhA196COYKa-RHrCom-0LgFtAf8FqvcntN0',
+          y: 'zWcbbbg9w1m-DNOszvM68TD0_vFBtWyc18S06c8cULU',
+        },
+      },
+    ],
+  };
+  const op = wallet.operations.create({
+    document,
+    updateKey: updatePublicKeyJwk,
+    recoveryKey: recoverPublicKeyJwk,
+  });
   expect(op).toEqual(createOperation);
-})
+});
 
 describe('can create DID_CREATE_OPERATION from keys', () => {
   it('ION CLI create gives you 3 keys to start', async () => {
@@ -49,26 +52,28 @@ describe('can create DID_CREATE_OPERATION from keys', () => {
     it('the recoveryCommitment is computed from the recoverPublicKeyJwk', async () => {
       const recoverPublicKeyJwk = { ...recoverPrivateKeyJwk };
       delete recoverPublicKeyJwk.d;
-      const recoveryCommitment = methods.canonicalizeThenDoubleHashThenEncode(
+      const recoveryCommitment = Multihash.canonicalizeThenDoubleHashThenEncode(
         recoverPublicKeyJwk
       );
-      expect(createOperation.suffixData.recoveryCommitment).toBe(recoveryCommitment);
+      expect(createOperation.suffixData.recoveryCommitment).toBe(
+        recoveryCommitment
+      );
     });
 
     it('the deltaHash is computed from the delta', async () => {
-      const deltaHash = methods.canonicalizeThenHashThenEncode(
+      const deltaHash = Multihash.canonicalizeThenHashThenEncode(
         createOperation.delta
       );
       expect(createOperation.suffixData.deltaHash).toBe(deltaHash);
     });
-  })
-  
+  });
+
   describe('delta', () => {
     describe('updateCommitment', () => {
       it('the updateCommitment is computed from the updatePublicKeyJwk', async () => {
         const updatePublicKeyJwk = { ...updatePrivateKeyJwk };
         delete updatePublicKeyJwk.d;
-        const updateCommitment = methods.canonicalizeThenDoubleHashThenEncode(
+        const updateCommitment = Multihash.canonicalizeThenDoubleHashThenEncode(
           updatePublicKeyJwk
         );
         expect(createOperation.delta.updateCommitment).toBe(updateCommitment);
