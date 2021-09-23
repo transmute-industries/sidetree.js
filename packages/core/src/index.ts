@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 
-
 import BatchScheduler from './BatchScheduler';
 import ChunkFile from './ChunkFile';
 import Compressor from './util/Compressor';
@@ -55,7 +54,6 @@ export {
   EventEmitter,
   ErrorCode,
   BlockchainClock, //move to ledger...
-
   //
   BatchScheduler,
   ChunkFile,

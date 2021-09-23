@@ -7,7 +7,10 @@ import ProtocolParameters from './ProtocolParameters';
 import SidetreeError from './SidetreeError';
 import UpdateOperation from './UpdateOperation';
 
-import { UpdateSignedDataModel, ProvisionalProofFileModel } from '@sidetree/common';
+import {
+  UpdateSignedDataModel,
+  ProvisionalProofFileModel,
+} from '@sidetree/common';
 
 /**
  * Defines operations related to a Provisional Proof File.
@@ -18,27 +21,34 @@ export default class ProvisionalProofFile {
    * NOTE: this class is introduced as an internal structure that keeps useful states in replacement to `ProvisionalProofFileModel`
    * so that repeated computation can be avoided.
    */
-  private constructor (
+  private constructor(
     public readonly provisionalProofFileModel: ProvisionalProofFileModel,
-    public readonly updateProofs: { signedDataJws: Jws, signedDataModel: UpdateSignedDataModel }[]
-  ) { }
+    public readonly updateProofs: {
+      signedDataJws: Jws;
+      signedDataModel: UpdateSignedDataModel;
+    }[]
+  ) {}
 
   /**
    * Creates the buffer of a Provisional Proof File.
    *
    * @returns `Buffer` if at least one operation is given, `undefined` otherwise.
    */
-  public static async createBuffer (updateOperations: UpdateOperation[]): Promise<Buffer | undefined> {
+  public static async createBuffer(
+    updateOperations: UpdateOperation[]
+  ): Promise<Buffer | undefined> {
     if (updateOperations.length === 0) {
       return undefined;
     }
 
-    const updateProofs = updateOperations.map(operation => { return { signedData: operation.signedDataJws.toCompactJws() }; });
+    const updateProofs = updateOperations.map((operation) => {
+      return { signedData: operation.signedDataJws.toCompactJws() };
+    });
 
     const provisionalProofFileModel = {
       operations: {
-        update: updateProofs
-      }
+        update: updateProofs,
+      },
     };
 
     const rawData = Buffer.from(JSON.stringify(provisionalProofFileModel));
@@ -52,28 +62,50 @@ export default class ProvisionalProofFile {
    * @param provisionalProofFileBuffer Compressed provisional proof file.
    * @throws `SidetreeError` if failed parsing or validation.
    */
-  public static async parse (provisionalProofFileBuffer: Buffer): Promise<ProvisionalProofFile> {
+  public static async parse(
+    provisionalProofFileBuffer: Buffer
+  ): Promise<ProvisionalProofFile> {
     let provisionalProofFileDecompressedBuffer;
     try {
-      const maxAllowedDecompressedSizeInBytes = ProtocolParameters.maxProofFileSizeInBytes * Compressor.estimatedDecompressionMultiplier;
-      provisionalProofFileDecompressedBuffer = await Compressor.decompress(provisionalProofFileBuffer, maxAllowedDecompressedSizeInBytes);
+      const maxAllowedDecompressedSizeInBytes =
+        ProtocolParameters.maxProofFileSizeInBytes *
+        Compressor.estimatedDecompressionMultiplier;
+      provisionalProofFileDecompressedBuffer = await Compressor.decompress(
+        provisionalProofFileBuffer,
+        maxAllowedDecompressedSizeInBytes
+      );
     } catch (error) {
-      throw SidetreeError.createFromError(ErrorCode.ProvisionalProofFileDecompressionFailure, error);
+      throw SidetreeError.createFromError(
+        ErrorCode.ProvisionalProofFileDecompressionFailure,
+        error
+      );
     }
 
     let provisionalProofFileModel;
     try {
-      provisionalProofFileModel = await JsonAsync.parse(provisionalProofFileDecompressedBuffer);
+      provisionalProofFileModel = await JsonAsync.parse(
+        provisionalProofFileDecompressedBuffer
+      );
     } catch (error) {
-      throw SidetreeError.createFromError(ErrorCode.ProvisionalProofFileNotJson, error);
+      throw SidetreeError.createFromError(
+        ErrorCode.ProvisionalProofFileNotJson,
+        error
+      );
     }
 
     if (provisionalProofFileModel.operations === undefined) {
-      throw new SidetreeError(ErrorCode.ProvisionalProofFileOperationsNotFound, `Provisional proof file does not have any operation proofs.`);
+      throw new SidetreeError(
+        ErrorCode.ProvisionalProofFileOperationsNotFound,
+        `Provisional proof file does not have any operation proofs.`
+      );
     }
 
     const operations = provisionalProofFileModel.operations;
-    InputValidator.validateObjectContainsOnlyAllowedProperties(operations, ['update'], 'provisional proof file');
+    InputValidator.validateObjectContainsOnlyAllowedProperties(
+      operations,
+      ['update'],
+      'provisional proof file'
+    );
 
     const updateProofs = [];
 
@@ -88,19 +120,28 @@ export default class ProvisionalProofFile {
 
     // Parse and validate each compact JWS.
     for (const proof of updateProofModels) {
-      InputValidator.validateObjectContainsOnlyAllowedProperties(proof, ['signedData'], 'update proof');
+      InputValidator.validateObjectContainsOnlyAllowedProperties(
+        proof,
+        ['signedData'],
+        'update proof'
+      );
 
       const signedDataJws = Jws.parseCompactJws(proof.signedData);
-      const signedDataModel = await UpdateOperation.parseSignedDataPayload(signedDataJws.payload);
+      const signedDataModel = await UpdateOperation.parseSignedDataPayload(
+        signedDataJws.payload
+      );
 
       updateProofs.push({
         signedDataJws,
-        signedDataModel
+        signedDataModel,
       });
     }
 
     if (updateProofs.length === 0) {
-      throw new SidetreeError(ErrorCode.ProvisionalProofFileHasNoProofs, `Provisional proof file has no proofs.`);
+      throw new SidetreeError(
+        ErrorCode.ProvisionalProofFileHasNoProofs,
+        `Provisional proof file has no proofs.`
+      );
     }
 
     return new ProvisionalProofFile(provisionalProofFileModel, updateProofs);

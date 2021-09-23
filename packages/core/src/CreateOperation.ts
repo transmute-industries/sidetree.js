@@ -1,13 +1,16 @@
-
 import Did from './Did';
 import ErrorCode from './ErrorCode';
 import InputValidator from './InputValidator';
 import JsonAsync from './util/JsonAsync';
 import Operation from './Operation';
 
-import { OperationType, OperationModel, DeltaModel, SuffixDataModel } from '@sidetree/common';
+import {
+  OperationType,
+  OperationModel,
+  DeltaModel,
+  SuffixDataModel,
+} from '@sidetree/common';
 import SidetreeError from './SidetreeError';
-
 
 /**
  * A class that represents a create operation.
@@ -19,19 +22,23 @@ export default class CreateOperation implements OperationModel {
   /**
    * NOTE: should only be used by `parse()` and `parseObject()` else the constructed instance could be invalid.
    */
-  private constructor (
+  private constructor(
     public readonly operationBuffer: Buffer,
     public readonly didUniqueSuffix: string,
     public readonly suffixData: SuffixDataModel,
-    public readonly delta: DeltaModel | undefined) { }
+    public readonly delta: DeltaModel | undefined
+  ) {}
 
   /**
    * Parses the given buffer as a `CreateOperation`.
    */
-  public static async parse (operationBuffer: Buffer): Promise<CreateOperation> {
+  public static async parse(operationBuffer: Buffer): Promise<CreateOperation> {
     const operationJsonString = operationBuffer.toString();
     const operationObject = await JsonAsync.parse(operationJsonString);
-    const createOperation = CreateOperation.parseObject(operationObject, operationBuffer);
+    const createOperation = CreateOperation.parseObject(
+      operationObject,
+      operationBuffer
+    );
     return createOperation;
   }
 
@@ -43,12 +50,17 @@ export default class CreateOperation implements OperationModel {
    * @param operationObject The operationObject is a json object with no encoding
    * @param operationBuffer The buffer format of the operationObject
    */
-  public static parseObject (operationObject: any, operationBuffer: Buffer): CreateOperation {
+  public static parseObject(
+    operationObject: any,
+    operationBuffer: Buffer
+  ): CreateOperation {
     const expectedPropertyCount = 3;
 
     const properties = Object.keys(operationObject);
     if (properties.length !== expectedPropertyCount) {
-      throw new SidetreeError(ErrorCode.CreateOperationMissingOrUnknownProperty);
+      throw new SidetreeError(
+        ErrorCode.CreateOperationMissingOrUnknownProperty
+      );
     }
 
     if (operationObject.type !== OperationType.Create) {
@@ -70,6 +82,11 @@ export default class CreateOperation implements OperationModel {
 
     const didUniqueSuffix = Did.computeUniqueSuffix(suffixData);
 
-    return new CreateOperation(operationBuffer, didUniqueSuffix, suffixData, delta);
+    return new CreateOperation(
+      operationBuffer,
+      didUniqueSuffix,
+      suffixData,
+      delta
+    );
   }
 }

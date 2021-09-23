@@ -11,7 +11,6 @@
  * limitations under the License.
  */
 
-
 import { SidetreeDocumentModel } from '../operations/types';
 import { writeFixture } from '../test/util';
 import { toKeyPair, computeDidUniqueSuffix, LocalSigner, operations } from '..';
@@ -35,26 +34,28 @@ it('can generate test fixture', async () => {
     const key1 = await toKeyPair(mnemonic, 1, keyType);
     const key2 = await toKeyPair(mnemonic, 2, keyType);
     const document: SidetreeDocumentModel = {
-      publicKeys: [{
-        "id": key0.id.split('#').pop(),
-        "type": key0.type,
-        "publicKeyJwk": key0.publicKeyJwk,
-        "purposes": [
-          "authentication", "assertionMethod", "keyAgreement"
-        ]
-      }],
-      services: [{
-        "id": "example-service",
-        "type": "ExampleService",
-        "serviceEndpoint": "https://example.com"
-      }],
+      publicKeys: [
+        {
+          id: key0.id.split('#').pop(),
+          type: key0.type,
+          publicKeyJwk: key0.publicKeyJwk,
+          purposes: ['authentication', 'assertionMethod', 'keyAgreement'],
+        },
+      ],
+      services: [
+        {
+          id: 'example-service',
+          type: 'ExampleService',
+          serviceEndpoint: 'https://example.com',
+        },
+      ],
     } as any;
 
     const recoveryKey = key1.publicKeyJwk;
     const updateKey = key2.publicKeyJwk;
     const input1 = { recoveryKey, updateKey, document };
     const op0 = await operations.create(input1);
-  
+
     const didUniqueSuffix = computeDidUniqueSuffix(op0.suffixData);
 
     const key3 = await toKeyPair(mnemonic, 3, keyType);
@@ -63,24 +64,24 @@ it('can generate test fixture', async () => {
       didSuffix: didUniqueSuffix,
       updatePublicKey: key2.publicKeyJwk,
       nextUpdatePublicKey: key4.publicKeyJwk,
-      servicesToAdd: [{
-        "id": "example-service-2",
-        "type": "ExampleService",
-        "serviceEndpoint": "https://2.example.com"
-      }],
+      servicesToAdd: [
+        {
+          id: 'example-service-2',
+          type: 'ExampleService',
+          serviceEndpoint: 'https://2.example.com',
+        },
+      ],
       idsOfServicesToRemove: ['example-service'],
-      publicKeysToAdd: [{
-        "id": key3.id.split('#').pop(),
-        "type": key3.type,
-        "publicKeyJwk": key3.publicKeyJwk,
-        "purposes": [
-          "authentication", "assertionMethod", "keyAgreement"
-        ]
-      }],
+      publicKeysToAdd: [
+        {
+          id: key3.id.split('#').pop(),
+          type: key3.type,
+          publicKeyJwk: key3.publicKeyJwk,
+          purposes: ['authentication', 'assertionMethod', 'keyAgreement'],
+        },
+      ],
       idsOfPublicKeysToRemove: [key0.id.split('#').pop()],
-      signer: LocalSigner.create(
-        key2.privateKeyJwk
-      ),
+      signer: LocalSigner.create(key2.privateKeyJwk),
     };
 
     const op1 = await operations.update(input2);
@@ -89,21 +90,22 @@ it('can generate test fixture', async () => {
     const key6 = await toKeyPair(mnemonic, 6, keyType);
     const key7 = await toKeyPair(mnemonic, 7, keyType);
 
-
     const recoverDocument: SidetreeDocumentModel = {
-      publicKeys: [{
-        "id": key7.id.split('#').pop(),
-        "type": key7.type,
-        "publicKeyJwk": key7.publicKeyJwk,
-        "purposes": [
-          "authentication", "assertionMethod", "keyAgreement"
-        ]
-      } as any],
-      services: [{
-        "id": "example-service-3",
-        "type": "ExampleService",
-        "serviceEndpoint": "https://3.example.com"
-      }],
+      publicKeys: [
+        {
+          id: key7.id.split('#').pop(),
+          type: key7.type,
+          publicKeyJwk: key7.publicKeyJwk,
+          purposes: ['authentication', 'assertionMethod', 'keyAgreement'],
+        } as any,
+      ],
+      services: [
+        {
+          id: 'example-service-3',
+          type: 'ExampleService',
+          serviceEndpoint: 'https://3.example.com',
+        },
+      ],
     };
     const op2 = await operations.recover({
       didSuffix: didUniqueSuffix,
@@ -111,17 +113,13 @@ it('can generate test fixture', async () => {
       nextRecoveryPublicKey: key5.publicKeyJwk,
       nextUpdatePublicKey: key6.publicKeyJwk,
       document: recoverDocument,
-      signer: LocalSigner.create(
-        key1.privateKeyJwk
-      ),
+      signer: LocalSigner.create(key1.privateKeyJwk),
     });
 
     const op3 = await operations.deactivate({
       didSuffix: didUniqueSuffix,
       recoveryPublicKey: key5.publicKeyJwk,
-      signer: LocalSigner.create(
-        key5.privateKeyJwk
-      ),
+      signer: LocalSigner.create(key5.privateKeyJwk),
     });
 
     fixture.operations.push({

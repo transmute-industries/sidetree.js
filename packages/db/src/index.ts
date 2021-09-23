@@ -34,7 +34,6 @@ export {
   MongoDbTransactionStore,
   MongoDbUnresolvableTransactionStore,
   MongoDbOperationStore,
-
   //
   MongoDbStore,
   MongoDbServiceStateStore,

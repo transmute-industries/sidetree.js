@@ -11,7 +11,6 @@
  * limitations under the License.
  */
 
-
 import { writeFixture } from '../test/util';
 import { toKeyPair } from '..';
 

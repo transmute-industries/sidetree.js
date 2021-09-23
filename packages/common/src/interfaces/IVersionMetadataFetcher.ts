@@ -8,5 +8,5 @@ export default interface IVersionMetadataFetcher {
    * Given a blockchain time, returns the metadata for it.
    * @param blockchainTime the transaction time to get metadata for
    */
-  getVersionMetadata (blockchainTime: number): AbstractVersionMetadata;
+  getVersionMetadata(blockchainTime: number): AbstractVersionMetadata;
 }

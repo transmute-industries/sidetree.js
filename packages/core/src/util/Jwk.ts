@@ -149,7 +149,7 @@ export default class Jwk {
    * Validates the given key is a SECP256K1 public key in JWK format allowed by Sidetree.
    * @throws SidetreeError if given object is not a SECP256K1 public key in JWK format allowed by Sidetree.
    */
-   public static validateJwkEs256k (publicKeyJwk: any) {
+  public static validateJwkEs256k(publicKeyJwk: any) {
     if (publicKeyJwk === undefined) {
       throw new SidetreeError(ErrorCode.JwkEs256kUndefined);
     }
@@ -179,11 +179,17 @@ export default class Jwk {
 
     // `x` and `y` need 43 Base64URL encoded bytes to contain 256 bits.
     if (publicKeyJwk.x.length !== 43) {
-      throw new SidetreeError(ErrorCode.JwkEs256kHasIncorrectLengthOfX, `SECP256K1 JWK 'x' property must be 43 bytes.`);
+      throw new SidetreeError(
+        ErrorCode.JwkEs256kHasIncorrectLengthOfX,
+        `SECP256K1 JWK 'x' property must be 43 bytes.`
+      );
     }
 
     if (publicKeyJwk.y.length !== 43) {
-      throw new SidetreeError(ErrorCode.JwkEs256kHasIncorrectLengthOfY, `SECP256K1 JWK 'y' property must be 43 bytes.`);
+      throw new SidetreeError(
+        ErrorCode.JwkEs256kHasIncorrectLengthOfY,
+        `SECP256K1 JWK 'y' property must be 43 bytes.`
+      );
     }
   }
 }

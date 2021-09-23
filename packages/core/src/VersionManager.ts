@@ -19,15 +19,15 @@ import {
   IBlockchain,
   IBatchWriter,
   AbstractVersionMetadata,
-
- } from '@sidetree/common'
+} from '@sidetree/common';
 
 import { versions } from './versions';
 
 /**
  * The class that handles code versioning.
  */
-export default class VersionManager implements IVersionManager, IVersionMetadataFetcher {
+export default class VersionManager
+  implements IVersionManager, IVersionMetadataFetcher {
   // Reverse sorted implementation versions. ie. latest version first.
   private versionsReverseSorted: VersionModel[];
 
@@ -39,12 +39,14 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
   private versionMetadatas: Map<string, AbstractVersionMetadata>;
   private references: any[];
 
-  public constructor (
+  public constructor(
     private config: Config,
     sidetreeCoreVersions: VersionModel[]
   ) {
     // Reverse sort versions.
-    this.versionsReverseSorted = sidetreeCoreVersions.sort((a, b) => b.startingBlockchainTime - a.startingBlockchainTime);
+    this.versionsReverseSorted = sidetreeCoreVersions.sort(
+      (a, b) => b.startingBlockchainTime - a.startingBlockchainTime
+    );
 
     this.batchWriters = new Map();
     this.operationProcessors = new Map();
@@ -59,7 +61,7 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
   /**
    * Loads all the implementation versions.
    */
-  public async initialize (
+  public async initialize(
     blockchain: IBlockchain,
     cas: ICas,
     downloadManager: DownloadManager,
@@ -73,52 +75,87 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
     for (const versionModel of this.versionsReverseSorted) {
       const version = versionModel.version;
 
-      const MongoDbOperationQueue = await this.loadDefaultExportsForVersion(version, 'MongoDbOperationQueue');
+      const MongoDbOperationQueue = await this.loadDefaultExportsForVersion(
+        version,
+        'MongoDbOperationQueue'
+      );
       const operationQueue = new MongoDbOperationQueue();
-      await operationQueue.initialize(this.config.mongoDbConnectionString, this.config.databaseName);
+      await operationQueue.initialize(
+        this.config.mongoDbConnectionString,
+        this.config.databaseName
+      );
       this.references.push(operationQueue);
 
-  
-      const TransactionProcessor = await this.loadDefaultExportsForVersion(version, 'TransactionProcessor');
-      const transactionProcessor = new TransactionProcessor(downloadManager, operationStore, blockchain, this);
+      const TransactionProcessor = await this.loadDefaultExportsForVersion(
+        version,
+        'TransactionProcessor'
+      );
+      const transactionProcessor = new TransactionProcessor(
+        downloadManager,
+        operationStore,
+        blockchain,
+        this
+      );
       this.transactionProcessors.set(version, transactionProcessor);
       this.references.push(transactionProcessor);
 
-      const TransactionSelector = await this.loadDefaultExportsForVersion(version, 'TransactionSelector');
+      const TransactionSelector = await this.loadDefaultExportsForVersion(
+        version,
+        'TransactionSelector'
+      );
       const transactionSelector = new TransactionSelector(transactionStore);
       this.transactionSelectors.set(version, transactionSelector);
 
-
-      const BatchWriter = await this.loadDefaultExportsForVersion(version, 'BatchWriter');
-      const batchWriter = new BatchWriter(operationQueue, blockchain, cas, this);
+      const BatchWriter = await this.loadDefaultExportsForVersion(
+        version,
+        'BatchWriter'
+      );
+      const batchWriter = new BatchWriter(
+        operationQueue,
+        blockchain,
+        cas,
+        this
+      );
       this.batchWriters.set(version, batchWriter);
       this.references.push(batchWriter);
 
-
-
-      const OperationProcessor = await this.loadDefaultExportsForVersion(version, 'OperationProcessor');
+      const OperationProcessor = await this.loadDefaultExportsForVersion(
+        version,
+        'OperationProcessor'
+      );
       const operationProcessor = new OperationProcessor();
       this.operationProcessors.set(version, operationProcessor);
       this.references.push(operationProcessor);
 
-      const RequestHandler = await this.loadDefaultExportsForVersion(version, 'RequestHandler');
-      const requestHandler = new RequestHandler(resolver, operationQueue, this.config.didMethodName);
+      const RequestHandler = await this.loadDefaultExportsForVersion(
+        version,
+        'RequestHandler'
+      );
+      const requestHandler = new RequestHandler(
+        resolver,
+        operationQueue,
+        this.config.didMethodName
+      );
       this.requestHandlers.set(version, requestHandler);
 
-      const VersionMetadata = await this.loadDefaultExportsForVersion(version, 'VersionMetadata');
+      const VersionMetadata = await this.loadDefaultExportsForVersion(
+        version,
+        'VersionMetadata'
+      );
       const versionMetadata = new VersionMetadata();
       if (!(versionMetadata instanceof AbstractVersionMetadata)) {
-        throw new SidetreeError(CoreErrorCode.VersionManagerVersionMetadataIncorrectType,
-          `make sure VersionMetaData is properly implemented for version ${version}`);
+        throw new SidetreeError(
+          CoreErrorCode.VersionManagerVersionMetadataIncorrectType,
+          `make sure VersionMetaData is properly implemented for version ${version}`
+        );
       }
       this.versionMetadatas.set(version, versionMetadata);
     }
-
   }
 
-  public async stop(): Promise<void>{
+  public async stop(): Promise<void> {
     for (const value of this.references) {
-      if (value.stop){
+      if (value.stop) {
         await value.stop();
       }
     }
@@ -127,7 +164,7 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
   /**
    * Gets the corresponding version of the `IBatchWriter` based on the given blockchain time.
    */
-  public getBatchWriter (blockchainTime: number): IBatchWriter {
+  public getBatchWriter(blockchainTime: number): IBatchWriter {
     const version = this.getVersionString(blockchainTime);
     const batchWriter = this.batchWriters.get(version)!;
     return batchWriter;
@@ -136,7 +173,7 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
   /**
    * Gets the corresponding version of the `IOperationProcessor` based on the given blockchain time.
    */
-  public getOperationProcessor (blockchainTime: number): IOperationProcessor {
+  public getOperationProcessor(blockchainTime: number): IOperationProcessor {
     const version = this.getVersionString(blockchainTime);
     const operationProcessor = this.operationProcessors.get(version)!;
     return operationProcessor;
@@ -145,7 +182,7 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
   /**
    * Gets the corresponding version of the `IRequestHandler` based on the given blockchain time.
    */
-  public getRequestHandler (blockchainTime: number): IRequestHandler {
+  public getRequestHandler(blockchainTime: number): IRequestHandler {
     const version = this.getVersionString(blockchainTime);
     const requestHandler = this.requestHandlers.get(version)!;
     return requestHandler;
@@ -154,7 +191,9 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
   /**
    * Gets the corresponding version of the `TransactionProcessor` based on the given blockchain time.
    */
-  public getTransactionProcessor (blockchainTime: number): ITransactionProcessor {
+  public getTransactionProcessor(
+    blockchainTime: number
+  ): ITransactionProcessor {
     const version = this.getVersionString(blockchainTime);
     const transactionProcessor = this.transactionProcessors.get(version)!;
     return transactionProcessor;
@@ -163,13 +202,13 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
   /**
    * Gets the corresponding version of the `TransactionSelector` based on the given blockchain time.
    */
-  public getTransactionSelector (blockchainTime: number): ITransactionSelector {
+  public getTransactionSelector(blockchainTime: number): ITransactionSelector {
     const version = this.getVersionString(blockchainTime);
     const transactionSelector = this.transactionSelectors.get(version)!;
     return transactionSelector;
   }
 
-  public getVersionMetadata (blockchainTime: number): AbstractVersionMetadata {
+  public getVersionMetadata(blockchainTime: number): AbstractVersionMetadata {
     const versionString = this.getVersionString(blockchainTime);
     const versionMetadata = this.versionMetadatas.get(versionString);
     // this is always be defined because if blockchain time is found, version will be defined
@@ -179,7 +218,7 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
   /**
    * Gets the corresponding implementation version string given the blockchain time.
    */
-  private getVersionString (blockchainTime: number): string {
+  private getVersionString(blockchainTime: number): string {
     // Iterate through each version to find the right version.
     for (const versionModel of this.versionsReverseSorted) {
       if (blockchainTime >= versionModel.startingBlockchainTime) {
@@ -187,10 +226,16 @@ export default class VersionManager implements IVersionManager, IVersionMetadata
       }
     }
 
-    throw new SidetreeError(CoreErrorCode.VersionManagerVersionStringNotFound, `Unable to find version string for blockchain time ${blockchainTime}.`);
+    throw new SidetreeError(
+      CoreErrorCode.VersionManagerVersionStringNotFound,
+      `Unable to find version string for blockchain time ${blockchainTime}.`
+    );
   }
 
-  private async loadDefaultExportsForVersion (version: string, className: string): Promise<any> {
+  private async loadDefaultExportsForVersion(
+    version: string,
+    className: string
+  ): Promise<any> {
     const SidetreeClassForVersion = versions[version][className];
     return SidetreeClassForVersion;
   }

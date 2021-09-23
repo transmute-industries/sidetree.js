@@ -4,7 +4,6 @@
 import { OperationType, SidetreeDocumentModel } from '../../types';
 import { LocalSigner, operations } from '../../index';
 
-
 describe('SidetreeWallet.operations', () => {
   describe('createCreateRequest', () => {
     it('should generate a create request with desired arguments', async () => {

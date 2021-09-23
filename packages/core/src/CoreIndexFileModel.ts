@@ -1,5 +1,4 @@
-
-import {OperationReferenceModel} from '@sidetree/common'
+import { OperationReferenceModel } from '@sidetree/common';
 /**
  * Defines the external Core Index File structure.
  */
@@ -14,8 +13,8 @@ export default interface CoreIndexFileModel {
         recoveryCommitment: string;
         type?: string;
       };
-    }[],
-    recover?: OperationReferenceModel[],
-    deactivate?: OperationReferenceModel[]
+    }[];
+    recover?: OperationReferenceModel[];
+    deactivate?: OperationReferenceModel[];
   };
 }

@@ -16,7 +16,7 @@ import MockLedger from './MockLedger';
 
 // import testSuite from './__tests__/testSuite';
 
-export { 
-    MockLedger, 
-    // testSuite 
+export {
+  MockLedger,
+  // testSuite
 };

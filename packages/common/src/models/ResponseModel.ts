@@ -1,4 +1,3 @@
-
 import ResponseStatus from './ResponseStatus';
 
 /**

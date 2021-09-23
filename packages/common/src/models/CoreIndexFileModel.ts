@@ -14,8 +14,8 @@ export default interface CoreIndexFileModel {
         recoveryCommitment: string;
         type?: string;
       };
-    }[],
-    recover?: OperationReferenceModel[],
-    deactivate?: OperationReferenceModel[]
+    }[];
+    recover?: OperationReferenceModel[];
+    deactivate?: OperationReferenceModel[];
   };
 }

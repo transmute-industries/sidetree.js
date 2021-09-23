@@ -20,9 +20,7 @@ it('can generate a mnemonic', async () => {
   expect(content.type).toBe(wallet.mnemonic[0].content.type);
   expect(content.name).toBe(wallet.mnemonic[0].content.name);
   expect(content.image).toBe(wallet.mnemonic[0].content.image);
-  expect(content.description).toBe(
-    wallet.mnemonic[0].content.description
-  );
+  expect(content.description).toBe(wallet.mnemonic[0].content.description);
 });
 
 it('can generate a mnemonic from a value', async () => {

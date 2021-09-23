@@ -13,6 +13,4 @@
 
 import { Wallet } from '@transmute/universal-wallet';
 
-
-
 export interface SidetreeWallet extends Wallet, SidetreePlugin {}

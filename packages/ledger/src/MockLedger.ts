@@ -22,15 +22,12 @@ import {
 } from '@sidetree/common';
 const { version } = require('../package.json');
 
-
 const startingBlockchainTime = 500000;
 /**
  * Mock Blockchain class for testing.
  */
 export default class MockLedger implements IBlockchain {
-
   public hashes: [string, number][] = [];
-
 
   getServiceVersion(): Promise<ServiceVersionModel> {
     return Promise.resolve({
@@ -60,20 +57,27 @@ export default class MockLedger implements IBlockchain {
     this.hashes.push([anchorString, fee]);
   }
 
-  public async read (sinceTransactionNumber?: number, _transactionTimeHash?: string): Promise<{ moreTransactions: boolean, transactions: TransactionModel[] }> {
+  public async read(
+    sinceTransactionNumber?: number,
+    _transactionTimeHash?: string
+  ): Promise<{ moreTransactions: boolean; transactions: TransactionModel[] }> {
     if (sinceTransactionNumber === undefined) {
       sinceTransactionNumber = -1;
     }
 
     let moreTransactions = false;
-    if (this.hashes.length > 0 &&
-      sinceTransactionNumber < this.hashes.length - 2) {
+    if (
+      this.hashes.length > 0 &&
+      sinceTransactionNumber < this.hashes.length - 2
+    ) {
       moreTransactions = true;
     }
 
     const transactions: TransactionModel[] = [];
-    if (this.hashes.length > 0 &&
-      sinceTransactionNumber < this.hashes.length - 1) {
+    if (
+      this.hashes.length > 0 &&
+      sinceTransactionNumber < this.hashes.length - 1
+    ) {
       const hashIndex = sinceTransactionNumber + 1;
       const transaction = {
         transactionNumber: hashIndex,
@@ -82,14 +86,14 @@ export default class MockLedger implements IBlockchain {
         anchorString: this.hashes[hashIndex][0],
         transactionFeePaid: this.hashes[hashIndex][1],
         normalizedTransactionFee: this.hashes[hashIndex][1],
-        writer: 'writer'
+        writer: 'writer',
       };
       transactions.push(transaction);
     }
 
     return {
       moreTransactions: moreTransactions,
-      transactions: transactions
+      transactions: transactions,
     };
   }
   public async getFirstValidTransaction(

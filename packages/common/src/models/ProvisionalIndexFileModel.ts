@@ -6,9 +6,9 @@ import OperationReferenceModel from './OperationReferenceModel';
 export default interface ProvisionalIndexFileModel {
   provisionalProofFileUri?: string;
   operations?: {
-    update: OperationReferenceModel[]
+    update: OperationReferenceModel[];
   };
   chunks: {
-    chunkFileUri: string
+    chunkFileUri: string;
   }[];
 }

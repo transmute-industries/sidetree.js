@@ -11,7 +11,7 @@ export default class Logger {
   /**
    * Overrides the default logger if given.
    */
-  static initialize (customLogger?: ILogger) {
+  static initialize(customLogger?: ILogger) {
     if (customLogger !== undefined) {
       Logger.singleton = customLogger;
     }
@@ -20,21 +20,21 @@ export default class Logger {
   /**
    * Logs info.
    */
-  public static info (data: any): void {
+  public static info(data: any): void {
     Logger.singleton.info(data);
   }
 
   /**
    * Logs warning.
    */
-  public static warn (data: any): void {
+  public static warn(data: any): void {
     Logger.singleton.warn(data);
   }
 
   /**
    * Logs error.
    */
-  public static error (data: any): void {
+  public static error(data: any): void {
     Logger.singleton.error(data);
   }
 }

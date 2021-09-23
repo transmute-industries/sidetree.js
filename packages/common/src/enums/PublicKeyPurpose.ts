@@ -1,12 +1,12 @@
 /**
  * DID Document public key purpose.
  */
- enum PublicKeyPurpose {
+enum PublicKeyPurpose {
   Authentication = 'authentication',
   AssertionMethod = 'assertionMethod',
   CapabilityInvocation = 'capabilityInvocation',
   CapabilityDelegation = 'capabilityDelegation',
-  KeyAgreement = 'keyAgreement'
+  KeyAgreement = 'keyAgreement',
 }
 
 export default PublicKeyPurpose;

@@ -9,23 +9,27 @@ import SidetreeError from './SidetreeError';
  * Class containing reusable operation delta functionalities.
  */
 export default class Delta {
-
   /**
    * Validates that delta is not null or undefined
    */
-  private static validateDeltaIsDefined (delta: any) {
+  private static validateDeltaIsDefined(delta: any) {
     if (delta === undefined || delta === null) {
-      throw new SidetreeError(ErrorCode.DeltaIsNullOrUndefined, `Delta is ${delta}`);
+      throw new SidetreeError(
+        ErrorCode.DeltaIsNullOrUndefined,
+        `Delta is ${delta}`
+      );
     }
   }
 
   /**
    * Validates size of the delta object
    */
-  public static validateDelta (delta: any) {
+  public static validateDelta(delta: any) {
     // null and undefined cannot be turned into buffer
     Delta.validateDeltaIsDefined(delta);
-    const size = Buffer.byteLength(JsonCanonicalizer.canonicalizeAsBuffer(delta));
+    const size = Buffer.byteLength(
+      JsonCanonicalizer.canonicalizeAsBuffer(delta)
+    );
     if (size > ProtocolParameters.maxDeltaSizeInBytes) {
       const errorMessage = `${size} bytes of 'delta' exceeded limit of ${ProtocolParameters.maxDeltaSizeInBytes} bytes.`;
       Logger.info(errorMessage);

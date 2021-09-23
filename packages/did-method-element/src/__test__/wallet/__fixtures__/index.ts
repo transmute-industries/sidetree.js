@@ -1,3 +1,3 @@
-import longFormResolutionResponse from './long-form-resolution.json'
+import longFormResolutionResponse from './long-form-resolution.json';
 
 export { longFormResolutionResponse };

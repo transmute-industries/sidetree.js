@@ -1,4 +1,3 @@
-
 import ErrorCode from './ErrorCode';
 import InputValidator from './InputValidator';
 import JsonAsync from './util/JsonAsync';
@@ -7,10 +6,16 @@ import Jws from './util/Jws';
 
 import Operation from './Operation';
 
-
 import SidetreeError from './SidetreeError';
 
-import { UpdateSignedDataModel, OperationModel, Multihash, OperationType, Encoder, DeltaModel } from '@sidetree/common';
+import {
+  UpdateSignedDataModel,
+  OperationModel,
+  Multihash,
+  OperationType,
+  Encoder,
+  DeltaModel,
+} from '@sidetree/common';
 
 /**
  * A class that represents an update operation.
@@ -22,22 +27,25 @@ export default class UpdateOperation implements OperationModel {
   /**
    * NOTE: should only be used by `parse()` and `parseObject()` else the constructed instance could be invalid.
    */
-  private constructor (
+  private constructor(
     public readonly operationBuffer: Buffer,
     public readonly didUniqueSuffix: string,
     public readonly revealValue: string,
     public readonly signedDataJws: Jws,
     public readonly signedData: UpdateSignedDataModel,
     public readonly delta: DeltaModel | undefined
-  ) { }
+  ) {}
 
   /**
    * Parses the given buffer as a `UpdateOperation`.
    */
-  public static async parse (operationBuffer: Buffer): Promise<UpdateOperation> {
+  public static async parse(operationBuffer: Buffer): Promise<UpdateOperation> {
     const operationJsonString = operationBuffer.toString();
     const operationObject = await JsonAsync.parse(operationJsonString);
-    const updateOperation = await UpdateOperation.parseObject(operationObject, operationBuffer);
+    const updateOperation = await UpdateOperation.parseObject(
+      operationObject,
+      operationBuffer
+    );
     return updateOperation;
   }
 
@@ -47,9 +55,14 @@ export default class UpdateOperation implements OperationModel {
    * NOTE: This method is purely intended to be used as an optimization method over the `parse` method in that
    * JSON parsing is not required to be performed more than once when an operation buffer of an unknown operation type is given.
    */
-  public static async parseObject (operationObject: any, operationBuffer: Buffer): Promise<UpdateOperation> {
+  public static async parseObject(
+    operationObject: any,
+    operationBuffer: Buffer
+  ): Promise<UpdateOperation> {
     InputValidator.validateObjectContainsOnlyAllowedProperties(
-      operationObject, ['type', 'didSuffix', 'revealValue', 'signedData', 'delta'], 'update request'
+      operationObject,
+      ['type', 'didSuffix', 'revealValue', 'signedData', 'delta'],
+      'update request'
     );
 
     if (operationObject.type !== OperationType.Update) {
@@ -60,34 +73,59 @@ export default class UpdateOperation implements OperationModel {
       throw new SidetreeError(ErrorCode.UpdateOperationMissingDidUniqueSuffix);
     }
 
-    InputValidator.validateEncodedMultihash(operationObject.revealValue, 'update request reveal value');
+    InputValidator.validateEncodedMultihash(
+      operationObject.revealValue,
+      'update request reveal value'
+    );
 
     const signedData = Jws.parseCompactJws(operationObject.signedData);
-    const signedDataModel = await UpdateOperation.parseSignedDataPayload(signedData.payload);
+    const signedDataModel = await UpdateOperation.parseSignedDataPayload(
+      signedData.payload
+    );
 
     // Validate that the canonicalized update key hash is the same as `revealValue`.
-    Multihash.validateCanonicalizeObjectHash(signedDataModel.updateKey, operationObject.revealValue, 'update request update key');
+    Multihash.validateCanonicalizeObjectHash(
+      signedDataModel.updateKey,
+      operationObject.revealValue,
+      'update request update key'
+    );
 
     Operation.validateDelta(operationObject.delta);
 
-    return new UpdateOperation(operationBuffer, operationObject.didSuffix, operationObject.revealValue, signedData, signedDataModel, operationObject.delta);
+    return new UpdateOperation(
+      operationBuffer,
+      operationObject.didSuffix,
+      operationObject.revealValue,
+      signedData,
+      signedDataModel,
+      operationObject.delta
+    );
   }
 
   /**
    * Parses the signed data payload of an update operation.
    */
-  public static async parseSignedDataPayload (signedDataEncodedString: string): Promise<UpdateSignedDataModel> {
-    const signedDataJsonString = Encoder.decodeAsString(signedDataEncodedString);
+  public static async parseSignedDataPayload(
+    signedDataEncodedString: string
+  ): Promise<UpdateSignedDataModel> {
+    const signedDataJsonString = Encoder.decodeAsString(
+      signedDataEncodedString
+    );
     const signedData = await JsonAsync.parse(signedDataJsonString);
 
     const properties = Object.keys(signedData);
     if (properties.length !== 2) {
-      throw new SidetreeError(ErrorCode.UpdateOperationSignedDataHasMissingOrUnknownProperty);
+      throw new SidetreeError(
+        ErrorCode.UpdateOperationSignedDataHasMissingOrUnknownProperty
+      );
     }
 
     Jwk.validateJwkEs256k(signedData.updateKey);
 
-    InputValidator.validateEncodedMultihash(signedData.deltaHash, 'update operation delta hash');
+    InputValidator.validateEncodedMultihash(
+      signedData.deltaHash,
+      'update operation delta hash'
+    );
 
     return signedData;
   }

@@ -63,7 +63,6 @@ import UnresolvableTransactionModel from './UnresolvableTransactionModel';
 
 export {
   UnresolvableTransactionModel,
-  
   AnchorFileModel,
   AnchoredData,
   AnchoredOperationModel,
@@ -87,12 +86,10 @@ export {
   PublicKeyJwkEd25519,
   PublicKeyModel,
   QueuedOperationModel,
-
   ServiceVersionModel,
   TransactionModel,
   TransactionUnderProcessingModel,
   ValueTimeLockModel,
-
   //
 
   DeactivateSignedDataModel,

@@ -99,7 +99,7 @@ export default class DocumentComposer {
     }
 
     const baseId = did.isShortForm ? did.shortForm : did.longForm;
-    let didDocument: any = {
+    const didDocument: any = {
       '@context': DocumentComposer.didDocumentContext,
       id: baseId,
     };

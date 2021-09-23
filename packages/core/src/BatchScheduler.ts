@@ -17,16 +17,16 @@ export default class BatchScheduler {
    */
   private continuePeriodicBatchWriting = false;
 
-  public constructor (
+  public constructor(
     private versionManager: IVersionManager,
     private blockchain: IBlockchain,
-    private batchingIntervalInSeconds: number) {
-  }
+    private batchingIntervalInSeconds: number
+  ) {}
 
   /**
    * The function that starts periodically anchoring operation batches to blockchain.
    */
-  public startPeriodicBatchWriting () {
+  public startPeriodicBatchWriting() {
     this.continuePeriodicBatchWriting = true;
     setImmediate(async () => this.writeOperationBatch());
   }
@@ -35,7 +35,7 @@ export default class BatchScheduler {
    * Stops periodic batch writing.
    * Mainly used for test purposes.
    */
-  public stopPeriodicBatchWriting () {
+  public stopPeriodicBatchWriting() {
     Logger.info(`Stopped periodic batch writing.`);
     this.continuePeriodicBatchWriting = false;
   }
@@ -43,7 +43,7 @@ export default class BatchScheduler {
   /**
    * Processes the operations in the queue.
    */
-  public async writeOperationBatch () {
+  public async writeOperationBatch() {
     const endTimer = timeSpan(); // For calculating time taken to write operations.
 
     try {
@@ -55,26 +55,43 @@ export default class BatchScheduler {
 
       const batchSize = await batchWriter.write();
 
-      EventEmitter.emit(EventCode.SidetreeBatchWriterLoopSuccess, { batchSize });
+      EventEmitter.emit(EventCode.SidetreeBatchWriterLoopSuccess, {
+        batchSize,
+      });
     } catch (error) {
       // Default the error to unexpected error.
-      const loopFailureEventData = { code: ErrorCode.BatchSchedulerWriteUnexpectedError };
+      const loopFailureEventData = {
+        code: ErrorCode.BatchSchedulerWriteUnexpectedError,
+      };
 
       // Only overwrite the error code if this is a concrete known error.
-      if (error instanceof SidetreeError && error.code !== ErrorCode.BlockchainWriteUnexpectedError) {
+      if (
+        error instanceof SidetreeError &&
+        error.code !== ErrorCode.BlockchainWriteUnexpectedError
+      ) {
         loopFailureEventData.code = error.code;
       } else {
-        Logger.error('Unexpected and unhandled error during batch writing, investigate and fix:');
+        Logger.error(
+          'Unexpected and unhandled error during batch writing, investigate and fix:'
+        );
         Logger.error(error);
       }
 
-      EventEmitter.emit(EventCode.SidetreeBatchWriterLoopFailure, loopFailureEventData);
+      EventEmitter.emit(
+        EventCode.SidetreeBatchWriterLoopFailure,
+        loopFailureEventData
+      );
     } finally {
       Logger.info(`End batch writing. Duration: ${endTimer.rounded()} ms.`);
 
       if (this.continuePeriodicBatchWriting) {
-        Logger.info(`Waiting for ${this.batchingIntervalInSeconds} seconds before writing another batch.`);
-        setTimeout(async () => this.writeOperationBatch(), this.batchingIntervalInSeconds * 1000);
+        Logger.info(
+          `Waiting for ${this.batchingIntervalInSeconds} seconds before writing another batch.`
+        );
+        setTimeout(
+          async () => this.writeOperationBatch(),
+          this.batchingIntervalInSeconds * 1000
+        );
       }
     }
   }

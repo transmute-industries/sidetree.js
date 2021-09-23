@@ -1,4 +1,3 @@
-
 import ErrorCode from './ErrorCode';
 import InputValidator from './InputValidator';
 import JsonAsync from './util/JsonAsync';
@@ -7,7 +6,14 @@ import Jws from './util/Jws';
 import Operation from './Operation';
 
 import SidetreeError from './SidetreeError';
-import { RecoverSignedDataModel, OperationType, OperationModel, Multihash, Encoder, DeltaModel } from '@sidetree/common';
+import {
+  RecoverSignedDataModel,
+  OperationType,
+  OperationModel,
+  Multihash,
+  Encoder,
+  DeltaModel,
+} from '@sidetree/common';
 
 /**
  * A class that represents a recover operation.
@@ -19,22 +25,27 @@ export default class RecoverOperation implements OperationModel {
   /**
    * NOTE: should only be used by `parse()` and `parseObject()` else the constructed instance could be invalid.
    */
-  private constructor (
+  private constructor(
     public readonly operationBuffer: Buffer,
     public readonly didUniqueSuffix: string,
     public readonly revealValue: string,
     public readonly signedDataJws: Jws,
     public readonly signedData: RecoverSignedDataModel,
     public readonly delta: DeltaModel | undefined
-  ) { }
+  ) {}
 
   /**
    * Parses the given buffer as a `RecoverOperation`.
    */
-  public static async parse (operationBuffer: Buffer): Promise<RecoverOperation> {
+  public static async parse(
+    operationBuffer: Buffer
+  ): Promise<RecoverOperation> {
     const operationJsonString = operationBuffer.toString();
     const operationObject = await JsonAsync.parse(operationJsonString);
-    const recoverOperation = await RecoverOperation.parseObject(operationObject, operationBuffer);
+    const recoverOperation = await RecoverOperation.parseObject(
+      operationObject,
+      operationBuffer
+    );
     return recoverOperation;
   }
 
@@ -44,9 +55,14 @@ export default class RecoverOperation implements OperationModel {
    * NOTE: This method is purely intended to be used as an optimization method over the `parse` method in that
    * JSON parsing is not required to be performed more than once when an operation buffer of an unknown operation type is given.
    */
-  public static async parseObject (operationObject: any, operationBuffer: Buffer): Promise<RecoverOperation> {
+  public static async parseObject(
+    operationObject: any,
+    operationBuffer: Buffer
+  ): Promise<RecoverOperation> {
     InputValidator.validateObjectContainsOnlyAllowedProperties(
-      operationObject, ['type', 'didSuffix', 'revealValue', 'signedData', 'delta'], 'recover request'
+      operationObject,
+      ['type', 'didSuffix', 'revealValue', 'signedData', 'delta'],
+      'recover request'
     );
 
     if (operationObject.type !== OperationType.Recover) {
@@ -54,16 +70,27 @@ export default class RecoverOperation implements OperationModel {
     }
 
     if (typeof operationObject.didSuffix !== 'string') {
-      throw new SidetreeError(ErrorCode.RecoverOperationMissingOrInvalidDidUniqueSuffix);
+      throw new SidetreeError(
+        ErrorCode.RecoverOperationMissingOrInvalidDidUniqueSuffix
+      );
     }
 
-    InputValidator.validateEncodedMultihash(operationObject.revealValue, 'recover request reveal value');
+    InputValidator.validateEncodedMultihash(
+      operationObject.revealValue,
+      'recover request reveal value'
+    );
 
     const signedDataJws = Jws.parseCompactJws(operationObject.signedData);
-    const signedDataModel = await RecoverOperation.parseSignedDataPayload(signedDataJws.payload);
+    const signedDataModel = await RecoverOperation.parseSignedDataPayload(
+      signedDataJws.payload
+    );
 
     // Validate that the canonicalized recovery public key hash is the same as `revealValue`.
-    Multihash.validateCanonicalizeObjectHash(signedDataModel.recoveryKey, operationObject.revealValue, 'recover request recovery key');
+    Multihash.validateCanonicalizeObjectHash(
+      signedDataModel.recoveryKey,
+      operationObject.revealValue,
+      'recover request recovery key'
+    );
 
     let delta;
     try {
@@ -88,19 +115,31 @@ export default class RecoverOperation implements OperationModel {
   /**
    * Parses the signed data payload of a recover operation.
    */
-  public static async parseSignedDataPayload (signedDataEncodedString: string): Promise<RecoverSignedDataModel> {
-    const signedDataJsonString = Encoder.decodeAsString(signedDataEncodedString);
+  public static async parseSignedDataPayload(
+    signedDataEncodedString: string
+  ): Promise<RecoverSignedDataModel> {
+    const signedDataJsonString = Encoder.decodeAsString(
+      signedDataEncodedString
+    );
     const signedData = await JsonAsync.parse(signedDataJsonString);
 
     const properties = Object.keys(signedData);
     if (properties.length !== 3) {
-      throw new SidetreeError(ErrorCode.RecoverOperationSignedDataMissingOrUnknownProperty);
+      throw new SidetreeError(
+        ErrorCode.RecoverOperationSignedDataMissingOrUnknownProperty
+      );
     }
 
     Jwk.validateJwkEs256k(signedData.recoveryKey);
 
-    InputValidator.validateEncodedMultihash(signedData.deltaHash, 'recover operation delta hash');
-    InputValidator.validateEncodedMultihash(signedData.recoveryCommitment, 'recover operation next recovery commitment');
+    InputValidator.validateEncodedMultihash(
+      signedData.deltaHash,
+      'recover operation delta hash'
+    );
+    InputValidator.validateEncodedMultihash(
+      signedData.recoveryCommitment,
+      'recover operation next recovery commitment'
+    );
 
     return signedData;
   }

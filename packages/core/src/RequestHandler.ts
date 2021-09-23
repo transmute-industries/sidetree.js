@@ -9,27 +9,37 @@ import OperationProcessor from './OperationProcessor';
 import Resolver from './Resolver';
 import SidetreeError from './SidetreeError';
 
-import { ResponseStatus, ResponseModel, OperationType, OperationModel, IRequestHandler, IOperationQueue, DidState } from '@sidetree/common'
+import {
+  ResponseStatus,
+  ResponseModel,
+  OperationType,
+  OperationModel,
+  IRequestHandler,
+  IOperationQueue,
+  DidState,
+} from '@sidetree/common';
 
 /**
  * Sidetree operation request handler.
  */
 export default class RequestHandler implements IRequestHandler {
-
   private operationProcessor: OperationProcessor;
 
-  public constructor (
+  public constructor(
     private resolver: Resolver,
     private operationQueue: IOperationQueue,
-    private didMethodName: string) {
+    private didMethodName: string
+  ) {
     this.operationProcessor = new OperationProcessor();
   }
 
   /**
    * Handles an operation request.
    */
-  public async handleOperationRequest (request: Buffer): Promise<ResponseModel> {
-    Logger.info(`Handling operation request of size ${request.length} bytes...`);
+  public async handleOperationRequest(request: Buffer): Promise<ResponseModel> {
+    Logger.info(
+      `Handling operation request of size ${request.length} bytes...`
+    );
 
     // Perform common validation for any write request and parse it into an `OperationModel`.
     let operationModel: OperationModel;
@@ -37,9 +47,11 @@ export default class RequestHandler implements IRequestHandler {
       const operationRequest = await JsonAsync.parse(request);
 
       // Check `delta` property data size if they exist in the operation.
-      if (operationRequest.type === OperationType.Create ||
-          operationRequest.type === OperationType.Recover ||
-          operationRequest.type === OperationType.Update) {
+      if (
+        operationRequest.type === OperationType.Create ||
+        operationRequest.type === OperationType.Recover ||
+        operationRequest.type === OperationType.Update
+      ) {
         Delta.validateDelta(operationRequest.delta);
       }
 
@@ -48,7 +60,10 @@ export default class RequestHandler implements IRequestHandler {
       // Reject operation if there is already an operation for the same DID waiting to be batched and anchored.
       if (await this.operationQueue.contains(operationModel.didUniqueSuffix)) {
         const errorMessage = `An operation request already exists in queue for DID '${operationModel.didUniqueSuffix}', only one is allowed at a time.`;
-        throw new SidetreeError(ErrorCode.QueueingMultipleOperationsPerDidNotAllowed, errorMessage);
+        throw new SidetreeError(
+          ErrorCode.QueueingMultipleOperationsPerDidNotAllowed,
+          errorMessage
+        );
       }
     } catch (error) {
       // Give meaningful/specific error code and message when possible.
@@ -57,19 +72,21 @@ export default class RequestHandler implements IRequestHandler {
         Logger.info(`Error message: ${error.message}`);
         return {
           status: ResponseStatus.BadRequest,
-          body: { code: error.code, message: error.message }
+          body: { code: error.code, message: error.message },
         };
       }
 
       // Else we give a generic bad request response.
       Logger.info(`Bad request: ${error}`);
       return {
-        status: ResponseStatus.BadRequest
+        status: ResponseStatus.BadRequest,
       };
     }
 
     try {
-      Logger.info(`Operation type: '${operationModel.type}', DID unique suffix: '${operationModel.didUniqueSuffix}'`);
+      Logger.info(
+        `Operation type: '${operationModel.type}', DID unique suffix: '${operationModel.didUniqueSuffix}'`
+      );
 
       // Passed common operation validation, hand off to specific operation handler.
       let response: ResponseModel;
@@ -82,20 +99,26 @@ export default class RequestHandler implements IRequestHandler {
         case OperationType.Recover:
         case OperationType.Deactivate:
           response = {
-            status: ResponseStatus.Succeeded
+            status: ResponseStatus.Succeeded,
           };
           break;
         default:
           // Should be an impossible condition, but we defensively check and handle.
           response = {
             status: ResponseStatus.BadRequest,
-            body: { code: ErrorCode.RequestHandlerUnknownOperationType, message: `Unsupported operation type '${operationModel.type}'.` }
+            body: {
+              code: ErrorCode.RequestHandlerUnknownOperationType,
+              message: `Unsupported operation type '${operationModel.type}'.`,
+            },
           };
       }
 
       // if the operation was processed successfully, queue the original request buffer for batching.
       if (response.status === ResponseStatus.Succeeded) {
-        await this.operationQueue.enqueue(operationModel.didUniqueSuffix, operationModel.operationBuffer);
+        await this.operationQueue.enqueue(
+          operationModel.didUniqueSuffix,
+          operationModel.operationBuffer
+        );
       }
 
       return response;
@@ -105,36 +128,42 @@ export default class RequestHandler implements IRequestHandler {
         Logger.info(`Sidetree error: ${error.code} ${error.message}`);
         return {
           status: ResponseStatus.BadRequest,
-          body: { code: error.code, message: error.message }
+          body: { code: error.code, message: error.message },
         };
       }
 
       Logger.info(`Unexpected error: ${error}`);
       return {
-        status: ResponseStatus.ServerError
+        status: ResponseStatus.ServerError,
       };
     }
   }
 
-  private async handleCreateRequest (operationModel: OperationModel): Promise<ResponseModel> {
+  private async handleCreateRequest(
+    operationModel: OperationModel
+  ): Promise<ResponseModel> {
     const didState = await this.applyCreateOperation(operationModel);
 
     // Should be an impossible condition, but we defensively check and handle.
     if (didState === undefined) {
       return {
         status: ResponseStatus.BadRequest,
-        body: 'Invalid create operation.'
+        body: 'Invalid create operation.',
       };
     }
 
     const didString = `did:${this.didMethodName}:${operationModel.didUniqueSuffix}`;
     const published = false;
     const did = await Did.create(didString, this.didMethodName);
-    const document = DocumentComposer.transformToExternalDocument(didState, did, published);
+    const document = DocumentComposer.transformToExternalDocument(
+      didState,
+      did,
+      published
+    );
 
     return {
       status: ResponseStatus.Succeeded,
-      body: document
+      body: document,
     };
   }
 
@@ -144,7 +173,9 @@ export default class RequestHandler implements IRequestHandler {
    *   1. A short-form DID. e.g. 'did:<methodName>:abc' or
    *   2. A long-form DID. e.g. 'did:<methodName>:<unique-portion>:Base64url(JCS({suffix-data, delta}))'
    */
-  public async handleResolveRequest (shortOrLongFormDid: string): Promise<ResponseModel> {
+  public async handleResolveRequest(
+    shortOrLongFormDid: string
+  ): Promise<ResponseModel> {
     try {
       Logger.info(`Handling resolution request for: ${shortOrLongFormDid}...`);
 
@@ -166,37 +197,45 @@ export default class RequestHandler implements IRequestHandler {
         Logger.info(`DID not found for DID '${shortOrLongFormDid}'...`);
         return {
           status: ResponseStatus.NotFound,
-          body: { code: ErrorCode.DidNotFound, message: 'DID Not Found' }
+          body: { code: ErrorCode.DidNotFound, message: 'DID Not Found' },
         };
       }
 
       // We reach here it means there is a DID Document to return.
 
       // If DID is published, use the short-form DID; else use long-form DID in document.
-      const document = DocumentComposer.transformToExternalDocument(didState, did, published);
+      const document = DocumentComposer.transformToExternalDocument(
+        didState,
+        did,
+        published
+      );
 
       // Status is different if DID is deactivated.
       const didDeactivated = didState.nextRecoveryCommitmentHash === undefined;
-      const status = didDeactivated ? ResponseStatus.Deactivated : ResponseStatus.Succeeded;
+      const status = didDeactivated
+        ? ResponseStatus.Deactivated
+        : ResponseStatus.Succeeded;
 
       Logger.info(`DID Document found for DID '${shortOrLongFormDid}'...`);
       return {
         status,
-        body: document
+        body: document,
       };
     } catch (error) {
       // Give meaningful/specific error code and message when possible.
       if (error instanceof SidetreeError) {
-        Logger.info(`Bad request. Code: ${error.code}. Message: ${error.message}`);
+        Logger.info(
+          `Bad request. Code: ${error.code}. Message: ${error.message}`
+        );
         return {
           status: ResponseStatus.BadRequest,
-          body: { code: error.code, message: error.message }
+          body: { code: error.code, message: error.message },
         };
       }
 
       Logger.info(`Unexpected error: ${error}`);
       return {
-        status: ResponseStatus.ServerError
+        status: ResponseStatus.ServerError,
       };
     }
   }
@@ -207,8 +246,12 @@ export default class RequestHandler implements IRequestHandler {
    *
    * @returns [DID state, published]
    */
-  private async resolveLongFormDid (did: Did): Promise<[DidState | undefined, boolean]> {
-    Logger.info(`Handling long-form DID resolution of DID '${did.longForm}'...`);
+  private async resolveLongFormDid(
+    did: Did
+  ): Promise<[DidState | undefined, boolean]> {
+    Logger.info(
+      `Handling long-form DID resolution of DID '${did.longForm}'...`
+    );
 
     // Attempt to resolve the DID by using operations found from the network first.
     let didState = await this.resolver.resolve(did.uniqueSuffix);
@@ -225,17 +268,22 @@ export default class RequestHandler implements IRequestHandler {
     return [didState, false];
   }
 
-  private async applyCreateOperation (createOperation: OperationModel): Promise<DidState | undefined> {
+  private async applyCreateOperation(
+    createOperation: OperationModel
+  ): Promise<DidState | undefined> {
     const operationWithMockedAnchorTime = {
       didUniqueSuffix: createOperation.didUniqueSuffix,
       type: OperationType.Create,
       transactionTime: 0,
       transactionNumber: 0,
       operationIndex: 0,
-      operationBuffer: createOperation.operationBuffer
+      operationBuffer: createOperation.operationBuffer,
     }; // NOTE: The transaction timing does not matter here, we are just computing a "theoretical" document if it were anchored on blockchain.
 
-    const newDidState = await this.operationProcessor.apply(operationWithMockedAnchorTime, undefined);
+    const newDidState = await this.operationProcessor.apply(
+      operationWithMockedAnchorTime,
+      undefined
+    );
     return newDidState;
   }
 }

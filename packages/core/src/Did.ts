@@ -16,7 +16,6 @@ import { SuffixDataModel } from '@sidetree/common';
  * Class containing reusable Sidetree DID related operations.
  */
 export default class Did {
-
   /** `true` if DID is short form; `false` if DID is long-form. */
   public isShortForm: boolean;
   /** DID method name. */
@@ -36,13 +35,16 @@ export default class Did {
    * @param did Short or long-form DID string.
    * @param didMethodName The expected DID method given in the DID string. The method throws SidetreeError if mismatch.
    */
-  private constructor (did: string, didMethodName: string) {
+  private constructor(did: string, didMethodName: string) {
     this.didMethodName = didMethodName;
     const didPrefix = `did:${didMethodName}:`;
     // TODO https://github.com/decentralized-identity/sidetree/issues/470 add network prefix to the didPrefix string
 
     if (!did.startsWith(didPrefix)) {
-      throw new SidetreeError(ErrorCode.DidIncorrectPrefix, `Expected DID prefix ${didPrefix} not given in DID.`);
+      throw new SidetreeError(
+        ErrorCode.DidIncorrectPrefix,
+        `Expected DID prefix ${didPrefix} not given in DID.`
+      );
     }
 
     const didWithoutPrefix = did.split(didPrefix)[1];
@@ -76,26 +78,38 @@ export default class Did {
    * Parses the input string as Sidetree DID.
    * @param didString Short or long-form DID string.
    */
-  public static async create (didString: string, didMethodName: string): Promise<Did> {
+  public static async create(
+    didString: string,
+    didMethodName: string
+  ): Promise<Did> {
     const did = new Did(didString, didMethodName);
 
     // If DID is long-form, ensure the unique suffix constructed from the suffix data matches the short-form DID and populate the `createOperation` property.
     if (!did.isShortForm) {
-      const initialStateEncodedJcs = Did.getInitialStateFromDidStringWithExtraColon(didString);
-      const createOperation = Did.constructCreateOperationFromEncodedJcs(initialStateEncodedJcs);
+      const initialStateEncodedJcs = Did.getInitialStateFromDidStringWithExtraColon(
+        didString
+      );
+      const createOperation = Did.constructCreateOperationFromEncodedJcs(
+        initialStateEncodedJcs
+      );
 
       // NOTE: we cannot use the unique suffix directly from `createOperation.didUniqueSuffix` for comparison,
       // because a given long-form DID may have been created long ago,
       // thus this version of `CreateOperation.parse()` maybe using a different hashing algorithm than that of the unique DID suffix (short-form).
       // So we compute the suffix data hash again using the hashing algorithm used by the given unique DID suffix (short-form).
-      const suffixDataJcsBuffer = JsonCanonicalizer.canonicalizeAsBuffer(createOperation.suffixData);
-      const suffixDataHashMatchesUniqueSuffix = Multihash.verifyEncodedMultihashForContent(suffixDataJcsBuffer, did.uniqueSuffix);
+      const suffixDataJcsBuffer = JsonCanonicalizer.canonicalizeAsBuffer(
+        createOperation.suffixData
+      );
+      const suffixDataHashMatchesUniqueSuffix = Multihash.verifyEncodedMultihashForContent(
+        suffixDataJcsBuffer,
+        did.uniqueSuffix
+      );
 
-
-    
       // If the computed suffix data hash is not the same as the unique suffix given in the DID string, the DID is not valid.
       if (!suffixDataHashMatchesUniqueSuffix) {
-        throw new SidetreeError(ErrorCode.DidUniqueSuffixFromInitialStateMismatch);
+        throw new SidetreeError(
+          ErrorCode.DidUniqueSuffixFromInitialStateMismatch
+        );
       }
 
       did.createOperation = createOperation;
@@ -107,16 +121,23 @@ export default class Did {
   /**
    * Computes the DID unique suffix given the suffix data object.
    */
-  public static computeUniqueSuffix (suffixDataModel: SuffixDataModel): string {
+  public static computeUniqueSuffix(suffixDataModel: SuffixDataModel): string {
     // TODO: #965 - Need to decide on what hash algorithm to use when hashing suffix data - https://github.com/decentralized-identity/sidetree/issues/965
     const hashAlgorithmInMultihashCode = 18;
-    const suffixDataBuffer = JsonCanonicalizer.canonicalizeAsBuffer(suffixDataModel);
-    const multihash = Multihash.hash(suffixDataBuffer, hashAlgorithmInMultihashCode);
+    const suffixDataBuffer = JsonCanonicalizer.canonicalizeAsBuffer(
+      suffixDataModel
+    );
+    const multihash = Multihash.hash(
+      suffixDataBuffer,
+      hashAlgorithmInMultihashCode
+    );
     const encodedMultihash = Encoder.encode(multihash);
     return encodedMultihash;
   }
 
-  private static getInitialStateFromDidStringWithExtraColon (didString: string): string {
+  private static getInitialStateFromDidStringWithExtraColon(
+    didString: string
+  ): string {
     // DID example: 'did:<methodName>:<unique-portion>:Base64url(JCS({suffix-data, delta}))'
 
     const lastColonIndex = didString.lastIndexOf(':');
@@ -126,14 +147,21 @@ export default class Did {
     return initialStateValue;
   }
 
-  private static constructCreateOperationFromEncodedJcs (initialStateEncodedJcs: string): CreateOperation {
+  private static constructCreateOperationFromEncodedJcs(
+    initialStateEncodedJcs: string
+  ): CreateOperation {
     // Initial state should be in the format base64url(JCS(initialState))
-    const initialStateDecodedJcs = Encoder.decodeAsString(initialStateEncodedJcs);
+    const initialStateDecodedJcs = Encoder.decodeAsString(
+      initialStateEncodedJcs
+    );
     let initialStateObject;
     try {
       initialStateObject = JSON.parse(initialStateDecodedJcs);
     } catch {
-      throw new SidetreeError(ErrorCode.DidInitialStateJcsIsNotJson, 'Long form initial state should be encoded jcs.');
+      throw new SidetreeError(
+        ErrorCode.DidInitialStateJcsIsNotJson,
+        'Long form initial state should be encoded jcs.'
+      );
     }
 
     Did.validateInitialStateJcs(initialStateEncodedJcs, initialStateObject);
@@ -142,20 +170,33 @@ export default class Did {
     const createOperationRequest = {
       type: OperationType.Create,
       suffixData: initialStateObject.suffixData,
-      delta: initialStateObject.delta
+      delta: initialStateObject.delta,
     };
-    const createOperationBuffer = Buffer.from(JSON.stringify(createOperationRequest));
-    const createOperation = CreateOperation.parseObject(createOperationRequest, createOperationBuffer);
+    const createOperationBuffer = Buffer.from(
+      JSON.stringify(createOperationRequest)
+    );
+    const createOperation = CreateOperation.parseObject(
+      createOperationRequest,
+      createOperationBuffer
+    );
     return createOperation;
   }
 
   /**
    * Make sure initial state is JCS
    */
-  private static validateInitialStateJcs (initialStateEncodedJcs: string, initialStateObject: any): void {
-    const expectedInitialState = Encoder.encode(JsonCanonicalizer.canonicalizeAsBuffer(initialStateObject));
+  private static validateInitialStateJcs(
+    initialStateEncodedJcs: string,
+    initialStateObject: any
+  ): void {
+    const expectedInitialState = Encoder.encode(
+      JsonCanonicalizer.canonicalizeAsBuffer(initialStateObject)
+    );
     if (expectedInitialState !== initialStateEncodedJcs) {
-      throw new SidetreeError(ErrorCode.DidInitialStateJcsIsNotJcs, 'Initial state object and JCS string mismatch.');
+      throw new SidetreeError(
+        ErrorCode.DidInitialStateJcsIsNotJcs,
+        'Initial state object and JCS string mismatch.'
+      );
     }
   }
 }

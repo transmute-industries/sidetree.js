@@ -1,7 +1,11 @@
 import { Binary, Collection, Db, MongoClient } from 'mongodb';
 
-
-import { ErrorCode,IOperationQueue, QueuedOperationModel , SidetreeError } from '@sidetree/common'
+import {
+  ErrorCode,
+  IOperationQueue,
+  QueuedOperationModel,
+  SidetreeError,
+} from '@sidetree/common';
 
 /**
  * Sidetree operation stored in MongoDb.
@@ -29,22 +33,24 @@ export default class MongoDbOperationQueue implements IOperationQueue {
   /**
    * Initialize the MongoDB operation store.
    */
-  public async initialize (serverUrl: string, databaseName: string) {
+  public async initialize(serverUrl: string, databaseName: string) {
     const client = await MongoClient.connect(serverUrl);
     this.client = client;
     this.db = client.db(databaseName);
-    this.collection = await MongoDbOperationQueue.createCollectionIfNotExist(this.db);
+    this.collection = await MongoDbOperationQueue.createCollectionIfNotExist(
+      this.db
+    );
   }
 
   public async stop(): Promise<void> {
     return this.client!.close();
   }
 
-  async enqueue (didUniqueSuffix: string, operationBuffer: Buffer) {
+  async enqueue(didUniqueSuffix: string, operationBuffer: Buffer) {
     try {
       const queuedOperation: IMongoQueuedOperation = {
         didUniqueSuffix,
-        operationBufferBsonBinary: new Binary(operationBuffer)
+        operationBufferBsonBinary: new Binary(operationBuffer),
       };
 
       await this.collection!.insertOne(queuedOperation);
@@ -58,38 +64,50 @@ export default class MongoDbOperationQueue implements IOperationQueue {
     }
   }
 
-  async dequeue (count: number): Promise<QueuedOperationModel[]> {
+  async dequeue(count: number): Promise<QueuedOperationModel[]> {
     if (count <= 0) {
       return [];
     }
 
-    const queuedOperations = await this.collection!.find().sort({ _id: 1 }).limit(count).toArray();
+    const queuedOperations = await this.collection!.find()
+      .sort({ _id: 1 })
+      .limit(count)
+      .toArray();
     const lastOperation = queuedOperations[queuedOperations.length - 1];
     await this.collection!.deleteMany({ _id: { $lte: lastOperation._id } });
 
-    return queuedOperations.map((operation) => MongoDbOperationQueue.convertToQueuedOperationModel(operation));
+    return queuedOperations.map((operation) =>
+      MongoDbOperationQueue.convertToQueuedOperationModel(operation)
+    );
   }
 
-  async peek (count: number): Promise<QueuedOperationModel[]> {
+  async peek(count: number): Promise<QueuedOperationModel[]> {
     if (count <= 0) {
       return [];
     }
 
     // NOTE: `_id` is the default index that is sorted based by create time.
-    const queuedOperations = await this.collection!.find().sort({ _id: 1 }).limit(count).toArray();
+    const queuedOperations = await this.collection!.find()
+      .sort({ _id: 1 })
+      .limit(count)
+      .toArray();
 
-    return queuedOperations.map((operation) => MongoDbOperationQueue.convertToQueuedOperationModel(operation));
+    return queuedOperations.map((operation) =>
+      MongoDbOperationQueue.convertToQueuedOperationModel(operation)
+    );
   }
 
   /**
    * Checks to see if the queue already contains an operation for the given DID unique suffix.
    */
-  async contains (didUniqueSuffix: string): Promise<boolean> {
-    const operations = await this.collection!.find({ didUniqueSuffix }).limit(1).toArray();
+  async contains(didUniqueSuffix: string): Promise<boolean> {
+    const operations = await this.collection!.find({ didUniqueSuffix })
+      .limit(1)
+      .toArray();
     return operations.length > 0;
   }
 
-  async getSize (): Promise<number> {
+  async getSize(): Promise<number> {
     const size = await this.collection!.estimatedDocumentCount();
     return size;
   }
@@ -97,19 +115,25 @@ export default class MongoDbOperationQueue implements IOperationQueue {
   /**
    * * Clears the unresolvable transaction store. Mainly used in tests.
    */
-  public async clearCollection () {
+  public async clearCollection() {
     await this.collection!.drop();
-    this.collection = await MongoDbOperationQueue.createCollectionIfNotExist(this.db!);
+    this.collection = await MongoDbOperationQueue.createCollectionIfNotExist(
+      this.db!
+    );
   }
 
   /**
    * Creates the queued operation collection with indexes if it does not exists.
    * @returns The existing collection if exists, else the newly created collection.
    */
-  private static async createCollectionIfNotExist (db: Db): Promise<Collection<IMongoQueuedOperation>> {
+  private static async createCollectionIfNotExist(
+    db: Db
+  ): Promise<Collection<IMongoQueuedOperation>> {
     // Get the names of existing collections.
     const collections = await db.collections();
-    const collectionNames = collections.map(collection => collection.collectionName);
+    const collectionNames = collections.map(
+      (collection) => collection.collectionName
+    );
 
     // If the queued operation collection exists, use it; else create it then use it.
     let collection;
@@ -125,12 +149,12 @@ export default class MongoDbOperationQueue implements IOperationQueue {
     return collection;
   }
 
-  private static convertToQueuedOperationModel (mongoQueuedOperation: IMongoQueuedOperation): QueuedOperationModel {
+  private static convertToQueuedOperationModel(
+    mongoQueuedOperation: IMongoQueuedOperation
+  ): QueuedOperationModel {
     return {
       didUniqueSuffix: mongoQueuedOperation.didUniqueSuffix,
-      operationBuffer: mongoQueuedOperation.operationBufferBsonBinary.buffer
+      operationBuffer: mongoQueuedOperation.operationBufferBsonBinary.buffer,
     };
   }
-
-
 }

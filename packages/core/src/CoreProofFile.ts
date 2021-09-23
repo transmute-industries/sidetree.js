@@ -8,42 +8,57 @@ import ProtocolParameters from './ProtocolParameters';
 import RecoverOperation from './RecoverOperation';
 import SidetreeError from './SidetreeError';
 
-
-import { CoreProofFileModel, DeactivateSignedDataModel, RecoverSignedDataModel} from '@sidetree/common'
+import {
+  CoreProofFileModel,
+  DeactivateSignedDataModel,
+  RecoverSignedDataModel,
+} from '@sidetree/common';
 /**
  * Defines operations related to a Core Proof File.
  */
 export default class CoreProofFile {
-
   /**
    * Class that represents a core proof file.
    * NOTE: this class is introduced as an internal structure that keeps useful states in replacement to `CoreProofFileModel`
    * so that repeated computation can be avoided.
    */
-  private constructor (
+  private constructor(
     public readonly coreProofFileModel: CoreProofFileModel,
-    public readonly recoverProofs: { signedDataJws: Jws, signedDataModel: RecoverSignedDataModel }[],
-    public readonly deactivateProofs: { signedDataJws: Jws, signedDataModel: DeactivateSignedDataModel }[]
-  ) { }
+    public readonly recoverProofs: {
+      signedDataJws: Jws;
+      signedDataModel: RecoverSignedDataModel;
+    }[],
+    public readonly deactivateProofs: {
+      signedDataJws: Jws;
+      signedDataModel: DeactivateSignedDataModel;
+    }[]
+  ) {}
 
   /**
    * Creates the buffer of a Core Proof File.
    *
    * @returns `Buffer` if at least one operation is given, `undefined` otherwise.
    */
-  public static async createBuffer (recoverOperations: RecoverOperation[], deactivateOperations: DeactivateOperation[]): Promise<Buffer | undefined> {
+  public static async createBuffer(
+    recoverOperations: RecoverOperation[],
+    deactivateOperations: DeactivateOperation[]
+  ): Promise<Buffer | undefined> {
     if (recoverOperations.length === 0 && deactivateOperations.length === 0) {
       return undefined;
     }
 
-    const recoverProofs = recoverOperations.map(operation => { return { signedData: operation.signedDataJws.toCompactJws() }; });
-    const deactivateProofs = deactivateOperations.map(operation => { return { signedData: operation.signedDataJws.toCompactJws() }; });
+    const recoverProofs = recoverOperations.map((operation) => {
+      return { signedData: operation.signedDataJws.toCompactJws() };
+    });
+    const deactivateProofs = deactivateOperations.map((operation) => {
+      return { signedData: operation.signedDataJws.toCompactJws() };
+    });
 
     const coreProofFileModel = {
       operations: {
         recover: recoverProofs,
-        deactivate: deactivateProofs
-      }
+        deactivate: deactivateProofs,
+      },
     };
 
     const rawData = Buffer.from(JSON.stringify(coreProofFileModel));
@@ -57,28 +72,51 @@ export default class CoreProofFile {
    * @param coreProofFileBuffer Compressed core proof file.
    * @throws `SidetreeError` if failed parsing or validation.
    */
-  public static async parse (coreProofFileBuffer: Buffer, expectedDeactivatedDidUniqueSuffixes: string[]): Promise<CoreProofFile> {
+  public static async parse(
+    coreProofFileBuffer: Buffer,
+    expectedDeactivatedDidUniqueSuffixes: string[]
+  ): Promise<CoreProofFile> {
     let coreProofFileDecompressedBuffer;
     try {
-      const maxAllowedDecompressedSizeInBytes = ProtocolParameters.maxProofFileSizeInBytes * Compressor.estimatedDecompressionMultiplier;
-      coreProofFileDecompressedBuffer = await Compressor.decompress(coreProofFileBuffer, maxAllowedDecompressedSizeInBytes);
+      const maxAllowedDecompressedSizeInBytes =
+        ProtocolParameters.maxProofFileSizeInBytes *
+        Compressor.estimatedDecompressionMultiplier;
+      coreProofFileDecompressedBuffer = await Compressor.decompress(
+        coreProofFileBuffer,
+        maxAllowedDecompressedSizeInBytes
+      );
     } catch (error) {
-      throw SidetreeError.createFromError(ErrorCode.CoreProofFileDecompressionFailure, error);
+      throw SidetreeError.createFromError(
+        ErrorCode.CoreProofFileDecompressionFailure,
+        error
+      );
     }
 
     let coreProofFileModel;
     try {
-      coreProofFileModel = await JsonAsync.parse(coreProofFileDecompressedBuffer);
+      coreProofFileModel = await JsonAsync.parse(
+        coreProofFileDecompressedBuffer
+      );
     } catch (error) {
-      throw SidetreeError.createFromError(ErrorCode.CoreProofFileNotJson, error);
+      throw SidetreeError.createFromError(
+        ErrorCode.CoreProofFileNotJson,
+        error
+      );
     }
 
     if (coreProofFileModel.operations === undefined) {
-      throw new SidetreeError(ErrorCode.CoreProofFileOperationsNotFound, `Core proof file does not have any operation proofs.`);
+      throw new SidetreeError(
+        ErrorCode.CoreProofFileOperationsNotFound,
+        `Core proof file does not have any operation proofs.`
+      );
     }
 
     const operations = coreProofFileModel.operations;
-    InputValidator.validateObjectContainsOnlyAllowedProperties(operations, ['recover', 'deactivate'], 'core proof file');
+    InputValidator.validateObjectContainsOnlyAllowedProperties(
+      operations,
+      ['recover', 'deactivate'],
+      'core proof file'
+    );
 
     const recoverProofs = [];
     const deactivateProofs = [];
@@ -88,19 +126,28 @@ export default class CoreProofFile {
     const recoverProofModels = operations.recover;
     if (recoverProofModels !== undefined) {
       if (!Array.isArray(recoverProofModels)) {
-        throw new SidetreeError(ErrorCode.CoreProofFileRecoverPropertyNotAnArray, `'recover' property in core proof file is not an array.`);
+        throw new SidetreeError(
+          ErrorCode.CoreProofFileRecoverPropertyNotAnArray,
+          `'recover' property in core proof file is not an array.`
+        );
       }
 
       // Parse and validate each compact JWS.
       for (const proof of recoverProofModels) {
-        InputValidator.validateObjectContainsOnlyAllowedProperties(proof, ['signedData'], 'recover proof');
+        InputValidator.validateObjectContainsOnlyAllowedProperties(
+          proof,
+          ['signedData'],
+          'recover proof'
+        );
 
         const signedDataJws = Jws.parseCompactJws(proof.signedData);
-        const signedDataModel = await RecoverOperation.parseSignedDataPayload(signedDataJws.payload);
+        const signedDataModel = await RecoverOperation.parseSignedDataPayload(
+          signedDataJws.payload
+        );
 
         recoverProofs.push({
           signedDataJws,
-          signedDataModel
+          signedDataModel,
         });
       }
 
@@ -111,13 +158,20 @@ export default class CoreProofFile {
     const deactivateProofModels = operations.deactivate;
     if (deactivateProofModels !== undefined) {
       if (!Array.isArray(deactivateProofModels)) {
-        throw new SidetreeError(ErrorCode.CoreProofFileDeactivatePropertyNotAnArray, `'deactivate' property in core proof file is not an array.`);
+        throw new SidetreeError(
+          ErrorCode.CoreProofFileDeactivatePropertyNotAnArray,
+          `'deactivate' property in core proof file is not an array.`
+        );
       }
 
       // Parse and validate each compact JWS.
       let deactivateProofIndex = 0;
       for (const proof of deactivateProofModels) {
-        InputValidator.validateObjectContainsOnlyAllowedProperties(proof, ['signedData'], 'deactivate proof');
+        InputValidator.validateObjectContainsOnlyAllowedProperties(
+          proof,
+          ['signedData'],
+          'deactivate proof'
+        );
 
         const signedDataJws = Jws.parseCompactJws(proof.signedData);
         const signedDataModel = await DeactivateOperation.parseSignedDataPayload(
@@ -127,7 +181,7 @@ export default class CoreProofFile {
 
         deactivateProofs.push({
           signedDataJws,
-          signedDataModel
+          signedDataModel,
         });
 
         deactivateProofIndex++;
@@ -137,9 +191,16 @@ export default class CoreProofFile {
     }
 
     if (numberOfProofs === 0) {
-      throw new SidetreeError(ErrorCode.CoreProofFileHasNoProofs, `Core proof file has no proofs.`);
+      throw new SidetreeError(
+        ErrorCode.CoreProofFileHasNoProofs,
+        `Core proof file has no proofs.`
+      );
     }
 
-    return new CoreProofFile(coreProofFileModel, recoverProofs, deactivateProofs);
+    return new CoreProofFile(
+      coreProofFileModel,
+      recoverProofs,
+      deactivateProofs
+    );
   }
 }

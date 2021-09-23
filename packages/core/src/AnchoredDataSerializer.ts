@@ -1,16 +1,14 @@
-
 import ErrorCode from './ErrorCode';
 import ProtocolParameters from './ProtocolParameters';
 import SidetreeError from './SidetreeError';
 
-import { AnchoredData  } from '@sidetree/common';
+import { AnchoredData } from '@sidetree/common';
 
 /**
  * Encapsulates functionality to serialize/deserialize data that read/write to
  * the blockchain.
  */
 export default class AnchoredDataSerializer {
-
   /** Delimiter between logical parts in anchor string. */
   public static readonly delimiter = '.';
 
@@ -19,7 +17,7 @@ export default class AnchoredDataSerializer {
    *
    * @param dataToBeAnchored The data to serialize.
    */
-  public static serialize (dataToBeAnchored: AnchoredData): string {
+  public static serialize(dataToBeAnchored: AnchoredData): string {
     // Concatenate the inputs w/ the delimiter and return
     return `${dataToBeAnchored.numberOfOperations}${AnchoredDataSerializer.delimiter}${dataToBeAnchored.coreIndexFileUri}`;
   }
@@ -29,15 +27,19 @@ export default class AnchoredDataSerializer {
    *
    * @param serializedData The data to be deserialized.
    */
-  public static deserialize (serializedData: string): AnchoredData {
-
+  public static deserialize(serializedData: string): AnchoredData {
     const splitData = serializedData.split(AnchoredDataSerializer.delimiter);
 
     if (splitData.length !== 2) {
-      throw new SidetreeError(ErrorCode.AnchoredDataIncorrectFormat, `Input is not in correct format: ${serializedData}`);
+      throw new SidetreeError(
+        ErrorCode.AnchoredDataIncorrectFormat,
+        `Input is not in correct format: ${serializedData}`
+      );
     }
 
-    const numberOfOperations = AnchoredDataSerializer.parsePositiveInteger(splitData[0]);
+    const numberOfOperations = AnchoredDataSerializer.parsePositiveInteger(
+      splitData[0]
+    );
 
     if (numberOfOperations > ProtocolParameters.maxOperationsPerBatch) {
       throw new SidetreeError(
@@ -48,11 +50,11 @@ export default class AnchoredDataSerializer {
 
     return {
       coreIndexFileUri: splitData[1],
-      numberOfOperations: numberOfOperations
+      numberOfOperations: numberOfOperations,
     };
   }
 
-  private static parsePositiveInteger (input: string): number {
+  private static parsePositiveInteger(input: string): number {
     // NOTE:
     // /<expression>/ denotes regex.
     // ^ denotes beginning of string.

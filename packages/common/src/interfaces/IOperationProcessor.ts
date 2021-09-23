@@ -5,7 +5,6 @@ import DidState from '../models/DidState';
  * Interface that defines a class that can process operations.
  */
 export default interface IOperationProcessor {
-
   /**
    * Applies an operation on top of the given DID state.
    * In the case of an invalid operation, the resultant DID state will remain the same.
@@ -14,7 +13,7 @@ export default interface IOperationProcessor {
    * @param didState The DID state to apply the operation no top of. Needs to be `undefined` if the operation to be applied is a create operation.
    * @returns The resultant `DidState`.
    */
-  apply (
+  apply(
     operation: AnchoredOperationModel,
     didState: DidState | undefined
   ): Promise<DidState | undefined>;
@@ -22,5 +21,5 @@ export default interface IOperationProcessor {
   /**
    * Gets the multihash buffer used as the reveal value of a non-create operation.
    */
-  getMultihashRevealValue (operation: AnchoredOperationModel): Promise<Buffer>;
+  getMultihashRevealValue(operation: AnchoredOperationModel): Promise<Buffer>;
 }

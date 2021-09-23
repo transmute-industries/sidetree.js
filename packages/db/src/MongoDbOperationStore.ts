@@ -2,8 +2,11 @@ import { Binary, Long } from 'mongodb';
 
 import MongoDbStore from './MongoDbStore';
 
-
-import { OperationType, IOperationStore, AnchoredOperationModel  } from '@sidetree/common'
+import {
+  OperationType,
+  IOperationStore,
+  AnchoredOperationModel,
+} from '@sidetree/common';
 /**
  * Sidetree operation stored in MongoDb.
  * Note: We use shorter property names such as "opIndex" instead of "operationIndex" to ensure unique index compatibility between MongoDB implementations.
@@ -23,35 +26,49 @@ interface IMongoOperation {
  * Implementation of OperationStore that stores the operation data in
  * a MongoDB database.
  */
-export default class MongoDbOperationStore extends MongoDbStore implements IOperationStore {
+export default class MongoDbOperationStore extends MongoDbStore
+  implements IOperationStore {
   /** MongoDB collection name under the database where the operations are stored. */
   public static readonly collectionName: string = 'operations';
 
-  constructor (serverUrl: string, databaseName: string) {
+  constructor(serverUrl: string, databaseName: string) {
     super(serverUrl, MongoDbOperationStore.collectionName, databaseName);
   }
 
-  public async createIndex () {
+  public async createIndex() {
     // This is an unique index, so duplicate inserts are rejected/ignored.
-    await this.collection.createIndex({ didSuffix: 1, txnNumber: 1, opIndex: 1, type: 1 }, { unique: true });
+    await this.collection.createIndex(
+      { didSuffix: 1, txnNumber: 1, opIndex: 1, type: 1 },
+      { unique: true }
+    );
     // The query in `get()` method needs a corresponding composite index in some cloud-based services (CosmosDB 4.0) that supports MongoDB driver.
-    await this.collection.createIndex({ didSuffix: 1, txnNumber: 1, opIndex: 1 }, { unique: true });
+    await this.collection.createIndex(
+      { didSuffix: 1, txnNumber: 1, opIndex: 1 },
+      { unique: true }
+    );
     // The query in `get()` method needs a non-composite index on `didSuffix` in some cloud-based services (CosmosDB 4.0) to allow efficient queries.
     await this.collection.createIndex({ didSuffix: 1 }, { unique: false });
   }
 
-  public async insertOrReplace (operations: AnchoredOperationModel[]): Promise<void> {
+  public async insertOrReplace(
+    operations: AnchoredOperationModel[]
+  ): Promise<void> {
     const bulkOperations = this.collection!.initializeUnorderedBulkOp();
 
     for (const operation of operations) {
-      const mongoOperation = MongoDbOperationStore.convertToMongoOperation(operation);
+      const mongoOperation = MongoDbOperationStore.convertToMongoOperation(
+        operation
+      );
 
-      bulkOperations.find({
-        didSuffix: operation.didUniqueSuffix,
-        txnNumber: operation.transactionNumber,
-        opIndex: operation.operationIndex,
-        type: operation.type
-      }).upsert().replaceOne(mongoOperation);
+      bulkOperations
+        .find({
+          didSuffix: operation.didUniqueSuffix,
+          txnNumber: operation.transactionNumber,
+          opIndex: operation.operationIndex,
+          type: operation.type,
+        })
+        .upsert()
+        .replaceOne(mongoOperation);
     }
 
     await bulkOperations.execute();
@@ -60,39 +77,48 @@ export default class MongoDbOperationStore extends MongoDbStore implements IOper
   /**
    * Gets all operations of the given DID unique suffix in ascending chronological order.
    */
-  public async get (didUniqueSuffix: string): Promise<AnchoredOperationModel[]> {
-    const mongoOperations = await this.collection!
-      .find({ didSuffix: didUniqueSuffix })
+  public async get(didUniqueSuffix: string): Promise<AnchoredOperationModel[]> {
+    const mongoOperations = await this.collection!.find({
+      didSuffix: didUniqueSuffix,
+    })
       .sort({ didSuffix: 1, txnNumber: 1, opIndex: 1 })
       .maxTimeMS(MongoDbStore.defaultQueryTimeoutInMilliseconds)
       .toArray();
 
-    return mongoOperations.map((operation) => { return MongoDbOperationStore.convertToAnchoredOperationModel(operation); });
+    return mongoOperations.map((operation) => {
+      return MongoDbOperationStore.convertToAnchoredOperationModel(operation);
+    });
   }
 
-  public async delete (transactionNumber?: number): Promise<void> {
+  public async delete(transactionNumber?: number): Promise<void> {
     if (transactionNumber) {
-      await this.collection!.deleteMany({ txnNumber: { $gt: Long.fromNumber(transactionNumber) } });
+      await this.collection!.deleteMany({
+        txnNumber: { $gt: Long.fromNumber(transactionNumber) },
+      });
     } else {
       await this.collection!.deleteMany({});
     }
   }
 
-  public async deleteUpdatesEarlierThan (didUniqueSuffix: string, transactionNumber: number, operationIndex: number): Promise<void> {
+  public async deleteUpdatesEarlierThan(
+    didUniqueSuffix: string,
+    transactionNumber: number,
+    operationIndex: number
+  ): Promise<void> {
     await this.collection!.deleteMany({
       $or: [
         {
           didSuffix: didUniqueSuffix,
           txnNumber: { $lt: Long.fromNumber(transactionNumber) },
-          type: OperationType.Update
+          type: OperationType.Update,
         },
         {
           didSuffix: didUniqueSuffix,
           txnNumber: Long.fromNumber(transactionNumber),
           opIndex: { $lt: operationIndex },
-          type: OperationType.Update
-        }
-      ]
+          type: OperationType.Update,
+        },
+      ],
     });
   }
 
@@ -101,14 +127,16 @@ export default class MongoDbOperationStore extends MongoDbStore implements IOper
    * that can be stored on MongoDb. The IMongoOperation object has sufficient
    * information to reconstruct the original operation.
    */
-  private static convertToMongoOperation (operation: AnchoredOperationModel): IMongoOperation {
+  private static convertToMongoOperation(
+    operation: AnchoredOperationModel
+  ): IMongoOperation {
     return {
       type: operation.type,
       didSuffix: operation.didUniqueSuffix,
       operationBufferBsonBinary: new Binary(operation.operationBuffer),
       opIndex: operation.operationIndex,
       txnNumber: Long.fromNumber(operation.transactionNumber),
-      txnTime: operation.transactionTime
+      txnTime: operation.transactionTime,
     };
   }
 
@@ -119,14 +147,16 @@ export default class MongoDbOperationStore extends MongoDbStore implements IOper
    * Note: mongodb.find() returns an 'any' object that automatically converts longs to numbers -
    * hence the type 'any' for mongoOperation.
    */
-  private static convertToAnchoredOperationModel (mongoOperation: any): AnchoredOperationModel {
+  private static convertToAnchoredOperationModel(
+    mongoOperation: any
+  ): AnchoredOperationModel {
     return {
       type: mongoOperation.type,
       didUniqueSuffix: mongoOperation.didSuffix,
       operationBuffer: mongoOperation.operationBufferBsonBinary.buffer,
       operationIndex: mongoOperation.opIndex,
       transactionNumber: mongoOperation.txnNumber,
-      transactionTime: mongoOperation.txnTime
+      transactionTime: mongoOperation.txnTime,
     };
   }
 }

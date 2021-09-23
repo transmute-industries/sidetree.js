@@ -1,4 +1,3 @@
-
 import ErrorCode from './ErrorCode';
 import InputValidator from './InputValidator';
 import JsonAsync from './util/JsonAsync';
@@ -6,8 +5,13 @@ import Jwk from './util/Jwk';
 import Jws from './util/Jws';
 import SidetreeError from './SidetreeError';
 
-import { Encoder, Multihash, OperationModel, OperationType, DeactivateSignedDataModel } from '@sidetree/common';
-
+import {
+  Encoder,
+  Multihash,
+  OperationModel,
+  OperationType,
+  DeactivateSignedDataModel,
+} from '@sidetree/common';
 
 /**
  * A class that represents a deactivate operation.
@@ -19,21 +23,26 @@ export default class DeactivateOperation implements OperationModel {
   /**
    * NOTE: should only be used by `parse()` and `parseObject()` else the constructed instance could be invalid.
    */
-  private constructor (
+  private constructor(
     public readonly operationBuffer: Buffer,
     public readonly didUniqueSuffix: string,
     public readonly revealValue: string,
     public readonly signedDataJws: Jws,
     public readonly signedData: DeactivateSignedDataModel
-  ) { }
+  ) {}
 
   /**
    * Parses the given buffer as a `UpdateOperation`.
    */
-  public static async parse (operationBuffer: Buffer): Promise<DeactivateOperation> {
+  public static async parse(
+    operationBuffer: Buffer
+  ): Promise<DeactivateOperation> {
     const operationJsonString = operationBuffer.toString();
     const operationObject = await JsonAsync.parse(operationJsonString);
-    const deactivateOperation = await DeactivateOperation.parseObject(operationObject, operationBuffer);
+    const deactivateOperation = await DeactivateOperation.parseObject(
+      operationObject,
+      operationBuffer
+    );
     return deactivateOperation;
   }
 
@@ -43,9 +52,14 @@ export default class DeactivateOperation implements OperationModel {
    * NOTE: This method is purely intended to be used as an optimization method over the `parse` method in that
    * JSON parsing is not required to be performed more than once when an operation buffer of an unknown operation type is given.
    */
-  public static async parseObject (operationObject: any, operationBuffer: Buffer): Promise<DeactivateOperation> {
+  public static async parseObject(
+    operationObject: any,
+    operationBuffer: Buffer
+  ): Promise<DeactivateOperation> {
     InputValidator.validateObjectContainsOnlyAllowedProperties(
-      operationObject, ['type', 'didSuffix', 'revealValue', 'signedData'], 'deactivate request'
+      operationObject,
+      ['type', 'didSuffix', 'revealValue', 'signedData'],
+      'deactivate request'
     );
 
     if (operationObject.type !== OperationType.Deactivate) {
@@ -53,17 +67,28 @@ export default class DeactivateOperation implements OperationModel {
     }
 
     if (typeof operationObject.didSuffix !== 'string') {
-      throw new SidetreeError(ErrorCode.DeactivateOperationMissingOrInvalidDidUniqueSuffix);
+      throw new SidetreeError(
+        ErrorCode.DeactivateOperationMissingOrInvalidDidUniqueSuffix
+      );
     }
 
-    InputValidator.validateEncodedMultihash(operationObject.revealValue, `deactivate request reveal value`);
+    InputValidator.validateEncodedMultihash(
+      operationObject.revealValue,
+      `deactivate request reveal value`
+    );
 
     const signedDataJws = Jws.parseCompactJws(operationObject.signedData);
     const signedDataModel = await DeactivateOperation.parseSignedDataPayload(
-      signedDataJws.payload, operationObject.didSuffix);
+      signedDataJws.payload,
+      operationObject.didSuffix
+    );
 
     // Validate that the canonicalized recovery public key hash is the same as `revealValue`.
-    Multihash.validateCanonicalizeObjectHash(signedDataModel.recoveryKey, operationObject.revealValue, 'deactivate request recovery key');
+    Multihash.validateCanonicalizeObjectHash(
+      signedDataModel.recoveryKey,
+      operationObject.revealValue,
+      'deactivate request recovery key'
+    );
 
     return new DeactivateOperation(
       operationBuffer,
@@ -77,19 +102,26 @@ export default class DeactivateOperation implements OperationModel {
   /**
    * Parses the signed data payload of a deactivate operation.
    */
-  public static async parseSignedDataPayload (
-    signedDataEncodedString: string, expectedDidUniqueSuffix: string): Promise<DeactivateSignedDataModel> {
-
-    const signedDataJsonString = Encoder.decodeAsString(signedDataEncodedString);
+  public static async parseSignedDataPayload(
+    signedDataEncodedString: string,
+    expectedDidUniqueSuffix: string
+  ): Promise<DeactivateSignedDataModel> {
+    const signedDataJsonString = Encoder.decodeAsString(
+      signedDataEncodedString
+    );
     const signedData = await JsonAsync.parse(signedDataJsonString);
 
     const properties = Object.keys(signedData);
     if (properties.length !== 2) {
-      throw new SidetreeError(ErrorCode.DeactivateOperationSignedDataMissingOrUnknownProperty);
+      throw new SidetreeError(
+        ErrorCode.DeactivateOperationSignedDataMissingOrUnknownProperty
+      );
     }
 
     if (signedData.didSuffix !== expectedDidUniqueSuffix) {
-      throw new SidetreeError(ErrorCode.DeactivateOperationSignedDidUniqueSuffixMismatch);
+      throw new SidetreeError(
+        ErrorCode.DeactivateOperationSignedDidUniqueSuffixMismatch
+      );
     }
 
     Jwk.validateJwkEs256k(signedData.recoveryKey);
