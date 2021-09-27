@@ -31,7 +31,6 @@ import {
 const { version } = require('../package.json');
 // Web3 has bad types so we have to import the lib through require()
 // See https://github.com/ethereum/web3.js/issues/3734
-const Contract = require('web3-eth-contract');
 const anchorContractArtifact = require('../build/contracts/SimpleSidetreeAnchor.json');
 
 export default class EthereumLedger implements IBlockchain {
@@ -44,12 +43,15 @@ export default class EthereumLedger implements IBlockchain {
   constructor(
     public web3: any,
     public contractAddress?: string,
-    logger?: Console
+    logger?: Console,
+    from?: string
   ) {
     this.logger = logger || console;
-    this.anchorContract = new Contract(anchorContractArtifact.abi);
-    this.anchorContract.setProvider(this.web3.currentProvider);
+    this.anchorContract = new this.web3.eth.Contract(
+      anchorContractArtifact.abi
+    );
     this.anchorContract.options.gasPrice = '100000000000';
+    this.from = from as string;
   }
 
   private async getAnchorContract(): Promise<ElementContract> {
@@ -60,9 +62,15 @@ export default class EthereumLedger implements IBlockchain {
   }
 
   public async initialize(): Promise<void> {
-    // Set primary address
-    const [from] = await utils.getAccounts(this.web3);
-    this.from = from;
+    let from;
+    if (this.from == '') {
+      // Set primary address
+      [from] = await utils.getAccounts(this.web3);
+      this.from = from;
+    } else {
+      from = this.from;
+    }
+
     this.networkId = await this.web3.eth.net.getId();
     // Set contract
     if (!this.contractAddress) {
