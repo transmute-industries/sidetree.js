@@ -43,15 +43,13 @@ export default class EthereumLedger implements IBlockchain {
   constructor(
     public web3: any,
     public contractAddress?: string,
-    logger?: Console,
-    from?: string
+    logger?: Console
   ) {
     this.logger = logger || console;
     this.anchorContract = new this.web3.eth.Contract(
       anchorContractArtifact.abi
     );
     this.anchorContract.options.gasPrice = '100000000000';
-    this.from = from as string;
   }
 
   private async getAnchorContract(): Promise<ElementContract> {
@@ -62,12 +60,11 @@ export default class EthereumLedger implements IBlockchain {
   }
 
   public async initialize(): Promise<void> {
-    let from;
-    if (this.from == '') {
-      // Set primary address
-      [from] = await utils.getAccounts(this.web3);
-      this.from = from;
-    } else {
+    // Set primary address
+    let [from] = await utils.getAccounts(this.web3);
+    this.from = from;
+    if (!from) {
+      this.from = this.web3.eth.accounts.wallet[0].address;
       from = this.from;
     }
 
