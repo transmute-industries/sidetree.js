@@ -2,15 +2,17 @@ import {
   Encoder,
   FetchResult,
   FetchResultCode,
-  ICas,
+  ICasService,
   Multihash,
+  ServiceVersionModel,
 } from '@sidetree/common';
+const { version } = require('../package.json');
 
 /**
  * Implementation of a CAS class for testing.
  * Simply using a hash map to store all the content by hash.
  */
-export default class MockCas implements ICas {
+export default class MockCas implements ICasService {
   /** A Map that stores the given content. */
   private storage: Map<string, Buffer> = new Map();
 
@@ -31,6 +33,13 @@ export default class MockCas implements ICas {
     return;
   }
 
+  public getServiceVersion: () => Promise<ServiceVersionModel> = () => {
+    return Promise.resolve({
+      name: 'mock',
+      version,
+    });
+  };
+
   /**
    * Gets the address that can be used to access the given content.
    */
@@ -49,7 +58,8 @@ export default class MockCas implements ICas {
 
   public async read(
     address: string,
-    _maxSizeInBytes: number
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    maxSizeInBytes: number
   ): Promise<FetchResult> {
     // Wait for configured time before returning.
     await new Promise((resolve) =>
