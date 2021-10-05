@@ -15,8 +15,16 @@
  * limitations under the License.
  */
 
-import { ICasService } from '@sidetree/common';
+import { ICasService, FetchResultCode } from '@sidetree/common';
 import { didMethod } from '@sidetree/test-vectors';
+import canonicalize from 'canonicalize';
+import {
+  testBuffer,
+  testBufferHash,
+  testString,
+  testStringHash,
+  notFoundHash,
+} from './__fixtures__';
 
 const testSuite = (cas: ICasService): void => {
   describe(cas.constructor.name, () => {
@@ -29,32 +37,70 @@ const testSuite = (cas: ICasService): void => {
     });
 
     describe('getServiceVersion', () => {
-      it('should get service version', async () => {
+      it('Should get service version', async () => {
         const serviceVersion = await cas.getServiceVersion();
         expect(serviceVersion).toBeDefined();
-        expect(serviceVersion.name).toBeDefined(); // mock, ipfs, s3
+        expect(serviceVersion.name).toBeDefined();
+        expect(['mock', 'ipfs', 's3'].indexOf(serviceVersion.name)).not.toBe(
+          -1
+        );
         expect(serviceVersion.version).toBeDefined();
       });
     });
 
     describe('write', () => {
-      it('Should Generate Id from buffer', async () => {
-        // console.log(didMethod.operations.create);
+      it('Should provide an expected hash for a buffer', async () => {
+        const expectedHash = await cas.write(testBuffer);
+        expect(expectedHash).toBe(testBufferHash);
+      });
+
+      it('Should provide an expected hash for a string', async () => {
+        const expectedHash = await cas.write(Buffer.from(testString));
+        expect(expectedHash).toBe(testStringHash);
+      });
+
+      it('Should provide an expected hash for a delta object', async () => {
         const { delta } = didMethod.operations.create.operation;
-        console.log(delta);
+        const expectedHash = await cas.write(Buffer.from(canonicalize(delta)!));
         const { deltaHash } = didMethod.operations.create.operation.suffixData;
-        console.log(deltaHash);
-        const buff = Buffer.from(JSON.stringify(delta));
-        console.log(buff);
-        const expectedHash = await cas.write(
-          Buffer.from(JSON.stringify(delta))
-        );
         expect(expectedHash).toBe(deltaHash);
+      });
+
+      it('Should not match hash with incorrect JSON string', async () => {
+        const { delta } = didMethod.operations.create.operation;
+        const expectedHash = await cas.write(
+          Buffer.from(JSON.stringify(delta)!)
+        );
+        const { deltaHash } = didMethod.operations.create.operation.suffixData;
+        expect(expectedHash).not.toBe(deltaHash);
       });
     });
 
     describe('read', () => {
-      it.todo('Should Produce correct buffer from Id');
+      it('Should Produce correct buffer from hash', async () => {
+        const fetchResult = await cas.read(testBufferHash, 0);
+        expect(fetchResult.code).toEqual(FetchResultCode.Success);
+        expect(fetchResult!.content).toBe(testBuffer);
+      });
+
+      it('Should Produce correct string from hash', async () => {
+        const fetchResult = await cas.read(testStringHash, 0);
+        expect(fetchResult.code).toEqual(FetchResultCode.Success);
+        expect(fetchResult!.content?.toString()).toBe(testString);
+      });
+
+      it('Should produce correct delta object from hash', async () => {
+        const { delta } = didMethod.operations.create.operation;
+        const { deltaHash } = didMethod.operations.create.operation.suffixData;
+
+        const fetchResult = await cas.read(deltaHash, 0);
+        expect(fetchResult.code).toEqual(FetchResultCode.Success);
+        expect(JSON.parse(fetchResult.content!.toString())).toEqual(delta);
+      });
+      it('should return not found if hash does not exist', async () => {
+        const fetchResult = await cas.read(notFoundHash, 0);
+        expect(fetchResult.code).toEqual(FetchResultCode.NotFound);
+      });
     });
   });
 };

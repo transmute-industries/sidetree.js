@@ -20,6 +20,6 @@
 import testSuite from './testSuite';
 import MockCas from '../MockCas';
 
-const mock = new MockCas();
+const mock = new MockCas(1);
 
 testSuite(mock);
