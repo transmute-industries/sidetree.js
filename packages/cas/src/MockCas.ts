@@ -59,7 +59,7 @@ export default class MockCas implements ICasService {
   public async read(
     address: string,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    maxSizeInBytes: number
+    _maxSizeInBytes: number
   ): Promise<FetchResult> {
     // Wait for configured time before returning.
     await new Promise((resolve) =>
