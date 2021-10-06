@@ -84,3 +84,18 @@ You may find it useful to prune all docker data:
 ```
 docker system prune
 ```
+
+### Troubleshooting
+
+You might need to refresh a package to get the testing locally to reflect the testing on the CI pipeline.
+
+To do this for example on package did-method:
+
+```bash
+npx lerna clean
+npm i
+cd packages/ledger
+npm run build && npx lerna link
+cd ../..
+npm run test
+```
