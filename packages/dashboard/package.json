@@ -1,0 +1,38 @@
+{
+  "name": "@sidetree/dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "export": "next export",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@mui/icons-material": "^5.0.1",
+    "@mui/material": "^5.0.2",
+    "@mui/styles": "^5.0.1",
+    "@mui/x-data-grid": "^5.0.0-beta.2",
+    "@sidetree/common": "0.2.6-unstable.6",
+    "@sidetree/crypto": "0.2.6-unstable.6",
+    "@sidetree/wallet": "0.2.6-unstable.6",
+    "@transmute/universal-wallet": "^0.7.0-unstable.8",
+    "factory.ts": "^0.5.2",
+    "moment": "^2.29.1",
+    "next": "11.1.2",
+    "react": "17.0.2",
+    "react-c3js": "^0.1.20",
+    "react-dom": "17.0.2",
+    "react-tsparticles": "^1.35.3"
+  },
+  "devDependencies": {
+    "@types/react": "17.0.27",
+    "eslint": "7.32.0",
+    "eslint-config-next": "11.1.2",
+    "events": "^3.3.0",
+    "typescript": "4.4.3"
+  }
+}
