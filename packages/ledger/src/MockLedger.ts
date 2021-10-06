@@ -20,6 +20,8 @@ import {
   TransactionModel,
   ValueTimeLockModel,
 } from '@sidetree/common';
+import crypto from 'crypto';
+
 const { version } = require('../package.json');
 
 const startingBlockchainTime = 500000;
@@ -59,30 +61,40 @@ export default class MockLedger implements IBlockchain {
 
   public async read(
     sinceTransactionNumber?: number,
-    _transactionTimeHash?: string
+    transactionTimeHash?: string
   ): Promise<{ moreTransactions: boolean; transactions: TransactionModel[] }> {
     if (sinceTransactionNumber === undefined) {
       sinceTransactionNumber = -1;
     }
 
-    let moreTransactions = false;
-    if (
-      this.hashes.length > 0 &&
-      sinceTransactionNumber < this.hashes.length - 2
-    ) {
-      moreTransactions = true;
-    }
-
+    const moreTransactions = false;
+    // if (
+    //   this.hashes.length > 0 &&
+    //   sinceTransactionNumber < this.hashes.length - 3
+    // ) {
+    //   moreTransactions = true;
+    // }
+    const hashIndex = sinceTransactionNumber + 1;
     const transactions: TransactionModel[] = [];
+    // This is the block number
+    let transactionTime = startingBlockchainTime + hashIndex;
+    // This is a way to test multiple transactions in a block.
+    // It makes the 2nd and 3rd transaction part of the same block.
+    // All other transactions belong to their own block.
+    if (transactionTime === 500002) {
+      transactionTime = startingBlockchainTime + hashIndex - 1;
+    }
     if (
       this.hashes.length > 0 &&
       sinceTransactionNumber < this.hashes.length - 1
     ) {
-      const hashIndex = sinceTransactionNumber + 1;
       const transaction = {
         transactionNumber: hashIndex,
-        transactionTime: startingBlockchainTime + hashIndex,
-        transactionTimeHash: this.hashes[hashIndex][0],
+        transactionTime,
+        transactionTimeHash: crypto
+          .createHash('sha256')
+          .update(String(transactionTime))
+          .digest('hex'),
         anchorString: this.hashes[hashIndex][0],
         transactionFeePaid: this.hashes[hashIndex][1],
         normalizedTransactionFee: this.hashes[hashIndex][1],
@@ -90,7 +102,27 @@ export default class MockLedger implements IBlockchain {
       };
       transactions.push(transaction);
     }
-
+    if (this.hashes.length > 2 && sinceTransactionNumber === 0) {
+      const transaction = {
+        transactionNumber: hashIndex,
+        transactionTime,
+        transactionTimeHash: crypto
+          .createHash('sha256')
+          .update(String(transactionTime))
+          .digest('hex'),
+        anchorString: this.hashes[2][0],
+        transactionFeePaid: this.hashes[2][1],
+        normalizedTransactionFee: this.hashes[2][1],
+        writer: 'writer',
+      };
+      transactions.push(transaction);
+    }
+    if (transactionTimeHash === '0x123') {
+      return {
+        moreTransactions: false,
+        transactions: [],
+      };
+    }
     return {
       moreTransactions: moreTransactions,
       transactions: transactions,
@@ -108,9 +140,17 @@ export default class MockLedger implements IBlockchain {
   };
 
   public getLatestTime = (): Promise<BlockchainTimeModel> => {
+    // This is the block number
+    // This is a way to test multiple transactions in a block.
+    // It makes the 2nd and 3rd transaction part of the same block.
+    // All other transactions belong to their own block.
+    let time = startingBlockchainTime + this.hashes.length;
+    if (this.hashes.length === 3) {
+      time = startingBlockchainTime + this.hashes.length - 1;
+    }
     this.latestTime = {
-      time: startingBlockchainTime + this.hashes.length,
-      hash: 'dummyHash',
+      time,
+      hash: crypto.createHash('sha256').update(String(time)).digest('hex'),
     };
     return Promise.resolve(this.latestTime);
   };
