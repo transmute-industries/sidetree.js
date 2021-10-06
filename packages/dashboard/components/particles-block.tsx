@@ -1,28 +1,28 @@
 /* eslint-disable @next/next/no-img-element */
-import * as React from "react";
-import { useTheme, darken, lighten } from "@mui/material/styles";
-import Particles from "react-tsparticles";
+import * as React from 'react';
+import { useTheme, darken, lighten } from '@mui/material/styles';
+import Particles from 'react-tsparticles';
 
 export const ParticlesBlock = ({ sx, children }: any) => {
   const theme = useTheme();
-  const height = sx?.height || "600px";
+  const height = sx?.height || '600px';
 
-  const isDarkMode = theme.palette.mode === "dark";
+  const isDarkMode = theme.palette.mode === 'dark';
   const modeStyles = isDarkMode
     ? {
         backgroundImage: `url('./assets/overdrive-dark.svg')`,
-        backgroundColor: "rgba(21, 23, 38, .9)",
-        backgroundBlendMode: "darken",
+        backgroundColor: 'rgba(21, 23, 38, .9)',
+        backgroundBlendMode: 'darken',
       }
     : {
         backgroundImage: `url('./assets/overdrive-light.svg')`,
-        backgroundColor: "rgba(232, 234, 246, .5)",
-        backgroundBlendMode: "overlay",
+        backgroundColor: 'rgba(232, 234, 246, .5)',
+        backgroundBlendMode: 'overlay',
       };
 
   const graphColor = isDarkMode
-    ? darken("#594aa8", 0.5)
-    : lighten("#594aa8", 0.7);
+    ? darken('#594aa8', 0.5)
+    : lighten('#594aa8', 0.7);
   const options = {
     particles: {
       number: {
@@ -36,16 +36,16 @@ export const ParticlesBlock = ({ sx, children }: any) => {
         value: graphColor,
       },
       shape: {
-        type: "circle",
+        type: 'circle',
         stroke: {
           width: 0,
-          color: "#000000",
+          color: '#000000',
         },
         polygon: {
           nb_sides: 5,
         },
         image: {
-          src: "img/github.svg",
+          src: 'img/github.svg',
           width: 100,
           height: 100,
         },
@@ -80,10 +80,10 @@ export const ParticlesBlock = ({ sx, children }: any) => {
       move: {
         enable: true,
         speed: 0.25,
-        direction: "top",
+        direction: 'top',
         random: false,
         straight: false,
-        out_mode: "out",
+        out_mode: 'out',
         bounce: false,
         attract: {
           enable: false,
@@ -93,15 +93,15 @@ export const ParticlesBlock = ({ sx, children }: any) => {
       },
     },
     interactivity: {
-      detect_on: "canvas",
+      detect_on: 'canvas',
       events: {
         onhover: {
           enable: false,
-          mode: "bubble",
+          mode: 'bubble',
         },
         onclick: {
           enable: true,
-          mode: "push",
+          mode: 'push',
         },
         resize: true,
       },
@@ -138,24 +138,24 @@ export const ParticlesBlock = ({ sx, children }: any) => {
     <div
       style={{
         height,
-        width: "100%",
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        backgroundRepeat: "none",
+        width: '100%',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'none',
         ...modeStyles,
       }}
     >
       <div
         style={{
-          position: "absolute",
-          width: "100%",
+          position: 'absolute',
+          width: '100%',
         }}
       >
         <div
           style={{
-            width: "70%",
-            margin: "auto",
-            textAlign: "center",
+            width: '70%',
+            margin: 'auto',
+            textAlign: 'center',
             zIndex: 9999,
           }}
         >

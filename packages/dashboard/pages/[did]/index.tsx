@@ -1,16 +1,16 @@
-import type { NextPage } from "next";
-import Head from "next/head";
+import type { NextPage } from 'next';
+import Head from 'next/head';
 
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
-import { AppPage } from "../../components/app-page";
-import { DID } from "../../components/did";
+import { AppPage } from '../../components/app-page';
+import { DID } from '../../components/did';
 
-import { RecentOperations } from "../../components/recent-operations";
+import { RecentOperations } from '../../components/recent-operations';
 
-import { Grid } from "@mui/material";
+import { Grid } from '@mui/material';
 
-import { DidDocument } from "../../components/did-document";
+import { DidDocument } from '../../components/did-document';
 
 const Resolver: NextPage = () => {
   const router = useRouter();

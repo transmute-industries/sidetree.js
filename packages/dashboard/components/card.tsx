@@ -1,9 +1,9 @@
-import * as React from "react";
-import { Card as MuiCard } from "@mui/material";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
+import * as React from 'react';
+import { Card as MuiCard } from '@mui/material';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 
 export const Card = ({ title, image, description, actions }: any) => {
   return (

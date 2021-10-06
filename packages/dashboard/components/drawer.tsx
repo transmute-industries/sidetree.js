@@ -1,41 +1,41 @@
-import * as React from "react";
+import * as React from 'react';
 
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import List from "@mui/material/List";
-import { ListSubheader } from "@mui/material";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import List from '@mui/material/List';
+import { ListSubheader } from '@mui/material';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 
-import Toolbar from "@mui/material/Toolbar";
+import Toolbar from '@mui/material/Toolbar';
 
-import { DarkModeToggle } from "./dark-mode-toggle";
-import { CompanyLogo } from "./company-logo";
+import { DarkModeToggle } from './dark-mode-toggle';
+import { CompanyLogo } from './company-logo';
 
-import CodeIcon from "@mui/icons-material/Code";
-import AddIcon from "@mui/icons-material/Add";
-import ManageSearchIcon from "@mui/icons-material/ManageSearch";
-import ChangeHistoryIcon from "@mui/icons-material/ChangeHistory";
+import CodeIcon from '@mui/icons-material/Code';
+import AddIcon from '@mui/icons-material/Add';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import ChangeHistoryIcon from '@mui/icons-material/ChangeHistory';
 
-import SaveIcon from "@mui/icons-material/Save";
-import ArchiveIcon from "@mui/icons-material/Archive";
-import ReceiptIcon from "@mui/icons-material/Receipt";
-import { useRouter } from "next/router";
+import SaveIcon from '@mui/icons-material/Save';
+import ArchiveIcon from '@mui/icons-material/Archive';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import { useRouter } from 'next/router';
 
 export const Drawer = () => {
   const router = useRouter();
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
+        display: 'flex',
+        flexDirection: 'column',
         flexGrow: 1,
       }}
     >
       <Box sx={{ flexGrow: 1 }}>
         <Toolbar>
-          <CompanyLogo sx={{ height: "32px" }} />
+          <CompanyLogo sx={{ height: '32px' }} />
         </Toolbar>
         <Divider />
 
@@ -45,24 +45,24 @@ export const Drawer = () => {
           <ListItem
             button
             onClick={() => {
-              router.push("/transactions");
+              router.push('/transactions');
             }}
           >
             <ListItemIcon>
               <ReceiptIcon />
             </ListItemIcon>
-            <ListItemText primary={"Transactions"} />
+            <ListItemText primary={'Transactions'} />
           </ListItem>
           <ListItem
             button
             onClick={() => {
-              router.push("/operations");
+              router.push('/operations');
             }}
           >
             <ListItemIcon>
               <ChangeHistoryIcon />
             </ListItemIcon>
-            <ListItemText primary={"Operations"} />
+            <ListItemText primary={'Operations'} />
           </ListItem>
         </List>
         <Divider />
@@ -75,28 +75,28 @@ export const Drawer = () => {
             <ListItemIcon>
               <AddIcon />
             </ListItemIcon>
-            <ListItemText primary={"Create"} />
+            <ListItemText primary={'Create'} />
           </ListItem>
 
           <ListItem button>
             <ListItemIcon>
               <ManageSearchIcon />
             </ListItemIcon>
-            <ListItemText primary={"Resolve"} />
+            <ListItemText primary={'Resolve'} />
           </ListItem>
 
           <ListItem button>
             <ListItemIcon>
               <SaveIcon />
             </ListItemIcon>
-            <ListItemText primary={"Update"} />
+            <ListItemText primary={'Update'} />
           </ListItem>
 
           <ListItem button>
             <ListItemIcon>
               <ArchiveIcon />
             </ListItemIcon>
-            <ListItemText primary={"Deactivate"} />
+            <ListItemText primary={'Deactivate'} />
           </ListItem>
         </List>
         <Divider />
@@ -111,7 +111,7 @@ export const Drawer = () => {
             <ListItemIcon>
               <CodeIcon />
             </ListItemIcon>
-            <ListItemText primary={"Source Code"} />
+            <ListItemText primary={'Source Code'} />
           </ListItem>
         </List>
       </Box>

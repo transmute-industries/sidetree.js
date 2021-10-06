@@ -1,13 +1,13 @@
-import type { NextPage } from "next";
-import Head from "next/head";
+import type { NextPage } from 'next';
+import Head from 'next/head';
 
-import { useRouter } from "next/router";
-import { AppPage } from "../../components/app-page";
+import { useRouter } from 'next/router';
+import { AppPage } from '../../components/app-page';
 
-import { Typography, Grid } from "@mui/material";
+import { Typography, Grid } from '@mui/material';
 
-import { LatestTransactions } from "../../components/latest-transactions";
-import { LatestTransactionsChart } from "../../components/latest-transactions-chart";
+import { LatestTransactions } from '../../components/latest-transactions';
+import { LatestTransactionsChart } from '../../components/latest-transactions-chart';
 
 const TransactionHistory: NextPage = () => {
   const router = useRouter();

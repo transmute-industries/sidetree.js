@@ -1,12 +1,12 @@
-import type { NextPage } from "next";
-import Head from "next/head";
+import type { NextPage } from 'next';
+import Head from 'next/head';
 
-import { useRouter } from "next/router";
-import { AppPage } from "../../components/app-page";
+import { useRouter } from 'next/router';
+import { AppPage } from '../../components/app-page';
 
-import { Typography, Grid } from "@mui/material";
+import { Typography, Grid } from '@mui/material';
 
-import { LatestOperations } from "../../components/latest-operations";
+import { LatestOperations } from '../../components/latest-operations';
 
 const OperationHistory: NextPage = () => {
   const router = useRouter();

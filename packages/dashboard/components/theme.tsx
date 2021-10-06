@@ -1,52 +1,52 @@
-import React from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import React from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 // https://materialui.co/colors/
 
-const primaryFont = "Rajdhani";
+const primaryFont = 'Rajdhani';
 // not sure why this is happening...
 // but it looks correct without this.
 // const secondaryFont = "Roboto Condensed";
-const tertiaryFont = "Lato";
+const tertiaryFont = 'Lato';
 
-import { ColorModeContext } from "./dark-mode-toggle";
+import { ColorModeContext } from './dark-mode-toggle';
 
 export const Theme = ({ children }: { children: any }) => {
-  const [mode, setMode] = React.useState("dark");
+  const [mode, setMode] = React.useState('dark');
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
       },
     }),
     []
   );
 
   const theme = React.useMemo(() => {
-    const primaryColorDark = "#151726";
+    const primaryColorDark = '#151726';
 
-    const prefersDarkMode = mode === "dark";
-    const primaryColor = prefersDarkMode ? "#594aa8" : "#594aa8";
-    const secondaryColor = prefersDarkMode ? "#4FC3F7" : "#4FC3F7";
-    const backgroundPaper = prefersDarkMode ? primaryColorDark : "#E8EAF6";
-    const textSecondary = prefersDarkMode ? "#8286a3" : "#8286a3";
-    const textPrimary = prefersDarkMode ? "#E0E0E0" : "#212121";
+    const prefersDarkMode = mode === 'dark';
+    const primaryColor = prefersDarkMode ? '#594aa8' : '#594aa8';
+    const secondaryColor = prefersDarkMode ? '#4FC3F7' : '#4FC3F7';
+    const backgroundPaper = prefersDarkMode ? primaryColorDark : '#E8EAF6';
+    const textSecondary = prefersDarkMode ? '#8286a3' : '#8286a3';
+    const textPrimary = prefersDarkMode ? '#E0E0E0' : '#212121';
     const borderColor = prefersDarkMode
-      ? "rgba(255, 255, 255, 0.12)"
-      : "rgba(0, 0, 0, 0.12);";
+      ? 'rgba(255, 255, 255, 0.12)'
+      : 'rgba(0, 0, 0, 0.12);';
 
     return createTheme({
       components: {
         MuiAppBar: {
           styleOverrides: {
             root: {
-              boxShadow: "none",
+              boxShadow: 'none',
               backgroundColor: backgroundPaper,
-              border: "none",
+              border: 'none',
               borderWidth: 0,
-              borderStyle: "solid",
+              borderStyle: 'solid',
               borderColor: borderColor,
-              borderBottomWidth: "thin",
+              borderBottomWidth: 'thin',
             },
           },
         },
@@ -82,17 +82,17 @@ export const Theme = ({ children }: { children: any }) => {
           fontWeight: 400,
         },
         h3: {
-          fontSize: "28pt",
-          fontFamily: "unset",
-          letterSpacing: ".1em",
-          textTransform: "uppercase",
+          fontSize: '28pt',
+          fontFamily: 'unset',
+          letterSpacing: '.1em',
+          textTransform: 'uppercase',
           fontWeight: 100,
         },
         h4: {
-          fontSize: "18pt",
-          fontFamily: "unset",
-          letterSpacing: ".1em",
-          textTransform: "uppercase",
+          fontSize: '18pt',
+          fontFamily: 'unset',
+          letterSpacing: '.1em',
+          textTransform: 'uppercase',
           fontWeight: 100,
         },
         h5: {

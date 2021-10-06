@@ -49,10 +49,10 @@ const Wallet: NextPage = () => {
                     Get Started
                   </Typography>
                   <Typography sx={{ mb: 1 }}>
-                    You don't have a wallet yet.
+                    {`You don't have a wallet yet.`}
                   </Typography>
                   <Typography sx={{ mb: 2 }}>
-                    We'll need to create one to help you manage identifiers.
+                    {`We'll need to create one to help you manage identifiers.`}
                   </Typography>
                   <Button
                     color={'secondary'}
