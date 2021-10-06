@@ -94,7 +94,7 @@ To do this for example on package did-method:
 ```bash
 npx lerna clean
 npm i
-cd packages/ledger
+cd packages/did-method
 npm run build && npx lerna link
 cd ../..
 npm run test

@@ -27,8 +27,6 @@ const startingBlockchainTime = 500000;
  * Mock Blockchain class for testing.
  */
 export default class MockLedger implements IBlockchain {
-  readonly TRANSACTION_PAGE_SIZE = 2;
-  // 1st argument hash, 2nd fee
   public hashes: [string, number][] = [];
 
   getServiceVersion(): Promise<ServiceVersionModel> {
@@ -60,45 +58,37 @@ export default class MockLedger implements IBlockchain {
   }
 
   public async read(
-    sinceTransactionNumber = -1,
-    transactionTimeHash?: string
+    sinceTransactionNumber?: number,
+    _transactionTimeHash?: string
   ): Promise<{ moreTransactions: boolean; transactions: TransactionModel[] }> {
-    let selectedHashes = this.hashes;
-    if (transactionTimeHash) {
-      selectedHashes = this.hashes.filter(
-        (hash) => hash[0] === transactionTimeHash
-      );
+    if (sinceTransactionNumber === undefined) {
+      sinceTransactionNumber = -1;
     }
 
     let moreTransactions = false;
     if (
-      selectedHashes.length > 0 &&
-      selectedHashes.length - sinceTransactionNumber - 1 >
-        this.TRANSACTION_PAGE_SIZE
+      this.hashes.length > 0 &&
+      sinceTransactionNumber < this.hashes.length - 2
     ) {
       moreTransactions = true;
     }
 
     const transactions: TransactionModel[] = [];
-    // If there are any transaction hashes since transaction number
-    if (sinceTransactionNumber < selectedHashes.length - 1) {
-      for (let i = 0; i < this.TRANSACTION_PAGE_SIZE; i += 1) {
-        const hashIndex = sinceTransactionNumber + i + 1;
-        // If there are not any more transaction hashes
-        if (hashIndex >= selectedHashes.length) {
-          break;
-        }
-        const transaction = {
-          transactionNumber: hashIndex,
-          transactionTime: startingBlockchainTime + hashIndex,
-          transactionTimeHash: selectedHashes[hashIndex][0],
-          anchorString: selectedHashes[hashIndex][0],
-          transactionFeePaid: selectedHashes[hashIndex][1],
-          normalizedTransactionFee: selectedHashes[hashIndex][1],
-          writer: 'writer',
-        };
-        transactions.push(transaction);
-      }
+    if (
+      this.hashes.length > 0 &&
+      sinceTransactionNumber < this.hashes.length - 1
+    ) {
+      const hashIndex = sinceTransactionNumber + 1;
+      const transaction = {
+        transactionNumber: hashIndex,
+        transactionTime: startingBlockchainTime + hashIndex,
+        transactionTimeHash: this.hashes[hashIndex][0],
+        anchorString: this.hashes[hashIndex][0],
+        transactionFeePaid: this.hashes[hashIndex][1],
+        normalizedTransactionFee: this.hashes[hashIndex][1],
+        writer: 'writer',
+      };
+      transactions.push(transaction);
     }
 
     return {
