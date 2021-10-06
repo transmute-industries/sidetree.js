@@ -20,6 +20,7 @@
 import IBatchWriter from './IBatchWriter';
 import IBlockchain from './IBlockchain';
 import ICas from './ICas';
+import ICasService from './ICasService';
 import IOperationProcessor from './IOperationProcessor';
 import IOperationQueue from './IOperationQueue';
 import IOperationStore from './IOperationStore';
@@ -38,6 +39,7 @@ export {
   IBatchWriter,
   IBlockchain,
   ICas,
+  ICasService,
   IOperationProcessor,
   IOperationQueue,
   IOperationStore,
