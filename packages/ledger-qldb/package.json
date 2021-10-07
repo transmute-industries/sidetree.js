@@ -25,6 +25,7 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
+    "@sidetree/test-vectors": "^0.2.6-unstable.6",
     "@sidetree/ledger": "^0.2.6-unstable.6",
     "aws-sdk": "^2.828.0",
     "tsdx": "^0.14.1"
