@@ -19,7 +19,7 @@
 
 import {
   FetchResultCode,
-  ICas,
+  ICasService,
   FetchResult,
   ServiceVersionModel,
 } from '@sidetree/common';
@@ -33,7 +33,7 @@ const { version } = require('../package.json');
  * Implementation of a CAS class for testing.
  * Simply using a hash map to store all the content by hash.
  */
-export default class S3Cas implements ICas {
+export default class S3Cas implements ICasService {
   private s3: S3;
 
   constructor(private bucketName: string, config?: CredentialsOptions) {
@@ -48,12 +48,12 @@ export default class S3Cas implements ICas {
     }
   }
 
-  getServiceVersion(): ServiceVersionModel {
-    return {
+  public getServiceVersion: () => Promise<ServiceVersionModel> = () => {
+    return Promise.resolve({
       name: 'cas-s3',
       version,
-    };
-  }
+    });
+  };
 
   async initialize(): Promise<void> {
     if (this.s3.config.credentials) {
