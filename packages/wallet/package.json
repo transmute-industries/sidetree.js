@@ -27,6 +27,7 @@
   "devDependencies": {
     "@sidetree/test-vectors": "^0.2.6-unstable.6",
     "@types/base64url": "^2.0.0",
+    "events": "^3.3.0",
     "ts-jest": "^27.0.5",
     "tsdx": "^0.14.1"
   },

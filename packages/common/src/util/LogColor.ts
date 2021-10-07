@@ -5,7 +5,7 @@ import * as chalk from 'chalk';
  */
 export default class LogColor {
   /** Method for logging in light blue. */
-  public static lightBlue = chalk.hex('#75b0eb');
+  public static lightBlue = chalk.blue;
 
   /** Method for logging in green. */
   public static green = chalk.green;

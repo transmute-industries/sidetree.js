@@ -1,0 +1,48 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.c3-legend-item {
+  font-family: "Lato";
+}
+
+.inverted .c3 .c3-axis-x path,
+.inverted .c3 .c3-axis-x line,
+.inverted .c3 .c3-axis-y path,
+.inverted .c3 .c3-axis-y line {
+  stroke: white;
+}
+
+.inverted .c3 .c3-axis-x g,
+.inverted .c3 .c3-axis-y g,
+.inverted .c3 .c3-legend-item-data text,
+.inverted .c3 .c3-axis-y-label,
+.inverted .c3 .c3-axis-x-label,
+.inverted .c3 .c3-legend-item {
+  fill: whitesmoke;
+}
+
+/*when displaying the data on the chart */
+.inverted .c3 text.c3-text {
+  fill: whitesmoke !important;
+  stroke: whitesmoke !important;
+  stroke-opacity: 0.3 !important;
+}
+
+/* for the tooltip text color */
+.inverted .c3 .c3-tooltip-container {
+  color: darkgrey;
+}
