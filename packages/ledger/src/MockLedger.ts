@@ -66,14 +66,7 @@ export default class MockLedger implements IBlockchain {
     if (sinceTransactionNumber === undefined) {
       sinceTransactionNumber = -1;
     }
-
     const moreTransactions = false;
-    // if (
-    //   this.hashes.length > 0 &&
-    //   sinceTransactionNumber < this.hashes.length - 3
-    // ) {
-    //   moreTransactions = true;
-    // }
     const hashIndex = sinceTransactionNumber + 1;
     const transactions: TransactionModel[] = [];
     // This is the block number
