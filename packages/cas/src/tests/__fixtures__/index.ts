@@ -36,8 +36,10 @@ export const testBuffer = Buffer.from(
   'hex'
 );
 export const testBufferHash = 'EiDq2c7TX1y0TeI1393yt9x5Gk-teF--ttExfcCWvaAIWA';
+export const testBufferIpfs = 'EiAuYMQ4_ZBO1ckbGpyyDKlcq8EFpG3duG3nkhR79RwFQQ';
 
 export const testString = 'anyCoreIndexFileBuffer';
 export const testStringHash = 'EiBIGF9XeghTuWcaBQOWpMgz4KQgremvgzfZ3t4MkF793g';
+export const testStringIpfs = 'EiBLkBZiYEmzDAD-CuMapW18cBaQr0un-cG0AjiLfdFhZA';
 
-export const notFoundHash = 'EiBLInd31N0fxhxviE9IZB0CtNEh0_0yjLCLVTH8rNq_ig';
+export const testObjectIpfs = 'EiAxghX7H2qN_c_wwt0GCcCVRt0JEhAPw3UoHS9JS-5cRg';
