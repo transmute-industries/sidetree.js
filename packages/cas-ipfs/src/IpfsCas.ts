@@ -77,7 +77,7 @@ export default class CasIpfs implements ICasService {
     const bytes = new Uint8Array(hash);
     address = base58btc.encode(bytes).slice(1);
     try {
-      const source = this.ipfs.get(address, { timeout: 2500 });
+      const source = this.ipfs.get(address, { timeout: 2000 });
       const file = await source.next();
       const bufferList: any = await concat(file.value.content);
       const content = bufferList.copy();
