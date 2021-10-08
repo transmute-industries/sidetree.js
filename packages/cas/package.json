@@ -31,7 +31,6 @@
   "dependencies": {
     "@sidetree/common": "^0.2.6-unstable.6",
     "@sidetree/test-vectors": "^0.2.6-unstable.6",
-    "canonicalize": "^1.0.5",
     "ipfs-unixfs": "^2.0.3",
     "ipld-dag-pb": "^0.20.0"
   },

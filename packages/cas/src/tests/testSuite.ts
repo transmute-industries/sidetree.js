@@ -23,7 +23,6 @@ import {
   JsonCanonicalizer,
 } from '@sidetree/common';
 import { didMethod } from '@sidetree/test-vectors';
-// import canonicalize from 'canonicalize';
 import crypto from 'crypto';
 import {
   testBuffer,
@@ -80,7 +79,6 @@ const testSuite = (cas: ICasService): void => {
 
       it('Should provide an expected hash for a delta object', async () => {
         const { delta } = didMethod.operations.create.operation;
-        // const expectedHash = await cas.write(Buffer.from(canonicalize(delta)!));
         const expectedHash = await cas.write(
           JsonCanonicalizer.canonicalizeAsBuffer(delta)
         );
