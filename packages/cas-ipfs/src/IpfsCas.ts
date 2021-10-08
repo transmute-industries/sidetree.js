@@ -18,6 +18,7 @@
  */
 
 import {
+  Encoder,
   FetchResultCode,
   ICasService,
   FetchResult,
@@ -25,6 +26,9 @@ import {
 } from '@sidetree/common';
 import ipfsClient from 'ipfs-http-client';
 import concat from 'it-concat';
+import { CID } from 'multiformats/cid';
+import { base58btc } from 'multiformats/bases/base58';
+
 const { version } = require('../package.json');
 
 export default class CasIpfs implements ICasService {
@@ -62,12 +66,18 @@ export default class CasIpfs implements ICasService {
 
   public async write(content: Buffer): Promise<string> {
     const source = await this.ipfs.add(content);
-    return source.path;
+    const cid = CID.parse(source.path);
+    const hash = Buffer.from(cid.bytes);
+    const encodedHash = Encoder.encode(hash);
+    return encodedHash;
   }
 
   public async read(address: string): Promise<FetchResult> {
+    const hash = Encoder.decodeAsBuffer(address);
+    const bytes = new Uint8Array(hash);
+    address = base58btc.encode(bytes).slice(1);
     try {
-      const source = this.ipfs.get(address, { timeout: 2000 });
+      const source = this.ipfs.get(address, { timeout: 2500 });
       const file = await source.next();
       const bufferList: any = await concat(file.value.content);
       const content = bufferList.copy();
