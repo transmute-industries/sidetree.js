@@ -27,7 +27,6 @@ import {
 import ipfsClient from 'ipfs-http-client';
 import concat from 'it-concat';
 import { CID } from 'multiformats/cid';
-import { base58btc } from 'multiformats/bases/base58';
 
 const { version } = require('../package.json');
 
@@ -73,9 +72,10 @@ export default class CasIpfs implements ICasService {
   }
 
   public async read(address: string): Promise<FetchResult> {
-    const hash = Encoder.decodeAsBuffer(address);
-    const bytes = new Uint8Array(hash);
-    address = base58btc.encode(bytes).slice(1);
+    if (Encoder.isBase64UrlString(address)) {
+      address = Encoder.formatIpfsAddress(address);
+    }
+
     try {
       const source = this.ipfs.get(address, { timeout: 2000 });
       const file = await source.next();
