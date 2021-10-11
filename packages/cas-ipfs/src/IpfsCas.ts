@@ -72,7 +72,7 @@ export default class CasIpfs implements ICasService {
   }
 
   public async read(address: string): Promise<FetchResult> {
-    if (Encoder.isBase64UrlString(address)) {
+    if (Encoder.isBase64UrlString(address) && address.indexOf('Ei') === 0) {
       address = Encoder.formatIpfsAddress(address);
     }
 

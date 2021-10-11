@@ -93,8 +93,7 @@ export default class Encoder {
     // ^ denotes beginning of string.
     // $ denotes end of string.
     // + denotes one or more characters.
-    const isBase64UrlString =
-      /^[A-Za-z0-9_-]+$/.test(input) && input.indexOf('Ei') === 0;
+    const isBase64UrlString = /^[A-Za-z0-9_-]+$/.test(input);
     return isBase64UrlString;
   }
 
