@@ -20,6 +20,7 @@
 import base64url from 'base64url';
 import ErrorCode from '../errors/ErrorCode';
 import SidetreeError from '../errors/SidetreeError';
+import { CID } from 'multiformats/cid';
 import { base58btc } from 'multiformats/bases/base58';
 
 /**
@@ -97,9 +98,17 @@ export default class Encoder {
     return isBase64UrlString;
   }
 
+  // Base64 URL to cid
   public static formatIpfsAddress(address: string): string {
     const hash = Encoder.decodeAsBuffer(address);
     const bytes = new Uint8Array(hash);
     return base58btc.encode(bytes).slice(1);
+  }
+
+  // cid to Base64 URL
+  public static formatBase64Address(address: string): string {
+    const cid = CID.parse(address);
+    const hash = Buffer.from(cid.bytes);
+    return Encoder.encode(hash);
   }
 }
