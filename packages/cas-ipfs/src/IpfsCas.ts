@@ -26,7 +26,6 @@ import {
 } from '@sidetree/common';
 import ipfsClient from 'ipfs-http-client';
 import concat from 'it-concat';
-import { CID } from 'multiformats/cid';
 
 const { version } = require('../package.json');
 
@@ -65,10 +64,7 @@ export default class CasIpfs implements ICasService {
 
   public async write(content: Buffer): Promise<string> {
     const source = await this.ipfs.add(content);
-    const cid = CID.parse(source.path);
-    const hash = Buffer.from(cid.bytes);
-    const encodedHash = Encoder.encode(hash);
-    return encodedHash;
+    return Encoder.formatBase64Address(source.path);
   }
 
   public async read(address: string): Promise<FetchResult> {
