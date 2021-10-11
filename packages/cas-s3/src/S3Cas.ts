@@ -18,6 +18,7 @@
  */
 
 import {
+  Encoder,
   FetchResultCode,
   ICasService,
   FetchResult,
@@ -78,7 +79,8 @@ export default class S3Cas implements ICasService {
     const dagLink = await dagNode.toDAGLink({
       cidVersion: 0,
     });
-    return dagLink.Hash.toString();
+    const encodedHash = Encoder.formatBase64Address(dagLink.Hash.toString());
+    return encodedHash;
   }
 
   public async write(content: Buffer): Promise<string> {
