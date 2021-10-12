@@ -3,7 +3,7 @@ import InputValidator from './InputValidator';
 import JsonAsync from './util/JsonAsync';
 import Jwk from './util/Jwk';
 import Jws from './util/Jws';
-import Operation from './Operation';
+import { validateDelta } from './validateDelta';
 
 import SidetreeError from './SidetreeError';
 import {
@@ -94,7 +94,7 @@ export default class RecoverOperation implements OperationModel {
 
     let delta;
     try {
-      Operation.validateDelta(operationObject.delta);
+      validateDelta(operationObject.delta);
       delta = operationObject.delta;
     } catch {
       // For compatibility with data pruning, we have to assume that `delta` may be unavailable,

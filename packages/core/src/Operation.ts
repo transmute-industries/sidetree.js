@@ -1,14 +1,15 @@
 import CreateOperation from './CreateOperation';
 import DeactivateOperation from './DeactivateOperation';
-import DocumentComposer from './DocumentComposer';
+
 import ErrorCode from './ErrorCode';
-import InputValidator from './InputValidator';
 
 import RecoverOperation from './RecoverOperation';
 import SidetreeError from './SidetreeError';
 import UpdateOperation from './UpdateOperation';
 
 import { OperationType, OperationModel } from '@sidetree/common';
+
+import { validateDelta } from './validateDelta';
 
 /**
  * A class that contains Sidetree operation utility methods.
@@ -44,19 +45,6 @@ export default class Operation {
    * @param delta the delta to validate
    */
   public static validateDelta(delta: any): void {
-    InputValidator.validateNonArrayObject(delta, 'delta');
-    InputValidator.validateObjectContainsOnlyAllowedProperties(
-      delta,
-      ['patches', 'updateCommitment'],
-      'delta'
-    );
-
-    // Validate `patches` property using the DocumentComposer.
-    DocumentComposer.validateDocumentPatches(delta.patches);
-
-    InputValidator.validateEncodedMultihash(
-      delta.updateCommitment,
-      'update commitment'
-    );
+    validateDelta(delta);
   }
 }
