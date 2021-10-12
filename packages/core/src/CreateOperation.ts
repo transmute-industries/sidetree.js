@@ -1,8 +1,9 @@
-import Did from './Did';
 import ErrorCode from './ErrorCode';
 import InputValidator from './InputValidator';
 import JsonAsync from './util/JsonAsync';
 import Operation from './Operation';
+
+import { computeUniqueSuffix } from './computeUniqueSuffix';
 
 import {
   OperationType,
@@ -80,7 +81,7 @@ export default class CreateOperation implements OperationModel {
       // so here we let `delta` be `undefined`.
     }
 
-    const didUniqueSuffix = Did.computeUniqueSuffix(suffixData);
+    const didUniqueSuffix = computeUniqueSuffix(suffixData);
 
     return new CreateOperation(
       operationBuffer,
