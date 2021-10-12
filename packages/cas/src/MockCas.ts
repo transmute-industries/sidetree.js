@@ -3,9 +3,10 @@ import {
   FetchResult,
   FetchResultCode,
   ICasService,
-  Multihash,
   ServiceVersionModel,
 } from '@sidetree/common';
+import Unixfs from 'ipfs-unixfs';
+import { DAGNode } from 'ipld-dag-pb';
 const { version } = require('../package.json');
 
 /**
@@ -43,15 +44,19 @@ export default class MockCas implements ICasService {
   /**
    * Gets the address that can be used to access the given content.
    */
-  public static getAddress(content: Buffer): string {
-    const hash = Multihash.hash(content, 18); // SHA256
-    const encodedHash = Encoder.encode(hash);
-
+  public static async getAddress(content: Buffer): Promise<string> {
+    const unixFs = new Unixfs('file', content);
+    const marshaled = unixFs.marshal();
+    const dagNode = new DAGNode(marshaled);
+    const dagLink = await dagNode.toDAGLink({
+      cidVersion: 0,
+    });
+    const encodedHash = Encoder.formatBase64Address(dagLink.Hash.toString());
     return encodedHash;
   }
 
   public async write(content: Buffer): Promise<string> {
-    const encodedHash = MockCas.getAddress(content);
+    const encodedHash = await MockCas.getAddress(content);
     this.storage.set(encodedHash, content);
     return encodedHash;
   }
