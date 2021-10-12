@@ -10,7 +10,7 @@ import {
 let did: any;
 let sidetreeNodeInstance: Core;
 
-jest.setTimeout(10 * 1000);
+jest.setTimeout(60 * 1000);
 
 beforeAll(async () => {
   sidetreeNodeInstance = await getTestSidetreeNodeInstance();
