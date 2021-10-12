@@ -19,19 +19,25 @@
 
 import { testSuite } from '@sidetree/cas';
 import S3Cas from './S3Cas';
+import MockS3Cas from './MockS3Cas';
 import casConfig from './cas-config.json';
 // import AWS object without services
 import AWS from 'aws-sdk/global';
 
+const forceMock = true;
+
 const config = new AWS.Config();
-if (!config.credentials) {
+if (forceMock) {
+  console.warn('Using mock s3 interface for S3 tests');
+} else if (!config.credentials) {
   console.warn(
-    'No AWS credentials found in ~/.aws/credentials, skipping QLDB tests...'
+    'No AWS credentials found in ~/.aws/credentials, using mock interace'
   );
-  // eslint-disable-next-line no-global-assign
-  describe = describe.skip;
 }
 
-const cas = new S3Cas(casConfig.s3BucketName);
+const cas =
+  config.credentials && !forceMock
+    ? new S3Cas(casConfig.s3BucketName)
+    : new MockS3Cas();
 
 testSuite(cas);
