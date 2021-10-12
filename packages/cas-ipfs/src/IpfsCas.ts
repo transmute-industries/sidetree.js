@@ -18,16 +18,18 @@
  */
 
 import {
+  Encoder,
   FetchResultCode,
-  ICas,
+  ICasService,
   FetchResult,
   ServiceVersionModel,
 } from '@sidetree/common';
 import ipfsClient from 'ipfs-http-client';
 import concat from 'it-concat';
+
 const { version } = require('../package.json');
 
-export default class CasIpfs implements ICas {
+export default class CasIpfs implements ICasService {
   private ipfs: any;
 
   constructor(multiaddr: string) {
@@ -53,19 +55,23 @@ export default class CasIpfs implements ICas {
     return;
   }
 
-  public getServiceVersion: () => ServiceVersionModel = () => {
-    return {
+  public getServiceVersion: () => Promise<ServiceVersionModel> = () => {
+    return Promise.resolve({
       name: 'ipfs',
       version,
-    };
+    });
   };
 
   public async write(content: Buffer): Promise<string> {
     const source = await this.ipfs.add(content);
-    return source.path;
+    return Encoder.formatBase64Address(source.path);
   }
 
   public async read(address: string): Promise<FetchResult> {
+    if (Encoder.isBase64UrlString(address) && address.indexOf('Ei') === 0) {
+      address = Encoder.formatIpfsAddress(address);
+    }
+
     try {
       const source = this.ipfs.get(address, { timeout: 2000 });
       const file = await source.next();
@@ -81,7 +87,8 @@ export default class CasIpfs implements ICas {
         code: FetchResultCode.NotFound,
       };
     } catch (e) {
-      if (e.name === 'TimeoutError') {
+      const err = e as { name: string };
+      if (err.name === 'TimeoutError') {
         return {
           code: FetchResultCode.NotFound,
         };

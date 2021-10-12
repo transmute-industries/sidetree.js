@@ -20,6 +20,8 @@
 import base64url from 'base64url';
 import ErrorCode from '../errors/ErrorCode';
 import SidetreeError from '../errors/SidetreeError';
+import { CID } from 'multiformats/cid';
+import { base58btc } from 'multiformats/bases/base58';
 
 /**
  * Class that encodes binary blobs into strings.
@@ -56,7 +58,6 @@ export default class Encoder {
    */
   public static decodeBase64UrlAsString(input: string): string {
     Encoder.validateBase64UrlString(input);
-
     const content = base64url.decode(input);
     return content;
   }
@@ -95,5 +96,19 @@ export default class Encoder {
     // + denotes one or more characters.
     const isBase64UrlString = /^[A-Za-z0-9_-]+$/.test(input);
     return isBase64UrlString;
+  }
+
+  // Base64 URL to cid
+  public static formatIpfsAddress(address: string): string {
+    const hash = Encoder.decodeAsBuffer(address);
+    const bytes = new Uint8Array(hash);
+    return base58btc.encode(bytes).slice(1);
+  }
+
+  // cid to Base64 URL
+  public static formatBase64Address(address: string): string {
+    const cid = CID.parse(address);
+    const hash = Buffer.from(cid.bytes);
+    return Encoder.encode(hash);
   }
 }

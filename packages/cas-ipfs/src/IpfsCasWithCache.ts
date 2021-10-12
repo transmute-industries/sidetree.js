@@ -69,10 +69,10 @@ export default class IpfsCasWithCache extends IpfsCas {
     return result;
   }
 
-  public getServiceVersion: () => ServiceVersionModel = () => {
-    return {
+  public getServiceVersion: () => Promise<ServiceVersionModel> = () => {
+    return Promise.resolve({
       name: 'ipfs-with-cache',
       version,
-    };
+    });
   };
 }
