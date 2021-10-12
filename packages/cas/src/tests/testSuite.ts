@@ -52,7 +52,7 @@ const testSuite = (cas: ICasService): void => {
         expect(serviceVersion).toBeDefined();
         expect(serviceVersion.name).toBeDefined();
         expect(
-          ['mock', 'ipfs', 'ipfs-with-cache', 'cas-s3'].indexOf(
+          ['mock', 'ipfs', 'ipfs-with-cache', 'cas-s3', 'mock-s3'].indexOf(
             serviceVersion.name
           )
         ).not.toBe(-1);
