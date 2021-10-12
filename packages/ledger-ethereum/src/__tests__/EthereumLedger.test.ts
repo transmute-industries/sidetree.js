@@ -37,7 +37,6 @@ describe('EthereumLedger', () => {
     return AnchoredDataSerializer.serialize(o);
   });
   const [anchorString, anchorString2, anchorString3] = anchorStrings;
-  let blockTime1: number;
   let blockTimeHash1: string;
 
   it('First account has enough ether to run the other tests', async () => {
@@ -61,7 +60,7 @@ describe('EthereumLedger', () => {
   it('writes to the ledger', async () => {
     const realTime = await ledger.getLatestTime();
     const cachedTime = await ledger.approximateTime;
-    expect(realTime.time).toBeGreaterThan(0);
+    expect(realTime.time).toBeDefined();
     expect(realTime.hash).toBeDefined();
     expect(cachedTime.time).toBe(realTime.time);
     expect(cachedTime.hash).toBe(realTime.hash);
@@ -70,7 +69,6 @@ describe('EthereumLedger', () => {
     await ledger.write(data);
     const realTime2 = await ledger.getLatestTime();
     const cachedTime2 = await ledger.approximateTime;
-    blockTime1 = realTime2.time;
     blockTimeHash1 = realTime2.hash;
     expect(realTime2.time).toBeDefined();
     expect(realTime2.hash).toBeDefined();
@@ -92,8 +90,8 @@ describe('EthereumLedger', () => {
       normalizedTransactionFee: 0,
       transactionFeePaid: 0,
       transactionNumber: 0,
-      transactionTime: blockTime1,
-      transactionTimeHash: blockTimeHash1,
+      transactionTime: transaction.transactionTime,
+      transactionTimeHash: transaction.transactionTimeHash,
       writer: 'writer',
     });
   });
@@ -113,8 +111,8 @@ describe('EthereumLedger', () => {
       normalizedTransactionFee: 0,
       transactionFeePaid: 0,
       transactionNumber: 1,
-      transactionTime: realTime.time,
-      transactionTimeHash: realTime.hash,
+      transactionTime: t1.transactionTime,
+      transactionTimeHash: t1.transactionTimeHash,
       writer: 'writer',
     });
   });
@@ -134,8 +132,8 @@ describe('EthereumLedger', () => {
       normalizedTransactionFee: 0,
       transactionFeePaid: 0,
       transactionNumber: 2,
-      transactionTime: realTime.time,
-      transactionTimeHash: realTime.hash,
+      transactionTime: t1.transactionTime,
+      transactionTimeHash: t1.transactionTimeHash,
       writer: 'writer',
     });
   });
