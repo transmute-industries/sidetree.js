@@ -12,6 +12,8 @@
  * limitations under the License.
  */
 
+import { Encoder } from '@sidetree/common';
+import { AnchoredDataSerializer } from '@sidetree/core';
 import { filesystem } from '@sidetree/test-vectors';
 
 import { EthereumLedger } from '..';
@@ -22,7 +24,19 @@ jest.setTimeout(10 * 1000);
 describe('EthereumLedger', () => {
   const ledger = new EthereumLedger(web3);
   // TODO: use newer values for these eventually. 'core index file' instead of 'anchor file'
-  const { anchorString, anchorString2, anchorString3 } = filesystem.anchorFile;
+  // NOTE: Ethereum ledger expects base 64 instead of base 58 encoding
+  // otherwise the reads of the anchor string will be different than the writes are.
+  let anchorStrings = [
+    filesystem.anchorFile.anchorString,
+    filesystem.anchorFile.anchorString2,
+    filesystem.anchorFile.anchorString3,
+  ];
+  anchorStrings = anchorStrings.map((a) => {
+    const o = AnchoredDataSerializer.deserialize(a);
+    o.coreIndexFileUri = Encoder.formatBase64Address(o.coreIndexFileUri);
+    return AnchoredDataSerializer.serialize(o);
+  });
+  const [anchorString, anchorString2, anchorString3] = anchorStrings;
   let blockTime1: number;
   let blockTimeHash1: string;
 
@@ -74,7 +88,7 @@ describe('EthereumLedger', () => {
     expect(transactions).toHaveLength(1);
     const [transaction] = transactions;
     expect(transaction).toEqual({
-      anchorString: transaction.anchorString,
+      anchorString,
       normalizedTransactionFee: 0,
       transactionFeePaid: 0,
       transactionNumber: 0,
@@ -95,7 +109,7 @@ describe('EthereumLedger', () => {
     expect(transactions).toHaveLength(1);
     const [t1] = transactions;
     expect(t1).toEqual({
-      anchorString: t1.anchorString,
+      anchorString: anchorString2,
       normalizedTransactionFee: 0,
       transactionFeePaid: 0,
       transactionNumber: 1,
@@ -116,7 +130,7 @@ describe('EthereumLedger', () => {
     expect(transactions).toHaveLength(1);
     const [t1] = transactions;
     expect(t1).toEqual({
-      anchorString: t1.anchorString,
+      anchorString: anchorString3,
       normalizedTransactionFee: 0,
       transactionFeePaid: 0,
       transactionNumber: 2,
