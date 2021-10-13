@@ -30,6 +30,10 @@ interface ValueWithMetaData {
   };
 }
 
+export interface TransactionModelQLDB extends TransactionModel {
+  transactionTimestamp: number; // unix timestamp
+}
+
 export default class QLDBLedger implements IBlockchain {
   public qldbDriver: QldbDriver;
 
@@ -163,15 +167,19 @@ export default class QLDBLedger implements IBlockchain {
     transactionTimeHash?: string
   ): Promise<{
     moreTransactions: boolean;
-    transactions: TransactionModel[];
+    transactions: TransactionModelQLDB[];
   }> {
     let result;
-    if (sinceTransactionNumber) {
+    if (sinceTransactionNumber && transactionTimeHash) {
+      result = await this.executeWithRetry(
+        `SELECT * FROM _ql_committed_${this.transactionTable} BY doc_id WHERE doc_id = '${transactionTimeHash}' AND blockAddress.sequenceNo >= ${sinceTransactionNumber}`
+      );
+    } else if (sinceTransactionNumber) {
       console.warn(
         'reading since transactionNumber is a costly operation (full table scan), use with caution'
       );
       result = await this.executeWithRetry(
-        `SELECT * FROM _ql_committed_${this.transactionTable} as R WHERE R.blockAddress.sequenceNo >= ${sinceTransactionNumber}`
+        `SELECT * FROM _ql_committed_${this.transactionTable} WHERE blockAddress.sequenceNo >= ${sinceTransactionNumber}`
       );
     } else if (transactionTimeHash) {
       console.warn(
@@ -186,9 +194,9 @@ export default class QLDBLedger implements IBlockchain {
       );
     }
     const resultList: unknown[] = (result as Result).getResultList();
-    const transactions: TransactionModel[] = (resultList as ValueWithMetaData[]).map(
+    const transactions: TransactionModelQLDB[] = (resultList as ValueWithMetaData[]).map(
       this.toSidetreeTransaction
-    );
+    ) as TransactionModelQLDB[];
     // PartiQL does not support returning sorted data
     // so we have to sort in javascript
     transactions.sort((t1, t2) => {

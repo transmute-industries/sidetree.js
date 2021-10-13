@@ -26,15 +26,11 @@ import { didMethod } from '@sidetree/test-vectors';
 import crypto from 'crypto';
 import {
   testBuffer,
-  testBufferHash,
-  testBufferIpfs,
   testString,
+  testBufferHash,
   testStringHash,
-  testStringIpfs,
-  testObjectIpfs,
+  testObjectHash,
 } from './__fixtures__';
-
-let addr_a: string, addr_b: string, addr_c: string;
 
 const testSuite = (cas: ICasService): void => {
   describe(cas.constructor.name, () => {
@@ -52,7 +48,7 @@ const testSuite = (cas: ICasService): void => {
         expect(serviceVersion).toBeDefined();
         expect(serviceVersion.name).toBeDefined();
         expect(
-          ['mock', 'ipfs', 'ipfs-with-cache', 'cas-s3'].indexOf(
+          ['mock', 'ipfs', 'ipfs-with-cache', 'cas-s3', 'mock-s3'].indexOf(
             serviceVersion.name
           )
         ).not.toBe(-1);
@@ -63,18 +59,12 @@ const testSuite = (cas: ICasService): void => {
     describe('write', () => {
       it('Should provide an expected hash for a buffer', async () => {
         const expectedHash = await cas.write(testBuffer);
-        addr_a = expectedHash;
-        expect([testBufferHash, testBufferIpfs].indexOf(expectedHash)).not.toBe(
-          -1
-        );
+        expect(expectedHash).toBe(testBufferHash);
       });
 
       it('Should provide an expected hash for a string', async () => {
         const expectedHash = await cas.write(Buffer.from(testString));
-        addr_b = expectedHash;
-        expect([testStringHash, testStringIpfs].indexOf(expectedHash)).not.toBe(
-          -1
-        );
+        expect(expectedHash).toBe(testStringHash);
       });
 
       it('Should provide an expected hash for a delta object', async () => {
@@ -82,9 +72,7 @@ const testSuite = (cas: ICasService): void => {
         const expectedHash = await cas.write(
           JsonCanonicalizer.canonicalizeAsBuffer(delta)
         );
-        addr_c = expectedHash;
-        const { deltaHash } = didMethod.operations.create.operation.suffixData;
-        expect([deltaHash, testObjectIpfs].indexOf(expectedHash)).not.toBe(-1);
+        expect(expectedHash).toBe(testObjectHash);
       });
 
       it('Should not match hash with incorrect JSON string', async () => {
@@ -92,27 +80,26 @@ const testSuite = (cas: ICasService): void => {
         const expectedHash = await cas.write(
           Buffer.from(JSON.stringify(delta)!)
         );
-        const { deltaHash } = didMethod.operations.create.operation.suffixData;
-        expect([deltaHash, testObjectIpfs].indexOf(expectedHash)).toBe(-1);
+        expect(expectedHash).not.toBe(testObjectHash);
       });
     });
 
     describe('read', () => {
       it('Should Produce correct buffer from hash', async () => {
-        const fetchResult = await cas.read(addr_a, 0);
+        const fetchResult = await cas.read(testBufferHash, 0);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(testBuffer.compare(fetchResult!.content as Buffer)).toBe(0);
       });
 
       it('Should Produce correct string from hash', async () => {
-        const fetchResult = await cas.read(addr_b, 0);
+        const fetchResult = await cas.read(testStringHash, 0);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(fetchResult!.content?.toString()).toBe(testString);
       });
 
       it('Should produce correct delta object from hash', async () => {
         const { delta } = didMethod.operations.create.operation;
-        const fetchResult = await cas.read(addr_c, 0);
+        const fetchResult = await cas.read(testObjectHash, 0);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(JSON.parse(fetchResult.content!.toString())).toEqual(delta);
       });
