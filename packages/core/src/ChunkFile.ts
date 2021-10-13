@@ -1,16 +1,18 @@
+import {
+  ChunkFileModel,
+  ErrorCode,
+  Logger,
+  protocolParameters,
+  SidetreeError,
+} from '@sidetree/common';
+
 import timeSpan from 'time-span';
 import Compressor from './util/Compressor';
 import CreateOperation from './CreateOperation';
 import Delta from './Delta';
-import ErrorCode from './ErrorCode';
 import JsonAsync from './util/JsonAsync';
-import Logger from './Logger';
-import ProtocolParameters from './ProtocolParameters';
 import RecoverOperation from './RecoverOperation';
-import SidetreeError from './SidetreeError';
 import UpdateOperation from './UpdateOperation';
-
-import { ChunkFileModel } from '@sidetree/common';
 
 /**
  * Defines operations related to a Chunk File.
@@ -23,7 +25,7 @@ export default class ChunkFile {
   public static async parse(chunkFileBuffer: Buffer): Promise<ChunkFileModel> {
     const endTimer = timeSpan();
     const maxAllowedDecompressedSizeInBytes =
-      ProtocolParameters.maxChunkFileSizeInBytes *
+      protocolParameters.maxChunkFileSizeInBytes *
       Compressor.estimatedDecompressionMultiplier;
     const decompressedChunkFileBuffer = await Compressor.decompress(
       chunkFileBuffer,

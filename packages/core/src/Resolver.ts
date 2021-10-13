@@ -1,7 +1,3 @@
-import Logger from './Logger';
-
-import SidetreeError from './SidetreeError';
-
 import {
   OperationType,
   Multihash,
@@ -9,6 +5,8 @@ import {
   IOperationStore,
   DidState,
   AnchoredOperationModel,
+  Logger,
+  SidetreeError,
 } from '@sidetree/common';
 
 /**

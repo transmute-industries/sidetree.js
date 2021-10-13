@@ -1,5 +1,4 @@
-import ErrorCode from '../ErrorCode';
-import SidetreeError from '../SidetreeError';
+import { ErrorCode, SidetreeError } from '@sidetree/common';
 
 const util = require('util');
 const zlib = require('zlib');

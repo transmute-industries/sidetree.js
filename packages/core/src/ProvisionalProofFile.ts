@@ -1,16 +1,16 @@
+import {
+  ErrorCode,
+  SidetreeError,
+  UpdateSignedDataModel,
+  ProvisionalProofFileModel,
+  protocolParameters,
+} from '@sidetree/common';
+
 import Compressor from './util/Compressor';
-import ErrorCode from './ErrorCode';
 import InputValidator from './InputValidator';
 import JsonAsync from './util/JsonAsync';
 import Jws from './util/Jws';
-import ProtocolParameters from './ProtocolParameters';
-import SidetreeError from './SidetreeError';
 import UpdateOperation from './UpdateOperation';
-
-import {
-  UpdateSignedDataModel,
-  ProvisionalProofFileModel,
-} from '@sidetree/common';
 
 /**
  * Defines operations related to a Provisional Proof File.
@@ -68,7 +68,7 @@ export default class ProvisionalProofFile {
     let provisionalProofFileDecompressedBuffer;
     try {
       const maxAllowedDecompressedSizeInBytes =
-        ProtocolParameters.maxProofFileSizeInBytes *
+        protocolParameters.maxProofFileSizeInBytes *
         Compressor.estimatedDecompressionMultiplier;
       provisionalProofFileDecompressedBuffer = await Compressor.decompress(
         provisionalProofFileBuffer,

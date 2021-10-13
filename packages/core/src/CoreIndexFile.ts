@@ -1,21 +1,22 @@
+import {
+  ErrorCode,
+  SidetreeError,
+  SuffixDataModel,
+  OperationReferenceModel,
+  CoreIndexFileModel,
+  protocolParameters,
+} from '@sidetree/common';
+
 import ArrayMethods from './util/ArrayMethods';
 import Compressor from './util/Compressor';
 
 import CreateOperation from './CreateOperation';
 import DeactivateOperation from './DeactivateOperation';
 import Did from './Did';
-import ErrorCode from './ErrorCode';
 import InputValidator from './InputValidator';
 import JsonAsync from './util/JsonAsync';
-import ProtocolParameters from './ProtocolParameters';
 import RecoverOperation from './RecoverOperation';
-import SidetreeError from './SidetreeError';
 
-import {
-  SuffixDataModel,
-  OperationReferenceModel,
-  CoreIndexFileModel,
-} from '@sidetree/common';
 /**
  * Create reference model internally used in a core index file.
  */
@@ -50,7 +51,7 @@ export default class CoreIndexFile {
     let coreIndexFileDecompressedBuffer;
     try {
       const maxAllowedDecompressedSizeInBytes =
-        ProtocolParameters.maxCoreIndexFileSizeInBytes *
+        protocolParameters.maxCoreIndexFileSizeInBytes *
         Compressor.estimatedDecompressionMultiplier;
       coreIndexFileDecompressedBuffer = await Compressor.decompress(
         coreIndexFileBuffer,
@@ -323,10 +324,10 @@ export default class CoreIndexFile {
   private static validateWriterLockId(writerLockId: string) {
     // Max size check.
     const writerLockIdSizeInBytes = Buffer.from(writerLockId).length;
-    if (writerLockIdSizeInBytes > ProtocolParameters.maxWriterLockIdInBytes) {
+    if (writerLockIdSizeInBytes > protocolParameters.maxWriterLockIdInBytes) {
       throw new SidetreeError(
         ErrorCode.CoreIndexFileWriterLockIdExceededMaxSize,
-        `Writer lock ID of ${writerLockIdSizeInBytes} bytes exceeded the maximum size of ${ProtocolParameters.maxWriterLockIdInBytes} bytes.`
+        `Writer lock ID of ${writerLockIdSizeInBytes} bytes exceeded the maximum size of ${protocolParameters.maxWriterLockIdInBytes} bytes.`
       );
     }
   }

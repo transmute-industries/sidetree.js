@@ -17,6 +17,13 @@
  * limitations under the License.
  */
 
+import {
+  Config,
+  ErrorCode,
+  ServiceStateModel,
+  SidetreeError,
+} from '@sidetree/common';
+
 import BatchScheduler from './BatchScheduler';
 import ChunkFile from './ChunkFile';
 import Compressor from './util/Compressor';
@@ -37,13 +44,9 @@ import UpdateOperation from './UpdateOperation';
 import VersionManager from './VersionManager';
 import AnchoredDataSerializer from './AnchoredDataSerializer';
 
-import Config from './Config';
-import SidetreeError from './SidetreeError';
-import ServiceStateModel from './ServiceStateModel';
 import ServiceInfoProvider from './ServiceInfoProvider';
 
 import EventEmitter from './EventEmitter';
-import ErrorCode from './ErrorCode';
 
 import BlockchainClock from './BlockchainClock';
 

@@ -1,14 +1,15 @@
+import {
+  Encoder,
+  ErrorCode,
+  Multihash,
+  OperationType,
+  SidetreeError,
+} from '@sidetree/common';
+
 import CreateOperation from './CreateOperation';
 import Delta from './Delta';
-
-import { Encoder, Multihash, OperationType } from '@sidetree/common';
-
-import ErrorCode from './ErrorCode';
 import JsonCanonicalizer from './util/JsonCanonicalizer';
-
-import SidetreeError from './SidetreeError';
 import { SuffixDataModel } from '@sidetree/common';
-
 import { computeUniqueSuffix } from './computeUniqueSuffix';
 
 // From:

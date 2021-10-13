@@ -1,14 +1,14 @@
+import {
+  ErrorCode,
+  OperationType,
+  OperationModel,
+  SidetreeError,
+} from '@sidetree/common';
+
 import CreateOperation from './CreateOperation';
 import DeactivateOperation from './DeactivateOperation';
-
-import ErrorCode from './ErrorCode';
-
 import RecoverOperation from './RecoverOperation';
-import SidetreeError from './SidetreeError';
 import UpdateOperation from './UpdateOperation';
-
-import { OperationType, OperationModel } from '@sidetree/common';
-
 import { validateDelta } from './validateDelta';
 
 /**

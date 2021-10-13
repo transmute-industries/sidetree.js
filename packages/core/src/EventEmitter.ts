@@ -1,7 +1,5 @@
-import LogColor from './LogColor';
-import Logger from './Logger';
+import { IEventEmitter, LogColor, Logger } from '@sidetree/common';
 
-import { IEventEmitter } from '@sidetree/common';
 /**
  * Event emitter used in Sidetree.
  * Intended to be machine readable for triggering custom handlers.

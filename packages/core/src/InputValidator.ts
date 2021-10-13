@@ -1,8 +1,11 @@
-import ErrorCode from './ErrorCode';
-import ProtocolParameters from './ProtocolParameters';
-import SidetreeError from './SidetreeError';
+import {
+  ErrorCode,
+  Multihash,
+  Encoder,
+  protocolParameters,
+  SidetreeError,
+} from '@sidetree/common';
 
-import { Multihash, Encoder } from '@sidetree/common';
 /**
  * Class containing generic input validation methods.
  */
@@ -66,10 +69,10 @@ export default class InputValidator {
       );
     }
 
-    if (casFileUri.length > ProtocolParameters.maxCasUriLength) {
+    if (casFileUri.length > protocolParameters.maxCasUriLength) {
       throw new SidetreeError(
         ErrorCode.InputValidatorCasFileUriExceedsMaxLength,
-        `Input ${inputContextForErrorLogging} CAS file URI '${casFileUri}' length cannot exceed ${ProtocolParameters.maxCasUriLength}`
+        `Input ${inputContextForErrorLogging} CAS file URI '${casFileUri}' length cannot exceed ${protocolParameters.maxCasUriLength}`
       );
     }
   }
@@ -136,7 +139,7 @@ export default class InputValidator {
     }
 
     const supportedHashAlgorithmsInMultihashCode =
-      ProtocolParameters.hashAlgorithmsInMultihashCode;
+      protocolParameters.hashAlgorithmsInMultihashCode;
     Multihash.validateHashComputedUsingSupportedHashAlgorithm(
       input,
       supportedHashAlgorithmsInMultihashCode,
