@@ -29,6 +29,7 @@
     "tsdx": "^0.14.1"
   },
   "dependencies": {
+    "@rollup/plugin-replace": "^3.0.0",
     "@sidetree/common": "^0.2.6-unstable.6"
   },
   "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d",

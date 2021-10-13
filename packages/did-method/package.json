@@ -36,9 +36,10 @@
     "tsdx": "^0.14.1"
   },
   "dependencies": {
+    "@rollup/plugin-replace": "^3.0.0",
+    "@sidetree/cas": "^0.2.6-unstable.6",
     "@sidetree/common": "^0.2.6-unstable.6",
     "@sidetree/core": "^0.2.6-unstable.6",
-    "@sidetree/cas": "^0.2.6-unstable.6",
     "@sidetree/db": "^0.2.6-unstable.6",
     "mongodb": "^4.1.2",
     "semver": "^7.3.5",
