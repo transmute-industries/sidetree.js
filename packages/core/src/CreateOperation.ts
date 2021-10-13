@@ -1,8 +1,9 @@
-import Did from './Did';
 import ErrorCode from './ErrorCode';
 import InputValidator from './InputValidator';
 import JsonAsync from './util/JsonAsync';
-import Operation from './Operation';
+
+import { computeUniqueSuffix } from './computeUniqueSuffix';
+import { validateDelta } from './validateDelta';
 
 import {
   OperationType,
@@ -72,7 +73,7 @@ export default class CreateOperation implements OperationModel {
 
     let delta;
     try {
-      Operation.validateDelta(operationObject.delta);
+      validateDelta(operationObject.delta);
       delta = operationObject.delta;
     } catch {
       // For compatibility with data pruning, we have to assume that `delta` may be unavailable,
@@ -80,7 +81,7 @@ export default class CreateOperation implements OperationModel {
       // so here we let `delta` be `undefined`.
     }
 
-    const didUniqueSuffix = Did.computeUniqueSuffix(suffixData);
+    const didUniqueSuffix = computeUniqueSuffix(suffixData);
 
     return new CreateOperation(
       operationBuffer,
