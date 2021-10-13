@@ -12,8 +12,6 @@
  * limitations under the License.
  */
 
-import { Encoder } from '@sidetree/common';
-import { AnchoredDataSerializer } from '@sidetree/core';
 import { filesystem } from '@sidetree/test-vectors';
 
 import { EthereumLedger } from '..';
@@ -23,20 +21,7 @@ jest.setTimeout(10 * 1000);
 
 describe('EthereumLedger', () => {
   const ledger = new EthereumLedger(web3);
-  // TODO: use newer values for these eventually. 'core index file' instead of 'anchor file'
-  // NOTE: Ethereum ledger expects base 64 instead of base 58 encoding
-  // otherwise the reads of the anchor string will be different than the writes are.
-  let anchorStrings = [
-    filesystem.anchorFile.anchorString,
-    filesystem.anchorFile.anchorString2,
-    filesystem.anchorFile.anchorString3,
-  ];
-  anchorStrings = anchorStrings.map((a) => {
-    const o = AnchoredDataSerializer.deserialize(a);
-    o.coreIndexFileUri = Encoder.formatBase64Address(o.coreIndexFileUri);
-    return AnchoredDataSerializer.serialize(o);
-  });
-  const [anchorString, anchorString2, anchorString3] = anchorStrings;
+  const { anchorString, anchorString2, anchorString3 } = filesystem.anchorFile;
   let blockTimeHash1: string;
 
   it('First account has enough ether to run the other tests', async () => {
@@ -57,7 +42,7 @@ describe('EthereumLedger', () => {
     expect(serviceVersion.version).toBeDefined();
   });
 
-  it('writes to the ledger', async () => {
+  it('reads first transaction that got written', async () => {
     const realTime = await ledger.getLatestTime();
     const cachedTime = await ledger.approximateTime;
     expect(realTime.time).toBeDefined();
@@ -75,9 +60,6 @@ describe('EthereumLedger', () => {
     expect(cachedTime2.time).toBe(realTime2.time);
     expect(cachedTime2.hash).toBe(realTime2.hash);
     expect(ledger.contractAddress).toBeDefined();
-  });
-
-  it('reads from ledger', async () => {
     const { moreTransactions, transactions } = await ledger.read(
       0,
       blockTimeHash1
@@ -96,7 +78,7 @@ describe('EthereumLedger', () => {
     });
   });
 
-  it('reads next transaction that got wrote', async () => {
+  it('reads next transaction that got written', async () => {
     await ledger.write(anchorString2);
     const realTime = await ledger.getLatestTime();
     const { moreTransactions, transactions } = await ledger.read(
@@ -117,7 +99,7 @@ describe('EthereumLedger', () => {
     });
   });
 
-  it('reads another transaction that got wrote', async () => {
+  it('reads another transaction that got written', async () => {
     await ledger.write(anchorString3);
     const realTime = await ledger.getLatestTime();
     const { moreTransactions, transactions } = await ledger.read(
