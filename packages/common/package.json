@@ -24,15 +24,15 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@types/node-fetch": "^2.5.7",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
+    "@rollup/plugin-replace": "^3.0.0",
     "base64url": "^3.0.1",
     "canonicalize": "^1.0.1",
+    "chalk": "^4.1.2",
     "multiformats": "^9.4.8",
-    "multihashes": "^0.4.19",
-    "node-fetch": "^2.6.1"
+    "multihashes": "^0.4.19"
   },
   "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d",
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/common",
