@@ -10,7 +10,7 @@ import {
 let did: any;
 let sidetreeNodeInstance: Core;
 
-jest.setTimeout(10 * 1000);
+jest.setTimeout(60 * 1000);
 
 beforeAll(async () => {
   sidetreeNodeInstance = await getTestSidetreeNodeInstance();
@@ -36,7 +36,7 @@ it('can submit create operation and resolve', async () => {
     Buffer.from(JSON.stringify(operation))
   );
   did = result1.body.didDocument.id;
-  await waitSeconds(5);
+  await waitSeconds(10);
   const result2 = await sidetreeNodeInstance.handleResolveRequest(did);
   expect(result2).toEqual(resolve);
 });
@@ -47,7 +47,7 @@ it('can submit update operation and resolve', async () => {
     Buffer.from(JSON.stringify(operation))
   );
   expect(result1.status).toBe('succeeded');
-  await waitSeconds(5);
+  await waitSeconds(10);
   const result2 = await sidetreeNodeInstance.handleResolveRequest(did);
   expect(result2).toEqual(resolve);
 });
@@ -58,7 +58,7 @@ it('can submit recover operation and resolve', async () => {
     Buffer.from(JSON.stringify(operation))
   );
   expect(result1.status).toBe('succeeded');
-  await waitSeconds(5);
+  await waitSeconds(10);
   const result2 = await sidetreeNodeInstance.handleResolveRequest(did);
   expect(result2).toEqual(resolve);
 });
@@ -69,7 +69,7 @@ it('can submit deactivate operation and resolve', async () => {
     Buffer.from(JSON.stringify(operation))
   );
   expect(result1.status).toBe('succeeded');
-  await waitSeconds(5);
+  await waitSeconds(10);
   const result2 = await sidetreeNodeInstance.handleResolveRequest(did);
   expect(result2).toEqual(resolve);
 });

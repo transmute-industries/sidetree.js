@@ -81,7 +81,7 @@ describe('CRUD', () => {
       expect(operation0.body).toBeDefined();
 
       await new Promise((resolve) => {
-        setTimeout(resolve, 2 * 1000);
+        setTimeout(resolve, 10 * 1000);
       });
 
       const did = `did:elem:ganache:${uniqueSuffix}`;

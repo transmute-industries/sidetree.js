@@ -4,7 +4,7 @@ import JsonAsync from './util/JsonAsync';
 import Jwk from './util/Jwk';
 import Jws from './util/Jws';
 
-import Operation from './Operation';
+import { validateDelta } from './validateDelta';
 
 import SidetreeError from './SidetreeError';
 
@@ -90,7 +90,7 @@ export default class UpdateOperation implements OperationModel {
       'update request update key'
     );
 
-    Operation.validateDelta(operationObject.delta);
+    validateDelta(operationObject.delta);
 
     return new UpdateOperation(
       operationBuffer,
