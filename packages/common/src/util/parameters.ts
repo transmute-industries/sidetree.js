@@ -23,18 +23,21 @@ import ProtocolParameters from '../models/ProtocolParameters';
  * Defines the list of protocol parameters, intended ONLY to be used within each version of Sidetree.
  */
 const protocolParameters: ProtocolParameters = {
-  hashAlgorithmInMultihashCode: 18,
-  maxAnchorFileSizeInBytes: 1000000,
-  maxChunkFileSizeInBytes: 20000000,
-  maxDeltaSizeInBytes: 1000,
-  maxMapFileSizeInBytes: 1000000,
+  hashAlgorithmsInMultihashCode: [18],
+  maxCasUriLength: 100,
+  maxCoreIndexFileSizeInBytes: 1000000,
+  maxProvisionalIndexFileSizeInBytes: 1000000,
+  maxProofFileSizeInBytes: 2500000,
+  maxChunkFileSizeInBytes: 10000000,
   maxNumberOfOperationsPerTransactionTime: 600000,
   maxNumberOfTransactionsPerTransactionTime: 300,
+  maxOperationsPerBatch: 10000,
+  maxDeltaSizeInBytes: 1000,
   // If you are not using value lock, maxNumberOfOperationsForNoValueTimeLock
   // maxOperationsPerBatch should be the same
-  maxNumberOfOperationsForNoValueTimeLock: 1000,
-  maxOperationsPerBatch: 1000,
-  normalizedFeeToPerOperationFeeMultiplier: 0.01,
-  valueTimeLockAmountMultiplier: 600,
+  maxNumberOfOperationsForNoValueTimeLock: 100,
+  maxWriterLockIdInBytes: 200,
+  normalizedFeeToPerOperationFeeMultiplier: 0.001,
+  valueTimeLockAmountMultiplier: 60000,
 };
 export default protocolParameters;
