@@ -140,11 +140,6 @@ export default class DownloadManager {
     contentHash: string,
     maxSizeInBytes: number
   ): Promise<FetchResult> {
-    const hack: any = () => true;
-    console.warn('download manager needed to be hacked...');
-    if (hack()) {
-      return await this.cas.read(contentHash, maxSizeInBytes);
-    }
     const handle = crypto.randomBytes(32);
     const fetchPromise = new Promise((resolve) => {
       const downloadInfo = {
