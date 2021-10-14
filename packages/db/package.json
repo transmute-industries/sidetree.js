@@ -33,6 +33,7 @@
     "tsdx": "^0.14.1"
   },
   "dependencies": {
+    "@rollup/plugin-replace": "^3.0.0",
     "@sidetree/common": "^0.2.6-unstable.6",
     "@types/mongodb": "^3.5.20",
     "mongodb": "^3.6.9"

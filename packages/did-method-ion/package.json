@@ -12,8 +12,7 @@
     "jest": "^27.1.0"
   },
   "dependencies": {
-    "@sidetree/wallet": "^0.2.6-unstable.6",
     "@sidetree/common": "^0.2.6-unstable.6",
-    "@transmute/universal-wallet": "^0.7.0-unstable.7"
+    "@sidetree/wallet": "^0.2.6-unstable.6"
   }
 }
