@@ -1,11 +1,7 @@
-import Config from './Config';
-import CoreErrorCode from './ErrorCode';
-import DownloadManager from './DownloadManager';
-
-import Resolver from './Resolver';
-import SidetreeError from './SidetreeError';
-
 import {
+  Config,
+  ErrorCode,
+  SidetreeError,
   VersionModel,
   IVersionMetadataFetcher,
   IVersionManager,
@@ -21,6 +17,8 @@ import {
   AbstractVersionMetadata,
 } from '@sidetree/common';
 
+import DownloadManager from './DownloadManager';
+import Resolver from './Resolver';
 import { versions } from './versions';
 
 /**
@@ -145,7 +143,7 @@ export default class VersionManager
       const versionMetadata = new VersionMetadata();
       if (!(versionMetadata instanceof AbstractVersionMetadata)) {
         throw new SidetreeError(
-          CoreErrorCode.VersionManagerVersionMetadataIncorrectType,
+          ErrorCode.VersionManagerVersionMetadataIncorrectType,
           `make sure VersionMetaData is properly implemented for version ${version}`
         );
       }
@@ -227,7 +225,7 @@ export default class VersionManager
     }
 
     throw new SidetreeError(
-      CoreErrorCode.VersionManagerVersionStringNotFound,
+      ErrorCode.VersionManagerVersionStringNotFound,
       `Unable to find version string for blockchain time ${blockchainTime}.`
     );
   }

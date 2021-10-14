@@ -1,11 +1,14 @@
+import {
+  ErrorCode,
+  IBlockchain,
+  IVersionManager,
+  Logger,
+  SidetreeError,
+} from '@sidetree/common';
+
 import timeSpan from 'time-span';
-import ErrorCode from './ErrorCode';
 import EventCode from './EventCode';
 import EventEmitter from './EventEmitter';
-import Logger from './Logger';
-import SidetreeError from './SidetreeError';
-
-import { IBlockchain, IVersionManager } from '@sidetree/common';
 
 /**
  * Class that performs periodic writing of batches of Sidetree operations to CAS and blockchain.

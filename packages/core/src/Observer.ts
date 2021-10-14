@@ -1,12 +1,3 @@
-import timeSpan from 'time-span';
-import EventCode from './EventCode';
-import EventEmitter from './EventEmitter';
-
-import Logger from './Logger';
-import SharedErrorCode from './SharedErrorCode';
-import SidetreeError from './SidetreeError';
-import ThroughputLimiter from './ThroughputLimiter';
-
 import {
   TransactionModel,
   IVersionManager,
@@ -15,8 +6,17 @@ import {
   ITransactionProcessor,
   IOperationStore,
   IBlockchain,
+  Logger,
   TransactionUnderProcessingModel,
+  SidetreeError,
+  SharedErrorCode,
 } from '@sidetree/common';
+
+import timeSpan from 'time-span';
+import EventCode from './EventCode';
+import EventEmitter from './EventEmitter';
+
+import ThroughputLimiter from './ThroughputLimiter';
 
 enum TransactionProcessingStatus {
   Error = 'error',

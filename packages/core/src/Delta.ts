@@ -1,9 +1,12 @@
-import ErrorCode from './ErrorCode';
+import {
+  ErrorCode,
+  Logger,
+  protocolParameters,
+  SidetreeError,
+} from '@sidetree/common';
+
 import JsonCanonicalizer from './util/JsonCanonicalizer';
-import Logger from './Logger';
 import Operation from './Operation';
-import ProtocolParameters from './ProtocolParameters';
-import SidetreeError from './SidetreeError';
 
 /**
  * Class containing reusable operation delta functionalities.
@@ -30,8 +33,8 @@ export default class Delta {
     const size = Buffer.byteLength(
       JsonCanonicalizer.canonicalizeAsBuffer(delta)
     );
-    if (size > ProtocolParameters.maxDeltaSizeInBytes) {
-      const errorMessage = `${size} bytes of 'delta' exceeded limit of ${ProtocolParameters.maxDeltaSizeInBytes} bytes.`;
+    if (size > protocolParameters.maxDeltaSizeInBytes) {
+      const errorMessage = `${size} bytes of 'delta' exceeded limit of ${protocolParameters.maxDeltaSizeInBytes} bytes.`;
       Logger.info(errorMessage);
       throw new SidetreeError(ErrorCode.DeltaExceedsMaximumSize, errorMessage);
     }

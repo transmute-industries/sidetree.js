@@ -1,18 +1,19 @@
-import Compressor from './util/Compressor';
-import DeactivateOperation from './DeactivateOperation';
-import ErrorCode from './ErrorCode';
-import InputValidator from './InputValidator';
-import JsonAsync from './util/JsonAsync';
-import Jws from './util/Jws';
-import ProtocolParameters from './ProtocolParameters';
-import RecoverOperation from './RecoverOperation';
-import SidetreeError from './SidetreeError';
-
 import {
   CoreProofFileModel,
   DeactivateSignedDataModel,
+  ErrorCode,
   RecoverSignedDataModel,
+  protocolParameters,
+  SidetreeError,
 } from '@sidetree/common';
+
+import Compressor from './util/Compressor';
+import DeactivateOperation from './DeactivateOperation';
+import InputValidator from './InputValidator';
+import JsonAsync from './util/JsonAsync';
+import Jws from './util/Jws';
+import RecoverOperation from './RecoverOperation';
+
 /**
  * Defines operations related to a Core Proof File.
  */
@@ -79,7 +80,7 @@ export default class CoreProofFile {
     let coreProofFileDecompressedBuffer;
     try {
       const maxAllowedDecompressedSizeInBytes =
-        ProtocolParameters.maxProofFileSizeInBytes *
+        protocolParameters.maxProofFileSizeInBytes *
         Compressor.estimatedDecompressionMultiplier;
       coreProofFileDecompressedBuffer = await Compressor.decompress(
         coreProofFileBuffer,

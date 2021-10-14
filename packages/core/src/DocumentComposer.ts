@@ -1,18 +1,18 @@
-import * as URI from 'uri-js';
-import ArrayMethods from './util/ArrayMethods';
-import Did from './Did';
-import ErrorCode from './ErrorCode';
-import InputValidator from './InputValidator';
-import JsObject from './util/JsObject';
-import SidetreeError from './SidetreeError';
-
 import {
+  ErrorCode,
   PublicKeyPurpose,
   PatchAction,
   // Encoder, // we don't require base64url
   DocumentModel,
   DidState,
+  SidetreeError,
 } from '@sidetree/common';
+
+import * as URI from 'uri-js';
+import ArrayMethods from './util/ArrayMethods';
+import Did from './Did';
+import InputValidator from './InputValidator';
+import JsObject from './util/JsObject';
 
 /**
  * Class that handles the composition of operations into final external-facing document.

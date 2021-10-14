@@ -1,23 +1,9 @@
-import AnchoredDataSerializer from './AnchoredDataSerializer';
-import ArrayMethods from './util/ArrayMethods';
-import ChunkFile from './ChunkFile';
-import CoreIndexFile from './CoreIndexFile';
-import CoreProofFile from './CoreProofFile';
-
-import DownloadManager from './DownloadManager';
-import ErrorCode from './ErrorCode';
-import FeeManager from './FeeManager';
-import LogColor from './LogColor';
-import Logger from './Logger';
-
-import ProtocolParameters from './ProtocolParameters';
-import ProvisionalIndexFile from './ProvisionalIndexFile';
-import ProvisionalProofFile from './ProvisionalProofFile';
-import SidetreeError from './SidetreeError';
-import ValueTimeLockVerifier from './ValueTimeLockVerifier';
-
 import {
+  ErrorCode,
   ITransactionProcessor,
+  LogColor,
+  Logger,
+  SidetreeError,
   TransactionModel,
   OperationType,
   IVersionMetadataFetcher,
@@ -27,7 +13,19 @@ import {
   ChunkFileModel,
   AnchoredOperationModel,
   AnchoredData,
+  protocolParameters,
 } from '@sidetree/common';
+
+import AnchoredDataSerializer from './AnchoredDataSerializer';
+import ArrayMethods from './util/ArrayMethods';
+import ChunkFile from './ChunkFile';
+import CoreIndexFile from './CoreIndexFile';
+import CoreProofFile from './CoreProofFile';
+import DownloadManager from './DownloadManager';
+import FeeManager from './FeeManager';
+import ProvisionalIndexFile from './ProvisionalIndexFile';
+import ProvisionalProofFile from './ProvisionalProofFile';
+import ValueTimeLockVerifier from './ValueTimeLockVerifier';
 
 /**
  * Implementation of the `ITransactionProcessor`.
@@ -204,20 +202,20 @@ export default class TransactionProcessor implements ITransactionProcessor {
     paidOperationCount: number
   ): Promise<CoreIndexFile> {
     // Verify the number of paid operations does not exceed the maximum allowed limit.
-    if (paidOperationCount > ProtocolParameters.maxOperationsPerBatch) {
+    if (paidOperationCount > protocolParameters.maxOperationsPerBatch) {
       throw new SidetreeError(
         ErrorCode.TransactionProcessorPaidOperationCountExceedsLimit,
-        `Paid batch size of ${paidOperationCount} operations exceeds the allowed limit of ${ProtocolParameters.maxOperationsPerBatch}.`
+        `Paid batch size of ${paidOperationCount} operations exceeds the allowed limit of ${protocolParameters.maxOperationsPerBatch}.`
       );
     }
 
     Logger.info(
-      `Downloading core index file '${coreIndexFileUri}', max file size limit ${ProtocolParameters.maxCoreIndexFileSizeInBytes} bytes...`
+      `Downloading core index file '${coreIndexFileUri}', max file size limit ${protocolParameters.maxCoreIndexFileSizeInBytes} bytes...`
     );
 
     const fileBuffer = await this.downloadFileFromCas(
       coreIndexFileUri,
-      ProtocolParameters.maxCoreIndexFileSizeInBytes
+      protocolParameters.maxCoreIndexFileSizeInBytes
     );
     const coreIndexFile = await CoreIndexFile.parse(fileBuffer);
 
@@ -254,12 +252,12 @@ export default class TransactionProcessor implements ITransactionProcessor {
     }
 
     Logger.info(
-      `Downloading core proof file '${coreProofFileUri}', max file size limit ${ProtocolParameters.maxProofFileSizeInBytes}...`
+      `Downloading core proof file '${coreProofFileUri}', max file size limit ${protocolParameters.maxProofFileSizeInBytes}...`
     );
 
     const fileBuffer = await this.downloadFileFromCas(
       coreProofFileUri,
-      ProtocolParameters.maxProofFileSizeInBytes
+      protocolParameters.maxProofFileSizeInBytes
     );
     const coreProofFile = await CoreProofFile.parse(
       fileBuffer,
@@ -297,12 +295,12 @@ export default class TransactionProcessor implements ITransactionProcessor {
     const provisionalProofFileUri =
       provisionalIndexFile.model.provisionalProofFileUri;
     Logger.info(
-      `Downloading provisional proof file '${provisionalProofFileUri}', max file size limit ${ProtocolParameters.maxProofFileSizeInBytes}...`
+      `Downloading provisional proof file '${provisionalProofFileUri}', max file size limit ${protocolParameters.maxProofFileSizeInBytes}...`
     );
 
     const fileBuffer = await this.downloadFileFromCas(
       provisionalProofFileUri,
-      ProtocolParameters.maxProofFileSizeInBytes
+      protocolParameters.maxProofFileSizeInBytes
     );
     const provisionalProofFile = await ProvisionalProofFile.parse(fileBuffer);
 
@@ -337,12 +335,12 @@ export default class TransactionProcessor implements ITransactionProcessor {
     }
 
     Logger.info(
-      `Downloading provisional index file '${provisionalIndexFileUri}', max file size limit ${ProtocolParameters.maxProvisionalIndexFileSizeInBytes}...`
+      `Downloading provisional index file '${provisionalIndexFileUri}', max file size limit ${protocolParameters.maxProvisionalIndexFileSizeInBytes}...`
     );
 
     const fileBuffer = await this.downloadFileFromCas(
       provisionalIndexFileUri,
-      ProtocolParameters.maxProvisionalIndexFileSizeInBytes
+      protocolParameters.maxProvisionalIndexFileSizeInBytes
     );
     const provisionalIndexFile = await ProvisionalIndexFile.parse(fileBuffer);
     // Calculate the max paid update operation count.
@@ -387,12 +385,12 @@ export default class TransactionProcessor implements ITransactionProcessor {
 
     const chunkFileUri = provisionalIndexFile.model.chunks[0].chunkFileUri;
     Logger.info(
-      `Downloading chunk file '${chunkFileUri}', max size limit ${ProtocolParameters.maxChunkFileSizeInBytes}...`
+      `Downloading chunk file '${chunkFileUri}', max size limit ${protocolParameters.maxChunkFileSizeInBytes}...`
     );
 
     const fileBuffer = await this.downloadFileFromCas(
       chunkFileUri,
-      ProtocolParameters.maxChunkFileSizeInBytes
+      protocolParameters.maxChunkFileSizeInBytes
     );
     const chunkFileModel = await ChunkFile.parse(fileBuffer);
 

@@ -22,11 +22,12 @@
  */
 export default interface Config {
   batchingIntervalInSeconds: number;
-  s3BucketName?: string;
-  contentAddressableStoreServiceUri?: string;
+  blockchainServiceUri: string;
+  databaseName: string;
   didMethodName: string;
   maxConcurrentDownloads: number;
-  observingIntervalInSeconds: number;
   mongoDbConnectionString: string;
-  databaseName: string;
+  observingIntervalInSeconds: number;
+  contentAddressableStoreServiceUri?: string;
+  s3BucketName?: string;
 }

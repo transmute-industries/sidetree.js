@@ -1,23 +1,23 @@
-import CreateOperation from './CreateOperation';
-import DeactivateOperation from './DeactivateOperation';
-import DocumentComposer from './DocumentComposer';
-import ErrorCode from './ErrorCode';
-import JsObject from './util/JsObject';
-import JsonCanonicalizer from './util/JsonCanonicalizer';
-import Logger from './Logger';
-import Operation from './Operation';
-import RecoverOperation from './RecoverOperation';
-import SidetreeError from './SidetreeError';
-import UpdateOperation from './UpdateOperation';
-
 import {
+  ErrorCode,
+  Logger,
   OperationType,
   Multihash,
   IOperationProcessor,
   Encoder,
   DidState,
   AnchoredOperationModel,
+  SidetreeError,
 } from '@sidetree/common';
+
+import CreateOperation from './CreateOperation';
+import DeactivateOperation from './DeactivateOperation';
+import DocumentComposer from './DocumentComposer';
+import JsObject from './util/JsObject';
+import JsonCanonicalizer from './util/JsonCanonicalizer';
+import Operation from './Operation';
+import RecoverOperation from './RecoverOperation';
+import UpdateOperation from './UpdateOperation';
 
 /**
  * Implementation of IOperationProcessor.

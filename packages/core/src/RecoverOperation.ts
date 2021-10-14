@@ -1,11 +1,3 @@
-import ErrorCode from './ErrorCode';
-import InputValidator from './InputValidator';
-import JsonAsync from './util/JsonAsync';
-import Jwk from './util/Jwk';
-import Jws from './util/Jws';
-import { validateDelta } from './validateDelta';
-
-import SidetreeError from './SidetreeError';
 import {
   RecoverSignedDataModel,
   OperationType,
@@ -13,7 +5,15 @@ import {
   Multihash,
   Encoder,
   DeltaModel,
+  ErrorCode,
+  SidetreeError,
 } from '@sidetree/common';
+
+import InputValidator from './InputValidator';
+import JsonAsync from './util/JsonAsync';
+import Jwk from './util/Jwk';
+import Jws from './util/Jws';
+import { validateDelta } from './validateDelta';
 
 /**
  * A class that represents a recover operation.

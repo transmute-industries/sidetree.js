@@ -1,16 +1,16 @@
-import ArrayMethods from './util/ArrayMethods';
-import Compressor from './util/Compressor';
-import ErrorCode from './ErrorCode';
-import InputValidator from './InputValidator';
-import JsonAsync from './util/JsonAsync';
-import ProtocolParameters from './ProtocolParameters';
-import SidetreeError from './SidetreeError';
-import UpdateOperation from './UpdateOperation';
-
 import {
+  ErrorCode,
   OperationReferenceModel,
   ProvisionalIndexFileModel,
+  protocolParameters,
+  SidetreeError,
 } from '@sidetree/common';
+
+import ArrayMethods from './util/ArrayMethods';
+import Compressor from './util/Compressor';
+import InputValidator from './InputValidator';
+import JsonAsync from './util/JsonAsync';
+import UpdateOperation from './UpdateOperation';
 
 /**
  * Class containing Map File related operations.
@@ -36,7 +36,7 @@ export default class ProvisionalIndexFile {
     let decompressedBuffer;
     try {
       const maxAllowedDecompressedSizeInBytes =
-        ProtocolParameters.maxProvisionalIndexFileSizeInBytes *
+        protocolParameters.maxProvisionalIndexFileSizeInBytes *
         Compressor.estimatedDecompressionMultiplier;
       decompressedBuffer = await Compressor.decompress(
         provisionalIndexFileBuffer,

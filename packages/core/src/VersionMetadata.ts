@@ -29,7 +29,7 @@ export default class VersionMetadata extends AbstractVersionMetadata {
   public constructor() {
     super();
     this.hashAlgorithmInMultihashCode =
-      protocolParameters.hashAlgorithmInMultihashCode;
+      protocolParameters.hashAlgorithmsInMultihashCode[0];
     this.normalizedFeeToPerOperationFeeMultiplier =
       protocolParameters.normalizedFeeToPerOperationFeeMultiplier;
     this.valueTimeLockAmountMultiplier =

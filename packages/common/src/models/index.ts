@@ -42,6 +42,7 @@ import ProtocolParameters from './ProtocolParameters';
 import ProtocolVersionModel from './ProtocolVersionModel';
 import PublicKeyModel from './PublicKeyModel';
 import QueuedOperationModel from './QueuedOperationModel';
+import ServiceStateModel from './ServiceStateModel';
 import ServiceVersionModel from './ServiceVersionModel';
 import TransactionModel from './TransactionModel';
 import TransactionUnderProcessingModel from './TransactionUnderProcessingModel';
@@ -86,6 +87,7 @@ export {
   PublicKeyJwkEd25519,
   PublicKeyModel,
   QueuedOperationModel,
+  ServiceStateModel,
   ServiceVersionModel,
   TransactionModel,
   TransactionUnderProcessingModel,

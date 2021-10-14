@@ -1,22 +1,6 @@
-import AnchoredDataSerializer from './AnchoredDataSerializer';
-import ChunkFile from './ChunkFile';
-import CoreIndexFile from './CoreIndexFile';
-import CoreProofFile from './CoreProofFile';
-import CreateOperation from './CreateOperation';
-import DeactivateOperation from './DeactivateOperation';
-import FeeManager from './FeeManager';
-import LogColor from './LogColor';
-import Logger from './Logger';
-import Operation from './Operation';
-import ProtocolParameters from './ProtocolParameters';
-import ProvisionalIndexFile from './ProvisionalIndexFile';
-import ProvisionalProofFile from './ProvisionalProofFile';
-import RecoverOperation from './RecoverOperation';
-import UpdateOperation from './UpdateOperation';
-
-import ValueTimeLockVerifier from './ValueTimeLockVerifier';
-
 import {
+  LogColor,
+  Logger,
   ValueTimeLockModel,
   OperationType,
   IVersionMetadataFetcher,
@@ -25,7 +9,22 @@ import {
   IBlockchain,
   IBatchWriter,
   AnchoredData,
+  protocolParameters,
 } from '@sidetree/common';
+
+import AnchoredDataSerializer from './AnchoredDataSerializer';
+import ChunkFile from './ChunkFile';
+import CoreIndexFile from './CoreIndexFile';
+import CoreProofFile from './CoreProofFile';
+import CreateOperation from './CreateOperation';
+import DeactivateOperation from './DeactivateOperation';
+import FeeManager from './FeeManager';
+import Operation from './Operation';
+import ProvisionalIndexFile from './ProvisionalIndexFile';
+import ProvisionalProofFile from './ProvisionalProofFile';
+import RecoverOperation from './RecoverOperation';
+import UpdateOperation from './UpdateOperation';
+import ValueTimeLockVerifier from './ValueTimeLockVerifier';
 
 /**
  * Implementation of the `IBatchWriter`.
@@ -231,7 +230,7 @@ export default class BatchWriter implements IBatchWriter {
     valueTimeLock: ValueTimeLockModel | undefined
   ): number {
     const maxNumberOfOpsAllowedByProtocol =
-      ProtocolParameters.maxOperationsPerBatch;
+      protocolParameters.maxOperationsPerBatch;
     const maxNumberOfOpsAllowedByLock = ValueTimeLockVerifier.calculateMaxNumberOfOperationsAllowed(
       valueTimeLock,
       versionMetadataFetcher

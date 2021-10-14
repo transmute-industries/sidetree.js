@@ -1,17 +1,17 @@
-import ErrorCode from './ErrorCode';
+import {
+  ErrorCode,
+  OperationType,
+  OperationModel,
+  DeltaModel,
+  SidetreeError,
+  SuffixDataModel,
+} from '@sidetree/common';
+
 import InputValidator from './InputValidator';
 import JsonAsync from './util/JsonAsync';
 
 import { computeUniqueSuffix } from './computeUniqueSuffix';
 import { validateDelta } from './validateDelta';
-
-import {
-  OperationType,
-  OperationModel,
-  DeltaModel,
-  SuffixDataModel,
-} from '@sidetree/common';
-import SidetreeError from './SidetreeError';
 
 /**
  * A class that represents a create operation.

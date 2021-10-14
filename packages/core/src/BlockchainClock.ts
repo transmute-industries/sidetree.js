@@ -1,10 +1,12 @@
+import {
+  IBlockchain,
+  IServiceStateStore,
+  Logger,
+  ServiceStateModel,
+} from '@sidetree/common';
+
 import EventCode from './EventCode';
 import EventEmitter from './EventEmitter';
-
-import Logger from './Logger';
-import ServiceStateModel from './ServiceStateModel';
-
-import { IBlockchain, IServiceStateStore } from '@sidetree/common';
 
 /**
  * Class used to manage approximate blockchain time

@@ -1,15 +1,6 @@
-import Delta from './Delta';
-import Did from './Did';
-import DocumentComposer from './DocumentComposer';
-import ErrorCode from './ErrorCode';
-import JsonAsync from './util/JsonAsync';
-import Logger from './Logger';
-import Operation from './Operation';
-import OperationProcessor from './OperationProcessor';
-import Resolver from './Resolver';
-import SidetreeError from './SidetreeError';
-
 import {
+  ErrorCode,
+  Logger,
   ResponseStatus,
   ResponseModel,
   OperationType,
@@ -17,7 +8,16 @@ import {
   IRequestHandler,
   IOperationQueue,
   DidState,
+  SidetreeError,
 } from '@sidetree/common';
+
+import Delta from './Delta';
+import Did from './Did';
+import DocumentComposer from './DocumentComposer';
+import JsonAsync from './util/JsonAsync';
+import Operation from './Operation';
+import OperationProcessor from './OperationProcessor';
+import Resolver from './Resolver';
 
 /**
  * Sidetree operation request handler.
