@@ -55,7 +55,7 @@ describe('QLDB tests', () => {
   it('gets service version', async () => {
     const serviceVersion = await ledger.getServiceVersion();
     expect(serviceVersion).toBeDefined();
-    expect(serviceVersion.name).toBe('qldb');
+    expect(['qldb', 'mock-qldb'].includes(serviceVersion.name)).toBeTruthy();
     expect(serviceVersion.version).toBeDefined();
   });
 
