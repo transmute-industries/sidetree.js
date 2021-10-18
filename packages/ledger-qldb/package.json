@@ -27,6 +27,7 @@
   "devDependencies": {
     "@sidetree/test-vectors": "^0.2.6-unstable.6",
     "aws-sdk": "^2.828.0",
+    "sqlite3": "^5.0.2",
     "tsdx": "^0.14.1"
   },
   "peerDependencies": {
@@ -36,6 +37,7 @@
     "@rollup/plugin-replace": "^3.0.0",
     "@sidetree/common": "^0.2.6-unstable.6",
     "@sidetree/core": "^0.2.6-unstable.6",
+    "@types/sqlite3": "^3.1.7",
     "amazon-qldb-driver-nodejs": "^2.2.0",
     "ion-js": "^4.1.0",
     "jsbi": "^3.1.4",

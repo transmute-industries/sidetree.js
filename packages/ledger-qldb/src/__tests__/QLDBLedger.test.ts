@@ -15,18 +15,26 @@
 import { filesystem } from '@sidetree/test-vectors';
 import AWS from 'aws-sdk/global';
 
-import QLDBLedger from '..';
+import QLDBLedger from '../QLDBLedger';
+import MockQLDBLedger from '../MockQLDBLedger';
 
 jest.setTimeout(10 * 1000);
 
 describe('QLDB tests', () => {
+  const forceMock = true;
+
   const config = new AWS.Config();
-  if (!config.credentials) {
+  if (forceMock) {
+    console.warn('Using mock QLDB interface for QLDB tests');
+  } else if (!config.credentials) {
     console.warn(
-      'No AWS credentials found in ~/.aws/credentials, skipping QLDB tests...'
+      'No AWS credentials found in ~/.aws/credentials, using mock interace'
     );
   }
-  const ledger = new QLDBLedger('photon-test', 'Test');
+  const ledger =
+    config.credentials && !forceMock
+      ? new QLDBLedger('photon-test', 'Test')
+      : new MockQLDBLedger('Test');
   // TODO: use newer values for these eventually. 'core index file' instead of 'anchor file'
   const { anchorString, anchorString2, anchorString3 } = filesystem.anchorFile;
   let blockTime1: number;
@@ -47,7 +55,7 @@ describe('QLDB tests', () => {
   it('gets service version', async () => {
     const serviceVersion = await ledger.getServiceVersion();
     expect(serviceVersion).toBeDefined();
-    expect(serviceVersion.name).toBe('qldb');
+    expect(['qldb', 'mock-qldb'].includes(serviceVersion.name)).toBeTruthy();
     expect(serviceVersion.version).toBeDefined();
   });
 
