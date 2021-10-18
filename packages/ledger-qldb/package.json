@@ -27,6 +27,7 @@
   "devDependencies": {
     "@sidetree/test-vectors": "^0.2.6-unstable.6",
     "aws-sdk": "^2.828.0",
+    "sqlite3": "^5.0.2",
     "tsdx": "^0.14.1"
   },
   "peerDependencies": {
@@ -40,8 +41,7 @@
     "amazon-qldb-driver-nodejs": "^2.2.0",
     "ion-js": "^4.1.0",
     "jsbi": "^3.1.4",
-    "moment": "^2.29.1",
-    "sqlite3": "^5.0.2"
+    "moment": "^2.29.1"
   },
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/ledger-qldb",
   "repository": {
