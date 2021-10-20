@@ -1,5 +1,6 @@
+## Installing Ion on a Raspberry Pi 4 
 
-
+See [instructions](https://github.com/transmute-industries/sidetree.js/blob/main/packages/did-method-ion/INSTALL.md)
 
 ### Creating an ION DID
 
