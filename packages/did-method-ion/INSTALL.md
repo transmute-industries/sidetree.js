@@ -2,6 +2,11 @@
 
 This readme will describe how to install and run a development node of Ion interacting with the Bitcoin Testnet running on the Raspberry Pi 4. 
 
+## Status
+
+This repository `sidetree.js` does not currently support the `did:ion` format.
+More information can be found at the `decentralized-identity` [Ion repository](https://github.com/decentralized-identity/ion). 
+
 ## Requirements
 
 - Raspberry Pi 4
