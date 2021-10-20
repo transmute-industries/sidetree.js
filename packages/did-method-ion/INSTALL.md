@@ -2,10 +2,22 @@
 
 This readme will describe how to install and run a development node of Ion interacting with the Bitcoin Testnet running on the Raspberry Pi 4. 
 
-## Status
+## Acknowledgements
 
-This repository `sidetree.js` does not currently support the `did:ion` format.
-More information can be found at the `decentralized-identity` [Ion repository](https://github.com/decentralized-identity/ion). 
+This guide was based on the following resources.
+
+- [Ion install instructions](https://github.com/decentralized-identity/ion/blob/master/install-guide.md) 
+- [Running an ION node on your Raspberry 4](https://matthijs.hoekstraonline.net/2021/03/25/running-an-ion-node-on-your-raspberry-4/)
+- [Docker install Script](https://github.com/decentralized-identity/ion/blob/master/docker/deploy-docker-mainnet.sh)
+
+The changes made are as follows
+
+- Mainnet was switched to Testnet
+- Docker was replaced with services installed on the Pi
+- Other small fixes for syntax and clarity
+
+Other references for installs of each individual services will be included in 
+their respective sections. 
 
 ## Requirements
 
@@ -35,6 +47,9 @@ $ sudo apt-get upgrade
 ```
 
 ### 1. Install Ipfs
+
+[reference](https://ipfs.io/ipns/k2k4r8n098cwalcc7rdntd19nsjyzh6rku1hvgsmkjzvnw582mncc4b4/IPFS_SetupOnRPi.html)
+[reference](https://github.com/claudiobizzotto/ipfs-rpi)
 
 ```
 $ sudo snap install ipfs
@@ -102,6 +117,8 @@ Check out some of the other files in this directory:
 
 ### 2. Install MongoDB
 
+[reference](https://www.mongodb.com/developer/how-to/mongodb-on-raspberry-pi/)
+
 ```
 $ wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 $ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
@@ -134,6 +151,9 @@ Oct 19 16:11:17 docker-ion-pi4 systemd[1]: Started MongoDB Database Server.
 
 
 ### 3. Install Bitcoind
+
+[reference](https://bitcoin.org/en/full-node)
+[reference](https://bitcoinsv.io/documentation/miners/installation/bitcoind/)
 
 ```
 $ wget https://bitcoin.org/bin/bitcoin-core-0.21.1/bitcoin-0.21.1-aarch64-linux-gnu.tar.gz
@@ -225,6 +245,8 @@ $ v14.18.1
 ```
 
 ### 5. Wait for Bitcoin data to sync, and clone Ion
+
+[refrence](https://github.com/decentralized-identity/ion/blob/master/docker/deploy-docker-mainnet.sh#L110)
 
 Before we can run ion, our bitcoin process needs to sync to a specific block height. We can check the progress with the following script. 
 
