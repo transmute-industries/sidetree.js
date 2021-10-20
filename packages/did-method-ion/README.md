@@ -1,5 +1,11 @@
+## Status
 
+This repository `sidetree.js` does not currently support the `did:ion` format.
+More information can be found at the `decentralized-identity` [Ion repository](https://github.com/decentralized-identity/ion).  
 
+## Installing Ion on a Raspberry Pi 4 
+
+See [instructions](https://github.com/transmute-industries/sidetree.js/blob/main/packages/did-method-ion/INSTALL.md)
 
 ### Creating an ION DID
 
