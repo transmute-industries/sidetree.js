@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build2": "next build",
+    "build": "next build",
     "export": "next export",
     "start": "next start",
     "lint": "next lint",
@@ -19,7 +19,7 @@
     "@mui/x-data-grid": "^5.0.0-beta.2",
     "@sidetree/common": "0.2.6-unstable.6",
     "@sidetree/crypto": "0.2.6-unstable.6",
-    "@sidetree/wallet": "0.2.6-unstable.6",
+    "@sidetree/wallet": "^0.2.6-unstable.6",
     "@transmute/universal-wallet": "^0.7.0-unstable.8",
     "factory.ts": "^0.5.2",
     "moment": "^2.29.1",

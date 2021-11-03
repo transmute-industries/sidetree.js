@@ -10,7 +10,7 @@ import { WalletCard } from '../../components/wallet-card';
 
 import { config } from '../../config';
 
-import { getWallet, createWallet } from './facade';
+import { getWallet, createWallet } from '../../core/facade';
 
 const Wallet: NextPage = () => {
   const [wallet, setWallet]: any = React.useState(null);
