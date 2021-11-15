@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@sidetree/test-vectors": "^0.2.6-unstable.6",
+    "events": "^3.3.0",
     "tsdx": "^0.14.1"
   },
   "dependencies": {

@@ -6,10 +6,10 @@ console.log(SidetreeWallet);
 
 export interface DashboardWallet
   extends UniversalWallet.Wallet,
-    SidetreeWallet.pluginFactory.SidetreePlugin {}
+    SidetreeWallet.SidetreePlugin {}
 
 export const dashboardWalletFactory: Factory.Sync.Factory<DashboardWallet> = Factory.Sync.makeFactory<
   DashboardWallet
 >({} as any)
-  .combine(SidetreeWallet.pluginFactory.pluginFactory)
+  .combine(SidetreeWallet.SidetreeWalletPlugin)
   .combine(UniversalWallet.walletFactory);
