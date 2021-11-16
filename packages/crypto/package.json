@@ -24,6 +24,7 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
+    "events": "^3.3.0",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
