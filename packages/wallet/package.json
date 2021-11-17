@@ -36,7 +36,8 @@
     "@sidetree/crypto": "^0.2.6-unstable.6",
     "@transmute/universal-wallet": "^0.6.0",
     "bip39": "^3.0.2",
-    "factory.ts": "^0.5.1"
+    "factory.ts": "^0.5.1",
+    "varint": "^6.0.0"
   },
   "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7",
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/wallet",
