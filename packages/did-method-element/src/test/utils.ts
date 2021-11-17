@@ -22,7 +22,7 @@ import { EthereumLedger } from '@sidetree/ethereum';
 import { MockCas } from '@sidetree/cas';
 import Element from '../Element';
 
-const config: any = require('./element-ganache-config.json');
+import config from '../configs/element-ganache-config.json';
 
 const writeFixture = (filename: string, object: any) => {
   fs.writeFileSync(
@@ -33,7 +33,10 @@ const writeFixture = (filename: string, object: any) => {
 
 const getTestLedger = async () => {
   const web3 = new Web3(config.ethereumRpcUrl);
-  const ledger = new EthereumLedger(web3, config.elementAnchorContract);
+  const ledger = new EthereumLedger(
+    web3,
+    (config as any).elementAnchorContract
+  );
   return ledger;
 };
 
@@ -52,7 +55,7 @@ const getTestCas = async () => {
 const getTestElement = async () => {
   const ledger = await getTestLedger();
   const cas = await getTestCas();
-  const element = new Element(config, config.versions, cas, ledger);
+  const element = new Element(config as any, config.versions, cas, ledger);
   await element.initialize();
   return element;
 };

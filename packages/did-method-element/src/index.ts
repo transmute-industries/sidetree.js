@@ -13,5 +13,5 @@
  */
 
 import Element from './Element';
-
+export * from './provider';
 export { Element };
