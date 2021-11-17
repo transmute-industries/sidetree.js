@@ -1,0 +1,10 @@
+description: Sidetree operations
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        operations:
+          type: array
+          items:
+            $ref: '../schemas/Operation.yml'

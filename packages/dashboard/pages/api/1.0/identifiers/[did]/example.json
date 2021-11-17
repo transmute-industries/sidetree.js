@@ -1,0 +1,45 @@
+{
+  "status": "succeeded",
+  "body": {
+    "@context": "https://w3id.org/did-resolution/v1",
+    "didDocument": {
+      "@context": [
+        "https://www.w3.org/ns/did/v1",
+        "https://w3id.org/security/suites/jws-2020/v1",
+        { "@vocab": "https://www.w3.org/ns/did#" }
+      ],
+      "id": "did:example:sidetree.testnet:EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA",
+      "verificationMethod": [
+        {
+          "id": "#zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN",
+          "controller": "did:example:sidetree.testnet:EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA",
+          "type": "JsonWebKey2020",
+          "publicKeyJwk": {
+            "kty": "EC",
+            "crv": "secp256k1",
+            "x": "S394cutAwIcDsfPbD9lNRMhLFVYB4ouTTxpgmnjtX5M",
+            "y": "GMlRberOzJr5PPGSynFu6MiHxTitI4Ghf9QKqL8fCOQ"
+          }
+        }
+      ],
+      "authentication": ["#zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN"],
+      "assertionMethod": ["#zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN"],
+      "keyAgreement": ["#zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN"],
+      "service": [
+        {
+          "id": "#example-service",
+          "type": "ExampleService",
+          "serviceEndpoint": "https://example.com"
+        }
+      ]
+    },
+    "didDocumentMetadata": {
+      "method": {
+        "published": true,
+        "recoveryCommitment": "EiBxTTdM630RHKVT6ZqS6mwipgnm9cEd11tRdF1cCV8rmg",
+        "updateCommitment": "EiBMAjSA_AJasp6C2g0m4qyTEg5IRUAWRlWQ3vU_XjC1hQ"
+      },
+      "canonicalId": "did:example:sidetree.testnet:EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA"
+    }
+  }
+}

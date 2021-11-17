@@ -1,0 +1,11 @@
+type: object
+example:
+  {
+    'method':
+      {
+        'published': true,
+        'recoveryCommitment': 'EiBxTTdM630RHKVT6ZqS6mwipgnm9cEd11tRdF1cCV8rmg',
+        'updateCommitment': 'EiBMAjSA_AJasp6C2g0m4qyTEg5IRUAWRlWQ3vU_XjC1hQ',
+      },
+    'canonicalId': 'did:example:sidetree.testnet:EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA',
+  }

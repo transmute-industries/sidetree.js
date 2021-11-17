@@ -1,0 +1,31 @@
+openapi: '3.0.0'
+info:
+  version: 1.0.0
+  title: Sidetree API
+  description: Sidetree Node API
+  license:
+    name: Apache.20
+  contact:
+    name: API Support
+    url: https://github.com/transmute-industries/sidetree.js
+servers:
+  - url: http://localhost:3000
+
+tags:
+  - name: Identifiers
+  - name: Operations
+  - name: Transactions
+paths:
+  /api/1.0/identifiers/{did}:
+    $ref: './resources/identifiers.yml'
+  /api/1.0/operations:
+    $ref: './resources/operations.yml'
+  /api/1.0/transactions:
+    $ref: './resources/transactions.yml'
+components:
+  parameters:
+    $ref: './parameters/_index.yml'
+  schemas:
+    $ref: './schemas/_index.yml'
+  responses:
+    $ref: './responses/_index.yml'

@@ -1,0 +1,10 @@
+name: did-unique-suffix
+in: query
+required: true
+description: >
+  The method-specific-id associated with a DID.
+  See https://www.w3.org/TR/did-core/#did-syntax.
+  See https://identity.foundation/sidetree/spec/#terminology.
+example: 'EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA'
+schema:
+  type: string

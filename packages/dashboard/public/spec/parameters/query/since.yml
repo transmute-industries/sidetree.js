@@ -1,0 +1,7 @@
+name: since
+in: query
+required: true
+description: A transaction number. When not given, all Sidetree transactions since inception will be returned.
+example: 50001
+schema:
+  type: number

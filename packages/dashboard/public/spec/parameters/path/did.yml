@@ -1,0 +1,7 @@
+name: did
+in: path
+required: true
+description: A decentralized identifier
+example: 'did:example:sidetree.testnet:EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA'
+schema:
+  type: string

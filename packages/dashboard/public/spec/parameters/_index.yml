@@ -1,0 +1,10 @@
+# path
+did:
+  $ref: './path/did.yml'
+
+# query
+since:
+  $ref: './query/since.yml'
+
+transaction-time-hash:
+  $ref: './query/transaction-time-hash.yml'
