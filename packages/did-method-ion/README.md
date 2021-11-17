@@ -3,9 +3,14 @@
 This repository `sidetree.js` does not currently support the `did:ion` format.
 More information can be found at the `decentralized-identity` [Ion repository](https://github.com/decentralized-identity/ion).  
 
-## Installing Ion on a Raspberry Pi 4 
+## Setting up a Test Environment
 
-See [instructions](https://github.com/transmute-industries/sidetree.js/blob/main/packages/did-method-ion/INSTALL.md)
+This repository provides instructions for running Ion on a Raspberry Pi 4 using
+Ubuntu 20.04.3 LTS for a test environment. 
+
+1. First step is getting ion installed on a Raspberry Pi with Regtest running completely locally for development and debugging. 
+
+2. Second step is getting a Testnet setup on the Raspberry Pi running as a service, so that anyone of the services can be run in a terminal and debugged as needed. The instructions for that can be found [here](https://github.com/transmute-industries/sidetree.js/blob/main/packages/did-method-ion/INSTALL.md)
 
 ### Creating an ION DID
 
