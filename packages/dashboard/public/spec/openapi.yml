@@ -12,10 +12,13 @@ servers:
   - url: http://localhost:3000
 
 tags:
+  - name: Meta
   - name: Identifiers
   - name: Operations
   - name: Transactions
 paths:
+  /api/1.0/version:
+    $ref: './resources/version.yml'
   /api/1.0/identifiers/{did}:
     $ref: './resources/identifiers.yml'
   /api/1.0/operations:

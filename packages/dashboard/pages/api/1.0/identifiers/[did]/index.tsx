@@ -1,6 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-
-import resolutionResponse from './example.json';
+import type { NextApiResponse } from 'next';
+import {
+  sidetree,
+  SidetreeApiRequest,
+  convertSidetreeStatusToHttpStatus,
+} from '../../../../../middleware/sidetree';
 
 type Data = {
   didDocument: any;
@@ -8,14 +11,17 @@ type Data = {
   didDocumentMetadata: any;
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  // const { did } = req.query;
-  // const { status, body } = await sidetree.handleResolveRequest(did);
+const handler = async (req: SidetreeApiRequest, res: NextApiResponse<Data>) => {
+  const { did } = req.query;
+  const { status, body }: any = await req.sidetree.method.handleResolveRequest(
+    did
+  );
   // // status => http status code
+  res.status(convertSidetreeStatusToHttpStatus(status));
   // // body => http response body
-  const result: any = resolutionResponse.body;
-  res.status(200).json(result);
-}
+  if (body) {
+    res.json(body);
+  }
+};
+
+export default sidetree(handler);

@@ -1,0 +1,18 @@
+description: Sidetree node version
+content:
+  application/json:
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          version:
+            type: string
+
+    example:
+      [
+        { 'name': 'core', 'version': '0.2.6-unstable.6' },
+        { 'name': 'mock-ledger', 'version': '0.2.6-unstable.6' },
+      ]

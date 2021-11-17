@@ -15,6 +15,7 @@ module.exports = {
       // Fix all packages that this change breaks:
       // config.resolve.alias['node-fetch'] = 'node-fetch/lib/index.js';
     }
+
     return config;
   },
 };
