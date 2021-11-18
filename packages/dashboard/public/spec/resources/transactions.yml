@@ -1,0 +1,14 @@
+get:
+  summary: Query
+  operationId: getTransactions
+  description: Get sidetree transactions
+  tags:
+    - Transactions
+  parameters:
+    - $ref: '../parameters/query/since.yml'
+    - $ref: '../parameters/query/transaction-time-hash.yml'
+  responses:
+    '200':
+      $ref: '../responses/TransactionsResponse.yml'
+    default:
+      $ref: '../responses/UnexpectedError.yml'

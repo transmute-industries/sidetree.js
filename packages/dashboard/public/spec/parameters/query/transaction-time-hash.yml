@@ -1,0 +1,10 @@
+name: transaction-time-hash
+in: query
+required: true
+description: >
+  MUST BE given if since parameter is specified. 
+  This is the hash associated with the time the transaction specified by the since parameter is anchored on anchor. 
+  Multiple transactions can have the same transaction time and thus the same transaction time hash.
+example: '00000000000000000000100158f474719e5a319933856f7f464fcc65a3cb2253'
+schema:
+  type: string

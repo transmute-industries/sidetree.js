@@ -1,0 +1,32 @@
+get:
+  summary: Query
+  operationId: queryOperations
+  description: Get Sidetree DID Method Operations
+  tags:
+    - Operations
+  parameters:
+    - $ref: '../parameters/query/did-unique-suffix.yml'
+  responses:
+    '200':
+      $ref: '../responses/OperationsResponse.yml'
+    default:
+      $ref: '../responses/UnexpectedError.yml'
+
+post:
+  summary: Publish
+  operationId: publishOperation
+  description: Publish a Sidetree DID Method Operation to the appropriate network
+  tags:
+    - Operations
+  requestBody:
+    description: Sidetree Operation
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/Operation.yml'
+
+  responses:
+    '200':
+      $ref: '../responses/OperationResponse.yml'
+    default:
+      $ref: '../responses/UnexpectedError.yml'

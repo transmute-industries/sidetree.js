@@ -1,0 +1,17 @@
+get:
+  summary: Resolve
+  operationId: resolve
+  description: Get a DID's latest keys, services and capabilities
+  tags:
+    - Identifiers
+  parameters:
+    - $ref: '../parameters/path/did.yml'
+  responses:
+    '200':
+      description: Expected response to a valid request
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/DidResolutionResponse.yml'
+    default:
+      $ref: '../responses/UnexpectedError.yml'

@@ -2,9 +2,11 @@
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
+  reactStrictMode: true,
+  webpack5: false,
   // Use the prefix in production and not development.
   assetPrefix: isProd ? '' : '',
-  experimental: { esmExternals: 'loose' },
+  experimental: { esmExternals: 'loose', outputFileTracing: true },
   // see https://github.com/vercel/vercel/issues/2569#issuecomment-514865342
   webpack(config, { isServer }) {
     if (isServer) {
@@ -13,6 +15,7 @@ module.exports = {
       // Fix all packages that this change breaks:
       // config.resolve.alias['node-fetch'] = 'node-fetch/lib/index.js';
     }
+
     return config;
   },
 };

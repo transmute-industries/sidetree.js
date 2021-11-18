@@ -1,0 +1,55 @@
+type: object
+properties:
+  type:
+    type: string
+    enum: [create, update, recover, deactivate]
+  suffix_data:
+    type: object
+  delta:
+    type: string
+example:
+  {
+    'type': 'create',
+    'suffixData':
+      {
+        'deltaHash': 'EiDJ11FPryF_VQtj1XzbDMpB6IWGAQpkoG7XVSef_9Qafg',
+        'recoveryCommitment': 'EiBxTTdM630RHKVT6ZqS6mwipgnm9cEd11tRdF1cCV8rmg',
+      },
+    'delta':
+      {
+        'updateCommitment': 'EiBMAjSA_AJasp6C2g0m4qyTEg5IRUAWRlWQ3vU_XjC1hQ',
+        'patches':
+          [
+            {
+              'action': 'replace',
+              'document':
+                {
+                  'publicKeys':
+                    [
+                      {
+                        'id': 'zQ3shSVW4zHtHeuWFMRVDSEP2ijqvNa2KU2yHHsWTF2Mg4fCN',
+                        'type': 'JsonWebKey2020',
+                        'publicKeyJwk':
+                          {
+                            'kty': 'EC',
+                            'crv': 'secp256k1',
+                            'x': 'S394cutAwIcDsfPbD9lNRMhLFVYB4ouTTxpgmnjtX5M',
+                            'y': 'GMlRberOzJr5PPGSynFu6MiHxTitI4Ghf9QKqL8fCOQ',
+                          },
+                        'purposes':
+                          ['authentication', 'assertionMethod', 'keyAgreement'],
+                      },
+                    ],
+                  'services':
+                    [
+                      {
+                        'id': 'example-service',
+                        'type': 'ExampleService',
+                        'serviceEndpoint': 'https://example.com',
+                      },
+                    ],
+                },
+            },
+          ],
+      },
+  }

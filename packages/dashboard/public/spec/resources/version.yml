@@ -1,0 +1,11 @@
+get:
+  summary: Version
+  operationId: getVersion
+  description: Get sidetree node version detail
+  tags:
+    - Meta
+  responses:
+    '200':
+      $ref: '../responses/SidetreeNodeVersionResponse.yml'
+    default:
+      $ref: '../responses/UnexpectedError.yml'

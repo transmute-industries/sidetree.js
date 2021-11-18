@@ -1,0 +1,10 @@
+description: Sidetree transactions
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        transactions:
+          type: array
+          items:
+            $ref: '../schemas/Transaction.yml'

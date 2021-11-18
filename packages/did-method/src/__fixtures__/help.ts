@@ -7,8 +7,8 @@ import { MockCas } from '@sidetree/cas';
 
 import { MockLedger } from '@sidetree/ledger';
 
-import sidetreeTestNodeCoreConfig from './sidetree-test-node-config.json';
-import sidetreeTestNodeCoreVersions from './sidetree-test-node-core-versions.json';
+import sidetreeTestNodeCoreConfig from '../configs/sidetree-test-node-config.json';
+import sidetreeTestNodeCoreVersions from '../configs/sidetree-test-node-core-versions.json';
 
 export { sidetreeTestNodeCoreConfig, sidetreeTestNodeCoreVersions };
 
