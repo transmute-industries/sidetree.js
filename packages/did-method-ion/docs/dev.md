@@ -52,14 +52,6 @@ $ sudo systemctl enable mongod.service
 $ sudo systemctl start mongod.service
 ```
 
-Clone Ion
-```
-$ cd /home/ubuntu
-$ sudo apt-get install make
-$ git clone https://github.com/decentralized-identity/ion.git
-$ cd ion
-$ npm install
-```
 
 ## Section 02 Running a node
 
@@ -107,4 +99,93 @@ $ bitcoin-core.cli getbalance
 50.00000000
 $ bitcoin-core.cli dumpprivkey bcrt1qjglqvdy353kwrrgx8kljva26v60ltuwwtgw4eh
 cPTtDj4iqKueHm3iigvDYkWF3UiyXDckNnUXcH6a2QGdti8avNUH
+```
+
+Clone, Configure and Build Ion
+```
+$ cd /home/ubuntu
+$ sudo apt-get install make
+$ git clone https://github.com/decentralized-identity/ion.git
+$ cd ion
+$ npm install
+$ mv json config
+$ mkdir json
+$ vim json/testnet-bitcoin-config.json
+--- File Content ---
+{
+  "bitcoinDataDirectory": "/home/ubuntu/snap/bitcoin-core/common/.bitcoin/regtest",
+  "bitcoinFeeSpendingCutoffPeriodInBlocks": 1,
+  "bitcoinFeeSpendingCutoff": 0.001,
+  "bitcoinPeerUri": "http://localhost:18443",
+  "bitcoinRpcUsername": "admin",
+  "bitcoinRpcPassword": "keyboardcat",
+  "bitcoinWalletOrImportString": "cPTtDj4iqKueHm3iigvDYkWF3UiyXDckNnUXcH6a2QGdti8avNUH",
+  "databaseName": "ion-regtest-bitcoin",
+  "genesisBlockNumber": 100,
+  "logRequestError": true,
+  "mongoDbConnectionString": "mongodb://localhost:27017/",
+  "port": 3002,
+  "sidetreeTransactionFeeMarkupPercentage": 1,
+  "sidetreeTransactionPrefix": "ion:",
+  "transactionPollPeriodInSeconds": 60,
+  "valueTimeLockUpdateEnabled": false,
+  "valueTimeLockAmountInBitcoins": 0,
+  "valueTimeLockPollPeriodInSeconds": 600 ,
+  "valueTimeLockTransactionFeesAmountInBitcoins": 0.0001
+}
+--- EOF ---
+$ vim json/testnet-bitcoin-versioning.json
+--- File Content ---
+[
+  {
+    "startingBlockchainTime": 100,
+    "version": "latest",
+    "protocolParameters": {
+      "feeLookBackWindowInBlocks": 1000,
+      "feeMaxFluctuationMultiplierPerBlock": 0.00001,
+      "initialNormalizedFeeInSatoshis": 400,
+      "valueTimeLockDurationInBlocks": 150
+    }
+  }
+]
+--- EOF ---
+$ vim json/testnet-core-config.json
+--- File Content ---
+{
+  "batchingIntervalInSeconds": 600,
+  "blockchainServiceUri": "http://127.0.0.1:3002",
+  "databaseName": "ion-regtest-core",
+  "didMethodName": "ion",
+  "ipfsHttpApiEndpointUri": "http://127.0.0.1:5001",
+  "maxConcurrentDownloads": 20,
+  "mongoDbConnectionString": "mongodb://localhost:27017/",
+  "observingIntervalInSeconds": 60,
+  "port": 3000
+}
+--- EOF ---
+$ vim json/testnet-core-versioning.json
+--- File Content ---
+[
+  {
+    "startingBlockchainTime": 100,
+    "version": "latest"
+  }
+]
+--- EOF ---
+$ npm run build
+```
+
+Run Ion-bitcoin process
+```
+$ cd dist/src
+$ screen -S ion-bitcoin
+[ ion-bitcoin ] $ node bitcoin.js
+[Control A + D]
+```
+
+Run Ion-core procee
+```
+$ screen -S ion-core
+[ ion-core ] $ node core.js
+[Control A + D]
 ```
