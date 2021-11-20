@@ -55,9 +55,56 @@ $ sudo systemctl start mongod.service
 Clone Ion
 ```
 $ cd /home/ubuntu
+$ sudo apt-get install make
 $ git clone https://github.com/decentralized-identity/ion.git
 $ cd ion
 $ npm install
 ```
 
 ## Section 02 Running a node
+
+First start running IPFS in the background
+```
+$ screen -S ipfs
+[ipfs] $ ipfs daemon
+[Control A + D]
+```
+
+Define Bitcoin-core config
+```
+$ vim /home/ubuntu/snap/bitcoin-core/common/.bitcoin/bitcoin.conf
+--- Create File ---
+regtest=1
+server=1
+rpcuser=admin
+rpcpassword=keyboardcat
+txindex=1
+rpcallowip=127.0.0.1/32
+--- EOF ---
+```
+
+Start Bitcoin-core daemon
+```
+$ screen -S bitcoind
+[bitcoind] $ bitcoin-core.daemon
+[Control A + D]
+```
+
+Create Bitcoin Wallet, generate blocks, and dump private key for address
+```
+$ bitcoin-core.cli createwallet ion-dev
+$ bitcoin-core.cli getnewaddress
+bcrt1qjglqvdy353kwrrgx8kljva26v60ltuwwtgw4eh
+$ bitcoin-core.cli generatetoaddress 101 bcrt1qjglqvdy353kwrrgx8kljva26v60ltuwwtgw4eh
+[
+  "3e8d74a700cd467ef8bd02b74c400bfc88d786cba5e5d9d18d7c1aba57dff076",
+  "597d7561ae4e3881474dc830a67f12606daffca94af48f5bc90010822fd957e7",
+  "40d577c0624ccc5dff4f19655ab5a75471249a1d553a8f7afec0ca6c671cbee0",
+...
+  "633a4deb4a95675ec7816319ed4f26584104760a38e5c01b02465eafeee22a1a"
+]
+$ bitcoin-core.cli getbalance
+50.00000000
+$ bitcoin-core.cli dumpprivkey bcrt1qjglqvdy353kwrrgx8kljva26v60ltuwwtgw4eh
+cPTtDj4iqKueHm3iigvDYkWF3UiyXDckNnUXcH6a2QGdti8avNUH
+```
