@@ -6,14 +6,16 @@ module.exports = {
   webpack5: false,
   // Use the prefix in production and not development.
   assetPrefix: isProd ? '' : '',
+  // https://nextjs.org/docs/messages/import-esm-externals
   experimental: { esmExternals: 'loose', outputFileTracing: true },
+  webpack5: false,
   // see https://github.com/vercel/vercel/issues/2569#issuecomment-514865342
   webpack(config, { isServer }) {
     if (isServer) {
       config.resolve.mainFields = ['module', 'main'];
 
       // Fix all packages that this change breaks:
-      // config.resolve.alias['node-fetch'] = 'node-fetch/lib/index.js';
+      config.resolve.alias['node-fetch'] = 'node-fetch/lib/index.js';
     }
 
     return config;
