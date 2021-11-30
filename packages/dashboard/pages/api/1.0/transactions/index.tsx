@@ -1,14 +1,14 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import getExample from './example-get.json';
+import type { NextApiResponse } from 'next';
 
 type Data = { transactions: any };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+import { sidetree, SidetreeApiRequest } from '../../../../middleware/sidetree';
+
+const handler = async (req: SidetreeApiRequest, res: NextApiResponse<Data>) => {
   if (req.method === 'GET') {
-    const result: any = getExample;
-    res.status(200).json(result);
+    const results: any = await req.sidetree.method.getTransactions();
+    res.status(200).json(results);
   }
-}
+};
+
+export default sidetree(handler);
