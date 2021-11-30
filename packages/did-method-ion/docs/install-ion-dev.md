@@ -69,31 +69,7 @@ rpcuser=admin
 rpcpassword=keyboardcat
 txindex=1
 fallbackfee=0.001
-
-[regtest]
-wallet=/home/ubuntu/snap/bitcoin-core/common/.bitcoin/regtest/wallets/sidetreeDefaultWallet
 --- EOF ---
-$ sudo vim /lib/systemd/system/bitcoind.service
---- Create File ---
-[Unit]
-Description=Bitcoin service
-After=network.target
-
-[Service]
-User=ubuntu
-Group=ubuntu
-Type=simple
-ExecStart=/snap/bin/bitcoin-core.daemon
-ExecStop=/usr/bin/pkill -f bitcoin-core.daemon
-Restart=on-failure
-RestartSec=10s
-
-[Install]
-WantedBy=multi-user.target
---- EOF ---
-$ sudo systemctl daemon-reload
-$ sudo systemctl start bitcoind.service
-$ sudo systemctl enable bitcoind.service
 ```
 
 Install Node

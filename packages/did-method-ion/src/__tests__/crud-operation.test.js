@@ -3,23 +3,17 @@
  * To run this test, you must to the following
  * 1. Follow the ion-install-develop.md instructions
  * 2. Have IPFS running as a daemon
- * 3. Not have bitcoin-core.daemon as a background
- * 4. Have the ion repository cloned as /home/ubuntu/ion
- * 5. Have the config files for ion configured
- * 6. Have built the ion-development files
+ * 3. Must have bitcoin-core.daemon running in background
+ * 6. Must have ion-bitcoin process running
  * 7. Not have ion-core or ion-bitcoin process running
  **/
 
-const { execSync } = require('child_process');
-const { 
-	ipfsReadme,
-	bitcoindError
-} = require('../__fixtures__');
+const { execSync, spawn } = require('child_process');
+const { ipfsReadme, bitcoindError } = require('../__fixtures__');
+const opts = { encoding : 'utf-8' }
+const config = { detached : true, cwd : '/home/ubuntu/ion/dist/src' }
 
-const opts = {
-	encoding : 'utf-8'
-}
-
+let btcProc, coreProc;
 const ionAddress = 'mzQCLt9Eafas64E718myJ88KA1K8oRM6u2';
 
 describe('performing crud operations with regtest', () => {
@@ -43,7 +37,8 @@ describe('performing crud operations with regtest', () => {
 		expect(parseInt(balance)).toBeGreaterThan( 0 );
 	});
 	
-	it('should return transaction fee', () => {
+
+	it.skip('should return transaction fee', () => {
 		for(let i = 0; i < 10; i++) {
  			execSync(`bitcoin-core.cli sendtoaddress ${ionAddress} 0.5`, opts);
 			execSync(`bitcoin-core.cli -generate 1`, opts);
@@ -53,6 +48,35 @@ describe('performing crud operations with regtest', () => {
 		const fee = JSON.parse(feeinfo);
 		expect( fee ).toHaveProperty( 'feerate' );
 		expect( fee.feerate ).toBeGreaterThan( 0 );
+	});
+
+	it('should start ion bitcoin and core process', () => {
+		btcProc = spawn( 'node', ['bitcoin.js'], config )
+		coreProc = spawn( 'node', ['core.js'], config )
+		execSync('sleep 5s', opts);
+		
+		const versioninfo = execSync('curl http://localhost:3000/version', opts);
+		const version = JSON.parse( versioninfo );
+		expect(version).toHaveLength(2);
+		const [ core, bitcoin ] = version; 
+		expect( core ).toHaveProperty( 'name', 'core' );
+		expect( bitcoin ).toHaveProperty( 'name', 'bitcoin' );
+	});
+
+	it('should stop ion bitcoin and core process', () => {
+		btcProc.kill();
+		coreProc.kill();
+
+		execSync('sleep 2s', opts);
+		expect(1).toBe(1);
+		
+		try {
+			execSync('curl http://localhost:3000/version', opts);
+		} catch(err) {
+			console.log(err.toString());
+			expect( err ).toBeDefined();
+		}
+
 	});
 
 	it('should stop the bitcoin daemon', () => {
