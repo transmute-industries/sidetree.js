@@ -10,6 +10,9 @@
 
 const { execSync, spawn } = require('child_process');
 const { ipfsReadme, bitcoindError } = require('../__fixtures__');
+const { IonDid, IonDocumentModel, IonKey, IonRequest } = require('@decentralized-identity/ion-sdk');
+const { ECPair } = require('ecpair');
+
 const opts = { encoding : 'utf-8' }
 const config = { detached : true, cwd : '/home/ubuntu/ion/dist/src' }
 
@@ -53,7 +56,7 @@ describe('performing crud operations with regtest', () => {
 	it('should start ion bitcoin and core process', () => {
 		btcProc = spawn( 'node', ['bitcoin.js'], config )
 		coreProc = spawn( 'node', ['core.js'], config )
-		execSync('sleep 5s', opts);
+		execSync('sleep 30s', opts);
 		
 		const versioninfo = execSync('curl http://localhost:3000/version', opts);
 		const version = JSON.parse( versioninfo );
@@ -62,6 +65,37 @@ describe('performing crud operations with regtest', () => {
 		expect( core ).toHaveProperty( 'name', 'core' );
 		expect( bitcoin ).toHaveProperty( 'name', 'bitcoin' );
 	});
+
+	it('should send a create operation to ion core', () => {
+
+		const [recoveryKey, recoveryPrivateKey] = await IonKey.generateEs256kOperationKeyPair();
+		const [updateKey, updatePrivateKey] = await IonKey.generateEs256kOperationKeyPair();
+		const [signingKey, signingPrivateKey] = await IonKey.generateEs256kDidDocumentKeyPair({id: 'signing-key'});
+		const publicKeys = [signingKey];
+
+		const document = { publicKeys };
+	
+	console.log('document model');
+	console.log( IonDocumentModel );
+
+		const input = { recoveryKey, updateKey, document };
+		const createRequest = IonRequest.createCreateRequest(input);
+		const longFormDid = IonDid.createLongFormDid(input);
+		const shortFormDid = longFormDid.substring(0, longFormDid.lastIndexOf(':'));
+		const didSuffix = shortFormDid.substring(shortFormDid.lastIndexOf(':') + 1);
+
+		const dat = JSON.stringify(createRequest);
+		console.log(`curl --header "Content-Type: application/json" \
+	  --request POST \
+	  --data '${dat}' \
+	  http://localhost:3000/operations`);
+
+
+	});
+
+	it.todo('write the anchor string to the blockchain');
+
+	it.todo('should resolve the did from ion core');
 
 	it('should stop ion bitcoin and core process', () => {
 		btcProc.kill();
