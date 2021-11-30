@@ -16,11 +16,16 @@ that run in the background. We will be using Screen to keep an
 active termainl with the process running, so that we can read 
 what's happening in each process to be able to debug if needed.
 
-Note that we will create new screens with the `$ screen -S` command
+**Note 1:** We will create new screens with the `$ screen -S` command
 and we will use the notation of `[Control A + D]` to disconnect 
 from a screen. You can can use `$ screen -ls` to list the currently
 active screens and `$ screen -x [screen name]` to connect to a
 screen instance running in the background. 
+
+**Note 2:** This guide has been created to be as easy to set up 
+and test with fixed values. Security has been relaxed on purpose
+for demonstrative purposes. Do not use these settings in a production
+or test environment .
 
 ## Section 01 Install Dependencies
 
@@ -41,7 +46,6 @@ server=1
 rpcuser=admin
 rpcpassword=keyboardcat
 txindex=1
-rpcallowip=127.0.0.1/32
 fallbackfee=0.001
 --- EOF ---
 ```
@@ -62,7 +66,6 @@ $ sudo systemctl daemon-reload
 $ sudo systemctl enable mongod.service
 $ sudo systemctl start mongod.service
 ```
-
 
 ## Section 02 Running a node
 
@@ -206,7 +209,7 @@ $ screen -S ion-core
 [Control A + D]
 ```
 
-## Section 03 Sending a Create Operation
+## Section 03 Sending a Create Operation and Resolve Operation
 
 Install Ion CLI and generate create operation
 
