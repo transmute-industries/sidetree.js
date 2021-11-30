@@ -14,7 +14,6 @@ module.exports = {
       config.resolve.mainFields = ['module', 'main'];
       // Fix all packages that this change breaks:
       config.resolve.alias['node-fetch'] = 'node-fetch/lib/index.js';
-      // if (!dev) {
       const [nextJsExternals] = config.externals;
       config.externals = [
         (context, request, callback) => {
@@ -26,7 +25,6 @@ module.exports = {
           nextJsExternals(context, request, callback);
         },
       ];
-      // }
     }
     return config;
   },
