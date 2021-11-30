@@ -33,6 +33,28 @@ Install IPFS
 ```
 $ sudo snap install ipfs
 $ ipfs init
+$ sudo vim /lib/systemd/system/ipfs-daemon.service
+--- Create File ---
+[Unit]
+Description=IPFS daemon
+Wants=network.target
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+Type=simple
+Environment=IPFS_PATH=/home/ubuntu/snap/ipfs/common
+ExecStart=/snap/bin/ipfs daemon --migrate
+ExecStop=/usr/bin/pkill -f ipfs
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+--- EOF ---
+$ sudo systemctl start ipfs-daemon.service
+$ sudo systemctl enable ipfs-daemon.service
 ```
 
 Install Bitcoin
@@ -47,7 +69,31 @@ rpcuser=admin
 rpcpassword=keyboardcat
 txindex=1
 fallbackfee=0.001
+
+[regtest]
+wallet=/home/ubuntu/snap/bitcoin-core/common/.bitcoin/regtest/wallets/sidetreeDefaultWallet
 --- EOF ---
+$ sudo vim /lib/systemd/system/bitcoind.service
+--- Create File ---
+[Unit]
+Description=Bitcoin service
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+Type=simple
+ExecStart=/snap/bin/bitcoin-core.daemon
+ExecStop=/usr/bin/pkill -f bitcoin-core.daemon
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+--- EOF ---
+$ sudo systemctl daemon-reload
+$ sudo systemctl start bitcoind.service
+$ sudo systemctl enable bitcoind.service
 ```
 
 Install Node
@@ -69,12 +115,6 @@ $ sudo systemctl start mongod.service
 
 ## Section 02 Running a node
 
-First start running IPFS in the background
-```
-$ screen -S ipfs
-[ipfs] $ ipfs daemon
-[Control A + D]
-```
 
 Start Bitcoin-core daemon
 ```
