@@ -26,7 +26,7 @@ const Resolver: NextPage = () => {
   const resolveDid = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    const res = await fetch(`/api/did/${did}`);
+    const res = await fetch(`/api/1.0/identifiers/${did}`);
     const data = await res.json();
     setDidDocument(data);
     setIsLoading(false);
