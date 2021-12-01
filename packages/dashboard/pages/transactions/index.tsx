@@ -1,18 +1,25 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
 
-import { useRouter } from 'next/router';
 import { AppPage } from '../../components/app-page';
 
-import { Typography, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import { LatestTransactions } from '../../components/latest-transactions';
-import { LatestTransactionsChart } from '../../components/latest-transactions-chart';
+
+import { getTransactions } from '../../services/sidetree-node-client-api';
 
 const TransactionHistory: NextPage = () => {
-  const router = useRouter();
+  const [transactions, setTransactions] = useState(null);
 
-  const did = router.query.did as string;
+  useEffect(() => {
+    async function loadPageData() {
+      const { transactions } = await getTransactions();
+      setTransactions(transactions);
+    }
+    loadPageData();
+  }, [setTransactions]);
 
   return (
     <div>
@@ -24,15 +31,20 @@ const TransactionHistory: NextPage = () => {
 
       <main>
         <AppPage>
-          <Grid container spacing={1}>
-            <Grid item xs={12}>
-              <Typography gutterBottom>Recent Transactions</Typography>
-              <LatestTransactionsChart />
+          {transactions === null ? (
+            <>loading...</>
+          ) : (
+            <Grid container spacing={1}>
+              {/* Chart hidden for now. */}
+              {/* <Grid item xs={12}>
+                <Typography gutterBottom>Recent Transactions</Typography>
+                <LatestTransactionsChart />
+              </Grid> */}
+              <Grid item xs={12}>
+                <LatestTransactions transactions={transactions} />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <LatestTransactions />
-            </Grid>
-          </Grid>
+          )}
         </AppPage>
       </main>
     </div>

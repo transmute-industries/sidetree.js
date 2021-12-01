@@ -182,6 +182,13 @@ export default class Core {
     });
   }
 
+  public async getTransactions() {
+    const transactions = await this.transactionStore.getTransactions();
+    return {
+      transactions,
+    };
+  }
+
   /**
    * Handles an operation request.
    */
