@@ -71,14 +71,24 @@ export const Drawer = () => {
         <List
           subheader={<ListSubheader component="div">Operations</ListSubheader>}
         >
-          <ListItem button>
+          <ListItem
+            button
+            onClick={() => {
+              router.push('/create');
+            }}
+          >
             <ListItemIcon>
               <AddIcon />
             </ListItemIcon>
             <ListItemText primary={'Create'} />
           </ListItem>
 
-          <ListItem button>
+          <ListItem
+            button
+            onClick={() => {
+              router.push('/resolve');
+            }}
+          >
             <ListItemIcon>
               <ManageSearchIcon />
             </ListItemIcon>
