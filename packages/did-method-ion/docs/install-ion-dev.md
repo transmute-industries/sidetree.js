@@ -118,24 +118,6 @@ $ bitcoin-core.cli dumpprivkey bcrt1qeu3nfxjma2gvetxxzhe8ctlk6p46xlmd8y9fyl
 cR1tGTGwMR9f2tCnWU4e7cRGeFBdsmzJ2n44ydEbcbRntHNiJMdZ
 ```
 
-Setup process to generate blocks in the background
-```
-$ screen -S blocks
-[ blocks ] $ watch -n 60 bitcoin-core.cli -generate 1
-[Control A + D]
-```
-
-**Note:** For some reason it looks like `generatetoaddress` doesn't actually
-put spendable funds into that address!!!?? After a lot of trial and error,
-I had to send a transaction from my wallet to the address and then generate
-more blocks for the funds to become spendable. 
-
-```
-$ bitcoin-core.cli sendtoaddress bcrt1qjglqvdy353kwrrgx8kljva26v60ltuwwtgw4eh 100
-03ab3c267263d240876ba411586e2f5c609e6b1e6b17a8b009df61db251e0ce1
-$ bitcoin-core.cli -generate 100
-```
-
 Clone, Configure and Build Ion
 ```
 $ cd /home/ubuntu
@@ -150,7 +132,7 @@ $ vim json/testnet-bitcoin-config.json
 {
   "bitcoinDataDirectory": "/home/ubuntu/snap/bitcoin-core/common/.bitcoin/regtest",
   "bitcoinFeeSpendingCutoffPeriodInBlocks": 1,
-  "bitcoinFeeSpendingCutoff": 0.001,
+  "bitcoinFeeSpendingCutoff": 0.1,
   "bitcoinPeerUri": "http://localhost:18443",
   "bitcoinRpcUsername": "admin",
   "bitcoinRpcPassword": "keyboardcat",
@@ -187,7 +169,7 @@ $ vim json/testnet-bitcoin-versioning.json
 $ vim json/testnet-core-config.json
 --- File Content ---
 {
-  "batchingIntervalInSeconds": 600,
+  "batchingIntervalInSeconds": 60,
   "blockchainServiceUri": "http://127.0.0.1:3002",
   "databaseName": "ion-regtest-core",
   "didMethodName": "ion",
@@ -227,87 +209,20 @@ $ screen -S ion-core
 
 ## Section 03 Sending a Create Operation and Resolve Operation
 
-Install Ion CLI and generate create operation
-
-```
-$ cd /home/ubuntu/ion
-$ sudo npm install -g
-$ ion operation create
-DID: did:ion:EiBpAx8f44rlz84PrnqecY0FNBUM-ufEUWS4Pqi36uYu_g
-
-Recovery private key saved as: EiBpAx8f44rlz84PrnqecY0FNBUM-ufEUWS4Pqi36uYu_g-RecoveryPrivateKey.json
-Update private key saved as: EiBpAx8f44rlz84PrnqecY0FNBUM-ufEUWS4Pqi36uYu_g-UpdatePrivateKey.json
-Signing private key saved as: EiBpAx8f44rlz84PrnqecY0FNBUM-ufEUWS4Pqi36uYu_g-SigningPrivateKey.json
-
-Create request body:
-{
-  "type": "create",
-  "suffixData": {
-    "deltaHash": "EiDqw2eLXZqH8PkFgdWuse-3RrkLZtFhiZElPBO2Vizm1A",
-    "recoveryCommitment": "EiCwadKJRWbjRXZ0Ug_jTlM2z0eV0lpVuGrpv4q9t0W0uw"
-  },
-  "delta": {
-    "updateCommitment": "EiAR_MRq4eKPumuLJyLmxRUscIfVjolBgOVhUfl9yl1MGA",
-    "patches": [
-      {
-        "action": "replace",
-        "document": {
-          "publicKeys": [
-            {
-              "id": "signing-key",
-              "type": "EcdsaSecp256k1VerificationKey2019",
-              "publicKeyJwk": {
-                "kty": "EC",
-                "crv": "secp256k1",
-                "x": "NnIQIF0j9bPnsRxxf7Imae9YbK9KJFeU_YZfoA3UwKo",
-                "y": "GEzrxwz2qf6w04s31p-ohPgkkb8MGE1dO7RtVIAgxKg"
-              }
-            }
-          ]
-        }
-      }
-    ]
-  }
-}
-
-Long-form DID:
-did:ion:EiBpAx8f44rlz84PrnqecY0FNBUM-ufEUWS4Pqi36uYu_g:eyJkZWx0YSI6eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljS2V5cyI6W3siaWQiOiJzaWduaW5nLWtleSIsInB1YmxpY0tleUp3ayI6eyJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsIngiOiJObklRSUYwajliUG5zUnh4ZjdJbWFlOVliSzlLSkZlVV9ZWmZvQTNVd0tvIiwieSI6IkdFenJ4d3oycWY2dzA0czMxcC1vaFBna2tiOE1HRTFkTzdSdFZJQWd4S2cifSwidHlwZSI6IkVjZHNhU2VjcDI1NmsxVmVyaWZpY2F0aW9uS2V5MjAxOSJ9XX19XSwidXBkYXRlQ29tbWl0bWVudCI6IkVpQVJfTVJxNGVLUHVtdUxKeUxteFJVc2NJZlZqb2xCZ09WaFVmbDl5bDFNR0EifSwic3VmZml4RGF0YSI6eyJkZWx0YUhhc2giOiJFaURxdzJlTFhacUg4UGtGZ2RXdXNlLTNScmtMWnRGaGlaRWxQQk8yVml6bTFBIiwicmVjb3ZlcnlDb21taXRtZW50IjoiRWlDd2FkS0pSV2JqUlhaMFVnX2pUbE0yejBlVjBscFZ1R3JwdjRxOXQwVzB1dyJ9fQ
-
-DID suffix data:
-{
-  "deltaHash": "EiDqw2eLXZqH8PkFgdWuse-3RrkLZtFhiZElPBO2Vizm1A",
-  "recoveryCommitment": "EiCwadKJRWbjRXZ0Ug_jTlM2z0eV0lpVuGrpv4q9t0W0uw"
-}
-
-Document delta:
-{
-  "updateCommitment": "EiAR_MRq4eKPumuLJyLmxRUscIfVjolBgOVhUfl9yl1MGA",
-  "patches": [
-    {
-      "action": "replace",
-      "document": {
-        "publicKeys": [
-          {
-            "id": "signing-key",
-            "type": "EcdsaSecp256k1VerificationKey2019",
-            "publicKeyJwk": {
-              "kty": "EC",
-              "crv": "secp256k1",
-              "x": "NnIQIF0j9bPnsRxxf7Imae9YbK9KJFeU_YZfoA3UwKo",
-              "y": "GEzrxwz2qf6w04s31p-ohPgkkb8MGE1dO7RtVIAgxKg"
-            }
-          }
-        ]
-      }
-    }
-  ]
-}
-```
-
-Send operation to the Ion-core process
 ```
 $ curl --header "Content-Type: application/json" \
-  --request POST \
-  --data '{"type":"create","suffixData":{"deltaHash":"EiDqw2eLXZqH8PkFgdWuse-3RrkLZtFhiZElPBO2Vizm1A","recoveryCommitment":"EiCwadKJRWbjRXZ0Ug_jTlM2z0eV0lpVuGrpv4q9t0W0uw"},"delta":{"updateCommitment":"EiAR_MRq4eKPumuLJyLmxRUscIfVjolBgOVhUfl9yl1MGA","patches":[{"action":"replace","document":{"publicKeys":[{"id":"signing-key","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"NnIQIF0j9bPnsRxxf7Imae9YbK9KJFeU_YZfoA3UwKo","y":"GEzrxwz2qf6w04s31p-ohPgkkb8MGE1dO7RtVIAgxKg"}}]}}]}}' \
-  http://localhost:3000/operations
+--request POST \
+--data '{"type":"create","suffixData":{"deltaHash":"EiC1LGfh47ZBXjFRXELtonJ8pCbg6c9BbtHXAgA25vPSTg","recoveryCommitment":"EiC3M_2dIVUBou36U9fKTBN6Mz9xA2xxRR1gsHkC0789Sw"},"delta":{"updateCommitment":"EiAOZiRrOJmqZS1j30UXUPGMwWuzriB4FMBMWBT82mm5Cw","patches":[{"action":"replace","document":{"publicKeys":[{"id":"signing-key","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"qp0Ezzc4YhA196COYKa-RHrCom-0LgFtAf8FqvcntN0","y":"zWcbbbg9w1m-DNOszvM68TD0_vFBtWyc18S06c8cULU"}}]}}]}}' \
+http://localhost:3000/operations
+```
+
+Then we need to generate several blocks
+```
+$ for n in {1..5}; do bitcoin-core.cli -generate 1; done
+```
+
+Wait several minutes and then try and resolve
+```
+$ curl http://localhost:3000/identifiers/did:ion:EiBgMkQDrUjGYkUZqQgTiOkZeyQiQgNuYZLiW1S9M-oDCA
+```
 ```
