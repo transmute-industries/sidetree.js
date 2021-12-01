@@ -17,29 +17,31 @@ const {
 	signingPrivateKeyJwk,
 	createOperation,
 	longFormDid,
+	createOperationResponse,
+	resolveOperationResponse,
 } = require('../__fixtures__');
 
 const opts = { encoding : 'utf-8' }
 const config = { detached : true, cwd : '/home/ubuntu/ion/dist/src' }
 
 let btcProc, coreProc;
-const ionAddress = 'mzQCLt9Eafas64E718myJ88KA1K8oRM6u2';
-
 describe('performing crud operations with regtest', () => {
 
-	it('should return the ipds readme', ()=> {
+	it('should return the ipfs readme', ()=> {
 		const readme = execSync('ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme', opts);
 		expect(readme).toBe( ipfsReadme );
 	});
 
 	it('should start the bitcoin daemon', () => {
+		
 		execSync('rm -rf /home/ubuntu/snap/bitcoin-core/common/.bitcoin/regtest/');
 		execSync('bitcoin-core.daemon -daemon', opts);
-		execSync('sleep 2s', opts);
+		execSync('sleep 10s', opts);
+
 		const netinfo = execSync('bitcoin-core.cli getnetworkinfo', opts);
 		const info = JSON.parse( netinfo );
-		console.log( info );
 		expect( info ).toHaveProperty( 'version', 220000 );
+
 	});
 
 	it('should initialize the default wallet', () => {
@@ -52,31 +54,51 @@ describe('performing crud operations with regtest', () => {
 	});
 	
 
-	it.skip('should return transaction fee', () => {
+	it('should return transaction fee', () => {
+
+		const addrList = [
+			'mzQCLt9Eafas64E718myJ88KA1K8oRM6u2',
+			'bcrt1q8ksv99yusgntgh9ekggtee4wf47m3u335znd6d',
+			'bcrt1qmw0ah0f0gzrm39xusd65d03hhu86u7pgkms9vj',
+			'bcrt1qxxwwprlzlcx8wp6kshrxhldtlk4fpfssmqsa4j',
+			'bcrt1q4hyryr4ap0qwhmllqhyds4zkxf5vhyh8qnag59',
+			'bcrt1qa7w9kpltmjq3vfjnxvr32hx5v8szkdmqay2u0n',
+			'bcrt1qzn7py6jjj9aw4dqx0trgp9q04uejt7n6fxc54c',
+			'bcrt1qncfhu4tctqmkm8zrn39kw34j39x03qcr4nfpg6',
+		];
+
 		for(let i = 0; i < 10; i++) {
- 			execSync(`bitcoin-core.cli sendtoaddress ${ionAddress} 0.5`, opts);
+			addrList.forEach( addr => {
+ 				execSync(`bitcoin-core.cli sendtoaddress ${addr} 1`, opts);
+			});
 			execSync(`bitcoin-core.cli -generate 1`, opts);
 		}
 
 		const feeinfo = execSync(`bitcoin-core.cli estimatesmartfee 1`, opts);
 		const fee = JSON.parse(feeinfo);
+		console.log( fee );
 		expect( fee ).toHaveProperty( 'feerate' );
 		expect( fee.feerate ).toBeGreaterThan( 0 );
 	});
 
 	it('should start ion bitcoin and core process', () => {
 
-		const dropBtc = execSync('mongo ion-regtest-bitcoin --eval "printjson(db.dropDatabase())"');
-		const dropCore = execSync('mongo ion-regtest-core --eval "printjson(db.dropDatabase())"');
+		const dropBtc = execSync('mongo ion-regtest-bitcoin --eval "printjson(db.dropDatabase())"', opts);
+		const dropCore = execSync('mongo ion-regtest-core --eval "printjson(db.dropDatabase())"', opts);
 
 		console.log( dropBtc );
 		console.log( dropCore );
 
 		btcProc = spawn( 'node', ['bitcoin.js'], config )
-		coreProc = spawn( 'node', ['core.js'], config )
-		execSync('sleep 30s', opts);
+		execSync('sleep 5s', opts);
 		
+		console.log('STOP CORE!!!!');
+		coreProc = spawn( 'node', ['core.js'], config )
+		execSync('sleep 5s', opts);
+
 		const versioninfo = execSync('curl http://localhost:3000/version', opts);
+		console.log(' Version Info ');
+		console.log( versioninfo );
 		const version = JSON.parse( versioninfo );
 		expect(version).toHaveLength(2);
 		const [ core, bitcoin ] = version; 
@@ -86,24 +108,47 @@ describe('performing crud operations with regtest', () => {
 
 	it('should send a create operation to ion core', () => {
 
-		const dat = JSON.stringify(createOperation,);
-		const createOp = execSync(`curl --header "Content-Type: application/json" \
-	  		--request POST \
-	  		--data '${dat}' \
-	  		http://localhost:3000/operations`, opts);
+		const dat = JSON.stringify(createOperation);
+		const curlCmd = `curl --header "Content-Type: application/json" --request POST --data '${dat}' http://localhost:3000/operations`;
+		
+		console.log( curlCmd );
+		const createOp = execSync( curlCmd, opts );
+
+		console.log('--- Create Op Response ---');
 		console.log( createOp );
-		expect( createOp ).toBeDefined();
+		expect( createOp ).toBe( createOperationResponse );
 
 	});
 
-	it.todo('write the anchor string to the blockchain');
+	it('should resolve the did from ion core', ()=> {
+		
 
-	it.todo('should resolve the did from ion core');
+		// We stop and restart the core process which should
+		// trigger the process to attempt to write to the chain
+		
+		// We generate a bunch of blocks while we wait for ion to write
+		// and detect the create operation, and make it available
+
+		for(let i = 0; i < 20; i++) {
+			execSync(`bitcoin-core.cli -generate 1`, opts);
+			execSync('sleep 10s');
+		}
+
+		const myDid = execSync('curl http://localhost:3000/identifiers/did:ion:EiBgMkQDrUjGYkUZqQgTiOkZeyQiQgNuYZLiW1S9M-oDCA', opts);
+
+		console.log('THIS IS MY JAM!!!');
+		console.log( myDid );
+		console.log('--- EOF ---');
+
+		expect( myDid ).toBe( resolveOperationResponse );
+
+	});
 
 	it('should stop ion bitcoin and core process', () => {
 		btcProc.kill();
 		coreProc.kill();
 
+		console.log('STOP CORE PROCESS!!!!');
 		execSync('sleep 2s', opts);
 		expect(1).toBe(1);
 		
