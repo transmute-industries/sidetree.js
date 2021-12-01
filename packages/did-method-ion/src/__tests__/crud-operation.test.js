@@ -3,15 +3,21 @@
  * To run this test, you must to the following
  * 1. Follow the ion-install-develop.md instructions
  * 2. Have IPFS running as a daemon
- * 3. Must have bitcoin-core.daemon running in background
- * 6. Must have ion-bitcoin process running
- * 7. Not have ion-core or ion-bitcoin process running
+ * 3. Must have ion cloned and built in /home/ubuntu
+ * 4. Must have Ion config files pre-configured
+ * 5. Not have ion-core or ion-bitcoin process running
  **/
 
 const { execSync, spawn } = require('child_process');
-const { ipfsReadme, bitcoindError } = require('../__fixtures__');
-const { IonDid, IonDocumentModel, IonKey, IonRequest } = require('@decentralized-identity/ion-sdk');
-const { ECPair } = require('ecpair');
+const { 
+	ipfsReadme, 
+	bitcoindError,
+	recoverPrivateKeyJwk,
+	updatePrivateKeyJwk,
+	signingPrivateKeyJwk,
+	createOperation,
+	longFormDid,
+} = require('../__fixtures__');
 
 const opts = { encoding : 'utf-8' }
 const config = { detached : true, cwd : '/home/ubuntu/ion/dist/src' }
@@ -27,17 +33,22 @@ describe('performing crud operations with regtest', () => {
 	});
 
 	it('should start the bitcoin daemon', () => {
+		execSync('rm -rf /home/ubuntu/snap/bitcoin-core/common/.bitcoin/regtest/');
 		execSync('bitcoin-core.daemon -daemon', opts);
 		execSync('sleep 2s', opts);
 		const netinfo = execSync('bitcoin-core.cli getnetworkinfo', opts);
 		const info = JSON.parse( netinfo );
+		console.log( info );
 		expect( info ).toHaveProperty( 'version', 220000 );
 	});
 
 	it('should initialize the default wallet', () => {
-		execSync('bitcoin-core.cli loadwallet sidetreeDefaultWallet', opts);
+		execSync('bitcoin-core.cli createwallet sidetreeDefaultWallet', opts);
+		const myAddress = execSync('bitcoin-core.cli getnewaddress');
+		execSync(`bitcoin-core.cli generatetoaddress 101 ${ myAddress }`);
 		const balance = execSync('bitcoin-core.cli getbalance', opts);
-		expect(parseInt(balance)).toBeGreaterThan( 0 );
+		expect( parseInt(balance) ).toBe( 50 );
+		const myPrivKey = execSync(`bitcoin-core.cli dumpprivkey ${myAddress}`);
 	});
 	
 
@@ -54,6 +65,13 @@ describe('performing crud operations with regtest', () => {
 	});
 
 	it('should start ion bitcoin and core process', () => {
+
+		const dropBtc = execSync('mongo ion-regtest-bitcoin --eval "printjson(db.dropDatabase())"');
+		const dropCore = execSync('mongo ion-regtest-core --eval "printjson(db.dropDatabase())"');
+
+		console.log( dropBtc );
+		console.log( dropCore );
+
 		btcProc = spawn( 'node', ['bitcoin.js'], config )
 		coreProc = spawn( 'node', ['core.js'], config )
 		execSync('sleep 30s', opts);
@@ -68,28 +86,13 @@ describe('performing crud operations with regtest', () => {
 
 	it('should send a create operation to ion core', () => {
 
-		const [recoveryKey, recoveryPrivateKey] = await IonKey.generateEs256kOperationKeyPair();
-		const [updateKey, updatePrivateKey] = await IonKey.generateEs256kOperationKeyPair();
-		const [signingKey, signingPrivateKey] = await IonKey.generateEs256kDidDocumentKeyPair({id: 'signing-key'});
-		const publicKeys = [signingKey];
-
-		const document = { publicKeys };
-	
-	console.log('document model');
-	console.log( IonDocumentModel );
-
-		const input = { recoveryKey, updateKey, document };
-		const createRequest = IonRequest.createCreateRequest(input);
-		const longFormDid = IonDid.createLongFormDid(input);
-		const shortFormDid = longFormDid.substring(0, longFormDid.lastIndexOf(':'));
-		const didSuffix = shortFormDid.substring(shortFormDid.lastIndexOf(':') + 1);
-
-		const dat = JSON.stringify(createRequest);
-		console.log(`curl --header "Content-Type: application/json" \
-	  --request POST \
-	  --data '${dat}' \
-	  http://localhost:3000/operations`);
-
+		const dat = JSON.stringify(createOperation,);
+		const createOp = execSync(`curl --header "Content-Type: application/json" \
+	  		--request POST \
+	  		--data '${dat}' \
+	  		http://localhost:3000/operations`, opts);
+		console.log( createOp );
+		expect( createOp ).toBeDefined();
 
 	});
 
