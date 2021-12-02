@@ -29,17 +29,3 @@ export const methodSwitch = (method: string) => {
   }
   throw new Error('Unsupported method: ' + method);
 };
-
-export const sidetree = (handler: any) => async (
-  req: SidetreeApiRequest,
-  res: NextApiResponse
-) => {
-  const methodName: string =
-    process.env.SIDETREE_METHOD || 'example:sidetree.testnet';
-
-  // todo: load other config values and pass them to the provider
-  const method = await methodSwitch(methodName)();
-  const version = await method.handleGetVersionRequest();
-  req.sidetree = { version: JSON.parse(version.body), method };
-  return handler(req, res);
-};
