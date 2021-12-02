@@ -1,7 +1,9 @@
-import { sidetree } from '../../../../middleware/sidetree';
+import withService from '../../../../middleware/withService';
 
-const handler = (req: any, res: any) => {
-  res.json(req.sidetree.version);
+const handler = async (req: any, res: any) => {
+  const sidetree = await req.client.server.service.sidetree;
+  const { body } = await sidetree.handleGetVersionRequest();
+  res.json(JSON.parse(body));
 };
 
-export default sidetree(handler);
+export default withService(handler);

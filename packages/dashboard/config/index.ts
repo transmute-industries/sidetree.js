@@ -4,6 +4,7 @@ export const config = {
   operator: 'Transmute',
   method: 'Element',
   description: 'Sidetree on Ethereum and IPFS.',
+  methodName: process.env.SIDETREE_METHOD || 'example:sidetree.testnet',
   features: {
     title: 'Features',
     description: 'Decentralized Identifiers powered by Ethereum and IPFS.',
