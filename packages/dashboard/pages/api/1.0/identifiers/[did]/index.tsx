@@ -1,9 +1,10 @@
 import type { NextApiResponse } from 'next';
 import {
-  sidetree,
   SidetreeApiRequest,
   convertSidetreeStatusToHttpStatus,
 } from '../../../../../middleware/sidetree';
+
+import withService from '../../../../../middleware/withService';
 
 type Data = {
   didDocument: any;
@@ -12,10 +13,9 @@ type Data = {
 };
 
 const handler = async (req: SidetreeApiRequest, res: NextApiResponse<Data>) => {
+  const sidetree = await req.client.server.service.sidetree;
   const { did } = req.query;
-  const { status, body }: any = await req.sidetree.method.handleResolveRequest(
-    did
-  );
+  const { status, body }: any = await sidetree.handleResolveRequest(did);
   // // status => http status code
   res.status(convertSidetreeStatusToHttpStatus(status));
   // // body => http response body
@@ -24,4 +24,4 @@ const handler = async (req: SidetreeApiRequest, res: NextApiResponse<Data>) => {
   }
 };
 
-export default sidetree(handler);
+export default withService(handler);

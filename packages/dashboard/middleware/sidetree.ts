@@ -14,13 +14,16 @@ const methods: any = {
 };
 
 export interface SidetreeApiRequest extends NextApiRequest {
-  sidetree: {
-    version: any;
-    method: any;
+  client: {
+    server: {
+      service: {
+        sidetree: any;
+      };
+    };
   };
 }
 
-const methodSwitch = (method: string) => {
+export const methodSwitch = (method: string) => {
   if (methods[method]) {
     return methods[method];
   }
