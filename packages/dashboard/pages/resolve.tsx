@@ -20,16 +20,10 @@ import { FormEvent, useState } from 'react';
 const Resolver: NextPage = () => {
   const router = useRouter();
   const [did, setDid] = useState('');
-  const [didDocument, setDidDocument] = useState();
-  const [isLoading, setIsLoading] = useState(false);
 
   const resolveDid = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
-    const res = await fetch(`/api/1.0/identifiers/${did}`);
-    const data = await res.json();
-    setDidDocument(data);
-    setIsLoading(false);
+    router.push('/' + did);
   };
 
   return (
@@ -48,7 +42,7 @@ const Resolver: NextPage = () => {
                   <InputLabel htmlFor="did">DID</InputLabel>
                   <Input
                     id="did"
-                    placeholder="did:elem:ropsten:123"
+                    placeholder="did:example:123"
                     value={did}
                     onChange={(e) => setDid(e.target.value)}
                   />
@@ -58,14 +52,6 @@ const Resolver: NextPage = () => {
                 </Box>
               </form>
             </Box>
-            {isLoading && (
-              <Box display="flex" justifyContent="center" sx={{ width: 1 }}>
-                <CircularProgress />
-              </Box>
-            )}
-            {!isLoading && (
-              <Typography>{JSON.stringify(didDocument)}</Typography>
-            )}
           </Grid>
         </AppPage>
       </main>

@@ -189,6 +189,13 @@ export default class Core {
     };
   }
 
+  public async getOperations(didUniqueSuffix: string) {
+    const operations = await this.operationStore.get(didUniqueSuffix);
+    return {
+      operations,
+    };
+  }
+
   /**
    * Handles an operation request.
    */

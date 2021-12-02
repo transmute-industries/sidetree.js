@@ -1,5 +1,4 @@
 import type { NextApiResponse } from 'next';
-import getExample from './example-get.json';
 
 type CreateResponse = { didDocument?: any };
 
@@ -18,8 +17,15 @@ const handler = async (
   res: NextApiResponse<OperationsResponse>
 ) => {
   if (req.method === 'GET') {
-    const result: any = getExample;
-    res.status(200).json(result);
+    const didUniqueSuffix = req.query['did-unique-suffix'];
+    const result: any = await req.sidetree.method.getOperations(
+      didUniqueSuffix
+    );
+
+    const operations = result.operations.map((op: any) => {
+      return JSON.parse(op.operationBuffer.toString());
+    });
+    res.status(200).json({ operations });
   }
 
   if (req.method === 'POST') {
@@ -27,9 +33,7 @@ const handler = async (
     const { status, body } = await req.sidetree.method.handleOperationRequest(
       operation
     );
-    // // status => http status code
     res.status(convertSidetreeStatusToHttpStatus(status));
-    // // body => http response body
     res.json(body);
   }
 };
