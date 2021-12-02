@@ -16,7 +16,7 @@ a {
 }
 
 .c3-legend-item {
-  font-family: "Lato";
+  font-family: 'Lato';
 }
 
 .inverted .c3 .c3-axis-x path,
@@ -45,4 +45,8 @@ a {
 /* for the tooltip text color */
 .inverted .c3 .c3-tooltip-container {
   color: darkgrey;
+}
+
+pre {
+  white-space: pre-wrap;
 }

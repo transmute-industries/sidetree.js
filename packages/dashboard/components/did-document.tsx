@@ -12,53 +12,6 @@ import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-const example = {
-  '@context': [
-    'https://www.w3.org/ns/did/v1',
-    'https://w3id.org/security/suites/jws-2020/v1',
-  ],
-  id: 'did:key:z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW',
-  verificationMethod: [
-    {
-      id:
-        'did:key:z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW#z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW',
-      type: 'JsonWebKey2020',
-      controller: 'did:key:z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW',
-      publicKeyJwk: {
-        kty: 'OKP',
-        crv: 'Ed25519',
-        x: 'ajER1qrmGvrCaCrAV_Ul23kT94cSfui3GQ92Oyu0e40',
-      },
-    },
-    {
-      id:
-        'did:key:z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW#z6LSq1CX2VmDsnXTnJgWFUQyQnsX7LzgEEKfh4wPsoqCLnGi',
-      type: 'JsonWebKey2020',
-      controller: 'did:key:z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW',
-      publicKeyJwk: {
-        kty: 'OKP',
-        crv: 'X25519',
-        x: 'xgd-7opG1_aoxhF9uQLRRd_Vhhhx2HLdZ5YFm32hrAs',
-      },
-    },
-  ],
-  assertionMethod: [
-    'did:key:z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW#z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW',
-  ],
-  authentication: [
-    'did:key:z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW#z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW',
-  ],
-  capabilityInvocation: [
-    'did:key:z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW#z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW',
-  ],
-  capabilityDelegation: [
-    'did:key:z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW#z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW',
-  ],
-  keyAgreement: [
-    'did:key:z6MkmbnfArNcUhGX5GFtHfCXnz1ie8HL29Eaxj5Fi4HLmDRW#z6LSq1CX2VmDsnXTnJgWFUQyQnsX7LzgEEKfh4wPsoqCLnGi',
-  ],
-};
-
 const ExpandMore = styled((props: any) => {
   const { expand, ...other }: any = props;
   return <IconButton {...other} />;
@@ -70,7 +23,16 @@ const ExpandMore = styled((props: any) => {
   }),
 }));
 
-export const DidDocument = () => {
+export const DidDocument = ({ didDocument, operationCount }: any) => {
+  const [
+    verificationMethodsExpanded,
+    setVerificationMethodsExpanded,
+  ] = React.useState(false);
+
+  const handleExpandVerificationMethods = () => {
+    setVerificationMethodsExpanded(!verificationMethodsExpanded);
+  };
+
   const [credentialsExpanded, setExpandCredentials] = React.useState(false);
   const handleExpandCredentials = () => {
     setExpandCredentials(!credentialsExpanded);
@@ -89,26 +51,39 @@ export const DidDocument = () => {
     <Card>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+          <Avatar sx={{ bgcolor: red[500], fontSize: '16px' }} aria-label="DID">
+            {didDocument.id.substr(-4)}
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={example.id}
-        subheader={'Last updated September 14, 2016'}
+        // action={
+        //   <IconButton aria-label="settings">
+        //     <MoreVertIcon />
+        //   </IconButton>
+        // }
+        title={didDocument.id}
+        subheader={operationCount + ' operations'}
       />
 
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+      <CardActions disableSpacing>
+        <Typography variant="h4" style={{ paddingLeft: '10px' }}>
+          Verification
         </Typography>
-      </CardContent>
+        <ExpandMore
+          expand={verificationMethodsExpanded}
+          onClick={handleExpandVerificationMethods}
+          aria-expanded={verificationMethodsExpanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </ExpandMore>
+      </CardActions>
+
+      <Collapse in={verificationMethodsExpanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography paragraph>This DID has verification keys.</Typography>
+          <pre>{JSON.stringify(didDocument.verificationMethod, null, 2)}</pre>
+        </CardContent>
+      </Collapse>
 
       <CardActions disableSpacing>
         <Typography variant="h4" style={{ paddingLeft: '10px' }}>
@@ -130,6 +105,7 @@ export const DidDocument = () => {
             This DID is configured to create verifiable credentials as an
             issuer.
           </Typography>
+          <pre>{JSON.stringify(didDocument.assertionMethod, null, 2)}</pre>
         </CardContent>
       </Collapse>
 
@@ -153,6 +129,7 @@ export const DidDocument = () => {
             This DID is configured to present verifiable credentials as a
             holder.
           </Typography>
+          <pre>{JSON.stringify(didDocument.authentication, null, 2)}</pre>
         </CardContent>
       </Collapse>
 
@@ -175,6 +152,7 @@ export const DidDocument = () => {
           <Typography paragraph>
             This DID has not been configured to expose any services.
           </Typography>
+          <pre>{JSON.stringify(didDocument.service, null, 2)}</pre>
         </CardContent>
       </Collapse>
     </Card>
