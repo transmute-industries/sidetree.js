@@ -25,5 +25,5 @@ export const createWallet = async () => {
   w.add(m);
   console.log('created wallet.');
   localStorage.setItem('sidetree.wallet', JSON.stringify(w, null, 2));
-  window.location.reload();
+  window.location.href = '/create';
 };

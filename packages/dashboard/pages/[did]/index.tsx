@@ -32,9 +32,10 @@ const Resolver: NextPage = () => {
     async function loadPageData() {
       if (did !== undefined) {
         const res1: any = await resolve(did);
-        const res2: any = await getOperations(did);
+        // FIXME: throwing 500
+        // const res2: any = await getOperations(did);
         setDidDocument(res1.didDocument);
-        setDidDocumentOperations(res2.operations);
+        // setDidDocumentOperations(res2.operations);
         setIsLoading(false);
       }
     }
