@@ -7,10 +7,11 @@ import { useRouter } from 'next/router';
 export const CompanyLogo = ({ sx }: any) => {
   const theme = useTheme();
   const router = useRouter();
+
   const logo =
     theme.palette.mode === 'dark'
-      ? '/assets/logo-with-text.white.svg'
-      : '/assets/logo-with-text.purple.svg';
+      ? process.env.LOGO_LIGHT || '/assets/logo-with-text.white.svg'
+      : process.env.LOGO_DARK || '/assets/logo-with-text.purple.svg';
 
   return (
     <img
