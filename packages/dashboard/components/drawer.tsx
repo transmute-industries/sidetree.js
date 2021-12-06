@@ -19,6 +19,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import ChangeHistoryIcon from '@mui/icons-material/ChangeHistory';
 
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import SaveIcon from '@mui/icons-material/Save';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import ReceiptIcon from '@mui/icons-material/Receipt';
@@ -57,21 +58,32 @@ export const Drawer = () => {
             <ListItemText primary={'Transactions'} />
           </ListItem>
 
-          {hideUI && (
-            <ListItem
-              button
-              onClick={() => {
-                router.push('/operations');
-              }}
-            >
-              <ListItemIcon>
-                <ChangeHistoryIcon />
-              </ListItemIcon>
-              <ListItemText primary={'Operations'} />
-            </ListItem>
-          )}
+          <ListItem
+            button
+            onClick={() => {
+              router.push('/operations');
+            }}
+          >
+            <ListItemIcon>
+              <ChangeHistoryIcon />
+            </ListItemIcon>
+            <ListItemText primary={'Operations'} />
+          </ListItem>
         </List>
         <Divider />
+        <List subheader={<ListSubheader component="div">Wallet</ListSubheader>}>
+          <ListItem
+            button
+            onClick={() => {
+              router.push('/wallet');
+            }}
+          >
+            <ListItemIcon>
+              <AccountBalanceWalletIcon />
+            </ListItemIcon>
+            <ListItemText primary={'Wallet'} />
+          </ListItem>
+        </List>
 
         <Divider />
         <List
@@ -101,19 +113,23 @@ export const Drawer = () => {
             <ListItemText primary={'Resolve'} />
           </ListItem>
 
-          <ListItem button>
-            <ListItemIcon>
-              <SaveIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Update'} />
-          </ListItem>
+          {hideUI && (
+            <ListItem button disabled={true}>
+              <ListItemIcon>
+                <SaveIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Update'} />
+            </ListItem>
+          )}
 
-          <ListItem button>
-            <ListItemIcon>
-              <ArchiveIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Deactivate'} />
-          </ListItem>
+          {hideUI && (
+            <ListItem button disabled={true}>
+              <ListItemIcon>
+                <ArchiveIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Deactivate'} />
+            </ListItem>
+          )}
         </List>
         <Divider />
         <List
