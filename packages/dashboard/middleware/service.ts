@@ -14,7 +14,9 @@ class SidetreeServiceManager {
 
   public async init() {
     const method = await methodSwitch(config.methodName)(
-      config.sideTreeNodeConfigs
+      config.useSideTreeNodeConfigs
+        ? config.sideTreeNodeConfigs
+        : config.elementNodeConfigs
     );
     return method;
   }
