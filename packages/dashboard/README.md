@@ -7,13 +7,11 @@ This package contains a Next.js app for sidetree nodes.
 ### Add a Custom Logo to the Dashboard
 
 Create a file named `.evt.local` in this directory (next to `package.json`),
-and populate it with your logo URL's. `LOGO_LIGHT` is the light colored logo
-ontop of the dark background, and `LOGO_DARK` is the dark colored logo on top
-of a light background.
+and populate it with your logo URL's (without square brackets).
 
 ```
-LOGO_LIGHT=https://i.imgur.com/5OnYS9O.png
-LOGO_DARK=https://i.imgur.com/28872lr.png
+LOGO_LIGHT=[Light Logo on Dark Background URL]
+LOGO_DARK=[Dark Logo on Light Background URL]
 ```
 
 ### Building with Docker
