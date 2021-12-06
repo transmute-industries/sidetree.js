@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -25,6 +26,8 @@ import { useRouter } from 'next/router';
 
 export const Drawer = () => {
   const router = useRouter();
+  const [ hideUI, setHideUI ] = useState(false);
+
   return (
     <Box
       sx={{
@@ -53,17 +56,20 @@ export const Drawer = () => {
             </ListItemIcon>
             <ListItemText primary={'Transactions'} />
           </ListItem>
-          <ListItem
-            button
-            onClick={() => {
-              router.push('/operations');
-            }}
-          >
-            <ListItemIcon>
-              <ChangeHistoryIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Operations'} />
-          </ListItem>
+
+          {hideUI && (
+            <ListItem
+              button
+              onClick={() => {
+                router.push('/operations');
+              }}
+            >
+              <ListItemIcon>
+                <ChangeHistoryIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Operations'} />
+            </ListItem>
+          )}
         </List>
         <Divider />
 
