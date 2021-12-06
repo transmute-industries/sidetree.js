@@ -2,7 +2,15 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 
 import * as React from 'react';
-import { Box, Typography, Hidden, Button, Grid } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Hidden,
+  Button,
+  Grid,
+  makeStyles,
+  createStyles,
+} from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 
 import { Theme } from '../components/theme';
@@ -17,6 +25,8 @@ import { config } from '../config';
 
 const Home: NextPage = () => {
   const router = useRouter();
+  const textSize = { height: '80px' };
+
   return (
     <div>
       <Head>
@@ -52,7 +62,7 @@ const Home: NextPage = () => {
                   title="Manage"
                   image={`/assets/background-0.png`}
                   description={
-                    <>
+                    <div style={textSize}>
                       <Typography>
                         DID opertions like create, update and deactivate.
                       </Typography>
@@ -60,7 +70,7 @@ const Home: NextPage = () => {
                         Manage wallet portability needed to control your
                         identifiers.
                       </Typography>
-                    </>
+                    </div>
                   }
                   actions={
                     <>
@@ -81,12 +91,12 @@ const Home: NextPage = () => {
                   title="Explore"
                   image={`/assets/background-1.png`}
                   description={
-                    <>
+                    <div style={textSize}>
                       <Typography>
                         Sidetree node activity including recent transactions and
                         operations.
                       </Typography>
-                    </>
+                    </div>
                   }
                   actions={
                     <>
@@ -107,12 +117,12 @@ const Home: NextPage = () => {
                   title="Resolve"
                   image={`/assets/background-2.png`}
                   description={
-                    <>
+                    <div style={textSize}>
                       <Typography>
                         Discover capabilities and services supported by a
                         decentralized identifier.
                       </Typography>
-                    </>
+                    </div>
                   }
                   actions={
                     <>
