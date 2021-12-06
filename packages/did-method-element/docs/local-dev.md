@@ -10,7 +10,7 @@ and default home directory of `/home/ubuntu`.
 - Install Dependencies
 - Clone and Build the Repository
 - Start Required Services
-- Run Test API
+- Run Example API
 
 ## Install Dependencies
 
@@ -72,3 +72,60 @@ $ npm install ganache-cli -g
 ```
 
 ## Clone and Build the Repository
+
+```
+$ git clone https://github.com/transmute-industries/sidetree.js.git
+$ cd sidetree.js
+$ npm i
+```
+
+## Start Required Services
+
+IPFS and MongoDB should be running in the background as a daemon service.
+The two services that you will need to run are `ganache-cli` and the
+`element` dashboard. 
+
+You can run these directly in the terminal, or start them with a screen,
+or other method, to have them run in the background, if you choose to
+use it. This guide will provide the commands for running in an active
+terminal.
+
+**Start Ganache**
+```
+$ ganache-cli
+```
+
+""Start Element**
+```
+$ cd packages/dashboard
+$ npm run dev:elem
+```
+
+## Run Example API
+
+Once Element is running you can access the UI via http://localhost:3000.
+You can create a wallet, create a did, and resolve a did from the dashboard.
+
+To test your installation with example did, we can run the following curl
+commands.
+
+**Create Request**
+
+```
+curl --header "Content-Type: application/json" --request POST --data '{"type":"create","suffixData":{"deltaHash":"EiCP8MJ9oX2jmTxVi6xa1WoGmzkg8HaxmWWiR6R34cUmvw","recoveryCommitment":"EiCFei9R_74JeKbxGIZPI4XXwbb0eDpBeweA9IpymBEOFA"},"delta":{"updateCommitment":"EiDDJ-s9CPjkh6yaH5apLIKZ1G87K0phukB3Fofy2ujeAg","patches":[{"action":"replace","document":{"publicKeys":[{"id":"signingKey","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"8a7JVJUDcR_mS6gyTAgdvGFZkhO8plwWfId3xqHa7xA","y":"xIxXstl9XR-hXXBkrhzxrFhJRvab2MLhQDus92S8G2o"},"purposes":["authentication","assertionMethod","capabilityInvocation","capabilityDelegation","keyAgreement"]}],"services":[{"id":"serviceId123","type":"someType","serviceEndpoint":"https://www.url.com"}]}}]}}' http://localhost:3000/api/1.0/operations
+```
+
+**Create Response**
+
+```
+```
+
+**Resolve Request**
+
+```
+$ curl http://localhost:3000/api/1.0/identifiers/did:ion:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg
+```
+
+**Resolve Response**
+```
+```
