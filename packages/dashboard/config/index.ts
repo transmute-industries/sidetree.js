@@ -9,10 +9,13 @@ export const config: any = {
     title: 'Features',
     description: 'Decentralized Identifiers powered by Ethereum and IPFS.',
   },
-  connectionString: process.env.CONNECTION_STRING,
-  ethereumMnemonic: process.env.ETHEREUMMNEMONIC,
+  sideTreeNodeConfigs: {
+    batchingIntervalInSeconds: process.env.BATCH_INTERVAL_IN_SECONDS,
+    observingIntervalInSeconds: process.env.OBSERVING_INTERVAL_IN_SECONDS,
+    mongoDbConnectionString: process.env.MONGO_DB_CONNECTION_STRING,
+    databaseName: process.env.DATABASE_NAME,
+    didMethodName: process.env.NEXT_PUBLIC_SIDETREE_METHOD,
+    maxConcurrentDownloads: process.env.MAX_CONCURRENT_DOWNLOADS,
+    port: process.env.SIDE_TREE_NODE_PORT,
+  },
 };
-
-// When logged on the server, the non NEXT_PUBLIC_ variables values are readable.
-// When logged on the client, they are not
-console.log('CONFIG', config);

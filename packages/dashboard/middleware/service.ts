@@ -13,7 +13,9 @@ class SidetreeServiceManager {
   }
 
   public async init() {
-    const method = await methodSwitch(config.methodName)();
+    const method = await methodSwitch(config.methodName)(
+      config.sideTreeNodeConfigs
+    );
     return method;
   }
 

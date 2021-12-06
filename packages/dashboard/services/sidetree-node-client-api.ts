@@ -2,6 +2,7 @@ export const resolve = (did: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     fetch('/api/1.0/identifiers/' + did)
       .then((response) => {
+        console.log('RES BUSTING', response);
         if (!response.ok) {
           throw new Error('HTTP error ' + response.status);
         }
