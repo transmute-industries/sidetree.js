@@ -20,6 +20,7 @@ import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import ChangeHistoryIcon from '@mui/icons-material/ChangeHistory';
 
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import ArticleIcon from '@mui/icons-material/Article';
 import SaveIcon from '@mui/icons-material/Save';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import ReceiptIcon from '@mui/icons-material/Receipt';
@@ -141,6 +142,18 @@ export const Drawer = () => {
         <List
           subheader={<ListSubheader component="div">Developers</ListSubheader>}
         >
+          <ListItem
+            button
+            onClick={() => {
+              router.push('/docs');
+            }}
+          >
+            <ListItemIcon>
+              <ArticleIcon />
+            </ListItemIcon>
+            <ListItemText primary={'Documentation'} />
+          </ListItem>
+
           <ListItem
             button
             component="a"
