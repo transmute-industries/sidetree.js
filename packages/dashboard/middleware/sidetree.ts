@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-
 import { getTestNodeIntance as testMethod } from '@sidetree/did-method';
 import { getTestNodeIntance as testElement } from '@sidetree/element';
 

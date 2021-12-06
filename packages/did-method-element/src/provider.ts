@@ -4,13 +4,28 @@ import { EthereumLedger } from '@sidetree/ethereum';
 import { MockCas } from '@sidetree/cas';
 import Element from './Element';
 
-import config from './configs/element-ganache-config.json';
+type ElementNodeConfigs = {
+  contentAddressableStoreServiceUri: string;
+  databaseName: string;
+  didMethodName: string;
+  ethereumRpcUrl: string;
+  mongoDbConnectionString: string;
+  batchingIntervalInSeconds: number;
+  observingIntervalInSeconds: number;
+  maxConcurrentDownloads: number;
+  versions: [
+    {
+      startingBlockchainTime: number;
+      version: string;
+    }
+  ];
+};
 
-const getTestLedger = async () => {
-  const web3 = new Web3(config.ethereumRpcUrl);
+const getTestLedger = async (elementNodeConfigs: ElementNodeConfigs) => {
+  const web3 = new Web3(elementNodeConfigs.ethereumRpcUrl);
   const ledger = new EthereumLedger(
     web3,
-    (config as any).elementAnchorContract
+    (elementNodeConfigs as any).elementAnchorContract
   );
   return ledger;
 };
@@ -27,10 +42,17 @@ const getTestCas = async () => {
   return cas;
 };
 
-export const getTestNodeIntance = async () => {
-  const ledger = await getTestLedger();
+export const getTestNodeIntance = async (
+  elementNodeConfigs: ElementNodeConfigs
+) => {
+  const ledger = await getTestLedger(elementNodeConfigs);
   const cas = await getTestCas();
-  const element = new Element(config as any, config.versions, cas, ledger);
+  const element = new Element(
+    elementNodeConfigs as any,
+    elementNodeConfigs.versions,
+    cas,
+    ledger
+  );
   await element.initialize();
   return element;
 };

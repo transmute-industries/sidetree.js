@@ -2,7 +2,7 @@ import registerService from './registerService';
 
 import { methodSwitch } from './sidetree';
 
-import { config } from '../config';
+import { nodeConfiguration } from '../config';
 
 class SidetreeServiceManager {
   private static _instance: SidetreeServiceManager;
@@ -13,7 +13,9 @@ class SidetreeServiceManager {
   }
 
   public async init() {
-    const method = await methodSwitch(config.methodName)();
+    const method = await methodSwitch(nodeConfiguration.didMethodName)(
+      nodeConfiguration
+    );
     return method;
   }
 
