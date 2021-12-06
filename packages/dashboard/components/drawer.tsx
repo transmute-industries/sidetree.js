@@ -26,7 +26,7 @@ import { useRouter } from 'next/router';
 
 export const Drawer = () => {
   const router = useRouter();
-  const [ hideUI, setHideUI ] = useState(false);
+  const [hideUI, setHideUI] = useState(false);
 
   return (
     <Box
