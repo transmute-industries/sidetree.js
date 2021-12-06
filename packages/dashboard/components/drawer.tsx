@@ -138,7 +138,7 @@ export const Drawer = () => {
           <ListItem
             button
             component="a"
-            href="https://github.com/OR13/next-ui-template"
+            href="https://github.com/transmute-industries/sidetree.js"
           >
             <ListItemIcon>
               <CodeIcon />
