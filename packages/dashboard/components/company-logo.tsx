@@ -11,7 +11,8 @@ export const CompanyLogo = ({ sx }: any) => {
   const logo =
     theme.palette.mode === 'dark'
       ? process.env.NEXT_PUBLIC_LOGO_LIGHT || '/assets/logo-with-text.white.svg'
-      : process.env.NEXT_PUBLIC_LOGO_DARK || '/assets/logo-with-text.purple.svg';
+      : process.env.NEXT_PUBLIC_LOGO_DARK ||
+        '/assets/logo-with-text.purple.svg';
 
   return (
     <img
