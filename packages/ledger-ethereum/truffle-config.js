@@ -62,11 +62,8 @@ module.exports = {
     // NB: It's important to wrap the provider as a function.
     ropsten: {
       // eslint-disable-next-line
-      provider: () =>
-        new HDWalletProvider(
-          process.env.MNEMONIC,
-          process.env.ETHEREUM_PROVIDER
-        ),
+      provider: (mnemonic, ethereumProvider) =>
+        new HDWalletProvider(mnemonic, ethereumProvider),
       network_id: 3, // Ropsten's id
       gas: 5500000, // Ropsten has a lower block limit than mainnet
       confirmations: 2, // # of confs to wait between deployments. (default: 0)
