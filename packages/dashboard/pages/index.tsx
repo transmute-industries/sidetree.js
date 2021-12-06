@@ -21,7 +21,7 @@ import { Card } from '../components/card';
 import { SectionHeader } from '../components/section-header';
 import { useRouter } from 'next/router';
 
-import { config } from '../config';
+import { nextAppConfigs } from '../config';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -30,8 +30,8 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>{config.method} | Dashboard</title>
-        <meta name="description" content={config.description} />
+        <title>{nextAppConfigs.method} | Dashboard</title>
+        <meta name="description" content={nextAppConfigs.description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -41,11 +41,11 @@ const Home: NextPage = () => {
           <ParticlesBlock>
             <div style={{ marginTop: '140px' }}>
               <Typography variant={'h2'} color={'primary'} gutterBottom>
-                {config.method}
+                {nextAppConfigs.method}
               </Typography>
               <Hidden smDown>
                 <Typography variant={'h3'} style={{ marginBottom: '32px' }}>
-                  {config.description}
+                  {nextAppConfigs.description}
                 </Typography>
               </Hidden>
               <CompanyLogo sx={{ height: '48px' }} />
@@ -53,8 +53,8 @@ const Home: NextPage = () => {
           </ParticlesBlock>
           <Box>
             <SectionHeader
-              title={config.features.title}
-              description={config.features.description}
+              title={nextAppConfigs.features.title}
+              description={nextAppConfigs.features.description}
             />
             <Grid container sx={{ p: 2 }} spacing={2}>
               <Grid item xs={4}>

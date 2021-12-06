@@ -8,7 +8,7 @@ import { Typography, Grid, Paper, Button } from '@mui/material';
 
 import { WalletCard } from '../../components/wallet-card';
 
-import { config } from '../../config';
+import { nextAppConfigs } from '../../config';
 
 import { getWallet, createWallet } from '../../core/facade';
 
@@ -25,8 +25,8 @@ const Wallet: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>{config.method} | Wallet</title>
-        <meta name="description" content={config.description} />
+        <title>{nextAppConfigs.method} | Wallet</title>
+        <meta name="description" content={nextAppConfigs.description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
