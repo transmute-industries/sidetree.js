@@ -5,7 +5,7 @@ import Particles from 'react-tsparticles';
 
 export const ParticlesBlock = ({ sx, children }: any) => {
   const theme = useTheme();
-  const height = sx?.height || '600px';
+  const height = sx?.height || '500px';
 
   const isDarkMode = theme.palette.mode === 'dark';
   const modeStyles = isDarkMode

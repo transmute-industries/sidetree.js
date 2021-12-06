@@ -5,9 +5,7 @@ import { useEffect, useState } from 'react';
 import { AppPage } from '../../components/app-page';
 
 import { Grid } from '@mui/material';
-
 import { LatestTransactions } from '../../components/latest-transactions';
-
 import { getTransactions } from '../../services/sidetree-node-client-api';
 
 const TransactionHistory: NextPage = () => {
@@ -24,7 +22,7 @@ const TransactionHistory: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>History</title>
+        <title>Transactions</title>
         <meta name="description" content="Transaction history" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

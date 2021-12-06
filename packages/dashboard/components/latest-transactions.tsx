@@ -4,8 +4,8 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 const columns: GridColDef[] = [
   { field: 'transactionNumber', headerName: 'Number' },
   { field: 'transactionTime', headerName: 'Time' },
-  { field: 'transactionTimeHash', headerName: 'Hash', width: 128 },
-  { field: 'anchorString', headerName: 'Anchor', width: 128 },
+  { field: 'transactionTimeHash', headerName: 'Hash', width: 540 },
+  { field: 'anchorString', headerName: 'Anchor', width: 400 },
 ];
 
 export const LatestTransactions = ({ transactions }: any) => {
