@@ -207,22 +207,158 @@ $ screen -S ion-core
 [Control A + D]
 ```
 
-## Section 03 Sending a Create Operation and Resolve Operation
-
+Generate Bitcoin Blocks in the Background
 ```
-$ curl --header "Content-Type: application/json" \
---request POST \
---data '{"type":"create","suffixData":{"deltaHash":"EiC1LGfh47ZBXjFRXELtonJ8pCbg6c9BbtHXAgA25vPSTg","recoveryCommitment":"EiC3M_2dIVUBou36U9fKTBN6Mz9xA2xxRR1gsHkC0789Sw"},"delta":{"updateCommitment":"EiAOZiRrOJmqZS1j30UXUPGMwWuzriB4FMBMWBT82mm5Cw","patches":[{"action":"replace","document":{"publicKeys":[{"id":"signing-key","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"qp0Ezzc4YhA196COYKa-RHrCom-0LgFtAf8FqvcntN0","y":"zWcbbbg9w1m-DNOszvM68TD0_vFBtWyc18S06c8cULU"}}]}}]}}' \
-http://localhost:3000/operations
+$ screen -S bitcoin-blocks
+[ bitcoin-blocks ] $ watch -n 30 bitcoin-core.cli -generate 1
+[Control A + D]
 ```
 
-Then we need to generate several blocks
+## Section 03 Sending a Create Operation and Recover Operation
+
+**Create Request**
 ```
-$ for n in {1..5}; do bitcoin-core.cli -generate 1; done
+curl --header "Content-Type: application/json" --request POST --data '{"type":"create","suffixData":{"deltaHash":"EiCP8MJ9oX2jmTxVi6xa1WoGmzkg8HaxmWWiR6R34cUmvw","recoveryCommitment":"EiCFei9R_74JeKbxGIZPI4XXwbb0eDpBeweA9IpymBEOFA"},"delta":{"updateCommitment":"EiDDJ-s9CPjkh6yaH5apLIKZ1G87K0phukB3Fofy2ujeAg","patches":[{"action":"replace","document":{"publicKeys":[{"id":"signingKey","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"8a7JVJUDcR_mS6gyTAgdvGFZkhO8plwWfId3xqHa7xA","y":"xIxXstl9XR-hXXBkrhzxrFhJRvab2MLhQDus92S8G2o"},"purposes":["authentication","assertionMethod","capabilityInvocation","capabilityDelegation","keyAgreement"]}],"services":[{"id":"serviceId123","type":"someType","serviceEndpoint":"https://www.url.com"}]}}]}}' http://localhost:3000/operations
 ```
 
-Wait several minutes and then try and resolve
+**Create Response**
 ```
-$ curl http://localhost:3000/identifiers/did:ion:EiBgMkQDrUjGYkUZqQgTiOkZeyQiQgNuYZLiW1S9M-oDCA
+{"@context":"https://w3id.org/did-resolution/v1","didDocument":{"id":"did:ion:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg","@context":["https://www.w3.org/ns/did/v1",{"@base":"did:ion:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg"}],"service":[{"id":"#serviceId123","type":"someType","serviceEndpoint":"https://www.url.com"}],"verificationMethod":[{"id":"#signingKey","controller":"","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"8a7JVJUDcR_mS6gyTAgdvGFZkhO8plwWfId3xqHa7xA","y":"xIxXstl9XR-hXXBkrhzxrFhJRvab2MLhQDus92S8G2o"}}],"authentication":["#signingKey"],"assertionMethod":["#signingKey"],"capabilityInvocation":["#signingKey"],"capabilityDelegation":["#signingKey"],"keyAgreement":["#signingKey"]},"didDocumentMetadata":{"method":{"published":false,"recoveryCommitment":"EiCFei9R_74JeKbxGIZPI4XXwbb0eDpBeweA9IpymBEOFA","updateCommitment":"EiDDJ-s9CPjkh6yaH5apLIKZ1G87K0phukB3Fofy2ujeAg"},"canonicalId":"did:ion:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg"}}
 ```
+
+**Resolve Request**
+```
+curl http://localhost:3000/identifiers/did:ion:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg
+```
+
+**Resolve Response**
+```
+{"@context":"https://w3id.org/did-resolution/v1","didDocument":{"id":"did:ion:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg","@context":["https://www.w3.org/ns/did/v1",{"@base":"did:ion:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg"}],"service":[{"id":"#serviceId123","type":"someType","serviceEndpoint":"https://www.url.com"}],"verificationMethod":[{"id":"#signingKey","controller":"","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"8a7JVJUDcR_mS6gyTAgdvGFZkhO8plwWfId3xqHa7xA","y":"xIxXstl9XR-hXXBkrhzxrFhJRvab2MLhQDus92S8G2o"}}],"authentication":["#signingKey"],"assertionMethod":["#signingKey"],"capabilityInvocation":["#signingKey"],"capabilityDelegation":["#signingKey"],"keyAgreement":["#signingKey"]},"didDocumentMetadata":{"method":{"published":true,"recoveryCommitment":"EiCFei9R_74JeKbxGIZPI4XXwbb0eDpBeweA9IpymBEOFA","updateCommitment":"EiDDJ-s9CPjkh6yaH5apLIKZ1G87K0phukB3Fofy2ujeAg"},"canonicalId":"did:ion:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg"}}
+```
+
+**Recover Request**
+```
+curl --header "Content-Type: application/json" --request POST --data '{"type":"recover","didSuffix":"EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg","revealValue":"EiBDFxzWmxgVG9SH-PY-9Yz73-6mnI8egnypTx1fjlKMKw","signedData":"eyJhbGciOiJFUzI1NksifQ.eyJkZWx0YUhhc2giOiJFaURaeXJBQk13dGZ1YmNGSXlZelhkb09wNXdObzZCNW82MGxvaUg1Qkh3VldRIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiODZzeDZ5dVdZWjVMRFp1WFd4WF9FdEtrbFN1a21jSDdQZUIzNFNrWUVjZyIsInkiOiJzVlR6VGhVejNDRk82N2doWHVIQXV6Q2ZCVWdKa0V3WkZrbzZQM0ZzNnIwIn0sInJlY292ZXJ5Q29tbWl0bWVudCI6IkVpREFUNGxlYm14S3FTOXFyT1ROZ0lOakJ1aHY1VUJWS1h3Y0NQQ0hiellNX1EifQ.w9jDo4hrTVxbA3oA7QH6YOiTSM5y1f697Dj7m4DPg3ShbhjK3KwXmrHEu5lpFXcxAFB47hW0G1rzm7PpNm9bwQ","delta":{"patches":[{"action":"replace","document":{"publicKeys":[]}}],"updateCommitment":"EiDDJ-s9CPjkh6yaH5apLIKZ1G87K0phukB3Fofy2ujeAg"}}' http://localhost:3000/operations
+```
+
+**Recover Response**
+```
+(none)
+```
+
+**Resolve Request**
+```
+curl http://localhost:3000/identifiers/did:ion:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg
+```
+
+**Resolve Response**
+```
+{"@context":"https://w3id.org/did-resolution/v1","didDocument":{"id":"did:ion:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg","@context":["https://www.w3.org/ns/did/v1",{"@base":"did:ion:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg"}]},"didDocumentMetadata":{"method":{"published":true,"recoveryCommitment":"EiDAT4lebmxKqS9qrOTNgINjBuhv5UBVKXwcCPCHbzYM_Q","updateCommitment":"EiDDJ-s9CPjkh6yaH5apLIKZ1G87K0phukB3Fofy2ujeAg"},"canonicalId":"did:ion:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg"}}
+```
+
+## Section 04 Sending a Create, Update and Deactivate Operation
+
+**Create Request**
+```
+curl --header "Content-Type: application/json" --request POST --data '{"type":"create","suffixData":{"deltaHash":"EiB5bpeOg4EMw3rYAZ37wmdqrHAoZVf45-70EeeFBLIDxA","recoveryCommitment":"EiCYJN3wDMCQc5kJo_ZR6nNiLEukVZEd3qgTrSHQZIy-NA"},"delta":{"updateCommitment":"EiDJa1d1800h2jcvLOJ5eoga5PrIA9WAwxrKGvUYXJwTeQ","patches":[{"action":"replace","document":{"publicKeys":[{"id":"signingKey","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"naoGdqBTAvOAVaXjRJb_MW2BPw86iGWLs4i9ylN0dbE","y":"dOfZc0yVkTm70h_ixQOu-B_T29dzxGTILf1-xoqYeao"},"purposes":["authentication","assertionMethod","capabilityInvocation","capabilityDelegation","keyAgreement"]}],"services":[{"id":"serviceId123","type":"someType","serviceEndpoint":"https://www.url.com"}]}}]}}' http://localhost:3000/operations
+```
+
+**Create Response**
+
+```
+{"@context":"https://w3id.org/did-resolution/v1","didDocument":{"id":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A","@context":["https://www.w3.org/ns/did/v1",{"@base":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A"}],"service":[{"id":"#serviceId123","type":"someType","serviceEndpoint":"https://www.url.com"}],"verificationMethod":[{"id":"#signingKey","controller":"","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"naoGdqBTAvOAVaXjRJb_MW2BPw86iGWLs4i9ylN0dbE","y":"dOfZc0yVkTm70h_ixQOu-B_T29dzxGTILf1-xoqYeao"}}],"authentication":["#signingKey"],"assertionMethod":["#signingKey"],"capabilityInvocation":["#signingKey"],"capabilityDelegation":["#signingKey"],"keyAgreement":["#signingKey"]},"didDocumentMetadata":{"method":{"published":false,"recoveryCommitment":"EiCYJN3wDMCQc5kJo_ZR6nNiLEukVZEd3qgTrSHQZIy-NA","updateCommitment":"EiDJa1d1800h2jcvLOJ5eoga5PrIA9WAwxrKGvUYXJwTeQ"},"canonicalId":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A"}}
+```
+
+**Resolve Request**
+
+```
+curl http://localhost:3000/identifiers/did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A
+```
+
+**Resolve Response**
+```
+{"@context":"https://w3id.org/did-resolution/v1","didDocument":{"id":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A","@context":["https://www.w3.org/ns/did/v1",{"@base":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A"}],"service":[{"id":"#serviceId123","type":"someType","serviceEndpoint":"https://www.url.com"}],"verificationMethod":[{"id":"#signingKey","controller":"","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"naoGdqBTAvOAVaXjRJb_MW2BPw86iGWLs4i9ylN0dbE","y":"dOfZc0yVkTm70h_ixQOu-B_T29dzxGTILf1-xoqYeao"}}],"authentication":["#signingKey"],"assertionMethod":["#signingKey"],"capabilityInvocation":["#signingKey"],"capabilityDelegation":["#signingKey"],"keyAgreement":["#signingKey"]},"didDocumentMetadata":{"method":{"published":true,"recoveryCommitment":"EiCYJN3wDMCQc5kJo_ZR6nNiLEukVZEd3qgTrSHQZIy-NA","updateCommitment":"EiDJa1d1800h2jcvLOJ5eoga5PrIA9WAwxrKGvUYXJwTeQ"},"canonicalId":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A"}}
+```
+
+**Update Request**
+
+```
+curl --header "Content-Type: application/json" --request POST --data '{"type":"update","didSuffix":"EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A","revealValue":"EiD0FtXueh5RDV_DlLcOuxjPnT-pheGPfhvaYUivLpGmZA","delta":{"patches":[{"action":"add-services","services":[{"id":"someId","type":"someType","serviceEndpoint":"someEndpoint"}]}],"updateCommitment":"EiDJa1d1800h2jcvLOJ5eoga5PrIA9WAwxrKGvUYXJwTeQ"},"signedData":"eyJhbGciOiJFUzI1NksifQ.eyJ1cGRhdGVLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiMTdOVnAwX3pwLUJON3FkeTJhbkNqcDk1TS1sVF9pZ2xpTENEZ1hvS2F6YyIsInkiOiJ4TzJPQlZSOGxFTW94N1hvYzVYU1dYSC1yUm5jbHk5b2NvTVBUVkhVZmtzIn0sImRlbHRhSGFzaCI6IkVpQ2VkUlZYWGRaU0VMSmRqNzhJclVwaFVJYkVSWFA1UWlrSTN1ZEVvSmFRcEEifQ.-oeeFd4XrAf1L9pt0V_MjXIEubqAEHKPGA1s3JnrdWLHcG3uXF2wZSI_xoDMTlRuwHkJjt-tt918Ce9OXwi4PQ"}' http://localhost:3000/operations
+```
+
+**Update Response**
+
+```
+(none)
+```
+
+**Resolve Request**
+```
+curl http://localhost:3000/identifiers/did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A
+```
+
+**Resolve Response**
+
+```
+{"@context":"https://w3id.org/did-resolution/v1","didDocument":{"id":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A","@context":["https://www.w3.org/ns/did/v1",{"@base":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A"}],"service":[{"id":"#serviceId123","type":"someType","serviceEndpoint":"https://www.url.com"},{"id":"#someId","type":"someType","serviceEndpoint":"someEndpoint"}],"verificationMethod":[{"id":"#signingKey","controller":"","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"naoGdqBTAvOAVaXjRJb_MW2BPw86iGWLs4i9ylN0dbE","y":"dOfZc0yVkTm70h_ixQOu-B_T29dzxGTILf1-xoqYeao"}}],"authentication":["#signingKey"],"assertionMethod":["#signingKey"],"capabilityInvocation":["#signingKey"],"capabilityDelegation":["#signingKey"],"keyAgreement":["#signingKey"]},"didDocumentMetadata":{"method":{"published":true,"recoveryCommitment":"EiCYJN3wDMCQc5kJo_ZR6nNiLEukVZEd3qgTrSHQZIy-NA","updateCommitment":"EiDJa1d1800h2jcvLOJ5eoga5PrIA9WAwxrKGvUYXJwTeQ"},"canonicalId":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A"}}
+```
+
+**Deactivate Request**
+
+```
+curl --header "Content-Type: application/json" --request POST --data '{"type":"deactivate","didSuffix":"EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A","revealValue":"EiCk-d_6aijSJVJ9K00qlfprLUew_TUZqZ4b8dtl_5mpww","signedData":"eyJhbGciOiJFUzI1NksifQ.eyJkaWRTdWZmaXgiOiJFaUJ1dWljV1Z4T2NiaENXME45WVNSSndCN2F1cWJ6aE1oS2cxcVhSVFIzMF9BIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiLUhWWFJRNVNGTnRoWFk2Mkxya3N2Z2dqdkVlaEF1Sll3bTVkS0ZZSzJ5ZyIsInkiOiJqQVVqYmo5N3I2dDNTY0pvVW1DTjRwejRpdXVpdGVrMEtKSlFaMndHU1g4In19.L9fl_GHr5jseHUckE0dx4ib-YkFiFBx5YgdFJ8_pcNa71JPTbGT2T4_WY7HUsQqBe_F-yzoDd_FozspFC2PqKw"}' http://localhost:3000/operations
+```
+
+**Deactivate Response**
+
+```
+(none)
+```
+
+**Resolve Request**
+
+```
+curl http://localhost:3000/identifiers/did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A
+```
+
+**Resolve Response**
+
+```
+{"@context":"https://w3id.org/did-resolution/v1","didDocument":{"id":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A","@context":["https://www.w3.org/ns/did/v1",{"@base":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A"}]},"didDocumentMetadata":{"method":{"published":true},"canonicalId":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A"}}
+```
+
+# Section 05 - Clean Up And Reset
+
+While you are working with Ion locally, you might need to stop and reset everything 
+back to its initial state so that you can repeat a set of tests. **Important** 
+Make sure that you know what are you doing before running any of these commands.
+
+To stop the existing processes that are running in Screen. You can type
+```
+$ screen -ls
+There are screens on:
+	13512.ion-bitcoin	(12/06/21 16:52:47)	(Detached)
+	13467.ion-core	(12/06/21 16:52:42)	(Detached)
+	5673.bitcoin-blocks	(12/06/21 15:58:19)	(Attached)
+3 Sockets in /run/screen/S-ubuntu.
+```
+
+Followed by `screen -x [ion-core]` (or other process). To connect to that
+screen. Hit Control+C to stop the process. And Press Control + D to stop the
+screen.
+
+To stop running the bitcoin daemon, you can run
+```
+$ bitcoin-core.cli stop
+```
+
+To clean out your wallet and the Regtest chain you can run:
+```
+$ rm -rf /home/ubuntu/snap/bitcoin-core/common/.bitcoin/regtest/
+```
+
+To drop the local MongoDB Databases to clear the state of Ion, you can run.
+```
+$ mongo ion-regtest-bitcoin --eval "printjson(db.dropDatabase())"
+$ mongo ion-regtest-core --eval "printjson(db.dropDatabase())"
 ```

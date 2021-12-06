@@ -57,7 +57,9 @@ describe('performing crud operations with regtest', () => {
 	it('should return transaction fee', () => {
 
 		const addrList = [
+			// Ion Wallet Address (randomly generated?)
 			'mzQCLt9Eafas64E718myJ88KA1K8oRM6u2',
+			// Dumby Addresses
 			'bcrt1q8ksv99yusgntgh9ekggtee4wf47m3u335znd6d',
 			'bcrt1qmw0ah0f0gzrm39xusd65d03hhu86u7pgkms9vj',
 			'bcrt1qxxwwprlzlcx8wp6kshrxhldtlk4fpfssmqsa4j',
@@ -121,10 +123,6 @@ describe('performing crud operations with regtest', () => {
 	});
 
 	it('should resolve the did from ion core', ()=> {
-		
-
-		// We stop and restart the core process which should
-		// trigger the process to attempt to write to the chain
 		
 		// We generate a bunch of blocks while we wait for ion to write
 		// and detect the create operation, and make it available
