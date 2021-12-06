@@ -29,7 +29,13 @@ const handler = async (
   }
 
   if (req.method === 'POST') {
-    const operation = Buffer.from(JSON.stringify(req.body));
+    let reqBody = req.body;
+    // In /docs body is object but with window.fetch it is already stringified
+    // so handling both cases
+    if (typeof reqBody === 'object') {
+      reqBody = JSON.stringify(req.body);
+    }
+    const operation = Buffer.from(reqBody);
     const { status, body } = await sidetree.handleOperationRequest(operation);
     res.status(convertSidetreeStatusToHttpStatus(status));
     res.json(body);
