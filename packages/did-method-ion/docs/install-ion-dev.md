@@ -327,3 +327,38 @@ curl http://localhost:3000/identifiers/did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhM
 {"@context":"https://w3id.org/did-resolution/v1","didDocument":{"id":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A","@context":["https://www.w3.org/ns/did/v1",{"@base":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A"}]},"didDocumentMetadata":{"method":{"published":true},"canonicalId":"did:ion:EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A"}}
 ```
 
+# Section 05 - Clean Up And Reset
+
+While you are working with Ion locally, you might need to stop and reset everything 
+back to its initial state so that you can repeat a set of tests. **Important** 
+Make sure that you know what are you doing before running any of these commands.
+
+To stop the existing processes that are running in Screen. You can type
+```
+$ screen -ls
+There are screens on:
+	13512.ion-bitcoin	(12/06/21 16:52:47)	(Detached)
+	13467.ion-core	(12/06/21 16:52:42)	(Detached)
+	5673.bitcoin-blocks	(12/06/21 15:58:19)	(Attached)
+3 Sockets in /run/screen/S-ubuntu.
+```
+
+Followed by `screen -x [ion-core]` (or other process). To connect to that
+screen. Hit Control+C to stop the process. And Press Control + D to stop the
+screen.
+
+To stop running the bitcoin daemon, you can run
+```
+$ bitcoin-core.cli stop
+```
+
+To clean out your wallet and the Regtest chain you can run:
+```
+$ rm -rf /home/ubuntu/snap/bitcoin-core/common/.bitcoin/regtest/
+```
+
+To drop the local MongoDB Databases to clear the state of Ion, you can run.
+```
+$ mongo ion-regtest-bitcoin --eval "printjson(db.dropDatabase())"
+$ mongo ion-regtest-core --eval "printjson(db.dropDatabase())"
+```
