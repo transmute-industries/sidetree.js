@@ -5,7 +5,7 @@
   "scripts": {
     "predev": "docker-compose -f ./docker-compose.dev.yml up --detach --remove-orphans",
     "dev": "dotenv -e .env.development.local next dev",
-    "dev:elem": "dotenv -e .env.development.local -v USE_ELEMENT='true' next dev",
+    "dev:elem": "dotenv -e .env.development.local -v NEXT_PUBLIC_USE_ELEMENT='true' next dev",
     "test": "jest",
     "build": "next build",
     "export": "next export",

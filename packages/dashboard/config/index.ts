@@ -3,16 +3,15 @@
 export const config: any = {
   operator: process.env.NEXT_PUBLIC_OPERATOR,
   method:
-    process.env.USE_ELEMENT !== 'true'
+    process.env.NEXT_PUBLIC_USE_ELEMENT !== 'true'
       ? process.env.NEXT_PUBLIC_SIDETREE_METHOD
       : process.env.NEXT_PUBLIC_ELEMENT_METHOD,
   description: process.env.NEXT_PUBLIC_DESCRIPTION,
-  methodName: process.env.NEXT_PUBLIC_SIDETREE_METHOD,
   features: {
     title: 'Features',
     description: 'Decentralized Identifiers powered by Ethereum and IPFS.',
   },
-  useSideTreeNodeConfigs: process.env.USE_ELEMENT !== 'true',
+  useSideTreeNodeConfigs: process.env.NEXT_PUBLIC_USE_ELEMENT !== 'true',
   sideTreeNodeConfigs: {
     batchingIntervalInSeconds: process.env.BATCH_INTERVAL_IN_SECONDS,
     observingIntervalInSeconds: process.env.OBSERVING_INTERVAL_IN_SECONDS,
