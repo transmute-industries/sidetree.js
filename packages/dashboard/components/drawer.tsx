@@ -27,6 +27,7 @@ import { useRouter } from 'next/router';
 
 export const Drawer = () => {
   const router = useRouter();
+  console.log();
   const [hideUI, setHideUI] = useState(false);
 
   return (
@@ -47,6 +48,7 @@ export const Drawer = () => {
           subheader={<ListSubheader component="div">Explore</ListSubheader>}
         >
           <ListItem
+            selected={router.pathname === '/transactions'}
             button
             onClick={() => {
               router.push('/transactions');
@@ -59,6 +61,7 @@ export const Drawer = () => {
           </ListItem>
 
           <ListItem
+            selected={router.pathname === '/operations'}
             button
             onClick={() => {
               router.push('/operations');
@@ -73,6 +76,7 @@ export const Drawer = () => {
         <Divider />
         <List subheader={<ListSubheader component="div">Wallet</ListSubheader>}>
           <ListItem
+            selected={router.pathname === '/wallet'}
             button
             onClick={() => {
               router.push('/wallet');
@@ -90,6 +94,7 @@ export const Drawer = () => {
           subheader={<ListSubheader component="div">Operations</ListSubheader>}
         >
           <ListItem
+            selected={router.pathname === '/create'}
             button
             onClick={() => {
               router.push('/create');
@@ -102,6 +107,7 @@ export const Drawer = () => {
           </ListItem>
 
           <ListItem
+            selected={router.pathname === '/resolve'}
             button
             onClick={() => {
               router.push('/resolve');
