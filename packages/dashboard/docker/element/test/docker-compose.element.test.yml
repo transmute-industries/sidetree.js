@@ -1,0 +1,27 @@
+version: '3'
+services:
+  # dashboard:
+  #   image: transmute/sidetree-dashboard:latest
+  #   build:
+  #     context: ../../..
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - '3000:3000'
+  ganache:
+    image: trufflesuite/ganache-cli:latest
+    ports:
+      - '8545:8545'
+    command:
+      - --mnemonic=${MNEMONIC}
+      - --networkId='13370'
+  # ipfs:
+  #   image: ipfs/go-ipfs:v0.7.0
+  #   ports:
+  #     - '8080:8080'
+  #     - '5001:5001'
+  #     - '4001:4001'
+  # mongo:
+  #   image: mongo
+  #   restart: always
+  #   ports:
+  #     - '27017:27017'
