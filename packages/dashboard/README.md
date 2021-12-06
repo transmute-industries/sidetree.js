@@ -10,8 +10,8 @@ Create a file named `.evt.local` in this directory (next to `package.json`),
 and populate it with your logo URL's (without square brackets).
 
 ```
-LOGO_LIGHT=[Light Logo on Dark Background URL]
-LOGO_DARK=[Dark Logo on Light Background URL]
+NEXT_PUBLIC_LOGO_LIGHT=[Light Logo on Dark Background URL]
+NEXT_PUBLIC_LOGO_DARK=[Dark Logo on Light Background URL]
 ```
 
 ### Building with Docker
