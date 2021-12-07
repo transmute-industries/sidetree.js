@@ -11,6 +11,7 @@ npm install --save @sidetree/element
 ## Development
 
 - [Install Local Development with Ganache](https://github.com/transmute-industries/sidetree.js/blob/main/packages/did-method-element/docs/local-dev.md)
+- [Install Testnet Development with Ropsten](https://github.com/transmute-industries/sidetree.js/blob/main/packages/did-method-element/docs/local-test.md)
 
 ## Run Tests
 
