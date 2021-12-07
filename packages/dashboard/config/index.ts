@@ -1,6 +1,8 @@
 // todo: make this a single config for the entire node dashboard
 // including branding options, logos, etc.
 export const config: any = {
+  logoLight: process.env.NEXT_PUBLIC_LOGO_TEXT_LIGHT,
+  logoDark: process.env.NEXT_PUBLIC_LOGO_TEXT_DARK,
   operator: process.env.NEXT_PUBLIC_OPERATOR,
   method:
     process.env.NEXT_PUBLIC_USE_ELEMENT !== 'true'
@@ -20,6 +22,8 @@ export const config: any = {
 };
 
 export const nextAppConfigs = {
+  logoLight: config.logoLight,
+  logoDark: config.logoDark,
   operator: config.operator,
   method: config.method,
   description: config.description,
