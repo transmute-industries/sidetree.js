@@ -2,15 +2,6 @@
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/wallet',
-        permanent: false,
-      },
-    ];
-  },
   reactStrictMode: true,
   webpack5: false,
   // Use the prefix in production and not development.
