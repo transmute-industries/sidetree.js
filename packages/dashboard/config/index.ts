@@ -14,7 +14,9 @@ export const config: any = {
   port: process.env.SIDE_TREE_NODE_PORT,
   contentAddressableStoreServiceUri:
     process.env.ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI,
-  ethereumRpcUrl: process.env.ETHEREUM_RCP_URL,
+  ethereumRpcUrl: process.env.ETHEREUM_RPC_URL,
+  ethereumMnemonic: process.env.ETHEREUM_MNEMONIC,
+  elementAnchorContract: process.env.ELEMENT_ANCHOR_CONTRACT,
 };
 
 export const nextAppConfigs = {
@@ -41,14 +43,23 @@ export const sideTreeNodeConfigs = {
 
 export const elementNodeConfigs = {
   contentAddressableStoreServiceUri: config.contentAddressableStoreServiceUri,
-  databaseName: config.databaseName,
-  didMethodName: config.method,
   ethereumRpcUrl: config.ethereumRpcUrl,
+  ethereumMnemonic: config.ethereumMnemonic,
+  elementAnchorContract: config.elementAnchorContract,
+  databaseName: config.databaseName,
   mongoDbConnectionString: config.mongoDbConnectionString,
+  didMethodName: config.method,
   batchingIntervalInSeconds: config.batchingIntervalInSeconds,
   observingIntervalInSeconds: config.observingIntervalInSeconds,
   maxConcurrentDownloads: config.maxConcurrentDownloads,
+  versions: [
+    {
+      startingBlockchainTime: 0,
+      version: 'latest',
+    },
+  ],
 };
 
-export const nodeConfiguration =
-  config.method === 'elem:ganache' ? elementNodeConfigs : sideTreeNodeConfigs;
+export const nodeConfiguration = config.method.startsWith('elem:')
+  ? elementNodeConfigs
+  : sideTreeNodeConfigs;
