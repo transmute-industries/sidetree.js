@@ -10,6 +10,10 @@ npm install --save @sidetree/element
 
 ## Development
 
+- [Install Local Development with Ganache](https://github.com/transmute-industries/sidetree.js/blob/main/packages/did-method-element/docs/local-dev.md)
+
+## Run Tests
+
 ```
 npm install
 npm run test
