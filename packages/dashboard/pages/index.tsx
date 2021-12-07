@@ -63,9 +63,7 @@ const Home: NextPage = () => {
                   image={`/assets/background-0.png`}
                   description={
                     <div style={textSize}>
-                      <Typography>
-                        DID opertions like create, update and deactivate.
-                      </Typography>
+                      <Typography>DID opertions like create.</Typography>
                       <Typography>
                         Manage wallet portability needed to control your
                         identifiers.
