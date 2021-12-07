@@ -28,7 +28,7 @@ You can do this with the following command:
 ```
 git clone git@github.com:transmute-industries/sidetree.js.git
 cd sidetree.js
-lerna bootstrap
+npm install
 ```
 
 Important: The `lerna bootstrap` command will build all of the packages and link them so everything works properly.
@@ -46,6 +46,7 @@ So before doing anything you will need to copy the contents of `.env.example` to
 Now that we have confirmed we have all of the environment variables we need, we can install our dependencies with the following command (If you ran this after cloning the repo, you shouldn't need to run it again):
 
 ```
+cd packages/dashboard
 lerna bootstrap
 ```
 
