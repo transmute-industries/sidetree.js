@@ -10,7 +10,7 @@ and default home directory of `/home/ubuntu`.
 - Install Dependencies
 - Clone and Build the Repository
 - Start Required Services
-- Run Example API
+- Run Create / Resolve Operation
 
 ## Install Dependencies
 
@@ -58,12 +58,12 @@ $ sudo systemctl start mongod.service
 Install Nodejs (v14)
 
 ```
+$ sudo apt install -y python-is-python3 make gcc
 $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 $ source ~/.bashrc
 $ nvm install 14
 $ nvm use 14
 ```
-
 
 Install Ganache Cli
 
@@ -118,14 +118,16 @@ curl --header "Content-Type: application/json" --request POST --data '{"type":"c
 **Create Response**
 
 ```
+{"@context":"https://w3id.org/did-resolution/v1","didDocument":{"@context":["https://www.w3.org/ns/did/v1","https://w3id.org/security/suites/jws-2020/v1",{"@vocab":"https://www.w3.org/ns/did#"}],"id":"did:elem:ganache:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg","verificationMethod":[{"id":"#signingKey","controller":"did:elem:ganache:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"8a7JVJUDcR_mS6gyTAgdvGFZkhO8plwWfId3xqHa7xA","y":"xIxXstl9XR-hXXBkrhzxrFhJRvab2MLhQDus92S8G2o"}}],"authentication":["#signingKey"],"assertionMethod":["#signingKey"],"capabilityInvocation":["#signingKey"],"capabilityDelegation":["#signingKey"],"keyAgreement":["#signingKey"],"service":[{"id":"#serviceId123","type":"someType","serviceEndpoint":"https://www.url.com"}]},"didDocumentMetadata":{"method":{"published":false,"recoveryCommitment":"EiCFei9R_74JeKbxGIZPI4XXwbb0eDpBeweA9IpymBEOFA","updateCommitment":"EiDDJ-s9CPjkh6yaH5apLIKZ1G87K0phukB3Fofy2ujeAg"},"canonicalId":"did:elem:ganache:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg"}}
 ```
 
 **Resolve Request**
 
 ```
-$ curl http://localhost:3000/api/1.0/identifiers/did:ion:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg
+$ curl http://localhost:3000/api/1.0/identifiers/did:elem:ganache:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg
 ```
 
 **Resolve Response**
 ```
+{"@context":"https://w3id.org/did-resolution/v1","didDocument":{"@context":["https://www.w3.org/ns/did/v1","https://w3id.org/security/suites/jws-2020/v1",{"@vocab":"https://www.w3.org/ns/did#"}],"id":"did:elem:ganache:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg","verificationMethod":[{"id":"#signingKey","controller":"did:elem:ganache:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"8a7JVJUDcR_mS6gyTAgdvGFZkhO8plwWfId3xqHa7xA","y":"xIxXstl9XR-hXXBkrhzxrFhJRvab2MLhQDus92S8G2o"}}],"authentication":["#signingKey"],"assertionMethod":["#signingKey"],"capabilityInvocation":["#signingKey"],"capabilityDelegation":["#signingKey"],"keyAgreement":["#signingKey"],"service":[{"id":"#serviceId123","type":"someType","serviceEndpoint":"https://www.url.com"}]},"didDocumentMetadata":{"method":{"published":true,"recoveryCommitment":"EiCFei9R_74JeKbxGIZPI4XXwbb0eDpBeweA9IpymBEOFA","updateCommitment":"EiDDJ-s9CPjkh6yaH5apLIKZ1G87K0phukB3Fofy2ujeAg"},"canonicalId":"did:elem:ganache:EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg"}}
 ```
