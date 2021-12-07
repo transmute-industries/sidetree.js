@@ -1,8 +1,114 @@
-## @sidetree/dashboard
+# @sidetree/dashboard
 
-This package is work in progress.
+This package contains a Next.js app that can be used to operate a sidetree node.
 
-This package contains a Next.js app for sidetree nodes.
+Running this application will start up a sidetree node and provide you a simple UI to interact with the node.
+
+This UI will allow you to:
+
+- Create a wallet that is kept in local storage.
+- Create a DID.
+- Resolve a DID.
+- See the transactions that are happening on your node.
+- See the operations that are happening on your node.
+
+As it stands now, the following operations are not available:
+
+- Delete DID
+- Update DID
+
+## Running Your Sidetree Node
+
+## Cloning the Repo
+
+First you will need to begin by cloning the Sidetree.js repo if you have not done so already. Next you will need to navigate to the dashboard directorty.
+
+You can do this with the following command:
+
+```
+git clone git@github.com:transmute-industries/sidetree.js.git
+cd sidetree.js/packages/dashboard
+```
+
+### Environment Variables
+
+Before you run your sidetree node, we need to make sure we have all of our environment variables properly configured for the type of node we will be running.
+
+The `.env.local` environment file provided in the package contains all of the process environment variables that are required in order to run your node.
+
+This file should work out of the box, without needing any modifications. That being said, it's important to take note of what these variables and their values are.
+
+### Installing & Starting Your Node
+
+Now that we have confirmed we have all of the environment variables we need, we can install our dependencies and fire up our node with the following commands:
+
+```
+lerna bootstrap
+npm run dev
+```
+
+This will build all of our dependencies, allow our application to start properly.
+
+Once started, you should be able to see the application at `http://localhost:3000`.
+
+### What You Can Do In The App
+
+When the application first loads, you should be greeted with a welcome screen listing the did method you are using in the node. If you are using the defauly `.env.local` file, you should see `example:sidetree.testnet`.
+
+Below this is a list of features. They are:
+
+1. Manage - This section lets you create a wallet and/or DIDs for your wallet.
+2. Explore - This section will let you see the transactions and operations that are happening on your node.
+3. Resolve - This section will let you resolve a DID, allowing you to see information about that did.
+
+#### Create a wallet
+
+Before you can create a DID, you will need to create a wallet. This can be done by clicking the "Manage CTA". This should take you to the `http://localhost:3000/wallet` page.
+
+If you do not already have a wallet, you should see a prompt asking you to generate one. To generate a wallet, simply click the button in the prompt.
+
+One your wallet is created, the conents of the wallet are kept in the browsers `localStorage`. This means you will need to access this to obtain any DIDs you create or add to the wallet.
+
+#### Creating a DID
+
+Now that we have a wallet created, we will be able to create a DID.
+
+To do this we will navigate to the `Create` page listed under `Operations` in the application's sidebar.
+
+This will take you to the `http://localhost:3000/create` page.
+
+To create a new DID, simply click the `Create DID` button on the page.
+
+This will create the new DID and add it your wallet.
+
+#### Viewing Node Transactions
+
+Now that we have created a DID using our node, we should be able to see this transaction in our Transactions Explorer.
+
+If you click the `Transactions` menu in the application sidebar, you should be taking to `http://localhost:3000/transactions` where you will see a table and 1 transaction listed.
+
+#### Viwing Node Operations
+
+You can also view the latest operations performed by the node by clicking the `Operations` menu item in the application sidebar.
+
+This will take you to `http://localhost:3000/operations` where you will be able to see a table of the operation identifiers, along with additional information regarding that particular operation.
+
+#### Resolving a DID
+
+Lastly, inside the application, you are also able to resolve a DID. You can do this by click the `Resolve` menu item in the application sidebar.
+
+This will take you to `https://localhost:3000/resolve` where you will be presented with an input.
+
+We can use this page to resolve the DID we previously created. Because our wallet is kept in the browsers `localStorage`, we will need to grab our newly created DID from there.
+
+We can then enter that into the form and click `Resolve`.
+
+Once resolved, we will be able to see basic information about the DID broken down into the following sections:
+
+- Verification
+- Credentials
+- Presentations
+- Services
 
 ### Building with Docker
 
