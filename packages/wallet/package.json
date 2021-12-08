@@ -39,7 +39,7 @@
     "factory.ts": "^0.5.1",
     "varint": "^6.0.0"
   },
-  "gitHead": "12a55f3abe77b8865def2e8293f3b2e0b387f1f7",
+  "gitHead": "e97862f01a5ad9845d82eb57ca46d335a98aeb8b",
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/wallet",
   "repository": {
     "type": "git",
