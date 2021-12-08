@@ -66,7 +66,6 @@ export const DarkModeSwitch = ({ checked, onClick }: any) => {
 };
 
 export const ColorModeContext = React.createContext({
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   toggleColorMode: () => {},
 });
 
