@@ -95,6 +95,35 @@ export const ionVectors = {
     json:
       '{"provisionalIndexFileUri":"QmP9u7Ar8jZq2Je6FcH5k7NGNTo3h1e2waWT5qjfX7hUob","operations":{"recover":[{"didSuffix":"EiB_4F3m_qz5tBdRmC7tcMOQJxvKSyICzQ4Uxt8cGTN5Vg","revealValue":"EiBDFxzWmxgVG9SH-PY-9Yz73-6mnI8egnypTx1fjlKMKw"}]},"coreProofFileUri":"QmWA2bmcdTLAVDMjddeFJvw4fdxoNkJSUvUhKJiipPgP7R"}',
   },
+  updateOperation: {
+    cid: 'QmXTTBqcYyWZiTsK9GgkB2CUgSHV5prnG1FPjJyR7544Ta',
+    data: Buffer.from(
+      '1f8b08000000000000031590d98e9b300045ff85f7a96220a392379a60b0cb92606c96aa1ab14d31664b202121cabf37bc1e9d7baf749f523f949774e27d374abba7741d8a742aa5dd9fa734f27f5d591cd229957652f9c05566e6dce318d20501578cfcfbf4e38d416efa5561323b8904f7ba91a78abf4575cf7dea707b8febbc8bd7d89284eeecd4544e1763e5eaea3841e1b14e9f2365986d8a3d5781a20cde53c23de7070102024606b52191ef4360b84602aa1b91e167fc4023eac4daab060b3e9e9a8478e61d06a1a6ba6f275e584c4111933d78d0765b6796d866b27b0bd82fca44c592765a50b71951eb3799e557c4844bba479f48b0e12433419b240e4d3fa51be690d63fbb4b85f386cd296438168c845007346c2e24704162b01b69a19f1bc67ac9475f96b050a38bfe0d6c6d9836eccba923645cb3b36e58bf8fa60e4605779722b4addc54ae1194e784a0af7b7f7082c6bfce96c0f5f4314d1af8b92f352f9ab97a3c49afbfafd77fde433886ad010000',
+      'hex'
+    ),
+    json: '{"operations":{"update":[{"signedData":"eyJhbGciOiJFUzI1NksifQ.eyJ1cGRhdGVLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiMTdOVnAwX3pwLUJON3FkeTJhbkNqcDk1TS1sVF9pZ2xpTENEZ1hvS2F6YyIsInkiOiJ4TzJPQlZSOGxFTW94N1hvYzVYU1dYSC1yUm5jbHk5b2NvTVBUVkhVZmtzIn0sImRlbHRhSGFzaCI6IkVpQ2VkUlZYWGRaU0VMSmRqNzhJclVwaFVJYkVSWFA1UWlrSTN1ZEVvSmFRcEEifQ.-oeeFd4XrAf1L9pt0V_MjXIEubqAEHKPGA1s3JnrdWLHcG3uXF2wZSI_xoDMTlRuwHkJjt-tt918Ce9OXwi4PQ"}]}}'
+  },
+  updateChunkFile: {
+    cid: 'QmThTeu2cFVR6YQSXHj4cLfD1K2zTqsZY9Efmn6MMCbUgA',
+    data: Buffer.from(
+      '1f8b08000000000000033d8cc10a82401445ff65d6061a08e54e4a420b2a302ac2c563de23271a67d09716e2bfa725eecee51c6e2b909e0c95086eadb0c032a73f8364650a1108409c5554d64af6c611130e91c23ea88ca6187bc51f4be34e079ce2a8406b54c1a39c66977599235e16816965b456ace957456a9d8087dec275f3f943d6bb7de293b9837f28e370790e9b77b9ddd4a7eb2569523a0e3f5fa56f761cc8000000',
+      'hex'
+    ),
+    json: '{"deltas":[{"patches":[{"action":"add-services","services":[{"id":"someId","type":"someType","serviceEndpoint":"someEndpoint"}]}],"updateCommitment":"EiDJa1d1800h2jcvLOJ5eoga5PrIA9WAwxrKGvUYXJwTeQ"}]}'
+  },
+  updateProvisionalIndexFile: {
+    cid : 'QmV4MBV9RXufnKdcrarA4wsNdFaoV3stGdxWT2Y5P5MmA3',
+    data : Buffer.from(
+      '1f8b08000000000000034d8fcb6e82400045ff65d636410b1add090846a0220c08348d19c78119449e0e4509ff5e6a37ddddcd3939b70798f2fcda80d567ff37359611af6660050e374821e133acf9ce3c3cb8c13615b119ab5363f684551385cb4d7ccbe796a59cbd640d86af09284a52a33b2bf251d8035e5ed09dbcd4177671791cb36ef46e98cc39c347bfdbe333558ec2c732749dddb7bc40bc3a3fa9458d645a050e74de85d31a4c404d5a82321f659cbc7055d0ee0127547254ffa46626def32eb573f85652a2db316d51e8b1d62cf55bf49b354c4059172d6bc62e94d97551c4ff4f0610ca150e1fc788c1c658eac9559e295ee26e7da9ac737daad9e9eee12c245184080c3f6d7ee0a831010000',
+      'hex'
+    ),
+    json: '{"chunks":[{"chunkFileUri":"QmThTeu2cFVR6YQSXHj4cLfD1K2zTqsZY9Efmn6MMCbUgA"}],"operations":{"update":[{"didSuffix":"EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A","revealValue":"EiD0FtXueh5RDV_DlLcOuxjPnT-pheGPfhvaYUivLpGmZA"}]},"provisionalProofFileUri":"QmXTTBqcYyWZiTsK9GgkB2CUgSHV5prnG1FPjJyR7544Ta"}'
+  },
+  updateCoreIndexFile: {
+    cid: 'Qma7WfcE6SZZmd3Tg9K3pmNNvdAHJ6YeGiaZz4Fs4QdED5',
+    data: '1f8b0800000000000003ab562a28ca2fcb2ccecccf4bccf1cc4b49ad70cbcc490d2dca54b2520acc0d33f1750ab30c8a284dcbf34e492e4a2c7234292ff64b714bcc0f332e2e714fa9080f318a340d30f5cd753456aa05003f1359464c000000',
+    json: '{"provisionalIndexFileUri":"QmV4MBV9RXufnKdcrarA4wsNdFaoV3stGdxWT2Y5P5MmA3"}'
+  }
 };
 
 export const testBuffer = Buffer.from(
