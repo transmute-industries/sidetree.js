@@ -20,7 +20,6 @@ services:
       - ETHEREUM_RPC_URL=${ETHEREUM_RPC_URL}
       - ETHEREUM_PROVIDER=${ETHEREUM_PROVIDER}
       - ETHEREUM_MNEMONIC=${ETHEREUM_MNEMONIC}
-      - MNEMONIC=${MNEMONIC}
     ports:
       - '8080:8080'
   # mongo:
