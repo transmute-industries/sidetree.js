@@ -43,7 +43,7 @@ jobs:
         run: gcloud auth configure-docker
 
       - name: Build and Push Container
-        working-directory: dashboard
+        working-directory: ./packages/dashboard
         run: |
           gcloud builds submit \
             --quiet \
