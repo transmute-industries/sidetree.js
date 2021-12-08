@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/cas.esm.js",
-  "version": "0.2.6-unstable.6",
+  "version": "0.3.0",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -29,13 +29,13 @@
   },
   "dependencies": {
     "@rollup/plugin-replace": "^3.0.0",
-    "@sidetree/common": "^0.2.6-unstable.6",
-    "@sidetree/test-vectors": "^0.2.6-unstable.6",
+    "@sidetree/common": "^0.3.0",
+    "@sidetree/test-vectors": "^0.3.0",
     "ipfs-unixfs": "^2.0.3",
     "ipld-dag-pb": "^0.20.0",
     "jest-environment-node": "^27.2.5"
   },
-  "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d",
+  "gitHead": "e97862f01a5ad9845d82eb57ca46d335a98aeb8b",
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/cas",
   "repository": {
     "type": "git",
