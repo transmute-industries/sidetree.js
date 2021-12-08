@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/did-method.esm.js",
-  "version": "0.2.6-unstable.6",
+  "version": "0.3.1-unstable.1",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -29,18 +29,18 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/test-vectors": "^0.2.6-unstable.6",
-    "@sidetree/wallet": "^0.2.6-unstable.6",
-    "@sidetree/ledger": "^0.2.6-unstable.6",
+    "@sidetree/ledger": "^0.3.1-unstable.1",
+    "@sidetree/test-vectors": "^0.3.1-unstable.1",
+    "@sidetree/wallet": "^0.3.1-unstable.1",
     "@types/semver": "7.3.5",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
     "@rollup/plugin-replace": "^3.0.0",
-    "@sidetree/cas": "^0.2.6-unstable.6",
-    "@sidetree/common": "^0.2.6-unstable.6",
-    "@sidetree/core": "^0.2.6-unstable.6",
-    "@sidetree/db": "^0.2.6-unstable.6",
+    "@sidetree/cas": "^0.3.1-unstable.1",
+    "@sidetree/common": "^0.3.1-unstable.1",
+    "@sidetree/core": "^0.3.1-unstable.1",
+    "@sidetree/db": "^0.3.1-unstable.1",
     "mongodb": "^4.1.2",
     "semver": "^7.3.5",
     "time-span": "3.1.0"
@@ -50,5 +50,6 @@
     "type": "git",
     "url": "https://github.com/transmute-industries/sidetree.js.git",
     "directory": "packages/did-method"
-  }
+  },
+  "gitHead": "e97862f01a5ad9845d82eb57ca46d335a98aeb8b"
 }

@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/core.esm.js",
-  "version": "0.2.6-unstable.6",
+  "version": "0.3.1-unstable.1",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -36,9 +36,9 @@
   },
   "dependencies": {
     "@rollup/plugin-replace": "^3.0.0",
-    "@sidetree/common": "^0.2.6-unstable.6",
-    "@sidetree/crypto": "^0.2.6-unstable.6",
-    "@sidetree/db": "^0.2.6-unstable.6",
+    "@sidetree/common": "^0.3.1-unstable.1",
+    "@sidetree/crypto": "^0.3.1-unstable.1",
+    "@sidetree/db": "^0.3.1-unstable.1",
     "@transmute/did-key-ed25519": "^0.3.0-unstable.4",
     "@trust/keyto": "^1.0.1",
     "bip39": "^3.0.2",
@@ -53,7 +53,7 @@
     "uri-js": "^4.4.1",
     "yieldable-json": "^2.0.0"
   },
-  "gitHead": "0c6ea3d3220464cf3975345eb6805b25bc823b0d",
+  "gitHead": "e97862f01a5ad9845d82eb57ca46d335a98aeb8b",
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/core",
   "repository": {
     "type": "git",
