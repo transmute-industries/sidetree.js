@@ -56,6 +56,7 @@ const Resolver: NextPage = () => {
     const didResolution = await response.json();
     wallet.add(didResolution);
     localStorage.setItem('sidetree.wallet', JSON.stringify(wallet));
+    setWallet(wallet);
     setIsLoading(false);
   };
 
