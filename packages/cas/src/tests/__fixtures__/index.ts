@@ -111,16 +111,16 @@ export const ionVectors = {
       'hex'
     ),
     json:
-      '{"deltas":[{"patches":[{"action":"add-services","services":[{"id":"someId","type":"someType","serviceEndpoint":"someEndpoint"}]}],"updateCommitment":"EiDJa1d1800h2jcvLOJ5eoga5PrIA9WAwxrKGvUYXJwTeQ"}]}'
+      '{"deltas":[{"patches":[{"action":"add-services","services":[{"id":"someId","type":"someType","serviceEndpoint":"someEndpoint"}]}],"updateCommitment":"EiDJa1d1800h2jcvLOJ5eoga5PrIA9WAwxrKGvUYXJwTeQ"}]}',
   },
   updateProvisionalIndexFile: {
-    cid : 'QmV4MBV9RXufnKdcrarA4wsNdFaoV3stGdxWT2Y5P5MmA3',
-    data : Buffer.from(
+    cid: 'QmV4MBV9RXufnKdcrarA4wsNdFaoV3stGdxWT2Y5P5MmA3',
+    data: Buffer.from(
       '1f8b08000000000000034d8fcb6e82400045ff65d636410b1add090846a0220c08348d19c78119449e0e4509ff5e6a37ddddcd3939b70798f2fcda80d567ff37359611af6660050e374821e133acf9ce3c3cb8c13615b119ab5363f684551385cb4d7ccbe796a59cbd640d86af09284a52a33b2bf251d8035e5ed09dbcd4177671791cb36ef46e98cc39c347bfdbe333558ec2c732749dddb7bc40bc3a3fa9458d645a050e74de85d31a4c404d5a82321f659cbc7055d0ee0127547254ffa46626def32eb573f85652a2db316d51e8b1d62cf55bf49b354c4059172d6bc62e94d97551c4ff4f0610ca150e1fc788c1c658eac9559e295ee26e7da9ac737daad9e9eee12c245184080c3f6d7ee0a831010000',
       'hex'
     ),
     json:
-      '{"chunks":[{"chunkFileUri":"QmThTeu2cFVR6YQSXHj4cLfD1K2zTqsZY9Efmn6MMCbUgA"}],"operations":{"update":[{"didSuffix":"EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A","revealValue":"EiD0FtXueh5RDV_DlLcOuxjPnT-pheGPfhvaYUivLpGmZA"}]},"provisionalProofFileUri":"QmXTTBqcYyWZiTsK9GgkB2CUgSHV5prnG1FPjJyR7544Ta"}'
+      '{"chunks":[{"chunkFileUri":"QmThTeu2cFVR6YQSXHj4cLfD1K2zTqsZY9Efmn6MMCbUgA"}],"operations":{"update":[{"didSuffix":"EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A","revealValue":"EiD0FtXueh5RDV_DlLcOuxjPnT-pheGPfhvaYUivLpGmZA"}]},"provisionalProofFileUri":"QmXTTBqcYyWZiTsK9GgkB2CUgSHV5prnG1FPjJyR7544Ta"}',
   },
   updateCoreIndexFile: {
     cid: 'Qma7WfcE6SZZmd3Tg9K3pmNNvdAHJ6YeGiaZz4Fs4QdED5',
@@ -129,7 +129,7 @@ export const ionVectors = {
       'hex'
     ),
     json:
-      '{"provisionalIndexFileUri":"QmV4MBV9RXufnKdcrarA4wsNdFaoV3stGdxWT2Y5P5MmA3"}'
+      '{"provisionalIndexFileUri":"QmV4MBV9RXufnKdcrarA4wsNdFaoV3stGdxWT2Y5P5MmA3"}',
   },
   deactivateCoreProofFile: {
     cid: 'QmTuXXAuUe18J78ntn9raW9U6gHFyoftmAm8CdmhgTuCf2',
@@ -138,7 +138,7 @@ export const ionVectors = {
       'hex'
     ),
     json:
-      '{"operations":{"recover":[],"deactivate":[{"signedData":"eyJhbGciOiJFUzI1NksifQ.eyJkaWRTdWZmaXgiOiJFaUJ1dWljV1Z4T2NiaENXME45WVNSSndCN2F1cWJ6aE1oS2cxcVhSVFIzMF9BIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiLUhWWFJRNVNGTnRoWFk2Mkxya3N2Z2dqdkVlaEF1Sll3bTVkS0ZZSzJ5ZyIsInkiOiJqQVVqYmo5N3I2dDNTY0pvVW1DTjRwejRpdXVpdGVrMEtKSlFaMndHU1g4In19.L9fl_GHr5jseHUckE0dx4ib-YkFiFBx5YgdFJ8_pcNa71JPTbGT2T4_WY7HUsQqBe_F-yzoDd_FozspFC2PqKw"}]}}'
+      '{"operations":{"recover":[],"deactivate":[{"signedData":"eyJhbGciOiJFUzI1NksifQ.eyJkaWRTdWZmaXgiOiJFaUJ1dWljV1Z4T2NiaENXME45WVNSSndCN2F1cWJ6aE1oS2cxcVhSVFIzMF9BIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiLUhWWFJRNVNGTnRoWFk2Mkxya3N2Z2dqdkVlaEF1Sll3bTVkS0ZZSzJ5ZyIsInkiOiJqQVVqYmo5N3I2dDNTY0pvVW1DTjRwejRpdXVpdGVrMEtKSlFaMndHU1g4In19.L9fl_GHr5jseHUckE0dx4ib-YkFiFBx5YgdFJ8_pcNa71JPTbGT2T4_WY7HUsQqBe_F-yzoDd_FozspFC2PqKw"}]}}',
   },
   deactivateCoreIndexFile: {
     cid: 'QmcZqcNStfeoS3QmSUdzAoMdiVsq5dfGdGT5vothPcvWao',
@@ -147,7 +147,7 @@ export const ionVectors = {
       'hex'
     ),
     json:
-      '{"operations":{"deactivate":[{"didSuffix":"EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A","revealValue":"EiCk-d_6aijSJVJ9K00qlfprLUew_TUZqZ4b8dtl_5mpww"}]},"coreProofFileUri":"QmTuXXAuUe18J78ntn9raW9U6gHFyoftmAm8CdmhgTuCf2"}'
+      '{"operations":{"deactivate":[{"didSuffix":"EiBuuicWVxOcbhCW0N9YSRJwB7auqbzhMhKg1qXRTR30_A","revealValue":"EiCk-d_6aijSJVJ9K00qlfprLUew_TUZqZ4b8dtl_5mpww"}]},"coreProofFileUri":"QmTuXXAuUe18J78ntn9raW9U6gHFyoftmAm8CdmhgTuCf2"}',
   },
 };
 
