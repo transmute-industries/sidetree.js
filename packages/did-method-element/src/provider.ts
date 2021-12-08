@@ -19,13 +19,14 @@ type ElementNodeConfigs = {
       version: string;
     }
   ];
+  elementAnchorContract?: string;
 };
 
 const getLedger = async (elementNodeConfigs: ElementNodeConfigs) => {
   const web3 = new Web3(elementNodeConfigs.ethereumRpcUrl);
   const ledger = new EthereumLedger(
     web3,
-    (elementNodeConfigs as any).elementAnchorContract
+    elementNodeConfigs.elementAnchorContract
   );
   return ledger;
 };
