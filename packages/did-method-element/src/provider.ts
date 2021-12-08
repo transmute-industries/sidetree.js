@@ -28,6 +28,7 @@ const getLedger = async (elementNodeConfigs: ElementNodeConfigs) => {
     web3,
     elementNodeConfigs.elementAnchorContract
   );
+  await ledger.initialize();
   return ledger;
 };
 
