@@ -85,17 +85,84 @@ $ npm i
 
 ## Create and Fund a Wallet
 
-- create a new mnemonic phrase
-- import nmemonic into metamask wallet
-- fund metamask wallet with ropsten faucet
+Since we're using the Ropsten Ethereum testnet, we will need to create
+a wallet and then fund it from a wallet. We will create a wallet from
+a mnomic phrase. The first step will be to goto this [Nmemonic Code Converter](https://iancoleman.io/bip39/) page.
 
-You should get around 0.3ETH from the faucet. This will be more
-than enough to use testnet for an extremely long amount of time
-as each write transaction to element should only use something like
-0.0001 (estimate) ETH per anchor transaction. 
+![Screenshot from 2021-12-09 04-00-05](https://user-images.githubusercontent.com/86194145/145269253-6b70dae4-d750-4f63-9049-5874d9ab1363.png)
 
-Adding funds to the wallet is only something you should do if your
-funds are running extemely low, if ever. 
+1. Make sure that `12` words are being generated 
+2. Click on the `GENERATE` button
+3. You should have twelve words appear in the text area below
+
+Once we have our twelve word phrase, we will use it to import a wallet.
+The wallet we will use is called [MetaMask](https://metamask.io/), which is implement with a 
+browser extension. You can click on the following [download link](https://metamask.io/download.html) to get the appropriate install instructions for your browser. 
+
+![Screenshot from 2021-12-09 02-12-20](https://user-images.githubusercontent.com/86194145/145253613-92c3d674-8cec-47b0-aa54-b855671febc8.png)
+
+Once the extension is installed, you will be greeted with the above welcome 
+screen. Click on the button to `Get Started`. 
+
+![Screenshot from 2021-12-09 02-12-35](https://user-images.githubusercontent.com/86194145/145253923-0f6a77c1-864f-4617-97b5-fc9bbfd779d4.png)
+
+From there, you will be given the option to import an existing wallet, or create a
+new one. Since we have already created our mnemonic phrase, we want to click on the
+`Import Wallet` button.
+
+![Screenshot from 2021-12-09 02-30-40](https://user-images.githubusercontent.com/86194145/145256030-884daa04-bb59-4e8d-8bba-7b044135615a.png)
+
+From there you will be given the option to gather usage data or not. Select
+the option that you prefer. 
+
+![Screenshot from 2021-12-09 02-39-48](https://user-images.githubusercontent.com/86194145/145256731-82446d1a-c1bb-4041-a978-24052d815950.png)
+
+To import your wallet, paste your twelve word mnemonic phrase that you generated
+into the `Secret Recovery Phrase` field. You will be required to create a password.
+You will need this password to access your wallet from the browser, so make
+it secure, but keep in mind that you will need to remember it. Once you are ready
+click on the `Import` button. 
+
+![Screenshot from 2021-12-09 02-42-22](https://user-images.githubusercontent.com/86194145/145257109-f16a172d-0185-4bcd-9045-6e5f6e7810db.png)
+
+You should get a message that says "Congratulations". Click on the `All Done`
+button, and we will proceed to describe how to fund the wallet.
+
+![Screenshot from 2021-12-09 03-13-08](https://user-images.githubusercontent.com/86194145/145261400-9f307720-aa1e-43a6-844e-3c96716adb95.png)
+
+The page should transition to our wallet. We want to click on the select
+field in the top right hand corner that says `Ethereum Mainnet`, and then 
+we want to click on the link that says `Show/hide` test networks.
+
+![Screenshot from 2021-12-09 03-14-14](https://user-images.githubusercontent.com/86194145/145261611-24643f76-38d0-427e-a016-a828906fcf33.png)
+
+This will take us to a settings option that we want to toggle to `ON`. 
+
+![Screenshot from 2021-12-09 03-15-01](https://user-images.githubusercontent.com/86194145/145261741-f17bd790-f404-44ab-a753-e9e7d70b3a6c.png)
+
+Once we do that, the top right select input should now show the `Ropsten`
+test network. We want to click on that because that is what we will be funding.
+
+![Screenshot from 2021-12-09 03-16-14](https://user-images.githubusercontent.com/86194145/145262097-1116e205-869b-453f-86e4-9b3af2f984d6.png)
+
+To get our address, we can click on the header that says `Account 1` at the top
+to copy the address to the clickboard. 
+
+![Screenshot from 2021-12-09 03-19-46](https://user-images.githubusercontent.com/86194145/145262382-c708ab4c-c020-462b-84f9-87ce75ef76b7.png)
+
+From there we want to goto the [Ropsten Etereum Faucet](https://faucet.ropsten.be/),
+and paste in our address. And then click on the `Send me test Ether` button. You
+should get a confirmation that says, "request added to the queue". Depending on availabity,
+you might need to select a different faucet. 
+
+![Screenshot from 2021-12-09 03-34-15](https://user-images.githubusercontent.com/86194145/145266785-7ce85c2b-5d71-429b-90f8-eac334297251.png)
+
+Once you have funds in your wallet, we're ready to move onto the next step
+of configuring our node to reference our wallet via the mnemonic string.
+With respect to the amount of funds needed to operate a node, Element should
+only use the mimimum transaction to send anchor requests to the smart contract.
+So topping up your wallet is only something that should be done rarely if ever
+with respect to testnet. 
 
 ## Ethereum Testnet
 
@@ -124,9 +191,16 @@ $ cd /home/ubuntu/sidetree.js/packages/dashboard
 $ cp .env.example .env.local
 $ vim .env.local
 --- Edit The Following Lines ---
-NEXT_PUBLIC_ELEMENT_METHOD='elem:ropsten'
+NEXT_PUBLIC_SIDETREE_METHOD="elem:ropsten"
+NEXT_PUBLIC_OPERATOR=[YOUR_ORGANIZATION_NAME]
+NEXT_PUBLIC_METHOD="Element Ropsten"
+NEXT_PUBLIC_DESCRIPTION="Sidetree on Ethereum Ledger and IPFS Cas."
+
+DATABASE_NAME="element-ropsten"
+
+ELEMENT_ANCHOR_CONTRACT="0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997"
 ETHEREUM_RCP_URL=https://ropsten.infura.io/v3/[YOUR_PROJECT_API_KEY]
-MNEMONIC=[Change to your own wallet mnemonic]
+ETHEREUM_MNEMONIC=[YOUR_WALLET_MNEMONIC]
 --- End Contents
 ```
 
