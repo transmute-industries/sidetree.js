@@ -60,6 +60,7 @@ export const elementNodeConfigs = {
   ],
 };
 
-export const nodeConfiguration = config.method.startsWith('elem:')
-  ? elementNodeConfigs
-  : sideTreeNodeConfigs;
+export const nodeConfiguration =
+  config.method && config.method.startsWith('elem:')
+    ? elementNodeConfigs
+    : sideTreeNodeConfigs;
