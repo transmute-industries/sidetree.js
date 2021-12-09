@@ -5,6 +5,7 @@ Dockerfile
 node_modules
 npm-debug.log
 README.md
+.env
 
 # .next
 # required becuase of COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
