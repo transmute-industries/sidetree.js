@@ -51,17 +51,23 @@ If you are going to use this configuration, you will need to use all of the envi
 
 So before doing anything you will need to copy the contents of `.env.example` to a new `.env` file at the root of the `packages/dashboard` directory.
 
+This is a single node that that writes to a mock ledger. This means this configuration should work locally even if you are not connected to the internet.
+
 ### Running an `elem:ganache` node
 
 If you are going to use this configuration, you will need to use all of the environment variables found in the `.env.ganache.example` file.
 
 So before doing anything you will need to copy the contents of `.env.ganache.example` to a new `.env` file at the root of the `packages/dashboard` directory.
 
+This is a single node that simulates a real block chain. This means this configuration should work locally even if you are not connected to the internet.
+
 ### Running an `elem:ropsten` node
 
 If you are going to use this configuration, you will need to use all of the environment variables found in the `.env.ropsten.example` file.
 
 So before doing anything you will need to copy the contents of `.env.ropsten.example` to a new `.env` file at the root of the `packages/dashboard` directory.
+
+This is a single node that actually writes the real block chain using the smart contract published by Transmute. This means this configuration should work locally even if you are not connected to the internet.
 
 ### Installing & Starting Your Node
 
