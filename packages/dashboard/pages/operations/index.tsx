@@ -7,12 +7,11 @@ import { AppPage } from '../../components/app-page';
 import { Typography, Grid } from '@mui/material';
 
 import { LatestOperations } from '../../components/latest-operations';
+import { uiConfigs } from '../../config';
 
 export async function getServerSideProps(context: any) {
-  const res = await fetch(`http://${context.req.headers.host}/api/1.0`);
-  const data = await res.json();
   return {
-    props: data,
+    props: uiConfigs,
   };
 }
 

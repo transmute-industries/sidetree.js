@@ -9,12 +9,11 @@ import { Typography, Grid, Paper, Button } from '@mui/material';
 import { WalletCard } from '../../components/wallet-card';
 
 import { getWallet, createWallet } from '../../core/facade';
+import { uiConfigs } from '../../config';
 
 export async function getServerSideProps(context: any) {
-  const res = await fetch(`http://${context.req.headers.host}/api/1.0`);
-  const data = await res.json();
   return {
-    props: data,
+    props: uiConfigs,
   };
 }
 

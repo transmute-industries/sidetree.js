@@ -8,11 +8,11 @@ import { AppPage } from '../components/app-page';
 import { dashboardWalletFactory } from '../core/DashboardWallet';
 import { FormEvent } from 'react-transition-group/node_modules/@types/react';
 
+import { uiConfigs } from '../config';
+
 export async function getServerSideProps(context: any) {
-  const res = await fetch(`http://${context.req.headers.host}/api/1.0`);
-  const data = await res.json();
   return {
-    props: data,
+    props: uiConfigs,
   };
 }
 
