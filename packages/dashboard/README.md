@@ -19,6 +19,8 @@ As it stands now, the following operations are not available:
 
 ## Running Your Sidetree Node
 
+[GCP](docs/deploy-to-gcp.md)
+
 ## Cloning the Repo & Setting Up The Project
 
 First you will need to begin by cloning the Sidetree.js repo if you have not done so already. Next you will need to navigate to the dashboard directorty.
