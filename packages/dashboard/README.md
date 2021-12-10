@@ -49,7 +49,7 @@ In side this package is an example env file for each configuration.
 
 If you are going to use this configuration, you will need to use all of the environment variables found in the `.env.testnet.example` file.
 
-So before doing anything you will need to copy the contents of `.env.example` to a new `.env.testnet` file at the root of the `packages/dashboard` directory.
+So before doing anything you will need to copy the contents of `.env.example:sidetree.testnet.example` to a new `.env.example:sidetree.testnet` file at the root of the `packages/dashboard` directory.
 
 You will then need to update the `package.json` scripts to pass this environment file instead of what is currently being passed.
 
@@ -64,6 +64,10 @@ So before doing anything you will need to copy the contents of `.env.ganache.exa
 You will then need to update the `package.json` scripts to pass this environment file instead of what is currently being passed.
 
 This is a single node that simulates a real blockchain. This means this configuration should work locally even if you are not connected to the internet.
+
+IMPORTANT: You must have Ganache installed and running on your local machine. You can download this here: https://trufflesuite.com/ganache/.
+
+When you will need to update the port Ganache is running on to the one inside the `.env.ganache.example` file.
 
 ### Running an `elem:ropsten` node
 
@@ -162,37 +166,3 @@ Once resolved, we will be able to see basic information about the DID broken dow
 - Credentials
 - Presentations
 - Services
-
-### Instructions for deploying on GCP
-
-1. `cd packages/dashboard`
-2. `cp .env.example .env`
-3. Set the variables in .env according to how you want your hosted sidetree setup.
-4. `docker-compose build`
-5. `docker-compose up`
-6. At this point you should be able to test sidetree locally, to go to http://localhost:8080 in your browser.
-7. gcp cloud console setup https://github.com/transmute-industries/wikis/blob/master/docs/setup-gcp-continous-deployment.md
-8. Install gcp cloud sdk command line tools, configure it with the project and authenticate with the service account.
-9. Build and push the docker container to gcp.
-
-```
-gcloud builds submit \
-            --quiet \
-            --tag "gcr.io/$PROJECT_ID/$SERVICE:$GITHUB_SHA" \
-            --timeout=1200s \
-            --machine-type=n1-highcpu-32
-```
-
-10. Deploy container to cloud run.
-
-```
-gcloud run deploy $SERVICE \
-            --region $REGION \
-            --image gcr.io/$PROJECT_ID/$SERVICE:$github.sha \
-            --platform "managed" \
-            --set-env-vars NEXT_PUBLIC_TITLE="$NEXT_PUBLIC_TITLE",NEXT_PUBLIC_METHOD="$NEXT_PUBLIC_METHOD }}",... \
-            --service-account "$GCP_RUNNER_SA" \
-            --quiet
-```
-
-11. The command should give the url to check against that cloud run is on, you will need to make the https public
