@@ -2,14 +2,7 @@ version: '3'
 services:
   dashboard:
     image: transmute/sidetree-dashboard:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
     environment:
-      - NEXT_PUBLIC_SIDETREE_METHOD=${NEXT_PUBLIC_SIDETREE_METHOD}
-      - NEXT_PUBLIC_OPERATOR=${NEXT_PUBLIC_OPERATOR}
-      - NEXT_PUBLIC_METHOD=${NEXT_PUBLIC_METHOD}
-      - NEXT_PUBLIC_DESCRIPTION=${NEXT_PUBLIC_DESCRIPTION}
       - MONGO_DB_CONNECTION_STRING=${MONGO_DB_CONNECTION_STRING}
       - DATABASE_NAME=${DATABASE_NAME}
       - MAX_CONCURRENT_DOWNLOADS=${MAX_CONCURRENT_DOWNLOADS}
@@ -22,8 +15,3 @@ services:
       - ETHEREUM_MNEMONIC=${ETHEREUM_MNEMONIC}
     ports:
       - '8080:8080'
-  # mongo:
-  #   image: mongo
-  #   restart: always
-  #   ports:
-  #     - '27017:27017'

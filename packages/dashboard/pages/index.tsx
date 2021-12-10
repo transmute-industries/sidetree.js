@@ -2,15 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 
 import * as React from 'react';
-import {
-  Box,
-  Typography,
-  Hidden,
-  Button,
-  Grid,
-  makeStyles,
-  createStyles,
-} from '@mui/material';
+import { Box, Typography, Hidden, Button, Grid } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 
 import { Theme } from '../components/theme';
@@ -20,18 +12,28 @@ import { ParticlesBlock } from '../components/particles-block';
 import { Card } from '../components/card';
 import { SectionHeader } from '../components/section-header';
 import { useRouter } from 'next/router';
+import { uiConfigs } from '../config';
+export async function getServerSideProps(context: any) {
+  return {
+    props: uiConfigs,
+  };
+}
 
-import { nextAppConfigs } from '../config';
-
-const Home: NextPage = () => {
+const Home: NextPage<any> = ({
+  logoLight,
+  logoDark,
+  method,
+  description,
+  features,
+}) => {
   const router = useRouter();
   const textSize = { height: '80px' };
 
   return (
     <div>
       <Head>
-        <title>{nextAppConfigs.method} | Dashboard</title>
-        <meta name="description" content={nextAppConfigs.description} />
+        <title>{method} | Dashboard</title>
+        <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -41,20 +43,24 @@ const Home: NextPage = () => {
           <ParticlesBlock>
             <div style={{ marginTop: '140px' }}>
               <Typography variant={'h2'} color={'primary'} gutterBottom>
-                {nextAppConfigs.method}
+                {method}
               </Typography>
               <Hidden smDown>
                 <Typography variant={'h3'} style={{ marginBottom: '32px' }}>
-                  {nextAppConfigs.description}
+                  {description}
                 </Typography>
               </Hidden>
-              <CompanyLogo sx={{ height: '48px' }} />
+              <CompanyLogo
+                sx={{ height: '48px' }}
+                logoLight={logoLight}
+                logoDark={logoDark}
+              />
             </div>
           </ParticlesBlock>
           <Box>
             <SectionHeader
-              title={nextAppConfigs.features.title}
-              description={nextAppConfigs.features.description}
+              title={features?.title}
+              description={features?.description}
             />
             <Grid container sx={{ p: 2 }} spacing={2}>
               <Grid item xs={4}>

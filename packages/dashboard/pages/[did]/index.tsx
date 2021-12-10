@@ -17,8 +17,15 @@ import {
   resolve,
   getOperations,
 } from '../../services/sidetree-node-client-api';
+import { uiConfigs } from '../../config';
 
-const Resolver: NextPage = () => {
+export async function getServerSideProps(context: any) {
+  return {
+    props: uiConfigs,
+  };
+}
+
+const Resolver: NextPage<any> = ({ logoLight, logoDark }) => {
   const router = useRouter();
 
   const did = router.query.did as string;

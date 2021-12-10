@@ -33,13 +33,53 @@ npm install
 
 Important: The `lerna bootstrap` command will build all of the packages and link them so everything works properly.
 
-### Environment Variables
+### Node Configurations via Environment Variables
 
 Before you run your sidetree node, we need to make sure we have all of our environment variables properly configured for the type of node we will be running.
 
-The `.env.example` environment file provided in the package contains all of the process environment variables that are required in order to run your node. All of the default values should work straight out of the box.
+There are currently 3 DID method configurations you can use to run your node. They are:
 
-So before doing anything you will need to copy the contents of `.env.example` to a new `.env` file at the root of the `packages/dashboard` directory.
+1. example:sidetree.testnet
+2. elem:ganache
+3. elem:ropsten
+
+In side this package is an example env file for each configuration.
+
+### Running an `example:sidetree.testnet` node
+
+If you are going to use this configuration, you will need to use all of the environment variables found in the `.env.testnet.example` file.
+
+So before doing anything you will need to copy the contents of `.env.example:sidetree.testnet.example` to a new `.env.example:sidetree.testnet` file at the root of the `packages/dashboard` directory.
+
+You will then need to update the `package.json` scripts to pass this environment file instead of what is currently being passed.
+
+This is a mock ledger. This means this configuration should work locally even if you are not connected to the internet.
+
+### Running an `elem:ganache` node
+
+If you are going to use this configuration, you will need to use all of the environment variables found in the `.env.ganache.example` file.
+
+So before doing anything you will need to copy the contents of `.env.ganache.example` to a new `.env.ganache` file at the root of the `packages/dashboard` directory.
+
+You will then need to update the `package.json` scripts to pass this environment file instead of what is currently being passed.
+
+This is a single node that simulates a real blockchain. This means this configuration should work locally even if you are not connected to the internet.
+
+IMPORTANT: You must have Ganache installed and running on your local machine. You can download this here: https://trufflesuite.com/ganache/.
+
+When you will need to update the port Ganache is running on to the one inside the `.env.ganache.example` file.
+
+### Running an `elem:ropsten` node
+
+If you are going to use this configuration, you will need to use all of the environment variables found in the `.env.ropsten.example` file.
+
+So before doing anything you will need to copy the contents of `.env.ropsten.example` to a new `.env.ropsten` file at the root of the `packages/dashboard` directory.
+
+You will then need to update the `package.json` scripts to pass this environment file instead of what is currently being passed.
+
+This is a testnet.
+
+WARNING: You need to make sure your ENV file is never committed to source control. Specifically because it uses your mnemonic phrase.
 
 ### Installing & Starting Your Node
 
@@ -126,33 +166,3 @@ Once resolved, we will be able to see basic information about the DID broken dow
 - Credentials
 - Presentations
 - Services
-
-### Instructions for deploying on GCP
-
-1. `cd packages/dashboard`
-2. `cp .env.example .env`
-3. Set the variables in .env according to how you want your hosted sidetree setup.
-4. `docker-compose build`
-5. `docker-compose up`
-6.  At this point you should be able to test sidetree locally, to go to http://localhost:8080 in your browser.
-7. gcp cloud console setup https://github.com/transmute-industries/wikis/blob/master/docs/setup-gcp-continous-deployment.md
-8. Install gcp cloud sdk command line tools, configure it with the project and authenticate with the service account.
-9. Build and push the docker container to gcp.
-```
-gcloud builds submit \
-            --quiet \
-            --tag "gcr.io/$PROJECT_ID/$SERVICE:$GITHUB_SHA" \
-            --timeout=1200s \
-            --machine-type=n1-highcpu-32
-```
-10. Deploy container to cloud run.
-```
-gcloud run deploy $SERVICE \
-            --region $REGION \
-            --image gcr.io/$PROJECT_ID/$SERVICE:$github.sha \
-            --platform "managed" \
-            --set-env-vars NEXT_PUBLIC_TITLE="$NEXT_PUBLIC_TITLE",NEXT_PUBLIC_METHOD="$NEXT_PUBLIC_METHOD }}",... \
-            --service-account "$GCP_RUNNER_SA" \
-            --quiet
-```
-11. The command should give the url to check against that cloud run is on, you will need to make the https public

@@ -17,7 +17,14 @@ import {
 
 import { FormEvent, useState } from 'react';
 
-const Resolver: NextPage = () => {
+import { uiConfigs } from '../config';
+export async function getServerSideProps(context: any) {
+  return {
+    props: uiConfigs,
+  };
+}
+
+const Resolver: NextPage<any> = ({ logoLight, logoDark }) => {
   const router = useRouter();
   const [did, setDid] = useState('');
 
@@ -34,7 +41,7 @@ const Resolver: NextPage = () => {
       </Head>
 
       <main>
-        <AppPage>
+        <AppPage logoLight={logoLight} logoDark={logoDark}>
           <Grid container spacing={2}>
             <Box sx={{ width: 1 }} m={2}>
               <form onSubmit={resolveDid}>

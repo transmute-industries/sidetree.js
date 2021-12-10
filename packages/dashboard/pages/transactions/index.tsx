@@ -7,8 +7,15 @@ import { AppPage } from '../../components/app-page';
 import { Grid } from '@mui/material';
 import { LatestTransactions } from '../../components/latest-transactions';
 import { getTransactions } from '../../services/sidetree-node-client-api';
+import { uiConfigs } from '../../config';
 
-const TransactionHistory: NextPage = () => {
+export async function getServerSideProps(context: any) {
+  return {
+    props: uiConfigs,
+  };
+}
+
+const TransactionHistory: NextPage<any> = ({ logoLight, logoDark }) => {
   const [transactions, setTransactions] = useState(null);
 
   useEffect(() => {
@@ -28,7 +35,7 @@ const TransactionHistory: NextPage = () => {
       </Head>
 
       <main>
-        <AppPage>
+        <AppPage logoLight={logoLight} logoDark={logoDark}>
           {transactions === null ? (
             <>loading...</>
           ) : (

@@ -7,8 +7,15 @@ import { AppPage } from '../../components/app-page';
 import { Typography, Grid } from '@mui/material';
 
 import { LatestOperations } from '../../components/latest-operations';
+import { uiConfigs } from '../../config';
 
-const OperationHistory: NextPage = () => {
+export async function getServerSideProps(context: any) {
+  return {
+    props: uiConfigs,
+  };
+}
+
+const OperationHistory: NextPage<any> = ({ logoLight, logoDark }) => {
   const router = useRouter();
 
   return (
@@ -20,7 +27,7 @@ const OperationHistory: NextPage = () => {
       </Head>
 
       <main>
-        <AppPage>
+        <AppPage logoLight={logoLight} logoDark={logoDark}>
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <Typography gutterBottom>Latest Operations</Typography>

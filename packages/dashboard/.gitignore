@@ -34,3 +34,6 @@ yarn-error.log*
 .vercel
 
 .env
+.env.ropsten
+.env.ganache
+.env.example:sidetree.testnet
