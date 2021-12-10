@@ -51,7 +51,14 @@ export default class EthereumLedger implements IBlockchain {
     logger?: Console
   ) {
     this.logger = logger || console;
-    this.anchorContract = new Contract(anchorContractArtifact.abi);
+    if (this.contractAddress) {
+      this.anchorContract = new Contract(
+        anchorContractArtifact.abi,
+        this.contractAddress
+      );
+    } else {
+      this.anchorContract = new Contract(anchorContractArtifact.abi);
+    }
     this.anchorContract.setProvider(this.web3.currentProvider);
     this.anchorContract.options.gasPrice = '100000000000';
   }
