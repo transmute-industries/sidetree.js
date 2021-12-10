@@ -70,7 +70,7 @@ export const AppPage = (props: any) => {
               },
             }}
           >
-            <Drawer />
+            <Drawer logoLight={props.logoLight} logoDark={props.logoDark} />
           </MuiDrawer>
           <MuiDrawer
             variant="permanent"
@@ -83,7 +83,7 @@ export const AppPage = (props: any) => {
             }}
             open
           >
-            <Drawer />
+            <Drawer logoLight={props.logoLight} logoDark={props.logoDark} />
           </MuiDrawer>
         </Box>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

@@ -18,7 +18,15 @@ import {
   getOperations,
 } from '../../services/sidetree-node-client-api';
 
-const Resolver: NextPage = () => {
+export async function getServerSideProps(context: any) {
+  const res = await fetch(`http://${context.req.headers.host}/api/1.0`);
+  const data = await res.json();
+  return {
+    props: data,
+  };
+}
+
+const Resolver: NextPage<any> = ({ logoLight, logoDark }) => {
   const router = useRouter();
 
   const did = router.query.did as string;

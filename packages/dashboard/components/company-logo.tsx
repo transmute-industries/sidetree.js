@@ -1,17 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { nextAppConfigs } from '../config';
 import { useRouter } from 'next/router';
 
-export const CompanyLogo = ({ sx }: any) => {
+export const CompanyLogo = ({ sx, logoLight, logoDark }: any) => {
   const theme = useTheme();
   const router = useRouter();
 
-  const logo =
-    theme.palette.mode === 'dark'
-      ? nextAppConfigs.logoLight
-      : nextAppConfigs.logoDark;
+  const logo = theme.palette.mode === 'dark' ? logoLight : logoDark;
 
   return (
     <img

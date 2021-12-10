@@ -8,7 +8,15 @@ import { AppPage } from '../components/app-page';
 import { dashboardWalletFactory } from '../core/DashboardWallet';
 import { FormEvent } from 'react-transition-group/node_modules/@types/react';
 
-const Resolver: NextPage = () => {
+export async function getServerSideProps(context: any) {
+  const res = await fetch(`http://${context.req.headers.host}/api/1.0`);
+  const data = await res.json();
+  return {
+    props: data,
+  };
+}
+
+const Resolver: NextPage<any> = ({ logoLight, logoDark }) => {
   const router = useRouter();
 
   const [wallet, setWallet] = useState({} as any);
@@ -67,7 +75,7 @@ const Resolver: NextPage = () => {
       </Head>
 
       <main>
-        <AppPage>
+        <AppPage logoLight={logoLight} logoDark={logoDark}>
           <Grid container spacing={2}>
             {wallet.contents &&
               !wallet.contents.find((content: any) => content.didDocument) && (

@@ -3,9 +3,9 @@
   "version": "0.3.1-unstable.7",
   "private": true,
   "scripts": {
-    "predev:docker": "docker-compose -f ./docker-compose.dev.yml up --detach --remove-orphans",
-    "dev:docker": "next dev",
-    "dev": "next dev",
+    "predev:docker": "docker-compose -f ./docker-compose.build.yml build",
+    "dev:docker": "docker-compose -f ./docker-compose.run.yml --env-file .env.ganache up",
+    "dev": "dotenv -e .env.ropsten next dev",
     "test": "jest",
     "build": "next build",
     "export": "next export",

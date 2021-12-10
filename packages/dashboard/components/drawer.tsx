@@ -26,7 +26,7 @@ import ArchiveIcon from '@mui/icons-material/Archive';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import { useRouter } from 'next/router';
 
-export const Drawer = () => {
+export const Drawer = ({ logoLight, logoDark }: any) => {
   const router = useRouter();
   console.log();
   const [hideUI, setHideUI] = useState(false);
@@ -41,7 +41,11 @@ export const Drawer = () => {
     >
       <Box sx={{ flexGrow: 1 }}>
         <Toolbar>
-          <CompanyLogo sx={{ height: '32px' }} />
+          <CompanyLogo
+            sx={{ height: '32px' }}
+            logoLight={logoLight}
+            logoDark={logoDark}
+          />
         </Toolbar>
         <Divider />
 

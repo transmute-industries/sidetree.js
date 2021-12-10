@@ -8,11 +8,22 @@ import { Typography, Grid, Paper, Button } from '@mui/material';
 
 import { WalletCard } from '../../components/wallet-card';
 
-import { nextAppConfigs } from '../../config';
-
 import { getWallet, createWallet } from '../../core/facade';
 
-const Wallet: NextPage = () => {
+export async function getServerSideProps(context: any) {
+  const res = await fetch(`http://${context.req.headers.host}/api/1.0`);
+  const data = await res.json();
+  return {
+    props: data,
+  };
+}
+
+const Wallet: NextPage<any> = ({
+  description,
+  method,
+  logoLight,
+  logoDark,
+}) => {
   const [wallet, setWallet]: any = React.useState(null);
 
   React.useEffect(() => {
@@ -25,13 +36,13 @@ const Wallet: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>{nextAppConfigs.method} | Wallet</title>
-        <meta name="description" content={nextAppConfigs.description} />
+        <title>{method} | Wallet</title>
+        <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <AppPage>
+        <AppPage logoLight={logoLight} logoDark={logoDark}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
               {wallet ? (
