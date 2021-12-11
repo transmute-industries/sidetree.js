@@ -33,7 +33,7 @@ npm install
 
 Important: The `lerna bootstrap` command will build all of the packages and link them so everything works properly.
 
-### Node Configurations via Environment Variables
+## Running Your Sidetree Node
 
 Before you run your sidetree node, we need to make sure we have all of our environment variables properly configured for the type of node we will be running.
 
@@ -43,82 +43,64 @@ There are currently 3 DID method configurations you can use to run your node. Th
 2. elem:ganache
 3. elem:ropsten
 
-In side this package is an example env file for each configuration.
+Inside this package is an example env file for each configuration along with instructions on how to set up that type of node below.
 
 ### Running an `example:sidetree.testnet` node
+
+This is a mock ledger. This means this configuration should work locally even if you are not connected to the internet.
 
 If you are going to use this configuration, you will need to use all of the environment variables found in the `.env.testnet.example` file.
 
 So before doing anything you will need to copy the contents of `.env.example:sidetree.testnet.example` to a new `.env.example:sidetree.testnet` file at the root of the `packages/dashboard` directory.
 
-You will then need to update the `package.json` scripts to pass this environment file instead of what is currently being passed.
+Once you have you env file set up you can start the node 2 ways:
 
-This is a mock ledger. This means this configuration should work locally even if you are not connected to the internet.
+1. Using Docker: `npm run dev:docker`. This will set up the node inside a docker container. This will server the dashboard at `http://localhost:8080`.
+2. `npm run dev`. This will server the dashboard at `http://localhost:3000`.
 
 ### Running an `elem:ganache` node
+
+This is a single node that simulates a real blockchain. This means this configuration should work locally even if you are not connected to the internet.
 
 If you are going to use this configuration, you will need to use all of the environment variables found in the `.env.ganache.example` file.
 
 So before doing anything you will need to copy the contents of `.env.ganache.example` to a new `.env.ganache` file at the root of the `packages/dashboard` directory.
 
-You will then need to update the `package.json` scripts to pass this environment file instead of what is currently being passed.
+Once you have your env file set up, you will need do download Ganache if you have not already. You can download this here: https://trufflesuite.com/ganache/.
 
-This is a single node that simulates a real blockchain. This means this configuration should work locally even if you are not connected to the internet.
+After you have the program installed, you will need to open up the application and modify the server settings to use the port specified inside your `.env.ganache` file.
 
-IMPORTANT: You must have Ganache installed and running on your local machine. You can download this here: https://trufflesuite.com/ganache/.
+Once you have you env file and Ganache set up you can start the node 2 ways:
 
-When you will need to update the port Ganache is running on to the one inside the `.env.ganache.example` file.
+1. Using Docker: `npm run dev:ganache:docker`. This will set up the node inside a docker container. This will server the dashboard at `http://localhost:8080`.
+2. `npm run dev:ganache`. This will server the dashboard at `http://localhost:3000`.
 
 ### Running an `elem:ropsten` node
+
+This is a testnet.
 
 If you are going to use this configuration, you will need to use all of the environment variables found in the `.env.ropsten.example` file.
 
 So before doing anything you will need to copy the contents of `.env.ropsten.example` to a new `.env.ropsten` file at the root of the `packages/dashboard` directory.
 
-You will then need to update the `package.json` scripts to pass this environment file instead of what is currently being passed.
-
-This is a testnet.
-
 WARNING: You need to make sure your ENV file is never committed to source control. Specifically because it uses your mnemonic phrase.
 
-### Installing & Starting Your Node
+Once you have you env file set up you can start the node 2 ways:
 
-Now that we have confirmed we have all of the environment variables we need, we can install our dependencies with the following command (If you ran this after cloning the repo, you shouldn't need to run it again):
-
-```
-cd packages/dashboard
-lerna bootstrap
-```
-
-This will build all of our dependencies used by the application.
-
-Once built, we have 2 options for running our node.
-
-We can run it using docker with the following command:
-
-```
-npm run dev:docker
-```
-
-Or we can run a stand alone instance without docker with the following command:
-
-```
-dev
-```
-
-Once started, you should be able to see the application at `http://localhost:3000`.
+1. Using Docker: `npm run dev:ropsten:docker`. This will set up the node inside a docker container. This will server the dashboard at `http://localhost:8080`.
+2. `npm run dev:ropsten`. This will server the dashboard at `http://localhost:3000`.
 
 ### What You Can Do In The App
 
-When the application first loads, you should be greeted with a welcome screen listing the did method you are using in the node. If you are using the defauly `.env.local` file, you should see `example:sidetree.testnet`.
+When the application first loads, you should be greeted with a welcome screen listing the did method you are using in the node.
 
-Below this is a list of features. They are:
+The different sections of the application are:
 
 1. Manage - This section lets you create a wallet and/or DIDs for your wallet.
 2. Explore - This section will let you see the transactions and operations that are happening on your node.
 3. Resolve - This section will let you resolve a DID, allowing you to see information about that did.
 
-#### Create a wallet
+#### Create a wallet (Manage)
 
 Before you can create a DID, you will need to create a wallet. This can be done by clicking the "Manage CTA". This should take you to the `http://localhost:3000/wallet` page.
 
@@ -126,7 +108,7 @@ If you do not already have a wallet, you should see a prompt asking you to gener
 
 One your wallet is created, the conents of the wallet are kept in the browsers `localStorage`. This means you will need to access this to obtain any DIDs you create or add to the wallet.
 
-#### Creating a DID
+#### Creating a DID (Manage)
 
 Now that we have a wallet created, we will be able to create a DID.
 
@@ -138,19 +120,19 @@ To create a new DID, simply click the `Create DID` button on the page.
 
 This will create the new DID and add it your wallet.
 
-#### Viewing Node Transactions
+#### Viewing Node Transactions (Explore)
 
 Now that we have created a DID using our node, we should be able to see this transaction in our Transactions Explorer.
 
 If you click the `Transactions` menu in the application sidebar, you should be taking to `http://localhost:3000/transactions` where you will see a table and 1 transaction listed.
 
-#### Viwing Node Operations
+#### Viwing Node Operations (Explore)
 
 You can also view the latest operations performed by the node by clicking the `Operations` menu item in the application sidebar.
 
 This will take you to `http://localhost:3000/operations` where you will be able to see a table of the operation identifiers, along with additional information regarding that particular operation.
 
-#### Resolving a DID
+#### Resolving a DID (Resolve)
 
 Lastly, inside the application, you are also able to resolve a DID. You can do this by click the `Resolve` menu item in the application sidebar.
 
