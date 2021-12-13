@@ -40,14 +40,15 @@ const getTestCas = async () => {
 const getCas = async (config: ElementNodeConfigs) => {
   const cas = new IpfsCasWithCache(
     config.contentAddressableStoreServiceUri,
-    config.mongoDbConnectionString + config.databaseName
+    config.mongoDbConnectionString,
+    config.databaseName
   );
   return cas;
 };
 
 export const getTestNodeInstance = async (
   elementNodeConfigs: ElementNodeConfigs
-) => {
+): Promise<Element> => {
   const ledger = await getLedger(elementNodeConfigs);
   const cas = await getTestCas();
   const element = new Element(
@@ -62,7 +63,7 @@ export const getTestNodeInstance = async (
 
 export const getNodeInstance = async (
   elementNodeConfigs: ElementNodeConfigs
-) => {
+): Promise<Element> => {
   const ledger = await getLedger(elementNodeConfigs);
   const cas = await getCas(elementNodeConfigs);
   const element = new Element(
