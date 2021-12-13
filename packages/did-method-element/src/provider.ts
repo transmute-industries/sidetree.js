@@ -1,10 +1,11 @@
 import Web3 from 'web3';
+import HDWalletProvider from '@truffle/hdwallet-provider';
 import { EthereumLedger } from '@sidetree/ethereum';
 import { IpfsCasWithCache } from '@sidetree/cas-ipfs';
 import { MockCas } from '@sidetree/cas';
 import Element from './Element';
 
-type ElementNodeConfigs = {
+export type ElementNodeConfigs = {
   contentAddressableStoreServiceUri: string;
   databaseName: string;
   didMethodName: string;
@@ -20,10 +21,20 @@ type ElementNodeConfigs = {
     }
   ];
   elementAnchorContract?: string;
+  ethereumMnemonic?: string;
 };
 
 const getLedger = async (elementNodeConfigs: ElementNodeConfigs) => {
-  const web3 = new Web3(elementNodeConfigs.ethereumRpcUrl);
+  let web3 = new Web3(elementNodeConfigs.ethereumRpcUrl);
+  if (elementNodeConfigs.ethereumMnemonic) {
+    const provider = new HDWalletProvider({
+      mnemonic: {
+        phrase: elementNodeConfigs.ethereumMnemonic,
+      },
+      providerOrUrl: elementNodeConfigs.ethereumRpcUrl,
+    });
+    web3 = new Web3(provider);
+  }
   const ledger = new EthereumLedger(
     web3,
     elementNodeConfigs.elementAnchorContract

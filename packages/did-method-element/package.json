@@ -43,6 +43,7 @@
     "@sidetree/db": "^0.3.1-unstable.12",
     "@sidetree/did-method": "^0.3.1-unstable.12",
     "@sidetree/ethereum": "^0.3.1-unstable.12",
+    "@truffle/hdwallet-provider": "^2.0.0",
     "jest-environment-node": "^27.2.5",
     "mongodb": "^4.1.2",
     "web3": "^1.2.9"
