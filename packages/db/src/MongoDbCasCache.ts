@@ -39,10 +39,10 @@ export default class MongoDbCasCache {
 
     // If the queued operation collection exists, use it; else create it then use it.
     let collection;
-    if (collectionNames.includes(this.collectionName)) {
-      collection = db.collection(this.collectionName);
+    if (collectionNames.includes(MongoDbCasCache.collectionName)) {
+      collection = db.collection(MongoDbCasCache.collectionName);
     } else {
-      collection = await db.createCollection(this.collectionName);
+      collection = await db.createCollection(MongoDbCasCache.collectionName);
       // Create an index on didUniqueSuffix make `contains()` operations more efficient.
       // This is an unique index, so duplicate inserts are rejected.
       await collection.createIndex({ didUniqueSuffix: 1 }, { unique: true });
@@ -51,7 +51,7 @@ export default class MongoDbCasCache {
     return collection;
   }
 
-  public async initialize(serverUrl: string, databaseName: string) {
+  public async initialize(serverUrl: string, databaseName: string): Promise<void>{
     const client = await MongoClient.connect(serverUrl);
     this.client = client;
     this.db = client.db(databaseName);

@@ -17,25 +17,22 @@
  * limitations under the License.
  */
 
-import { testSuite } from '@sidetree/cas';
-import IpfsCasWithCache from '../IpfsCasWithCache';
-import config from './config.json';
+import { MongoDbCasCache } from '..';
+import { testBuffer, testBufferHash } from './__fixtures__';
 
-const ipfsCasWithCache = new IpfsCasWithCache(
-  config.contentAddressableStoreServiceUri,
-  config.mongoDbConnectionString,
-  config.databaseName
-);
+const cache = new MongoDbCasCache();
 
-jest.setTimeout(10 * 1000);
-
-beforeAll(async () => {
-  // Need to wait so that ipfs has the time to be initialized
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+describe('MongoDbCasCache', () => {
+  it('should write and read from the database', async () => {
+    const serverUrl = 'mongodb://localhost:27017/';
+    const databaseName = 'sidetree-test';
+    await cache.initialize(serverUrl, databaseName);
+    await cache.write(testBufferHash, testBuffer);
+    const stored = await cache.read(testBufferHash);
+    expect(stored.code).toBe('success');
+  });
 });
 
-testSuite(ipfsCasWithCache);
-
 afterAll(async () => {
-  await ipfsCasWithCache.stop();
+  await cache.stop();
 });
