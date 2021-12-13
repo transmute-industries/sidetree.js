@@ -23,7 +23,8 @@ import config from './config.json';
 
 const ipfsCasWithCache = new IpfsCasWithCache(
   config.contentAddressableStoreServiceUri,
-  config.mongoDbConnectionString + config.databaseName
+  config.mongoDbConnectionString,
+  config.databaseName
 );
 
 jest.setTimeout(10 * 1000);
