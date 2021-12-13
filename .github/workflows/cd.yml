@@ -5,7 +5,7 @@ on:
   push:
     # release unstable wont run if the commit is already a stable release (tagged commit)
     tags-ignore:
-      - "v*"
+      - 'v*'
     branches:
       - main
 
@@ -25,6 +25,13 @@ jobs:
 
       - name: Install
         run: npm install
+
+      - name: Tests
+        run: npm run test
+
+      # We want to issue that all published versions never break the dashboard build
+      - name: Build Dashboard
+        run: npx lerna exec npm run build --scope @sidetree/dashboard
 
       - name: Setup npm profile
         run: |
