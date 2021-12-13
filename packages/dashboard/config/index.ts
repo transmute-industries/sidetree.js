@@ -43,21 +43,21 @@ export const sideTreeNodeConfigs = {
 
 export const elementNodeConfigs = {
   contentAddressableStoreServiceUri: config.contentAddressableStoreServiceUri,
-  ethereumRpcUrl: config.ethereumRpcUrl,
-  ethereumMnemonic: config.ethereumMnemonic,
-  elementAnchorContract: config.elementAnchorContract,
   databaseName: config.databaseName,
-  mongoDbConnectionString: config.mongoDbConnectionString,
   didMethodName: config.method,
-  batchingIntervalInSeconds: config.batchingIntervalInSeconds,
+  ethereumRpcUrl: config.ethereumRpcUrl,
+  mongoDbConnectionString: config.mongoDbConnectionString,
   observingIntervalInSeconds: config.observingIntervalInSeconds,
   maxConcurrentDownloads: config.maxConcurrentDownloads,
+  batchingIntervalInSeconds: config.batchingIntervalInSeconds,
   versions: [
     {
       startingBlockchainTime: 0,
       version: 'latest',
     },
   ],
+  elementAnchorContract: config.elementAnchorContract,
+  ethereumMnemonic: config.ethereumMnemonic,
 };
 
 export const nodeConfiguration =
