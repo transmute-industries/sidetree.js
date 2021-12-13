@@ -203,9 +203,11 @@ export default class MockQLDBLedger implements IBlockchain {
             AND blockAddress_sequenceNo >= ${sinceTransactionNumber}
             ORDER BY transactionTimestamp DESC`;
       } else if (sinceTransactionNumber) {
-        console.warn(
-          'reading since transactionNumber is a costly operation (full table scan), use with caution'
-        );
+        if (process.env.NODE_ENV !== 'test') {
+          console.warn(
+            'reading since transactionNumber is a costly operation (full table scan), use with caution'
+          );
+        }
         return `SELECT 
             anchorString,
             normalizedTransactionFee,
@@ -219,9 +221,11 @@ export default class MockQLDBLedger implements IBlockchain {
             WHERE blockAddress_sequenceNo >= ${sinceTransactionNumber}
             ORDER BY transactionTimestamp DESC`;
       } else if (transactionTimeHash) {
-        console.warn(
-          'reading all transactions is a costly operation (full table scan), use with caution'
-        );
+        if (process.env.NODE_ENV !== 'test') {
+          console.warn(
+            'reading all transactions is a costly operation (full table scan), use with caution'
+          );
+        }
         return `SELECT 
             anchorString,
             normalizedTransactionFee,

@@ -24,13 +24,17 @@ describe('QLDB tests', () => {
   const forceMock = true;
 
   const config = new AWS.Config();
-  if (forceMock) {
-    console.warn('Using mock QLDB interface for QLDB tests');
-  } else if (!config.credentials) {
-    console.warn(
-      'No AWS credentials found in ~/.aws/credentials, using mock interace'
-    );
+
+  if (process.env.NODE_ENV !== 'test') {
+    if (forceMock) {
+      console.warn('Using mock QLDB interface for QLDB tests');
+    } else if (!config.credentials) {
+      console.warn(
+        'No AWS credentials found in ~/.aws/credentials, using mock interace'
+      );
+    }
   }
+
   const ledger =
     config.credentials && !forceMock
       ? new QLDBLedger('photon-test', 'Test')
@@ -72,7 +76,6 @@ describe('QLDB tests', () => {
     const cachedTime2 = await ledger.approximateTime;
     blockTime1 = realTime2.time;
     blockTimeHash1 = realTime2.hash;
-    console.log(realTime2);
     expect(realTime2.time).toBeDefined();
     expect(realTime2.hash).toBeDefined();
     expect(cachedTime2.time).toBe(realTime2.time);
