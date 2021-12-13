@@ -54,6 +54,7 @@ const getCas = async (config: ElementNodeConfigs) => {
     config.mongoDbConnectionString,
     config.databaseName
   );
+  await cas.initialize();
   return cas;
 };
 
