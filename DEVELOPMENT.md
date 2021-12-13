@@ -12,24 +12,7 @@ To install all packages run
 
 ```bash
 npm install
-```
-
-To install a specific package (and its dependencies) run
-
-```bash
-npm run install:only @sidetree/photon
-```
-
-To run tests in every packages run
-
-```bash
 npm run test
-```
-
-To test a specific package run
-
-```bash
-npm run test:only @sidetree/photon
 ```
 
 ## Services
@@ -78,6 +61,9 @@ Stable releases are triggered by a dev locally
 - etc...
 
 ### Docker Commands
+
+To run the tests in the repository, you will need `docker` and `docker-compose` installed.
+For instructions on installing docker, please refere to: https://www.docker.com/get-started
 
 You may find it useful to prune all docker data:
 
