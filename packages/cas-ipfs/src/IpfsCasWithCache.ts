@@ -30,19 +30,18 @@ export default class IpfsCasWithCache extends IpfsCas {
   private cache: MongoDbCasCache;
   public static readonly collectionName: string = 'cas-cache-ipfs';
   private serverUrl: string;
+  private databaseName: string;
 
-  constructor(casUrl: string, serverUrl: string) {
+  constructor(casUrl: string, serverUrl: string, databaseName: string) {
     super(casUrl);
     this.serverUrl = serverUrl;
+    this.databaseName = databaseName;
     this.cache = new MongoDbCasCache();
   }
 
   public async initialize(): Promise<void> {
     await super.initialize();
-    await this.cache.initialize(
-      this.serverUrl,
-      IpfsCasWithCache.collectionName
-    );
+    await this.cache.initialize(this.serverUrl, this.databaseName);
   }
 
   public async stop(): Promise<void> {

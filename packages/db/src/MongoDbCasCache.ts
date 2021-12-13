@@ -51,7 +51,7 @@ export default class MongoDbCasCache {
     return collection;
   }
 
-  public async initialize(serverUrl: string, databaseName: string) {
+  public async initialize(serverUrl: string, databaseName: string): Promise<void>{
     const client = await MongoClient.connect(serverUrl);
     this.client = client;
     this.db = client.db(databaseName);
