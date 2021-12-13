@@ -15,6 +15,20 @@ npm install
 npm run test
 ```
 
+### Photon Package
+
+(from the root level) To install photon specificly
+
+```bash
+npm run install:only @sidetree/photon
+```
+
+To test photon specificly run
+
+```bash
+npm run test:only @sidetree/photon
+```
+
 # Photon DID Method Spec
 
 <p align="center">
@@ -24,10 +38,12 @@ npm run test
 ## Abstract
 
 Photon is an implementation of [version v0.1.0 of the Sidetree protocol](https://web.archive.org/web/20200721150053/https://identity.foundation/sidetree/spec/v0.1.0/). It uses
+
 - [Amazon QLDB](https://aws.amazon.com/qldb/) for the ledger layer, a fully managed ledger database that provides a transparent, immutable, and cryptographically verifiable transaction log ‎owned by a central trusted authority. Amazon QLDB can be used to track each and every application data change and maintains a complete and verifiable history of changes over time.
 - [IPFS](https://ipfs.io/) for the Content-addressable storage layer
 
 For more information about Sidetree, see:
+
 - https://web.archive.org/web/20200721150053/https://identity.foundation/sidetree/spec/v0.1.0/
 - github.com/transmute-industries/sidetree.js
 - https://github.com/decentralized-identity/sidetree
@@ -43,6 +59,7 @@ These properties of AWS QLDB combined with the use of [FIPS 140-2](https://en.wi
 ## Performance
 
 TODO: Benchmark comparing the capacity (measured in anchored DIDs per second) of several Sidetree based DID methods:
+
 - Element
 - Ion
 - Photon
@@ -106,12 +123,12 @@ Use [AWS KMS](https://aws.amazon.com/kms/) for keys:
 
 "AWS KMS is a secure and resilient service that uses hardware security modules that have been validated under FIPS 140-2, or are in the process of being validated, to protect your keys."
 
-Use an official FIPS compliant signature algorithm like ES256 ES384. 
+Use an official FIPS compliant signature algorithm like ES256 ES384.
 
 EdDSA with Ed25519 is [still in draft phase](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5-draft.pdf).
 
 Possible to run core compomnents in [GovCloud](https://aws.amazon.com/govcloud-us):
-- IPFS node in EC2 
-- DynamoDB cache 
-- KMS  
 
+- IPFS node in EC2
+- DynamoDB cache
+- KMS

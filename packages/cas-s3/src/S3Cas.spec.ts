@@ -27,12 +27,15 @@ import AWS from 'aws-sdk/global';
 const forceMock = true;
 
 const config = new AWS.Config();
-if (forceMock) {
-  console.warn('Using mock s3 interface for S3 tests');
-} else if (!config.credentials) {
-  console.warn(
-    'No AWS credentials found in ~/.aws/credentials, using mock interace'
-  );
+
+if (process.env.NODE_ENV !== 'test') {
+  if (forceMock) {
+    console.warn('Using mock s3 interface for S3 tests');
+  } else if (!config.credentials) {
+    console.warn(
+      'No AWS credentials found in ~/.aws/credentials, using mock interace'
+    );
+  }
 }
 
 const cas =
