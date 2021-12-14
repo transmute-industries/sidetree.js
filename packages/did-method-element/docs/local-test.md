@@ -18,8 +18,10 @@ set up and run and Ethereum node locally.
 
 - Install Dependencies
 - Clone and Build the Repository
-- Start Required Services
+- Create and Fund a Wallet
+- Start Element Testnet:ropsten Node
 - Run Create / Resolve Operation
+- Resolve an Existing Did
 
 ## Install Dependencies
 
@@ -164,7 +166,12 @@ only use the mimimum transaction to send anchor requests to the smart contract.
 So topping up your wallet is only something that should be done rarely if ever
 with respect to testnet. 
 
-## Ethereum Testnet
+**WARNING**: You should never share or publish your mnemonic phrase. If you have too
+many funds in a wallet, then create a new wallet and transfer a minimum amount of
+funds into that new wallet. And then use the minimally funded wallet to run the
+Element node.
+
+## Start Element Testnet:ropsten Node
 
 As stated in the abstract of this document, this section will include 
 instructions for how to setup a Ethereum testnet node locally. 
@@ -184,55 +191,74 @@ https://ropsten.infura.io/v3/[YOUR_PROJECT_API_KEY]
 ```
 
 To use this service, you MUST edit the environment variable in the Sidetree.js
-repository before starting the Sidetree-Element service. 
+repository before starting the Sidetree-Element service. Specifically we want
+to set `MONGO_DB_CONNECTION_STRING` and `ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI`
+to use the services running on localhost. For `ETHEREUM_RPC_URL` we want to 
+provide our API url and key. And on `ETHEREUM_MNEMONIC` we will need to provide
+the mnemonic phrase for a minimally funded wallet to use the service. 
 
 ```
 $ cd /home/ubuntu/sidetree.js/packages/dashboard
-$ cp .env.example .env.local
-$ vim .env.local
---- Edit The Following Lines ---
-NEXT_PUBLIC_SIDETREE_METHOD="elem:ropsten"
-NEXT_PUBLIC_OPERATOR=[YOUR_ORGANIZATION_NAME]
-NEXT_PUBLIC_METHOD="Element Ropsten"
-NEXT_PUBLIC_DESCRIPTION="Sidetree on Ethereum Ledger and IPFS Cas."
+$ cp .env.ropsten.example .env.ropsten
+$ vim .env.ropsten
+--- Edit to Resemble the following ---
+SIDETREE_METHOD='elem:ropsten'
 
+# Sidetree Variables
+MONGO_DB_CONNECTION_STRING="mongodb://localhost:27017/"
 DATABASE_NAME="element-ropsten"
+MAX_CONCURRENT_DOWNLOADS=20
+BATCH_INTERVAL_IN_SECONDS=5
+OBSERVING_INTERVAL_IN_SECONDS=5
 
+# Element Node Variables
+ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI='/ip4/127.0.0.1/tcp/5001'
 ELEMENT_ANCHOR_CONTRACT="0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997"
-ETHEREUM_RCP_URL=https://ropsten.infura.io/v3/[YOUR_PROJECT_API_KEY]
-ETHEREUM_MNEMONIC=[YOUR_WALLET_MNEMONIC]
+ETHEREUM_RPC_URL='https://ropsten.infura.io/v3/[YOUR_PROJECT_API_KEY]'
+ETHEREUM_PROVIDER=$ETHEREUM_RPC_URL
+ETHEREUM_MNEMONIC='[YOUR_MNEMONIC_PHRASE]'
 --- End Contents
 ```
 
-## Start Required Services
-
-IPFS and MongoDB should be running in the background as a daemon service.
-The two services that you will need to run are `ganache-cli` and the
-`element` dashboard. 
-
-You can run these directly in the terminal, or start them with a screen,
-or other method, to have them run in the background, if you choose to
-use it. This guide will provide the commands for running in an active
-terminal.
-
-**Start Element**
-```
-$ cd packages/dashboard
-$ npm run dev:elem
-```
-
-**Note**: If you are not planning on changing anything inside the UI or the
-API, you might considder buildind and running the Element Service
+We can then start the element node by running the following command.
 
 ```
-$ npm run build
-$ npm run start
+$ npm run dev:ropsten
 ```
 
-## Run Example API
+## Run Create / Resolve Operation
 
-- In the dashboard Create a wallet
-- Go to create to create a did
-- Go to resolve to resolve a did
+Once we have Element running on our local machine, we can then run a test
+operation to see if we are able to create and then resolve a did. 
 
+![Screenshot from 2021-12-14 22-46-41](https://user-images.githubusercontent.com/86194145/146037402-ae75eb83-0394-40f2-bd0e-ecfc090aed29.png)
 
+We can start by opening up `localhost:3000` in our browser and then clicking on the `Wallet` link on the "Manage" card. 
+
+![Screenshot from 2021-12-14 22-47-22](https://user-images.githubusercontent.com/86194145/146037619-c62917e7-a387-40c5-8207-2e8123302627.png)
+
+From there we can click on the `Create Wallet` button, this will create a private/public key pair to allow us to sign did's. **Note**: The wallet [will throw an error when not used on localhost or https](https://github.com/transmute-industries/sidetree.js/issues/318).
+
+![Screenshot from 2021-12-14 22-51-04](https://user-images.githubusercontent.com/86194145/146037904-2fc597a9-7fd2-4ae4-acd9-5f191da04ea6.png)
+
+Once the wallet is created, you will be automatically redirected to the `create` route. Can can then click on the `CREATE DID` button to generate a did. 
+
+![Screenshot from 2021-12-14 22-52-28](https://user-images.githubusercontent.com/86194145/146040055-d60694a0-88f4-4f55-b445-748a4a806aa0.png)
+
+Once the operation is complete, you should see the confirmation above. To see if we can resolve the did, we can click on the underlined did to be redirected to the resolve page.
+
+![Screenshot from 2021-12-14 22-56-08](https://user-images.githubusercontent.com/86194145/146040320-df5639fc-3761-464f-b9bf-ea98d49133e2.png)
+
+You should see a card that looks like the above image. You can then click on the arrows to show more information about the did.
+
+![Screenshot from 2021-12-14 22-56-28](https://user-images.githubusercontent.com/86194145/146040842-393656b6-177a-4871-b96b-72dadca92265.png)
+
+If you want more information on how to use the API interact with dids, you can read the documentation at `localhost:3000/docs`. 
+
+## Resolve an Existing Did
+
+If you want to make sure that you can resolve an existing did, you can use 
+`did:elem:ropsten:EiCtwD11AV9e1oISQRHnMJsBC3OBdYDmx8xeKeASrKaw6A`. You should see the
+following information.
+
+![Screenshot from 2021-12-14 23-01-19](https://user-images.githubusercontent.com/86194145/146041333-5c57968c-ab2f-48d4-9248-ab4fefe3277f.png)
