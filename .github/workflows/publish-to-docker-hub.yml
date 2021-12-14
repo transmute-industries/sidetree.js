@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     # release unstable wont run if the commit is already a stable release (tagged commit)
-    tags-ignore:
+    tags:
       - 'v*'
       - '!v*-unstable*'
     branches:
