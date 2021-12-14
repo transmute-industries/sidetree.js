@@ -29,7 +29,6 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/ledger": "^0.3.1-unstable.17",
     "@sidetree/test-vectors": "^0.3.1-unstable.17",
     "@sidetree/wallet": "^0.3.1-unstable.17",
     "@types/semver": "7.3.5",
@@ -41,6 +40,7 @@
     "@sidetree/common": "^0.3.1-unstable.17",
     "@sidetree/core": "^0.3.1-unstable.17",
     "@sidetree/db": "^0.3.1-unstable.17",
+    "@sidetree/ledger": "^0.3.1-unstable.17",
     "mongodb": "^4.1.2",
     "semver": "^7.3.5",
     "time-span": "3.1.0"
