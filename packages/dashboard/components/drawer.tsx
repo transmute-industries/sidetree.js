@@ -112,7 +112,9 @@ export const Drawer = ({ logoLight, logoDark }: any) => {
           </ListItem>
 
           <ListItem
-            selected={router.pathname === '/resolve'}
+            selected={
+              router.pathname === '/resolve' || router.pathname === '/[did]'
+            }
             button
             onClick={() => {
               router.push('/resolve');

@@ -16,7 +16,12 @@ export async function getServerSideProps(context: any) {
   };
 }
 
-const Resolver: NextPage<any> = ({ logoLight, logoDark }) => {
+const Resolver: NextPage<any> = ({
+  logoLight,
+  logoDark,
+  method,
+  description,
+}) => {
   const router = useRouter();
 
   const [wallet, setWallet] = useState({} as any);
@@ -71,7 +76,8 @@ const Resolver: NextPage<any> = ({ logoLight, logoDark }) => {
   return (
     <div>
       <Head>
-        <title>Create</title>
+        <title>{method} | Create</title>
+        <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
