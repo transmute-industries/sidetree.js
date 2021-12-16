@@ -44,7 +44,7 @@ The following environment variables are needed to run the node, we set them for 
 - SIDETREE_METHOD: The did method name e.g. 'elem:ropsten'
 - MONGO_DB_CONNECTION_STRING: The mongo db connection string e.g. 'mongodb://...'
 - DATABASE_NAME: The mongo db database name to use
-- MAX_CONCURRENT_DOWNLOADS: https://identity.foundation/sidetree/spec/
+- MAX_CONCURRENT_DOWNLOADS: See [https://identity.foundation/sidetree/spec/](https://identity.foundation/sidetree/spec/)
 - BATCH_INTERVAL_IN_SECONDS: https://identity.foundation/sidetree/spec/
 - OBSERVING_INTERVAL_IN_SECONDS: https://identity.foundation/sidetree/spec/
 - ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI: The endpoint for storage

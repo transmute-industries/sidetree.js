@@ -17,7 +17,7 @@ As it stands now, the following operations are not available:
 - Delete DID
 - Update DID
 
-Deployed node of Element Ropsten Testnet: https://ropsten.element.transmute.industries
+Deployed node of Element Ropsten Testnet: [ropsten.element.transmute.industries](https://ropsten.element.transmute.industries)
 
 Docker hub image: https://hub.docker.com/r/transmute/sidetree-dashboard
 
