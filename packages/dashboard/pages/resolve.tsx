@@ -24,7 +24,12 @@ export async function getServerSideProps(context: any) {
   };
 }
 
-const Resolver: NextPage<any> = ({ logoLight, logoDark }) => {
+const Resolver: NextPage<any> = ({
+  logoLight,
+  logoDark,
+  method,
+  description,
+}) => {
   const router = useRouter();
   const [did, setDid] = useState('');
 
@@ -36,7 +41,8 @@ const Resolver: NextPage<any> = ({ logoLight, logoDark }) => {
   return (
     <div>
       <Head>
-        <title>Resolve</title>
+        <title>{method} | Resolve</title>
+        <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
