@@ -15,7 +15,12 @@ export async function getServerSideProps(context: any) {
   };
 }
 
-const TransactionHistory: NextPage<any> = ({ logoLight, logoDark }) => {
+const TransactionHistory: NextPage<any> = ({
+  logoLight,
+  logoDark,
+  method,
+  description,
+}) => {
   const [transactions, setTransactions] = useState(null);
 
   useEffect(() => {
@@ -29,8 +34,11 @@ const TransactionHistory: NextPage<any> = ({ logoLight, logoDark }) => {
   return (
     <div>
       <Head>
-        <title>Transactions</title>
-        <meta name="description" content="Transaction history" />
+        <title>{method} | Transactions</title>
+        <meta
+          name="description"
+          content={description + ' Transaction history'}
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

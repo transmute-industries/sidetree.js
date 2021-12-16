@@ -15,14 +15,19 @@ export async function getServerSideProps(context: any) {
   };
 }
 
-const OperationHistory: NextPage<any> = ({ logoLight, logoDark }) => {
+const OperationHistory: NextPage<any> = ({
+  logoLight,
+  logoDark,
+  method,
+  description,
+}) => {
   const router = useRouter();
 
   return (
     <div>
       <Head>
-        <title>History</title>
-        <meta name="description" content="Transaction history" />
+        <title>{method} | Operations</title>
+        <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
