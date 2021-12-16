@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/db.esm.js",
-  "version": "0.3.1-unstable.23",
+  "version": "0.3.1-unstable.24",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@rollup/plugin-replace": "^3.0.0",
-    "@sidetree/common": "^0.3.1-unstable.23",
+    "@sidetree/common": "^0.3.1-unstable.24",
     "@types/mongodb": "^3.5.20",
     "mongodb": "^3.6.9"
   },
