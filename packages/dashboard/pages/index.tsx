@@ -79,7 +79,9 @@ const Home: NextPage<any> = ({
                   actions={
                     <>
                       <Button
-                        size="small"
+                        size="medium"
+                        variant="outlined"
+                        color="warning"
                         onClick={() => {
                           router.push('/wallet');
                         }}
@@ -105,7 +107,9 @@ const Home: NextPage<any> = ({
                   actions={
                     <>
                       <Button
-                        size="small"
+                        size="medium"
+                        variant="outlined"
+                        color="warning"
                         onClick={() => {
                           router.push('/history');
                         }}
@@ -131,7 +135,9 @@ const Home: NextPage<any> = ({
                   actions={
                     <>
                       <Button
-                        size="small"
+                        size="medium"
+                        variant="outlined"
+                        color="warning"
                         onClick={() => {
                           router.push('/resolver');
                         }}
