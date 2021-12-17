@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/cas-s3.esm.js",
-  "version": "0.3.1-unstable.24",
+  "version": "0.3.1-unstable.25",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -33,8 +33,8 @@
   },
   "dependencies": {
     "@rollup/plugin-replace": "^3.0.0",
-    "@sidetree/cas": "^0.3.1-unstable.24",
-    "@sidetree/common": "^0.3.1-unstable.24",
+    "@sidetree/cas": "^0.3.1-unstable.25",
+    "@sidetree/common": "^0.3.1-unstable.25",
     "ipfs-unixfs": "^2.0.3",
     "ipld-dag-pb": "^0.20.0",
     "jest-environment-node": "^27.2.5"
