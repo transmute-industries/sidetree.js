@@ -19,28 +19,6 @@ Install IPFS
 ```
 $ sudo snap install ipfs
 $ ipfs init
-$ sudo vim /lib/systemd/system/ipfs-daemon.service
---- Create File ---
-[Unit]
-Description=IPFS daemon
-Wants=network.target
-After=network.target
-
-[Service]
-User=ubuntu
-Group=ubuntu
-Type=simple
-Environment=IPFS_PATH=/home/ubuntu/snap/ipfs/common
-ExecStart=/snap/bin/ipfs daemon --migrate
-ExecStop=/usr/bin/pkill -f ipfs
-Restart=on-failure
-RestartSec=10s
-
-[Install]
-WantedBy=multi-user.target
---- EOF ---
-$ sudo systemctl start ipfs-daemon.service
-$ sudo systemctl enable ipfs-daemon.service
 ```
 
 Install MongoDB
@@ -58,7 +36,7 @@ $ sudo systemctl start mongod.service
 Install Nodejs (v14)
 
 ```
-$ sudo apt install -y python-is-python3 make gcc
+$ sudo apt install -y python-is-python3 make gcc g++
 $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 $ source ~/.bashrc
 $ nvm install 14
@@ -76,7 +54,6 @@ $ npm install ganache-cli -g
 ```
 $ git clone https://github.com/transmute-industries/sidetree.js.git
 $ cd sidetree.js
-$ npm i
 ```
 
 ## Start Required Services
@@ -90,17 +67,18 @@ or other method, to have them run in the background, if you choose to
 use it. This guide will provide the commands for running in an active
 terminal.
 
-**Start Ganache**
+**Start Required Services**
 ```
-$ ganache-cli
+$ screen -dm bash -c "ganache-cli"
+$ screen -dm bash -c "ipfs daemon"
 ```
 
 **Start Element**
 ```
 $ cd packages/dashboard
+$ npm i
 $ cp .env.ganache.example .env.ganache
 $ npm run dev:ganache
-
 ```
 
 ## Run Example API
