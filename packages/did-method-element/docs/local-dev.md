@@ -95,10 +95,12 @@ terminal.
 $ ganache-cli
 ```
 
-""Start Element**
+**Start Element**
 ```
 $ cd packages/dashboard
-$ npm run dev:elem
+$ cp .env.ganache.example .env.ganache
+$ npm run dev:ganache
+
 ```
 
 ## Run Example API
