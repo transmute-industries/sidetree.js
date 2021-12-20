@@ -1,7 +1,7 @@
 # Development Install
 
 This guide will describe how to install and run Element locally on a Linux machine
-running Unbuntu 20.04.3 on either an x86_64 machine, or Raspberry Pi 4. This guide
+running Ubuntu 20.04.3 on either an x86_64 machine, or a Raspberry Pi 4. This guide
 will use the example name of `ubuntu` (with lower-case `u`) to describe the user
 and default home directory of `/home/ubuntu`. 
 
@@ -95,9 +95,13 @@ terminal.
 $ ganache-cli
 ```
 
-""Start Element**
+**Start Element**
+
+Then, **in a new terminal**, run
+
 ```
 $ cd packages/dashboard
+$ cp .env.ganache.example .env.ganache
 $ npm run dev:elem
 ```
 
