@@ -91,13 +91,19 @@ use it. This guide will provide the commands for running in an active
 terminal.
 
 **Start Ganache**
+
+It is preferable for debugging purposes to run ganache in its own 
+terminal; opening a new terminal, you can simply run:
 ```
 $ ganache-cli
 ```
+If, instead, you'd rather run it silently in the background without
+a new terminal, you can simply run this command:
+```
+$ screen -dm bash -c "ganache-cli".
+```
 
 **Start Element**
-
-Then, **in a new terminal**, run
 
 ```
 $ cd packages/dashboard
