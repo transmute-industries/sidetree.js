@@ -34,6 +34,7 @@ import {
 } from './__fixtures__';
 import util from 'util';
 import { gzip, gunzip } from 'zlib';
+import { writeFileSync } from 'fs';
 
 const gzipAsync = util.promisify(gzip);
 const gunzipAsync = util.promisify(gunzip);
@@ -121,19 +122,19 @@ const testSuite = (cas: ICasService): void => {
     describe('files', () => {
       for (const key in ionVectors) {
         it(`should write and read the ${key} file`, async () => {
-          const { cid, data, json } = ionVectors[key];
+          const { cid, content, jsonStr } = ionVectors[key];
+          const compressedBuffer = await gzipAsync(jsonStr);
+          expect(compressedBuffer).toEqual(content);
 
-          const compressedBuffer = await gzipAsync(json);
-          console.log(compressedBuffer);
-          console.log(data);
-          // expect(compressedBuffer).toBe(data);
+          const expectedHash = await cas.write(compressedBuffer);
+          expect(expectedHash).toBe(cid);
 
-          expect(cid).toBeDefined();
-          expect(data).toBeDefined();
-          expect(json).toBeDefined();
-          expect(key).toBe(key);
+          const fetchResult = await cas.read(expectedHash, 0);
+          expect(fetchResult.code).toEqual(FetchResultCode.Success);
+
+          const decompressedBuffer = await gunzipAsync(fetchResult.content!);
+          expect(decompressedBuffer.toString()).toBe(jsonStr);
         });
-        break;
       }
     });
   });
