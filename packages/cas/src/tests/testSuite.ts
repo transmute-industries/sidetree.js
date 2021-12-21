@@ -27,12 +27,12 @@ import crypto from 'crypto';
 import {
   testBuffer,
   testString,
-  testBufferCid,
-  testStringCid,
-  testObjectCid,
-  testBufferHash,
-  testStringHash,
-  testObjectHash,
+  testBufferHash58,
+  testStringHash58,
+  testObjectHash58,
+  testBufferHash64,
+  testStringHash64,
+  testObjectHash64,
   ionVectors,
 } from './__fixtures__';
 import util from 'util';
@@ -68,12 +68,12 @@ const testSuite = (cas: ICasService): void => {
     describe('write', () => {
       it('should provide an expected cid for a buffer', async () => {
         const expectedHash = await cas.write(testBuffer);
-        expect(expectedHash).toBe(testBufferCid);
+        expect(expectedHash).toBe(testBufferHash58);
       });
 
       it('should provide an expected cid for a string', async () => {
         const expectedHash = await cas.write(Buffer.from(testString));
-        expect(expectedHash).toBe(testStringCid);
+        expect(expectedHash).toBe(testStringHash58);
       });
 
       it('should provide an expected cid for a delta object', async () => {
@@ -81,7 +81,7 @@ const testSuite = (cas: ICasService): void => {
         const expectedHash = await cas.write(
           JsonCanonicalizer.canonicalizeAsBuffer(delta)
         );
-        expect(expectedHash).toBe(testObjectCid);
+        expect(expectedHash).toBe(testObjectHash58);
       });
 
       it('should not match cid with incorrect JSON string', async () => {
@@ -89,26 +89,26 @@ const testSuite = (cas: ICasService): void => {
         const expectedHash = await cas.write(
           Buffer.from(JSON.stringify(delta)!)
         );
-        expect(expectedHash).not.toBe(testObjectCid);
+        expect(expectedHash).not.toBe(testObjectHash58);
       });
     });
 
     describe('read', () => {
       it('should produce correct buffer from cid', async () => {
-        const fetchResult = await cas.read(testBufferCid, 0);
+        const fetchResult = await cas.read(testBufferHash58, 0);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(testBuffer.compare(fetchResult!.content as Buffer)).toBe(0);
       });
 
       it('should produce correct string from cid', async () => {
-        const fetchResult = await cas.read(testStringCid, 0);
+        const fetchResult = await cas.read(testStringHash58, 0);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(fetchResult!.content?.toString()).toBe(testString);
       });
 
       it('should produce correct delta object from cid', async () => {
         const { delta } = didMethod.operations.create.operation;
-        const fetchResult = await cas.read(testObjectCid, 0);
+        const fetchResult = await cas.read(testObjectHash58, 0);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(JSON.parse(fetchResult.content!.toString())).toEqual(delta);
       });
@@ -144,20 +144,20 @@ const testSuite = (cas: ICasService): void => {
 
     describe('compatibility', () => {
       it('should produce correct buffer from hash', async () => {
-        const fetchResult = await cas.read(testBufferHash, 0);
+        const fetchResult = await cas.read(testBufferHash64, 0);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(testBuffer.compare(fetchResult!.content as Buffer)).toBe(0);
       });
 
       it('should produce correct string from hash', async () => {
-        const fetchResult = await cas.read(testStringHash, 0);
+        const fetchResult = await cas.read(testStringHash64, 0);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(fetchResult!.content?.toString()).toBe(testString);
       });
 
       it('should produce correct delta object from hash', async () => {
         const { delta } = didMethod.operations.create.operation;
-        const fetchResult = await cas.read(testObjectHash, 0);
+        const fetchResult = await cas.read(testObjectHash64, 0);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(JSON.parse(fetchResult.content!.toString())).toEqual(delta);
       });

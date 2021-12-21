@@ -163,10 +163,18 @@ export const testBuffer = Buffer.from(
 );
 export const testString = 'anyCoreIndexFileBuffer';
 
-export const testBufferCid = 'QmRTh3XfCZKuHLG1zpHU8tkZTbyhBMGgrz1ibvAoy1UwZr';
-export const testStringCid = 'QmTRcidPgKTQwRehPbg5rr6unGG8mxaNZgLfsiK1HEvTH5';
-export const testObjectCid = 'QmRfujbtMhoTxJKSFsJn9hGdmXGiPG7iGPWzRu1MBqhrkd';
+// Base 58 (Ipfs Content Id)
+export const testBufferHash58 =
+  'QmRTh3XfCZKuHLG1zpHU8tkZTbyhBMGgrz1ibvAoy1UwZr';
+export const testStringHash58 =
+  'QmTRcidPgKTQwRehPbg5rr6unGG8mxaNZgLfsiK1HEvTH5';
+export const testObjectHash58 =
+  'QmRfujbtMhoTxJKSFsJn9hGdmXGiPG7iGPWzRu1MBqhrkd';
 
-export const testBufferHash = 'EiAuYMQ4_ZBO1ckbGpyyDKlcq8EFpG3duG3nkhR79RwFQQ';
-export const testStringHash = 'EiBLkBZiYEmzDAD-CuMapW18cBaQr0un-cG0AjiLfdFhZA';
-export const testObjectHash = 'EiAxghX7H2qN_c_wwt0GCcCVRt0JEhAPw3UoHS9JS-5cRg';
+// Base64
+export const testBufferHash64 =
+  'EiAuYMQ4_ZBO1ckbGpyyDKlcq8EFpG3duG3nkhR79RwFQQ';
+export const testStringHash64 =
+  'EiBLkBZiYEmzDAD-CuMapW18cBaQr0un-cG0AjiLfdFhZA';
+export const testObjectHash64 =
+  'EiAxghX7H2qN_c_wwt0GCcCVRt0JEhAPw3UoHS9JS-5cRg';
