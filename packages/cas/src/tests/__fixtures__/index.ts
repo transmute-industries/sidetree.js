@@ -17,21 +17,13 @@
  * limitations under the License.
  */
 
-/*
- * Test Vectors were taken from Sidetree's BatchWriter test to insure compatibility.
- * https://github.com/decentralized-identity/sidetree/blob/master/tests/core/BatchWriter.spec.ts
- *
- * Test Buffer was taken from test:
- * 'should return without writing anything if operation queue is empty.'
- *
- * Test String was taken from test:
- * 'should pass the writer lock ID to CoreIndexFile.createBuffer() if a value lock exists.'
- *
- * By Logging the values passed into the MockCas write function during the test
- * https://github.com/decentralized-identity/sidetree/blob/master/tests/mocks/MockCas.ts#L34
- */
+interface DataSample {
+  cid: string;
+  data: Buffer;
+  json: string;
+}
 
-export const ionVectors = {
+export const ionVectors: { [key: string]: DataSample } = {
   createChunkFile: {
     cid: 'Qmaf1UJCsG7eC8cLbkRryBJbv8T7svzBG5r4ahXBVvWpXo',
     data: Buffer.from(
@@ -151,12 +143,26 @@ export const ionVectors = {
   },
 };
 
+/*
+ * Test Vectors were taken from Sidetree's BatchWriter test to insure compatibility.
+ * https://github.com/decentralized-identity/sidetree/blob/master/tests/core/BatchWriter.spec.ts
+ *
+ * Test Buffer was taken from test:
+ * 'should return without writing anything if operation queue is empty.'
+ *
+ * Test String was taken from test:
+ * 'should pass the writer lock ID to CoreIndexFile.createBuffer() if a value lock exists.'
+ *
+ * By Logging the values passed into the MockCas write function during the test
+ * https://github.com/decentralized-identity/sidetree/blob/master/tests/mocks/MockCas.ts#L34
+ */
+
 export const testBuffer = Buffer.from(
   '1f8b08000000000000034d91db6ee2301086dfc5d73dc5b4bb2d7729a5a1453408e8525a21e4d893c4cdc1966343bc28efbe362c6d255f8cfff9e7f3cc788f18949a34a8ffb1474632a26120aa8aeb0a6a8dfa68c8c3cdb9685e2c4e696ca2e8f760160f9377f5ccec34bca6365946b3ccacdab45d1457193a4392689ac39147a8e6a2761405b224145c9a096a8ee83d922629391d833dba3973ce866735af33273ab3b6127c0f9435640e54e29b5f45f007144f39251eed6cf82ab8f3cf9e58cfbbc2b30b6d7de5c0a5a8da7af0a9de29adbb7f62dc9b3d9a84f5a2e5e805bfc5f1b99e878b30d4e5fd2bbef91b4c8a16f7623adebcba0a0f63f3227f8b69c03f37ed232b96228f52939adbebc9f41ea623bb9a8c47692b57b1a1a8f31d29299ac32610313a7743ffefdaf148d380f2f104742e98ef924892f0926bfb546fc597f15b7e8012b2935c800d33057058e5ba5b9fb9f9d49653f8b9caa3f2c402dcfb5e66232a58f8f0ab64583329f8e1b773ad65d3bfbcdced76174695175454a85b77eeacbb7fdffa6cbc2a020000',
   'hex'
 );
 export const testString = 'anyCoreIndexFileBuffer';
 
-export const testBufferHash = 'EiAuYMQ4_ZBO1ckbGpyyDKlcq8EFpG3duG3nkhR79RwFQQ';
-export const testStringHash = 'EiBLkBZiYEmzDAD-CuMapW18cBaQr0un-cG0AjiLfdFhZA';
-export const testObjectHash = 'EiAxghX7H2qN_c_wwt0GCcCVRt0JEhAPw3UoHS9JS-5cRg';
+export const testBufferHash = 'QmRTh3XfCZKuHLG1zpHU8tkZTbyhBMGgrz1ibvAoy1UwZr';
+export const testStringHash = 'QmTRcidPgKTQwRehPbg5rr6unGG8mxaNZgLfsiK1HEvTH5';
+export const testObjectHash = 'QmRfujbtMhoTxJKSFsJn9hGdmXGiPG7iGPWzRu1MBqhrkd';
