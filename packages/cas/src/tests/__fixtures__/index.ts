@@ -163,6 +163,10 @@ export const testBuffer = Buffer.from(
 );
 export const testString = 'anyCoreIndexFileBuffer';
 
-export const testBufferHash = 'QmRTh3XfCZKuHLG1zpHU8tkZTbyhBMGgrz1ibvAoy1UwZr';
-export const testStringHash = 'QmTRcidPgKTQwRehPbg5rr6unGG8mxaNZgLfsiK1HEvTH5';
-export const testObjectHash = 'QmRfujbtMhoTxJKSFsJn9hGdmXGiPG7iGPWzRu1MBqhrkd';
+export const testBufferCid = 'QmRTh3XfCZKuHLG1zpHU8tkZTbyhBMGgrz1ibvAoy1UwZr';
+export const testStringCid = 'QmTRcidPgKTQwRehPbg5rr6unGG8mxaNZgLfsiK1HEvTH5';
+export const testObjectCid = 'QmRfujbtMhoTxJKSFsJn9hGdmXGiPG7iGPWzRu1MBqhrkd';
+
+export const testBufferHash = 'EiAuYMQ4_ZBO1ckbGpyyDKlcq8EFpG3duG3nkhR79RwFQQ';
+export const testStringHash = 'EiBLkBZiYEmzDAD-CuMapW18cBaQr0un-cG0AjiLfdFhZA';
+export const testObjectHash = 'EiAxghX7H2qN_c_wwt0GCcCVRt0JEhAPw3UoHS9JS-5cRg';
