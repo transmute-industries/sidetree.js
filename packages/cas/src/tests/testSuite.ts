@@ -30,7 +30,13 @@ import {
   testBufferHash,
   testStringHash,
   testObjectHash,
+  ionVectors,
 } from './__fixtures__';
+import util from 'util';
+import { gzip, gunzip } from 'zlib';
+
+const gzipAsync = util.promisify(gzip);
+const gunzipAsync = util.promisify(gunzip);
 
 const testSuite = (cas: ICasService): void => {
   describe(cas.constructor.name, () => {
@@ -57,17 +63,17 @@ const testSuite = (cas: ICasService): void => {
     });
 
     describe('write', () => {
-      it('Should provide an expected hash for a buffer', async () => {
+      it('should provide an expected hash for a buffer', async () => {
         const expectedHash = await cas.write(testBuffer);
         expect(expectedHash).toBe(testBufferHash);
       });
 
-      it('Should provide an expected hash for a string', async () => {
+      it('should provide an expected hash for a string', async () => {
         const expectedHash = await cas.write(Buffer.from(testString));
         expect(expectedHash).toBe(testStringHash);
       });
 
-      it('Should provide an expected hash for a delta object', async () => {
+      it('should provide an expected hash for a delta object', async () => {
         const { delta } = didMethod.operations.create.operation;
         const expectedHash = await cas.write(
           JsonCanonicalizer.canonicalizeAsBuffer(delta)
@@ -75,7 +81,7 @@ const testSuite = (cas: ICasService): void => {
         expect(expectedHash).toBe(testObjectHash);
       });
 
-      it('Should not match hash with incorrect JSON string', async () => {
+      it('should not match hash with incorrect JSON string', async () => {
         const { delta } = didMethod.operations.create.operation;
         const expectedHash = await cas.write(
           Buffer.from(JSON.stringify(delta)!)
@@ -85,19 +91,19 @@ const testSuite = (cas: ICasService): void => {
     });
 
     describe('read', () => {
-      it('Should Produce correct buffer from hash', async () => {
+      it('should Produce correct buffer from hash', async () => {
         const fetchResult = await cas.read(testBufferHash, 0);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(testBuffer.compare(fetchResult!.content as Buffer)).toBe(0);
       });
 
-      it('Should Produce correct string from hash', async () => {
+      it('should Produce correct string from hash', async () => {
         const fetchResult = await cas.read(testStringHash, 0);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
         expect(fetchResult!.content?.toString()).toBe(testString);
       });
 
-      it('Should produce correct delta object from hash', async () => {
+      it('should produce correct delta object from hash', async () => {
         const { delta } = didMethod.operations.create.operation;
         const fetchResult = await cas.read(testObjectHash, 0);
         expect(fetchResult.code).toEqual(FetchResultCode.Success);
@@ -110,6 +116,25 @@ const testSuite = (cas: ICasService): void => {
         const fetchResult = await cas.read(notFoundHash, 0);
         expect(fetchResult.code).toEqual(FetchResultCode.NotFound);
       });
+    });
+
+    describe('files', () => {
+      for (const key in ionVectors) {
+        it(`should write and read the ${key} file`, async () => {
+          const { cid, data, json } = ionVectors[key];
+
+          const compressedBuffer = await gzipAsync(json);
+          console.log(compressedBuffer);
+          console.log(data);
+          // expect(compressedBuffer).toBe(data);
+
+          expect(cid).toBeDefined();
+          expect(data).toBeDefined();
+          expect(json).toBeDefined();
+          expect(key).toBe(key);
+        });
+        break;
+      }
     });
   });
 };
