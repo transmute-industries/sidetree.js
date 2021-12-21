@@ -45,6 +45,7 @@ const getLedger = async (elementNodeConfigs: ElementNodeConfigs) => {
 
 const getTestCas = async () => {
   const cas = new MockCas();
+  await cas.initialize();
   return cas;
 };
 

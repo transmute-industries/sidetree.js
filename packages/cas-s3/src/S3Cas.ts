@@ -79,8 +79,7 @@ export default class S3Cas implements ICasService {
     const dagLink = await dagNode.toDAGLink({
       cidVersion: 0,
     });
-    const encodedHash = Encoder.formatBase64Address(dagLink.Hash.toString());
-    return encodedHash;
+    return dagLink.Hash.toString();
   }
 
   public async write(content: Buffer): Promise<string> {
@@ -98,6 +97,10 @@ export default class S3Cas implements ICasService {
   }
 
   public async read(address: string): Promise<FetchResult> {
+    if (Encoder.isBase64UrlString(address) && address.indexOf('Ei') === 0) {
+      address = Encoder.formatIpfsAddress(address);
+    }
+
     try {
       const readResult = await this.s3
         .getObject({
