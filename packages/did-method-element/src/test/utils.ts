@@ -49,6 +49,7 @@ const getTestCas = async () => {
   //   config.databaseName
   // );
   const cas = new MockCas();
+  await cas.initialize();
   return cas;
 };
 
