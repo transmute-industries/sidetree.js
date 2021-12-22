@@ -229,7 +229,8 @@ export default class EthereumLedger implements IBlockchain {
         default:
       }
     } catch (err) {
-      this.logger.error(err.message);
+      const error = err as Error;
+      this.logger.error(error.message);
     }
   };
 
