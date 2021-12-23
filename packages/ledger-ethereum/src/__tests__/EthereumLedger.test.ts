@@ -12,16 +12,14 @@
  * limitations under the License.
  */
 
-import { filesystem } from '@sidetree/test-vectors';
-
 import { EthereumLedger } from '..';
 import { web3 } from './web3';
+import { anchorString, anchorString2, anchorString3 } from './__fixtures__/';
 
 jest.setTimeout(10 * 1000);
 
 describe('EthereumLedger', () => {
   const ledger = new EthereumLedger(web3);
-  const { anchorString, anchorString2, anchorString3 } = filesystem.anchorFile;
   let blockTimeHash1: string;
 
   it('First account has enough ether to run the other tests', async () => {

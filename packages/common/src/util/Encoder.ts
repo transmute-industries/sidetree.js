@@ -41,11 +41,25 @@ export default class Encoder {
    */
   public static decodeAsBuffer(encodedContent: string): Buffer {
     Encoder.validateBase64UrlString(encodedContent);
-
     const content = base64url.toBuffer(encodedContent);
     return content;
   }
 
+  /**
+   * Encodes a given buffer into a base58 content id
+   */
+  public static bufferToCid(content: Buffer): string {
+    return base58btc.encode(content).slice(1);
+  }
+
+  /**
+   * Decodes a given base58 content id into a Buffer
+   */
+  public static cidToBuffer(encodedContent: string): Buffer {
+    const cid = CID.parse(encodedContent);
+    const content = Buffer.from(cid.bytes);
+    return content;
+  }
   /**
    * Decodes the given input into the original string.
    */
