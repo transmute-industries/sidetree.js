@@ -23,7 +23,7 @@ export const toKeyPair = async (
   mnemonic: string,
   index: number,
   type = 'Ed25519',
-  hdPath: string | undefined
+  hdPath?: string
 ): Promise<any> => {
   const seed = await bip39.mnemonicToSeed(mnemonic);
   const root = hdkey.fromMasterSeed(seed);
