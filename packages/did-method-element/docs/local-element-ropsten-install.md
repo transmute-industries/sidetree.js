@@ -152,11 +152,7 @@ to copy the address to the clickboard.
 
 ![Element Wallet Ropsten Ethereum Faucet](https://user-images.githubusercontent.com/86194145/145262382-c708ab4c-c020-462b-84f9-87ce75ef76b7.png)
 
-<<<<<<< HEAD:packages/did-method-element/docs/local-element-ropsten-install.md
-From there we want to goto the [Ropsten Ethereum Faucet](https://faucet.ropsten.be/),
-=======
-From there we want to goto the [Ropsten Etereum Faucet](https://faucet.ropsten.be/) (recomend using ingonito tab),
->>>>>>> fe1f8e0858193872be65e2831c116f4837dda060:packages/did-method-element/docs/local-test.md
+From there we want to goto the [Ropsten Etereum Faucet](https://faucet.ropsten.be/) (recomend using incognito tab),
 and paste in our address. And then click on the `Send me test Ether` button. You
 should get a confirmation that says, "request added to the queue". Depending on availabity,
 you might need to select a different faucet. 

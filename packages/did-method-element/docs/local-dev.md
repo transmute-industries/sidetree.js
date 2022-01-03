@@ -1,9 +1,9 @@
 # Development Install
 
 This guide will describe how to install and run Element locally on a Linux machine
-running Unbuntu 20.04.3 on either an x86_64 machine, or Raspberry Pi 4. This guide
+running Ubuntu 20.04.3 on either an x86_64 machine, or Raspberry Pi 4. This guide
 will use the example name of `ubuntu` (with lower-case `u`) to describe the user
-and default home directory of `/home/ubuntu`. 
+and default home directory of `/home/ubuntu` with sudo privileges. 
 
 ## Table of Contents
 
@@ -19,28 +19,6 @@ Install IPFS
 ```
 $ sudo snap install ipfs
 $ ipfs init
-$ sudo vim /lib/systemd/system/ipfs-daemon.service
---- Create File ---
-[Unit]
-Description=IPFS daemon
-Wants=network.target
-After=network.target
-
-[Service]
-User=ubuntu
-Group=ubuntu
-Type=simple
-Environment=IPFS_PATH=/home/ubuntu/snap/ipfs/common
-ExecStart=/snap/bin/ipfs daemon --migrate
-ExecStop=/usr/bin/pkill -f ipfs
-Restart=on-failure
-RestartSec=10s
-
-[Install]
-WantedBy=multi-user.target
---- EOF ---
-$ sudo systemctl start ipfs-daemon.service
-$ sudo systemctl enable ipfs-daemon.service
 ```
 
 Install MongoDB
@@ -58,7 +36,7 @@ $ sudo systemctl start mongod.service
 Install Nodejs (v14)
 
 ```
-$ sudo apt install -y python-is-python3 make gcc
+$ sudo apt install -y python-is-python3 make gcc g++
 $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 $ source ~/.bashrc
 $ nvm install 14
@@ -71,34 +49,28 @@ Install Ganache Cli
 $ npm install ganache-cli -g
 ```
 
-## Clone and Build the Repository
+## Start Required Services
+
+MongoDB should be running in the background as a daemon service.
+In order to run the element dashboard, we will need ipfs and ganache-cli
+running in the background.
+
+We can do this by running ipfs and galache-cli in the background using a 
+detached screen, executing the following commands. 
+
+```
+$ screen -dm bash -c "ganache-cli"
+$ screen -dm bash -c "ipfs daemon"
+```
+
+## Clone and Build Repository
 
 ```
 $ git clone https://github.com/transmute-industries/sidetree.js.git
-$ cd sidetree.js
+$ cd sidetree.js/packages/dashboard
 $ npm i
-```
-
-## Start Required Services
-
-IPFS and MongoDB should be running in the background as a daemon service.
-The two services that you will need to run are `ganache-cli` and the
-`element` dashboard. 
-
-You can run these directly in the terminal, or start them with a screen,
-or other method, to have them run in the background, if you choose to
-use it. This guide will provide the commands for running in an active
-terminal.
-
-**Start Ganache**
-```
-$ ganache-cli
-```
-
-""Start Element**
-```
-$ cd packages/dashboard
-$ npm run dev:elem
+$ cp .env.ganache.example .env.ganache
+$ npm run dev:ganache
 ```
 
 ## Run Example API

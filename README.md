@@ -1,12 +1,6 @@
 # sidetree.js
 
-🔥🔥
-V1 Upgrade in progress, CD disabled, CI degraded.
-🔥🔥
-
 [![npm version](https://badge.fury.io/js/%40sidetree%2Fcore.svg)](https://badge.fury.io/js/%40sidetree%2Fcore) ![Continuous Integration](https://github.com/transmute-industries/sidetree.js/workflows/CI/badge.svg)
-
-Sidetree.js is an implementation of [v0.1.0 of the sidetree specification](https://web.archive.org/web/20200721150053/https://identity.foundation/sidetree/spec/v0.1.0/)
 
 ### Sidetree Based DID Methods
 
