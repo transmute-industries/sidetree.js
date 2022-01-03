@@ -76,10 +76,6 @@ export default class MockCas implements ICasService {
       throw new Error('Must initialize MockCas to replicate CAS behavior');
     }
 
-    if (Encoder.isBase64UrlString(address) && address.indexOf('Ei') === 0) {
-      address = Encoder.formatIpfsAddress(address);
-    }
-
     // Wait for configured time before returning.
     await new Promise((resolve) =>
       setTimeout(resolve, this.mockSecondsTakenForEachCasFetch * 1000)

@@ -30,9 +30,6 @@ import {
   testBufferHash58,
   testStringHash58,
   testObjectHash58,
-  testBufferHash64,
-  testStringHash64,
-  testObjectHash64,
   ionVectors,
 } from './__fixtures__';
 import util from 'util';
@@ -140,27 +137,6 @@ const testSuite = (cas: ICasService): void => {
           expect(decompressedBuffer.toString()).toBe(jsonStr);
         });
       }
-    });
-
-    describe('compatibility', () => {
-      it('should produce correct buffer from hash', async () => {
-        const fetchResult = await cas.read(testBufferHash64, 0);
-        expect(fetchResult.code).toEqual(FetchResultCode.Success);
-        expect(testBuffer.compare(fetchResult!.content as Buffer)).toBe(0);
-      });
-
-      it('should produce correct string from hash', async () => {
-        const fetchResult = await cas.read(testStringHash64, 0);
-        expect(fetchResult.code).toEqual(FetchResultCode.Success);
-        expect(fetchResult!.content?.toString()).toBe(testString);
-      });
-
-      it('should produce correct delta object from hash', async () => {
-        const { delta } = didMethod.operations.create.operation;
-        const fetchResult = await cas.read(testObjectHash64, 0);
-        expect(fetchResult.code).toEqual(FetchResultCode.Success);
-        expect(JSON.parse(fetchResult.content!.toString())).toEqual(delta);
-      });
     });
   });
 };

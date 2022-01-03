@@ -68,10 +68,6 @@ export default class CasIpfs implements ICasService {
   }
 
   public async read(address: string): Promise<FetchResult> {
-    if (Encoder.isBase64UrlString(address) && address.indexOf('Ei') === 0) {
-      address = Encoder.formatIpfsAddress(address);
-    }
-
     try {
       const source = this.ipfs.get(address, { timeout: 2000 });
       const file = await source.next();

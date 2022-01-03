@@ -97,10 +97,6 @@ export default class S3Cas implements ICasService {
   }
 
   public async read(address: string): Promise<FetchResult> {
-    if (Encoder.isBase64UrlString(address) && address.indexOf('Ei') === 0) {
-      address = Encoder.formatIpfsAddress(address);
-    }
-
     try {
       const readResult = await this.s3
         .getObject({

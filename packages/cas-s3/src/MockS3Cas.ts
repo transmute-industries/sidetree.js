@@ -94,10 +94,6 @@ export default class MockS3Cas implements ICasService {
       setTimeout(resolve, this.mockSecondsTakenForEachCasFetch * 1000)
     );
 
-    if (Encoder.isBase64UrlString(address) && address.indexOf('Ei') === 0) {
-      address = Encoder.formatIpfsAddress(address);
-    }
-
     const content = this.storage.get(address);
 
     if (content === undefined) {

@@ -170,11 +170,3 @@ export const testStringHash58 =
   'QmTRcidPgKTQwRehPbg5rr6unGG8mxaNZgLfsiK1HEvTH5';
 export const testObjectHash58 =
   'QmRfujbtMhoTxJKSFsJn9hGdmXGiPG7iGPWzRu1MBqhrkd';
-
-// Base64
-export const testBufferHash64 =
-  'EiAuYMQ4_ZBO1ckbGpyyDKlcq8EFpG3duG3nkhR79RwFQQ';
-export const testStringHash64 =
-  'EiBLkBZiYEmzDAD-CuMapW18cBaQr0un-cG0AjiLfdFhZA';
-export const testObjectHash64 =
-  'EiAxghX7H2qN_c_wwt0GCcCVRt0JEhAPw3UoHS9JS-5cRg';
