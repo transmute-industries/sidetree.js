@@ -18,7 +18,6 @@
  */
 
 import {
-  Encoder,
   FetchResultCode,
   ICasService,
   FetchResult,

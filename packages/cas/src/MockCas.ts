@@ -1,5 +1,4 @@
 import {
-  Encoder,
   FetchResult,
   FetchResultCode,
   ICasService,
