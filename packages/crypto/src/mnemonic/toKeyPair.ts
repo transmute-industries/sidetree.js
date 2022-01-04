@@ -22,12 +22,14 @@ import { SIDETREE_BIP44_COIN_TYPE } from '../constants';
 export const toKeyPair = async (
   mnemonic: string,
   index: number,
-  type = 'Ed25519'
+  type = 'Ed25519',
+  hdPath?: string
 ): Promise<any> => {
   const seed = await bip39.mnemonicToSeed(mnemonic);
   const root = hdkey.fromMasterSeed(seed);
-  const hdPath = `m/44'/${SIDETREE_BIP44_COIN_TYPE}'/0'/0/${index}`;
-  const addrNode = root.derive(hdPath);
+  const addrNode = root.derive(
+    hdPath ? hdPath : `m/44'/${SIDETREE_BIP44_COIN_TYPE}'/0'/0/${index}`
+  );
 
   let keypair: any;
 
