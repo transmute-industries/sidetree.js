@@ -198,12 +198,11 @@ export default class EthereumLedger implements IBlockchain {
     const contract = await this.getAnchorContract();
     const anchorObject = AnchoredDataSerializer.deserialize(anchorString);
     const { coreIndexFileUri, numberOfOperations } = anchorObject;
-
-    const value = Encoder.decodeAsBuffer(coreIndexFileUri);
+    const buffer = Encoder.base58ToBuffer(coreIndexFileUri);
 
     try {
       const methodCall = contract.methods.anchorHash(
-        '0x' + value.toString('hex').substring(4),
+        '0x' + buffer.toString('hex').substring(4),
         numberOfOperations
       );
       const gas = await methodCall.estimateGas();
@@ -227,7 +226,8 @@ export default class EthereumLedger implements IBlockchain {
         default:
       }
     } catch (err) {
-      this.logger.error(err.message);
+      const error = err as Error;
+      this.logger.error(error.message);
     }
   };
 

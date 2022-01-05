@@ -20,6 +20,7 @@ export const waitSeconds = async (seconds: number) => {
 
 export const getTestSidetreeNodeInstance = async () => {
   const cas: any = new MockCas();
+  await cas.initialize();
   const ledger: any = new MockLedger();
   const sidetreeNodeInstance = new Core(
     sidetreeTestNodeCoreConfig as any,

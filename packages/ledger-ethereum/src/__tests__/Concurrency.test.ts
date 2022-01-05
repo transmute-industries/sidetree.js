@@ -12,11 +12,9 @@
  * limitations under the License.
  */
 
-import { filesystem } from '@sidetree/test-vectors';
 import { getWeb3 } from './web3';
 import { EthereumLedger } from '..';
-
-const { anchorString } = filesystem.anchorFile;
+import { anchorString } from './__fixtures__';
 
 const logger = console;
 const w31 = getWeb3();

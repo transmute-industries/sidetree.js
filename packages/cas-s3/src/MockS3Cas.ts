@@ -18,7 +18,6 @@
  */
 
 import {
-  Encoder,
   FetchResultCode,
   ICasService,
   FetchResult,
@@ -34,22 +33,26 @@ const { version } = require('../package.json');
  */
 export default class MockS3Cas implements ICasService {
   /** A Map that stores the given content. */
+  private initialized: boolean;
   private storage: Map<string, Buffer> = new Map();
 
   /** Time taken in seconds for each mock fetch. */
   private mockSecondsTakenForEachCasFetch = 0;
 
   constructor(mockSecondsTakenForEachCasFetch?: number) {
+    this.initialized = false;
     if (mockSecondsTakenForEachCasFetch !== undefined) {
       this.mockSecondsTakenForEachCasFetch = mockSecondsTakenForEachCasFetch;
     }
   }
 
   async initialize(): Promise<void> {
+    this.initialized = true;
     return;
   }
 
   async close(): Promise<void> {
+    this.initialized = false;
     return;
   }
 
@@ -69,17 +72,23 @@ export default class MockS3Cas implements ICasService {
     const dagLink = await dagNode.toDAGLink({
       cidVersion: 0,
     });
-    const encodedHash = Encoder.formatBase64Address(dagLink.Hash.toString());
-    return encodedHash;
+    return dagLink.Hash.toString();
   }
 
   public async write(content: Buffer): Promise<string> {
+    if (!this.initialized) {
+      throw new Error('Must initialize MockCas to replicate CAS behavior');
+    }
     const encodedHash = await MockS3Cas.getAddress(content);
     this.storage.set(encodedHash, content);
     return encodedHash;
   }
 
   public async read(address: string): Promise<FetchResult> {
+    if (!this.initialized) {
+      throw new Error('Must initialize MockCas to replicate CAS behavior');
+    }
+
     await new Promise((resolve) =>
       setTimeout(resolve, this.mockSecondsTakenForEachCasFetch * 1000)
     );

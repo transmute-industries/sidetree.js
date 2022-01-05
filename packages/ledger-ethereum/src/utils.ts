@@ -30,7 +30,7 @@ const getAccounts = (web3: Web3): Promise<Array<string>> =>
 const eventLogToSidetreeTransaction = (
   log: ElementEventData
 ): TransactionModel => {
-  const coreIndexFileUri = Encoder.encode(
+  const coreIndexFileUri = Encoder.bufferToBase58(
     Buffer.from(
       '1220' + log.returnValues.anchorFileHash.replace('0x', ''),
       'hex'

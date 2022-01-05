@@ -16,6 +16,7 @@ export const getTestNodeIntance = async (sideTreeNodeCoreConfig: {
   port: number;
 }) => {
   const cas: any = new MockCas();
+  await cas.initialize();
   const ledger: any = new MockLedger();
   const sidetreeNodeInstance = new Core(
     sideTreeNodeCoreConfig as any,

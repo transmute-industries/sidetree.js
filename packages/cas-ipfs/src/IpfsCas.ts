@@ -18,7 +18,6 @@
  */
 
 import {
-  Encoder,
   FetchResultCode,
   ICasService,
   FetchResult,
@@ -64,14 +63,10 @@ export default class CasIpfs implements ICasService {
 
   public async write(content: Buffer): Promise<string> {
     const source = await this.ipfs.add(content);
-    return Encoder.formatBase64Address(source.path);
+    return source.path;
   }
 
   public async read(address: string): Promise<FetchResult> {
-    if (Encoder.isBase64UrlString(address) && address.indexOf('Ei') === 0) {
-      address = Encoder.formatIpfsAddress(address);
-    }
-
     try {
       const source = this.ipfs.get(address, { timeout: 2000 });
       const file = await source.next();
