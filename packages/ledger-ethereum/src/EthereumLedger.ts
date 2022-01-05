@@ -198,7 +198,7 @@ export default class EthereumLedger implements IBlockchain {
     const contract = await this.getAnchorContract();
     const anchorObject = AnchoredDataSerializer.deserialize(anchorString);
     const { coreIndexFileUri, numberOfOperations } = anchorObject;
-    const buffer = Encoder.cidToBuffer(coreIndexFileUri);
+    const buffer = Encoder.base58ToBuffer(coreIndexFileUri);
 
     try {
       const methodCall = contract.methods.anchorHash(

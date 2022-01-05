@@ -48,14 +48,14 @@ export default class Encoder {
   /**
    * Encodes a given buffer into a base58 content id
    */
-  public static bufferToCid(content: Buffer): string {
+  public static bufferToBase58(content: Buffer): string {
     return base58btc.encode(content).slice(1);
   }
 
   /**
    * Decodes a given base58 content id into a Buffer
    */
-  public static cidToBuffer(encodedContent: string): Buffer {
+  public static base58ToBuffer(encodedContent: string): Buffer {
     const cid = CID.parse(encodedContent);
     const content = Buffer.from(cid.bytes);
     return content;
@@ -110,19 +110,5 @@ export default class Encoder {
     // + denotes one or more characters.
     const isBase64UrlString = /^[A-Za-z0-9_-]+$/.test(input);
     return isBase64UrlString;
-  }
-
-  // Base64 URL to cid
-  public static formatIpfsAddress(address: string): string {
-    const hash = Encoder.decodeAsBuffer(address);
-    const bytes = new Uint8Array(hash);
-    return base58btc.encode(bytes).slice(1);
-  }
-
-  // cid to Base64 URL
-  public static formatBase64Address(address: string): string {
-    const cid = CID.parse(address);
-    const hash = Buffer.from(cid.bytes);
-    return Encoder.encode(hash);
   }
 }
