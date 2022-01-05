@@ -113,8 +113,7 @@ const testSuite = (cas: ICasService): void => {
       it('should return not found if hash does not exist', async () => {
         const bytes = crypto.randomBytes(32);
         const hash = Multihash.hash(bytes, 18); // SHA256
-        const notFoundHash = Encoder.encode(hash);
-        const notFoundCid = Encoder.formatIpfsAddress(notFoundHash);
+        const notFoundCid = Encoder.bufferToBase58(hash);
         const fetchResult = await cas.read(notFoundCid, 0);
         expect(fetchResult.code).toEqual(FetchResultCode.NotFound);
       });
