@@ -67,23 +67,17 @@ export default class CasIpfs implements ICasService {
   }
 
   public async read(address: string): Promise<FetchResult> {
-    console.log('CAS Debug Address: ', address);
-
     try {
       const source = this.ipfs.get(address, { timeout: 2000 });
       const file = await source.next();
       const bufferList: any = await concat(file.value.content);
       const content = bufferList.copy();
       if (content) {
-        console.log('CAS Content Found');
-        console.log(content);
-
         return {
           code: FetchResultCode.Success,
           content,
         };
       }
-      console.log('CAS Content NOT FOUND');
       return {
         code: FetchResultCode.NotFound,
       };
