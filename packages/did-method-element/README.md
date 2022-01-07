@@ -2,13 +2,6 @@
 
 This package contains an implementation of Sidetree Core, using Ethereum and IPFS
 
-## Set Up a Node
-
-Instructions for setting up an Element node are defined in the following documents.
-
-- [Install Local Development with Ganache](docs/local-dev.md)
-- [Install Testnet Development with Ropsten](docs/local-element-ropsten-install.md)
-
 ## Run Tests
 
 This package provides a series of tests, which act as a reference for the functionality for Element.
@@ -19,6 +12,21 @@ $ git clone https://github.com/transmute-industries/sidetree.js.git
 $ cd sidetree.js/packages/did-method-element
 $ npm install
 $ npm run test
+```
+
+## Set Up a Node
+
+Instructions for setting up an Element node are defined in the following documents.
+
+- [Install Local Development with Ganache](docs/local-dev.md)
+- [Install Testnet Development with Ropsten](docs/local-element-ropsten-install.md)
+
+## As a Library
+
+This package is published to NPM and can be included in your own projects with
+
+```
+npm install @sidetree/element --save
 ```
 
 ## Element DID Method Specification
@@ -44,10 +52,29 @@ The remainder of a DID after the prefix, called the did unique suffix, MUST be a
 
 Element follows the default parameters defined in the [Sidetree Protocol Specificaltion](https://identity.foundation/sidetree/spec/#default-parameters).
 
-| First Header | Second Header |
-| ------------ | ------------- |
-| Content Cell | Content Cell  |
-| Content Cell | Content Cell  |
+| Element Parameter               | Element Default                                                                   |
+| ------------------------------- | --------------------------------------------------------------------------------- |
+| HASH_ALGORITHM                  | SHA256                                                                            |
+| HASH_PROTOCOL                   | [Multihash](https://multiformats.io/multihash/)                                   |
+| DATA_ENCODING_SCHEME            | Base64URL                                                                         |
+| JSON_CANONICALIZATION_SCHEME    | [JCS](https://tools.ietf.org/html/draft-rundgren-json-canonicalization-scheme-17) |
+| KEY_ALGORITHM                   | secp256k1                                                                         |
+| SIGNATURE_ALGORITHM             | ES256K                                                                            |
+| CAS_PROTOCOL                    | [IPFS](https://github.com/ipfs/specs)                                             |
+| CAS_URI_ALGORITHM               | IPFS CID                                                                          |
+| COMPRESSION_ALGORITHM           | GZIP                                                                              |
+| REVEAL_VALUE                    | SHA256 Multihash (0x12)                                                           |
+| GENESIS_TIME                    | Smart Contract\*                                                                  |
+| MAX_CORE_INDEX_FILE_SIZE        | 1 MB (zipped)                                                                     |
+| MAX_PROVISIONAL_INDEX_FILE_SIZE | 1 MB (zipped)                                                                     |
+| MAX_PROOF_FILE_SIZE             | 2.5 MB (zipped)                                                                   |
+| MAX_CHUNK_FILE_SIZE             | 10 MB                                                                             |
+| MAX_MEMORY_DECOMPRESSION_FACTOR | 3x file size                                                                      |
+| MAX_CAS_URI_LENGTH              | 100 bytes                                                                         |
+| MAX_DELTA_SIZE                  | 1,000 bytes                                                                       |
+| MAX_OPERATION_COUNT             | 10,000 ops                                                                        |
+| MAX_OPERATION_HASH_LENGTH       | 100 bytes                                                                         |
+| NONCE_SIZE                      | 16 bytes                                                                          |
 
 ## CRUD Operations
 
@@ -65,7 +92,7 @@ The body of the HTTP POST request for an operation will have the Content-Type of
 The only required field of the JSON HTTP POST data is the operation type, which can be `create`, `update`, `recover` or `deactivate`.
 The other fields are operation specific, and defined in the sections below.
 
-### Create
+### Create Operation
 
 The `payload` for a create operation MUST be a did document model, that is to say the did document without the `id` property, and without the `controller` property for the publicKeys.
 
@@ -97,7 +124,7 @@ A did document model should look like this
 }
 ```
 
-### Read
+### Recover
 
 In order to resolve a did into a did document, one MUST use the resolve API of an Element node.
 
