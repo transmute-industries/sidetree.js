@@ -2,62 +2,68 @@
 
 This package contains an implementation of Sidetree Core, using Ethereum and IPFS
 
-## Usage
+## Set Up a Node
 
-```
-npm install --save @sidetree/element
-```
-
-## Development
+Instructions for setting up an Element node are defined in the following documents.
 
 - [Install Local Development with Ganache](docs/local-dev.md)
 - [Install Testnet Development with Ropsten](docs/local-element-ropsten-install.md)
 
 ## Run Tests
 
+This package provides a series of tests, which act as a reference for the functionality for Element.
+The tests can be run by cloning this repository with the following commands.
+
 ```
-npm install
-npm run test
+$ git clone https://github.com/transmute-industries/sidetree.js.git
+$ cd sidetree.js/packages/did-method-element
+$ npm install
+$ npm run test
 ```
 
 ## Element DID Method Specification
 
 Element is an implementation of the Sidetree Protocol that uses the Ethereum blockchain as the ledger layer and IPFS as the content-addressable storage layer
-
 For more information, see [the sidetree spec](https://identity.foundation/sidetree/spec/)
 
 ## Method syntax
 
 The namestring identifying this did method is `elem`
-
 A DID that uses this method MUST begin with the following prefix: `did:elem`. Per the DID specification, this string MUST be in lowercase.
 
 An additional optional network specific identifier may be added as such
+
 - `did:elem:ropsten:EiBOWH8368BI9NSaVZTmtxuqwpfN9NwAwy4Z95_VCl6A9g`
 - `did:elem:mainnet:EiBOWH8368BI9NSaVZTmtxuqwpfN9NwAwy4Z95_VCl6A9g`
 - `did:elem:EiBOWH8368BI9NSaVZTmtxuqwpfN9NwAwy4Z95_VCl6A9g`
 
-By default, if the network specific identifier is not present, then the default is `ropsten`.
-The default may change in the future once `mainnet` is supported.
+By default, if the network specific identifier is not present, then the default is `mainnet`.
+The remainder of a DID after the prefix, called the did unique suffix, MUST be a `SHA256` hash of the encoded create payload (see below)
 
-The remainder of a DID after the prefix, called the did unique suffix, MUST be `SHA256` hash of the encoded create payload (see below)
+## Parameters
 
-## Format and Encoding
+Element follows the default parameters defined in the [Sidetree Protocol Specificaltion](https://identity.foundation/sidetree/spec/#default-parameters).
 
-Base64URL encoded Multihashes are used.
+| First Header | Second Header |
+| ------------ | ------------- |
+| Content Cell | Content Cell  |
+| Content Cell | Content Cell  |
 
 ## CRUD Operations
 
-Element supports the 4 CRUD operations. Each operation is performed by submitting a Sidetree operation from Sidetree client to a Sidetree node.
+Element supports the 4 CRUD operations defined in the [Sidetree Protocol API Specification](https://identity.foundation/sidetree/api/).
+Each operation is performed by submitting a Sidetree operation in the form of and HTTP POST request to a Sidetree node.
+The body of the HTTP POST request for an operation will have the Content-Type of `application/json` to the `[server path]/operations` REST end point.
 
-A Sidetree payload looks like this:
 ```json
 {
-  "protected": "Encoded header.",
-  "payload": "Encoded payload of the operation.",
-  "signature": "Encoded signature."
+  "type": OPERATION_TYPE,
+  ...
 }
 ```
+
+The only required field of the JSON HTTP POST data is the operation type, which can be `create`, `update`, `recover` or `deactivate`.
+The other fields are operation specific, and defined in the sections below.
 
 ### Create
 
@@ -100,6 +106,7 @@ See [the Sidetree spec](https://identity.foundation/sidetree/spec) for more deta
 ### Update
 
 The `payload` for an update operation MUST be of the following format:
+
 ```json
 {
   "didUniqueSuffix": "The did unique suffix (the did without the did:elem part)",
@@ -109,7 +116,7 @@ The `payload` for an update operation MUST be of the following format:
     "supported",
     "patches to apply",
     "to the did document"
-  ],
+  ]
 }
 ```
 
@@ -144,28 +151,26 @@ An update payload SHOULD look like this
           "usage": "signing",
           "type": "JsonWebKey2020",
           "publicKeyJwk": {
-                "crv": "Ed25519",
-                "x": "2UR1Cz7qUSuoc4b4xw4JNJto1PD4IcTNC28Xdwrbdug",
-                "kty": "OKP"
-            }
+            "crv": "Ed25519",
+            "x": "2UR1Cz7qUSuoc4b4xw4JNJto1PD4IcTNC28Xdwrbdug",
+            "kty": "OKP"
+          }
         },
         {
           "id": "#newKey3",
           "usage": "signing",
           "type": "JsonWebKey2020",
           "publicKeyJwk": {
-                "crv": "Ed25519",
-                "x": "2UR1Cz7qUSuoc4b4xw4JNJto1PD4IcTNC28Xdwrbdug",
-                "kty": "OKP"
-            }
+            "crv": "Ed25519",
+            "x": "2UR1Cz7qUSuoc4b4xw4JNJto1PD4IcTNC28Xdwrbdug",
+            "kty": "OKP"
+          }
         }
       ]
     },
     {
       "action": "remove-public-keys",
-      "publicKeys": [
-        "#primary"
-      ]
+      "publicKeys": ["#primary"]
     }
   ]
 }
