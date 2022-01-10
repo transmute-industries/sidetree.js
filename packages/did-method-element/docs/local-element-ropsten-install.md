@@ -169,7 +169,8 @@ with respect to testnet.
 **WARNING**: You should never share or publish your mnemonic phrase. If you have too
 many funds in a wallet, then create a new wallet and transfer a minimum amount of
 funds into that new wallet. And then use the minimally funded wallet to run the
-Element node.
+Element node. For best practices on how to manage crypto funds, please refer to
+the [policies outlined here](https://github.com/transmute-industries/sidetree.js/blob/main/packages/ledger-ethereum/docs/README.md).
 
 ## Start Element Testnet:ropsten Node
 
