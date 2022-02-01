@@ -13,5 +13,5 @@
  */
 
 import Photon from './Photon';
-
+export * from './provider';
 export default Photon;
