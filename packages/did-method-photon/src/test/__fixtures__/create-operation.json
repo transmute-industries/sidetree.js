@@ -1,0 +1,30 @@
+{
+  "type": "create",
+  "suffixData": {
+    "deltaHash": "EiDXpp_98G5f004-gh_tFQul0QA6UV3YSLt9X4JlE75q2g",
+    "recoveryCommitment": "EiB2lrE88cmhcepLS-p8wBbxHfZKSvniCKfL0CfZe4i36g"
+  },
+  "delta": {
+    "updateCommitment": "EiBch3E26X_PoJ_Io2NS8-Dn6F94hcMAChZ6-AaZ2B_pUQ",
+    "patches": [
+      {
+        "action": "replace",
+        "document": {
+          "publicKeys": [
+            {
+              "id": "zQ3shvfXLUVwKffPochZ1UkSjxQqpgND3Z5DhzTADooqmmypp",
+              "type": "JsonWebKey2020",
+              "publicKeyJwk": {
+                "kty": "EC",
+                "crv": "secp256k1",
+                "x": "7hfx9LZXlMBaZ2EurUcXOITSIGLIFQ4YY7pXCbEqntU",
+                "y": "B1FId5MlHAuhxsDU9uvPuE2JXKVPP3ohjuR6HUvY6XM"
+              },
+              "purposes": ["authentication", "assertionMethod", "keyAgreement"]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

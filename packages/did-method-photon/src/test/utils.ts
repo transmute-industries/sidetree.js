@@ -18,6 +18,9 @@ const { MongoClient } = require('mongodb');
 
 let client: any;
 
+export const delay = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
 export const clearCollection = async (collectionName: string) => {
   client = await MongoClient.connect(config.mongoDbConnectionString, {
     useUnifiedTopology: true,

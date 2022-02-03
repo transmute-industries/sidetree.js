@@ -1,7 +1,9 @@
 import { SidetreeWalletPlugin } from '@sidetree/wallet';
 import Photon from '../Photon';
 import vectors from '@sidetree/test-vectors';
-import { clearCollection, getTestPhoton } from './utils';
+import { clearCollection, delay, getTestPhoton } from './utils';
+import longFormResolutionResponse from './__fixtures__/long-form-resolution.json';
+import createOperation from './__fixtures__/create-operation2.json';
 
 let photon: Photon;
 
@@ -22,12 +24,12 @@ jest.setTimeout(60 * 1000);
 const wallet = SidetreeWalletPlugin.build();
 
 const uniqueSuffix = 'EiD351yY0XqnbCJN2MaZSQJMgG-bqmgFMDRGKawfu6_mZA';
+const uniqueSuffix2 = 'EiCtwD11AV9e1oISQRHnMJsBC3OBdYDmx8xeKeASrKaw6A';
 const longFormDid = `did:photon:${uniqueSuffix}:eyJkZWx0YSI6eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljS2V5cyI6W3siaWQiOiJ6UTNzaFNWVzR6SHRIZXVXRk1SVkRTRVAyaWpxdk5hMktVMnlISHNXVEYyTWc0ZkNOIiwicHVibGljS2V5SndrIjp7ImNydiI6InNlY3AyNTZrMSIsImt0eSI6IkVDIiwieCI6IlMzOTRjdXRBd0ljRHNmUGJEOWxOUk1oTEZWWUI0b3VUVHhwZ21uanRYNU0iLCJ5IjoiR01sUmJlck96SnI1UFBHU3luRnU2TWlIeFRpdEk0R2hmOVFLcUw4ZkNPUSJ9LCJwdXJwb3NlcyI6WyJhdXRoZW50aWNhdGlvbiIsImFzc2VydGlvbk1ldGhvZCIsImtleUFncmVlbWVudCJdLCJ0eXBlIjoiSnNvbldlYktleTIwMjAifV0sInNlcnZpY2VzIjpbeyJpZCI6ImV4YW1wbGUtc2VydmljZSIsInNlcnZpY2VFbmRwb2ludCI6Imh0dHBzOi8vZXhhbXBsZS5jb20iLCJ0eXBlIjoiRXhhbXBsZVNlcnZpY2UifV19fV0sInVwZGF0ZUNvbW1pdG1lbnQiOiJFaUJNQWpTQV9BSmFzcDZDMmcwbTRxeVRFZzVJUlVBV1JsV1EzdlVfWGpDMWhRIn0sInN1ZmZpeERhdGEiOnsiZGVsdGFIYXNoIjoiRWlESjExRlByeUZfVlF0ajFYemJETXBCNklXR0FRcGtvRzdYVlNlZl85UWFmZyIsInJlY292ZXJ5Q29tbWl0bWVudCI6IkVpQnhUVGRNNjMwUkhLVlQ2WnFTNm13aXBnbm05Y0VkMTF0UmRGMWNDVjhybWcifX0`;
 
 describe('CRUD', () => {
   describe('create', () => {
     it('can generate long form did', async () => {
-      expect(1).toBe(1);
       const mnemonic = vectors.wallet.operations[0].mnemonic;
       const keyType = 'secp256k1';
       const key0 = await wallet.toKeyPair(mnemonic, 0, keyType);
@@ -59,10 +61,46 @@ describe('CRUD', () => {
         updateKey,
         recoveryKey,
       });
-      console.log(longFormDid2);
       expect(longFormDid2).toBe(longFormDid);
       const uniqueSuffix2 = longFormDid2.split(':')[2];
       expect(uniqueSuffix2).toBe(uniqueSuffix);
+    });
+
+    it('can resolve long form did', async () => {
+      const operation1 = await photon.handleResolveRequest(longFormDid);
+      expect(operation1).toEqual(longFormResolutionResponse);
+    });
+
+    it('can register and resolve short form did', async () => {
+      const operation0 = await photon.handleOperationRequest(
+        Buffer.from(JSON.stringify(vectors.wallet.operations[0].op0))
+      );
+      expect(operation0.status).toBe('succeeded');
+      expect(operation0.body).toBeDefined();
+
+      await delay(15 * 1000);
+
+      const did = `did:photon:${uniqueSuffix}`;
+      const operation1 = await photon.handleResolveRequest(did);
+
+      expect(operation1.status).toBe('succeeded');
+      expect(operation1.body.didDocument.id).toEqual(did);
+    });
+
+    it('can register and resolve short form did with no service', async () => {
+      const operation0 = await photon.handleOperationRequest(
+        Buffer.from(JSON.stringify(createOperation))
+      );
+      expect(operation0.status).toBe('succeeded');
+      expect(operation0.body).toBeDefined();
+
+      await delay(15 * 1000);
+
+      const did = `did:photon:${uniqueSuffix2}`;
+      const operation1 = await photon.handleResolveRequest(did);
+
+      expect(operation1.status).toBe('succeeded');
+      expect(operation1.body.didDocument.id).toEqual(did);
     });
   });
 });

@@ -76,9 +76,9 @@ export const photonNodeConfigs = {
   databaseName: config.databaseName,
   didMethodName: config.method,
   mongoDbConnectionString: config.mongoDbConnectionString,
-  observingIntervalInSeconds: config.observingIntervalInSeconds,
-  maxConcurrentDownloads: config.maxConcurrentDownloads,
-  batchingIntervalInSeconds: config.batchingIntervalInSeconds,
+  observingIntervalInSeconds: +config.observingIntervalInSeconds,
+  maxConcurrentDownloads: +config.maxConcurrentDownloads,
+  batchingIntervalInSeconds: +config.batchingIntervalInSeconds,
   versions: [
     {
       startingBlockchainTime: 0,
