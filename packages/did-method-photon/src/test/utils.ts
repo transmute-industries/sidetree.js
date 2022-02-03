@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-const { MongoClient } = require('mongodb');
 import { getNodeInstance } from '..';
 import config from './photon-config.json';
+const { MongoClient } = require('mongodb');
 
 let client: any;
 
