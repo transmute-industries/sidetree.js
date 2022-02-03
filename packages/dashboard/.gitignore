@@ -37,3 +37,4 @@ yarn-error.log*
 .env.ropsten
 .env.ganache
 .env.example:sidetree.testnet
+.env.photon

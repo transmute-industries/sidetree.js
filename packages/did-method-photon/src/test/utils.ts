@@ -12,38 +12,25 @@
  * limitations under the License.
  */
 
-import { MongoDb } from '@sidetree/db';
-import { methods } from '@sidetree/wallet';
-import { ICas, PublicKeyPurpose, Encoder } from '@sidetree/common';
-import QLDBLedger from '@sidetree/qldb';
-import { S3Cas } from '@sidetree/cas-s3';
-import Photon from '../Photon';
+const { MongoClient } = require('mongodb');
+import { getNodeInstance } from '..';
 import config from './photon-config.json';
 
-export const resetDatabase = async (): Promise<void> => {
-  await MongoDb.resetDatabase(
-    config.mongoDbConnectionString,
-    config.databaseName!
-  );
+let client: any;
+
+export const clearCollection = async (collectionName: string) => {
+  client = await MongoClient.connect(config.mongoDbConnectionString, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  } as any);
+  const db = await client.db(config.databaseName);
+  const collection = db.collection(collectionName);
+  await collection.deleteMany({});
+  await client.close();
 };
 
-export const getTestLedger = async (): Promise<QLDBLedger> => {
-  const ledger = new QLDBLedger(config.qldbLedger, config.qldbLedgerTable);
-  await ledger.reset();
-  return ledger;
-};
-
-export const getTestCas = (): ICas => {
-  const cas = new S3Cas(config.s3BucketName);
-  return cas;
-};
-
-export const getTestPhoton = async (): Promise<Photon> => {
-  await resetDatabase();
-  const ledger = await getTestLedger();
-  const cas = await getTestCas();
-  const photon = new Photon(config, config.versions, ledger, cas);
-  await photon.initialize(false, false);
+export const getTestPhoton = async (): Promise<any> => {
+  const photon = await getNodeInstance(config);
   return photon;
 };
 
@@ -59,38 +46,4 @@ export const replaceMethod = (
   );
   const updateResult = JSON.parse(updatedStringified);
   return updateResult;
-};
-
-export const generateCreateOperation = async (publicKey: any): Promise<any> => {
-  // We could generate the create operation like this
-  /*
-  const mnemonic = crypto.mnemonic.mnemonic[0];
-  const createOperation = await methods.getCreateOperationForProfile(
-    mnemonic,
-    i
-  );
-  */
-  // However this is too slow because it generates new keys for every create
-  // operation which cause the tests to timeout for batch size larger than 1000
-
-  // Therefore for the purpose of showing the we can process large batches
-  // we will generate create operation for did documents that share the same key
-  const documentModel = {
-    public_keys: [
-      {
-        // id is random so that each id (and therefore each did) is different
-        // id needs to be base64url encoded
-        id: Encoder.encode(Math.random().toString()),
-        type: 'JsonWebKey2020',
-        jwk: publicKey,
-        purpose: [PublicKeyPurpose.General],
-      },
-    ],
-  };
-  const createOperation = await methods.getCreatePayloadFromDocumentModel(
-    documentModel,
-    publicKey,
-    publicKey
-  );
-  return createOperation;
 };

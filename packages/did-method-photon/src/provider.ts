@@ -3,7 +3,7 @@ import { S3Cas } from '@sidetree/cas-s3';
 import Photon from './Photon';
 
 export type PhotonNodeConfigs = {
-  awsCredentials: {
+  awsCredentials?: {
     region: string;
     accessKeyId: string;
     secretAccessKey: string;
@@ -17,12 +17,10 @@ export type PhotonNodeConfigs = {
   batchingIntervalInSeconds: number;
   observingIntervalInSeconds: number;
   maxConcurrentDownloads: number;
-  versions: [
-    {
-      startingBlockchainTime: number;
-      version: string;
-    }
-  ];
+  versions: {
+    startingBlockchainTime: number;
+    version: string;
+  }[];
 };
 
 const getLedger = async (config: PhotonNodeConfigs) => {
