@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-import { getNodeInstance } from '..';
+import { getTestNodeInstance } from '..';
 import config from './photon-config.json';
 const { MongoClient } = require('mongodb');
 
@@ -33,7 +33,7 @@ export const clearCollection = async (collectionName: string) => {
 };
 
 export const getTestPhoton = async (): Promise<any> => {
-  const photon = await getNodeInstance(config);
+  const photon = await getTestNodeInstance(config);
   return photon;
 };
 

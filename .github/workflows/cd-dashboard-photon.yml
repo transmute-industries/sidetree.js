@@ -1,4 +1,4 @@
-name: CD Dashboard Element Ropsten
+name: CD Dashboard Photon
 
 on:
   push:
@@ -6,26 +6,27 @@ on:
       - main
 
 env:
-  SERVICE: sidetree-element-ropsten
+  SERVICE: sidetree-photon
   REGION: us-central1
   PROJECT_ID: ${{ secrets.GCP_PROJECT }}
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GCP_RUNNER_SA: ${{ secrets.GCP_SA_RUNNER }}
-  SIDETREE_METHOD: 'elem:ropsten'
+  SIDETREE_METHOD: 'photon'
   MONGO_DB_CONNECTION_STRING: ${{ secrets.MONGO_DB_CONNECTION_STRING }}
   DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
   MAX_CONCURRENT_DOWNLOADS: ${{ secrets.MAX_CONCURRENT_DOWNLOADS }}
   BATCH_INTERVAL_IN_SECONDS: ${{ secrets.BATCH_INTERVAL_IN_SECONDS }}
   OBSERVING_INTERVAL_IN_SECONDS: ${{ secrets.OBSERVING_INTERVAL_IN_SECONDS }}
-  # element
-  ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI: ${{ secrets.ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI }}
-  ELEMENT_ANCHOR_CONTRACT: ${{ secrets.ELEMENT_ANCHOR_CONTRACT }}
-  ETHEREUM_RPC_URL: ${{ secrets.ETHEREUM_RPC_URL }}
-  ETHEREUM_PROVIDER: ${{ secrets.ETHEREUM_PROVIDER }}
-  ETHEREUM_MNEMONIC: ${{ secrets.ETHEREUM_MNEMONIC }}
+  # photon
+  S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+  QLDB_LEDGER: ${{ secrets.QLDB_LEDGER }}
+  QLDB_LEDGER_TABLE: ${{ secrets.QLDB_LEDGER_TABLE }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
 
 jobs:
-  deploy:
+  deployPhoton:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -61,10 +62,11 @@ jobs:
             --set-env-vars MAX_CONCURRENT_DOWNLOADS="${{ env.MAX_CONCURRENT_DOWNLOADS }}" \
             --set-env-vars BATCH_INTERVAL_IN_SECONDS="${{ env.BATCH_INTERVAL_IN_SECONDS }}" \
             --set-env-vars OBSERVING_INTERVAL_IN_SECONDS="${{ env.OBSERVING_INTERVAL_IN_SECONDS }}" \
-            --set-env-vars ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI="${{ env.ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI }}" \
-            --set-env-vars ELEMENT_ANCHOR_CONTRACT="${{ env.ELEMENT_ANCHOR_CONTRACT }}" \
-            --set-env-vars ETHEREUM_RPC_URL="${{ env.ETHEREUM_RPC_URL }}" \
-            --set-env-vars ETHEREUM_PROVIDER="${{ env.ETHEREUM_PROVIDER }}" \
-            --set-env-vars ETHEREUM_MNEMONIC="${{ env.ETHEREUM_MNEMONIC }}" \
+            --set-env-vars S3_BUCKET_NAME="${{ env.S3_BUCKET_NAME }}" \
+            --set-env-vars QLDB_LEDGER="${{ env.QLDB_LEDGER }}" \
+            --set-env-vars QLDB_LEDGER_TABLE="${{ env.QLDB_LEDGER_TABLE }}" \
+            --set-env-vars AWS_ACCESS_KEY_ID="${{ env.AWS_ACCESS_KEY_ID }}" \
+            --set-env-vars AWS_SECRET_ACCESS_KEY="${{ env.AWS_SECRET_ACCESS_KEY }}" \
+            --set-env-vars AWS_DEFAULT_REGION="${{ env.AWS_DEFAULT_REGION }}" \
             --service-account "${{ env.GCP_RUNNER_SA }}" \
             --quiet

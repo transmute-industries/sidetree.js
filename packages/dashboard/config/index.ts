@@ -88,9 +88,9 @@ export const photonNodeConfigs = {
 };
 
 let nodeConfiguration: any = sideTreeNodeConfigs;
-if (config.method.startsWith('elem')) {
+if (config.method && config.method.startsWith('elem')) {
   nodeConfiguration = elementNodeConfigs;
-} else if (config.method.startsWith('photon')) {
+} else if (config.method && config.method.startsWith('photon')) {
   nodeConfiguration = photonNodeConfigs;
 }
 export { nodeConfiguration };
