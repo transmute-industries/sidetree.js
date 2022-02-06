@@ -1,0 +1,145 @@
+{
+  "operations": [
+    {
+      "mnemonic": "common caught harvest brown under coconut depend vacuum drama clean tail crew",
+      "didUniqueSuffix": "EiAvBilgHsGAWIb_GAZIyDyYeKmMX9jF9JjRaKsEdA5I4A",
+      "op0": {
+        "type": "create",
+        "suffixData": {
+          "deltaHash": "EiDWGXLaOtW-HvrJScEBztHNDxc93VNj1JBogpdIueZvkQ",
+          "recoveryCommitment": "EiBYmzZpKEwizwRkVreafiY6hQ5ryj7kOdOtYf1juzqaSg"
+        },
+        "delta": {
+          "updateCommitment": "EiDuUsgwLZUWfOMr8vr4WGhgJIFdRBzgsAagBgamT3AoCw",
+          "patches": [
+            {
+              "action": "replace",
+              "document": {
+                "publicKeys": [
+                  {
+                    "id": "z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa",
+                    "type": "JsonWebKey2020",
+                    "publicKeyJwk": {
+                      "kty": "OKP",
+                      "crv": "Ed25519",
+                      "x": "BnamLr9mV2goDx4gfFzaBCBXWy2Bpa64cNNhVMIe4vc"
+                    },
+                    "purposes": [
+                      "authentication",
+                      "assertionMethod",
+                      "keyAgreement"
+                    ]
+                  }
+                ],
+                "services": [
+                  {
+                    "id": "example-service",
+                    "type": "ExampleService",
+                    "serviceEndpoint": "https://example.com"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "op1": {
+        "type": "update",
+        "didSuffix": "EiAvBilgHsGAWIb_GAZIyDyYeKmMX9jF9JjRaKsEdA5I4A",
+        "revealValue": "EiDsIwQ4P04U5FeBoRJ8kq1BJLk_RlC8REiu8GjghOPS2A",
+        "delta": {
+          "patches": [
+            {
+              "action": "add-services",
+              "services": [
+                {
+                  "id": "example-service-2",
+                  "type": "ExampleService",
+                  "serviceEndpoint": "https://2.example.com"
+                }
+              ]
+            },
+            {
+              "action": "remove-services",
+              "ids": [
+                "example-service"
+              ]
+            },
+            {
+              "action": "add-public-keys",
+              "publicKeys": [
+                {
+                  "id": "z6MkifsWV3VsV6M36UZHPg5UcGuvas1yPiBTUZr1NLxpNrK9",
+                  "type": "JsonWebKey2020",
+                  "publicKeyJwk": {
+                    "kty": "OKP",
+                    "crv": "Ed25519",
+                    "x": "PqnQ-jImhW3_8dSlasWr7mt5LkKoICS1ad9slJSMXdg"
+                  },
+                  "purposes": [
+                    "authentication",
+                    "assertionMethod",
+                    "keyAgreement"
+                  ]
+                }
+              ]
+            },
+            {
+              "action": "remove-public-keys",
+              "ids": [
+                "z6MketVRdtjtPknt1ffbbx7KXBjGL9ERHuJHKzy28yuymHQa"
+              ]
+            }
+          ],
+          "updateCommitment": "EiARnnE2rA9mWTl8Qib-JonOT6byK5UdhzOj4YCExMgvbw"
+        },
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJ1cGRhdGVLZXkiOnsia3R5IjoiT0tQIiwiY3J2IjoiRWQyNTUxOSIsIngiOiJ0VVhPVFNJZVZ2VnJja01qdEZzWEUya2RDZlR6bDFkcDFuc0dVVWcyQ01VIn0sImRlbHRhSGFzaCI6IkVpQlJUX3VlcWN1dW1TcVZadndEMFoyRUxaZ09fMndDQXVBYUxUZjlNX0RZbXcifQ.mG0uk_UQgWr7qTSHh1a1HxBTMs1vR2pCo7DoWig3I4ZFrTeLW9fRMIyi58ABZJnofawpSp1gMw7Vp6aRLcVHCQ"
+      },
+      "op2": {
+        "type": "recover",
+        "didSuffix": "EiAvBilgHsGAWIb_GAZIyDyYeKmMX9jF9JjRaKsEdA5I4A",
+        "revealValue": "EiC3h5hjrIw4_DpeS0zF4ZjuQ_7sHQcEuOYTG9vNp9LuLQ",
+        "delta": {
+          "patches": [
+            {
+              "action": "replace",
+              "document": {
+                "publicKeys": [
+                  {
+                    "id": "z6MkqdQNrAcLMxTgLFqtr6oMcegbxBQWyLhssHsQnXpwrZFL",
+                    "type": "JsonWebKey2020",
+                    "publicKeyJwk": {
+                      "kty": "OKP",
+                      "crv": "Ed25519",
+                      "x": "pgnJCzUhaMBbnhtE0Qde5UnxdscdMRSZDd88oeuFkic"
+                    },
+                    "purposes": [
+                      "authentication",
+                      "assertionMethod",
+                      "keyAgreement"
+                    ]
+                  }
+                ],
+                "services": [
+                  {
+                    "id": "example-service-3",
+                    "type": "ExampleService",
+                    "serviceEndpoint": "https://3.example.com"
+                  }
+                ]
+              }
+            }
+          ],
+          "updateCommitment": "EiBq7UO09hA0QHNO3O1_nfI8Gp0HGw3M9dn5qUwswgVWfg"
+        },
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJyZWNvdmVyeUNvbW1pdG1lbnQiOiJFaUM2ZVhidUtBMF9uVEc1VUhnYWIwOS1lLXkzVGg0RFVHNm45Y3dYTGVjYVlnIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiT0tQIiwiY3J2IjoiRWQyNTUxOSIsIngiOiJZZGhYRjJzUE1Vbzk5Z1M0TVZJY1J5bTFBNVoxaGxEaDZES3QwUHJZdF8wIn0sImRlbHRhSGFzaCI6IkVpQndsTjZrUjJKU3RCUFU5TmdWUVZyYWJxdktyU3EySEdWSEQ4X01ITm1RV2cifQ.O6VRIZyYC0Vbui_mr95on6iji6BA4_-U3kvg0At-GFjN6s0GxHPztqLCWDnsxdUDOWkmqZaIK5k1YSN1bAxNBw"
+      },
+      "op3": {
+        "type": "deactivate",
+        "didSuffix": "EiAvBilgHsGAWIb_GAZIyDyYeKmMX9jF9JjRaKsEdA5I4A",
+        "revealValue": "EiCxA2PZ13xyKw7zSLbgw318LzPhwLqA8jkuq5_tbWP50w",
+        "signedData": "eyJhbGciOiJFUzI1NksifQ.eyJkaWRTdWZmaXgiOiJFaUF2QmlsZ0hzR0FXSWJfR0FaSXlEeVllS21NWDlqRjlKalJhS3NFZEE1STRBIiwicmVjb3ZlcnlLZXkiOnsia3R5IjoiT0tQIiwiY3J2IjoiRWQyNTUxOSIsIngiOiIzT0tZNU9tMzIxNWhuZkhnRUtDYWtsQ1J2blQ2Z3BaV3IwVlFpUUVnVTJJIn19.q54_IGu4w5efiXYAYRqaOTPX4lSXY20_FVGA27Kk38QGpIpCfDtRKYAOVYcDnjuVt5ibqIgE5kUTU-BhyBmxDQ"
+      }
+    }
+  ]
+}
