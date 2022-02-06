@@ -135,7 +135,7 @@ it('can generate test fixture', async () => {
 
   // uncomment to debug
   // console.log(JSON.stringify(fixture, null, 2));
-  expect(fixture.operations).toEqual(wallet.secp256k1Operations);
+  expect(fixture.operations).toEqual(wallet.operations);
 
   if (WRITE_FIXTURE_TO_DISK) {
     writeFixture('v1-secp256k1-operations.json', fixture);

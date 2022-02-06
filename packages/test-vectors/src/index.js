@@ -23,6 +23,8 @@ const didMethodElement = require('./did-method-element');
 const wallet = {
   mnemonic: require('./wallet/v1-mnemonic.json').mnemonic,
   keypair: require('./wallet/v1-keypair.json').keypair,
+  // for retro compatibility
+  operations: require('./wallet/v1-secp256k1-operations.json').operations,
   secp256k1Operations: require('./wallet/v1-secp256k1-operations.json')
     .operations,
   ed25519Operations: require('./wallet/v1-ed25519-operations.json').operations,
