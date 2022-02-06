@@ -1,4 +1,4 @@
-import { ISigner } from '@decentralized-identity/ion-sdk';
+import { ISigner } from '@gjgd/ion-sdk';
 
 import { OperationKeyType } from './types';
 import InputValidator from './InputValidator';

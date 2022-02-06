@@ -1,11 +1,7 @@
 /* eslint-disable jest/no-try-expect */
 // https://github.com/decentralized-identity/ion-sdk/blob/main/tests/IonRequest.spec.ts
 
-import {
-  IonDocumentModel,
-  IonRequest,
-  LocalSigner,
-} from '@decentralized-identity/ion-sdk';
+import { IonDocumentModel, IonRequest, LocalSigner } from '@gjgd/ion-sdk';
 
 import { OperationType } from '../../types';
 

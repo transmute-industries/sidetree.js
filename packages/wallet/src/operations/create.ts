@@ -1,4 +1,4 @@
-import { IonRequest } from '@decentralized-identity/ion-sdk';
+import { IonRequest } from '@gjgd/ion-sdk';
 
 export const create = (input: {
   document: any;
