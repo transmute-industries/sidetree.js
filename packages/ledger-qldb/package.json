@@ -26,19 +26,19 @@
   },
   "devDependencies": {
     "@sidetree/test-vectors": "^0.3.1-unstable.36",
-    "sqlite3": "^5.0.2",
+    "@types/sqlite3": "^3.1.7",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
     "@rollup/plugin-replace": "^3.0.0",
     "@sidetree/common": "^0.3.1-unstable.36",
     "@sidetree/core": "^0.3.1-unstable.36",
-    "@types/sqlite3": "^3.1.7",
     "amazon-qldb-driver-nodejs": "^2.2.0",
     "aws-sdk": "^2.828.0",
     "ion-js": "^4.1.0",
     "jsbi": "^3.1.4",
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "sqlite3": "^5.0.2"
   },
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/ledger-qldb",
   "repository": {

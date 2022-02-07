@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@rollup/plugin-replace": "^3.0.0",
+    "@sidetree/cas": "^0.3.1-unstable.36",
     "@sidetree/cas-s3": "^0.3.1-unstable.36",
     "@sidetree/common": "^0.3.1-unstable.36",
     "@sidetree/db": "^0.3.1-unstable.36",

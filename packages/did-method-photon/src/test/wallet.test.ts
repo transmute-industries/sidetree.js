@@ -1,6 +1,6 @@
 import { SidetreeWalletPlugin } from '@sidetree/wallet';
-import Photon from '../Photon';
 import vectors from '@sidetree/test-vectors';
+import Photon from '../Photon';
 import { clearCollection, delay, getTestPhoton } from './utils';
 import longFormResolutionResponse from './__fixtures__/long-form-resolution.json';
 import createOperation from './__fixtures__/create-operation.json';
@@ -13,10 +13,6 @@ beforeAll(async () => {
   await clearCollection('operations');
   await clearCollection('transactions');
   await clearCollection('queued-operations');
-});
-
-afterAll(async () => {
-  await photon.shutdown();
 });
 
 jest.setTimeout(60 * 1000);

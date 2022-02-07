@@ -9,8 +9,13 @@ import {
 
 import { AnchoredDataSerializer } from '@sidetree/core';
 import moment from 'moment';
-import sqlite3 from 'sqlite3';
 import crypto from 'crypto';
+
+let sqlite3: any;
+if (process.env.NODE_ENV === 'test') {
+  // This causes nextjs in dashboard to break, this is a workaround to support photon
+  sqlite3 = require('sqlite3');
+}
 
 const { version } = require('../package.json');
 
@@ -29,7 +34,7 @@ export default class MockQLDBLedger implements IBlockchain {
   public qldbDriver: MockQldbDriver;
   public transactionTable: string;
   public approximateTime: BlockchainTimeModel;
-  public db: sqlite3.Database;
+  public db: any;
 
   constructor(tableName: string) {
     this.transactionTable = tableName;
@@ -51,10 +56,10 @@ export default class MockQLDBLedger implements IBlockchain {
   private async execute(
     query: string,
     args?: Array<string | number | boolean>
-  ): Promise<sqlite3.RunResult[]> {
+  ): Promise<any[]> {
     return new Promise((resolve, reject) => {
       args = args || [];
-      this.db.all(query, args, (err: any, rows: sqlite3.RunResult[]) => {
+      this.db.all(query, args, (err: any, rows: any[]) => {
         if (err) {
           return reject(err);
         }

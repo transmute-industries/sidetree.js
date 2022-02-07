@@ -27,7 +27,7 @@ import {
   PrivateKeyJwk,
   PublicKeyJwk,
 } from '@sidetree/common';
-import { JWK } from 'jose';
+import * as jose from 'jose';
 import * as bip39 from 'bip39';
 import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
 import hdkey from 'hdkey';
@@ -45,10 +45,10 @@ export default class Jwk {
   public static async generateEd25519KeyPair(): Promise<
     [PublicKeyJwkEd25519, PrivateKeyJwkEd25519]
   > {
-    const keyPair = await JWK.generate('OKP', 'Ed25519');
-    const privateKey = keyPair.toJWK(true) as PrivateKeyJwkEd25519;
-    const publicKey = keyPair.toJWK(false) as PublicKeyJwkEd25519;
-    return [publicKey, privateKey];
+    const keyPair = await jose.generateKeyPair('EdDSA', { crv: 'Ed25519' });
+    const publicKey: jose.JWK = await jose.exportJWK(keyPair.publicKey);
+    const privateKey: jose.JWK = await jose.exportJWK(keyPair.privateKey);
+    return [publicKey as any, privateKey as any];
   }
 
   // Helper method to generate keys from a mnemonic
@@ -89,10 +89,10 @@ export default class Jwk {
   public static async generateSecp256k1KeyPair(): Promise<
     [PublicKeyJwkSecp256k1, PrivateKeyJwkSecp256k1]
   > {
-    const keyPair = await JWK.generate('EC', 'secp256k1');
-    const publicKey = keyPair.toJWK(false) as PublicKeyJwkSecp256k1;
-    const privateKey = keyPair.toJWK(true) as PrivateKeyJwkSecp256k1;
-    return [publicKey, privateKey];
+    const keyPair = await jose.generateKeyPair('ES256K');
+    const publicKey: jose.JWK = await jose.exportJWK(keyPair.publicKey);
+    const privateKey: jose.JWK = await jose.exportJWK(keyPair.privateKey);
+    return [publicKey as any, privateKey as any];
   }
 
   public static async generateJwkKeyPairFromMnemonic(
