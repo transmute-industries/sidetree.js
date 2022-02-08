@@ -16,19 +16,28 @@
   "engines": {
     "node": ">=10"
   },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint src",
+    "lint:fix": "tsdx lint src --fix",
+    "prepare": "tsdx build"
+  },
   "devDependencies": {
-    "aws-sdk": "^2.823.0",
+    "@rollup/plugin-replace": "^3.0.0",
+    "@sidetree/cas": "^0.3.1-unstable.36",
+    "jest-environment-node": "^27.2.5",
     "tsdx": "^0.14.1"
   },
   "peerDependencies": {
     "aws-sdk": "^2.823.0"
   },
   "dependencies": {
-    "@rollup/plugin-replace": "^3.0.0",
     "@sidetree/common": "^0.3.1-unstable.36",
+    "aws-sdk": "^2.823.0",
     "ipfs-unixfs": "^2.0.3",
-    "ipld-dag-pb": "^0.20.0",
-    "jest-environment-node": "^27.2.5"
+    "ipld-dag-pb": "^0.20.0"
   },
   "gitHead": "e97862f01a5ad9845d82eb57ca46d335a98aeb8b",
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/cas-s3",

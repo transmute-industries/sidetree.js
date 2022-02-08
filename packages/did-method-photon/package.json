@@ -26,6 +26,9 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
+    "@rollup/plugin-replace": "^3.0.0",
+    "@sidetree/common": "^0.3.1-unstable.36",
+    "@sidetree/test-vectors": "^0.3.1-unstable.36",
     "@sidetree/wallet": "^0.3.1-unstable.36",
     "@types/node": "^17.0.14",
     "aws-sdk": "^2.763.0",
@@ -33,14 +36,10 @@
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@rollup/plugin-replace": "^3.0.0",
     "@sidetree/cas": "^0.3.1-unstable.36",
     "@sidetree/cas-s3": "^0.3.1-unstable.36",
-    "@sidetree/common": "^0.3.1-unstable.36",
-    "@sidetree/db": "^0.3.1-unstable.36",
     "@sidetree/did-method": "^0.3.1-unstable.36",
-    "@sidetree/qldb": "^0.3.1-unstable.36",
-    "@sidetree/test-vectors": "^0.3.1-unstable.36"
+    "@sidetree/qldb": "^0.3.1-unstable.36"
   },
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/did-method-photon",
   "repository": {

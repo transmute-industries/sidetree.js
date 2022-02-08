@@ -25,12 +25,12 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
+    "@rollup/plugin-replace": "^3.0.0",
     "@sidetree/test-vectors": "^0.3.1-unstable.36",
     "@types/sqlite3": "^3.1.7",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@rollup/plugin-replace": "^3.0.0",
     "@sidetree/common": "^0.3.1-unstable.36",
     "@sidetree/core": "^0.3.1-unstable.36",
     "amazon-qldb-driver-nodejs": "^2.2.0",
