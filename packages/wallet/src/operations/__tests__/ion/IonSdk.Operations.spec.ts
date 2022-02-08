@@ -1,11 +1,7 @@
 /* eslint-disable jest/no-try-expect */
 // https://github.com/decentralized-identity/ion-sdk/blob/main/tests/IonRequest.spec.ts
 
-import {
-  IonDocumentModel,
-  IonRequest,
-  LocalSigner,
-} from '@decentralized-identity/ion-sdk';
+import { IonDocumentModel, IonRequest, LocalSigner } from '@gjgd/ion-sdk';
 
 import { OperationType } from '../../types';
 
@@ -185,7 +181,9 @@ describe('IonRequest', () => {
         (IonRequest as any).validateDidSuffix('ERSIwvEfss45KstbKYbmQCEcRpAHPg'); // this is sha1 (code 17), which is not the correct hashing algorithm (code 18)
       } catch (e) {
         // eslint-disable-next-line
-        expect(e.message).toEqual(`MultihashUnsupportedHashAlgorithm: Given didSuffix uses unsupported multihash algorithm with code 17, should use 18 or change IonSdkConfig to desired hashing algorithm.`);
+        expect(e.message).toEqual(
+          `MultihashUnsupportedHashAlgorithm: Given didSuffix uses unsupported multihash algorithm with code 17, should use 18 or change IonSdkConfig to desired hashing algorithm.`
+        );
       }
     });
   });
