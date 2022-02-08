@@ -19,7 +19,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "pretest": "echo TODO",
+    "pretest": "docker-compose up -d bitcoin-core",
     "test": "tsdx test",
     "lint": "tsdx lint src",
     "lint:fix": "tsdx lint src --fix",
