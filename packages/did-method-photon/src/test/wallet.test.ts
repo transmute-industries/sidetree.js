@@ -15,6 +15,10 @@ beforeAll(async () => {
   await clearCollection('queued-operations');
 });
 
+afterAll(async () => {
+  await photon.shutdown();
+});
+
 jest.setTimeout(60 * 1000);
 
 const wallet = SidetreeWalletPlugin.build();

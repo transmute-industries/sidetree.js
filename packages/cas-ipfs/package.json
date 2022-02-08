@@ -19,6 +19,7 @@
   "scripts": {
     "start": "npx tsdx watch",
     "build": "npx tsdx build",
+		"pretest": "docker-compose up -d ipfs mongo",
     "test": "npx tsdx test --passWithNoTests",
     "lint": "npx tsdx lint src",
     "lint:fix": "npx tsdx lint src --fix",
