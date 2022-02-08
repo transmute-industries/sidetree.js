@@ -16,6 +16,14 @@
   "engines": {
     "node": ">=10"
   },
+  "scripts": {
+    "start": "npx tsdx watch",
+    "build": "npx tsdx build",
+    "test": "npx tsdx test --passWithNoTests",
+    "lint": "npx tsdx lint src",
+    "lint:fix": "npx tsdx lint src --fix",
+    "prepare": "npx tsdx build"
+  },
   "devDependencies": {
     "@rollup/plugin-replace": "^3.0.0",
     "@sidetree/cas": "^0.3.1-unstable.37",

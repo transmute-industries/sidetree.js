@@ -16,12 +16,12 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test --passWithNoTests",
-    "lint": "tsdx lint src",
-    "lint:fix": "tsdx lint src --fix",
-    "prepare": "tsdx build"
+    "start": "npx tsdx watch",
+    "build": "npx tsdx build",
+    "test": "npx tsdx test --passWithNoTests",
+    "lint": "npx tsdx lint src",
+    "lint:fix": "npx tsdx lint src --fix",
+    "prepare": "npx tsdx build"
   },
   "devDependencies": {
     "events": "^3.3.0",

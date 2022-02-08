@@ -21,13 +21,13 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
+    "start": "npx tsdx watch",
+    "build": "npx tsdx build",
     "pretest": "docker-compose up -d mongo",
-    "test": "tsdx test --passWithNoTests",
-    "lint": "tsdx lint src",
-    "lint:fix": "tsdx lint src --fix",
-    "prepare": "tsdx build"
+    "test": "npx tsdx test --passWithNoTests",
+    "lint": "npx tsdx lint src",
+    "lint:fix": "npx tsdx lint src --fix",
+    "prepare": "npx tsdx build"
   },
   "devDependencies": {
     "@rollup/plugin-replace": "^3.0.0",

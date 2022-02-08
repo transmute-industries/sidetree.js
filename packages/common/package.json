@@ -16,18 +16,18 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test --passWithNoTests",
-    "lint": "tsdx lint src",
-    "lint:fix": "tsdx lint src --fix",
-    "prepare": "tsdx build"
+    "start": "npx tsdx watch",
+    "build": "npx tsdx build",
+    "test": "npx tsdx test --passWithNoTests",
+    "lint": "npx tsdx lint src",
+    "lint:fix": "npx tsdx lint src --fix",
+    "prepare": "npx tsdx build"
   },
   "devDependencies": {
+    "@rollup/plugin-replace": "^3.0.0",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@rollup/plugin-replace": "^3.0.0",
     "base64url": "^3.0.1",
     "canonicalize": "^1.0.1",
     "chalk": "^4.1.2",

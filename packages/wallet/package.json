@@ -17,12 +17,12 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint src",
-    "lint:fix": "tsdx lint src --fix",
-    "prepare": "tsdx build"
+    "start": "npx tsdx watch",
+    "build": "npx tsdx build",
+    "test": "npx tsdx test",
+    "lint": "npx tsdx lint src",
+    "lint:fix": "npx tsdx lint src --fix",
+    "prepare": "npx tsdx build"
   },
   "devDependencies": {
     "@sidetree/test-vectors": "^0.3.1-unstable.37",
