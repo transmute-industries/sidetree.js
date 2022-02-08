@@ -12,7 +12,7 @@ import moment from 'moment';
 import crypto from 'crypto';
 
 let sqlite3: any;
-if (process.env.NODE_ENV === 'test') {
+if (process.env.IMPORT_SQLITE === 'true') {
   // This causes nextjs in dashboard to break, this is a workaround to support photon
   sqlite3 = require('sqlite3');
 }

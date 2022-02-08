@@ -19,7 +19,7 @@
   "scripts": {
     "start": "npx tsdx watch",
     "build": "npx tsdx build",
-    "test": "npx tsdx test",
+    "test": "IMPORT_SQLITE=true npx tsdx test",
     "lint": "npx tsdx lint src",
     "lint:fix": "npx tsdx lint src --fix",
     "prepare": "npx tsdx build"

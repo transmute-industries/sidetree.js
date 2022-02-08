@@ -20,7 +20,7 @@
     "start": "npx tsdx watch",
     "build": "npx tsdx build",
     "pretest": "docker-compose up -d mongo",
-    "test": "npx tsdx test --runInBand --passWithNoTests",
+    "test": "IMPORT_SQLITE=true npx tsdx test --runInBand --passWithNoTests",
     "lint": "npx tsdx lint src",
     "lint:fix": "npx tsdx lint src --fix",
     "prepare": "npx tsdx build"
