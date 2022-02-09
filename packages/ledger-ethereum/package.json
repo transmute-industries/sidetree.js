@@ -17,13 +17,13 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "npx tsdx watch",
-    "build": "npx tsdx build",
+    "start": "tsdx watch",
+    "build": "tsdx build",
     "pretest": "docker-compose up -d ganache",
-    "test": "npx tsdx test",
-    "lint": "npx tsdx lint src",
-    "lint:fix": "npx tsdx lint src --fix",
-    "prepare": "npx tsdx build",
+    "test": "tsdx test",
+    "lint": "tsdx lint src",
+    "lint:fix": "tsdx lint src --fix",
+    "prepare": "tsdx build",
     "contracts:test": "truffle test",
     "contracts:migrate:dev": "truffle migrate --network development --reset",
     "contracts:migrate:ropsten": "truffle migrate --network ropsten"
