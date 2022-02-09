@@ -20,24 +20,26 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "pretest": "docker-compose up -d mongo",
-    "test": "tsdx test --runInBand --passWithNoTests",
+    "test": "IMPORT_SQLITE=true tsdx test --runInBand --passWithNoTests",
     "lint": "tsdx lint src",
     "lint:fix": "tsdx lint src --fix",
     "prepare": "tsdx build"
   },
   "devDependencies": {
+    "@rollup/plugin-replace": "^3.0.0",
+    "@sidetree/common": "^0.3.1-unstable.37",
+    "@sidetree/test-vectors": "^0.3.1-unstable.37",
     "@sidetree/wallet": "^0.3.1-unstable.37",
+    "@types/node": "^17.0.14",
     "aws-sdk": "^2.763.0",
+    "mongodb": "^4.1.2",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@rollup/plugin-replace": "^3.0.0",
+    "@sidetree/cas": "^0.3.1-unstable.37",
     "@sidetree/cas-s3": "^0.3.1-unstable.37",
-    "@sidetree/common": "^0.3.1-unstable.37",
-    "@sidetree/db": "^0.3.1-unstable.37",
     "@sidetree/did-method": "^0.3.1-unstable.37",
-    "@sidetree/qldb": "^0.3.1-unstable.37",
-    "@sidetree/test-vectors": "^0.3.1-unstable.37"
+    "@sidetree/qldb": "^0.3.1-unstable.37"
   },
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/did-method-photon",
   "repository": {
