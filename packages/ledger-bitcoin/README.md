@@ -14,3 +14,8 @@ npm install --save @sidetree/bitcoin
 npm install
 npm run test
 ```
+
+## Helpful links
+
+- https://developer.bitcoin.org/reference/rpc/
+- https://github.com/ruimarinho/bitcoin-core

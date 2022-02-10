@@ -19,7 +19,8 @@ jest.setTimeout(10 * 1000);
 describe('BitcoinLedger', () => {
   const ledger = new BitcoinLedger();
 
-  it('test', async () => {
-    await ledger.getBestBlockHash();
+  it('should return best block hash', async () => {
+    const bestBlockHash = await ledger.getBestBlockHash();
+    expect(bestBlockHash).toBeDefined();
   });
 });
