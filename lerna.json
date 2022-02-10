@@ -13,6 +13,7 @@
     "packages/did-method-ion",
     "packages/ledger",
     "packages/ledger-ethereum",
+    "packages/ledger-bitcoin",
     "packages/ledger-qldb",
     "packages/test-vectors",
     "packages/wallet",
