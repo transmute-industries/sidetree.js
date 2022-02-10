@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 - Transmute Industries Inc.
+ * Copyright 2020 - Transmute Industries Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,20 +12,8 @@
  * limitations under the License.
  */
 
-import { BitcoinLedger } from '..';
-
-jest.setTimeout(10 * 1000);
-
-describe('BitcoinLedger', () => {
-  const testConfig = {
-    network: 'regtest',
-    username: 'sidetree',
-    password: 'sidetree',
-  };
-  const ledger = new BitcoinLedger(testConfig);
-
-  it('should return best block hash', async () => {
-    const bestBlockHash = await ledger.getBestBlockHash();
-    expect(bestBlockHash).toBeDefined();
-  });
-});
+export interface BitcoinConfig {
+  network: string;
+  username: string;
+  password: string;
+}

@@ -13,16 +13,13 @@
  */
 
 import Client from 'bitcoin-core';
+import { BitcoinConfig } from './types';
 
 export default class BitcoinLedger {
   private client: any;
 
-  constructor() {
-    this.client = new Client({
-      network: 'regtest',
-      username: 'sidetree',
-      password: 'sidetree',
-    });
+  constructor(config: BitcoinConfig) {
+    this.client = new Client(config);
   }
 
   async getBestBlockHash() {
