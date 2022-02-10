@@ -12,4 +12,21 @@
  * limitations under the License.
  */
 
-export default class BitcoinLedger {}
+import Client from 'bitcoin-core';
+
+export default class BitcoinLedger {
+  private client: any;
+
+  constructor() {
+    this.client = new Client({
+      network: 'regtest',
+      username: 'sidetree',
+      password: 'sidetree',
+    });
+  }
+
+  async getBestBlockHash() {
+    const bestBlockHash = await this.client.getBestBlockHash();
+    return bestBlockHash;
+  }
+}

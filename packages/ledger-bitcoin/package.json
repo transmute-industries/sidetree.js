@@ -31,7 +31,8 @@
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@rollup/plugin-replace": "^3.0.0"
+    "@rollup/plugin-replace": "^3.0.0",
+    "bitcoin-core": "^3.0.0"
   },
   "gitHead": "e97862f01a5ad9845d82eb57ca46d335a98aeb8b",
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/ledger-bitcoin",

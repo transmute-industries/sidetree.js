@@ -20,6 +20,6 @@ describe('BitcoinLedger', () => {
   const ledger = new BitcoinLedger();
 
   it('test', async () => {
-    console.log('hi', ledger);
+    await ledger.getBestBlockHash();
   });
 });
