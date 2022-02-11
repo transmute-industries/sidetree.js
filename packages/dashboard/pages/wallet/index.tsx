@@ -41,7 +41,7 @@ const Wallet: NextPage<any> = ({
       </Head>
 
       <main>
-        <AppPage logoLight={logoLight} logoDark={logoDark}>
+        <AppPage logoLight={logoLight} logoDark={logoDark} method={method}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
               {wallet ? (
