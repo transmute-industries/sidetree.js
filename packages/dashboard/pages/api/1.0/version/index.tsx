@@ -1,4 +1,4 @@
-import withService from '../../../../middleware/withService';
+import middleware from '../../../../middleware';
 
 const handler = async (req: any, res: any) => {
   const sidetree = await req.client.server.service.sidetree;
@@ -6,4 +6,4 @@ const handler = async (req: any, res: any) => {
   res.json(JSON.parse(body));
 };
 
-export default withService(handler);
+export default middleware(handler);

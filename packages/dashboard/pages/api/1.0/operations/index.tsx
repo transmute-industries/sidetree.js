@@ -1,6 +1,6 @@
 import type { NextApiResponse } from 'next';
 
-import withService from '../../../../middleware/withService';
+import middleware from '../../../../middleware';
 
 import {
   SidetreeApiRequest,
@@ -42,4 +42,4 @@ const handler = async (
   }
 };
 
-export default withService(handler);
+export default middleware(handler);

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SxProps } from '@mui/system';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -7,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { Theme as ThemeType } from '@mui/material/styles';
 
 import { Theme } from './theme';
 
@@ -34,7 +36,7 @@ export const AppPage = (props: any) => {
     setMobileOpen(!mobileOpen);
   };
 
-  const style = {
+  const style: SxProps<ThemeType> = {
     position: 'absolute',
     top: '50%',
     left: '50%',

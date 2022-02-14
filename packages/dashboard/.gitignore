@@ -38,3 +38,5 @@ yarn-error.log*
 .env.ganache
 .env.example:sidetree.testnet
 .env.photon
+
+dist
