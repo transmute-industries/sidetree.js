@@ -25,6 +25,10 @@ export const config: any = {
   qldbLedger: process.env.QLDB_LEDGER,
   qldbLedgerTable: process.env.QLDB_LEDGER_TABLE,
   s3BucketName: process.env.S3_BUCKET_NAME,
+  auth: {
+    audience: process.env.AUTH_AUDIENCE,
+    domain: process.env.AUTH_DOMAIN,
+  },
 };
 
 export const uiConfigs = {

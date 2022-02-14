@@ -9,6 +9,7 @@ import { dashboardWalletFactory } from '../core/DashboardWallet';
 import { FormEvent } from 'react-transition-group/node_modules/@types/react';
 
 import { uiConfigs } from '../config';
+import { createDID } from '../services/sidetree-node-client-api';
 
 export async function getServerSideProps(context: any) {
   return {
@@ -62,11 +63,7 @@ const Resolver: NextPage<any> = ({
     const updateKey = key2.publicKeyJwk;
     const input1 = { recoveryKey, updateKey, document };
     const createOperation = await wallet.operations.create(input1);
-    const response = await fetch('/api/1.0/operations', {
-      method: 'POST',
-      body: JSON.stringify(createOperation),
-    });
-    const didResolution = await response.json();
+    const didResolution = await createDID(createOperation);
     wallet.add(didResolution);
     localStorage.setItem('sidetree.wallet', JSON.stringify(wallet));
     setWallet(wallet);

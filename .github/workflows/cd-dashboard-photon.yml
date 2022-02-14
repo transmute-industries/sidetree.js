@@ -24,6 +24,8 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+  AUTH_AUDIENCE: ${{ secrets.AUTH_AUDIENCE }}
+  AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
 
 jobs:
   deployPhoton:
@@ -68,5 +70,7 @@ jobs:
             --set-env-vars AWS_ACCESS_KEY_ID="${{ env.AWS_ACCESS_KEY_ID }}" \
             --set-env-vars AWS_SECRET_ACCESS_KEY="${{ env.AWS_SECRET_ACCESS_KEY }}" \
             --set-env-vars AWS_DEFAULT_REGION="${{ env.AWS_DEFAULT_REGION }}" \
+            --set-env-vars AUTH_AUDIENCE="${{ env.AUTH_AUDIENCE }}" \
+            --set-env-vars AUTH_DOMAIN="${{ env.AUTH_DOMAIN }}" \
             --service-account "${{ env.GCP_RUNNER_SA }}" \
             --quiet
