@@ -16,7 +16,7 @@
     "dev:photon": "dotenv -e .env.photon next dev",
     "dev:ropsten": "dotenv -e .env.ropsten next dev",
     "test": "jest",
-    "build": "next build",
+    "build": "NODE_OPTIONS=--max-old-space-size=4096 npx next build",
     "export": "next export",
     "start": "next start -p ${PORT:=3000}",
     "lint": "next lint",
