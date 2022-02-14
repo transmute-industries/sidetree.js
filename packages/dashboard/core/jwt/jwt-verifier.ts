@@ -267,8 +267,7 @@ const jwtVerifier = ({
   return async (jwt: string) => {
     try {
       if (issuerBaseURL) {
-        discovery =
-          discovery || discover(issuerBaseURL, { agent, timeoutDuration });
+        discovery = discovery || discover(issuerBaseURL);
         ({
           jwks_uri: jwksUri,
           issuer,
