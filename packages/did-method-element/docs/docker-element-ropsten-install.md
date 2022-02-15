@@ -217,6 +217,69 @@ Once you have a small amount of funds in your wallet, you're ready to go.
 
 ![add-funds-stop05](https://user-images.githubusercontent.com/86194145/154128234-693931c3-a783-4595-ba45-3c9110983a6e.png)
 
+
 ## Run with Docker
 
+Clone the Sidetree.js repository, and copy the environment variable
 
+```
+git clone git@github.com:transmute-industries/sidetree.js.git
+cd sidetree.js
+docker-compose -f ./docker-compose.yml up --detach --remove-orphans
+```
+
+This will run ganache, mongo and ipfs.
+Specifically we will use ipfs and mongo, ganache is used for development.
+We will be using ropsten via the 
+
+```
+cd sidetree.js/packages/dashboard
+cp .env.ropsten.example .env.ropsten
+```
+
+From there you will need to populate the `.env.ropsten` file with the values you created from this readme.
+Open the `.env.ropsten` and enter the following values.
+
+1. MONGO_DB_CONNECTION_STRING
+2. ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI
+3. ETHEREUM_RPC_URL
+4. ETHEREUM_MNEMONIC
+
+```
+SIDETREE_METHOD='elem:ropsten'
+DESCRIPTION="Sidetree on Ethereum Ledger and IPFS Cas"
+
+# Sidetree Variables
+MONGO_DB_CONNECTION_STRING=mongodb://localhost:27017/
+DATABASE_NAME="element-ropsten"
+MAX_CONCURRENT_DOWNLOADS=20
+BATCH_INTERVAL_IN_SECONDS=5
+OBSERVING_INTERVAL_IN_SECONDS=5
+
+# Element Node Variables
+ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI=/ip4/127.0.0.1/tcp/5001
+ELEMENT_ANCHOR_CONTRACT="0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997"
+ETHEREUM_RPC_URL='https://ropsten.infura.io/v3/<project-id>'
+ETHEREUM_PROVIDER=$ETHEREUM_RPC_URL
+ETHEREUM_MNEMONIC="metamask recovery phrase here"
+```
+
+```
+docker-compose -f ./docker-compose.run.yml --env-file .env.ropsten up
+```
+
+## Clean up
+
+To turn off docker and remove the processes run
+
+```
+docker ps
+CONTAINER ID   IMAGE                             COMMAND 
+555af580276e   trufflesuite/ganache-cli:latest   ...
+19f210df6d08   ipfs/go-ipfs:v0.7.0               ...
+1b4d11e7615c   mongo                   
+
+docker kill 555af580276e
+docker kill 19f210df6d08
+docker kill 1b4d11e7615c
+```
