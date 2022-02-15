@@ -197,6 +197,26 @@ From the settings menu, you can click on the close button to display your wallet
 
 ### Fund Wallet
 
+In Metamask, click on `Account 1` at the top of your wallet to copy your address.
+
+![add-funds-step01](https://user-images.githubusercontent.com/86194145/154128224-9314a93b-52b8-460d-a8e2-89ddcdce806c.png)
+
+Open a new tab, and search `ropsten faucet`.
+
+![add-funds-step02](https://user-images.githubusercontent.com/86194145/154128225-41d1b83f-91ff-41f2-894b-d1c9c89930b5.png)
+
+Each site should function the same effectively. Put your address in the text field and click `Send me rETH`. 
+
+![add-funds-step03](https://user-images.githubusercontent.com/86194145/154128229-d422ea35-3160-4c0f-8fee-e9bc003babf7.png)
+
+Alot of sites will be empty, or require a queue that takes several minutes. You only need a small amount.
+
+![add-funds-step04](https://user-images.githubusercontent.com/86194145/154128231-94652476-59e6-450b-86be-1e905b453b40.png)
+
+Once you have a small amount of funds in your wallet, you're ready to go.
+
+![add-funds-stop05](https://user-images.githubusercontent.com/86194145/154128234-693931c3-a783-4595-ba45-3c9110983a6e.png)
+
 ## Run with Docker
 
 
