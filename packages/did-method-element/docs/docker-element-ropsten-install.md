@@ -95,6 +95,35 @@ you generated in a previous step.
 
 ## Infura 
 
+In your browser navigate to https://infura.io. Then click on `Sign Up` in the navigation bar.
+
+![infura-step01](https://user-images.githubusercontent.com/86194145/154111108-008edf44-b7a1-498b-a0fd-a7c365802425.png)
+
+Enter your email address, provide a secure password and click on the `SIGN UP` button to submit the form.
+
+![infura-step02](https://user-images.githubusercontent.com/86194145/154111116-cb35d18c-fd98-4c8c-be22-de7d6c0af9a9.png)
+
+A confirmation screen will appear indicating that a confirmation link was sent to your email.
+
+![infura-step03](https://user-images.githubusercontent.com/86194145/154111119-838de71e-5786-4319-9ae4-d8f88d4a07fc.png)
+
+Locate the confirmation email in your inbox. Click on the `CONFIRM EMAIL ADDRESS` button in the mail body.
+
+![infura-step04](https://user-images.githubusercontent.com/86194145/154111121-3124d0a2-1238-4e94-a359-af8440cc9671.png)
+
+You will be redirected to the Infura dashboard. Click on the `CREATE NEW PROJECT` button in the top right.
+
+![infura-step05](https://user-images.githubusercontent.com/86194145/154111123-dee5a658-0029-4bed-866b-393a7ffda27b.png)
+
+Select `Ethereum` from the dropdown for the product, and provide `element` for the name. 
+
+![infura-step06](https://user-images.githubusercontent.com/86194145/154111127-6fea312e-7188-4407-88e1-881ba8a49213.png)
+
+Under the `KEYS` section, select `ROPSTEN` from the endpoint dropdown. Our **Ehtereum Provider** will be the https link.
+
+![infura-step07](https://user-images.githubusercontent.com/86194145/154111133-21485b87-6c12-41b2-8403-4c80d1a530e7.png)
+
+
 ## Create Wallet
 
 ### Fund Wallet
