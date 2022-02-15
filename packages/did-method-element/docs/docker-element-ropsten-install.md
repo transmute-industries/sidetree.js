@@ -123,8 +123,77 @@ Under the `KEYS` section, select `ROPSTEN` from the endpoint dropdown. Our **Eht
 
 ![infura-step07](https://user-images.githubusercontent.com/86194145/154111133-21485b87-6c12-41b2-8403-4c80d1a530e7.png)
 
-
 ## Create Wallet
+
+In your browser navigate to https://metamask.io. Click on the `Download` button.
+
+![metamask-step01](https://user-images.githubusercontent.com/86194145/154122077-b1de6078-e38d-4d24-a39e-2aaa28f08500.png)
+
+You will br provided with a link to download the plugin for your browser.
+
+![metamask-step02](https://user-images.githubusercontent.com/86194145/154122086-ebeea8a8-c770-4ff4-b2a0-8c9d3bcd5f9b.png)
+
+Click on the link to add to Firefox (or Chrome), depending on which browser you are using.
+
+![metamask-step03](https://user-images.githubusercontent.com/86194145/154122089-1d35b9a5-27d9-4ac2-94bc-d6bbfc827a3d.png)
+
+Once the plugin has been installed, a new tab will open to initialize metamask.
+
+![metamask-step04](https://user-images.githubusercontent.com/86194145/154122094-2a3918e2-985b-4364-9a01-aefa5ad61702.png)
+
+Click on the right option to `Create a Wallet`.
+
+![metamask-step05](https://user-images.githubusercontent.com/86194145/154122097-dea050c8-1ee4-4cb3-bafc-95c96c27089f.png)
+
+Provide an answer to the option to provide anonymous statistics.
+
+![metamask-step06](https://user-images.githubusercontent.com/86194145/154122101-48367403-9e76-4d98-9e97-27331b9dfe35.png)
+
+Create a password. This should be secure but memorable, as you will need to enter this password if you plan to use Metamask from your browser.
+
+![metamask-step07](https://user-images.githubusercontent.com/86194145/154122105-32ad59a6-bee8-4352-9682-fd95fe0a8f4c.png)
+
+You will then be taken to a video which provides guidance for securing your wallet. Click on the `Next` button when you're ready.
+
+![metamask-step08](https://user-images.githubusercontent.com/86194145/154122108-494d3afb-e0c3-4daa-965f-504faf4ca8db.png)
+
+From there click on the blurred box to reveal your **Recovery Phrase**.
+
+![metamask-step09](https://user-images.githubusercontent.com/86194145/154122114-1a7f8f7d-e04b-430c-9d05-38926824e96a.png)
+
+Copy the contents of your **Recovery Phrase** and paste it somewhere, or physically write it down. Click on 
+`Next` when you're ready.
+
+![metamask-step10](https://user-images.githubusercontent.com/86194145/154122116-c9aacc99-b796-4123-9dea-002d0ce140b1.png)
+
+To make sure you have your pass phrase recorded, you will be prompted to select each word in order. Do so and click `Confirm`.
+
+![metamask-step11](https://user-images.githubusercontent.com/86194145/154122118-52ef56fe-3759-4738-861b-6a4a807561b5.png)
+
+You will be given a short screen congratulating you for setting up your wallet. Click on `All Done`.
+
+![metamask-step12](https://user-images.githubusercontent.com/86194145/154122121-ff472770-698f-4238-bc2a-413f7cec64e7.png)
+
+You will be taken to your wallet, which will have no funds in it.
+
+![metamask-step13](https://user-images.githubusercontent.com/86194145/154122126-cfb72284-1673-4d8a-a3c7-1ec945325235.png)
+
+Click on the circular identicon in the top right corner, and select `Settings` from the bottom of the menu.
+
+![metamask-step14](https://user-images.githubusercontent.com/86194145/154122129-81dfcbe3-b5d9-4531-b3f8-0239027c7fe8.png)
+
+From there, click on the `Advantaced` tab, and then locate the option for the option to `Show Test Networks`, and turn
+it on.
+
+![metamask-step15](https://user-images.githubusercontent.com/86194145/154122133-fdfe6263-18d9-4ce2-bb13-dd97680a61bb.png)
+
+After that you can click on the select menu that says `Mainnet` and select the option that says `Ropsten`.
+
+![metamask-step16](https://user-images.githubusercontent.com/86194145/154122139-9e09528f-54bb-41bb-8a34-f2e1a313aa73.png)
+
+From the settings menu, you can click on the close button to display your wallet. We are now ready to add test funds.
+
+![metamask-step17](https://user-images.githubusercontent.com/86194145/154122142-8dd85ae9-cedc-4d69-8a12-42488f27b3b6.png)
 
 ### Fund Wallet
 
