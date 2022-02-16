@@ -20,6 +20,7 @@ Instructions for setting up an Element node are defined in the following documen
 
 - [Install Local Development with Ganache](docs/local-dev.md)
 - [Install Testnet Development with Ropsten](docs/local-element-ropsten-install.md)
+- [Docker Testnet Development with Ropsten](docs/docker-element-ropsten-install.md)
 
 ## As a Library
 

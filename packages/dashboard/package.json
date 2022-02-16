@@ -14,7 +14,7 @@
     "dev": "dotenv -e .env.example:sidetree.testnet next dev",
     "dev:ganache": "NODE_OPTIONS=--max_old_space_size=4096 dotenv -e .env.ganache next dev",
     "dev:photon": "dotenv -e .env.photon next dev",
-    "dev:ropsten": "dotenv -e .env.ropsten next dev",
+    "dev:ropsten": "NODE_OPTIONS=--max_old_space_size=4096 dotenv -e .env.ropsten next dev",
     "test": "jest",
     "build": "npx next build",
     "export": "next export",
