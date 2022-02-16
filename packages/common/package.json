@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/common.esm.js",
-  "version": "0.3.1-unstable.36",
+  "version": "0.3.1-unstable.40",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "engines": {
@@ -24,10 +24,10 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
+    "@rollup/plugin-replace": "^3.0.0",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@rollup/plugin-replace": "^3.0.0",
     "base64url": "^3.0.1",
     "canonicalize": "^1.0.1",
     "chalk": "^4.1.2",

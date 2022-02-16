@@ -85,3 +85,23 @@ npm run build && npx lerna link
 cd ../..
 npm run test
 ```
+
+You can also refresh the entire project by running
+
+```bash
+npm run install:clean
+```
+
+It is similar to running these commands
+
+```bash
+lerna clean
+npm i
+lerna bootstrap
+```
+
+Sometimes you might need to reset jest for running tests
+
+```bash
+npx jest --clearCache
+```

@@ -13,6 +13,7 @@
     "install:only": "lerna bootstrap --include-dependencies --scope",
     "lint": "lerna run lint --stream",
     "lint:fix": "lerna run lint:fix --stream",
+    "clean:test": "npx jest --clearCache",
     "pretest": "docker-compose -f ./docker-compose.yml up --detach --remove-orphans",
     "test": "lerna run test --stream --concurrency 1",
     "test:only": "npm t -- --scope",

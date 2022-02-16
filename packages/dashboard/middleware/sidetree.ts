@@ -1,6 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest } from 'next';
 import { getTestNodeIntance as testMethod } from '@sidetree/did-method';
 import { getNodeInstance as element } from '@sidetree/element';
+import { getNodeInstance as photon } from '@sidetree/photon';
 
 export * from './convertSidetreeStatusToHttpStatus';
 
@@ -11,6 +12,7 @@ const methods: any = {
   // https://ethereum.stackexchange.com/questions/111540/cant-resolve-electron-in-opt-build-repo-node-modules-swarm-js-node-modules
   'elem:ganache': element,
   'elem:ropsten': element,
+  photon,
 };
 
 export interface SidetreeApiRequest extends NextApiRequest {

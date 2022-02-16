@@ -1,4 +1,5 @@
 import React from 'react';
+import { Theme as ThemeType } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 // https://materialui.co/colors/
@@ -22,7 +23,7 @@ export const Theme = ({ children }: { children: any }) => {
     []
   );
 
-  const theme = React.useMemo(() => {
+  const theme: ThemeType = React.useMemo(() => {
     const primaryColorDark = '#151726';
 
     const prefersDarkMode = mode === 'dark';

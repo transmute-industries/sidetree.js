@@ -35,6 +35,9 @@ import {
 import util from 'util';
 import { gzip, gunzip } from 'zlib';
 
+const GZIP_UNIX_OS_FLAG = 3;
+const GZIP_OS_IDX = 9;
+
 const gzipAsync = util.promisify(gzip);
 const gunzipAsync = util.promisify(gunzip);
 
@@ -124,6 +127,8 @@ const testSuite = (cas: ICasService): void => {
         it(`should write and read a ${key} file`, async () => {
           const { cid, content, jsonStr } = ionVectors[key];
           const compressedBuffer = await gzipAsync(jsonStr);
+          // https://docs.fileformat.com/compression/gz/#operating-system
+          compressedBuffer[GZIP_OS_IDX] = GZIP_UNIX_OS_FLAG;
           expect(compressedBuffer).toEqual(content);
 
           const expectedHash = await cas.write(compressedBuffer);
