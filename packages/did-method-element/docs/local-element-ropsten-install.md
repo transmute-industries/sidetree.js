@@ -195,8 +195,9 @@ To use this service, you MUST edit the environment variable in the Sidetree.js
 repository before starting the Sidetree-Element service. Specifically we want
 to set `MONGO_DB_CONNECTION_STRING` and `ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI`
 to use the services running on localhost. For `ETHEREUM_RPC_URL` we want to
-provide our API url and key. And on `ETHEREUM_MNEMONIC` we will need to provide
-the mnemonic phrase for a minimally funded wallet to use the service.
+provide our API url and key. And on `ETHEREUM_MNEMONIC` / `ETHEREUM_PRIVATE_KEY` we
+will need to provide the mnemonic phrase or private key for a minimally funded wallet
+to use the service.
 
 ```
 $ cd /home/ubuntu/sidetree.js/packages/dashboard
@@ -218,6 +219,7 @@ ELEMENT_ANCHOR_CONTRACT="0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997"
 ETHEREUM_RPC_URL='https://ropsten.infura.io/v3/[YOUR_PROJECT_API_KEY]'
 ETHEREUM_PROVIDER=$ETHEREUM_RPC_URL
 ETHEREUM_MNEMONIC='[YOUR_MNEMONIC_PHRASE]'
+ETHEREUM_PRIVATE_KEY='[YOUR_PRIVATE_KEY]'
 --- End Contents
 ```
 

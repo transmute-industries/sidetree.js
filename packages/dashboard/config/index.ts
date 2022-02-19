@@ -16,6 +16,7 @@ export const config: any = {
     process.env.ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI,
   ethereumRpcUrl: process.env.ETHEREUM_RPC_URL,
   ethereumMnemonic: process.env.ETHEREUM_MNEMONIC,
+  ethereumPrivateKey: process.env.ETHEREUM_PRIVATE_KEY,
   elementAnchorContract: process.env.ELEMENT_ANCHOR_CONTRACT,
 };
 
