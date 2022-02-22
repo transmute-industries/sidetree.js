@@ -52,6 +52,7 @@ The following environment variables are needed to run the node, we set them for 
 - ETHEREUM_RPC_URL: URL to use to connect to ethereum network
 - ETHEREUM_PROVIDER: Same as RPC URL
 - ETHEREUM_MNEMONIC: The mnemonic to use to associate an ethereum account with for the transactions, see [Metamask term](https://docs.metamask.io/guide/common-terms.html#mnemonic-phrase-seed-phrase-seed-words) and [Metamask guide](https://metamask.zendesk.com/hc/en-us/articles/360015290032-How-to-reveal-your-Secret-Recovery-Phrase)
+- ETHEREUM_PRIVATE_KEY: The private key associated with the funded Ethereum address (will be ignored if ETHEREUM_MNEMONIC is provided)
 
 Other useful GCP CLI commands:
 

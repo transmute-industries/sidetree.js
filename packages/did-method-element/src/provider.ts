@@ -22,6 +22,7 @@ export type ElementNodeConfigs = {
   ];
   elementAnchorContract?: string;
   ethereumMnemonic?: string;
+  ethereumPrivateKey?: string;
 };
 
 const getLedger = async (elementNodeConfigs: ElementNodeConfigs) => {
@@ -31,6 +32,12 @@ const getLedger = async (elementNodeConfigs: ElementNodeConfigs) => {
       mnemonic: {
         phrase: elementNodeConfigs.ethereumMnemonic,
       },
+      providerOrUrl: elementNodeConfigs.ethereumRpcUrl,
+    });
+    web3 = new Web3(provider);
+  } else if (elementNodeConfigs.ethereumPrivateKey) {
+    const provider = new HDWalletProvider({
+      privateKeys: [elementNodeConfigs.ethereumPrivateKey],
       providerOrUrl: elementNodeConfigs.ethereumRpcUrl,
     });
     web3 = new Web3(provider);

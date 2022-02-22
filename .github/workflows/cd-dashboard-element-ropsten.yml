@@ -23,6 +23,7 @@ env:
   ETHEREUM_RPC_URL: ${{ secrets.ETHEREUM_RPC_URL }}
   ETHEREUM_PROVIDER: ${{ secrets.ETHEREUM_PROVIDER }}
   ETHEREUM_MNEMONIC: ${{ secrets.ETHEREUM_MNEMONIC }}
+  ETHEREUM_PRIVATE_KEY: ${{ secrets.ETHEREUM_PRIVATE_KEY }}
 
 jobs:
   deploy:
@@ -66,5 +67,6 @@ jobs:
             --set-env-vars ETHEREUM_RPC_URL="${{ env.ETHEREUM_RPC_URL }}" \
             --set-env-vars ETHEREUM_PROVIDER="${{ env.ETHEREUM_PROVIDER }}" \
             --set-env-vars ETHEREUM_MNEMONIC="${{ env.ETHEREUM_MNEMONIC }}" \
+            --set-env-vars ETHEREUM_PRIVATE_KEY="${{ env.ETHEREUM_PRIVATE_KEY }}" \
             --service-account "${{ env.GCP_RUNNER_SA }}" \
             --quiet
