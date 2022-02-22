@@ -59,6 +59,7 @@ export const elementNodeConfigs = {
   ],
   elementAnchorContract: config.elementAnchorContract,
   ethereumMnemonic: config.ethereumMnemonic,
+  ethereumPrivateKey: config.ethereumPrivateKey,
 };
 
 export const nodeConfiguration =
