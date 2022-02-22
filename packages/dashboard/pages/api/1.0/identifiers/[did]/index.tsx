@@ -4,7 +4,7 @@ import {
   convertSidetreeStatusToHttpStatus,
 } from '../../../../../middleware/sidetree';
 
-import withService from '../../../../../middleware/withService';
+import middleware from '../../../../../middleware';
 
 type Data = {
   didDocument: any;
@@ -24,4 +24,4 @@ const handler = async (req: SidetreeApiRequest, res: NextApiResponse<Data>) => {
   }
 };
 
-export default withService(handler);
+export default middleware(handler);

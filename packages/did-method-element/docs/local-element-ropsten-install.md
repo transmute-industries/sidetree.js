@@ -19,6 +19,7 @@ set up and run and Ethereum node locally.
 - Install Dependencies
 - Clone and Build the Repository
 - Create and Fund a Wallet
+- Infura Ethereum Provider
 - Start Element Testnet:ropsten Node
 - Run Create / Resolve Operation
 - Resolve an Existing Did
@@ -172,26 +173,39 @@ funds into that new wallet. And then use the minimally funded wallet to run the
 Element node. For best practices on how to manage crypto funds, please refer to
 the [policies outlined here](https://github.com/transmute-industries/sidetree.js/blob/main/packages/ledger-ethereum/docs/README.md).
 
+## Infura Ethereum Provider
+
+In your browser navigate to https://infura.io. Then click on `Sign Up` in the navigation bar.
+
+![infura-step01](https://user-images.githubusercontent.com/86194145/154111108-008edf44-b7a1-498b-a0fd-a7c365802425.png)
+
+Enter your email address, provide a secure password and click on the `SIGN UP` button to submit the form.
+
+![infura-step02](https://user-images.githubusercontent.com/86194145/154111116-cb35d18c-fd98-4c8c-be22-de7d6c0af9a9.png)
+
+3.3 A confirmation screen will appear indicating that a confirmation link was sent to your email.
+
+![infura-step03](https://user-images.githubusercontent.com/86194145/154111119-838de71e-5786-4319-9ae4-d8f88d4a07fc.png)
+
+Locate the confirmation email in your inbox. Click on the `CONFIRM EMAIL ADDRESS` button in the mail body.
+
+![infura-step04](https://user-images.githubusercontent.com/86194145/154111121-3124d0a2-1238-4e94-a359-af8440cc9671.png)
+
+You will be redirected to the Infura dashboard. Click on the `CREATE NEW PROJECT` button in the top right.
+
+![infura-step05](https://user-images.githubusercontent.com/86194145/154111123-dee5a658-0029-4bed-866b-393a7ffda27b.png)
+
+Select `Ethereum` from the dropdown for the product, and provide `element` for the name. 
+
+![infura-step06](https://user-images.githubusercontent.com/86194145/154111127-6fea312e-7188-4407-88e1-881ba8a49213.png)
+
+Under the `KEYS` section, select `ROPSTEN` from the endpoint dropdown. Our **Ehtereum Provider** will be the https link.
+
+![infura-step07](https://user-images.githubusercontent.com/86194145/154291156-7034ce15-5003-4559-ad61-7f3c747a9377.png)
+
 ## Start Element Testnet:ropsten Node
 
-As stated in the abstract of this document, this section will include
-instructions for how to setup a Ethereum testnet node locally.
-
-In the current form of this document, we will connect to an Ethereum
-testnet blockchain Ropsten via a cloud service. We specifically recomend
-[Infura](https://infura.io).
-
-To breifly describe the steps of getting setup with Infura.
-First you can create a free account.
-Then you can create a project. Once you have created a project, you should
-get an API key for the Ehtereum Testnet Ropstein. You should have a URL
-that looks similar to the following structure.
-
-```
-https://ropsten.infura.io/v3/[YOUR_PROJECT_API_KEY]
-```
-
-To use this service, you MUST edit the environment variable in the Sidetree.js
+To use this service, you must edit the environment variable in the Sidetree.js
 repository before starting the Sidetree-Element service. Specifically we want
 to set `MONGO_DB_CONNECTION_STRING` and `ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI`
 to use the services running on localhost. For `ETHEREUM_RPC_URL` we want to
@@ -207,8 +221,8 @@ $ vim .env.ropsten
 SIDETREE_METHOD='elem:ropsten'
 
 # Sidetree Variables
-MONGO_DB_CONNECTION_STRING="mongodb://localhost:27017/"
-DATABASE_NAME="element-ropsten"
+MONGO_DB_CONNECTION_STRING='mongodb://localhost:27017/'
+DATABASE_NAME='element-ropsten'
 MAX_CONCURRENT_DOWNLOADS=20
 BATCH_INTERVAL_IN_SECONDS=5
 OBSERVING_INTERVAL_IN_SECONDS=5

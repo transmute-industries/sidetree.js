@@ -1,0 +1,76 @@
+name: CD Dashboard Photon
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  SERVICE: sidetree-photon
+  REGION: us-central1
+  PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+  GCP_RUNNER_SA: ${{ secrets.GCP_SA_RUNNER }}
+  SIDETREE_METHOD: 'photon'
+  MONGO_DB_CONNECTION_STRING: ${{ secrets.MONGO_DB_CONNECTION_STRING }}
+  DATABASE_NAME: 'photon'
+  MAX_CONCURRENT_DOWNLOADS: ${{ secrets.MAX_CONCURRENT_DOWNLOADS }}
+  BATCH_INTERVAL_IN_SECONDS: ${{ secrets.BATCH_INTERVAL_IN_SECONDS }}
+  OBSERVING_INTERVAL_IN_SECONDS: ${{ secrets.OBSERVING_INTERVAL_IN_SECONDS }}
+  # photon
+  S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+  QLDB_LEDGER: ${{ secrets.QLDB_LEDGER }}
+  QLDB_LEDGER_TABLE: ${{ secrets.QLDB_LEDGER_TABLE }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+  AUTH_AUDIENCE: ${{ secrets.AUTH_AUDIENCE }}
+  AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
+
+jobs:
+  deployPhoton:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          service_account_key: ${{ env.GCP_SA_KEY }}
+
+      - name: Authorize Docker push
+        run: gcloud auth configure-docker
+
+      - name: Build and Push Container
+        working-directory: ./packages/dashboard
+        run: |
+          gcloud builds submit \
+            --quiet \
+            --tag "gcr.io/$PROJECT_ID/$SERVICE:$GITHUB_SHA" \
+            --timeout=1200s \
+            --machine-type=n1-highcpu-32
+
+      - name: Deploy to Cloud Run
+        run: |-
+          gcloud run deploy ${{ env.SERVICE }} \
+            --region ${{ env.REGION }} \
+            --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} \
+            --platform "managed" \
+            --set-env-vars SIDETREE_METHOD="${{ env.SIDETREE_METHOD }}" \
+            --set-env-vars MONGO_DB_CONNECTION_STRING="${{ env.MONGO_DB_CONNECTION_STRING }}" \
+            --set-env-vars DATABASE_NAME="${{ env.DATABASE_NAME }}" \
+            --set-env-vars MAX_CONCURRENT_DOWNLOADS="${{ env.MAX_CONCURRENT_DOWNLOADS }}" \
+            --set-env-vars BATCH_INTERVAL_IN_SECONDS="${{ env.BATCH_INTERVAL_IN_SECONDS }}" \
+            --set-env-vars OBSERVING_INTERVAL_IN_SECONDS="${{ env.OBSERVING_INTERVAL_IN_SECONDS }}" \
+            --set-env-vars S3_BUCKET_NAME="${{ env.S3_BUCKET_NAME }}" \
+            --set-env-vars QLDB_LEDGER="${{ env.QLDB_LEDGER }}" \
+            --set-env-vars QLDB_LEDGER_TABLE="${{ env.QLDB_LEDGER_TABLE }}" \
+            --set-env-vars AWS_ACCESS_KEY_ID="${{ env.AWS_ACCESS_KEY_ID }}" \
+            --set-env-vars AWS_SECRET_ACCESS_KEY="${{ env.AWS_SECRET_ACCESS_KEY }}" \
+            --set-env-vars AWS_DEFAULT_REGION="${{ env.AWS_DEFAULT_REGION }}" \
+            --set-env-vars AUTH_AUDIENCE="${{ env.AUTH_AUDIENCE }}" \
+            --set-env-vars AUTH_DOMAIN="${{ env.AUTH_DOMAIN }}" \
+            --service-account "${{ env.GCP_RUNNER_SA }}" \
+            --quiet

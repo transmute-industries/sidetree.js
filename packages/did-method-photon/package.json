@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/photon.esm.js",
-  "version": "0.3.1-unstable.36",
+  "version": "0.3.1-unstable.41",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -20,24 +20,26 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "pretest": "docker-compose up -d mongo",
-    "test": "tsdx test --runInBand --passWithNoTests",
+    "test": "IMPORT_SQLITE=true tsdx test --runInBand --passWithNoTests",
     "lint": "tsdx lint src",
     "lint:fix": "tsdx lint src --fix",
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/wallet": "^0.3.1-unstable.36",
+    "@rollup/plugin-replace": "^3.0.0",
+    "@sidetree/common": "^0.3.1-unstable.41",
+    "@sidetree/test-vectors": "^0.3.1-unstable.41",
+    "@sidetree/wallet": "^0.3.1-unstable.41",
+    "@types/node": "^17.0.14",
     "aws-sdk": "^2.763.0",
+    "mongodb": "^4.1.2",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@rollup/plugin-replace": "^3.0.0",
-    "@sidetree/cas-s3": "^0.3.1-unstable.36",
-    "@sidetree/common": "^0.3.1-unstable.36",
-    "@sidetree/db": "^0.3.1-unstable.36",
-    "@sidetree/did-method": "^0.3.1-unstable.36",
-    "@sidetree/qldb": "^0.3.1-unstable.36",
-    "@sidetree/test-vectors": "^0.3.1-unstable.36"
+    "@sidetree/cas": "^0.3.1-unstable.41",
+    "@sidetree/cas-s3": "^0.3.1-unstable.41",
+    "@sidetree/did-method": "^0.3.1-unstable.41",
+    "@sidetree/qldb": "^0.3.1-unstable.41"
   },
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/did-method-photon",
   "repository": {

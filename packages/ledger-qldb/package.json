@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/qldb.esm.js",
-  "version": "0.3.1-unstable.36",
+  "version": "0.3.1-unstable.41",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -19,29 +19,26 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test",
+    "test": "IMPORT_SQLITE=true tsdx test",
     "lint": "tsdx lint src",
     "lint:fix": "tsdx lint src --fix",
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/test-vectors": "^0.3.1-unstable.36",
-    "aws-sdk": "^2.828.0",
-    "sqlite3": "^5.0.2",
+    "@rollup/plugin-replace": "^3.0.0",
+    "@sidetree/test-vectors": "^0.3.1-unstable.41",
+    "@types/sqlite3": "^3.1.7",
     "tsdx": "^0.14.1"
   },
-  "peerDependencies": {
-    "aws-sdk": "^2.828.0"
-  },
   "dependencies": {
-    "@rollup/plugin-replace": "^3.0.0",
-    "@sidetree/common": "^0.3.1-unstable.36",
-    "@sidetree/core": "^0.3.1-unstable.36",
-    "@types/sqlite3": "^3.1.7",
+    "@sidetree/common": "^0.3.1-unstable.41",
+    "@sidetree/core": "^0.3.1-unstable.41",
     "amazon-qldb-driver-nodejs": "^2.2.0",
+    "aws-sdk": "^2.828.0",
     "ion-js": "^4.1.0",
     "jsbi": "^3.1.4",
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "sqlite3": "^5.0.2"
   },
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/ledger-qldb",
   "repository": {

@@ -13,5 +13,7 @@
  */
 
 import QLDBLedger from './QLDBLedger';
+import MockQLDBLedger from './MockQLDBLedger';
 
+export { QLDBLedger, MockQLDBLedger };
 export default QLDBLedger;

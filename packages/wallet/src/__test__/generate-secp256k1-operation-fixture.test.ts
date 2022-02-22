@@ -21,6 +21,8 @@ const WRITE_FIXTURE_TO_DISK = true;
 
 jest.setTimeout(10 * 1000);
 
+const keyType = 'secp256k1';
+
 it('can generate test fixture', async () => {
   const fixture: any = {
     operations: [],
@@ -29,7 +31,6 @@ it('can generate test fixture', async () => {
   for (let i = 0; i < wallet.mnemonic.length; i++) {
     const { mnemonic } = wallet.mnemonic[i];
     // IonRequest module only supports this key type.
-    const keyType = 'secp256k1';
     const key0 = await toKeyPair(mnemonic, 0, keyType);
     const key1 = await toKeyPair(mnemonic, 1, keyType);
     const key2 = await toKeyPair(mnemonic, 2, keyType);

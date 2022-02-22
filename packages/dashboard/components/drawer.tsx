@@ -28,7 +28,6 @@ import { useRouter } from 'next/router';
 
 export const Drawer = ({ logoLight, logoDark }: any) => {
   const router = useRouter();
-  console.log();
   const [hideUI, setHideUI] = useState(false);
 
   return (

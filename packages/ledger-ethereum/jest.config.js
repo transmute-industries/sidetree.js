@@ -10,4 +10,5 @@ module.exports = {
   },
   testPathIgnorePatterns: ['<rootDir>/test/'],
   testMatch: ['**/*.(int.test|test).(ts)'],
+  testEnvironment: './custom-jest-node-environment.js',
 };
