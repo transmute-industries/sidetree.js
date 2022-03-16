@@ -1,0 +1,44 @@
+{
+  "name": "@sidetree/bitcoin",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "gjgd (https://github.com/gjgd)",
+  "contributors": [
+    "Orie Steele (https://github.com/OR13)",
+    "gjgd (https://github.com/gjgd)"
+  ],
+  "module": "dist/bitcoin.esm.js",
+  "version": "0.3.1-unstable.36",
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "pretest": "docker-compose up -d bitcoin-core",
+    "test": "tsdx test",
+    "lint": "tsdx lint src",
+    "lint:fix": "tsdx lint src --fix",
+    "prepare": "tsdx build"
+  },
+  "peerDependencies": {},
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "tsdx": "^0.14.1"
+  },
+  "dependencies": {
+    "@rollup/plugin-replace": "^3.0.0",
+    "bitcoin-core": "^3.0.0"
+  },
+  "gitHead": "e97862f01a5ad9845d82eb57ca46d335a98aeb8b",
+  "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/ledger-bitcoin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/transmute-industries/sidetree.js.git",
+    "directory": "packages/ledger-bitcoin"
+  }
+}

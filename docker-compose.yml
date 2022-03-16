@@ -22,3 +22,9 @@ services:
     restart: always
     ports:
      - '27017:27017'
+  bitcoin-core:
+    image: ruimarinho/bitcoin-core:22
+    ports:
+     - '18332:18332'
+    volumes:
+      - "./packages/ledger-bitcoin/bitcoin-data:/home/bitcoin/.bitcoin"
