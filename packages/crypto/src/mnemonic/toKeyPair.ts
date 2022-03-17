@@ -21,14 +21,18 @@ import { SIDETREE_BIP44_COIN_TYPE } from '../constants';
 // See https://www.iana.org/assignments/jose/jose.xhtml#web-key-elliptic-curve
 export const toKeyPair = async (
   mnemonic: string,
-  index: number,
   type = 'Ed25519',
-  hdPath?: string
+  hdPath: string,
+  index = -1
 ): Promise<any> => {
   const seed = await bip39.mnemonicToSeed(mnemonic);
   const root = hdkey.fromMasterSeed(seed);
   const addrNode = root.derive(
-    hdPath ? hdPath : `m/44'/${SIDETREE_BIP44_COIN_TYPE}'/0'/0/${index}`
+    hdPath
+      ? index >= 0
+        ? `${hdPath.slice(0, -1)}${index}`
+        : hdPath
+      : `m/44'/${SIDETREE_BIP44_COIN_TYPE}'/0'/0/${index >= 0 ? index : 0}`
   );
 
   let keypair: any;

@@ -7,9 +7,21 @@ describe('Dashboard Wallet', () => {
     const mnemonic = await wallet.toMnemonic();
     wallet.add(mnemonic);
     const keyType = 'secp256k1';
-    const key0 = await wallet.toKeyPair(mnemonic.value, 0, keyType);
-    const key1 = await wallet.toKeyPair(mnemonic.value, 1, keyType);
-    const key2 = await wallet.toKeyPair(mnemonic.value, 2, keyType);
+    const key0 = await wallet.toKeyPair(
+      mnemonic.value,
+      keyType,
+      "m/44'/0'/0'/0/0"
+    );
+    const key1 = await wallet.toKeyPair(
+      mnemonic.value,
+      keyType,
+      "m/44'/0'/0'/0/1"
+    );
+    const key2 = await wallet.toKeyPair(
+      mnemonic.value,
+      keyType,
+      "m/44'/0'/0'/0/2"
+    );
     const document: any = {
       publicKeys: [
         {
@@ -36,13 +48,11 @@ describe('Dashboard Wallet', () => {
     const wallet: any = dashboardWalletFactory.build();
     const content = await wallet.toKeyPair(
       mnemonic,
-      0,
       'secp256k1',
       "m/44'/0'/0'/0/0"
     );
     const content2 = await Sidetree.toKeyPair(
       mnemonic,
-      0,
       'secp256k1',
       "m/44'/0'/0'/0/0"
     );
