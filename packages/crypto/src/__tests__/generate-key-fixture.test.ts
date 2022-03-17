@@ -26,9 +26,9 @@ it('can generate test fixture', async () => {
 
   for (let i = 0; i < mnemonic.mnemonic.length; i++) {
     const m0 = mnemonic.mnemonic[i];
-    const k0 = await toKeyPair(m0, 0, 'Ed25519');
-    const k1 = await toKeyPair(m0, 0, 'X25519');
-    const k2 = await toKeyPair(m0, 0, 'secp256k1');
+    const k0 = await toKeyPair(m0, 'Ed25519', "m/44'/1'/0'/0/0");
+    const k1 = await toKeyPair(m0, 'X25519', "m/44'/1'/0'/0/0");
+    const k2 = await toKeyPair(m0, 'secp256k1', "m/44'/1'/0'/0/0");
 
     expect(k0).toBeDefined();
     expect(k1).toBeDefined();

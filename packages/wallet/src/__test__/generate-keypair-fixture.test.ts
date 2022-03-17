@@ -25,9 +25,9 @@ it('can generate test fixture', async () => {
 
   for (let i = 0; i < wallet.mnemonic.length; i++) {
     const { mnemonic } = wallet.mnemonic[i];
-    const kp0 = await toKeyPair(mnemonic, 0, 'Ed25519');
-    const kp1 = await toKeyPair(mnemonic, 0, 'X25519');
-    const kp2 = await toKeyPair(mnemonic, 0, 'secp256k1');
+    const kp0 = await toKeyPair(mnemonic, 'Ed25519', "m/44'/1'/0'/0/0");
+    const kp1 = await toKeyPair(mnemonic, 'X25519', "m/44'/1'/0'/0/0");
+    const kp2 = await toKeyPair(mnemonic, 'secp256k1', "m/44'/1'/0'/0/0");
     fixture.keypair.push({
       mnemonic,
       Ed25519: kp0,

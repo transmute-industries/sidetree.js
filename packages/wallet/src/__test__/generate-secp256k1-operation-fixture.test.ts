@@ -31,9 +31,9 @@ it('can generate test fixture', async () => {
   for (let i = 0; i < wallet.mnemonic.length; i++) {
     const { mnemonic } = wallet.mnemonic[i];
     // IonRequest module only supports this key type.
-    const key0 = await toKeyPair(mnemonic, 0, keyType);
-    const key1 = await toKeyPair(mnemonic, 1, keyType);
-    const key2 = await toKeyPair(mnemonic, 2, keyType);
+    const key0 = await toKeyPair(mnemonic, keyType, "m/44'/1'/0'/0/0");
+    const key1 = await toKeyPair(mnemonic, keyType, "m/44'/1'/0'/0/1");
+    const key2 = await toKeyPair(mnemonic, keyType, "m/44'/1'/0'/0/2");
     const document: SidetreeDocumentModel = {
       publicKeys: [
         {
@@ -59,8 +59,8 @@ it('can generate test fixture', async () => {
 
     const didUniqueSuffix = computeDidUniqueSuffix(op0.suffixData);
 
-    const key3 = await toKeyPair(mnemonic, 3, keyType);
-    const key4 = await toKeyPair(mnemonic, 4, keyType);
+    const key3 = await toKeyPair(mnemonic, keyType, "m/44'/1'/0'/0/3");
+    const key4 = await toKeyPair(mnemonic, keyType, "m/44'/1'/0'/0/4");
     const input2 = {
       didSuffix: didUniqueSuffix,
       updatePublicKey: key2.publicKeyJwk,
@@ -87,9 +87,9 @@ it('can generate test fixture', async () => {
 
     const op1 = await operations.update(input2);
 
-    const key5 = await toKeyPair(mnemonic, 5, keyType);
-    const key6 = await toKeyPair(mnemonic, 6, keyType);
-    const key7 = await toKeyPair(mnemonic, 7, keyType);
+    const key5 = await toKeyPair(mnemonic, keyType, "m/44'/1'/0'/0/5");
+    const key6 = await toKeyPair(mnemonic, keyType, "m/44'/1'/0'/0/6");
+    const key7 = await toKeyPair(mnemonic, keyType, "m/44'/1'/0'/0/7");
 
     const recoverDocument: SidetreeDocumentModel = {
       publicKeys: [

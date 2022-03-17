@@ -16,16 +16,10 @@ import { UNIVERSAL_WALLET_CONTEXT_URL, placeHolderImage } from '../constants';
 
 export const toKeyPair = async (
   mnemonic: string,
-  index: number,
   type = 'Ed25519',
-  hdPath?: string
+  hdPath: string
 ): Promise<any> => {
-  const keypair: any = await sidetreeCrypto.toKeyPair(
-    mnemonic,
-    index,
-    type,
-    hdPath
-  );
+  const keypair: any = await sidetreeCrypto.toKeyPair(mnemonic, type, hdPath);
   const jsonWebKeyPair = await keypair.export({
     type: 'JsonWebKey2020',
     privateKey: true,

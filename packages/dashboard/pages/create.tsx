@@ -46,9 +46,21 @@ const Resolver: NextPage<any> = ({
       (content: any) => content.type === 'Mnemonic'
     ).value;
     const keyType = 'secp256k1';
-    const key0 = await wallet.toKeyPair(mnemonic.value, 0, keyType);
-    const key1 = await wallet.toKeyPair(mnemonic.value, 1, keyType);
-    const key2 = await wallet.toKeyPair(mnemonic.value, 2, keyType);
+    const key0 = await wallet.toKeyPair(
+      mnemonic.value,
+      keyType,
+      "m/44'/1'/0'/0/0"
+    );
+    const key1 = await wallet.toKeyPair(
+      mnemonic.value,
+      keyType,
+      "m/44'/1'/0'/0/1"
+    );
+    const key2 = await wallet.toKeyPair(
+      mnemonic.value,
+      keyType,
+      "m/44'/1'/0'/0/2"
+    );
     const document: any = {
       publicKeys: [
         {

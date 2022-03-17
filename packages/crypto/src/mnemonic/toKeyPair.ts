@@ -16,20 +16,16 @@ import * as bip39 from 'bip39';
 import hdkey from 'hdkey';
 import { Ed25519KeyPair } from '@transmute/ed25519-key-pair';
 import { JsonWebKey } from '@transmute/json-web-signature';
-import { SIDETREE_BIP44_COIN_TYPE } from '../constants';
 
 // See https://www.iana.org/assignments/jose/jose.xhtml#web-key-elliptic-curve
 export const toKeyPair = async (
   mnemonic: string,
-  index: number,
   type = 'Ed25519',
-  hdPath?: string
+  hdPath: string
 ): Promise<any> => {
   const seed = await bip39.mnemonicToSeed(mnemonic);
   const root = hdkey.fromMasterSeed(seed);
-  const addrNode = root.derive(
-    hdPath ? hdPath : `m/44'/${SIDETREE_BIP44_COIN_TYPE}'/0'/0/${index}`
-  );
+  const addrNode = root.derive(hdPath);
 
   let keypair: any;
 
