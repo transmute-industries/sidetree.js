@@ -33,7 +33,7 @@ interface SidetreePlugin {
     mnemonic: string,
     type: string,
     hdPath: string,
-    index: number
+    index?: number
   ) => Promise<KeyPair>;
   operations: any;
   createLongFormDid: (input: {

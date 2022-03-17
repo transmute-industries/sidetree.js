@@ -34,9 +34,9 @@ describe('CRUD', () => {
     it('can generate long form did', async () => {
       const mnemonic = vectors.wallet.operations[0].mnemonic;
       const keyType = 'secp256k1';
-      const key0 = await wallet.toKeyPair(mnemonic, 0, keyType);
-      const key1 = await wallet.toKeyPair(mnemonic, 1, keyType);
-      const key2 = await wallet.toKeyPair(mnemonic, 2, keyType);
+      const key0 = await wallet.toKeyPair(mnemonic, keyType, "m/44'/1'/0'/0/0");
+      const key1 = await wallet.toKeyPair(mnemonic, keyType, "m/44'/1'/0'/0/1");
+      const key2 = await wallet.toKeyPair(mnemonic, keyType, "m/44'/1'/0'/0/2");
       const document: any = {
         publicKeys: [
           {

@@ -16,16 +16,28 @@ import { toKeyPair } from './toKeyPair';
 import { wallet } from '@sidetree/test-vectors';
 
 it('can generate key pair Ed25519', async () => {
-  const content = await toKeyPair(wallet.keypair[0].mnemonic, 0, 'Ed25519');
+  const content = await toKeyPair(
+    wallet.keypair[0].mnemonic,
+    'Ed25519',
+    "m/44'/1'/0'/0/0"
+  );
   expect(content).toEqual(wallet.keypair[0].Ed25519);
 });
 
 it('can generate key pair X25519', async () => {
-  const content = await toKeyPair(wallet.keypair[0].mnemonic, 0, 'X25519');
+  const content = await toKeyPair(
+    wallet.keypair[0].mnemonic,
+    'X25519',
+    "m/44'/1'/0'/0/0"
+  );
   expect(content).toEqual(wallet.keypair[0].X25519);
 });
 
 it('can generate key pair secp256k1', async () => {
-  const content = await toKeyPair(wallet.keypair[0].mnemonic, 0, 'secp256k1');
+  const content = await toKeyPair(
+    wallet.keypair[0].mnemonic,
+    'secp256k1',
+    "m/44'/1'/0'/0/0"
+  );
   expect(content).toEqual(wallet.keypair[0].secp256k1);
 });
