@@ -42,25 +42,16 @@ const Resolver: NextPage<any> = ({
   const createDid = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    console.log('WALLET CONTENTS', wallet);
     const mnemonic = wallet.contents.find(
       (content: any) => content.type === 'Mnemonic'
     ).value;
+    console.log('MENOMINC', mnemonic);
     const keyType = 'secp256k1';
-    const key0 = await wallet.toKeyPair(
-      mnemonic.value,
-      keyType,
-      "m/44'/1'/0'/0/0"
-    );
-    const key1 = await wallet.toKeyPair(
-      mnemonic.value,
-      keyType,
-      "m/44'/1'/0'/0/1"
-    );
-    const key2 = await wallet.toKeyPair(
-      mnemonic.value,
-      keyType,
-      "m/44'/1'/0'/0/2"
-    );
+    console.log('INPUTS', mnemonic, keyType, "m/44'/1'/0'/0/0");
+    const key0 = await wallet.toKeyPair(mnemonic, keyType, "m/44'/1'/0'/0/0");
+    const key1 = await wallet.toKeyPair(mnemonic, keyType, "m/44'/1'/0'/0/1");
+    const key2 = await wallet.toKeyPair(mnemonic, keyType, "m/44'/1'/0'/0/2");
     const document: any = {
       publicKeys: [
         {
