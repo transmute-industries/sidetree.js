@@ -1,7 +1,22 @@
 # @sidetree/dashboard
 
-This package contains a Next.js app that can be used to operate a sidetree node.
+1. Summary
+   - Docker Hub Image
+3. Setting up a Node
+   - DID Element
+   - DID Photon
+   - DID Ion
+   - DID Orb
+4. What You Can Do In The App
+   - Create a Wallet
+   - Creaye a DID
+   - Viewing Node Transactions
+   - Viewing Node Operations
+   - Resolving a DID
 
+## Summary
+
+This package contains a Next.js app that can be used to operate a sidetree node.
 Running this application will start up a sidetree node and provide you a simple UI to interact with the node.
 
 This UI will allow you to:
@@ -12,91 +27,50 @@ This UI will allow you to:
 - See the transactions that are happening on your node.
 - See the operations that are happening on your node.
 
-As it stands now, the following operations are not available:
+The following operations are not available from the UI:
 
 - Delete DID
 - Update DID
 
-Deployed node of Element Ropsten Testnet: [ropsten.element.transmute.industries](https://ropsten.element.transmute.industries)
+### Docker Hub Image
 
 Docker hub image: https://hub.docker.com/r/transmute/sidetree-dashboard
 
-## Running Your Sidetree Node
+## Setting Up a Node
 
-[GCP](docs/deploy-to-gcp.md)
+The Sidetree Dashboard is intended to be a general purpose implementation of the Sidetree protocol.
+Environment variables are required for setting up a Node with a specific Ledger/CAS combination.
 
-## Cloning the Repo & Setting Up The Project
+### DID Element
 
-First you will need to begin by cloning the Sidetree.js repo if you have not done so already. Next you will need to navigate to the dashboard directorty.
+[DID Element Spec](https://github.com/transmute-industries/sidetree.js/tree/main/packages/did-method-element)  
+Deployed node of Element Ropsten Testnet: [ropsten.element.transmute.industries](https://ropsten.element.transmute.industries)
 
-You can do this with the following command:
+DID Element uses the Etherum Ledger and IPFS for Content Addressable Storage. 
+DID Element uses Ganache locally for a developer environment, and Ropsten for a test envrionment.
+Below are several readme's which describe how to set up an Element Node covering different possible deployment
+conditions. 
 
-```
-git clone git@github.com:transmute-industries/sidetree.js.git
-cd sidetree.js
-npm install
-```
+- [Setup a Development Node with Ganache on a Raspberry Pi](https://github.com/transmute-industries/sidetree.js/blob/main/packages/did-method-element/docs/local-dev.md)
+- [Setup a Testnet Node with Ropsten on a Raspberry Pi](https://github.com/transmute-industries/sidetree.js/blob/main/packages/did-method-element/docs/local-element-ropsten-install.md)
+- [Setup a Testnet Node with Ropsten using Docker](https://github.com/transmute-industries/sidetree.js/blob/main/packages/did-method-element/docs/docker-element-ropsten-install.md)
+- [Setup a Testnet Node with Google Cloud Platform](https://github.com/transmute-industries/sidetree.js/blob/main/packages/dashboard/docs/deploy-to-gcp.md)
 
-Important: The `lerna bootstrap` command will build all of the packages and link them so everything works properly.
+### DID Photon
 
-## Running Your Sidetree Node
+[DID Photon Spec](https://github.com/transmute-industries/sidetree.js/tree/main/packages/did-method-photon)
 
-Before you run your sidetree node, we need to make sure we have all of our environment variables properly configured for the type of node we will be running.
+### DID Ion
 
-There are currently 3 DID method configurations you can use to run your node. They are:
+See https://github.com/transmute-industries/sidetree.js/issues/379
 
-1. example:sidetree.testnet
-2. elem:ganache
-3. elem:ropsten
+### DID Orb
 
-Inside this package is an example env file for each configuration along with instructions on how to set up that type of node below.
+See https://github.com/transmute-industries/sidetree.js/issues/380
 
-### Running an `example:sidetree.testnet` node
+## What You Can Do In The App
 
-This is a mock ledger. This means this configuration should work locally even if you are not connected to the internet.
-
-If you are going to use this configuration, you will need to use all of the environment variables found in the `.env.testnet.example` file.
-
-So before doing anything you will need to copy the contents of `.env.example:sidetree.testnet.example` to a new `.env.example:sidetree.testnet` file at the root of the `packages/dashboard` directory.
-
-Once you have you env file set up you can start the node 2 ways:
-
-1. Using Docker: `npm run dev:docker`. This will set up the node inside a docker container. This will server the dashboard at `http://localhost:8080`.
-2. `npm run dev`. This will server the dashboard at `http://localhost:3000`.
-
-### Running an `elem:ganache` node
-
-This is a single node that simulates a real blockchain. This means this configuration should work locally even if you are not connected to the internet.
-
-If you are going to use this configuration, you will need to use all of the environment variables found in the `.env.ganache.example` file.
-
-So before doing anything you will need to copy the contents of `.env.ganache.example` to a new `.env.ganache` file at the root of the `packages/dashboard` directory.
-
-Once you have your env file set up, you will need do download Ganache if you have not already. You can download this here: https://trufflesuite.com/ganache/.
-
-After you have the program installed, you will need to open up the application and modify the server settings to use the port specified inside your `.env.ganache` file.
-
-Once you have you env file and Ganache set up you can start the node 2 ways:
-
-1. Using Docker: `npm run dev:ganache:docker`. This will set up the node inside a docker container. This will server the dashboard at `http://localhost:8080`.
-2. `npm run dev:ganache`. This will server the dashboard at `http://localhost:3000`.
-
-### Running an `elem:ropsten` node
-
-This is a testnet.
-
-If you are going to use this configuration, you will need to use all of the environment variables found in the `.env.ropsten.example` file.
-
-So before doing anything you will need to copy the contents of `.env.ropsten.example` to a new `.env.ropsten` file at the root of the `packages/dashboard` directory.
-
-WARNING: You need to make sure your ENV file is never committed to source control. Specifically because it uses your mnemonic phrase.
-
-Once you have you env file set up you can start the node 2 ways:
-
-1. Using Docker: `npm run dev:ropsten:docker`. This will set up the node inside a docker container. This will server the dashboard at `http://localhost:8080`.
-2. `npm run dev:ropsten`. This will server the dashboard at `http://localhost:3000`.
-
-### What You Can Do In The App
+![Sidetree.js Dashboard](https://user-images.githubusercontent.com/25621780/159126440-f872454c-fd31-49ac-957e-99eab1c62fd2.png)
 
 When the application first loads, you should be greeted with a welcome screen listing the did method you are using in the node.
 
@@ -108,6 +82,8 @@ The different sections of the application are:
 
 #### Create a wallet (Manage)
 
+![Sidetree.js Create Wallet](https://user-images.githubusercontent.com/25621780/159128369-336a4dc3-ed3f-4ae4-a7df-f348340d177e.png)
+
 Before you can create a DID, you will need to create a wallet. This can be done by clicking the "Manage CTA". This should take you to the `http://localhost:3000/wallet` page.
 
 If you do not already have a wallet, you should see a prompt asking you to generate one. To generate a wallet, simply click the button in the prompt.
@@ -115,6 +91,8 @@ If you do not already have a wallet, you should see a prompt asking you to gener
 One your wallet is created, the conents of the wallet are kept in the browsers `localStorage`. This means you will need to access this to obtain any DIDs you create or add to the wallet.
 
 #### Creating a DID (Manage)
+
+![Sidetree.js Create DID](https://user-images.githubusercontent.com/25621780/159128394-ee5f655c-cf08-4e34-a535-0a88e2592140.png)
 
 Now that we have a wallet created, we will be able to create a DID.
 
@@ -132,7 +110,7 @@ Now that we have created a DID using our node, we should be able to see this tra
 
 If you click the `Transactions` menu in the application sidebar, you should be taking to `http://localhost:3000/transactions` where you will see a table and 1 transaction listed.
 
-#### Viwing Node Operations (Explore)
+#### Viewing Node Operations (Explore)
 
 You can also view the latest operations performed by the node by clicking the `Operations` menu item in the application sidebar.
 
