@@ -62,10 +62,12 @@ conditions.
 
 ### DID Ion
 
+[DID Ion Spec](https://github.com/decentralized-identity/ion)  
 See https://github.com/transmute-industries/sidetree.js/issues/379
 
 ### DID Orb
 
+[DID Orb Spec](https://github.com/trustbloc/orb)  
 See https://github.com/transmute-industries/sidetree.js/issues/380
 
 ## What You Can Do In The App
