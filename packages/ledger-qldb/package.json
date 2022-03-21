@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/qldb.esm.js",
-  "version": "0.3.1-unstable.46",
+  "version": "0.3.1-unstable.47",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -26,13 +26,13 @@
   },
   "devDependencies": {
     "@rollup/plugin-replace": "^3.0.0",
-    "@sidetree/test-vectors": "^0.3.1-unstable.46",
+    "@sidetree/test-vectors": "^0.3.1-unstable.47",
     "@types/sqlite3": "^3.1.7",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@sidetree/common": "^0.3.1-unstable.46",
-    "@sidetree/core": "^0.3.1-unstable.46",
+    "@sidetree/common": "^0.3.1-unstable.47",
+    "@sidetree/core": "^0.3.1-unstable.47",
     "amazon-qldb-driver-nodejs": "^2.2.0",
     "aws-sdk": "^2.828.0",
     "ion-js": "^4.1.0",
