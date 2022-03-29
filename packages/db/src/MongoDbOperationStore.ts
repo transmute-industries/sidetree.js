@@ -26,8 +26,7 @@ interface IMongoOperation {
  * Implementation of OperationStore that stores the operation data in
  * a MongoDB database.
  */
-export default class MongoDbOperationStore
-  extends MongoDbStore
+export default class MongoDbOperationStore extends MongoDbStore
   implements IOperationStore {
   /** MongoDB collection name under the database where the operations are stored. */
   public static readonly collectionName: string = 'operations';
