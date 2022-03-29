@@ -92,9 +92,7 @@ export default class Observer {
       // until there are no more new transactions or there is a block reorganization.
       let moreTransactions = false;
       do {
-        if (this.cursorTransaction === undefined) {
-          this.cursorTransaction = await this.transactionStore.getLastTransaction();
-        }
+        this.cursorTransaction = await this.transactionStore.getLastTransaction();
         const cursorTransactionNumber = this.cursorTransaction
           ? this.cursorTransaction.transactionNumber
           : undefined;
