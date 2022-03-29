@@ -77,8 +77,8 @@ export default class QLDBLedger implements IBlockchain {
 
   private async execute(query: string, args?: object): Promise<Result> {
     const params = args ? [args] : [];
-    return this.qldbDriver.executeLambda(async (txn) =>
-      txn.execute(query, ...params)
+    return await this.qldbDriver.executeLambda(
+      async (txn) => await txn.execute(query, ...params)
     );
   }
 
@@ -87,11 +87,12 @@ export default class QLDBLedger implements IBlockchain {
     args?: object,
     retryCount = 0
   ): Promise<Result | void> {
-    return this.execute(query, args).catch((err) => {
+    return await this.execute(query, args).catch(async (err) => {
       if (err.message.includes('No open transaction') && retryCount < 1) {
         // Transaction failed and was rolled back.
         console.log(`retrying query ${query} with count ${retryCount}`);
-        return this.executeWithRetry(query, args, retryCount + 1);
+        const r = await this.executeWithRetry(query, args, retryCount + 1);
+        return r;
       } else {
         throw new Error(err.message);
       }
@@ -99,7 +100,7 @@ export default class QLDBLedger implements IBlockchain {
   }
 
   private async executeWithoutError(query: string): Promise<Result> {
-    return this.executeWithRetry(query).catch((err) => err.message);
+    return await this.executeWithRetry(query).catch((err) => err.message);
   }
 
   public async reset(): Promise<void> {
@@ -170,11 +171,7 @@ export default class QLDBLedger implements IBlockchain {
     transactions: TransactionModelQLDB[];
   }> {
     let result;
-    if (sinceTransactionNumber && transactionTimeHash) {
-      result = await this.executeWithRetry(
-        `SELECT * FROM _ql_committed_${this.transactionTable} BY doc_id WHERE doc_id = '${transactionTimeHash}' AND blockAddress.sequenceNo >= ${sinceTransactionNumber}`
-      );
-    } else if (sinceTransactionNumber) {
+    if (sinceTransactionNumber) {
       console.warn(
         'reading since transactionNumber is a costly operation (full table scan), use with caution'
       );
