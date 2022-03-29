@@ -171,11 +171,7 @@ export default class QLDBLedger implements IBlockchain {
     transactions: TransactionModelQLDB[];
   }> {
     let result;
-    if (sinceTransactionNumber && transactionTimeHash) {
-      result = await this.executeWithRetry(
-        `SELECT * FROM _ql_committed_${this.transactionTable} BY doc_id WHERE blockAddress.sequenceNo >= ${sinceTransactionNumber}`
-      );
-    } else if (sinceTransactionNumber) {
+    if (sinceTransactionNumber) {
       console.warn(
         'reading since transactionNumber is a costly operation (full table scan), use with caution'
       );
