@@ -170,7 +170,7 @@ export default class QLDBLedger implements IBlockchain {
     moreTransactions: boolean;
     transactions: TransactionModelQLDB[];
   }> {
-    console.log('Starting QLDB read transcation at', new Date());
+    console.log('Starting QLDB read transcation at: ', new Date());
     let result;
     if (sinceTransactionNumber) {
       console.log(
@@ -191,8 +191,9 @@ export default class QLDBLedger implements IBlockchain {
         `SELECT * FROM _ql_committed_${this.transactionTable}`
       );
     }
+    console.log('QLDB read transcation completed at: ', new Date());
     const resultList: unknown[] = (result as Result).getResultList();
-    console.warn(
+    console.log(
       `There has been ${resultList.length -
         1} new transactions since transaction #${sinceTransactionNumber}`
     );
