@@ -170,9 +170,10 @@ export default class QLDBLedger implements IBlockchain {
     moreTransactions: boolean;
     transactions: TransactionModelQLDB[];
   }> {
+    console.log('Starting QLDB read transcation at', new Date());
     let result;
     if (sinceTransactionNumber) {
-      console.warn(
+      console.log(
         'reading since transactionNumber is a costly operation (full table scan), use with caution'
       );
       result = await this.executeWithRetry(
@@ -192,8 +193,9 @@ export default class QLDBLedger implements IBlockchain {
     }
     const resultList: unknown[] = (result as Result).getResultList();
     console.warn(
-      `There has been ${resultList.length -
-        1} new transactions since transaction #${sinceTransactionNumber}`
+      `There has been ${
+        resultList.length - 1
+      } new transactions since transaction #${sinceTransactionNumber}`
     );
     const transactions: TransactionModelQLDB[] = (resultList as ValueWithMetaData[]).map(
       this.toSidetreeTransaction
