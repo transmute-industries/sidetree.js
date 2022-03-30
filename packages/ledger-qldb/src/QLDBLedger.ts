@@ -173,7 +173,7 @@ export default class QLDBLedger implements IBlockchain {
     console.log('Starting QLDB read transcation at: ', new Date());
     let result;
     if (sinceTransactionNumber) {
-      console.log(
+      console.warn(
         'reading since transactionNumber is a costly operation (full table scan), use with caution'
       );
       result = await this.executeWithRetry(
