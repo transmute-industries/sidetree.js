@@ -173,7 +173,7 @@ export default class QLDBLedger implements IBlockchain {
     console.log('Starting QLDB read transcation at: ', new Date());
     let result;
     if (sinceTransactionNumber) {
-      console.log(
+      console.warn(
         'reading since transactionNumber is a costly operation (full table scan), use with caution'
       );
       result = await this.executeWithRetry(
@@ -194,8 +194,9 @@ export default class QLDBLedger implements IBlockchain {
     console.log('QLDB read transcation completed at: ', new Date());
     const resultList: unknown[] = (result as Result).getResultList();
     console.log(
-      `There has been ${resultList.length -
-        1} new transactions since transaction #${sinceTransactionNumber}`
+      `There has been ${
+        resultList.length - 1
+      } new transactions since transaction #${sinceTransactionNumber}`
     );
     const transactions: TransactionModelQLDB[] = (resultList as ValueWithMetaData[]).map(
       this.toSidetreeTransaction
@@ -224,6 +225,11 @@ export default class QLDBLedger implements IBlockchain {
 
   // Getting the latest block is a very costly operation in QLDB
   public async getLatestTime(): Promise<BlockchainTimeModel> {
+    // IBYRNE - This is used to caluclate getFee, which is always 0, and when checking
+    // if blockchain re-org has happened. QLDB is a centralized block chain so it wouldn't
+    // ever been re-orged. Returning max time value so reog flag inside Observer.ts is always
+    // false.
+    return { time: Infinity, hash: '' };
     console.warn(
       'getLatestTime is a costly operation (full table scan), use with caution'
     );
