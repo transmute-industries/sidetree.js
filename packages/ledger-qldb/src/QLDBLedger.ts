@@ -226,7 +226,7 @@ export default class QLDBLedger implements IBlockchain {
   public async getLatestTime(): Promise<BlockchainTimeModel> {
     // IBYRNE - This is used to caluclate getFee, which is always 0, and when checking
     // if blockchain re-org has happened. QLDB is a centralized block chain so it wouldn't
-    // ever been re-orged. Returning max time value so reorg flag inside Observer.ts is always
+    // ever been re-orged. Returning time value so reorg flag inside Observer.ts is always
     // false.
     return { time: 0, hash: '' };
   }
