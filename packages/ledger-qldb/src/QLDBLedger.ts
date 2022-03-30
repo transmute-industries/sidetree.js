@@ -12,7 +12,7 @@ import { AnchoredDataSerializer } from '@sidetree/core';
 
 import { Timestamp } from 'aws-sdk/clients/apigateway';
 import QLDBSession from 'aws-sdk/clients/qldbsession';
-import moment from 'moment';
+
 const { version } = require('../package.json');
 
 interface ValueWithMetaData {
@@ -194,8 +194,9 @@ export default class QLDBLedger implements IBlockchain {
     console.log('QLDB read transcation completed at: ', new Date());
     const resultList: unknown[] = (result as Result).getResultList();
     console.log(
-      `There has been ${resultList.length -
-        1} new transactions since transaction #${sinceTransactionNumber}`
+      `There has been ${
+        resultList.length - 1
+      } new transactions since transaction #${sinceTransactionNumber}`
     );
     const transactions: TransactionModelQLDB[] = (resultList as ValueWithMetaData[]).map(
       this.toSidetreeTransaction
@@ -228,30 +229,7 @@ export default class QLDBLedger implements IBlockchain {
     // if blockchain re-org has happened. QLDB is a centralized block chain so it wouldn't
     // ever been re-orged. Returning max time value so reorg flag inside Observer.ts is always
     // false.
-    return { time: Infinity, hash: '' };
-    console.warn(
-      'getLatestTime is a costly operation (full table scan), use with caution'
-    );
-    const currentDate = moment().format();
-    const result = await this.executeWithRetry(
-      `SELECT blockAddress, id FROM history(${this.transactionTable}, \`${currentDate}\`) AS h BY id`
-    );
-    const resultList: any[] = (result as Result).getResultList();
-    if (resultList.length > 0) {
-      const sequenceNumbers: number[] = resultList
-        .map((result) => result.blockAddress.sequenceNo.toString())
-        .map((sequenceNo) => Number(sequenceNo));
-      const time = Math.max(...sequenceNumbers);
-      const latestBlock = resultList.find(
-        (result) => Number(result.blockAddress.sequenceNo) === time
-      );
-      const hash = latestBlock.id.toString();
-      this.approximateTime = {
-        time,
-        hash,
-      };
-    }
-    return this.approximateTime;
+    return { time: 0, hash: '' };
   }
 
   getFee(_transactionTime: number): Promise<number> {
