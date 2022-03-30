@@ -194,9 +194,8 @@ export default class QLDBLedger implements IBlockchain {
     console.log('QLDB read transcation completed at: ', new Date());
     const resultList: unknown[] = (result as Result).getResultList();
     console.log(
-      `There has been ${
-        resultList.length - 1
-      } new transactions since transaction #${sinceTransactionNumber}`
+      `There has been ${resultList.length -
+        1} new transactions since transaction #${sinceTransactionNumber}`
     );
     const transactions: TransactionModelQLDB[] = (resultList as ValueWithMetaData[]).map(
       this.toSidetreeTransaction
