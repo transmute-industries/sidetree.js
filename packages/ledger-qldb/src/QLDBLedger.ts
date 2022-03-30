@@ -12,7 +12,7 @@ import { AnchoredDataSerializer } from '@sidetree/core';
 
 import { Timestamp } from 'aws-sdk/clients/apigateway';
 import QLDBSession from 'aws-sdk/clients/qldbsession';
-import moment from 'moment';
+
 const { version } = require('../package.json');
 
 interface ValueWithMetaData {
@@ -224,29 +224,11 @@ export default class QLDBLedger implements IBlockchain {
 
   // Getting the latest block is a very costly operation in QLDB
   public async getLatestTime(): Promise<BlockchainTimeModel> {
-    console.warn(
-      'getLatestTime is a costly operation (full table scan), use with caution'
-    );
-    const currentDate = moment().format();
-    const result = await this.executeWithRetry(
-      `SELECT blockAddress, id FROM history(${this.transactionTable}, \`${currentDate}\`) AS h BY id`
-    );
-    const resultList: any[] = (result as Result).getResultList();
-    if (resultList.length > 0) {
-      const sequenceNumbers: number[] = resultList
-        .map((result) => result.blockAddress.sequenceNo.toString())
-        .map((sequenceNo) => Number(sequenceNo));
-      const time = Math.max(...sequenceNumbers);
-      const latestBlock = resultList.find(
-        (result) => Number(result.blockAddress.sequenceNo) === time
-      );
-      const hash = latestBlock.id.toString();
-      this.approximateTime = {
-        time,
-        hash,
-      };
-    }
-    return this.approximateTime;
+    // IBYRNE - This is used to caluclate getFee, which is always 0, and when checking
+    // if blockchain re-org has happened. QLDB is a centralized block chain so it wouldn't
+    // ever been re-orged. Returning time value so reorg flag inside Observer.ts is always
+    // false.
+    return { time: 0, hash: '' };
   }
 
   getFee(_transactionTime: number): Promise<number> {
