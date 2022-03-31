@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/element.esm.js",
-  "version": "0.3.1-unstable.54",
+  "version": "0.3.1-unstable.55",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -30,19 +30,19 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/test-vectors": "^0.3.1-unstable.54",
-    "@sidetree/wallet": "^0.3.1-unstable.54",
+    "@sidetree/test-vectors": "^0.3.1-unstable.55",
+    "@sidetree/wallet": "^0.3.1-unstable.55",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
     "@rollup/plugin-replace": "^3.0.0",
-    "@sidetree/cas": "^0.3.1-unstable.54",
-    "@sidetree/cas-ipfs": "^0.3.1-unstable.54",
-    "@sidetree/common": "^0.3.1-unstable.54",
-    "@sidetree/core": "^0.3.1-unstable.54",
-    "@sidetree/db": "^0.3.1-unstable.54",
-    "@sidetree/did-method": "^0.3.1-unstable.54",
-    "@sidetree/ethereum": "^0.3.1-unstable.54",
+    "@sidetree/cas": "^0.3.1-unstable.55",
+    "@sidetree/cas-ipfs": "^0.3.1-unstable.55",
+    "@sidetree/common": "^0.3.1-unstable.55",
+    "@sidetree/core": "^0.3.1-unstable.55",
+    "@sidetree/db": "^0.3.1-unstable.55",
+    "@sidetree/did-method": "^0.3.1-unstable.55",
+    "@sidetree/ethereum": "^0.3.1-unstable.55",
     "@truffle/hdwallet-provider": "^2.0.0",
     "jest-environment-node": "^27.2.5",
     "mongodb": "^4.1.2",
