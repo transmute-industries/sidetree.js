@@ -1,9 +1,20 @@
-# Digital Ocean Ropsten Node
+# Virtual Private Server Ropsten Node
+
+🔥🔥🔥 NOT FINAL 🔥🔥🔥
+
+This document will describe how to create a public-facing Element Node
+using the Ropsten Ethereum Testnet using Ubuntu 20.04 LTS.
 
 ## Requirements
 
+This document is intended for an Ubuntu 20.04 LTS server, with 
+a public Ipv4/ipv6 address, in an Virtual Private Server environment
+such as those hosted with Digital Ocean, Linode, or Vultr. The
+minimum requirements are listed below.  
+
+- 1 CPU
 - 4GB of RAM
-- 80GB of Storage
+- 50GB of Storage
 
 ## Install Requirements
 
@@ -46,21 +57,23 @@
 # vim /lib/systemd/system/ipfs.service
 --- Create File ---
 [Unit]
-Description=IPFS
+Description=IPFS daemon
+After=network.target
+
 [Service]
+### Uncomment the following line for custom ipfs datastore location
+# Environment=IPFS_PATH=/path/to/your/ipfs/datastore
 ExecStart=/usr/local/bin/ipfs daemon --init --migrate
-Restart=always
-User=root
-Group=root
 Restart=on-failure
-KillSignal=SIGINT
+
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 --- EOF ---
 # systemctl daemon-reload
 # systemctl enable ipfs
 # systemctl start ipfs
 ```
+* Credit: https://www.maxlaumeister.com/u/run-ipfs-on-boot-ubuntu-debian/
 
 ### Ethereum Ledger Service
 
@@ -120,6 +133,7 @@ ELEMENT_ANCHOR_CONTRACT=0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997
 ETHEREUM_RPC_URL=http://localhost:8545
 ETHEREUM_PROVIDER=$ETHEREUM_RPC_URL
 ETHEREUM_PRIVATE_KEY=YOUR_PRIVATE_KEY_HERE
+ETHEREUM_MNEMONIC='YOUR_MNEMONIC_PHRASE'
 --- EOF ---
 # npm run build
 # pm2 start npm --name "Element Dashboard" -- start
