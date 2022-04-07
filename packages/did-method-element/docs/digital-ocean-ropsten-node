@@ -1,0 +1,13 @@
+# Digital Ocean Ropsten Node
+
+## Requirements
+
+- 4GB of RAM
+- 80GB of Storage
+
+## Build and Run
+
+```
+# npm run build
+# pm2 start npm --name "Element Dashboard" -- start
+```
