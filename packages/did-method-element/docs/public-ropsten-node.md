@@ -5,14 +5,14 @@ using the Ropsten Ethereum Testnet using Ubuntu 20.04 LTS.
 
 ## Requirements
 
-This document is intended for an Ubuntu 20.04 LTS server, with 
+This document is intended for an Ubuntu 20.04 LTS server, with
 a public Ipv4/ipv6 address, in an Virtual Private Server environment
 such as those hosted with Digital Ocean, Linode, or Vultr. The
-minimum requirements are listed below.  
+minimum requirements are listed below.
 
 - 2 vCPU
-- 4GB of RAM
-- 50GB of Storage
+- 4GB of RAM (required to build dashboard)
+- 80GB of Storage (~50GB required for Ethereum data)
 
 ## Install Requirements
 
@@ -71,7 +71,8 @@ WantedBy=default.target
 # systemctl enable ipfs
 # systemctl start ipfs
 ```
-* Source: https://www.maxlaumeister.com/u/run-ipfs-on-boot-ubuntu-debian/
+
+- Source: https://www.maxlaumeister.com/u/run-ipfs-on-boot-ubuntu-debian/
 
 ### Ethereum Ledger Service
 
@@ -156,9 +157,9 @@ server {
     root /var/www/html;
 
     location ^~ /.well-known/acme-challenge/ {
-        try_files $uri $uri/ =404;    
+        try_files $uri $uri/ =404;
     }
-    
+
     location / {
         proxy_pass http://localhost:3000/;
     }
