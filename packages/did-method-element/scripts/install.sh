@@ -53,14 +53,6 @@ function installUpdates() {
     echo "unattended-upgrades       unattended-upgrades/enable_auto_updates boolean true" | debconf-set-selections; dpkg-reconfigure -f noninteractive unattended-upgrades
 }
 
-function setFirewall() {
-    apt install ufw -y
-    ufw allow ssh
-    ufw allow http
-    ufw allow https
-    ufw enable
-}
-
 function installNodejs() {
     curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
     apt-get install -y nodejs
@@ -124,6 +116,15 @@ function installEthereum() {
 
 }
 
+function installNginx() {
+    apt install ufw -y
+    ufw allow ssh
+    ufw allow http
+    ufw allow https
+    ufw enable
+    apt install nginx -y
+}
+
 ###############################################################################
 #                            START INSTALLL SCRIPT                            #
 ###############################################################################
@@ -141,6 +142,9 @@ Copyright © Transmute Industries Inc. Apache-2.0
 # Run Checks
 checkRoot
 checkOS
+
+# Run Install
+installUpdates
 
 
 ###############################################################################

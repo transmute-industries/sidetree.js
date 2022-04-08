@@ -78,10 +78,12 @@ Element follows the default parameters defined in the [Sidetree Protocol Specifi
 | NONCE_SIZE                      | 16 bytes                                                                          |
 
 Element uses Ethereum for the ledger layer, which means that did's are anchored to the block chain with a smart contract,
-instead of being appended to a `NO_OP` transaction. This means that rather than a specific block, Element will monitor
-a specific smart contract address for existing and new anchor transactions. 
+instead of being appended to a `NO_OP` transaction. Element will monitor a specific smart contract address for existing 
+and new anchor transactions. 
 
-The Elment Contract Address for Ropsten is: `0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997`.
+** Ropsten**:
+Contract Address: [0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997](https://ropsten.etherscan.io/address/0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997)
+Starting Block: [11759377](https://ropsten.etherscan.io/block/11759377)
 
 ## CRUD Operations
 
@@ -89,7 +91,7 @@ Element supports the 4 CRUD operations defined in the [Sidetree Protocol API Spe
 Each operation is performed by submitting a Sidetree operation in the form of and HTTP POST request to a Sidetree node.
 The body of the HTTP POST request for an operation will have the Content-Type of `application/json` to the `[server path]/operations` REST end point.
 
-```json
+```
 {
   "type": OPERATION_TYPE,
   ...
@@ -257,7 +259,7 @@ For example, to resolve the DID `did:elem:ropsten:EiCtwD11AV9e1oISQRHnMJsBC3OBdY
 `https://ropsten.element.transmute.industries/api/1.0/identifiers/did:elem:ropsten:EiCtwD11AV9e1oISQRHnMJsBC3OBdYDmx8xeKeASrKaw6A`.
 
 And we should get the following response. 
-```
+```json
 {
   "@context": "https://w3id.org/did-resolution/v1",
   "didDocument": {

@@ -38,6 +38,13 @@ The following did methods are supported or intended to be supported (or planned 
 | did:ion       | [spec](https://github.com/decentralized-identity/ion)                                                   | Bitcoin            | IPFS      | [Planned](https://github.com/transmute-industries/sidetree.js/issues/379) |
 | did:orb | [spec](https://trustbloc.github.io/did-method-orb/) | Hyperledger Fabric | IPFS      | [Planned](https://github.com/transmute-industries/sidetree.js/issues/380) |
 
+### Public Sidetree.js Nodes
+
+**Element**
+
+- https://ropsten.element.transmute.industries/
+- https://element.shellshop.lol/
+
 ## Developers Guide
 
 See [Development](./DEVELOPMENT.md)
