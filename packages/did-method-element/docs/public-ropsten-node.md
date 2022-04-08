@@ -1,7 +1,5 @@
 # Virtual Private Server Ropsten Node
 
-🔥🔥🔥 NOT FINAL 🔥🔥🔥
-
 This document will describe how to create a public-facing Element Node
 using the Ropsten Ethereum Testnet using Ubuntu 20.04 LTS.
 
@@ -73,7 +71,7 @@ WantedBy=default.target
 # systemctl enable ipfs
 # systemctl start ipfs
 ```
-* Credit: https://www.maxlaumeister.com/u/run-ipfs-on-boot-ubuntu-debian/
+* Source: https://www.maxlaumeister.com/u/run-ipfs-on-boot-ubuntu-debian/
 
 ### Ethereum Ledger Service
 
@@ -85,6 +83,8 @@ WantedBy=default.target
 --- Create File ---
 [Unit]
 Description=Ropsten
+After=network.target
+
 [Service]
 ExecStart=/usr/bin/geth --syncmode light --ropsten --http
 Restart=always
@@ -92,6 +92,7 @@ User=root
 Group=root
 Restart=on-failure
 KillSignal=SIGINT
+
 [Install]
 WantedBy=multi-user.target
 --- EOF ---
