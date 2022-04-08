@@ -20,7 +20,7 @@ minimum requirements are listed below.
 # apt-get update
 # apt-get upgrade
 # apt-get install -y unattended-upgrades software-properties-common python-is-python3 make gcc g++
-# dpkg-reconfigure unattended-upgrades
+# echo "unattended-upgrades       unattended-upgrades/enable_auto_updates boolean true" | debconf-set-selections; dpkg-reconfigure -f noninteractive unattended-upgrades
 ```
 
 ### Enable Firewall
