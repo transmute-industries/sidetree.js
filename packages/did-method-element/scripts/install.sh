@@ -75,13 +75,14 @@ function installNginx() {
     }
 }" > /etc/nginx/sites-enabled/element
 	certbot --nginx -d $domainName --non-interactive --agree-tos --register-unsafely-without-email --redirect
+	echo $domainName > /root/.element-domain
 
 }
 
 function installUpdates() {
     apt-get update
     apt-get upgrade -y
-    apt-get install -y unattended-upgrades software-properties-common python-is-python3 make gcc g++ pwgen jq
+    apt-get install -y unattended-upgrades software-properties-common python-is-python3 make gcc g++ pwgen jq qrencode
     echo "unattended-upgrades       unattended-upgrades/enable_auto_updates boolean true" | debconf-set-selections; dpkg-reconfigure -f noninteractive unattended-upgrades
 }
 
@@ -157,11 +158,11 @@ installDashboard() {
 
 	cd /root
 	git clone https://github.com/transmute-industries/sidetree.js.git element
-	cd /root/element/packages/dashboard
+	cd element
 	npm i
 
     keyStore=$(ls /root/.ethereum/keystore/)
-    if [ $keyStore == ""]; then
+    if [[ $keyStore == "" ]]; then
         pwgen 20 1 > /root/element/password.txt
         geth account new --password /root/element/password.txt
     fi 
@@ -185,14 +186,19 @@ ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI=/ip4/127.0.0.1/tcp/5001
 ELEMENT_ANCHOR_CONTRACT=0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997
 ETHEREUM_RPC_URL=http://localhost:8545
 ETHEREUM_PROVIDER=http://localhost:8545
-ETHEREUM_PRIVATE_KEY=$privateKey" > .env.local
+ETHEREUM_PRIVATE_KEY=$privateKey" > /root/element/packages/dashboard/.env.local
+
+	qrencode -o /root/element/packages/dashboard/public/address.png $address
 	npm run build
 	pm2 start npm --name "Element Dashboard" -- start
 	pm2 save
 	pm2 startup
 
+	domainName=$(cat /root/.element-domain)
+
 	echo "Your Ropsten Ethereum Address is: $address"
 	echo "You will need to send funds to this account to create DID's on this Node"
+	echo "https://$domainName/address.png"
 
 }
 
