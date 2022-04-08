@@ -10,7 +10,7 @@ a public Ipv4/ipv6 address, in an Virtual Private Server environment
 such as those hosted with Digital Ocean, Linode, or Vultr. The
 minimum requirements are listed below.  
 
-- 1 CPU
+- 2 vCPU
 - 4GB of RAM
 - 50GB of Storage
 
