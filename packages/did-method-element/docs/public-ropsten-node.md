@@ -11,8 +11,8 @@ such as those hosted with Digital Ocean, Linode, or Vultr. The
 minimum requirements are listed below.
 
 - 2 vCPU
-- 4GB of RAM (required to build dashboard)
-- 80GB of Storage (~50GB required for Ethereum data)
+- 4GB of RAM 
+- 40GB of Storage
 
 ## Install Requirements
 
@@ -21,15 +21,6 @@ minimum requirements are listed below.
 # apt-get upgrade
 # apt-get install -y unattended-upgrades software-properties-common python-is-python3 make gcc g++
 # echo "unattended-upgrades       unattended-upgrades/enable_auto_updates boolean true" | debconf-set-selections; dpkg-reconfigure -f noninteractive unattended-upgrades
-```
-
-### Enable Firewall
-
-```
-# ufw allow ssh
-# ufw allow http
-# ufw allow https
-# ufw enable
 ```
 
 ### MongoDB Service
@@ -44,6 +35,8 @@ minimum requirements are listed below.
 # systemctl start mongod.service
 ```
 
+Source: https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/
+
 ### IPFS Service
 
 ```
@@ -55,24 +48,44 @@ minimum requirements are listed below.
 # vim /lib/systemd/system/ipfs.service
 --- Create File ---
 [Unit]
-Description=IPFS daemon
+description=ipfs p2p daemon
 After=network.target
+Requires=network.target
 
 [Service]
-### Uncomment the following line for custom ipfs datastore location
-# Environment=IPFS_PATH=/path/to/your/ipfs/datastore
-ExecStart=/usr/local/bin/ipfs daemon --init --migrate
-Restart=on-failure
+Type=simple
+User=ipfs
+RestartSec=1
+Restart=always
+PermissionsStartOnly=true
+Nice=18
+StateDirectory=/var/lib/ipfs
+Environment=IPFS_PATH=/var/lib/ipfs
+Environment=HOME=/var/lib/ipfs
+LimitNOFILE=8192
+Environment=IPFS_FD_MAX=8192
+EnvironmentFile=-/etc/sysconfig/ipfs
+StandardOutput=journal
+WorkingDirectory=/var/lib/ipfs
+ExecStartPre=-adduser --system --group --home /var/lib/ipfs ipfs
+ExecStartPre=-mkdir /var/lib/ipfs
+ExecStartPre=-/bin/chown ipfs:ipfs /var/lib/ipfs
+ExecStartPre=-/bin/chmod ug+rwx /var/lib/ipfs
+ExecStartPre=-chpst -u ipfs /usr/local/bin/ipfs init --profile=badgerds
+ExecStartPre=-chpst -u ipfs /usr/local/bin/ipfs config profile apply server
+ExecStartPre=-chpst -u ipfs /usr/local/bin/ipfs config profile apply local-discovery
+ExecStartPre=-chpst -u ipfs /usr/local/bin/ipfs config Datastore.StorageMax "5GB"
+ExecStart=/usr/local/bin/ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target
 --- EOF ---
 # systemctl daemon-reload
 # systemctl enable ipfs
 # systemctl start ipfs
 ```
 
-- Source: https://www.maxlaumeister.com/u/run-ipfs-on-boot-ubuntu-debian/
+Source: https://github.com/ipfs/go-ipfs/issues/1430#issuecomment-428693941
 
 ### Ethereum Ledger Service
 
@@ -87,7 +100,7 @@ Description=Ropsten
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/geth --ropsten --http
+ExecStart=/usr/bin/geth --syncmode light --ropsten --http
 Restart=always
 User=root
 Group=root
@@ -102,6 +115,8 @@ WantedBy=multi-user.target
 # systemctl start ropsten
 ```
 
+Source: https://docs.umee.cc/umee/umee-node-operators/running-a-node/validator#ethereum-node
+
 ## Install Nodejs
 
 ```
@@ -109,6 +124,8 @@ WantedBy=multi-user.target
 # apt-get install -y nodejs
 # npm install pm2 -g
 ```
+
+Source: https://github.com/nodesource/distributions/blob/master/README.md#debian-and-ubuntu-based-distributions
 
 ## Build and Run
 
@@ -146,6 +163,10 @@ ETHEREUM_MNEMONIC='YOUR_MNEMONIC_PHRASE'
 ## Setup Domain with Nginx and Let's Encrypt
 
 ```
+# ufw allow ssh
+# ufw allow http
+# ufw allow https
+# ufw enable
 # apt-get install -y nginx
 # vim /etc/nginx/sites-enabled/element
 --- Create File ---

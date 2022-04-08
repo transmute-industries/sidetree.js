@@ -45,6 +45,38 @@ function checkOS() {
 	fi
 }
 
+function installNginx() {
+
+	read -rp "Enter Domain Name: " -e userInput
+	$domainName = echo $userInput | grep -P '(?=^.{5,254}$)(^(?:(?!\d+\.)[a-zA-Z0-9_\-]{1,63}\.?)+(?:[a-zA-Z]{2,})$)'
+	if [[ $domainName == "" ]]; then
+		echo "Please enter a valid domain name"
+		exit 1
+	fi
+
+	apt install ufw nginx certbot python3-certbot-nginx -y
+    ufw allow ssh
+    ufw allow http
+    ufw allow https
+    ufw enable
+	systemctl start nginx
+	systemctl enable nginx
+
+	echo "server {
+    listen 80;
+    listen [::]:80;
+    server_name $domainName;
+    root /var/www/html;
+    location ^~ /.well-known/acme-challenge/ {
+        try_files $uri $uri/ =404;
+    }
+    location / {
+        proxy_pass http://localhost:3000/;
+    }
+}" > /etc/nginx/sites-enabled/element
+	certbot --nginx -d $domainName --non-interactive --agree-tos --register-unsafely-without-email --redirect
+
+}
 
 function installUpdates() {
     apt-get update
@@ -114,16 +146,60 @@ WantedBy=multi-user.target" > /lib/systemd/system/ipfs.service
 
 function installEthereum() {
 
+	add-apt-repository -y ppa:ethereum/ethereum
+	apt-get update
+	apt-get -y install ethereum
+
+	echo "[Unit]
+Description=Ropsten
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/geth --syncmode light --ropsten --http
+Restart=always
+User=root
+Group=root
+Restart=on-failure
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target" > /lib/systemd/system/ropsten.service
+	systemctl daemon-reload
+	systemctl enable ropsten
+	systemctl start ropsten
+
 }
 
-function installNginx() {
-    apt install ufw -y
-    ufw allow ssh
-    ufw allow http
-    ufw allow https
-    ufw enable
-    apt install nginx -y
+installDashboard() {
+
+	cd /tmp
+	git clone https://github.com/transmute-industries/sidetree.js.git
+	mv sidetree.js/packages/dashboard /root/element
+	rm -rf sidetree.js
+	cd /root/element
+	npm i
+	echo "SIDETREE_METHOD=elem:ropsten
+DESCRIPTION='Sidetree on Ethereum Ledger and IPFS Cas'
+
+# Sidetree Variables
+MONGO_DB_CONNECTION_STRING=mongodb://localhost:27017/
+DATABASE_NAME=element-ropsten
+MAX_CONCURRENT_DOWNLOADS=20
+BATCH_INTERVAL_IN_SECONDS=5
+OBSERVING_INTERVAL_IN_SECONDS=5
+
+# Element Node Variables
+ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI=/ip4/127.0.0.1/tcp/5001
+ELEMENT_ANCHOR_CONTRACT=0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997
+ETHEREUM_RPC_URL=http://localhost:8545
+ETHEREUM_PROVIDER=$ETHEREUM_RPC_URL
+ETHEREUM_PRIVATE_KEY=YOUR_PRIVATE_KEY_HERE" > .env.local
+	npm run build
+	pm2 start npm --name "Element Dashboard" -- start
+	pm2 save
+	pm2 startup
 }
+
 
 ###############################################################################
 #                            START INSTALLL SCRIPT                            #
@@ -143,9 +219,14 @@ Copyright © Transmute Industries Inc. Apache-2.0
 checkRoot
 checkOS
 
-# Run Install
+# Run Installs
+installNginx
 installUpdates
-
+installNodejs
+installMongoDB
+installIpfs
+installEthereum
+installDashboard
 
 ###############################################################################
 #                             END INSTALLL SCRIPT                             #
