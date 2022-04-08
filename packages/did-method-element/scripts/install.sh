@@ -170,7 +170,7 @@ installDashboard() {
     address=$(cat /root/.ethereum/keystore/$keyFile | jq -r '.address')
 	privateKey=$(cat /root/.ethereum/keystore/$keyFile | jq -r '.crypto.mac')
 
-
+	cd packages/dashboard
 	echo "SIDETREE_METHOD=elem:ropsten
 DESCRIPTION='Sidetree on Ethereum Ledger and IPFS Cas'
 
@@ -186,9 +186,9 @@ ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI=/ip4/127.0.0.1/tcp/5001
 ELEMENT_ANCHOR_CONTRACT=0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997
 ETHEREUM_RPC_URL=http://localhost:8545
 ETHEREUM_PROVIDER=http://localhost:8545
-ETHEREUM_PRIVATE_KEY=$privateKey" > /root/element/packages/dashboard/.env.local
+ETHEREUM_PRIVATE_KEY=$privateKey" > .env.local
 
-	qrencode -o /root/element/packages/dashboard/public/address.png $address
+	qrencode -o public/address.png $address
 	npm run build
 	pm2 start npm --name "Element Dashboard" -- start
 	pm2 save
