@@ -5,10 +5,10 @@
 ###############################################################################
 
 function checkRoot() {
-	if [ "$EUID" -ne 0 ]
+	if [ "$EUID" -ne 0 ]; then
         echo "Sorry, you need to run this as root"
 		exit 1
-    fi
+	fi
 }
 
 function checkOS() {
@@ -48,7 +48,7 @@ function checkOS() {
 function installNginx() {
 
 	read -rp "Enter Domain Name: " -e userInput
-	$domainName = echo $userInput | grep -P '(?=^.{5,254}$)(^(?:(?!\d+\.)[a-zA-Z0-9_\-]{1,63}\.?)+(?:[a-zA-Z]{2,})$)'
+	domainName=$(echo $userInput | grep -P '(?=^.{5,254}$)(^(?:(?!\d+\.)[a-zA-Z0-9_\-]{1,63}\.?)+(?:[a-zA-Z]{2,})$)')
 	if [[ $domainName == "" ]]; then
 		echo "Please enter a valid domain name"
 		exit 1
@@ -58,7 +58,7 @@ function installNginx() {
     ufw allow ssh
     ufw allow http
     ufw allow https
-    ufw enable
+    ufw --force enable
 	systemctl start nginx
 	systemctl enable nginx
 
@@ -81,7 +81,7 @@ function installNginx() {
 function installUpdates() {
     apt-get update
     apt-get upgrade -y
-    apt-get install -y unattended-upgrades software-properties-common python-is-python3 make gcc g++
+    apt-get install -y unattended-upgrades software-properties-common python-is-python3 make gcc g++ pwgen jq
     echo "unattended-upgrades       unattended-upgrades/enable_auto_updates boolean true" | debconf-set-selections; dpkg-reconfigure -f noninteractive unattended-upgrades
 }
 
@@ -108,37 +108,20 @@ function installIpfs() {
     bash install.sh
     sysctl -w net.core.rmem_max=2500000
     echo "[Unit]
-description=ipfs p2p daemon
+Description=IPFS
 After=network.target
-Requires=network.target
 
 [Service]
-Type=simple
-User=ipfs
-RestartSec=1
+ExecStart=/usr/local/bin/ipfs daemon --migrate
 Restart=always
-PermissionsStartOnly=true
-Nice=18
-StateDirectory=/var/lib/ipfs
-Environment=IPFS_PATH=/var/lib/ipfs
-Environment=HOME=/var/lib/ipfs
-LimitNOFILE=8192
-Environment=IPFS_FD_MAX=8192
-EnvironmentFile=-/etc/sysconfig/ipfs
-StandardOutput=journal
-WorkingDirectory=/var/lib/ipfs
-ExecStartPre=-adduser --system --group --home /var/lib/ipfs ipfs
-ExecStartPre=-mkdir /var/lib/ipfs
-ExecStartPre=-/bin/chown ipfs:ipfs /var/lib/ipfs
-ExecStartPre=-/bin/chmod ug+rwx /var/lib/ipfs
-ExecStartPre=-chpst -u ipfs /usr/local/bin/ipfs init --profile=badgerds
-ExecStartPre=-chpst -u ipfs /usr/local/bin/ipfs config profile apply server
-ExecStartPre=-chpst -u ipfs /usr/local/bin/ipfs config profile apply local-discovery
-ExecStartPre=-chpst -u ipfs /usr/local/bin/ipfs config Datastore.StorageMax "5GB"
-ExecStart=/usr/local/bin/ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment
+User=root
+Group=root
+Restart=on-failure
+KillSignal=SIGINT
 
 [Install]
 WantedBy=multi-user.target" > /lib/systemd/system/ipfs.service
+	ipfs init
     systemctl daemon-reload
     systemctl enable ipfs
     systemctl start ipfs
@@ -172,12 +155,21 @@ WantedBy=multi-user.target" > /lib/systemd/system/ropsten.service
 
 installDashboard() {
 
-	cd /tmp
-	git clone https://github.com/transmute-industries/sidetree.js.git
-	mv sidetree.js/packages/dashboard /root/element
-	rm -rf sidetree.js
-	cd /root/element
+	cd /root
+	git clone https://github.com/transmute-industries/sidetree.js.git element
+	cd /root/element/packages/dashboard
 	npm i
+
+    keyStore=$(ls /root/.ethereum/keystore/)
+    if [ $keyStore == ""]; then
+        pwgen 20 1 > /root/element/password.txt
+        geth account new --password /root/element/password.txt
+    fi 
+    keyFile=$(ls /root/.ethereum/keystore/ | head -n 1)
+    address=$(cat /root/.ethereum/keystore/$keyFile | jq -r '.address')
+	privateKey=$(cat /root/.ethereum/keystore/$keyFile | jq -r '.crypto.mac')
+
+
 	echo "SIDETREE_METHOD=elem:ropsten
 DESCRIPTION='Sidetree on Ethereum Ledger and IPFS Cas'
 
@@ -192,12 +184,16 @@ OBSERVING_INTERVAL_IN_SECONDS=5
 ELEMENT_CONTENT_ADDRESSABLE_STORE_SERVICE_URI=/ip4/127.0.0.1/tcp/5001
 ELEMENT_ANCHOR_CONTRACT=0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997
 ETHEREUM_RPC_URL=http://localhost:8545
-ETHEREUM_PROVIDER=$ETHEREUM_RPC_URL
-ETHEREUM_PRIVATE_KEY=YOUR_PRIVATE_KEY_HERE" > .env.local
+ETHEREUM_PROVIDER=http://localhost:8545
+ETHEREUM_PRIVATE_KEY=$privateKey" > .env.local
 	npm run build
 	pm2 start npm --name "Element Dashboard" -- start
 	pm2 save
 	pm2 startup
+
+	echo "Your Ropsten Ethereum Address is: $address"
+	echo "You will need to send funds to this account to create DID's on this Node"
+
 }
 
 

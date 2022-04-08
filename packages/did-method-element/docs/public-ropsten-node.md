@@ -48,44 +48,25 @@ Source: https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/
 # vim /lib/systemd/system/ipfs.service
 --- Create File ---
 [Unit]
-description=ipfs p2p daemon
+Description=IPFS
 After=network.target
-Requires=network.target
 
 [Service]
-Type=simple
-User=ipfs
-RestartSec=1
+ExecStart=/usr/local/bin/ipfs daemon --migrate
 Restart=always
-PermissionsStartOnly=true
-Nice=18
-StateDirectory=/var/lib/ipfs
-Environment=IPFS_PATH=/var/lib/ipfs
-Environment=HOME=/var/lib/ipfs
-LimitNOFILE=8192
-Environment=IPFS_FD_MAX=8192
-EnvironmentFile=-/etc/sysconfig/ipfs
-StandardOutput=journal
-WorkingDirectory=/var/lib/ipfs
-ExecStartPre=-adduser --system --group --home /var/lib/ipfs ipfs
-ExecStartPre=-mkdir /var/lib/ipfs
-ExecStartPre=-/bin/chown ipfs:ipfs /var/lib/ipfs
-ExecStartPre=-/bin/chmod ug+rwx /var/lib/ipfs
-ExecStartPre=-chpst -u ipfs /usr/local/bin/ipfs init --profile=badgerds
-ExecStartPre=-chpst -u ipfs /usr/local/bin/ipfs config profile apply server
-ExecStartPre=-chpst -u ipfs /usr/local/bin/ipfs config profile apply local-discovery
-ExecStartPre=-chpst -u ipfs /usr/local/bin/ipfs config Datastore.StorageMax "5GB"
-ExecStart=/usr/local/bin/ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment
+User=root
+Group=root
+Restart=on-failure
+KillSignal=SIGINT
 
 [Install]
 WantedBy=multi-user.target
 --- EOF ---
+# ipfs init
 # systemctl daemon-reload
 # systemctl enable ipfs
 # systemctl start ipfs
 ```
-
-Source: https://github.com/ipfs/go-ipfs/issues/1430#issuecomment-428693941
 
 ### Ethereum Ledger Service
 
@@ -115,8 +96,6 @@ WantedBy=multi-user.target
 # systemctl start ropsten
 ```
 
-Source: https://docs.umee.cc/umee/umee-node-operators/running-a-node/validator#ethereum-node
-
 ## Install Nodejs
 
 ```
@@ -124,8 +103,6 @@ Source: https://docs.umee.cc/umee/umee-node-operators/running-a-node/validator#e
 # apt-get install -y nodejs
 # npm install pm2 -g
 ```
-
-Source: https://github.com/nodesource/distributions/blob/master/README.md#debian-and-ubuntu-based-distributions
 
 ## Build and Run
 
