@@ -188,7 +188,7 @@ ETHEREUM_RPC_URL=http://localhost:8545
 ETHEREUM_PROVIDER=http://localhost:8545
 ETHEREUM_PRIVATE_KEY=$privateKey" > .env.local
 
-	qrencode -o public/address.png $address
+	qrencode -o public/address.png -s 10 "ethereum:0x$address"
 	npm run build
 	pm2 start npm --name "Element Dashboard" -- start
 	pm2 save
@@ -196,7 +196,7 @@ ETHEREUM_PRIVATE_KEY=$privateKey" > .env.local
 
 	domainName=$(cat /root/.element-domain)
 
-	echo "Your Ropsten Ethereum Address is: $address"
+	echo "Your Ropsten Ethereum Address is: 0x$address"
 	echo "You will need to send funds to this account to create DID's on this Node"
 	echo "https://$domainName/address.png"
 
