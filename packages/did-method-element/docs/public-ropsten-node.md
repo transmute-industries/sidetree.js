@@ -86,7 +86,7 @@ Description=Ropsten
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/geth --syncmode light --ropsten --http
+ExecStart=/usr/bin/geth --ropsten --http
 Restart=always
 User=root
 Group=root
