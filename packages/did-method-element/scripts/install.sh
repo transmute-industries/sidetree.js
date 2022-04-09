@@ -215,7 +215,9 @@ echo "
 ██╔══╝░░██║░░░░░██╔══╝░░██║╚██╔╝██║██╔══╝░░██║╚████║░░░██║░░░
 ███████╗███████╗███████╗██║░╚═╝░██║███████╗██║░╚███║░░░██║░░░
 ╚══════╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚══╝░░░╚═╝░░░
-Copyright © Transmute Industries Inc. Apache-2.0
+
+https://github.com/transmute-industries/sidetree.js
+Copyright © Transmute Industries Inc. Apache-2.0 License
 "
 
 # Run Checks
