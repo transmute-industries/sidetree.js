@@ -81,9 +81,9 @@ Element uses Ethereum for the ledger layer, which means that did's are anchored 
 instead of being appended to a `NO_OP` transaction. Element will monitor a specific smart contract address for existing 
 and new anchor transactions. 
 
-** Ropsten**:
-Contract Address: [0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997](https://ropsten.etherscan.io/address/0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997)
-Starting Block: [11759377](https://ropsten.etherscan.io/block/11759377)
+** Ropsten**  
+Contract Address: [0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997](https://ropsten.etherscan.io/address/0x920b7DEeD5CdE055260cdDBD70C000Bbd5b30997)  
+Starting Block: [11759377](https://ropsten.etherscan.io/block/11759377)   
 
 ## CRUD Operations
 
