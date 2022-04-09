@@ -37,7 +37,7 @@
     "aws-sdk": "^2.828.0",
     "ion-js": "^4.1.0",
     "jsbi": "^3.1.4",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "sqlite3": "^5.0.2"
   },
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/ledger-qldb",
