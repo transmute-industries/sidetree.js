@@ -189,6 +189,7 @@ ETHEREUM_PROVIDER=http://localhost:8545
 ETHEREUM_PRIVATE_KEY=$privateKey" > .env.local
 
 	qrencode -o public/address.png -s 10 "ethereum:0x$address"
+	npm i @sidetree/wallet
 	npm run build
 	pm2 start npm --name "Element Dashboard" -- start
 	pm2 save
