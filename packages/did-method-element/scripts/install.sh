@@ -45,6 +45,17 @@ function checkOS() {
 	fi
 }
 
+function checkConfirm() {
+	read -p "
+This is an experimental install script for setting up a Ropsten Node
+Are you sure you want to continue? [y/n]" -n 1 -r
+	if [[ $REPLY =~ ^[Yy]$ ]]
+	then
+		return 1
+	fi
+	exit 1
+}
+
 function installNginx() {
 
 	read -rp "Enter Domain Name: " -e userInput
@@ -223,6 +234,7 @@ Copyright © Transmute Industries Inc. Apache-2.0 License
 # Run Checks
 checkRoot
 checkOS
+checkConfirm
 
 # Run Installs
 installNginx
