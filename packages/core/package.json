@@ -46,6 +46,7 @@
     "canonicalize": "^1.0.5",
     "chalk": "^4.1.0",
     "core-js": "^2.6.9",
+    "fast-json-patch": "^3.1.1",
     "hdkey": "^2.0.1",
     "jose": "^4.5.0",
     "priorityqueue": "^1.0.0",

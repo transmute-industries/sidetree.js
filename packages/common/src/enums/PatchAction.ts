@@ -7,6 +7,7 @@ enum PatchAction {
   RemovePublicKeys = 'remove-public-keys',
   AddServices = 'add-services',
   RemoveServices = 'remove-services',
+  IetfJsonPatch = 'ietf-json-patch',
 }
 
 export default PatchAction;

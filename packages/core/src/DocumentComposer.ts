@@ -7,6 +7,7 @@ import {
   DidState,
   SidetreeError,
 } from '@sidetree/common';
+import jsonpatch from 'fast-json-patch';
 
 import * as URI from 'uri-js';
 import ArrayMethods from './util/ArrayMethods';
@@ -231,10 +232,27 @@ export default class DocumentComposer {
       case PatchAction.RemoveServices:
         DocumentComposer.validateRemoveServicesPatch(patch);
         break;
+      case 'ietf-json-patch':
+        DocumentComposer.validateIetfJsonPatch(patch);
+        break;
       default:
         throw new SidetreeError(
           ErrorCode.DocumentComposerPatchMissingOrUnknownAction
         );
+    }
+  }
+
+  private static validateIetfJsonPatch(patch: any): void {
+    const patchProperties = Object.keys(patch);
+    if (patchProperties.length !== 2) {
+      throw new SidetreeError(
+        ErrorCode.DocumentComposerPatchMissingOrUnknownProperty
+      );
+    }
+    const error = jsonpatch.validate(patch.patches);
+    if (error) {
+      console.warn(error);
+      throw new SidetreeError(error.name);
     }
   }
 
@@ -491,12 +509,19 @@ export default class DocumentComposer {
       DocumentComposer.addServices(document, patch);
     } else if (patch.action === PatchAction.RemoveServices) {
       DocumentComposer.removeServices(document, patch);
+    } else if (patch.action === PatchAction.IetfJsonPatch) {
+      DocumentComposer.applyIetfJsonPatch(document, patch);
     } else {
       throw new SidetreeError(
         ErrorCode.DocumentComposerApplyPatchUnknownAction,
         `Cannot apply invalid action: ${patch.action}`
       );
     }
+  }
+
+  private static applyIetfJsonPatch(document: DocumentModel, patch: any) {
+    const res = jsonpatch.applyPatch({ ...document }, patch.patches);
+    Object.assign(document, res.newDocument);
   }
 
   /**
