@@ -12,7 +12,13 @@ import { Grid } from '@mui/material';
 
 import { DidDocument } from '../../components/did-document';
 
-import { Box, CircularProgress } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Typography,
+  Paper,
+  Button,
+} from '@mui/material';
 import {
   resolve,
   getOperations,
@@ -43,12 +49,16 @@ const Resolver: NextPage<any> = ({
   useEffect(() => {
     async function loadPageData() {
       if (did !== undefined) {
-        const res1: any = await resolve(did);
-        // FIXME: throwing 500
-        // const res2: any = await getOperations(did);
-        setDidDocument(res1.didDocument);
-        // setDidDocumentOperations(res2.operations);
-        setIsLoading(false);
+        const res: any = await resolve(did);
+        if (res.code === 'did_not_found') {
+          setIsLoading(false);
+        } else {
+          // FIXME: throwing 500
+          // const res2: any = await getOperations(did);
+          setDidDocument(res.didDocument);
+          // setDidDocumentOperations(res2.operations);
+          setIsLoading(false);
+        }
       }
     }
     loadPageData();
@@ -70,17 +80,64 @@ const Resolver: NextPage<any> = ({
             </Box>
           )}
           {!isLoading && (
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <DidDocument
-                  didDocument={didDocument}
-                  operationCount={didDocumentOperations.length}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <RecentOperations operations={didDocumentOperations} />
-              </Grid>
-            </Grid>
+            <>
+              {didDocument ? (
+                <>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <DidDocument
+                        didDocument={didDocument}
+                        operationCount={didDocumentOperations.length}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <RecentOperations operations={didDocumentOperations} />
+                    </Grid>
+                  </Grid>
+                </>
+              ) : (
+                <>
+                  <Paper sx={{ p: 4 }}>
+                    <Typography variant={'h4'} sx={{ mb: 2 }}>
+                      DID Not Found
+                    </Typography>
+                    <Typography variant={'h5'} sx={{ mb: 2 }}>
+                      There are a few reasons this might be the case.
+                    </Typography>
+
+                    <Typography variant={'body1'}>
+                      1. The DID Creation Operation was never anchored to the
+                      ledger or storage properly.
+                      <br />
+                      2. The DID Creation Operation was malformed and rejected
+                      by the DID Resolution process.
+                      <br />
+                      3. The storage content for the operation is no longer
+                      retrievable from the storage network.
+                      <br />
+                      4. The ledger record is no longer retrievable from the
+                      ledger network.
+                      <br />
+                    </Typography>
+
+                    <Typography variant={'body1'}>
+                      If you are the controller for this identifier, please try
+                      create it again.
+                    </Typography>
+
+                    <Button
+                      variant={'outlined'}
+                      sx={{ mt: 2 }}
+                      onClick={() => {
+                        router.push('/create');
+                      }}
+                    >
+                      Retry Create Operation
+                    </Button>
+                  </Paper>
+                </>
+              )}
+            </>
           )}
         </AppPage>
       </main>

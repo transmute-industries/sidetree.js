@@ -1,13 +1,3 @@
-// import * as common from '@sidetree/common';
-// import * as crypto from '@sidetree/crypto';
-// import * as wallet from '@sidetree/wallet';
-
-// const checkModulesWork = () => {
-//   // console.log({ common });
-//   // console.log({ crypto });
-//   // console.log({ wallet });
-// };
-
 import { dashboardWalletFactory } from './DashboardWallet';
 
 export const getWallet = () => {
@@ -18,11 +8,17 @@ export const getWallet = () => {
   return null;
 };
 
-export const createWallet = async () => {
-  // checkModulesWork();
+export const createWallet = async ({ mnemonic, hdpath }: any) => {
   const w = dashboardWalletFactory.build();
-  const m = await w.toMnemonic();
-  w.add(m);
+  console.log(mnemonic, hdpath);
+  if (mnemonic && hdpath) {
+    const m: any = await w.toMnemonic(mnemonic);
+    m.hdpath = hdpath;
+    w.add(m);
+  } else {
+    const m = await w.toMnemonic();
+    w.add(m);
+  }
   console.log('created wallet.');
   localStorage.setItem('sidetree.wallet', JSON.stringify(w, null, 2));
   window.location.href = '/create';

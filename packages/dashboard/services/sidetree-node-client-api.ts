@@ -47,13 +47,16 @@ const getHeaders = (): HeadersInit => {
 };
 
 const handleApiResponse = async (response: Response): Promise<any> => {
-  if (!response.ok) {
-    if (response.status === 401) {
-      localStorage.removeItem('sidetree.access_token');
-      window.location.href = '/wallet';
-    } else {
-      throw new Error('HTTP error ' + response.status);
-    }
-  }
-  return await response.json();
+  const responseJson = await response.json();
+  // if (!response.ok) {
+  //   if (response.status === 401) {
+  //     localStorage.removeItem('sidetree.access_token');
+  //     window.location.href = '/wallet';
+  //   } else {
+  //     throw new Error('HTTP error ' + response.status);
+  //   }
+  // }
+
+  console.log(responseJson);
+  return responseJson;
 };

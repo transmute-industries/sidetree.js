@@ -4,7 +4,7 @@ import Head from 'next/head';
 
 import { AppPage } from '../../components/app-page';
 
-import { Typography, Grid, Paper, Button } from '@mui/material';
+import { Typography, Grid, Paper, Button, Box, TextField } from '@mui/material';
 
 import { WalletCard } from '../../components/wallet-card';
 
@@ -16,6 +16,10 @@ export async function getServerSideProps(context: any) {
     props: uiConfigs,
   };
 }
+
+const didMnemonic =
+  'sell antenna drama rule twenty cement mad deliver you push derive hybrid';
+const didHdPath = `m/44'/0'/0'/0/0`;
 
 const Wallet: NextPage<any> = ({
   description,
@@ -47,32 +51,65 @@ const Wallet: NextPage<any> = ({
               {wallet ? (
                 <WalletCard wallet={wallet} />
               ) : (
-                <Paper
-                  sx={{
-                    p: 4,
-                    textAlign: 'center',
-                    maxWidth: '75%',
-                    margin: 'auto',
-                  }}
-                >
-                  <Typography variant={'h3'} gutterBottom>
-                    Get Started
-                  </Typography>
-                  <Typography sx={{ mb: 1 }}>
-                    {`You don't have a wallet yet.`}
-                  </Typography>
-                  <Typography sx={{ mb: 2 }}>
-                    {`We'll need to create one to help you manage identifiers.`}
-                  </Typography>
-                  <Button
-                    color={'secondary'}
-                    variant={'contained'}
-                    onClick={() => {
-                      createWallet();
+                <Paper>
+                  <Box
+                    sx={{
+                      p: 4,
+                      textAlign: 'center',
+                      maxWidth: '75%',
+                      margin: 'auto',
                     }}
                   >
-                    Create Wallet
-                  </Button>
+                    <Typography variant={'h3'} gutterBottom>
+                      Get Started
+                    </Typography>
+                    <Typography sx={{ mb: 1 }}>
+                      {`You don't have a wallet yet.`}
+                    </Typography>
+                    <Typography sx={{ mb: 2 }}>
+                      {`We'll need to create one to help you manage identifiers.`}
+                    </Typography>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      textAlign: 'center',
+                      margin: 'auto',
+                      p: 2,
+                    }}
+                  >
+                    <Box>
+                      <TextField
+                        label="Mnemonic"
+                        variant="outlined"
+                        fullWidth
+                        value={didMnemonic}
+                        disabled
+                      />
+                    </Box>
+                    <Box mt={2}>
+                      <TextField
+                        label="HD Path"
+                        variant="outlined"
+                        fullWidth
+                        value={didHdPath}
+                        disabled
+                      />
+                    </Box>
+                    <Button
+                      sx={{ m: 2 }}
+                      color={'secondary'}
+                      variant={'contained'}
+                      onClick={() => {
+                        createWallet({
+                          mnemonic: didMnemonic,
+                          hdpath: didHdPath,
+                        });
+                      }}
+                    >
+                      Create Wallet
+                    </Button>
+                  </Box>
                 </Paper>
               )}
             </Grid>
