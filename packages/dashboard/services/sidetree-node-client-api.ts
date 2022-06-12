@@ -6,13 +6,35 @@ export const resolve = async (did: string): Promise<any> => {
   return await handleApiResponse(response);
 };
 
-export const createDID = async (createOperation: any): Promise<any> => {
+export const createDID = async (
+  createOperation: any,
+  wallet: any
+): Promise<any> => {
+  if (wallet) {
+    // compute suffix
+    // query operations
+    // return resolve result instead of creating did over and over again...
+    const didUniqueSuffix = wallet.computeDidUniqueSuffix(
+      createOperation.suffixData
+    );
+    const response = await fetch(
+      '/api/1.0/operations?did-unique-suffix=' + didUniqueSuffix,
+      {
+        method: 'GET',
+        headers: getHeaders(),
+      }
+    );
+    const data = await handleApiResponse(response);
+    if (data.operations.length) {
+      return resolve(data.did);
+    }
+  }
   const response = await fetch('/api/1.0/operations', {
     method: 'POST',
     body: JSON.stringify(createOperation),
     headers: getHeaders(),
   });
-  return await handleApiResponse(response);
+  return handleApiResponse(response);
 };
 
 export const getOperations = async (did: string): Promise<any> => {
@@ -24,7 +46,7 @@ export const getOperations = async (did: string): Promise<any> => {
       headers: getHeaders(),
     }
   );
-  return await handleApiResponse(response);
+  return handleApiResponse(response);
 };
 
 export const getTransactions = async (): Promise<any> => {
@@ -34,7 +56,7 @@ export const getTransactions = async (): Promise<any> => {
     method: 'GET',
     headers: getHeaders(),
   });
-  return await handleApiResponse(response);
+  return handleApiResponse(response);
 };
 
 const getHeaders = (): HeadersInit => {
@@ -56,7 +78,6 @@ const handleApiResponse = async (response: Response): Promise<any> => {
   //     throw new Error('HTTP error ' + response.status);
   //   }
   // }
-
-  console.log(responseJson);
+  // console.log(responseJson);
   return responseJson;
 };

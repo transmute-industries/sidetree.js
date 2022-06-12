@@ -28,7 +28,6 @@ import { useRouter } from 'next/router';
 
 export const Drawer = ({ logoLight, logoDark }: any) => {
   const router = useRouter();
-  const [hideUI, setHideUI] = useState(false);
 
   return (
     <Box
@@ -125,23 +124,24 @@ export const Drawer = ({ logoLight, logoDark }: any) => {
             <ListItemText primary={'Resolve'} />
           </ListItem>
 
-          {hideUI && (
-            <ListItem button disabled={true}>
-              <ListItemIcon>
-                <SaveIcon />
-              </ListItemIcon>
-              <ListItemText primary={'Update'} />
-            </ListItem>
-          )}
+          <ListItem
+            button
+            onClick={() => {
+              router.push('/update');
+            }}
+          >
+            <ListItemIcon>
+              <SaveIcon />
+            </ListItemIcon>
+            <ListItemText primary={'Update'} />
+          </ListItem>
 
-          {hideUI && (
-            <ListItem button disabled={true}>
-              <ListItemIcon>
-                <ArchiveIcon />
-              </ListItemIcon>
-              <ListItemText primary={'Deactivate'} />
-            </ListItem>
-          )}
+          <ListItem button disabled={true}>
+            <ListItemIcon>
+              <ArchiveIcon />
+            </ListItemIcon>
+            <ListItemText primary={'Deactivate'} />
+          </ListItem>
         </List>
         <Divider />
         <List

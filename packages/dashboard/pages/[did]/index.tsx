@@ -7,10 +7,9 @@ import { useRouter } from 'next/router';
 import { AppPage } from '../../components/app-page';
 
 import { RecentOperations } from '../../components/recent-operations';
+import { DidDocument } from '../../components/did-document';
 
 import { Grid } from '@mui/material';
-
-import { DidDocument } from '../../components/did-document';
 
 import {
   Box,

@@ -5,11 +5,14 @@ import Head from 'next/head';
 import { AppPage } from '../../components/app-page';
 
 import { Typography, Grid, Paper, Button, Box, TextField } from '@mui/material';
-
+import InputAdornment from '@mui/material/InputAdornment';
+import MemoryIcon from '@mui/icons-material/Memory';
+import IconButton from '@mui/material/IconButton';
 import { WalletCard } from '../../components/wallet-card';
 
-import { getWallet, createWallet } from '../../core/facade';
+import { walletFactory, getWallet } from '../../core/facade';
 import { uiConfigs } from '../../config';
+import router from 'next/router';
 
 export async function getServerSideProps(context: any) {
   return {
@@ -28,6 +31,7 @@ const Wallet: NextPage<any> = ({
   logoDark,
 }) => {
   const [wallet, setWallet]: any = React.useState(null);
+  const [mnemonic, setMnemonic]: any = React.useState(didMnemonic);
 
   React.useEffect(() => {
     const w = getWallet();
@@ -69,6 +73,9 @@ const Wallet: NextPage<any> = ({
                     <Typography sx={{ mb: 2 }}>
                       {`We'll need to create one to help you manage identifiers.`}
                     </Typography>
+                    <Typography sx={{ mb: 2 }}>
+                      {`Never share your mnemonic with anyone.`}
+                    </Typography>
                   </Box>
 
                   <Box
@@ -83,8 +90,27 @@ const Wallet: NextPage<any> = ({
                         label="Mnemonic"
                         variant="outlined"
                         fullWidth
-                        value={didMnemonic}
+                        value={mnemonic}
                         disabled
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="mnemonic generator"
+                                color="secondary"
+                                onClick={async () => {
+                                  const m = await walletFactory
+                                    .build()
+                                    .toMnemonic();
+
+                                  setMnemonic(m.value);
+                                }}
+                              >
+                                <MemoryIcon />
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                     </Box>
                     <Box mt={2}>
@@ -98,13 +124,19 @@ const Wallet: NextPage<any> = ({
                     </Box>
                     <Button
                       sx={{ m: 2 }}
-                      color={'secondary'}
+                      color={'primary'}
                       variant={'contained'}
-                      onClick={() => {
-                        createWallet({
-                          mnemonic: didMnemonic,
-                          hdpath: didHdPath,
-                        });
+                      onClick={async () => {
+                        const w = walletFactory.build();
+                        const m: any = await w.toMnemonic(mnemonic);
+                        w.add(m);
+                        m.hdpath = didHdPath;
+                        localStorage.setItem(
+                          'sidetree.wallet',
+                          JSON.stringify(w, null, 2)
+                        );
+                        console.log('created wallet.');
+                        router.push('/create');
                       }}
                     >
                       Create Wallet
