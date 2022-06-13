@@ -9,7 +9,7 @@ import {
 
 type CreateResponse = { didDocument?: any };
 
-type GetResponse = { operations?: any };
+type GetResponse = { did: string; operations?: any };
 
 type OperationsResponse = CreateResponse | GetResponse;
 
@@ -25,7 +25,9 @@ const handler = async (
     const operations = result.operations.map((op: any) => {
       return JSON.parse(op.operationBuffer.toString());
     });
-    res.status(200).json({ operations });
+
+    const did = `did:${sidetree.versionManager.config.didMethodName}:${didUniqueSuffix}`;
+    res.status(200).json({ did, operations });
   }
 
   if (req.method === 'POST') {

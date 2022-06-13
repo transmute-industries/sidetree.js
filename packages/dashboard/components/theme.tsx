@@ -23,11 +23,15 @@ export const Theme = ({ children }: { children: any }) => {
     []
   );
 
+  const primaryPurpleNormal = '#594aa8';
+  const primaryPurpleLight = '#7e71c1';
   const theme: ThemeType = React.useMemo(() => {
     const primaryColorDark = '#151726';
 
     const prefersDarkMode = mode === 'dark';
-    const primaryColor = prefersDarkMode ? '#594aa8' : '#594aa8';
+    const primaryColor = prefersDarkMode
+      ? primaryPurpleLight
+      : primaryPurpleLight;
     const secondaryColor = prefersDarkMode ? '#4FC3F7' : '#4FC3F7';
     const backgroundPaper = prefersDarkMode ? primaryColorDark : '#E8EAF6';
     const textSecondary = prefersDarkMode ? '#8286a3' : '#8286a3';

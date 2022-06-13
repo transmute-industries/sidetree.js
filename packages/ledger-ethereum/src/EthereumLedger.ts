@@ -227,6 +227,7 @@ export default class EthereumLedger implements IBlockchain {
       }
     } catch (err) {
       const error = err as Error;
+      this.logger.error('Unable to write to the ledger from: ' + this.from);
       this.logger.error(error.message);
     }
   };

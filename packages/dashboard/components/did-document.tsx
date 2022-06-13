@@ -10,8 +10,8 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 
+import RefreshIcon from '@mui/icons-material/Refresh';
 const ExpandMore = styled((props: any) => {
   const { expand, ...other }: any = props;
   return <IconButton {...other} />;
@@ -23,7 +23,7 @@ const ExpandMore = styled((props: any) => {
   }),
 }));
 
-export const DidDocument = ({ didDocument, operationCount }: any) => {
+export const DidDocument = ({ didDocument, operationCount, refresh }: any) => {
   const [
     verificationMethodsExpanded,
     setVerificationMethodsExpanded,
@@ -55,11 +55,15 @@ export const DidDocument = ({ didDocument, operationCount }: any) => {
             {didDocument.id.substr(-4)}
           </Avatar>
         }
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
+        action={
+          refresh ? (
+            <IconButton aria-label="refresh" onClick={refresh}>
+              <RefreshIcon />
+            </IconButton>
+          ) : (
+            <></>
+          )
+        }
         title={didDocument.id}
         subheader={operationCount + ' operations'}
       />

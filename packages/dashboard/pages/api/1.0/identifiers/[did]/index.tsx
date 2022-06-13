@@ -1,8 +1,5 @@
 import type { NextApiResponse } from 'next';
-import {
-  SidetreeApiRequest,
-  convertSidetreeStatusToHttpStatus,
-} from '../../../../../middleware/sidetree';
+import { SidetreeApiRequest } from '../../../../../middleware/sidetree';
 
 import middleware from '../../../../../middleware';
 
@@ -15,10 +12,14 @@ type Data = {
 const handler = async (req: SidetreeApiRequest, res: NextApiResponse<Data>) => {
   const sidetree = await req.client.server.service.sidetree;
   const { did } = req.query;
-  const { status, body }: any = await sidetree.handleResolveRequest(did);
-  // // status => http status code
-  res.status(convertSidetreeStatusToHttpStatus(status));
-  // // body => http response body
+  const { body }: any = await sidetree.handleResolveRequest(did);
+
+  if (body.code === 'did_not_found') {
+    res.status(404);
+  } else {
+    res.status(200);
+  }
+
   if (body) {
     res.json(body);
   }

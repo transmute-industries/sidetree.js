@@ -4,18 +4,25 @@ import Head from 'next/head';
 
 import { AppPage } from '../../components/app-page';
 
-import { Typography, Grid, Paper, Button } from '@mui/material';
-
+import { Typography, Grid, Paper, Button, Box, TextField } from '@mui/material';
+import InputAdornment from '@mui/material/InputAdornment';
+import MemoryIcon from '@mui/icons-material/Memory';
+import IconButton from '@mui/material/IconButton';
 import { WalletCard } from '../../components/wallet-card';
 
-import { getWallet, createWallet } from '../../core/facade';
+import { walletFactory, getWallet } from '../../core/facade';
 import { uiConfigs } from '../../config';
+import router from 'next/router';
 
 export async function getServerSideProps(context: any) {
   return {
     props: uiConfigs,
   };
 }
+
+const didMnemonic =
+  'sell antenna drama rule twenty cement mad deliver you push derive hybrid';
+const didHdPath = `m/44'/0'/0'/0/0`;
 
 const Wallet: NextPage<any> = ({
   description,
@@ -24,6 +31,7 @@ const Wallet: NextPage<any> = ({
   logoDark,
 }) => {
   const [wallet, setWallet]: any = React.useState(null);
+  const [mnemonic, setMnemonic]: any = React.useState(didMnemonic);
 
   React.useEffect(() => {
     const w = getWallet();
@@ -47,32 +55,93 @@ const Wallet: NextPage<any> = ({
               {wallet ? (
                 <WalletCard wallet={wallet} />
               ) : (
-                <Paper
-                  sx={{
-                    p: 4,
-                    textAlign: 'center',
-                    maxWidth: '75%',
-                    margin: 'auto',
-                  }}
-                >
-                  <Typography variant={'h3'} gutterBottom>
-                    Get Started
-                  </Typography>
-                  <Typography sx={{ mb: 1 }}>
-                    {`You don't have a wallet yet.`}
-                  </Typography>
-                  <Typography sx={{ mb: 2 }}>
-                    {`We'll need to create one to help you manage identifiers.`}
-                  </Typography>
-                  <Button
-                    color={'secondary'}
-                    variant={'contained'}
-                    onClick={() => {
-                      createWallet();
+                <Paper>
+                  <Box
+                    sx={{
+                      p: 4,
+                      textAlign: 'center',
+                      maxWidth: '75%',
+                      margin: 'auto',
                     }}
                   >
-                    Create Wallet
-                  </Button>
+                    <Typography variant={'h3'} gutterBottom>
+                      Get Started
+                    </Typography>
+                    <Typography sx={{ mb: 1 }}>
+                      {`You don't have a wallet yet.`}
+                    </Typography>
+                    <Typography sx={{ mb: 2 }}>
+                      {`We'll need to create one to help you manage identifiers.`}
+                    </Typography>
+                    <Typography sx={{ mb: 2 }}>
+                      {`Never share your mnemonic with anyone.`}
+                    </Typography>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      textAlign: 'center',
+                      margin: 'auto',
+                      p: 2,
+                    }}
+                  >
+                    <Box>
+                      <TextField
+                        label="Mnemonic"
+                        variant="outlined"
+                        fullWidth
+                        value={mnemonic}
+                        disabled
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="mnemonic generator"
+                                color="secondary"
+                                onClick={async () => {
+                                  const m = await walletFactory
+                                    .build()
+                                    .toMnemonic();
+
+                                  setMnemonic(m.value);
+                                }}
+                              >
+                                <MemoryIcon />
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Box>
+                    <Box mt={2}>
+                      <TextField
+                        label="HD Path"
+                        variant="outlined"
+                        fullWidth
+                        value={didHdPath}
+                        disabled
+                      />
+                    </Box>
+                    <Button
+                      sx={{ m: 2 }}
+                      color={'primary'}
+                      variant={'contained'}
+                      onClick={async () => {
+                        const w = walletFactory.build();
+                        const m: any = await w.toMnemonic(mnemonic);
+                        w.add(m);
+                        m.hdpath = didHdPath;
+                        localStorage.setItem(
+                          'sidetree.wallet',
+                          JSON.stringify(w, null, 2)
+                        );
+                        console.log('created wallet.');
+                        router.push('/create');
+                      }}
+                    >
+                      Create Wallet
+                    </Button>
+                  </Box>
                 </Paper>
               )}
             </Grid>
