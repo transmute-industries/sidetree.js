@@ -46,7 +46,7 @@
     "express-oauth2-jwt-bearer": "^1.1.0",
     "factory.ts": "^0.5.2",
     "jose": "^4.5.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "next": "^11.1.2",
     "react": "17.0.2",
     "react-c3js": "^0.1.20",
