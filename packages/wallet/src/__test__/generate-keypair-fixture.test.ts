@@ -14,7 +14,7 @@
 import { writeFixture } from '../test/util';
 import { toKeyPair } from '..';
 
-import { wallet } from '@sidetree/test-vectors';
+import { wallet } from '@evan.network/sidetree-test-vectors';
 
 const WRITE_FIXTURE_TO_DISK = false;
 

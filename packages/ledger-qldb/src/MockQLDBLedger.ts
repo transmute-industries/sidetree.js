@@ -5,9 +5,9 @@ import {
   ServiceVersionModel,
   TransactionModel,
   ValueTimeLockModel,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
-import { AnchoredDataSerializer } from '@sidetree/core';
+import { AnchoredDataSerializer } from '@evan.network/sidetree-core';
 import moment from 'moment';
 import crypto from 'crypto';
 
@@ -127,10 +127,8 @@ export default class MockQLDBLedger implements IBlockchain {
   }
 
   public async write(anchorString: string): Promise<void> {
-    const {
-      coreIndexFileUri,
-      numberOfOperations,
-    } = AnchoredDataSerializer.deserialize(anchorString);
+    const { coreIndexFileUri, numberOfOperations } =
+      AnchoredDataSerializer.deserialize(anchorString);
 
     const now = moment();
     const currentDate = now.format('DDHHmmssSSS');
@@ -194,7 +192,7 @@ export default class MockQLDBLedger implements IBlockchain {
   }> {
     const sql = (() => {
       if (sinceTransactionNumber && transactionTimeHash) {
-        return `SELECT 
+        return `SELECT
             anchorString,
             normalizedTransactionFee,
             transactionFeePaid,
@@ -204,7 +202,7 @@ export default class MockQLDBLedger implements IBlockchain {
             transactionTimestamp,
             writer
             FROM _ql_committed_${this.transactionTable}
-            WHERE doc_id = '${transactionTimeHash}' 
+            WHERE doc_id = '${transactionTimeHash}'
             AND blockAddress_sequenceNo >= ${sinceTransactionNumber}
             ORDER BY transactionTimestamp DESC`;
       } else if (sinceTransactionNumber) {
@@ -213,7 +211,7 @@ export default class MockQLDBLedger implements IBlockchain {
             'reading since transactionNumber is a costly operation (full table scan), use with caution'
           );
         }
-        return `SELECT 
+        return `SELECT
             anchorString,
             normalizedTransactionFee,
             transactionFeePaid,
@@ -231,7 +229,7 @@ export default class MockQLDBLedger implements IBlockchain {
             'reading all transactions is a costly operation (full table scan), use with caution'
           );
         }
-        return `SELECT 
+        return `SELECT
             anchorString,
             normalizedTransactionFee,
             transactionFeePaid,
@@ -244,7 +242,7 @@ export default class MockQLDBLedger implements IBlockchain {
             WHERE doc_id = '${transactionTimeHash}'
             ORDER BY transactionTimestamp DESC`;
       } else {
-        return `SELECT 
+        return `SELECT
           anchorString,
           normalizedTransactionFee,
           transactionFeePaid,
@@ -260,21 +258,21 @@ export default class MockQLDBLedger implements IBlockchain {
 
     return {
       moreTransactions: false,
-      transactions: (res as unknown) as TransactionModelQLDB[],
+      transactions: res as unknown as TransactionModelQLDB[],
     };
   }
 
   public async getLatestTime(): Promise<BlockchainTimeModel> {
     const [res] = await this.execute(
-      `SELECT 
-          blockAddress_sequenceNo AS time, 
-          doc_id AS hash 
-          FROM 
+      `SELECT
+          blockAddress_sequenceNo AS time,
+          doc_id AS hash
+          FROM
           _ql_committed_${this.transactionTable}
           ORDER BY rowid DESC LIMIT 1`
     );
     if (res) {
-      this.approximateTime = (res as unknown) as BlockchainTimeModel;
+      this.approximateTime = res as unknown as BlockchainTimeModel;
     }
     return this.approximateTime;
   }

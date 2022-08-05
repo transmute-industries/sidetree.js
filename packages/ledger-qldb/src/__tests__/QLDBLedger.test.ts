@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-import { filesystem } from '@sidetree/test-vectors';
+import { filesystem } from '@evan.network/sidetree-test-vectors';
 import AWS from 'aws-sdk/global';
 
 import QLDBLedger from '../QLDBLedger';

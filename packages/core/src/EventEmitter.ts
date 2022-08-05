@@ -1,4 +1,4 @@
-import { IEventEmitter, LogColor, Logger } from '@sidetree/common';
+import { IEventEmitter, LogColor, Logger } from '@evan.network/sidetree-common';
 
 /**
  * Event emitter used in Sidetree.

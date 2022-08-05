@@ -3,7 +3,7 @@ import {
   OperationType,
   OperationModel,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import CreateOperation from './CreateOperation';
 import DeactivateOperation from './DeactivateOperation';

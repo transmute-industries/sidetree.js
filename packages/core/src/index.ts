@@ -22,7 +22,7 @@ import {
   ErrorCode,
   ServiceStateModel,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import BatchScheduler from './BatchScheduler';
 import ChunkFile from './ChunkFile';

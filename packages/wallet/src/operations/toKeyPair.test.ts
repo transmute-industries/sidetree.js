@@ -13,7 +13,7 @@
 
 import { toKeyPair } from './toKeyPair';
 
-import { wallet } from '@sidetree/test-vectors';
+import { wallet } from '@evan.network/sidetree-test-vectors';
 
 it('can generate key pair Ed25519', async () => {
   const content = await toKeyPair(

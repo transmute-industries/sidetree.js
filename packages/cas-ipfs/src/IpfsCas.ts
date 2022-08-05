@@ -22,7 +22,7 @@ import {
   ICasService,
   FetchResult,
   ServiceVersionModel,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 import ipfsClient from 'ipfs-http-client';
 import concat from 'it-concat';
 

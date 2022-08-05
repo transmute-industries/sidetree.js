@@ -1,5 +1,5 @@
-import { SidetreeWalletPlugin } from '@sidetree/wallet';
-import vectors from '@sidetree/test-vectors';
+import { SidetreeWalletPlugin } from '@evan.network/sidetree-wallet';
+import vectors from '@evan.network/sidetree-test-vectors';
 import Photon from '../Photon';
 import { clearCollection, delay, getTestPhoton } from './utils';
 import longFormResolutionResponse from './__fixtures__/long-form-resolution.json';

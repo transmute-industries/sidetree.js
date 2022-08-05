@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { testSuite } from '@sidetree/cas';
+import { testSuite } from '@evan.network/sidetree-cas';
 import S3Cas from './S3Cas';
 import MockS3Cas from './MockS3Cas';
 import casConfig from './cas-config.json';

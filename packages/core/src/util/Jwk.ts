@@ -26,7 +26,7 @@ import {
   PrivateKeyJwkEd25519,
   PrivateKeyJwk,
   PublicKeyJwk,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 import * as jose from 'jose';
 import * as bip39 from 'bip39';
 import { Ed25519KeyPair } from '@transmute/did-key-ed25519';

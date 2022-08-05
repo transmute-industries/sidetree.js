@@ -6,7 +6,7 @@ import {
   DeactivateSignedDataModel,
   ErrorCode,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import InputValidator from './InputValidator';
 import JsonAsync from './util/JsonAsync';

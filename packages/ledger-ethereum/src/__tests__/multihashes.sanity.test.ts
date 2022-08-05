@@ -1,4 +1,4 @@
-import { Encoder } from '@sidetree/common';
+import { Encoder } from '@evan.network/sidetree-common';
 
 const anchorObject = {
   coreIndexFileUri: 'EiApWOZ-8Fe_8mba6FffZBVMA-gZZu3xjxDBmbiK4w3xTA',

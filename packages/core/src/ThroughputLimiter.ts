@@ -17,7 +17,10 @@
  * limitations under the License.
  */
 
-import { IVersionManager, TransactionModel } from '@sidetree/common';
+import {
+  IVersionManager,
+  TransactionModel,
+} from '@evan.network/sidetree-common';
 
 /**
  * Keeps track of current block and throughput limits based on the state
@@ -49,9 +52,8 @@ export default class ThroughputLimiter {
       const transactionSelector = this.versionManager.getTransactionSelector(
         transactionGroup[0].transactionTime
       );
-      const qualifiedTransactionsInCurrentGroup = await transactionSelector.selectQualifiedTransactions(
-        transactionGroup
-      );
+      const qualifiedTransactionsInCurrentGroup =
+        await transactionSelector.selectQualifiedTransactions(transactionGroup);
       qualifiedTransactions.push(...qualifiedTransactionsInCurrentGroup);
     }
     return qualifiedTransactions;

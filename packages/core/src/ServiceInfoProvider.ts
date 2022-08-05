@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { ServiceVersionModel } from '@sidetree/common';
+import { ServiceVersionModel } from '@evan.network/sidetree-common';
 /**
  * Encapsulates the functionality to get the information about the service such as
  * version info.

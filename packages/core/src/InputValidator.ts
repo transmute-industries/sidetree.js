@@ -4,7 +4,7 @@ import {
   Encoder,
   protocolParameters,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 /**
  * Class containing generic input validation methods.

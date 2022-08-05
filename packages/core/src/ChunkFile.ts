@@ -4,7 +4,7 @@ import {
   Logger,
   protocolParameters,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import timeSpan from 'time-span';
 import Compressor from './util/Compressor';

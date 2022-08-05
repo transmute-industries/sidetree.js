@@ -1,4 +1,4 @@
-import { wallet } from '@sidetree/test-vectors';
+import { wallet } from '@evan.network/sidetree-test-vectors';
 import { computeDidUniqueSuffix } from './computeDidUniqueSuffix';
 
 it('computeDidUniqueSuffix', () => {

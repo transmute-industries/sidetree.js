@@ -23,7 +23,7 @@ import {
   ErrorCode,
   Multihash,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 import DocumentComposer from './DocumentComposer';
 import JsonAsync from './util/JsonAsync';
 

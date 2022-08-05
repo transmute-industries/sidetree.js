@@ -22,7 +22,7 @@ import {
   ICasService,
   FetchResult,
   ServiceVersionModel,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 import Unixfs from 'ipfs-unixfs';
 import { DAGNode } from 'ipld-dag-pb';
 const { version } = require('../package.json');

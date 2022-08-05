@@ -6,7 +6,7 @@ import {
   OperationType,
   IOperationStore,
   AnchoredOperationModel,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 /**
  * Sidetree operation stored in MongoDb.
  * Note: We use shorter property names such as "opIndex" instead of "operationIndex" to ensure unique index compatibility between MongoDB implementations.
@@ -26,8 +26,10 @@ interface IMongoOperation {
  * Implementation of OperationStore that stores the operation data in
  * a MongoDB database.
  */
-export default class MongoDbOperationStore extends MongoDbStore
-  implements IOperationStore {
+export default class MongoDbOperationStore
+  extends MongoDbStore
+  implements IOperationStore
+{
   /** MongoDB collection name under the database where the operations are stored. */
   public static readonly collectionName: string = 'operations';
 
@@ -56,9 +58,8 @@ export default class MongoDbOperationStore extends MongoDbStore
     const bulkOperations = this.collection!.initializeUnorderedBulkOp();
 
     for (const operation of operations) {
-      const mongoOperation = MongoDbOperationStore.convertToMongoOperation(
-        operation
-      );
+      const mongoOperation =
+        MongoDbOperationStore.convertToMongoOperation(operation);
 
       bulkOperations
         .find({

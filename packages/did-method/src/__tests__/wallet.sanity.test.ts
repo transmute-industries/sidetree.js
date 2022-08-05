@@ -1,5 +1,5 @@
-import vectors from '@sidetree/test-vectors';
-import { SidetreeWalletPlugin } from '@sidetree/wallet';
+import vectors from '@evan.network/sidetree-test-vectors';
+import { SidetreeWalletPlugin } from '@evan.network/sidetree-wallet';
 const wallet = SidetreeWalletPlugin.build();
 
 const methodName = 'example';

@@ -4,7 +4,7 @@ import {
   IVersionManager,
   Logger,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import timeSpan from 'time-span';
 import EventCode from './EventCode';

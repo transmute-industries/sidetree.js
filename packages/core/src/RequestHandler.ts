@@ -9,7 +9,7 @@ import {
   IOperationQueue,
   DidState,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import Delta from './Delta';
 import Did from './Did';

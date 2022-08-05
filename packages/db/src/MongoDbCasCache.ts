@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-import { FetchResult, FetchResultCode } from '@sidetree/common';
+import { FetchResult, FetchResultCode } from '@evan.network/sidetree-common';
 import { MongoClient, Collection, Db } from 'mongodb';
 
 export default class MongoDbCasCache {

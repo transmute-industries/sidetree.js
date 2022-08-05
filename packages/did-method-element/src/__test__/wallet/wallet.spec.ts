@@ -1,10 +1,10 @@
-import vectors from '@sidetree/test-vectors';
+import vectors from '@evan.network/sidetree-test-vectors';
 import Element from '../../Element';
 import { getTestElement, clearCollection } from '../../test/utils';
 
 import { longFormResolutionResponse } from './__fixtures__';
 
-import { SidetreeWalletPlugin } from '@sidetree/wallet';
+import { SidetreeWalletPlugin } from '@evan.network/sidetree-wallet';
 
 let element: Element;
 

@@ -1,6 +1,6 @@
-import QLDBLedger, { MockQLDBLedger } from '@sidetree/qldb';
-import { S3Cas } from '@sidetree/cas-s3';
-import { MockCas } from '@sidetree/cas';
+import QLDBLedger, { MockQLDBLedger } from '@evan.network/sidetree-qldb';
+import { S3Cas } from '@evan.network/sidetree-cas-s3';
+import { MockCas } from '@evan.network/sidetree-cas';
 import Photon from './Photon';
 
 export type PhotonNodeConfigs = {

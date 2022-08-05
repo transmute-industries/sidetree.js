@@ -1,10 +1,10 @@
-import { MockCas } from '@sidetree/cas';
+import { MockCas } from '@evan.network/sidetree-cas';
 
-import { MockLedger } from '@sidetree/ledger';
+import { MockLedger } from '@evan.network/sidetree-ledger';
 
 import sidetreeTestNodeCoreVersions from './configs/sidetree-test-node-core-versions.json';
 import Core from './Core';
-import { ConsoleLogger } from '@sidetree/common';
+import { ConsoleLogger } from '@evan.network/sidetree-common';
 
 export const getTestNodeIntance = async (sideTreeNodeCoreConfig: {
   batchingIntervalInSeconds: number;

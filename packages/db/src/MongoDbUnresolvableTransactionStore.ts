@@ -5,13 +5,14 @@ import {
   TransactionModel,
   UnresolvableTransactionModel,
   IUnresolvableTransactionStore,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 /**
  * Implementation of `IUnresolvableTransactionStore` that stores the transaction data in a MongoDB database.
  */
 export default class MongoDbUnresolvableTransactionStore
-  implements IUnresolvableTransactionStore {
+  implements IUnresolvableTransactionStore
+{
   /** Collection name for unresolvable transactions. */
   public static readonly unresolvableTransactionCollectionName: string =
     'unresolvable-transactions';
@@ -48,9 +49,10 @@ export default class MongoDbUnresolvableTransactionStore
     }); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
     this.client = client;
     this.db = client.db(this.databaseName);
-    this.unresolvableTransactionCollection = await MongoDbUnresolvableTransactionStore.createUnresolvableTransactionCollectionIfNotExist(
-      this.db
-    );
+    this.unresolvableTransactionCollection =
+      await MongoDbUnresolvableTransactionStore.createUnresolvableTransactionCollectionIfNotExist(
+        this.db
+      );
   }
 
   public async stop(): Promise<void> {
@@ -152,12 +154,13 @@ export default class MongoDbUnresolvableTransactionStore
     }
 
     const now = Date.now();
-    const unresolvableTransactionsToRetry = await this.unresolvableTransactionCollection!.find(
-      { nextRetryTime: { $lte: now } }
-    )
-      .sort({ nextRetryTime: 1 })
-      .limit(returnCount)
-      .toArray();
+    const unresolvableTransactionsToRetry =
+      await this.unresolvableTransactionCollection!.find({
+        nextRetryTime: { $lte: now },
+      })
+        .sort({ nextRetryTime: 1 })
+        .limit(returnCount)
+        .toArray();
 
     return unresolvableTransactionsToRetry;
   }

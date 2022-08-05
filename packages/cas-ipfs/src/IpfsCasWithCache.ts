@@ -21,9 +21,9 @@ import {
   FetchResult,
   FetchResultCode,
   ServiceVersionModel,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 import IpfsCas from './IpfsCas';
-import { MongoDbCasCache } from '@sidetree/db';
+import { MongoDbCasCache } from '@evan.network/sidetree-db';
 const { version } = require('../package.json');
 
 export default class IpfsCasWithCache extends IpfsCas {

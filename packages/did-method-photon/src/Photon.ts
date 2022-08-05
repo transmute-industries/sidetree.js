@@ -1,3 +1,3 @@
-import { Core } from '@sidetree/did-method';
+import { Core } from '@evan.network/sidetree-did-method';
 
 export default class Photon extends Core {}

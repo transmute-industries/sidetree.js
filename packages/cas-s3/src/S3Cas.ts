@@ -22,7 +22,7 @@ import {
   ICasService,
   FetchResult,
   ServiceVersionModel,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 import Unixfs from 'ipfs-unixfs';
 import { DAGNode } from 'ipld-dag-pb';
 import S3 from 'aws-sdk/clients/s3';

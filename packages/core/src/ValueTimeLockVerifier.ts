@@ -23,7 +23,7 @@ import {
   protocolParameters,
   SidetreeError,
   ValueTimeLockModel,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 /**
  * Encapsulates the functionality to compute and verify the value time lock amounts.

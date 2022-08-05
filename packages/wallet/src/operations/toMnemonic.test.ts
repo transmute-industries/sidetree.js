@@ -13,7 +13,7 @@
 
 import { toMnemonic } from './toMnemonic';
 
-import { wallet } from '@sidetree/test-vectors';
+import { wallet } from '@evan.network/sidetree-test-vectors';
 
 it('can generate a mnemonic', async () => {
   const content = await toMnemonic();

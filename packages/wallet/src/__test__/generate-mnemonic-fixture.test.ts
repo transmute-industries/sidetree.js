@@ -11,12 +11,12 @@
  * limitations under the License.
  */
 
-import { crypto } from '@sidetree/test-vectors';
+import { crypto } from '@evan.network/sidetree-test-vectors';
 
 import { writeFixture } from '../test/util';
 import { toMnemonic } from '..';
 
-import { wallet } from '@sidetree/test-vectors';
+import { wallet } from '@evan.network/sidetree-test-vectors';
 
 const WRITE_FIXTURE_TO_DISK = false;
 

@@ -15,7 +15,7 @@ import {
   IBlockchain,
   IBatchWriter,
   AbstractVersionMetadata,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import DownloadManager from './DownloadManager';
 import Resolver from './Resolver';
@@ -25,7 +25,8 @@ import { versions } from './versions';
  * The class that handles code versioning.
  */
 export default class VersionManager
-  implements IVersionManager, IVersionMetadataFetcher {
+  implements IVersionManager, IVersionMetadataFetcher
+{
   // Reverse sorted implementation versions. ie. latest version first.
   private versionsReverseSorted: VersionModel[];
 

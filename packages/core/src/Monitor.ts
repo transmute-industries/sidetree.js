@@ -6,7 +6,7 @@
 // import MongoDbTransactionStore from '../common/MongoDbTransactionStore';
 // import VersionManager from './VersionManager';
 
-// import { TransactionModel } from '@sidetree/common'
+// import { TransactionModel } from '@evan.network/sidetree-common'
 
 // /**
 //  * An class to monitor the Core.

@@ -3,7 +3,7 @@ import {
   ErrorCode,
   protocolParameters,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 /**
  * Encapsulates functionality to serialize/deserialize data that read/write to

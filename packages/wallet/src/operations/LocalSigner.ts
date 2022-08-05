@@ -3,7 +3,7 @@ import { ISigner } from '@gjgd/ion-sdk';
 import { OperationKeyType } from './types';
 import InputValidator from './InputValidator';
 
-import { sign } from '@sidetree/crypto';
+import { sign } from '@evan.network/sidetree-crypto';
 
 type PrivateKeyJwk = any;
 

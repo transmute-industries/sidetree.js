@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { ResponseStatus } from '@sidetree/common';
+import { ResponseStatus } from '@evan.network/sidetree-common';
 
 /**
  * Contains operations related to `IResponse`.

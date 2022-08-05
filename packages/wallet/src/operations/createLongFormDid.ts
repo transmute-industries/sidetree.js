@@ -1,6 +1,6 @@
 import { create } from './create';
 import { Jwk, SidetreeDocumentModel } from './types';
-import { Encoder, JsonCanonicalizer } from '@sidetree/common';
+import { Encoder, JsonCanonicalizer } from '@evan.network/sidetree-common';
 
 import { computeDidUniqueSuffix } from './computeDidUniqueSuffix';
 
@@ -31,9 +31,8 @@ export const createLongFormDid = (input: {
   };
 
   // Initial state must be canonicalized as per spec.
-  const canonicalizedInitialStateBuffer = JsonCanonicalizer.canonicalizeAsBuffer(
-    initialState
-  );
+  const canonicalizedInitialStateBuffer =
+    JsonCanonicalizer.canonicalizeAsBuffer(initialState);
   const encodedCanonicalizedInitialStateString = Encoder.encode(
     canonicalizedInitialStateBuffer
   );

@@ -1,4 +1,4 @@
-import { ErrorCode, SidetreeError } from '@sidetree/common';
+import { ErrorCode, SidetreeError } from '@evan.network/sidetree-common';
 
 const util = require('util');
 const zlib = require('zlib');

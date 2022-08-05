@@ -1,12 +1,14 @@
 import MongoDbStore from './MongoDbStore';
 
-import { IServiceStateStore } from '@sidetree/common';
+import { IServiceStateStore } from '@evan.network/sidetree-common';
 
 /**
  * Implementation of IServiceStateStore using MongoDB database.
  */
-export default class MongoDbServiceStateStore<T> extends MongoDbStore
-  implements IServiceStateStore<T> {
+export default class MongoDbServiceStateStore<T>
+  extends MongoDbStore
+  implements IServiceStateStore<T>
+{
   /** Collection name for storing service state. */
   public static readonly collectionName = 'service';
 

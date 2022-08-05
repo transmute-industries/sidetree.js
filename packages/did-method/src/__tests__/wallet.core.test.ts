@@ -1,4 +1,4 @@
-import vectors from '@sidetree/test-vectors';
+import vectors from '@evan.network/sidetree-test-vectors';
 import Core from '../Core';
 
 import {

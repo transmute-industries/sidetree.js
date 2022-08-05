@@ -21,8 +21,8 @@ import {
   Encoder,
   Multihash,
   JsonCanonicalizer,
-} from '@sidetree/common';
-import { didMethod } from '@sidetree/test-vectors';
+} from '@evan.network/sidetree-common';
+import { didMethod } from '@evan.network/sidetree-test-vectors';
 import crypto from 'crypto';
 import {
   testBuffer,

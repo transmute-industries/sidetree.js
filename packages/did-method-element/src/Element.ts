@@ -12,6 +12,6 @@
  * limitations under the License.
  */
 
-import { Core } from '@sidetree/did-method';
+import { Core } from '@evan.network/sidetree-did-method';
 
 export default class Element extends Core {}

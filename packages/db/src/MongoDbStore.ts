@@ -1,5 +1,5 @@
 import { Collection, Db, MongoClient } from 'mongodb';
-import { Logger } from '@sidetree/common';
+import { Logger } from '@evan.network/sidetree-common';
 
 /**
  * Base class that contains the common MongoDB collection setup.

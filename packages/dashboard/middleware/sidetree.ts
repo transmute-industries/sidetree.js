@@ -1,7 +1,7 @@
 import type { NextApiRequest } from 'next';
-import { getTestNodeIntance as testMethod } from '@sidetree/did-method';
-import { getNodeInstance as element } from '@sidetree/element';
-import { getNodeInstance as photon } from '@sidetree/photon';
+import { getTestNodeIntance as testMethod } from '@evan.network/sidetree-did-method';
+import { getNodeInstance as element } from '@evan.network/sidetree-element';
+import { getNodeInstance as photon } from '@evan.network/sidetree-photon';
 
 export * from './convertSidetreeStatusToHttpStatus';
 

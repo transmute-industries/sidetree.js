@@ -19,7 +19,7 @@ import {
   ServiceVersionModel,
   TransactionModel,
   ValueTimeLockModel,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 import crypto from 'crypto';
 
 const { version } = require('../package.json');
@@ -143,10 +143,7 @@ export default class MockLedger implements IBlockchain {
     }
     this.latestTime = {
       time,
-      hash: crypto
-        .createHash('sha256')
-        .update(String(time))
-        .digest('hex'),
+      hash: crypto.createHash('sha256').update(String(time)).digest('hex'),
     };
     return Promise.resolve(this.latestTime);
   };

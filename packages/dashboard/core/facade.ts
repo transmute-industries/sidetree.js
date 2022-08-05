@@ -1,6 +1,6 @@
-// import * as common from '@sidetree/common';
-// import * as crypto from '@sidetree/crypto';
-// import * as wallet from '@sidetree/wallet';
+// import * as common from '@evan.network/sidetree-common';
+// import * as crypto from '@evan.network/sidetree-crypto';
+// import * as wallet from '@evan.network/sidetree-wallet';
 
 // const checkModulesWork = () => {
 //   // console.log({ common });

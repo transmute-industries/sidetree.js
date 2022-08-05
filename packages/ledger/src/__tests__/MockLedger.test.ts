@@ -1,4 +1,4 @@
-import { filesystem } from '@sidetree/test-vectors';
+import { filesystem } from '@evan.network/sidetree-test-vectors';
 
 import MockLedger from '../MockLedger';
 

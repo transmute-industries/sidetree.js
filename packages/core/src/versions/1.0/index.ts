@@ -6,7 +6,7 @@ import RequestHandler from '../../RequestHandler';
 import VersionMetadata from '../../VersionMetadata';
 
 // did you know that sidetree core versions depend on mongodb queue versions?
-import { MongoDbOperationQueue } from '@sidetree/db';
+import { MongoDbOperationQueue } from '@evan.network/sidetree-db';
 
 export {
   MongoDbOperationQueue,

@@ -3,7 +3,7 @@ import {
   IServiceStateStore,
   Logger,
   ServiceStateModel,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import EventCode from './EventCode';
 import EventEmitter from './EventEmitter';

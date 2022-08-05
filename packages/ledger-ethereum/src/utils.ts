@@ -12,8 +12,8 @@
  * limitations under the License.
  */
 
-import { TransactionModel, Encoder } from '@sidetree/common';
-import { AnchoredDataSerializer } from '@sidetree/core';
+import { TransactionModel, Encoder } from '@evan.network/sidetree-common';
+import { AnchoredDataSerializer } from '@evan.network/sidetree-core';
 import Web3 from 'web3';
 import { EthereumBlock, ElementEventData } from './types';
 

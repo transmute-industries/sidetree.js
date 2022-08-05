@@ -1,7 +1,7 @@
 import * as crypto from 'crypto';
 import EventEmitter from './EventEmitter';
 import EventCode from './EventCode';
-import { Logger, ICas, FetchResult } from '@sidetree/common';
+import { Logger, ICas, FetchResult } from '@evan.network/sidetree-common';
 
 /**
  * Interface containing information regarding each queued CAS download.

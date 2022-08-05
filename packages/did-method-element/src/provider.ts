@@ -1,8 +1,8 @@
 import Web3 from 'web3';
 import HDWalletProvider from '@truffle/hdwallet-provider';
-import { EthereumLedger } from '@sidetree/ethereum';
-import { IpfsCasWithCache } from '@sidetree/cas-ipfs';
-import { MockCas } from '@sidetree/cas';
+import { EthereumLedger } from '@evan.network/sidetree-ethereum';
+import { IpfsCasWithCache } from '@evan.network/sidetree-cas-ipfs';
+import { MockCas } from '@evan.network/sidetree-cas';
 import Element from './Element';
 
 export type ElementNodeConfigs = {

@@ -6,7 +6,7 @@ import {
   MongoDbUnresolvableTransactionStore,
   MongoDbTransactionStore,
   MongoDbServiceStateStore,
-} from '@sidetree/db';
+} from '@evan.network/sidetree-db';
 
 import {
   VersionManager,
@@ -21,7 +21,7 @@ import {
   Config,
   BatchScheduler,
   BlockchainClock,
-} from '@sidetree/core';
+} from '@evan.network/sidetree-core';
 
 import {
   VersionModel,
@@ -33,7 +33,7 @@ import {
   IBlockchain,
   Logger,
   LogColor,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 /**
  * The core class that is instantiated when running a Sidetree node.

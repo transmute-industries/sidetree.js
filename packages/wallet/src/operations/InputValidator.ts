@@ -1,4 +1,4 @@
-import { Encoder } from '@sidetree/common';
+import { Encoder } from '@evan.network/sidetree-common';
 
 import { SidetreePublicKeyPurpose, OperationKeyType, Jwk } from './types';
 

@@ -17,7 +17,11 @@
  * limitations under the License.
  */
 
-import { ErrorCode, protocolParameters, SidetreeError } from '@sidetree/common';
+import {
+  ErrorCode,
+  protocolParameters,
+  SidetreeError,
+} from '@evan.network/sidetree-common';
 
 /**
  * Encapsulates the functionality to calculate and verify the blockchain transaction fees.

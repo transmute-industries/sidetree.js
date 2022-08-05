@@ -3,7 +3,7 @@ import {
   Logger,
   protocolParameters,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import JsonCanonicalizer from './util/JsonCanonicalizer';
 import Operation from './Operation';

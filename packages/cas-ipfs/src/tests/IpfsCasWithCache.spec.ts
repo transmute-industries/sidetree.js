@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { testSuite } from '@sidetree/cas';
+import { testSuite } from '@evan.network/sidetree-cas';
 import IpfsCasWithCache from '../IpfsCasWithCache';
 import config from './config.json';
 

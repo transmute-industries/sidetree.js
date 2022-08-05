@@ -17,7 +17,10 @@
  * limitations under the License.
  */
 
-import { AbstractVersionMetadata, protocolParameters } from '@sidetree/common';
+import {
+  AbstractVersionMetadata,
+  protocolParameters,
+} from '@evan.network/sidetree-common';
 
 /**
  * Implementation of the abstract VersionMetadata.

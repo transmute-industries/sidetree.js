@@ -1,5 +1,5 @@
 import { dashboardWalletFactory } from './DashboardWallet';
-import * as Sidetree from '@sidetree/wallet';
+import * as Sidetree from '@evan.network/sidetree-wallet';
 
 describe('Dashboard Wallet', () => {
   it('creates wallet and operation create did', async () => {
@@ -40,7 +40,7 @@ describe('Dashboard Wallet', () => {
   });
 
   // API DID ACTOR KEY CREATION SANITY CHECK
-  // This test confirms the dashboardWalletFactory.toKeyPair() and @sidetree/wallet's toKeyPair()
+  // This test confirms the dashboardWalletFactory.toKeyPair() and @evan.network/sidetree-wallet's toKeyPair()
   // generate the exact same keys as API did actor when using the same parameters.
   it('ensure same did:key gets created here as in api.did.actor using same params', async () => {
     const mnemonic =

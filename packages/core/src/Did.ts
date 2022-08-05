@@ -4,12 +4,12 @@ import {
   Multihash,
   OperationType,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import CreateOperation from './CreateOperation';
 import Delta from './Delta';
 import JsonCanonicalizer from './util/JsonCanonicalizer';
-import { SuffixDataModel } from '@sidetree/common';
+import { SuffixDataModel } from '@evan.network/sidetree-common';
 import { computeUniqueSuffix } from './computeUniqueSuffix';
 
 // From:
@@ -89,9 +89,8 @@ export default class Did {
 
     // If DID is long-form, ensure the unique suffix constructed from the suffix data matches the short-form DID and populate the `createOperation` property.
     if (!did.isShortForm) {
-      const initialStateEncodedJcs = Did.getInitialStateFromDidStringWithExtraColon(
-        didString
-      );
+      const initialStateEncodedJcs =
+        Did.getInitialStateFromDidStringWithExtraColon(didString);
       const createOperation = Did.constructCreateOperationFromEncodedJcs(
         initialStateEncodedJcs
       );
@@ -103,10 +102,11 @@ export default class Did {
       const suffixDataJcsBuffer = JsonCanonicalizer.canonicalizeAsBuffer(
         createOperation.suffixData
       );
-      const suffixDataHashMatchesUniqueSuffix = Multihash.verifyEncodedMultihashForContent(
-        suffixDataJcsBuffer,
-        did.uniqueSuffix
-      );
+      const suffixDataHashMatchesUniqueSuffix =
+        Multihash.verifyEncodedMultihashForContent(
+          suffixDataJcsBuffer,
+          did.uniqueSuffix
+        );
 
       // If the computed suffix data hash is not the same as the unique suffix given in the DID string, the DID is not valid.
       if (!suffixDataHashMatchesUniqueSuffix) {
