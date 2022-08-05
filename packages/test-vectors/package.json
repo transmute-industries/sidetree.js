@@ -1,5 +1,5 @@
 {
-  "name": "@sidetree/test-vectors",
+  "name": "@evan.network/sidetree-test-vectors",
   "publishConfig": {
     "access": "public"
   },

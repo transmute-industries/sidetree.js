@@ -38,8 +38,8 @@
   },
   "dependencies": {
     "@evan.network/sidetree-common": "^0.3.1-unstable.60",
-    "@sidetree/crypto": "^0.3.1-unstable.58",
-    "@sidetree/db": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-crypto": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-db": "^0.3.1-unstable.58",
     "@transmute/did-key-ed25519": "^0.3.0-unstable.4",
     "@trust/keyto": "^1.0.1",
     "bip39": "^3.0.2",

@@ -1,5 +1,5 @@
 {
-  "name": "@sidetree/cas-ipfs",
+  "name": "@evan.network/sidetree-cas-ipfs",
   "publishConfig": {
     "access": "public"
   },
@@ -27,13 +27,13 @@
   },
   "devDependencies": {
     "@rollup/plugin-replace": "^3.0.0",
-    "@sidetree/cas": "^0.3.1-unstable.59",
+    "@evan.network/sidetree-cas": "^0.3.1-unstable.59",
     "jest-environment-node": "^27.2.5",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@sidetree/common": "^0.3.1-unstable.58",
-    "@sidetree/db": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-common": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-db": "^0.3.1-unstable.58",
     "ipfs-http-client": "^49.0.2",
     "it-concat": "^1.0.0"
   },

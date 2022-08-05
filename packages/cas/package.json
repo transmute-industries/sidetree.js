@@ -1,5 +1,5 @@
 {
-  "name": "@sidetree/cas",
+  "name": "@evan.network/sidetree-cas",
   "publishConfig": {
     "access": "public"
   },
@@ -29,8 +29,8 @@
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@sidetree/common": "^0.3.1-unstable.58",
-    "@sidetree/test-vectors": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-common": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-test-vectors": "^0.3.1-unstable.58",
     "ipfs-unixfs": "^2.0.3",
     "ipld-dag-pb": "^0.20.0",
     "jest-environment-node": "^27.2.5"

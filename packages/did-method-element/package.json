@@ -1,5 +1,5 @@
 {
-  "name": "@sidetree/element",
+  "name": "@evan.network/sidetree-element",
   "publishConfig": {
     "access": "public"
   },
@@ -30,19 +30,19 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/test-vectors": "^0.3.1-unstable.58",
-    "@sidetree/wallet": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-test-vectors": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-wallet": "^0.3.1-unstable.58",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
     "@rollup/plugin-replace": "^3.0.0",
-    "@sidetree/cas": "^0.3.1-unstable.59",
-    "@sidetree/cas-ipfs": "^0.3.1-unstable.59",
-    "@sidetree/common": "^0.3.1-unstable.58",
-    "@sidetree/core": "^0.3.1-unstable.58",
-    "@sidetree/db": "^0.3.1-unstable.58",
-    "@sidetree/did-method": "^0.3.1-unstable.58",
-    "@sidetree/ethereum": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-cas": "^0.3.1-unstable.59",
+    "@evan.network/sidetree-cas-ipfs": "^0.3.1-unstable.59",
+    "@evan.network/sidetree-common": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-core": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-db": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-did-method": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-ethereum": "^0.3.1-unstable.58",
     "@truffle/hdwallet-provider": "^2.0.0",
     "jest-environment-node": "^27.2.5",
     "mongodb": "^4.1.2",

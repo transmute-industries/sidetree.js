@@ -1,5 +1,5 @@
 {
-  "name": "@sidetree/qldb",
+  "name": "@evan.network/sidetree-qldb",
   "publishConfig": {
     "access": "public"
   },
@@ -26,13 +26,13 @@
   },
   "devDependencies": {
     "@rollup/plugin-replace": "^3.0.0",
-    "@sidetree/test-vectors": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-test-vectors": "^0.3.1-unstable.58",
     "@types/sqlite3": "^3.1.7",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@sidetree/common": "^0.3.1-unstable.58",
-    "@sidetree/core": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-common": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-core": "^0.3.1-unstable.58",
     "amazon-qldb-driver-nodejs": "^2.2.0",
     "aws-sdk": "^2.828.0",
     "ion-js": "^4.1.0",

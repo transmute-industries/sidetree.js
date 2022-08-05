@@ -29,8 +29,8 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@sidetree/test-vectors": "^0.3.1-unstable.58",
-    "@sidetree/wallet": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-test-vectors": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-wallet": "^0.3.1-unstable.58",
     "@types/semver": "7.3.5",
     "tsdx": "^0.14.1"
   },
@@ -38,9 +38,9 @@
     "@evan.network/sidetree-common": "^0.3.1-unstable.60",
     "@evan.network/sidetree-core": "^0.3.1-unstable.59",
     "@rollup/plugin-replace": "^3.0.0",
-    "@sidetree/cas": "^0.3.1-unstable.59",
-    "@sidetree/db": "^0.3.1-unstable.58",
-    "@sidetree/ledger": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-cas": "^0.3.1-unstable.59",
+    "@evan.network/sidetree-db": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-ledger": "^0.3.1-unstable.58",
     "mongodb": "^4.1.2",
     "semver": "^7.3.5",
     "time-span": "3.1.0"
