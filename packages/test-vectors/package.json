@@ -8,7 +8,7 @@
     "Orie Steele (https://github.com/OR13)",
     "gjgd (https://github.com/gjgd)"
   ],
-  "version": "0.3.1-unstable.62",
+  "version": "0.3.1-unstable.63",
   "license": "Apache-2.0",
   "main": "src/index.js",
   "types": "typings.d.ts",
@@ -21,5 +21,5 @@
     "url": "https://github.com/transmute-industries/sidetree.js.git",
     "directory": "packages/test-vectors"
   },
-  "gitHead": "a54286c774c4dcc1095bfb7e4d14a04eea186a98"
+  "gitHead": "9501995a63904980ae46089a6419cf622f2bc51a"
 }

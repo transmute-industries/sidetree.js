@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/element.esm.js",
-  "version": "0.3.1-unstable.62",
+  "version": "0.3.1-unstable.63",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -30,25 +30,25 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
-    "@evan.network/sidetree-test-vectors": "^0.3.1-unstable.62",
-    "@evan.network/sidetree-wallet": "^0.3.1-unstable.62",
+    "@evan.network/sidetree-test-vectors": "^0.3.1-unstable.63",
+    "@evan.network/sidetree-wallet": "^0.3.1-unstable.63",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@evan.network/sidetree-cas": "^0.3.1-unstable.62",
-    "@evan.network/sidetree-cas-ipfs": "^0.3.1-unstable.62",
-    "@evan.network/sidetree-common": "^0.3.1-unstable.58",
-    "@evan.network/sidetree-core": "^0.3.1-unstable.62",
-    "@evan.network/sidetree-db": "^0.3.1-unstable.62",
-    "@evan.network/sidetree-did-method": "^0.3.1-unstable.62",
-    "@evan.network/sidetree-ethereum": "^0.3.1-unstable.62",
+    "@evan.network/sidetree-cas": "^0.3.1-unstable.63",
+    "@evan.network/sidetree-cas-ipfs": "^0.3.1-unstable.63",
+    "@evan.network/sidetree-common": "^0.3.1-unstable.63",
+    "@evan.network/sidetree-core": "^0.3.1-unstable.63",
+    "@evan.network/sidetree-db": "^0.3.1-unstable.63",
+    "@evan.network/sidetree-did-method": "^0.3.1-unstable.63",
+    "@evan.network/sidetree-ethereum": "^0.3.1-unstable.63",
     "@rollup/plugin-replace": "^3.0.0",
     "@truffle/hdwallet-provider": "^2.0.0",
     "jest-environment-node": "^27.2.5",
     "mongodb": "^4.1.2",
     "web3": "^1.2.9"
   },
-  "gitHead": "a54286c774c4dcc1095bfb7e4d14a04eea186a98",
+  "gitHead": "9501995a63904980ae46089a6419cf622f2bc51a",
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/did-method-element",
   "repository": {
     "type": "git",
