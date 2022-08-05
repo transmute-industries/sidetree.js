@@ -1,5 +1,5 @@
 {
-  "name": "@sidetree/ethereum",
+  "name": "@evan.network/sidetree-ethereum",
   "publishConfig": {
     "access": "public"
   },

@@ -6,7 +6,7 @@ import {
   DocumentModel,
   DidState,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 import jsonpatch from 'fast-json-patch';
 
 import * as URI from 'uri-js';

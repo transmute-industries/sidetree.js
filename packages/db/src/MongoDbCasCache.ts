@@ -43,15 +43,15 @@ export default class MongoDbCasCache {
       collection = db.collection(MongoDbCasCache.collectionName);
     } else {
       collection = await db.createCollection(MongoDbCasCache.collectionName);
-      // Create an index on didUniqueSuffix make `contains()` operations more efficient.
-      // This is an unique index, so duplicate inserts are rejected.
-      await collection.createIndex({ didUniqueSuffix: 1 }, { unique: true });
     }
 
     return collection;
   }
 
-  public async initialize(serverUrl: string, databaseName: string): Promise<void>{
+  public async initialize(
+    serverUrl: string,
+    databaseName: string
+  ): Promise<void> {
     const client = await MongoClient.connect(serverUrl);
     this.client = client;
     this.db = client.db(databaseName);

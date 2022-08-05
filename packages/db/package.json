@@ -1,5 +1,5 @@
 {
-  "name": "@sidetree/db",
+  "name": "@evan.network/sidetree-db",
   "publishConfig": {
     "access": "public"
   },
