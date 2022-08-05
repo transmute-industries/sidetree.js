@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /*
  * The code in this file originated from
  * @see https://github.com/decentralized-identity/sidetree
