@@ -4,7 +4,7 @@ import {
   ProvisionalIndexFileModel,
   protocolParameters,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import ArrayMethods from './util/ArrayMethods';
 import Compressor from './util/Compressor';
@@ -194,7 +194,8 @@ export default class ProvisionalIndexFile {
         update: updateReferences,
       };
 
-      provisionalIndexFileModel.provisionalProofFileUri = provisionalProofFileUri;
+      provisionalIndexFileModel.provisionalProofFileUri =
+        provisionalProofFileUri;
     }
 
     const rawData = JSON.stringify(provisionalIndexFileModel);

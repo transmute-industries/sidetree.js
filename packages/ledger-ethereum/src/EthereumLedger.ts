@@ -14,7 +14,7 @@
 
 import utils from './utils';
 
-import { AnchoredDataSerializer } from '@sidetree/core';
+import { AnchoredDataSerializer } from '@evan.network/sidetree-core';
 
 import {
   BlockchainTimeModel,
@@ -23,7 +23,7 @@ import {
   ValueTimeLockModel,
   ServiceVersionModel,
   Encoder,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import {
   ElementContract,

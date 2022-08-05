@@ -8,7 +8,7 @@ import {
   DidState,
   AnchoredOperationModel,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import CreateOperation from './CreateOperation';
 import DeactivateOperation from './DeactivateOperation';
@@ -100,13 +100,11 @@ export default class OperationProcessor implements IOperationProcessor {
       anchoredOperationModel.operationBuffer
     );
 
-    const multihashRevealValue = (operation as
-      | RecoverOperation
-      | UpdateOperation
-      | DeactivateOperation).revealValue;
-    const multihashRevealValueBuffer = Encoder.decodeAsBuffer(
-      multihashRevealValue
-    );
+    const multihashRevealValue = (
+      operation as RecoverOperation | UpdateOperation | DeactivateOperation
+    ).revealValue;
+    const multihashRevealValueBuffer =
+      Encoder.decodeAsBuffer(multihashRevealValue);
     return multihashRevealValueBuffer;
   }
 

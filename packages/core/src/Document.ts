@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { DocumentModel, PublicKeyModel } from '@sidetree/common';
+import { DocumentModel, PublicKeyModel } from '@evan.network/sidetree-common';
 
 /**
  * Class containing reusable document related operations.

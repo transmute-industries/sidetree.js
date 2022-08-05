@@ -25,7 +25,7 @@ import {
   SidetreeError,
   TransactionModel,
   protocolParameters,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 import AnchoredDataSerializer from './AnchoredDataSerializer';
 import PriorityQueue from 'priorityqueue';
 

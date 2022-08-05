@@ -1,6 +1,10 @@
 import { Collection, Cursor, Db, Long, MongoClient } from 'mongodb';
 
-import { TransactionModel, Logger, ITransactionStore } from '@sidetree/common';
+import {
+  TransactionModel,
+  Logger,
+  ITransactionStore,
+} from '@evan.network/sidetree-common';
 /**
  * Implementation of ITransactionStore that stores the transaction data in a MongoDB database.
  */
@@ -26,9 +30,10 @@ export default class MongoDbTransactionStore implements ITransactionStore {
     }); // `useNewUrlParser` addresses nodejs's URL parser deprecation warning.
     this.client = client;
     this.db = client.db(databaseName);
-    this.transactionCollection = await MongoDbTransactionStore.createTransactionCollectionIfNotExist(
-      this.db
-    );
+    this.transactionCollection =
+      await MongoDbTransactionStore.createTransactionCollectionIfNotExist(
+        this.db
+      );
   }
 
   public async stop(): Promise<void> {

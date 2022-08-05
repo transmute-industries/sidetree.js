@@ -7,7 +7,7 @@ import {
   AnchoredOperationModel,
   Logger,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 /**
  * NOTE: Resolver cannot be versioned because it needs to be aware of `VersionManager` to fetch versioned operation processors.
@@ -40,12 +40,14 @@ export default class Resolver {
     }
 
     // Apply recovery/deactivate operations until an operation matching the next recovery commitment cannot be found.
-    const recoverAndDeactivateOperations = operationsByType.recoverOperations.concat(
-      operationsByType.deactivateOperations
-    );
-    const recoveryCommitValueToOperationMap = await this.constructCommitValueToOperationLookupMap(
-      recoverAndDeactivateOperations
-    );
+    const recoverAndDeactivateOperations =
+      operationsByType.recoverOperations.concat(
+        operationsByType.deactivateOperations
+      );
+    const recoveryCommitValueToOperationMap =
+      await this.constructCommitValueToOperationLookupMap(
+        recoverAndDeactivateOperations
+      );
     didState = await this.applyRecoverAndDeactivateOperations(
       didState,
       recoveryCommitValueToOperationMap
@@ -57,9 +59,10 @@ export default class Resolver {
     }
 
     // Apply update operations until an operation matching the next update commitment cannot be found.
-    const updateCommitValueToOperationMap = await this.constructCommitValueToOperationLookupMap(
-      operationsByType.updateOperations
-    );
+    const updateCommitValueToOperationMap =
+      await this.constructCommitValueToOperationLookupMap(
+        operationsByType.updateOperations
+      );
     didState = await this.applyUpdateOperations(
       didState,
       updateCommitValueToOperationMap
@@ -133,21 +136,19 @@ export default class Resolver {
     while (
       commitValueToOperationMap.has(didState.nextRecoveryCommitmentHash!)
     ) {
-      let operationsWithCorrectRevealValue: AnchoredOperationModel[] = commitValueToOperationMap.get(
-        didState.nextRecoveryCommitmentHash!
-      )!;
+      let operationsWithCorrectRevealValue: AnchoredOperationModel[] =
+        commitValueToOperationMap.get(didState.nextRecoveryCommitmentHash!)!;
 
       // Sort using blockchain time.
       operationsWithCorrectRevealValue = operationsWithCorrectRevealValue.sort(
         (a, b) => a.transactionNumber - b.transactionNumber
       );
 
-      const newDidState:
-        | DidState
-        | undefined = await this.applyFirstValidOperation(
-        operationsWithCorrectRevealValue,
-        didState
-      );
+      const newDidState: DidState | undefined =
+        await this.applyFirstValidOperation(
+          operationsWithCorrectRevealValue,
+          didState
+        );
 
       // We are done if we can't find a valid recover/deactivate operation to apply.
       if (newDidState === undefined) {
@@ -176,21 +177,19 @@ export default class Resolver {
     let didState = startingDidState;
 
     while (commitValueToOperationMap.has(didState.nextUpdateCommitmentHash!)) {
-      let operationsWithCorrectRevealValue: AnchoredOperationModel[] = commitValueToOperationMap.get(
-        didState.nextUpdateCommitmentHash!
-      )!;
+      let operationsWithCorrectRevealValue: AnchoredOperationModel[] =
+        commitValueToOperationMap.get(didState.nextUpdateCommitmentHash!)!;
 
       // Sort using blockchain time.
       operationsWithCorrectRevealValue = operationsWithCorrectRevealValue.sort(
         (a, b) => a.transactionNumber - b.transactionNumber
       );
 
-      const newDidState:
-        | DidState
-        | undefined = await this.applyFirstValidOperation(
-        operationsWithCorrectRevealValue,
-        didState
-      );
+      const newDidState: DidState | undefined =
+        await this.applyFirstValidOperation(
+          operationsWithCorrectRevealValue,
+          didState
+        );
 
       // We are done if we can't find a valid update operation to apply.
       if (newDidState === undefined) {
@@ -279,9 +278,8 @@ export default class Resolver {
       const operationProcessor = this.versionManager.getOperationProcessor(
         operation.transactionTime
       );
-      const multihashRevealValueBuffer = await operationProcessor.getMultihashRevealValue(
-        operation
-      );
+      const multihashRevealValueBuffer =
+        await operationProcessor.getMultihashRevealValue(operation);
       const multihashRevealValue = Multihash.decode(multihashRevealValueBuffer);
       const commitValue = Multihash.hashThenEncode(
         multihashRevealValue.hash,

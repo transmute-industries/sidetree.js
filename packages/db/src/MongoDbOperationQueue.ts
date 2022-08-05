@@ -5,7 +5,7 @@ import {
   IOperationQueue,
   QueuedOperationModel,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 /**
  * Sidetree operation stored in MongoDb.

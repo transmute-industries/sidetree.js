@@ -14,7 +14,7 @@ import {
   AnchoredOperationModel,
   AnchoredData,
   protocolParameters,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import AnchoredDataSerializer from './AnchoredDataSerializer';
 import ArrayMethods from './util/ArrayMethods';
@@ -417,32 +417,36 @@ export default class TransactionProcessor implements ITransactionProcessor {
     provisionalProofFile: ProvisionalProofFile | undefined,
     chunkFile: ChunkFileModel | undefined
   ): Promise<AnchoredOperationModel[]> {
-    const anchoredCreateOperationModels = TransactionProcessor.composeAnchoredCreateOperationModels(
-      transaction,
-      coreIndexFile,
-      chunkFile
-    );
+    const anchoredCreateOperationModels =
+      TransactionProcessor.composeAnchoredCreateOperationModels(
+        transaction,
+        coreIndexFile,
+        chunkFile
+      );
 
-    const anchoredRecoverOperationModels = TransactionProcessor.composeAnchoredRecoverOperationModels(
-      transaction,
-      coreIndexFile,
-      coreProofFile!,
-      chunkFile
-    );
+    const anchoredRecoverOperationModels =
+      TransactionProcessor.composeAnchoredRecoverOperationModels(
+        transaction,
+        coreIndexFile,
+        coreProofFile!,
+        chunkFile
+      );
 
-    const anchoredDeactivateOperationModels = TransactionProcessor.composeAnchoredDeactivateOperationModels(
-      transaction,
-      coreIndexFile,
-      coreProofFile!
-    );
+    const anchoredDeactivateOperationModels =
+      TransactionProcessor.composeAnchoredDeactivateOperationModels(
+        transaction,
+        coreIndexFile,
+        coreProofFile!
+      );
 
-    const anchoredUpdateOperationModels = TransactionProcessor.composeAnchoredUpdateOperationModels(
-      transaction,
-      coreIndexFile,
-      provisionalIndexFile,
-      provisionalProofFile,
-      chunkFile
-    );
+    const anchoredUpdateOperationModels =
+      TransactionProcessor.composeAnchoredUpdateOperationModels(
+        transaction,
+        coreIndexFile,
+        provisionalIndexFile,
+        provisionalProofFile,
+        chunkFile
+      );
 
     const anchoredOperationModels = [];
     anchoredOperationModels.push(...anchoredCreateOperationModels);
@@ -577,8 +581,8 @@ export default class TransactionProcessor implements ITransactionProcessor {
       const composedRequest = {
         type: OperationType.Deactivate,
         didSuffix: deactivateDidSuffixes[i],
-        revealValue: coreIndexFile.model!.operations!.deactivate![i]
-          .revealValue,
+        revealValue:
+          coreIndexFile.model!.operations!.deactivate![i].revealValue,
         signedData: deactivateProofs[i],
       };
 
@@ -639,8 +643,8 @@ export default class TransactionProcessor implements ITransactionProcessor {
       const composedRequest = {
         type: OperationType.Update,
         didSuffix: updateDidSuffixes[i],
-        revealValue: provisionalIndexFile.model!.operations!.update[i]
-          .revealValue,
+        revealValue:
+          provisionalIndexFile.model!.operations!.update[i].revealValue,
         signedData: updateProofs[i],
         delta: updateDeltas?.[i], // Add `delta` property if chunk file found.
       };

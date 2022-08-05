@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@rollup/plugin-replace": "^3.0.0",
-    "@sidetree/common": "^0.3.1-unstable.58",
+    "@evan.network/sidetree-common": "^0.3.1-unstable.58",
     "@types/mongodb": "^3.5.20",
     "mongodb": "^3.6.9"
   },

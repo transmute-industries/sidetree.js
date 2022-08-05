@@ -23,9 +23,9 @@ import {
   SidetreeError,
   PublicKeyJwk,
   PrivateKeyJwk,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
-import { sign, verify } from '@sidetree/crypto';
+import { sign, verify } from '@evan.network/sidetree-crypto';
 
 /**
  * Class containing reusable JWS operations.
@@ -56,9 +56,8 @@ export default class Jws {
     const payload = parts[1];
     const signature = parts[2];
 
-    const decodedProtectedHeadJsonString = Encoder.decodeBase64UrlAsString(
-      protectedHeader
-    );
+    const decodedProtectedHeadJsonString =
+      Encoder.decodeBase64UrlAsString(protectedHeader);
     const decodedProtectedHeader = JSON.parse(decodedProtectedHeadJsonString);
 
     const expectedHeaderPropertyCount = 1; // By default we must have header property is `alg`.

@@ -5,7 +5,7 @@ import {
   RecoverSignedDataModel,
   protocolParameters,
   SidetreeError,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import Compressor from './util/Compressor';
 import DeactivateOperation from './DeactivateOperation';
@@ -175,10 +175,11 @@ export default class CoreProofFile {
         );
 
         const signedDataJws = Jws.parseCompactJws(proof.signedData);
-        const signedDataModel = await DeactivateOperation.parseSignedDataPayload(
-          signedDataJws.payload,
-          expectedDeactivatedDidUniqueSuffixes[deactivateProofIndex]
-        );
+        const signedDataModel =
+          await DeactivateOperation.parseSignedDataPayload(
+            signedDataJws.payload,
+            expectedDeactivatedDidUniqueSuffixes[deactivateProofIndex]
+          );
 
         deactivateProofs.push({
           signedDataJws,

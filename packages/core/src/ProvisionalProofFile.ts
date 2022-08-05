@@ -4,7 +4,7 @@ import {
   UpdateSignedDataModel,
   ProvisionalProofFileModel,
   protocolParameters,
-} from '@sidetree/common';
+} from '@evan.network/sidetree-common';
 
 import Compressor from './util/Compressor';
 import InputValidator from './InputValidator';
