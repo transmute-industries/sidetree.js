@@ -45,12 +45,13 @@ export default class EthereumLedger implements IBlockchain {
   private cachedBlockchainTime: BlockchainTimeModel = { hash: '', time: 0 };
   private from = '';
   private networkId = 0;
-  private lastProcessedBlock;
+  private lastProcessedBlock: number;
 
   constructor(
     public web3: any,
     public contractAddress?: string,
     public startingBlock?: number,
+    private eventBlockBatches?: number,
     logger?: Console
   ) {
     this.logger = logger || console;
@@ -63,7 +64,6 @@ export default class EthereumLedger implements IBlockchain {
       this.anchorContract = new Contract(anchorContractArtifact.abi);
     }
     this.anchorContract.setProvider(this.web3.currentProvider);
-    this.anchorContract.options.gasPrice = '100000000000';
     this.lastProcessedBlock = startingBlock || 0;
   }
 
@@ -116,7 +116,6 @@ export default class EthereumLedger implements IBlockchain {
     options?: {
       filter?: EthereumFilter;
       omitTimestamp?: boolean;
-      blockBatch?: number;
     }
   ): Promise<TransactionModel[]> => {
     const contract = await this.getAnchorContract();
@@ -130,11 +129,11 @@ export default class EthereumLedger implements IBlockchain {
     let moreBlocks = true;
     let processingBlock = fromBlock;
 
-    if (options?.blockBatch) {
+    if (this.eventBlockBatches) {
       do {
         const sourceBlock = processingBlock;
         processingBlock =
-          parseInt(processingBlock.toString(), 10) + options.blockBatch;
+          parseInt(processingBlock.toString(), 10) + this.eventBlockBatches;
         if (processingBlock > latestBlock) {
           processingBlock = latestBlock;
         }
@@ -147,7 +146,11 @@ export default class EthereumLedger implements IBlockchain {
         );
 
         this.logger.info(
-          `Fetched events from block ${processingBlock} to block ${processingBlock} with a target of ${latestBlock}`
+          `Fetched ${
+            logs.length
+          } events from block ${sourceBlock} to block ${processingBlock} with a target of ${latestBlock} and filter ${JSON.stringify(
+            options?.filter
+          )}`
         );
 
         if (processingBlock === latestBlock) {
@@ -187,12 +190,24 @@ export default class EthereumLedger implements IBlockchain {
   ): Promise<{ moreTransactions: boolean; transactions: TransactionModel[] }> {
     const options = {
       omitTimestamp: true,
-      blockBatch: 100,
     };
     let transactions: TransactionModel[];
     // if(sinceTransactionNumber) does not work because 0 evaluates to false
     // but 0 is a valid value of sinceTransactionNumber...
-    if (sinceTransactionNumber !== undefined) {
+    if (transactionTimeHash) {
+      const block = await utils.getBlock(this.web3, transactionTimeHash);
+      if (block && block.number) {
+        transactions = await this._getTransactions(
+          block.number > this.lastProcessedBlock
+            ? block.number
+            : this.lastProcessedBlock,
+          'latest',
+          options
+        );
+      } else {
+        transactions = [];
+      }
+    } else if (sinceTransactionNumber !== undefined) {
       const sinceTransaction = await this._getTransactions(
         this.lastProcessedBlock,
         'latest',
@@ -205,17 +220,6 @@ export default class EthereumLedger implements IBlockchain {
         transactions = await this._getTransactions(
           sinceTransaction[0].transactionTime,
           'latest',
-          options
-        );
-      } else {
-        transactions = [];
-      }
-    } else if (transactionTimeHash) {
-      const block = await utils.getBlock(this.web3, transactionTimeHash);
-      if (block && block.number) {
-        transactions = await this._getTransactions(
-          block.number,
-          block.number,
           options
         );
       } else {
