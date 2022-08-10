@@ -31,8 +31,9 @@ export const createLongFormDid = (input: {
   };
 
   // Initial state must be canonicalized as per spec.
-  const canonicalizedInitialStateBuffer =
-    JsonCanonicalizer.canonicalizeAsBuffer(initialState);
+  const canonicalizedInitialStateBuffer = JsonCanonicalizer.canonicalizeAsBuffer(
+    initialState
+  );
   const encodedCanonicalizedInitialStateString = Encoder.encode(
     canonicalizedInitialStateBuffer
   );

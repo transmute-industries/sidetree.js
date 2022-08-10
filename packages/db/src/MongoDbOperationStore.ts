@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Binary, Long } from 'mongodb';
 
 import MongoDbStore from './MongoDbStore';
@@ -27,10 +26,8 @@ interface IMongoOperation {
  * Implementation of OperationStore that stores the operation data in
  * a MongoDB database.
  */
-export default class MongoDbOperationStore
-  extends MongoDbStore
-  implements IOperationStore
-{
+export default class MongoDbOperationStore extends MongoDbStore
+  implements IOperationStore {
   /** MongoDB collection name under the database where the operations are stored. */
   public static readonly collectionName: string = 'operations';
 
@@ -59,8 +56,9 @@ export default class MongoDbOperationStore
     const bulkOperations = this.collection!.initializeUnorderedBulkOp();
 
     for (const operation of operations) {
-      const mongoOperation =
-        MongoDbOperationStore.convertToMongoOperation(operation);
+      const mongoOperation = MongoDbOperationStore.convertToMongoOperation(
+        operation
+      );
 
       bulkOperations
         .find({

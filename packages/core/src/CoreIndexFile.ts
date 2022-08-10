@@ -146,9 +146,9 @@ export default class CoreIndexFile {
         operations.recover,
         'recover reference'
       );
-      recoverDidSuffixes = (
-        operations.recover as OperationReferenceModel[]
-      ).map((operation) => operation.didSuffix);
+      recoverDidSuffixes = (operations.recover as OperationReferenceModel[]).map(
+        (operation) => operation.didSuffix
+      );
       didUniqueSuffixes.push(...recoverDidSuffixes);
     }
 
@@ -166,9 +166,9 @@ export default class CoreIndexFile {
         operations.deactivate,
         'deactivate reference'
       );
-      deactivateDidSuffixes = (
-        operations.deactivate as OperationReferenceModel[]
-      ).map((operation) => operation.didSuffix);
+      deactivateDidSuffixes = (operations.deactivate as OperationReferenceModel[]).map(
+        (operation) => operation.didSuffix
+      );
       didUniqueSuffixes.push(...deactivateDidSuffixes);
     }
 

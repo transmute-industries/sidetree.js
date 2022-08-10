@@ -52,8 +52,9 @@ export default class ThroughputLimiter {
       const transactionSelector = this.versionManager.getTransactionSelector(
         transactionGroup[0].transactionTime
       );
-      const qualifiedTransactionsInCurrentGroup =
-        await transactionSelector.selectQualifiedTransactions(transactionGroup);
+      const qualifiedTransactionsInCurrentGroup = await transactionSelector.selectQualifiedTransactions(
+        transactionGroup
+      );
       qualifiedTransactions.push(...qualifiedTransactionsInCurrentGroup);
     }
     return qualifiedTransactions;

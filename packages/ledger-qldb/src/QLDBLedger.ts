@@ -114,8 +114,10 @@ export default class QLDBLedger implements IBlockchain {
 
   public async write(anchorString: string): Promise<void> {
     // TODO: fix use coreIndexFileUri instead.... of anchorFileHash
-    const { coreIndexFileUri, numberOfOperations } =
-      AnchoredDataSerializer.deserialize(anchorString);
+    const {
+      coreIndexFileUri,
+      numberOfOperations,
+    } = AnchoredDataSerializer.deserialize(anchorString);
     const now = new Date();
     await this.executeWithRetry(`INSERT INTO ${this.transactionTable} ?`, {
       ...{
@@ -192,13 +194,12 @@ export default class QLDBLedger implements IBlockchain {
     console.log('QLDB read transcation completed at: ', new Date());
     const resultList: unknown[] = (result as Result).getResultList();
     console.log(
-      `There has been ${
-        resultList.length - 1
-      } new transactions since transaction #${sinceTransactionNumber}`
+      `There has been ${resultList.length -
+        1} new transactions since transaction #${sinceTransactionNumber}`
     );
-    const transactions: TransactionModelQLDB[] = (
-      resultList as ValueWithMetaData[]
-    ).map(this.toSidetreeTransaction) as TransactionModelQLDB[];
+    const transactions: TransactionModelQLDB[] = (resultList as ValueWithMetaData[]).map(
+      this.toSidetreeTransaction
+    ) as TransactionModelQLDB[];
     // PartiQL does not support returning sorted data
     // so we have to sort in javascript
     transactions.sort((t1, t2) => {

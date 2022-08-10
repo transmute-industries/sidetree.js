@@ -56,8 +56,9 @@ export default class Jws {
     const payload = parts[1];
     const signature = parts[2];
 
-    const decodedProtectedHeadJsonString =
-      Encoder.decodeBase64UrlAsString(protectedHeader);
+    const decodedProtectedHeadJsonString = Encoder.decodeBase64UrlAsString(
+      protectedHeader
+    );
     const decodedProtectedHeader = JSON.parse(decodedProtectedHeadJsonString);
 
     const expectedHeaderPropertyCount = 1; // By default we must have header property is `alg`.

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /*
  * The code in this file originated from
  * @see https://github.com/decentralized-identity/sidetree
@@ -63,7 +62,9 @@ export default class MongoDbCasCache {
   }
 
   async read(hash: string): Promise<FetchResult> {
-    const operations = await this.collection!.find({ hash }).limit(1).toArray();
+    const operations = await this.collection!.find({ hash })
+      .limit(1)
+      .toArray();
     if (operations.length === 1) {
       const operation = operations.pop();
       return {

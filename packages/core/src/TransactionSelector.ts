@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /*
  * The code in this file originated from
  * @see https://github.com/decentralized-identity/sidetree
@@ -66,8 +65,7 @@ export default class TransactionSelector implements ITransactionSelector {
       return [];
     }
 
-    const transactionsPriorityQueue =
-      TransactionSelector.getTransactionPriorityQueue();
+    const transactionsPriorityQueue = TransactionSelector.getTransactionPriorityQueue();
 
     const currentTransactionTime = transactions[0].transactionTime;
 
@@ -81,21 +79,22 @@ export default class TransactionSelector implements ITransactionSelector {
       transactionsPriorityQueue
     );
 
-    const [numberOfOperations, numberOfTransactions] =
-      await this.getNumberOfOperationsAndTransactionsAlreadyInTransactionTime(
-        currentTransactionTime
-      );
+    const [
+      numberOfOperations,
+      numberOfTransactions,
+    ] = await this.getNumberOfOperationsAndTransactionsAlreadyInTransactionTime(
+      currentTransactionTime
+    );
     const numberOfOperationsToQualify =
       this.maxNumberOfOperationsPerBlock - numberOfOperations;
     const numberOfTransactionsToQualify =
       this.maxNumberOfTransactionsPerBlock - numberOfTransactions;
 
-    const transactionsToReturn =
-      TransactionSelector.getHighestFeeTransactionsFromCurrentTransactionTime(
-        numberOfOperationsToQualify,
-        numberOfTransactionsToQualify,
-        transactionsPriorityQueue
-      );
+    const transactionsToReturn = TransactionSelector.getHighestFeeTransactionsFromCurrentTransactionTime(
+      numberOfOperationsToQualify,
+      numberOfTransactionsToQualify,
+      transactionsPriorityQueue
+    );
 
     return transactionsToReturn;
   }
@@ -150,19 +149,17 @@ export default class TransactionSelector implements ITransactionSelector {
   private async getNumberOfOperationsAndTransactionsAlreadyInTransactionTime(
     transactionTime: number
   ): Promise<number[]> {
-    const transactions =
-      await this.transactionStore.getTransactionsStartingFrom(
-        transactionTime,
-        transactionTime
-      );
+    const transactions = await this.transactionStore.getTransactionsStartingFrom(
+      transactionTime,
+      transactionTime
+    );
     let numberOfOperations = 0;
     if (transactions) {
       for (const transaction of transactions) {
         try {
-          const numOfOperationsInCurrentTransaction =
-            AnchoredDataSerializer.deserialize(
-              transaction.anchorString
-            ).numberOfOperations;
+          const numOfOperationsInCurrentTransaction = AnchoredDataSerializer.deserialize(
+            transaction.anchorString
+          ).numberOfOperations;
           numberOfOperations += numOfOperationsInCurrentTransaction;
         } catch (e) {
           console.debug(
@@ -199,10 +196,9 @@ export default class TransactionSelector implements ITransactionSelector {
     ) {
       const currentTransaction = transactionsPriorityQueue.pop();
       try {
-        const numOfOperationsInCurrentTransaction =
-          AnchoredDataSerializer.deserialize(
-            currentTransaction.anchorString
-          ).numberOfOperations;
+        const numOfOperationsInCurrentTransaction = AnchoredDataSerializer.deserialize(
+          currentTransaction.anchorString
+        ).numberOfOperations;
         numberOfOperationsSeen += numOfOperationsInCurrentTransaction;
         if (numberOfOperationsSeen <= numberOfOperationsToQualify) {
           transactionsToReturn.push(currentTransaction);

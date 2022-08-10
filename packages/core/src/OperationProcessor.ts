@@ -100,11 +100,13 @@ export default class OperationProcessor implements IOperationProcessor {
       anchoredOperationModel.operationBuffer
     );
 
-    const multihashRevealValue = (
-      operation as RecoverOperation | UpdateOperation | DeactivateOperation
-    ).revealValue;
-    const multihashRevealValueBuffer =
-      Encoder.decodeAsBuffer(multihashRevealValue);
+    const multihashRevealValue = (operation as
+      | RecoverOperation
+      | UpdateOperation
+      | DeactivateOperation).revealValue;
+    const multihashRevealValueBuffer = Encoder.decodeAsBuffer(
+      multihashRevealValue
+    );
     return multihashRevealValueBuffer;
   }
 

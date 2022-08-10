@@ -101,12 +101,11 @@ export default class BatchWriter implements IBatchWriter {
       updateOperations
     );
 
-    const provisionalIndexFileUri =
-      await this.createAndWriteProvisionalIndexFileIfNeeded(
-        chunkFileUri,
-        provisionalProofFileUri,
-        updateOperations
-      );
+    const provisionalIndexFileUri = await this.createAndWriteProvisionalIndexFileIfNeeded(
+      chunkFileUri,
+      provisionalProofFileUri,
+      updateOperations
+    );
 
     // Write the core index file to content addressable store.
     const writerLockId = currentLock ? currentLock.identifier : undefined;
@@ -133,8 +132,9 @@ export default class BatchWriter implements IBatchWriter {
       numberOfOperations,
     };
 
-    const stringToWriteToBlockchain =
-      AnchoredDataSerializer.serialize(dataToBeAnchored);
+    const stringToWriteToBlockchain = AnchoredDataSerializer.serialize(
+      dataToBeAnchored
+    );
     const fee = FeeManager.computeMinimumTransactionFee(
       normalizedFee,
       numberOfOperations
@@ -231,11 +231,10 @@ export default class BatchWriter implements IBatchWriter {
   ): number {
     const maxNumberOfOpsAllowedByProtocol =
       protocolParameters.maxOperationsPerBatch;
-    const maxNumberOfOpsAllowedByLock =
-      ValueTimeLockVerifier.calculateMaxNumberOfOperationsAllowed(
-        valueTimeLock,
-        versionMetadataFetcher
-      );
+    const maxNumberOfOpsAllowedByLock = ValueTimeLockVerifier.calculateMaxNumberOfOperationsAllowed(
+      valueTimeLock,
+      versionMetadataFetcher
+    );
 
     if (maxNumberOfOpsAllowedByLock > maxNumberOfOpsAllowedByProtocol) {
       // eslint-disable-next-line max-len

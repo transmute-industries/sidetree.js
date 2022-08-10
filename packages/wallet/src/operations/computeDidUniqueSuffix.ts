@@ -8,8 +8,9 @@ export const computeDidUniqueSuffix = (
   suffixData: object,
   hashAlgorithmInMultihashCode = 18
 ): string => {
-  const canonicalizedStringBuffer =
-    JsonCanonicalizer.canonicalizeAsBuffer(suffixData);
+  const canonicalizedStringBuffer = JsonCanonicalizer.canonicalizeAsBuffer(
+    suffixData
+  );
   const multihash = Multihash.hash(
     canonicalizedStringBuffer,
     hashAlgorithmInMultihashCode

@@ -175,11 +175,10 @@ export default class CoreProofFile {
         );
 
         const signedDataJws = Jws.parseCompactJws(proof.signedData);
-        const signedDataModel =
-          await DeactivateOperation.parseSignedDataPayload(
-            signedDataJws.payload,
-            expectedDeactivatedDidUniqueSuffixes[deactivateProofIndex]
-          );
+        const signedDataModel = await DeactivateOperation.parseSignedDataPayload(
+          signedDataJws.payload,
+          expectedDeactivatedDidUniqueSuffixes[deactivateProofIndex]
+        );
 
         deactivateProofs.push({
           signedDataJws,

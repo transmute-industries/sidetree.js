@@ -92,8 +92,7 @@ export default class Observer {
       // until there are no more new transactions or there is a block reorganization.
       let moreTransactions = false;
       do {
-        this.cursorTransaction =
-          await this.transactionStore.getLastTransaction();
+        this.cursorTransaction = await this.transactionStore.getLastTransaction();
         const cursorTransactionNumber = this.cursorTransaction
           ? this.cursorTransaction.transactionNumber
           : undefined;
@@ -143,8 +142,9 @@ export default class Observer {
         }
 
         // Queue parallel downloading and processing of chunk files.
-        let qualifiedTransactions =
-          await this.throughputLimiter.getQualifiedTransactions(transactions);
+        let qualifiedTransactions = await this.throughputLimiter.getQualifiedTransactions(
+          transactions
+        );
 
         qualifiedTransactions = qualifiedTransactions.sort((a, b) => {
           return a.transactionNumber - b.transactionNumber;
@@ -207,8 +207,7 @@ export default class Observer {
           // If there is an error in processing a transaction that PREVENTS processing subsequent Sidetree transactions from the blockchain
           // (e.g. A DB outage/error that prevents us from recording a transaction for retries),
           // erase the entire list transactions under processing since processing MUST not advance beyond the transaction that failed processing.
-          const hasErrorInTransactionProcessing =
-            this.hasErrorInTransactionProcessing();
+          const hasErrorInTransactionProcessing = this.hasErrorInTransactionProcessing();
           if (hasErrorInTransactionProcessing) {
             // Step to defend against potential uncontrolled growth in `transactionsUnderProcessing` array size due to looping.
             await Observer.waitUntilCountOfTransactionsUnderProcessingIsLessOrEqualTo(
@@ -257,12 +256,10 @@ export default class Observer {
   private static getCountOfTransactionsUnderProcessing(
     transactionsUnderProcessing: TransactionUnderProcessingModel[]
   ): number {
-    const countOfTransactionsUnderProcessing =
-      transactionsUnderProcessing.filter(
-        (transaction) =>
-          transaction.processingStatus ===
-          TransactionProcessingStatus.Processing
-      ).length;
+    const countOfTransactionsUnderProcessing = transactionsUnderProcessing.filter(
+      (transaction) =>
+        transaction.processingStatus === TransactionProcessingStatus.Processing
+    ).length;
 
     return countOfTransactionsUnderProcessing;
   }
@@ -271,11 +268,10 @@ export default class Observer {
    * Returns true if at least processing of one transaction resulted in an error that prevents advancement of transaction processing.
    */
   private hasErrorInTransactionProcessing(): boolean {
-    const firstTransactionProcessingError =
-      this.transactionsUnderProcessing.find(
-        (transaction) =>
-          transaction.processingStatus === TransactionProcessingStatus.Error
-      );
+    const firstTransactionProcessingError = this.transactionsUnderProcessing.find(
+      (transaction) =>
+        transaction.processingStatus === TransactionProcessingStatus.Error
+    );
 
     return firstTransactionProcessingError !== undefined;
   }
@@ -284,18 +280,16 @@ export default class Observer {
     transactionsUnderProcessing: TransactionUnderProcessingModel[],
     count: number
   ) {
-    let countOfTransactionsUnderProcessing =
-      Observer.getCountOfTransactionsUnderProcessing(
-        transactionsUnderProcessing
-      );
+    let countOfTransactionsUnderProcessing = Observer.getCountOfTransactionsUnderProcessing(
+      transactionsUnderProcessing
+    );
     while (countOfTransactionsUnderProcessing > count) {
       // Wait a little before checking again.
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      countOfTransactionsUnderProcessing =
-        Observer.getCountOfTransactionsUnderProcessing(
-          transactionsUnderProcessing
-        );
+      countOfTransactionsUnderProcessing = Observer.getCountOfTransactionsUnderProcessing(
+        transactionsUnderProcessing
+      );
     }
   }
 
@@ -307,8 +301,7 @@ export default class Observer {
     Logger.info(`Processing previously unresolvable transactions if any...`);
 
     const endTimer = timeSpan();
-    const unresolvableTransactions =
-      await this.unresolvableTransactionStore.getUnresolvableTransactionsDueForRetry();
+    const unresolvableTransactions = await this.unresolvableTransactionStore.getUnresolvableTransactionsDueForRetry();
     Logger.info(
       `Fetched ${
         unresolvableTransactions.length
@@ -350,8 +343,9 @@ export default class Observer {
       this.transactionsUnderProcessing[i].processingStatus ===
         TransactionProcessingStatus.Processed
     ) {
-      lastConsecutivelyProcessedTransaction =
-        this.transactionsUnderProcessing[i].transaction;
+      lastConsecutivelyProcessedTransaction = this.transactionsUnderProcessing[
+        i
+      ].transaction;
       await this.transactionStore.addTransaction(
         lastConsecutivelyProcessedTransaction
       );
@@ -374,12 +368,12 @@ export default class Observer {
     let transactionProcessedSuccessfully;
 
     try {
-      const transactionProcessor: ITransactionProcessor =
-        this.versionManager.getTransactionProcessor(
-          transaction.transactionTime
-        );
-      transactionProcessedSuccessfully =
-        await transactionProcessor.processTransaction(transaction);
+      const transactionProcessor: ITransactionProcessor = this.versionManager.getTransactionProcessor(
+        transaction.transactionTime
+      );
+      transactionProcessedSuccessfully = await transactionProcessor.processTransaction(
+        transaction
+      );
     } catch (error) {
       Logger.error(
         `Unhandled error encountered processing transaction '${transaction.transactionNumber}'.`
@@ -427,14 +421,12 @@ export default class Observer {
    */
   private async revertInvalidTransactions() {
     // Compute a list of exponentially-spaced transactions with their index, starting from the last transaction of the processed transactions.
-    const exponentiallySpacedTransactions =
-      await this.transactionStore.getExponentiallySpacedTransactions();
+    const exponentiallySpacedTransactions = await this.transactionStore.getExponentiallySpacedTransactions();
 
     // Find a known valid Sidetree transaction that is prior to the block reorganization.
-    const bestKnownValidRecentTransaction =
-      await this.blockchain.getFirstValidTransaction(
-        exponentiallySpacedTransactions
-      );
+    const bestKnownValidRecentTransaction = await this.blockchain.getFirstValidTransaction(
+      exponentiallySpacedTransactions
+    );
 
     const bestKnownValidRecentTransactionNumber =
       bestKnownValidRecentTransaction === undefined
