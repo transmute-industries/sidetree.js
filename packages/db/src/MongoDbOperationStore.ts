@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Binary, Long } from 'mongodb';
 
 import MongoDbStore from './MongoDbStore';

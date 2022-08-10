@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Collection, Db, Long, MongoClient } from 'mongodb';
 
 import {

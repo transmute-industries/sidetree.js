@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import MongoDbStore from './MongoDbStore';
 
 import { IServiceStateStore } from '@evan.network/sidetree-common';
