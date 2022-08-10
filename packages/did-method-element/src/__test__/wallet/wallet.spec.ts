@@ -10,6 +10,11 @@ let element: Element;
 
 // const WRITE_FIXTURE_TO_DISK = false;
 
+// mute noisy sidetree console logs.
+// console.log = () => {};
+// console.info = () => {};
+// console.warn = () => {};
+
 beforeAll(async () => {
   element = await getTestElement();
   await clearCollection('service');
@@ -88,6 +93,7 @@ describe('CRUD', () => {
       const operation1 = await element.handleResolveRequest(did);
       expect(operation1.status).toBe('succeeded');
       expect(operation1.body.didDocument.id).toEqual(did);
+      expect(operation1.body.didDocumentMetadata.method.published).toBe(true);
     });
   });
 });

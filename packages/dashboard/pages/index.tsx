@@ -63,7 +63,7 @@ const Home: NextPage<any> = ({
               description={features?.description}
             />
             <Grid container sx={{ p: 2 }} spacing={2}>
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Card
                   title="Manage"
                   image={`/assets/background-0.png`}
@@ -92,7 +92,7 @@ const Home: NextPage<any> = ({
                   }
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Card
                   title="Explore"
                   image={`/assets/background-1.png`}
@@ -120,7 +120,7 @@ const Home: NextPage<any> = ({
                   }
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Card
                   title="Resolve"
                   image={`/assets/background-2.png`}
