@@ -1,6 +1,6 @@
 {
   "name": "@evan.network/sidetree-did-method-ion",
-  "version": "0.3.1-unstable.63",
+  "version": "0.3.1-unstable.65",
   "description": "",
   "main": "index.js",
   "private": true,
@@ -13,8 +13,8 @@
     "jest": "^27.1.0"
   },
   "dependencies": {
-    "@evan.network/sidetree-common": "^0.3.1-unstable.63",
-    "@evan.network/sidetree-wallet": "^0.3.1-unstable.63"
+    "@evan.network/sidetree-common": "^0.3.1-unstable.65",
+    "@evan.network/sidetree-wallet": "^0.3.1-unstable.65"
   },
   "gitHead": "e97862f01a5ad9845d82eb57ca46d335a98aeb8b"
 }
