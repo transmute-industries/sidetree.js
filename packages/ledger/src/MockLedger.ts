@@ -143,6 +143,7 @@ export default class MockLedger implements IBlockchain {
     }
     this.latestTime = {
       time,
+      // eslint-disable-next-line prettier/prettier
       hash: crypto.createHash('sha256').update(String(time)).digest('hex'),
     };
     return Promise.resolve(this.latestTime);

@@ -60,7 +60,9 @@ export default class DocumentComposer {
         const id = '#' + publicKey.id;
         const didDocumentPublicKey = {
           id: id,
-          controller: did.isShortForm ? did.shortForm : did.longForm,
+          controller:
+            publicKey.controller ||
+            (did.isShortForm ? did.shortForm : did.longForm),
           type: publicKey.type,
           publicKeyJwk: publicKey.publicKeyJwk,
         };
@@ -279,6 +281,7 @@ export default class DocumentComposer {
         'type',
         'purposes',
         'publicKeyJwk',
+        'controller',
       ]);
       for (const property in publicKey) {
         if (!allowedProperties.has(property)) {
