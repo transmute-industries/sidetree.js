@@ -127,8 +127,10 @@ export default class MockQLDBLedger implements IBlockchain {
   }
 
   public async write(anchorString: string): Promise<void> {
-    const { coreIndexFileUri, numberOfOperations } =
-      AnchoredDataSerializer.deserialize(anchorString);
+    const {
+      coreIndexFileUri,
+      numberOfOperations,
+    } = AnchoredDataSerializer.deserialize(anchorString);
 
     const now = moment();
     const currentDate = now.format('DDHHmmssSSS');
@@ -258,7 +260,7 @@ export default class MockQLDBLedger implements IBlockchain {
 
     return {
       moreTransactions: false,
-      transactions: res as unknown as TransactionModelQLDB[],
+      transactions: (res as unknown) as TransactionModelQLDB[],
     };
   }
 
@@ -272,7 +274,7 @@ export default class MockQLDBLedger implements IBlockchain {
           ORDER BY rowid DESC LIMIT 1`
     );
     if (res) {
-      this.approximateTime = res as unknown as BlockchainTimeModel;
+      this.approximateTime = (res as unknown) as BlockchainTimeModel;
     }
     return this.approximateTime;
   }
