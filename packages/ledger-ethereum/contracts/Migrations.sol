@@ -12,13 +12,13 @@
  * limitations under the License.
  */
 
-pragma solidity 0.5.0;
+pragma solidity 0.8.16;
 
 contract Migrations {
     address public owner;
     uint256 public last_completed_migration;
 
-    constructor() public {
+    constructor(){
         owner = msg.sender;
     }
 
