@@ -43,7 +43,6 @@ The following did methods are supported or intended to be supported (or planned 
 **Element**
 
 - https://ropsten.element.transmute.industries/
-- https://element.shellshop.lol/
 
 ## Developers Guide
 
