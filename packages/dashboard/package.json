@@ -45,7 +45,7 @@
     "core-js": "^3.19.1",
     "express-oauth2-jwt-bearer": "^1.1.0",
     "factory.ts": "^0.5.2",
-    "jose": "^4.5.0",
+    "jose": "^4.9.2",
     "moment": "^2.29.1",
     "next": "^11.1.2",
     "react": "17.0.2",
