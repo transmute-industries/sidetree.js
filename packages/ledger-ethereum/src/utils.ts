@@ -48,7 +48,7 @@ const eventLogToSidetreeTransaction = (
     anchorString,
     transactionFeePaid: 0,
     normalizedTransactionFee: 0,
-    writer: 'writer',
+    writer: log.returnValues.writer,
   };
 };
 

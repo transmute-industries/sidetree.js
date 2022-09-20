@@ -24,6 +24,7 @@ export interface ElementEventData extends EventData {
     anchorFileHash: string;
     numberOfOperations: string;
     transactionNumber: string;
+    writer: string;
   };
 }
 
