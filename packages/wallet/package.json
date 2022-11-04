@@ -5,7 +5,7 @@
   },
   "author": "Orie Steele",
   "module": "dist/wallet.esm.js",
-  "version": "0.3.1-unstable.67",
+  "version": "0.3.1-unstable.68",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -30,7 +30,7 @@
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@evan.network/sidetree-common": "^0.3.1-unstable.67",
+    "@evan.network/sidetree-common": "^0.3.1-unstable.68",
     "@evan.network/sidetree-crypto": "^0.3.1-unstable.67",
     "@gjgd/ion-sdk": "0.5.2",
     "@rollup/plugin-replace": "^3.0.0",

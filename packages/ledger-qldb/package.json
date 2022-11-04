@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/qldb.esm.js",
-  "version": "0.3.1-unstable.67",
+  "version": "0.3.1-unstable.68",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -31,8 +31,8 @@
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@evan.network/sidetree-common": "^0.3.1-unstable.67",
-    "@evan.network/sidetree-core": "^0.3.1-unstable.67",
+    "@evan.network/sidetree-common": "^0.3.1-unstable.68",
+    "@evan.network/sidetree-core": "^0.3.1-unstable.68",
     "amazon-qldb-driver-nodejs": "^2.2.0",
     "aws-sdk": "^2.828.0",
     "ion-js": "^4.1.0",
