@@ -264,7 +264,7 @@ export default class EthereumLedger implements IBlockchain {
         '0x' + buffer.toString('hex').substring(4),
         numberOfOperations
       );
-      const gasPrice = this.web3.eth.getGasPrice();
+      const gasPrice = await this.web3.eth.getGasPrice();
       // current gas price plus 20% buffer (calculated with _some_ extra digits for precision)
       const gasPriceWithBuffer = this.web3.utils
         .toBN(gasPrice)
