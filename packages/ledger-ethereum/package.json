@@ -9,7 +9,7 @@
     "gjgd (https://github.com/gjgd)"
   ],
   "module": "dist/ethereum.esm.js",
-  "version": "0.3.1-unstable.66",
+  "version": "0.3.1-unstable.67",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -32,7 +32,7 @@
     "web3": ">=1.2.7"
   },
   "devDependencies": {
-    "@evan.network/sidetree-test-vectors": "^0.3.1-unstable.63",
+    "@evan.network/sidetree-test-vectors": "^0.3.1-unstable.67",
     "@rollup/plugin-replace": "^3.0.0",
     "@truffle/hdwallet-provider": "^1.4.0",
     "dotenv": "^8.2.0",
@@ -40,8 +40,8 @@
     "tsdx": "^0.14.1"
   },
   "dependencies": {
-    "@evan.network/sidetree-common": "^0.3.1-unstable.65",
-    "@evan.network/sidetree-core": "^0.3.1-unstable.65",
+    "@evan.network/sidetree-common": "^0.3.1-unstable.67",
+    "@evan.network/sidetree-core": "^0.3.1-unstable.67",
     "web3": "^1.3.6",
     "web3-eth": "^1.6.0",
     "web3-eth-contract": "^1.3.6"
