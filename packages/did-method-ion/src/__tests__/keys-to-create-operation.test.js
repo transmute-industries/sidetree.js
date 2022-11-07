@@ -5,9 +5,9 @@ const {
   createOperation,
 } = require('../__fixtures__');
 
-const { SidetreeWalletPlugin } = require('@sidetree/wallet');
+const { SidetreeWalletPlugin } = require('@evan.network/sidetree-wallet');
 
-const { Multihash } = require('@sidetree/common');
+const { Multihash } = require('@evan.network/sidetree-common');
 
 const wallet = SidetreeWalletPlugin.build();
 

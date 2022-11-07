@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-import { methods } from '@sidetree/wallet';
+import { methods } from '@evan.network/sidetree-wallet';
 import { crypto } from '@sidetree/test-vectors';
 import { getTestPhoton, generateCreateOperation } from './utils';
 import Photon from '../Photon';

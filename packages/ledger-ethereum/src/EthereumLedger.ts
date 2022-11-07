@@ -46,6 +46,7 @@ export default class EthereumLedger implements IBlockchain {
   private from = '';
   private networkId = 0;
   private lastProcessedBlock: number;
+  public lastProcessedTransactionBlock: number;
 
   constructor(
     public web3: any,
@@ -65,6 +66,7 @@ export default class EthereumLedger implements IBlockchain {
     }
     this.anchorContract.setProvider(this.web3.currentProvider);
     this.lastProcessedBlock = startingBlock || 0;
+    this.lastProcessedTransactionBlock = startingBlock || 0;
   }
 
   getServiceVersion(): Promise<ServiceVersionModel> {
@@ -194,22 +196,9 @@ export default class EthereumLedger implements IBlockchain {
     let transactions: TransactionModel[];
     // if(sinceTransactionNumber) does not work because 0 evaluates to false
     // but 0 is a valid value of sinceTransactionNumber...
-    if (transactionTimeHash) {
-      const block = await utils.getBlock(this.web3, transactionTimeHash);
-      if (block && block.number) {
-        transactions = await this._getTransactions(
-          block.number > this.lastProcessedBlock
-            ? block.number
-            : this.lastProcessedBlock,
-          'latest',
-          options
-        );
-      } else {
-        transactions = [];
-      }
-    } else if (sinceTransactionNumber !== undefined) {
+    if (sinceTransactionNumber !== undefined) {
       const sinceTransaction = await this._getTransactions(
-        this.lastProcessedBlock,
+        this.lastProcessedTransactionBlock,
         'latest',
         {
           ...options,
@@ -217,9 +206,25 @@ export default class EthereumLedger implements IBlockchain {
         }
       );
       if (sinceTransaction.length === 1) {
+        // when we got a transaction after the last number, update the block
+        this.lastProcessedTransactionBlock =
+          sinceTransaction[0].transactionTime;
         transactions = await this._getTransactions(
           sinceTransaction[0].transactionTime,
           'latest',
+          options
+        );
+      } else {
+        transactions = [];
+      }
+    } else if (transactionTimeHash) {
+      const block = await utils.getBlock(this.web3, transactionTimeHash);
+      if (block && block.number) {
+        transactions = await this._getTransactions(
+          block.number > this.lastProcessedBlock
+            ? block.number
+            : this.lastProcessedBlock,
+          block.number,
           options
         );
       } else {

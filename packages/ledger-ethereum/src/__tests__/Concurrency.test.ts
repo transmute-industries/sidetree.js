@@ -32,9 +32,21 @@ describe('Concurrency', () => {
   });
 
   it('should be possible to write concurrently', async () => {
-    const ledger1 = new EthereumLedger(w31, contractAddress, logger);
+    const ledger1 = new EthereumLedger(
+      w31,
+      contractAddress,
+      undefined,
+      undefined,
+      logger
+    );
     await ledger1.initialize();
-    const ledger2 = new EthereumLedger(w32, contractAddress, logger);
+    const ledger2 = new EthereumLedger(
+      w32,
+      contractAddress,
+      undefined,
+      undefined,
+      logger
+    );
     await ledger2.initialize();
     expect(ledger1).toBeDefined();
     expect(ledger2).toBeDefined();
