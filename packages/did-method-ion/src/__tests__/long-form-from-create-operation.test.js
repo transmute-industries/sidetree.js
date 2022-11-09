@@ -5,7 +5,7 @@ const {
   longFormDid,
 } = require('../__fixtures__');
 
-const { SidetreeWalletPlugin } = require('@sidetree/wallet');
+const { SidetreeWalletPlugin } = require('@evan.network/sidetree-wallet');
 
 const wallet = SidetreeWalletPlugin.build();
 

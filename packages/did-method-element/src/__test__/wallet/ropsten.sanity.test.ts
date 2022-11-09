@@ -1,4 +1,4 @@
-import { SidetreeWalletPlugin } from '@sidetree/wallet';
+import { SidetreeWalletPlugin } from '@evan.network/sidetree-wallet';
 
 import Element from '../../Element';
 import { clearCollection } from '../../test/utils';

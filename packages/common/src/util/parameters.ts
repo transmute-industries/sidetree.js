@@ -32,7 +32,7 @@ const protocolParameters: ProtocolParameters = {
   maxNumberOfOperationsPerTransactionTime: 600000,
   maxNumberOfTransactionsPerTransactionTime: 300,
   maxOperationsPerBatch: 10000,
-  maxDeltaSizeInBytes: 5000,
+  maxDeltaSizeInBytes: 10000,
   // If you are not using value lock, maxNumberOfOperationsForNoValueTimeLock
   // maxOperationsPerBatch should be the same
   maxNumberOfOperationsForNoValueTimeLock: 100,
