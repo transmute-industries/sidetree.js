@@ -54,6 +54,7 @@ export type PublicKeyJwkSecp256k1 = {
   x: string;
   y: string;
   kid: string;
+  nonce: string;
 };
 
 /**
