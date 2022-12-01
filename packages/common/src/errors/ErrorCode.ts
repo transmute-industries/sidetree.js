@@ -161,6 +161,7 @@ export default {
   JwkEs256kMissingOrInvalidKty: 'jwk_es256k_missing_or_invalid_kty',
   JwkEs256kMissingOrInvalidTypeX: 'jwk_es256k_missing_or_invalid_type_x',
   JwkEs256kMissingOrInvalidTypeY: 'jwk_es256k_missing_or_invalid_type_y',
+  JwkEs256kNonceTooLarge: 'jwk_es256k_nonce_too_large',
   JwkEs256kUndefined: 'jwk_es256k_undefined',
   JwsCompactJwsInvalid: 'jws_compact_jws_invalid',
   JwsCompactJwsNotString: 'jws_compact_jws_not_string',

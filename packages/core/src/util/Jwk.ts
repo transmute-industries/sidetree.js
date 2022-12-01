@@ -154,7 +154,7 @@ export default class Jwk {
       throw new SidetreeError(ErrorCode.JwkEs256kUndefined);
     }
 
-    const allowedProperties = new Set(['kty', 'crv', 'x', 'y']);
+    const allowedProperties = new Set(['kty', 'crv', 'x', 'y', 'nonce']);
     for (const property in publicKeyJwk) {
       if (!allowedProperties.has(property)) {
         throw new SidetreeError(ErrorCode.JwkEs256kHasUnknownProperty);
@@ -190,6 +190,10 @@ export default class Jwk {
         ErrorCode.JwkEs256kHasIncorrectLengthOfY,
         `SECP256K1 JWK 'y' property must be 43 bytes.`
       );
+    }
+
+    if (publicKeyJwk.nonce && Buffer.byteLength(publicKeyJwk.nonce) > 16) {
+      throw new SidetreeError(ErrorCode.JwkEs256kNonceTooLarge);
     }
   }
 }
