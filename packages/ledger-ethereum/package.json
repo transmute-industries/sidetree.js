@@ -36,7 +36,7 @@
     "@sidetree/test-vectors": "^0.3.1-unstable.60",
     "@truffle/hdwallet-provider": "^1.4.0",
     "dotenv": "^8.2.0",
-    "truffle": "^5.1.25",
+    "truffle": "^5.7.1",
     "tsdx": "^0.14.1"
   },
   "dependencies": {
