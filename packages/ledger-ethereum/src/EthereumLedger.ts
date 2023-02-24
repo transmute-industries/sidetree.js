@@ -196,9 +196,22 @@ export default class EthereumLedger implements IBlockchain {
     let transactions: TransactionModel[];
     // if(sinceTransactionNumber) does not work because 0 evaluates to false
     // but 0 is a valid value of sinceTransactionNumber...
-    if (sinceTransactionNumber !== undefined) {
+    if (transactionTimeHash) {
+      const block = await utils.getBlock(this.web3, transactionTimeHash);
+      if (block && block.number) {
+        transactions = await this._getTransactions(
+          block.number > this.lastProcessedBlock
+            ? block.number
+            : this.lastProcessedBlock,
+          'latest',
+          options
+        );
+      } else {
+        transactions = [];
+      }
+    } else if (sinceTransactionNumber !== undefined) {
       const sinceTransaction = await this._getTransactions(
-        this.lastProcessedTransactionBlock,
+        this.lastProcessedBlock,
         'latest',
         {
           ...options,
@@ -212,19 +225,6 @@ export default class EthereumLedger implements IBlockchain {
         transactions = await this._getTransactions(
           sinceTransaction[0].transactionTime,
           'latest',
-          options
-        );
-      } else {
-        transactions = [];
-      }
-    } else if (transactionTimeHash) {
-      const block = await utils.getBlock(this.web3, transactionTimeHash);
-      if (block && block.number) {
-        transactions = await this._getTransactions(
-          block.number > this.lastProcessedBlock
-            ? block.number
-            : this.lastProcessedBlock,
-          block.number,
           options
         );
       } else {

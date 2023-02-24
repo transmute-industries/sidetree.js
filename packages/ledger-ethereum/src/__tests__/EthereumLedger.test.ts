@@ -117,15 +117,6 @@ describe('EthereumLedger', () => {
       writer: 'writer',
     });
   });
-
-  it('should return no transaction if the requested transactionNumber has not been reached', async () => {
-    const readResult = await ledger.read(
-      Number.MAX_SAFE_INTEGER - 1,
-      blockTimeHash1
-    );
-    expect(readResult.moreTransactions).toBeFalsy();
-    expect(readResult.transactions).toHaveLength(0);
-  });
   it('should return no transaction if the requested transactionTimeHash doesnt exist', async () => {
     const readResult = await ledger.read(undefined, '0x123');
     expect(readResult.moreTransactions).toBeFalsy();
