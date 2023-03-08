@@ -16,5 +16,9 @@
     "@evan.network/sidetree-common": "^0.3.1-unstable.70",
     "@evan.network/sidetree-wallet": "^0.3.1-unstable.70"
   },
+  "resolutions": {
+    "node-notifier": "^8.0.1",
+    "jsdom": "^16.5.0"
+  },
   "gitHead": "e97862f01a5ad9845d82eb57ca46d335a98aeb8b"
 }

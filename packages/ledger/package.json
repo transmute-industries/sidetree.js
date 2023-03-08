@@ -32,6 +32,10 @@
     "@evan.network/sidetree-common": "^0.3.1-unstable.70",
     "@rollup/plugin-replace": "^3.0.0"
   },
+  "resolutions": {
+    "node-notifier": "^8.0.1",
+    "jsdom": "^16.5.0"
+  },
   "gitHead": "9501995a63904980ae46089a6419cf622f2bc51a",
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/ledger",
   "repository": {

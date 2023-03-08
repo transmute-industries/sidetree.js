@@ -34,6 +34,10 @@
     "multiformats": "^9.4.8",
     "multihashes": "^0.4.19"
   },
+  "resolutions": {
+    "node-notifier": "^8.0.1",
+    "jsdom": "^16.5.0"
+  },
   "gitHead": "e97862f01a5ad9845d82eb57ca46d335a98aeb8b",
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/common",
   "repository": {

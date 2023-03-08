@@ -40,6 +40,10 @@
     "moment": "^2.29.1",
     "sqlite3": "^5.0.2"
   },
+  "resolutions": {
+    "node-notifier": "^8.0.1",
+    "jsdom": "^16.5.0"
+  },
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/ledger-qldb",
   "repository": {
     "type": "git",

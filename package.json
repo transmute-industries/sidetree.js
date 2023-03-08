@@ -45,5 +45,15 @@
     "lerna": "^3.20.2",
     "prettier": "^2.0.5",
     "typescript": "^3.8.3"
+  },
+  "resolutions": {
+    "jest": "^25.5.4",
+    "decode-uri-component": "^0.2.1",
+    "parse-path": "^5.0.0",
+    "parse-url": "^8.1.0",
+    "trim-newlines": "^3.0.1",
+    "http-cache-semantics": "^4.1.1",
+    "glob-parent": "^5.1.2",
+    "dot-prop": "^4.2.1"
   }
 }

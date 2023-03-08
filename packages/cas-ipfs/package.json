@@ -37,6 +37,11 @@
     "ipfs-http-client": "^49.0.2",
     "it-concat": "^1.0.0"
   },
+  "resolutions": {
+    "node-notifier": "^8.0.1",
+    "jsdom": "^16.5.0",
+    "node-forge": "^1.3.0"
+  },
   "gitHead": "9501995a63904980ae46089a6419cf622f2bc51a",
   "homepage": "https://github.com/transmute-industries/sidetree.js/tree/main/packages/cas-ipfs",
   "repository": {
