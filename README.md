@@ -20,7 +20,7 @@ on a Ledger.
 The simpliest possible example of this would be an public FTP server, where anyone could
 upload a public key and a identifier for that public key. In practice, this sets up a
 central authority and a single point of failure. In practice we use a public ledger
-such as Bitcoin or Ehtereum. And we use IPFS as a Content Addressable Storage to
+such as Bitcoin or Ethereum. And we use IPFS as a Content Addressable Storage to
 create Decentralized Identitifiers for Public Keys.
 
 However since the interfaces for what needs to be implemented is flexible, we can also
